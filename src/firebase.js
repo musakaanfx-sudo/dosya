@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -6,7 +6,7 @@ import {
   signOut,
   onAuthStateChanged,
   updatePassword,
-} from 'firebase/auth';
+} from "firebase/auth";
 import {
   getFirestore,
   doc,
@@ -22,16 +22,16 @@ import {
   serverTimestamp,
   deleteDoc,
   where,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBzHQZTfBW1pF-jekLZuvwN863R7gTxHNk',
-  authDomain: 'doya-4456f.firebaseapp.com',
-  projectId: 'doya-4456f',
-  storageBucket: 'doya-4456f.firebasestorage.app',
-  messagingSenderId: '150275550580',
-  appId: '1:150275550580:web:4238c37a4d9aa4107d1021',
-  measurementId: 'G-NNX69XZF4G',
+  apiKey: "AIzaSyBzHQZTf8W1pF-jekLZuvwN863R7gTxHNk",
+  authDomain: "doya-4456f.firebaseapp.com",
+  projectId: "doya-4456f",
+  storageBucket: "doya-4456f.firebasestorage.app",
+  messagingSenderId: "150275550580",
+  appId: "1:150275550580:web:4238c37a4d9aa4107d1021",
+  measurementId: "G-NNX69XZF4G",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -41,11 +41,11 @@ export const db = getFirestore(app);
 // ─── UID SAYAÇ ────────────────────────────────────────────────
 // Firestore'da "meta/uidCounter" belgesinde tutulur
 async function uidUretFirestore() {
-  const ref = doc(db, 'meta', 'uidCounter');
+  const ref = doc(db, "meta", "uidCounter");
   const snap = await getDoc(ref);
-  let n = snap.exists() ? snap.data().n || 1 : 1;
+  let n = snap.exists() ? (snap.data().n || 1) : 1;
   await setDoc(ref, { n: n + 1 }, { merge: true });
-  return 'NTR-' + String(n).padStart(6, '0');
+  return "NTR-" + String(n).padStart(6, "0");
 }
 
 // ─── AUTH İŞLEMLERİ ──────────────────────────────────────────
@@ -60,11 +60,11 @@ export async function kayitOl({ email, sifre, isim, refKodGirilen }) {
 
   // 3. Referans kodu oluştur
   const refKod =
-    'REF-' +
+    "REF-" +
     isim
-      .split(' ')[0]
+      .split(" ")[0]
       .toUpperCase()
-      .replace(/[^A-Z]/g, '')
+      .replace(/[^A-Z]/g, "")
       .slice(0, 3) +
     Math.floor(Math.random() * 900 + 100);
 
@@ -87,21 +87,21 @@ export async function kayitOl({ email, sifre, isim, refKodGirilen }) {
     banli: false,
     sosyalKisit: false,
     puan: 100,
-    iban: '',
-    ibanAd: '',
-    boy: '',
-    kilo: '',
-    yas: '',
-    cinsiyet: 'erkek',
-    aktivite: 'sedanter',
+    iban: "",
+    ibanAd: "",
+    boy: "",
+    kilo: "",
+    yas: "",
+    cinsiyet: "erkek",
+    aktivite: "sedanter",
     createdAt: serverTimestamp(),
   };
 
-  await setDoc(doc(db, 'users', firebaseUID), kullanici);
+  await setDoc(doc(db, "users", firebaseUID), kullanici);
 
   // 5. Referans kodu kullanıldıysa daveti kaydet
   if (refKodGirilen) {
-    await addDoc(collection(db, 'referrals'), {
+    await addDoc(collection(db, "referrals"), {
       refKod: refKodGirilen,
       davetEdilen: firebaseUID,
       tarih: serverTimestamp(),
@@ -113,10 +113,10 @@ export async function kayitOl({ email, sifre, isim, refKodGirilen }) {
 
 export async function girisYap({ email, sifre }) {
   const cred = await signInWithEmailAndPassword(auth, email, sifre);
-  const snap = await getDoc(doc(db, 'users', cred.user.uid));
-  if (!snap.exists()) throw new Error('Kullanıcı verisi bulunamadı.');
+  const snap = await getDoc(doc(db, "users", cred.user.uid));
+  if (!snap.exists()) throw new Error("Kullanıcı verisi bulunamadı.");
   const data = snap.data();
-  if (data.banli) throw new Error('BANLI');
+  if (data.banli) throw new Error("BANLI");
   return data;
 }
 
@@ -127,30 +127,23 @@ export async function cikisYap() {
 // ─── KULLANICI İŞLEMLERİ ────────────────────────────────────
 
 export async function kullaniciyiGetir(firebaseUID) {
-  const snap = await getDoc(doc(db, 'users', firebaseUID));
+  const snap = await getDoc(doc(db, "users", firebaseUID));
   return snap.exists() ? snap.data() : null;
 }
 
 export async function kullaniciyiGuncelle(firebaseUID, data) {
-  await updateDoc(doc(db, 'users', firebaseUID), data);
+  await updateDoc(doc(db, "users", firebaseUID), data);
 }
 
 export async function tumKullanicilariGetir() {
-  const snap = await getDocs(collection(db, 'users'));
+  const snap = await getDocs(collection(db, "users"));
   return snap.docs.map((d) => d.data());
 }
 
 // ─── POST İŞLEMLERİ ─────────────────────────────────────────
 
-export async function postPaylas({
-  uid,
-  isim,
-  foto,
-  icerik,
-  postFoto,
-  yemekler,
-}) {
-  const ref = await addDoc(collection(db, 'posts'), {
+export async function postPaylas({ uid, isim, foto, icerik, postFoto, yemekler }) {
+  const ref = await addDoc(collection(db, "posts"), {
     uid,
     isim,
     foto: foto || null,
@@ -165,7 +158,7 @@ export async function postPaylas({
 }
 
 export function postlariDinle(callback) {
-  const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
+  const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
   return onSnapshot(q, (snap) => {
     const posts = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     callback(posts);
@@ -173,24 +166,24 @@ export function postlariDinle(callback) {
 }
 
 export async function postSil(postId) {
-  await deleteDoc(doc(db, 'posts', postId));
+  await deleteDoc(doc(db, "posts", postId));
 }
 
 export async function postGuncelle(postId, data) {
-  await updateDoc(doc(db, 'posts', postId), data);
+  await updateDoc(doc(db, "posts", postId), data);
 }
 
 // ─── ŞİKAYET İŞLEMLERİ ──────────────────────────────────────
 
 export async function sikayetGonder(data) {
-  await addDoc(collection(db, 'sikayetler'), {
+  await addDoc(collection(db, "sikayetler"), {
     ...data,
     createdAt: serverTimestamp(),
   });
 }
 
 export async function sikayetleriGetir() {
-  const snap = await getDocs(collection(db, 'sikayetler'));
+  const snap = await getDocs(collection(db, "sikayetler"));
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
@@ -198,18 +191,22 @@ export async function sikayetleriGetir() {
 // Her kullanıcı için: users/{firebaseUID}/gunler/{tarih}
 
 export async function gunVeriKaydet(firebaseUID, tarih, data) {
-  await setDoc(doc(db, 'users', firebaseUID, 'gunler', tarih), data, {
+  await setDoc(doc(db, "users", firebaseUID, "gunler", tarih), data, {
     merge: true,
   });
 }
 
 export async function gunVeriGetir(firebaseUID, tarih) {
-  const snap = await getDoc(doc(db, 'users', firebaseUID, 'gunler', tarih));
+  const snap = await getDoc(
+    doc(db, "users", firebaseUID, "gunler", tarih)
+  );
   return snap.exists() ? snap.data() : {};
 }
 
 export async function tumGunleriGetir(firebaseUID) {
-  const snap = await getDocs(collection(db, 'users', firebaseUID, 'gunler'));
+  const snap = await getDocs(
+    collection(db, "users", firebaseUID, "gunler")
+  );
   const result = {};
   snap.docs.forEach((d) => {
     result[d.id] = d.data();
@@ -221,34 +218,61 @@ export async function tumGunleriGetir(firebaseUID) {
 
 export async function arkadashIstegiGonder(gonderen, alici) {
   await setDoc(
-    doc(db, 'users', alici.firebaseUID, 'istekler', gonderen.firebaseUID),
-    {
-      uid: gonderen.uid,
-      isim: gonderen.isim,
-      firebaseUID: gonderen.firebaseUID,
-    }
+    doc(db, "users", alici.firebaseUID, "istekler", gonderen.firebaseUID),
+    { uid: gonderen.uid, isim: gonderen.isim, firebaseUID: gonderen.firebaseUID }
   );
 }
 
 export async function istekleriDinle(firebaseUID, callback) {
-  return onSnapshot(collection(db, 'users', firebaseUID, 'istekler'), (snap) =>
-    callback(snap.docs.map((d) => d.data()))
+  return onSnapshot(
+    collection(db, "users", firebaseUID, "istekler"),
+    (snap) => callback(snap.docs.map((d) => d.data()))
   );
 }
 
 // ─── BESİN ONAY KUYRUĞU ─────────────────────────────────────
 
 export async function besinGonder(data) {
-  await addDoc(collection(db, 'besinOnay'), {
+  await addDoc(collection(db, "besinOnay"), {
     ...data,
     createdAt: serverTimestamp(),
   });
 }
 
 export async function besinleriGetir() {
-  const snap = await getDocs(collection(db, 'besinOnay'));
+  const snap = await getDocs(collection(db, "besinOnay"));
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
-export { onAuthStateChanged };
+export async function googleGiris() {
+  const provider = new GoogleAuthProvider();
+  const cred = await signInWithPopup(auth, provider);
+  const firebaseUID = cred.user.uid;
+  // Kullanıcı daha önce kayıtlı mı?
+  const snap = await getDoc(doc(db, 'users', firebaseUID));
+  if (snap.exists()) {
+    const data = snap.data();
+    if (data.banli) throw new Error('Hesabınız banlanmıştır.');
+    return data;
+  }
+  // Yeni kullanıcı — otomatik kayıt
+  const uid = await uidUretFirestore();
+  const isim = cred.user.displayName || 'Kullanıcı';
+  const refKod = 'REF-' + isim.split(' ')[0].toUpperCase().replace(/[^A-Z]/g, '').slice(0,3) + Math.floor(Math.random()*900+100);
+  const kullanici = {
+    uid, firebaseUID,
+    email: cred.user.email,
+    isim,
+    foto: cred.user.photoURL || null,
+    admin: false, acik: true, sosyal: true,
+    refKod, refTip: null, refOnay: false,
+    davet: 0, kazanim: 0, premium: false, banli: false,
+    sosyalKisit: false, puan: 100, iban: '', ibanAd: '',
+    boy: '', kilo: '', yas: '', cinsiyet: 'erkek',
+    aktivite: 'sedanter', createdAt: serverTimestamp(),
+  };
+  await setDoc(doc(db, 'users', firebaseUID), kullanici);
+  return kullanici;
+}
 
+export { onAuthStateChanged };
