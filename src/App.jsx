@@ -205,6 +205,20 @@ function sporKcal(met,sure,kilo){ return Math.round((met*3.5*(kilo||70)*sure)/20
 function gramKalHesapla(bKal,bPor,gram){ return Math.round((bKal/(bPor||100))*(gram||100)); }
 function acikRenk(s){ return s>=70?"#22c55e":s>=45?"#f59e0b":"#ef4444"; }
 function acikEtiket(s){ return s>=70?"Çok Doyurucu":s>=45?"Orta Doyurucu":"Az Doyurucu"; }
+function YildizGoster({v=3,boyut=12}){
+  const stars=[];
+  for(let i=1;i<=5;i++){
+    if(v>=i) stars.push(<span key={i} style={{color:"#f59e0b",fontSize:boyut,lineHeight:1}}>★</span>);
+    else if(v>=i-0.5) stars.push(
+      <span key={i} style={{position:"relative",display:"inline-block",fontSize:boyut,lineHeight:1}}>
+        <span style={{color:"#d1d5db"}}>★</span>
+        <span style={{position:"absolute",left:0,top:0,width:"50%",overflow:"hidden",color:"#f59e0b"}}>★</span>
+      </span>
+    );
+    else stars.push(<span key={i} style={{color:"#d1d5db",fontSize:boyut,lineHeight:1}}>★</span>);
+  }
+  return <span style={{display:"inline-flex",gap:0}}>{stars}</span>;
+}
 
 // ─── ANA COMPONENT ───────────────────────────────────────────
 export default function Doya(){
@@ -257,7 +271,7 @@ export default function Doya(){
   const [yemekGram,setYemekGram]=useState("100");
   const [yemekKat,setYemekKat]=useState("Kahvaltı");
   const [yeniB,setYeniB]=useState({ ad:"",marka:"",kal:"",pro:"",karb:"",yag:"",lif:"",sod:"",acik:"",por:"100",aclik:"2-3 saat",kat:"Diğer" });
-  const [besinFil,setBesinFil]=useState({ kat:"",minKal:"",maxKal:"",acikSecim:[],sira:"isim",minDemir:"",minKals:"",minVitC:"",minVitD:"",minVitB12:"",minYildiz:0 });
+  const [besinFil,setBesinFil]=useState({ kat:"",minKal:"",maxKal:"",acikSecim:[],sira:"isim",minDemir:"",minKals:"",minVitC:"",minVitD:"",minVitB12:"",yildizSecim:[] });
   const [yildizAcik,setYildizAcik]=useState(false);
   const [araSekmesi,setAraSekmesi]=useState("ara");
 
@@ -338,7 +352,7 @@ export default function Doya(){
     const vitCUy = !besinFil.minVitC||((b.vitC||0)>=+besinFil.minVitC);
     const vitDUy = !besinFil.minVitD||((b.vitD||0)>=+besinFil.minVitD);
     const vitB12Uy=!besinFil.minVitB12||((b.vitB12||0)>=+besinFil.minVitB12);
-    const yildizUy = !besinFil.minYildiz||(b.yildiz??3)>=besinFil.minYildiz;
+    const yildizUy = besinFil.yildizSecim.length===0||besinFil.yildizSecim.includes(b.yildiz??3);
     return araUy&&katUy&&minK&&maxK&&acikUy&&demirUy&&kalsUy&&vitCUy&&vitDUy&&vitB12Uy&&yildizUy;
   }).sort((a,b2)=>({
     isim:"",kal_az:0,kal_cok:0,acik_cok:0
@@ -1206,7 +1220,7 @@ export default function Doya(){
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                       <div>
                         <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
-                        <div style={{fontSize:12,letterSpacing:1,marginBottom:1}}>{(()=>{const v=b.yildiz??3;const full=Math.floor(v);const half=v%1!==0;const empty=5-Math.ceil(v);return "★".repeat(full)+(half?"½":"")+"☆".repeat(empty);})()}</div>
+                        <div style={{marginBottom:1}}><YildizGoster v={b.yildiz??3} boyut={12}/></div>
                         <div style={{fontSize:10,color:r.muted}}>{b.por}g · P:{b.pro}g K:{b.karb}g Y:{b.yag}g · {b.kat}</div>
                         <div style={{fontSize:9,color:r.muted,fontStyle:"italic",marginTop:1}}>*Tahmini değerlerdir</div>
                       </div>
@@ -1309,14 +1323,12 @@ export default function Doya(){
                       </div>
                     )}
                     <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                      {[0,1,1.5,2,2.5,3,3.5,4,4.5,5].map(v=>{
-                        const sec=besinFil.minYildiz===v;
-                        const strs=Math.floor(v);
-                        const half=v%1!==0;
+                      {[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5].map(v=>{
+                        const sec=besinFil.yildizSecim.includes(v);
                         return(
-                          <button key={v} onClick={()=>setBesinFil(p=>({...p,minYildiz:v}))}
-                            style={{padding:"4px 8px",border:`1.5px solid ${sec?"#f59e0b":r.inpB}`,borderRadius:8,fontSize:11,fontWeight:700,cursor:"pointer",background:sec?"#fffbeb":r.inp,color:sec?"#d97706":r.sub,fontFamily:"'Nunito',sans-serif"}}>
-                            {"★".repeat(strs)}{half?"½":""}{v===0?"Tümü":""}
+                          <button key={v} onClick={()=>setBesinFil(p=>({...p,yildizSecim:p.yildizSecim.includes(v)?p.yildizSecim.filter(x=>x!==v):[...p.yildizSecim,v]}))}
+                            style={{padding:"4px 8px",border:`1.5px solid ${sec?"#f59e0b":r.inpB}`,borderRadius:8,cursor:"pointer",background:sec?"#fffbeb":r.inp,fontFamily:"'Nunito',sans-serif",display:"inline-flex",alignItems:"center"}}>
+                            {v===0?<span style={{fontSize:11,fontWeight:700,color:sec?"#d97706":r.sub}}>Tümü</span>:<YildizGoster v={v} boyut={13}/>}
                           </button>
                         );
                       })}
@@ -1336,7 +1348,7 @@ export default function Doya(){
                     </select>
                   </div>
 
-                  <button style={{...BTN("#6b7280","7px 0"),width:"100%",fontSize:12}} onClick={()=>{setBesinFil({kat:"",minKal:"",maxKal:"",acikSecim:[],sira:"isim",minDemir:"",minKals:"",minVitC:"",minVitD:"",minVitB12:"",minYildiz:0});setYildizAcik(false);}}>
+                  <button style={{...BTN("#6b7280","7px 0"),width:"100%",fontSize:12}} onClick={()=>{setBesinFil({kat:"",minKal:"",maxKal:"",acikSecim:[],sira:"isim",minDemir:"",minKals:"",minVitC:"",minVitD:"",minVitB12:"",yildizSecim:[]});setYildizAcik(false);}}>
                     Filtreleri Temizle
                   </button>
                 </div>
