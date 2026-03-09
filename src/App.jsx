@@ -2077,10 +2077,8 @@ export default function Doya(){
         {/* HAMBURGER DRAWER */}
         {hamMenu&&(
           <div style={{position:"fixed",inset:0,zIndex:300,display:"flex"}} onClick={()=>setHamMenu(false)}>
-            {/* overlay */}
-            <div style={{flex:1,background:"rgba(0,0,0,.45)"}}/>
             {/* drawer */}
-            <div style={{width:240,background:r.card,height:"100%",padding:"0 0 24px",overflowY:"auto",boxShadow:"-4px 0 24px rgba(0,0,0,.18)"}} onClick={e=>e.stopPropagation()}>
+            <div style={{width:240,background:r.card,height:"100%",padding:"0 0 24px",overflowY:"auto",boxShadow:"4px 0 24px rgba(0,0,0,.18)"}} onClick={e=>e.stopPropagation()}>
               {/* drawer header */}
               <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",padding:"20px 18px 16px",color:"#fff",marginBottom:8}}>
                 <div style={{fontSize:15,fontWeight:900,marginBottom:4}}>🥗 Doya</div>
@@ -2123,6 +2121,8 @@ export default function Doya(){
                 <span style={{fontSize:18}}>🚪</span> Çıkış Yap
               </button>
             </div>
+            {/* overlay - sağda */}
+            <div style={{flex:1,background:"rgba(0,0,0,.45)"}}/>
           </div>
         )}
 
