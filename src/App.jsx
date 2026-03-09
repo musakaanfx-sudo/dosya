@@ -465,6 +465,8 @@ export default function Doya(){
     setKHata("");
     try {
       await fbKayit({ email:kEmail, sifre:kSifre, isim:kIsim, refKodGirilen:kRef.trim()||null });
+      setKHata(""); 
+      alert("📧 " + kEmail + " adresine doğrulama maili gönderildi! Lütfen mailinizi onaylayın.");
       setOnboard(true); setObAdim(1);
     } catch(e){
       if(e.code==="auth/email-already-in-use") setKHata("Bu e-posta zaten kayıtlı!");
