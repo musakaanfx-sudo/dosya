@@ -8,6 +8,7 @@ import {
   updatePassword,
   GoogleAuthProvider,
   signInWithPopup,
+  sendEmailVerification,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -98,6 +99,9 @@ export async function kayitOl({ email, sifre, isim, refKodGirilen }) {
     aktivite: "sedanter",
     createdAt: serverTimestamp(),
   };
+
+  // E-posta doğrulama gönder
+  await sendEmailVerification(cred.user);
 
   await setDoc(doc(db, "users", firebaseUID), kullanici);
 
