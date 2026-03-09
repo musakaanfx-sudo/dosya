@@ -665,7 +665,7 @@ export default function Doya(){
           <svg width="48" height="48" viewBox="0 0 120 120" fill="none">
             <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#bL)"/>
             <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#rL)"/>
-            <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#4ade80"/>
+            <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
             <defs>
               <linearGradient id="bL" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#16a34a"/><stop offset="100%" stopColor="#052e16"/></linearGradient>
               <linearGradient id="rL" x1="26" y1="44" x2="94" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#4ade80"/><stop offset="100%" stopColor="#15803d"/></linearGradient>
@@ -699,8 +699,8 @@ export default function Doya(){
               <path d="M44 40 Q46 34 44 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".8"/>
               <path d="M60 38 Q62 30 60 22" stroke="#4ade80" strokeWidth="3" strokeLinecap="round"/>
               <path d="M76 40 Q78 34 76 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".8"/>
-              <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#4ade80"/>
-              <path d="M62 60 Q60 68 56 72" stroke="#16a34a" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
+              <path d="M62 60 Q60 68 56 72" stroke="#d97706" strokeWidth="1.5" strokeLinecap="round"/>
               <defs>
                 <linearGradient id="b1" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stopColor="#16a34a"/><stop offset="100%" stopColor="#052e16"/>
@@ -918,7 +918,7 @@ export default function Doya(){
                     <svg width="17" height="17" viewBox="0 0 120 120" fill="none">
                       <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#bHH)"/>
                       <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#rHH)"/>
-                      <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#4ade80"/>
+                      <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
                       <defs>
                         <linearGradient id="bHH" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#16a34a"/><stop offset="100%" stopColor="#052e16"/></linearGradient>
                         <linearGradient id="rHH" x1="26" y1="44" x2="94" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#4ade80"/><stop offset="100%" stopColor="#15803d"/></linearGradient>
