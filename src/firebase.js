@@ -25,7 +25,7 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBzHQZTf8W1pF-jekLZuvwN863R7gTxHNk',
+  apiKey: 'AIzaSyBzHQZTfBW1pF-jekLZuvwN863R7gTxHNk',
   authDomain: 'doya-4456f.firebaseapp.com',
   projectId: 'doya-4456f',
   storageBucket: 'doya-4456f.firebasestorage.app',
@@ -251,3 +251,4 @@ export async function besinleriGetir() {
 }
 
 export { onAuthStateChanged };
+
