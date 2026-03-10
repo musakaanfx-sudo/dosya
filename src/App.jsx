@@ -2685,7 +2685,7 @@ export default function Doya(){
           </div>
         )}
 
-        {/* ADIM SAYAR İZİN MODAL */}}
+        {/* ADIM SAYAR İZİN MODAL */}
         {adimIzinModal&&(
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center",padding:16}}>
             <div style={{background:r.card,borderRadius:20,padding:24,width:"100%",maxWidth:400}}>
@@ -2707,7 +2707,7 @@ export default function Doya(){
           </div>
         )}
 
-        {/* INFLUENCER SÖZLEŞMESİ MODAL */}}
+        {/* INFLUENCER SÖZLEŞMESİ MODAL */}
         {sozlesmeModal&&(
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
             <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
