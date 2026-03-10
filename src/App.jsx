@@ -1624,6 +1624,238 @@ const BESIN_DB = [
   { id:1448, ad:"Cevizli Sucuk (Tatlı)", marka:"",kal:345, pro:6.5, karb:58, yag:12, lif:2.5, sod:15, demir:2.0, kals:50, vitC:1, vitD:0, vitB12:0, acik:22, por:100, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:3.5 },
   { id:1449, ad:"Lokum (Gül Aromalı)", marka:"",kal:325, pro:0.5, karb:82, yag:0.5, lif:0.2, sod:20, demir:0.2, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
   { id:1450, ad:"Doya Yıldız Gıda (5 Yıldız)", marka:"Doya",kal:350, pro:30, karb:35, yag:10, lif:12, sod:320, demir:8, kals:350, vitC:60, vitD:5, vitB12:4, acik:88, por:250, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+
+  // ─── SODALAR & GAZOZLAR ─────────────────────────────────────────
+  { id:1451, ad:"Coca-Cola Kutu (330ml)", marka:"Coca-Cola", kal:139, pro:0, karb:35, yag:0, lif:0, sod:35, demir:0, kals:11, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1452, ad:"Coca-Cola Zero (330ml)", marka:"Coca-Cola", kal:1, pro:0, karb:0, yag:0, lif:0, sod:40, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1453, ad:"Coca-Cola Light (330ml)", marka:"Coca-Cola", kal:1, pro:0, karb:0, yag:0, lif:0, sod:40, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1454, ad:"Coca-Cola Şişe (500ml)", marka:"Coca-Cola", kal:210, pro:0, karb:53, yag:0, lif:0, sod:53, demir:0, kals:17, vitC:0, vitD:0, vitB12:0, acik:8, por:500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1455, ad:"Coca-Cola Vanilla (330ml)", marka:"Coca-Cola", kal:142, pro:0, karb:37, yag:0, lif:0, sod:36, demir:0, kals:11, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1456, ad:"Coca-Cola Cherry (330ml)", marka:"Coca-Cola", kal:143, pro:0, karb:38, yag:0, lif:0, sod:36, demir:0, kals:11, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1457, ad:"Pepsi Kutu (330ml)", marka:"Pepsi", kal:143, pro:0, karb:39, yag:0, lif:0, sod:30, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1458, ad:"Pepsi Max (330ml)", marka:"Pepsi", kal:1, pro:0, karb:0, yag:0, lif:0, sod:35, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1459, ad:"Pepsi Şişe (500ml)", marka:"Pepsi", kal:215, pro:0, karb:58, yag:0, lif:0, sod:45, demir:0, kals:10, vitC:0, vitD:0, vitB12:0, acik:8, por:500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1460, ad:"Pepsi Lime (330ml)", marka:"Pepsi", kal:140, pro:0, karb:38, yag:0, lif:0, sod:32, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1461, ad:"Fanta Portakal (330ml)", marka:"Fanta", kal:144, pro:0, karb:38, yag:0, lif:0, sod:14, demir:0, kals:8, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1462, ad:"Fanta Limon (330ml)", marka:"Fanta", kal:132, pro:0, karb:35, yag:0, lif:0, sod:12, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1463, ad:"Fanta Üzüm (330ml)", marka:"Fanta", kal:145, pro:0, karb:38, yag:0, lif:0, sod:13, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1464, ad:"Fanta Çilek (330ml)", marka:"Fanta", kal:140, pro:0, karb:37, yag:0, lif:0, sod:12, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1465, ad:"Fanta Kaktüs (330ml)", marka:"Fanta", kal:138, pro:0, karb:36, yag:0, lif:0, sod:13, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1466, ad:"Sprite Kutu (330ml)", marka:"Sprite", kal:126, pro:0, karb:33, yag:0, lif:0, sod:30, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1467, ad:"Sprite Zero (330ml)", marka:"Sprite", kal:2, pro:0, karb:0, yag:0, lif:0, sod:30, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1468, ad:"7UP Kutu (330ml)", marka:"7UP", kal:136, pro:0, karb:36, yag:0, lif:0, sod:25, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1469, ad:"7UP Free (330ml)", marka:"7UP", kal:3, pro:0, karb:0.5, yag:0, lif:0, sod:26, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1470, ad:"Mountain Dew (330ml)", marka:"Pepsi", kal:154, pro:0, karb:42, yag:0, lif:0, sod:55, demir:0, kals:8, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1471, ad:"Dr Pepper (330ml)", marka:"Dr Pepper", kal:142, pro:0, karb:38, yag:0, lif:0, sod:37, demir:0, kals:10, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1472, ad:"Fruko Gazoz (330ml)", marka:"Fruko", kal:138, pro:0, karb:36, yag:0, lif:0, sod:20, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1473, ad:"Uludağ Gazoz (330ml)", marka:"Uludağ", kal:132, pro:0, karb:33, yag:0, lif:0, sod:15, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1474, ad:"Uludağ Gazoz (1L)", marka:"Uludağ", kal:400, pro:0, karb:100, yag:0, lif:0, sod:45, demir:0, kals:15, vitC:0, vitD:0, vitB12:0, acik:8, por:1000, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1475, ad:"Uludağ Limonata (330ml)", marka:"Uludağ", kal:118, pro:0, karb:30, yag:0, lif:0, sod:10, demir:0, kals:5, vitC:8, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1476, ad:"Uludağ Premium Soda (200ml)", marka:"Uludağ", kal:0, pro:0, karb:0, yag:0, lif:0, sod:30, demir:0, kals:8, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1477, ad:"Çamlıca Gazoz (330ml)", marka:"Çamlıca", kal:135, pro:0, karb:34, yag:0, lif:0, sod:18, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1478, ad:"Schweppes Tonic Water (200ml)", marka:"Schweppes", kal:68, pro:0, karb:17, yag:0, lif:0, sod:30, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1479, ad:"Schweppes Bitter Lemon (200ml)", marka:"Schweppes", kal:74, pro:0, karb:18, yag:0, lif:0, sod:28, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1480, ad:"Schweppes Elma (330ml)", marka:"Schweppes", kal:128, pro:0, karb:34, yag:0, lif:0, sod:25, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1481, ad:"Perrier Maden Suyu (330ml)", marka:"Perrier", kal:0, pro:0, karb:0, yag:0, lif:0, sod:9, demir:0, kals:33, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1482, ad:"San Pellegrino (330ml)", marka:"San Pellegrino", kal:0, pro:0, karb:0, yag:0, lif:0, sod:38, demir:0, kals:208, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1483, ad:"San Pellegrino Limonata (330ml)", marka:"San Pellegrino", kal:112, pro:0, karb:28, yag:0, lif:0, sod:35, demir:0, kals:25, vitC:10, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1484, ad:"San Pellegrino Aranciata (330ml)", marka:"San Pellegrino", kal:120, pro:0.5, karb:29, yag:0, lif:0, sod:38, demir:0, kals:18, vitC:12, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1485, ad:"Fever-Tree Tonic (200ml)", marka:"Fever-Tree", kal:72, pro:0, karb:18, yag:0, lif:0, sod:18, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1486, ad:"Beypazarı Maden Suyu (200ml)", marka:"Beypazarı", kal:0, pro:0, karb:0, yag:0, lif:0, sod:22, demir:0, kals:55, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1487, ad:"Kızılay Maden Suyu (200ml)", marka:"Kızılay", kal:0, pro:0, karb:0, yag:0, lif:0, sod:18, demir:0, kals:48, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1488, ad:"Saka Maden Suyu (330ml)", marka:"Saka", kal:0, pro:0, karb:0, yag:0, lif:0, sod:15, demir:0, kals:35, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1489, ad:"Kristal Soda (200ml)", marka:"Kristal", kal:0, pro:0, karb:0, yag:0, lif:0, sod:25, demir:0, kals:10, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1490, ad:"Sting Enerji Gazoz (330ml)", marka:"Sting", kal:148, pro:0, karb:38, yag:0, lif:0, sod:50, demir:0, kals:12, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+
+  // ─── ENERJİ & SPOR İÇECEKLERİ ──────────────────────────────────
+  { id:1491, ad:"Red Bull (250ml)", marka:"Red Bull", kal:113, pro:1.0, karb:28, yag:0, lif:0, sod:105, demir:0, kals:8, vitC:0, vitD:0, vitB12:2.0, acik:10, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1492, ad:"Red Bull Sugar Free (250ml)", marka:"Red Bull", kal:7, pro:1.0, karb:1, yag:0, lif:0, sod:120, demir:0, kals:8, vitC:0, vitD:0, vitB12:2.0, acik:8, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1493, ad:"Monster Energy (500ml)", marka:"Monster", kal:230, pro:0, karb:57, yag:0, lif:0, sod:360, demir:0, kals:10, vitC:0, vitD:0, vitB12:6.0, acik:10, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1494, ad:"Monster Ultra White (500ml)", marka:"Monster", kal:10, pro:0, karb:1.5, yag:0, lif:0, sod:340, demir:0, kals:10, vitC:0, vitD:0, vitB12:6.0, acik:8, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1495, ad:"Burn Enerji (250ml)", marka:"Burn", kal:112, pro:0, karb:27, yag:0, lif:0, sod:100, demir:0, kals:8, vitC:0, vitD:0, vitB12:1.5, acik:8, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1496, ad:"Tiger Energy (250ml)", marka:"Tiger", kal:105, pro:0, karb:25, yag:0, lif:0, sod:80, demir:0, kals:6, vitC:0, vitD:0, vitB12:1.0, acik:8, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1497, ad:"Prime Hydration (500ml)", marka:"Prime", kal:25, pro:2.0, karb:5, yag:0, lif:0, sod:10, demir:0, kals:30, vitC:0, vitD:0, vitB12:0, acik:12, por:500, aclik:"—", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1498, ad:"Powerade Portakal (500ml)", marka:"Powerade", kal:130, pro:0, karb:34, yag:0, lif:0, sod:165, demir:0, kals:20, vitC:0, vitD:0, vitB12:0, acik:12, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1499, ad:"Gatorade Limon (500ml)", marka:"Gatorade", kal:125, pro:0, karb:34, yag:0, lif:0, sod:275, demir:0, kals:37, vitC:0, vitD:0, vitB12:0, acik:12, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1500, ad:"Iso+ Spor İçeceği (500ml)", marka:"Decathlon", kal:120, pro:0, karb:30, yag:0, lif:0, sod:180, demir:0, kals:25, vitC:15, vitD:0, vitB12:0, acik:12, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:2 },
+
+  // ─── HAZIR ÇAY & KAHVE ─────────────────────────────────────────
+  { id:1501, ad:"Fuze Tea Şeftali (330ml)", marka:"Fuze Tea", kal:60, pro:0, karb:15, yag:0, lif:0, sod:10, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1502, ad:"Fuze Tea Limon (330ml)", marka:"Fuze Tea", kal:55, pro:0, karb:14, yag:0, lif:0, sod:10, demir:0, kals:4, vitC:4, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1503, ad:"Lipton Ice Tea Şeftali (330ml)", marka:"Lipton", kal:78, pro:0, karb:20, yag:0, lif:0, sod:12, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1504, ad:"Lipton Ice Tea Limon (330ml)", marka:"Lipton", kal:72, pro:0, karb:18, yag:0, lif:0, sod:12, demir:0, kals:5, vitC:4, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1505, ad:"Nestea Şeftali (330ml)", marka:"Nestea", kal:75, pro:0, karb:19, yag:0, lif:0, sod:15, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1506, ad:"Nescafé RTD Latte (240ml)", marka:"Nescafé", kal:120, pro:4.0, karb:20, yag:3.0, lif:0, sod:95, demir:0, kals:110, vitC:0, vitD:0, vitB12:0.4, acik:25, por:240, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1507, ad:"Starbucks Frappuccino (250ml)", marka:"Starbucks", kal:200, pro:5.0, karb:34, yag:4.5, lif:0, sod:120, demir:0, kals:160, vitC:0, vitD:0.5, vitB12:0.6, acik:25, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1508, ad:"Cappy Portakal (200ml)", marka:"Cappy", kal:88, pro:1.0, karb:21, yag:0, lif:0, sod:10, demir:0.2, kals:9, vitC:45, vitD:0, vitB12:0, acik:18, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1509, ad:"Cappy Şeftali (200ml)", marka:"Cappy", kal:82, pro:0.5, karb:20, yag:0, lif:0, sod:10, demir:0.1, kals:5, vitC:20, vitD:0, vitB12:0, acik:15, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1510, ad:"Cappy Vişne (200ml)", marka:"Cappy", kal:90, pro:0.5, karb:22, yag:0, lif:0, sod:10, demir:0.3, kals:8, vitC:30, vitD:0, vitB12:0, acik:18, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+
+  // ─── SÜT BAZLI İÇECEKLER ────────────────────────────────────────
+  { id:1511, ad:"Pınar Çikolatalı Süt (200ml)", marka:"Pınar", kal:136, pro:5.5, karb:20, yag:4.5, lif:0.5, sod:85, demir:0.8, kals:180, vitC:0, vitD:0.5, vitB12:0.7, acik:45, por:200, aclik:"1-2 saat", onay:true, kat:"SutUrunleri", yildiz:3 },
+  { id:1512, ad:"Sütaş Ayran (200ml)", marka:"Sütaş", kal:52, pro:3.0, karb:4.5, yag:2.0, lif:0, sod:250, demir:0, kals:110, vitC:0, vitD:0, vitB12:0.4, acik:30, por:200, aclik:"30 dk", onay:true, kat:"SutUrunleri", yildiz:3.5 },
+  { id:1513, ad:"Danone Actimel (100ml)", marka:"Danone", kal:75, pro:2.5, karb:12, yag:1.5, lif:0, sod:40, demir:0, kals:80, vitC:0, vitD:1.5, vitB12:0.8, acik:30, por:100, aclik:"30 dk", onay:true, kat:"SutUrunleri", yildiz:3.5 },
+  { id:1514, ad:"Activia İçme Yoğurdu (200ml)", marka:"Activia", kal:98, pro:4.0, karb:14, yag:2.5, lif:0, sod:80, demir:0, kals:130, vitC:0, vitD:0, vitB12:0.5, acik:35, por:200, aclik:"1-2 saat", onay:true, kat:"SutUrunleri", yildiz:3.5 },
+
+  // ─── FAST FOOD MARKALARI ─────────────────────────────────────────
+  { id:1515, ad:"Big Mac", marka:"McDonald's", kal:563, pro:25, karb:44, yag:33, lif:2.5, sod:1010, demir:4.0, kals:225, vitC:1, vitD:0.2, vitB12:2.0, acik:72, por:200, aclik:"3-4 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1516, ad:"McChicken", marka:"McDonald's", kal:428, pro:19, karb:41, yag:21, lif:1.5, sod:720, demir:2.5, kals:90, vitC:0, vitD:0.1, vitB12:0.6, acik:62, por:163, aclik:"2-3 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1517, ad:"McDonald's Patates (Orta)", marka:"McDonald's", kal:337, pro:4.5, karb:44, yag:16, lif:4.0, sod:400, demir:1.2, kals:15, vitC:8, vitD:0, vitB12:0, acik:30, por:117, aclik:"1-2 saat", onay:true, kat:"HazirYemek", yildiz:1 },
+  { id:1518, ad:"Whopper", marka:"Burger King", kal:677, pro:28, karb:49, yag:40, lif:2.0, sod:980, demir:4.5, kals:85, vitC:2, vitD:0.1, vitB12:2.5, acik:78, por:270, aclik:"3-4 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1519, ad:"BK Chicken Crispy", marka:"Burger King", kal:490, pro:22, karb:47, yag:23, lif:2.0, sod:870, demir:3.0, kals:80, vitC:0, vitD:0.1, vitB12:0.8, acik:65, por:190, aclik:"2-3 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1520, ad:"Zinger Burger", marka:"KFC", kal:584, pro:32, karb:46, yag:29, lif:2.0, sod:1050, demir:3.0, kals:95, vitC:0, vitD:0.2, vitB12:1.0, acik:72, por:220, aclik:"3-4 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1521, ad:"Subway 6\" Tavuk (Tam Buğday)", marka:"Subway", kal:330, pro:25, karb:42, yag:7, lif:5.0, sod:680, demir:3.5, kals:110, vitC:8, vitD:0, vitB12:0.5, acik:65, por:180, aclik:"2-3 saat", onay:true, kat:"HazirYemek", yildiz:3 },
+  { id:1522, ad:"Popeyes Spicy Chicken Sandwich", marka:"Popeyes", kal:700, pro:32, karb:55, yag:42, lif:2.5, sod:1400, demir:4.0, kals:100, vitC:0, vitD:0.2, vitB12:1.2, acik:75, por:280, aclik:"3-4 saat", onay:true, kat:"HazirYemek", yildiz:1 },
+
+  // ─── ATIŞTIIRMALIK & CİPS ────────────────────────────────────────
+  { id:1523, ad:"Lays Classic (50g)", marka:"Lays", kal:265, pro:3.5, karb:27, yag:17, lif:2.0, sod:295, demir:0.5, kals:12, vitC:8, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1524, ad:"Lays Max (50g)", marka:"Lays", kal:272, pro:3.5, karb:26, yag:18, lif:2.0, sod:350, demir:0.5, kals:10, vitC:6, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1525, ad:"Doritos Nacho (50g)", marka:"Doritos", kal:250, pro:4.0, karb:31, yag:13, lif:2.5, sod:325, demir:1.0, kals:45, vitC:0, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1526, ad:"Cheetos Pıfpıf (50g)", marka:"Cheetos", kal:258, pro:3.5, karb:28, yag:15, lif:1.5, sod:390, demir:0.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:15, por:50, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1527, ad:"Pringles Original (165g)", marka:"Pringles", kal:890, pro:10, karb:83, yag:58, lif:5.0, sod:800, demir:2.0, kals:40, vitC:0, vitD:0, vitB12:0, acik:18, por:165, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1528, ad:"Ruffles Tatlı Acı (50g)", marka:"Ruffles", kal:255, pro:3.5, karb:28, yag:15, lif:2.0, sod:310, demir:0.5, kals:10, vitC:5, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1529, ad:"Ülker Chips (50g)", marka:"Ülker", kal:252, pro:3.5, karb:29, yag:14, lif:2.0, sod:290, demir:0.5, kals:12, vitC:5, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+
+  // ─── BİSKÜVİ & ÇİKOLATA ─────────────────────────────────────────
+  { id:1530, ad:"Oreo (57g)", marka:"Oreo", kal:270, pro:3.5, karb:38, yag:12, lif:1.5, sod:240, demir:4.0, kals:14, vitC:0, vitD:0, vitB12:0, acik:15, por:57, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1531, ad:"Nutella (20g)", marka:"Nutella", kal:111, pro:1.5, karb:12, yag:6.5, lif:0.5, sod:12, demir:0.3, kals:24, vitC:0, vitD:0, vitB12:0, acik:15, por:20, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1532, ad:"Kit Kat (41.5g)", marka:"Nestlé", kal:218, pro:3.0, karb:27, yag:11, lif:1.0, sod:45, demir:0.8, kals:70, vitC:0, vitD:0, vitB12:0.2, acik:18, por:41.5, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1533, ad:"Milka Sütlü Çikolata (100g)", marka:"Milka", kal:534, pro:8.0, karb:58, yag:30, lif:2.5, sod:125, demir:2.0, kals:220, vitC:0, vitD:0.5, vitB12:0.8, acik:22, por:100, aclik:"1-2 saat", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1534, ad:"Snickers (52.7g)", marka:"Mars", kal:245, pro:4.5, karb:33, yag:12, lif:1.5, sod:120, demir:0.7, kals:85, vitC:0, vitD:0, vitB12:0.1, acik:28, por:52.7, aclik:"1-2 saat", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1535, ad:"Twix (58g)", marka:"Mars", kal:284, pro:3.0, karb:38, yag:14, lif:1.0, sod:105, demir:0.6, kals:55, vitC:0, vitD:0, vitB12:0.1, acik:22, por:58, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1 },
+  { id:1536, ad:"Ülker Çikolatalı Gofret (36g)", marka:"Ülker", kal:186, pro:2.5, karb:22, yag:10, lif:0.5, sod:45, demir:0.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:15, por:36, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1 },
+  { id:1537, ad:"ETİ Browni (47g)", marka:"ETİ", kal:200, pro:3.0, karb:29, yag:8.5, lif:1.5, sod:120, demir:1.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:18, por:47, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1538, ad:"Biskrem (48g)", marka:"Ülker", kal:232, pro:3.0, karb:30, yag:11, lif:1.0, sod:130, demir:1.0, kals:30, vitC:0, vitD:0, vitB12:0, acik:15, por:48, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+
+  // ─── DONDURMA ──────────────────────────────────────────────────
+  { id:1539, ad:"Magnum Classic (120ml)", marka:"Magnum", kal:280, pro:4.0, karb:24, yag:18, lif:0.5, sod:50, demir:0.3, kals:120, vitC:0, vitD:0.3, vitB12:0.5, acik:20, por:120, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1540, ad:"Magnum Double Gold (120ml)", marka:"Magnum", kal:340, pro:4.5, karb:30, yag:22, lif:1.0, sod:60, demir:0.5, kals:130, vitC:0, vitD:0.3, vitB12:0.5, acik:20, por:120, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1541, ad:"Cornetto Classic (120ml)", marka:"Algida", kal:250, pro:3.5, karb:32, yag:12, lif:0.5, sod:55, demir:0.4, kals:100, vitC:0, vitD:0.2, vitB12:0.4, acik:18, por:120, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1542, ad:"Bounty Dondurma (52g)", marka:"Mars", kal:165, pro:2.0, karb:19, yag:9, lif:0.5, sod:40, demir:0.3, kals:55, vitC:0, vitD:0.2, vitB12:0.2, acik:15, por:52, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1543, ad:"Calippo Portakal", marka:"Algida", kal:95, pro:0, karb:23, yag:0, lif:0, sod:15, demir:0, kals:5, vitC:5, vitD:0, vitB12:0, acik:10, por:105, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+
+  // ─── HAZIR YEMEK & KONSERVE ────────────────────────────────────
+  { id:1544, ad:"Knorr Domates Çorbası (1 porsiyon)", marka:"Knorr", kal:68, pro:2.5, karb:13, yag:1.5, lif:1.0, sod:680, demir:0.8, kals:45, vitC:5, vitD:0, vitB12:0, acik:18, por:200, aclik:"30 dk", onay:true, kat:"Corba", yildiz:2 },
+  { id:1545, ad:"Maggi Noodle (75g)", marka:"Maggi", kal:322, pro:8.0, karb:50, yag:10, lif:2.0, sod:980, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:30, por:75, aclik:"1-2 saat", onay:true, kat:"HazirYemek", yildiz:1 },
+  { id:1546, ad:"Ülker Dankek Kek (60g)", marka:"Ülker", kal:228, pro:3.5, karb:33, yag:9.5, lif:0.5, sod:180, demir:1.0, kals:35, vitC:0, vitD:0, vitB12:0, acik:15, por:60, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1 },
+  { id:1547, ad:"Krispy Kreme Glazed Donut", marka:"Krispy Kreme", kal:300, pro:4.0, karb:37, yag:16, lif:1.0, sod:100, demir:1.0, kals:20, vitC:0, vitD:0, vitB12:0.1, acik:12, por:52, aclik:"1-2 saat", onay:true, kat:"Tatli", yildiz:1 },
+  { id:1548, ad:"Pınar Portakal Suyu (200ml)", marka:"Pınar", kal:90, pro:1.5, karb:21, yag:0, lif:0.2, sod:5, demir:0.2, kals:11, vitC:50, vitD:0, vitB12:0, acik:20, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1549, ad:"Dimes Elma Nektarı (200ml)", marka:"Dimes", kal:82, pro:0.2, karb:21, yag:0, lif:0, sod:8, demir:0.1, kals:5, vitC:15, vitD:0, vitB12:0, acik:15, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1550, ad:"Minute Maid Portakal (330ml)", marka:"Minute Maid", kal:150, pro:1.5, karb:37, yag:0, lif:0.3, sod:10, demir:0.2, kals:15, vitC:80, vitD:0, vitB12:0, acik:22, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2.5 },
+
+  // ─── YENİ SODALAR & GAZOZLAR (1551-1600) ─────────────────────────
+  { id:1551, ad:"Coca-Cola (1.5L)", marka:"Coca-Cola", kal:630, pro:0, karb:159, yag:0, lif:0, sod:160, demir:0, kals:50, vitC:0, vitD:0, vitB12:0, acik:8, por:1500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1552, ad:"Pepsi (1.5L)", marka:"Pepsi", kal:645, pro:0, karb:175, yag:0, lif:0, sod:135, demir:0, kals:30, vitC:0, vitD:0, vitB12:0, acik:8, por:1500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1553, ad:"Fanta Portakal (1.5L)", marka:"Fanta", kal:660, pro:0, karb:174, yag:0, lif:0, sod:63, demir:0, kals:36, vitC:0, vitD:0, vitB12:0, acik:8, por:1500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1554, ad:"Sprite (1.5L)", marka:"Sprite", kal:573, pro:0, karb:150, yag:0, lif:0, sod:136, demir:0, kals:32, vitC:0, vitD:0, vitB12:0, acik:8, por:1500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1555, ad:"Uludağ Gazoz (2.5L)", marka:"Uludağ", kal:1000, pro:0, karb:250, yag:0, lif:0, sod:112, demir:0, kals:37, vitC:0, vitD:0, vitB12:0, acik:8, por:2500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1556, ad:"Fanta Elma (330ml)", marka:"Fanta", kal:138, pro:0, karb:36, yag:0, lif:0, sod:13, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1557, ad:"Fanta Mango (330ml)", marka:"Fanta", kal:142, pro:0, karb:37, yag:0, lif:0, sod:14, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1558, ad:"Fanta Karpuz (330ml)", marka:"Fanta", kal:136, pro:0, karb:36, yag:0, lif:0, sod:12, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1559, ad:"Coca-Cola Starlight (330ml)", marka:"Coca-Cola", kal:140, pro:0, karb:37, yag:0, lif:0, sod:35, demir:0, kals:11, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1560, ad:"Pepsi Wild Cherry (330ml)", marka:"Pepsi", kal:145, pro:0, karb:40, yag:0, lif:0, sod:30, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1561, ad:"Schweppes Ginger Ale (200ml)", marka:"Schweppes", kal:64, pro:0, karb:16, yag:0, lif:0, sod:28, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1562, ad:"Schweppes Soda (200ml)", marka:"Schweppes", kal:0, pro:0, karb:0, yag:0, lif:0, sod:55, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1563, ad:"Fever-Tree Ginger Beer (200ml)", marka:"Fever-Tree", kal:76, pro:0, karb:19, yag:0, lif:0, sod:18, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1564, ad:"Fever-Tree Elderflower Tonic (200ml)", marka:"Fever-Tree", kal:68, pro:0, karb:17, yag:0, lif:0, sod:18, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1565, ad:"San Pellegrino Chinotto (200ml)", marka:"San Pellegrino", kal:80, pro:0, karb:20, yag:0, lif:0, sod:36, demir:0, kals:16, vitC:4, vitD:0, vitB12:0, acik:8, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1566, ad:"Haribo Gazoz (330ml)", marka:"Haribo", kal:132, pro:0, karb:33, yag:0, lif:0, sod:20, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1567, ad:"Mirinda Portakal (330ml)", marka:"Mirinda", kal:148, pro:0, karb:39, yag:0, lif:0, sod:22, demir:0, kals:8, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1568, ad:"Mirinda Üzüm (330ml)", marka:"Mirinda", kal:145, pro:0, karb:38, yag:0, lif:0, sod:20, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1569, ad:"Canada Dry Tonic (330ml)", marka:"Canada Dry", kal:125, pro:0, karb:31, yag:0, lif:0, sod:55, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1570, ad:"Canada Dry Ginger Ale (330ml)", marka:"Canada Dry", kal:124, pro:0, karb:32, yag:0, lif:0, sod:35, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1571, ad:"Başak Gazoz (330ml)", marka:"Başak", kal:130, pro:0, karb:33, yag:0, lif:0, sod:14, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1572, ad:"İpek Gazoz (330ml)", marka:"İpek", kal:128, pro:0, karb:32, yag:0, lif:0, sod:12, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1573, ad:"Selpak Gazoz (330ml)", marka:"Selva", kal:126, pro:0, karb:32, yag:0, lif:0, sod:11, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1574, ad:"Sarıyer Gazoz (330ml)", marka:"Sarıyer", kal:129, pro:0, karb:33, yag:0, lif:0, sod:13, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1575, ad:"Coca-Cola Zero Lemon (330ml)", marka:"Coca-Cola", kal:1, pro:0, karb:0, yag:0, lif:0, sod:42, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1576, ad:"Pepsi Zero (330ml)", marka:"Pepsi", kal:1, pro:0, karb:0, yag:0, lif:0, sod:38, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1577, ad:"Mountain Dew Zero (330ml)", marka:"Pepsi", kal:0, pro:0, karb:0, yag:0, lif:0, sod:55, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1578, ad:"Perrier Limon (330ml)", marka:"Perrier", kal:8, pro:0, karb:2, yag:0, lif:0, sod:9, demir:0, kals:33, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"—", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1579, ad:"Perrier Çilek (330ml)", marka:"Perrier", kal:8, pro:0, karb:2, yag:0, lif:0, sod:9, demir:0, kals:33, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"—", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1580, ad:"LaCroix Limon (355ml)", marka:"LaCroix", kal:0, pro:0, karb:0, yag:0, lif:0, sod:35, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:5, por:355, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1581, ad:"LaCroix Grapefruit (355ml)", marka:"LaCroix", kal:0, pro:0, karb:0, yag:0, lif:0, sod:35, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:5, por:355, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1582, ad:"Spindrift Limon (355ml)", marka:"Spindrift", kal:14, pro:0, karb:3, yag:0, lif:0, sod:10, demir:0, kals:7, vitC:5, vitD:0, vitB12:0, acik:5, por:355, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1583, ad:"Uludağ Vişne (330ml)", marka:"Uludağ", kal:130, pro:0, karb:33, yag:0, lif:0, sod:12, demir:0, kals:5, vitC:2, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1584, ad:"Uludağ Portakal (330ml)", marka:"Uludağ", kal:127, pro:0, karb:32, yag:0, lif:0, sod:11, demir:0, kals:5, vitC:3, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1585, ad:"Dağ Elması Gazoz (1L)", marka:"Uludağ", kal:388, pro:0, karb:97, yag:0, lif:0, sod:36, demir:0, kals:15, vitC:6, vitD:0, vitB12:0, acik:8, por:1000, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1586, ad:"Sprite Cucumber (330ml)", marka:"Sprite", kal:110, pro:0, karb:28, yag:0, lif:0, sod:30, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1587, ad:"7UP Mojito (330ml)", marka:"7UP", kal:130, pro:0, karb:34, yag:0, lif:0, sod:25, demir:0, kals:6, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1588, ad:"Pepsi Mango (330ml)", marka:"Pepsi", kal:145, pro:0, karb:39, yag:0, lif:0, sod:30, demir:0, kals:7, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1589, ad:"Coca-Cola Spiced (330ml)", marka:"Coca-Cola", kal:140, pro:0, karb:37, yag:0, lif:0, sod:35, demir:0, kals:11, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1590, ad:"Zam Zam Kola (330ml)", marka:"Zam Zam", kal:136, pro:0, karb:35, yag:0, lif:0, sod:32, demir:0, kals:9, vitC:0, vitD:0, vitB12:0, acik:8, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+
+  // ─── ENERJİ & SPORCU (1591-1610) ──────────────────────────────────
+  { id:1591, ad:"Red Bull Blue Edition (250ml)", marka:"Red Bull", kal:118, pro:1.0, karb:29, yag:0, lif:0, sod:105, demir:0, kals:8, vitC:0, vitD:0, vitB12:2.0, acik:10, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1592, ad:"Red Bull Green Edition (250ml)", marka:"Red Bull", kal:120, pro:1.0, karb:30, yag:0, lif:0, sod:105, demir:0, kals:8, vitC:0, vitD:0, vitB12:2.0, acik:10, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1593, ad:"Monster Mango Loco (500ml)", marka:"Monster", kal:225, pro:0, karb:55, yag:0, lif:0, sod:355, demir:0, kals:10, vitC:0, vitD:0, vitB12:6.0, acik:10, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1594, ad:"Monster Pipeline Punch (500ml)", marka:"Monster", kal:220, pro:0, karb:54, yag:0, lif:0, sod:350, demir:0, kals:10, vitC:0, vitD:0, vitB12:6.0, acik:10, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1595, ad:"Celsius Şeftali Mango (355ml)", marka:"Celsius", kal:10, pro:0, karb:2, yag:0, lif:0, sod:0, demir:0, kals:50, vitC:60, vitD:0, vitB12:0, acik:10, por:355, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1596, ad:"Reign Watermelon (500ml)", marka:"Reign", kal:10, pro:0, karb:3, yag:0, lif:0, sod:200, demir:0, kals:15, vitC:0, vitD:0, vitB12:6.0, acik:8, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1597, ad:"Ghost Energy (473ml)", marka:"Ghost", kal:5, pro:0, karb:0, yag:0, lif:0, sod:20, demir:0, kals:10, vitC:0, vitD:0, vitB12:6.0, acik:8, por:473, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1598, ad:"Rockstar Original (500ml)", marka:"Rockstar", kal:250, pro:0, karb:62, yag:0, lif:0, sod:100, demir:0, kals:10, vitC:0, vitD:0, vitB12:1.5, acik:10, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1599, ad:"NOS Energy (473ml)", marka:"NOS", kal:210, pro:0, karb:54, yag:0, lif:0, sod:200, demir:0, kals:15, vitC:0, vitD:0, vitB12:3.0, acik:10, por:473, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:1600, ad:"Gatorade Zero (500ml)", marka:"Gatorade", kal:10, pro:0, karb:2, yag:0, lif:0, sod:270, demir:0, kals:30, vitC:0, vitD:0, vitB12:0, acik:10, por:500, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:2 },
+
+  // ─── HAZIR ÇAY / KAHVE (1601-1615) ────────────────────────────────
+  { id:1601, ad:"Fuze Tea Karpuz-Nane (330ml)", marka:"Fuze Tea", kal:58, pro:0, karb:14, yag:0, lif:0, sod:10, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1602, ad:"Fuze Tea Elma-Zencefil (330ml)", marka:"Fuze Tea", kal:62, pro:0, karb:15, yag:0, lif:0, sod:10, demir:0, kals:5, vitC:2, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1603, ad:"Lipton Ice Tea Tropical (330ml)", marka:"Lipton", kal:80, pro:0, karb:20, yag:0, lif:0, sod:12, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1604, ad:"Arizona Green Tea (500ml)", marka:"Arizona", kal:175, pro:0, karb:46, yag:0, lif:0, sod:25, demir:0, kals:12, vitC:0, vitD:0, vitB12:0, acik:12, por:500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1605, ad:"Starbucks Double Shot Espresso (200ml)", marka:"Starbucks", kal:140, pro:10, karb:14, yag:4.5, lif:0, sod:150, demir:0, kals:280, vitC:0, vitD:1.5, vitB12:1.2, acik:35, por:200, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1606, ad:"İlk Çay Şişe (330ml)", marka:"İlk Çay", kal:65, pro:0, karb:16, yag:0, lif:0, sod:8, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1607, ad:"Dogadan Cool Mango Şişe (330ml)", marka:"Doğadan", kal:68, pro:0, karb:17, yag:0, lif:0, sod:10, demir:0, kals:5, vitC:5, vitD:0, vitB12:0, acik:10, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+
+  // ─── MEYVE SUYU & NEKTAR (1608-1620) ─────────────────────────────
+  { id:1608, ad:"Tropicana Portakal (330ml)", marka:"Tropicana", kal:154, pro:2.5, karb:36, yag:0, lif:0.3, sod:5, demir:0.3, kals:18, vitC:95, vitD:0, vitB12:0, acik:22, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1609, ad:"Tropicana Elma (330ml)", marka:"Tropicana", kal:148, pro:0.5, karb:37, yag:0, lif:0.3, sod:5, demir:0.2, kals:10, vitC:20, vitD:0, vitB12:0, acik:18, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1610, ad:"Dimes Premium Portakal (200ml)", marka:"Dimes", kal:88, pro:1.0, karb:21, yag:0, lif:0.2, sod:7, demir:0.2, kals:10, vitC:45, vitD:0, vitB12:0, acik:20, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1611, ad:"Tamek Vişne Nektarı (200ml)", marka:"Tamek", kal:88, pro:0.3, karb:22, yag:0, lif:0, sod:10, demir:0.2, kals:7, vitC:25, vitD:0, vitB12:0, acik:18, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1612, ad:"Cappy Multifrüt (200ml)", marka:"Cappy", kal:86, pro:0.5, karb:21, yag:0, lif:0, sod:10, demir:0.1, kals:6, vitC:35, vitD:0, vitB12:0, acik:15, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1613, ad:"Dimes Nar (200ml)", marka:"Dimes", kal:90, pro:0.5, karb:22, yag:0, lif:0, sod:8, demir:0.3, kals:8, vitC:10, vitD:0, vitB12:0, acik:18, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1614, ad:"Welch's Üzüm Suyu (330ml)", marka:"Welch's", kal:195, pro:1.0, karb:49, yag:0, lif:0, sod:25, demir:0.5, kals:22, vitC:100, vitD:0, vitB12:0, acik:20, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1615, ad:"Ocean Spray Cranberry (330ml)", marka:"Ocean Spray", kal:137, pro:0, karb:34, yag:0, lif:0, sod:35, demir:0, kals:15, vitC:110, vitD:0, vitB12:0, acik:15, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2 },
+
+  // ─── FAST FOOD & RESTORAN (1616-1630) ────────────────────────────
+  { id:1616, ad:"Big Tasty", marka:"McDonald's", kal:692, pro:37, karb:48, yag:40, lif:3.0, sod:1255, demir:5.0, kals:280, vitC:2, vitD:0.3, vitB12:2.5, acik:80, por:260, aclik:"3-4 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1617, ad:"McFlurry Oreo (350ml)", marka:"McDonald's", kal:430, pro:10, karb:66, yag:14, lif:1.0, sod:210, demir:0.8, kals:320, vitC:0, vitD:1.0, vitB12:1.2, acik:30, por:350, aclik:"1-2 saat", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1618, ad:"BK Whopper Jr.", marka:"Burger King", kal:380, pro:19, karb:32, yag:20, lif:1.5, sod:590, demir:3.0, kals:60, vitC:1, vitD:0.1, vitB12:1.5, acik:55, por:175, aclik:"2-3 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1619, ad:"KFC Original Chicken (1 parça)", marka:"KFC", kal:320, pro:22, karb:10, yag:22, lif:0.5, sod:750, demir:1.5, kals:30, vitC:0, vitD:0.1, vitB12:0.8, acik:60, por:130, aclik:"2-3 saat", onay:true, kat:"HazirYemek", yildiz:2 },
+  { id:1620, ad:"Domino's Margherita Dilim", marka:"Domino's", kal:188, pro:8.5, karb:25, yag:6, lif:1.5, sod:385, demir:1.5, kals:130, vitC:2, vitD:0.1, vitB12:0.5, acik:35, por:90, aclik:"1-2 saat", onay:true, kat:"HazirYemek", yildiz:2 },
+  { id:1621, ad:"Little Caesars Pepperoni Dilim", marka:"Little Caesars", kal:225, pro:9.0, karb:25, yag:10, lif:1.5, sod:490, demir:1.5, kals:110, vitC:0, vitD:0.1, vitB12:0.6, acik:35, por:95, aclik:"1-2 saat", onay:true, kat:"HazirYemek", yildiz:1.5 },
+  { id:1622, ad:"Taco Bell Crunchy Taco", marka:"Taco Bell", kal:170, pro:8.0, karb:13, yag:10, lif:2.0, sod:310, demir:1.2, kals:55, vitC:1, vitD:0.1, vitB12:0.5, acik:35, por:78, aclik:"1-2 saat", onay:true, kat:"HazirYemek", yildiz:2 },
+  { id:1623, ad:"Chipotle Burrito Bowl (500g)", marka:"Chipotle", kal:660, pro:40, karb:60, yag:22, lif:12, sod:1410, demir:5.5, kals:180, vitC:15, vitD:0, vitB12:2.0, acik:85, por:500, aclik:"4-5 saat", onay:true, kat:"HazirYemek", yildiz:3 },
+
+  // ─── ATIŞTIIRMALIK & TATLI (1624-1640) ────────────────────────────
+  { id:1624, ad:"Haribo Goldbären (100g)", marka:"Haribo", kal:343, pro:7.0, karb:77, yag:0.5, lif:0, sod:35, demir:0.5, kals:15, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1625, ad:"Mentos Fruit (38g)", marka:"Mentos", kal:145, pro:0, karb:37, yag:0, lif:0, sod:5, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:38, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1626, ad:"Halls Mentol (33g)", marka:"Halls", kal:120, pro:0, karb:31, yag:0, lif:0, sod:0, demir:0, kals:0, vitC:18, vitD:0, vitB12:0, acik:5, por:33, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1627, ad:"Chupa Chups (12g)", marka:"Chupa Chups", kal:46, pro:0, karb:12, yag:0, lif:0, sod:5, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:3, por:12, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1628, ad:"Ülker Dankek Tarçın Rulo (60g)", marka:"Ülker", kal:225, pro:3.5, karb:33, yag:9, lif:1.0, sod:160, demir:1.0, kals:30, vitC:0, vitD:0, vitB12:0, acik:15, por:60, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1 },
+  { id:1629, ad:"ETİ Ülker Çikolata Soslu Gofret (35g)", marka:"ETİ", kal:178, pro:2.5, karb:21, yag:9.5, lif:0.5, sod:40, demir:0.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:12, por:35, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1 },
+  { id:1630, ad:"Bounty (57g)", marka:"Mars", kal:270, pro:2.5, karb:32, yag:14, lif:1.5, sod:55, demir:0.4, kals:60, vitC:0, vitD:0, vitB12:0.1, acik:20, por:57, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1631, ad:"Kinder Bueno (43g)", marka:"Ferrero", kal:241, pro:4.5, karb:24, yag:14, lif:0.5, sod:55, demir:0.6, kals:50, vitC:0, vitD:0, vitB12:0.2, acik:18, por:43, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1632, ad:"Kinder Surprise (20g)", marka:"Ferrero", kal:110, pro:2.0, karb:12, yag:6, lif:0, sod:20, demir:0.3, kals:40, vitC:0, vitD:0, vitB12:0.1, acik:10, por:20, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1633, ad:"Raffaello (40g - 4 top)", marka:"Ferrero", kal:232, pro:2.5, karb:20, yag:16, lif:0.5, sod:18, demir:0.3, kals:25, vitC:0, vitD:0, vitB12:0, acik:15, por:40, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1634, ad:"Ferrero Rocher (37.5g - 3 top)", marka:"Ferrero", kal:222, pro:4.0, karb:16, yag:16, lif:1.0, sod:35, demir:0.6, kals:42, vitC:0, vitD:0, vitB12:0, acik:20, por:37.5, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:2 },
+  { id:1635, ad:"After Eight (200g kutu)", marka:"Nestlé", kal:990, pro:7.5, karb:157, yag:35, lif:3.5, sod:80, demir:4.5, kals:85, vitC:0, vitD:0, vitB12:0.2, acik:10, por:200, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1636, ad:"M&Ms Fıstıklı (45g)", marka:"Mars", kal:230, pro:5.0, karb:25, yag:12, lif:1.5, sod:80, demir:0.6, kals:50, vitC:0, vitD:0, vitB12:0.1, acik:20, por:45, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1637, ad:"Maltesers (37g)", marka:"Mars", kal:187, pro:3.5, karb:25, yag:8.5, lif:0.5, sod:50, demir:0.4, kals:80, vitC:0, vitD:0.2, vitB12:0.3, acik:15, por:37, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1638, ad:"Reese's PB Cups (42g)", marka:"Hershey's", kal:220, pro:5.0, karb:24, yag:13, lif:1.5, sod:140, demir:0.8, kals:30, vitC:0, vitD:0, vitB12:0, acik:20, por:42, aclik:"30 dk", onay:true, kat:"Tatli", yildiz:1.5 },
+  { id:1639, ad:"Nutella Biscuits (41.4g - 3 bisküvi)", marka:"Nutella", kal:207, pro:3.0, karb:26, yag:10, lif:1.0, sod:110, demir:1.2, kals:30, vitC:0, vitD:0, vitB12:0, acik:15, por:41.4, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1640, ad:"Milka Oreo Çikolata (100g)", marka:"Milka", kal:510, pro:6.5, karb:62, yag:26, lif:2.5, sod:270, demir:3.5, kals:180, vitC:0, vitD:0.4, vitB12:0.7, acik:20, por:100, aclik:"1-2 saat", onay:true, kat:"Tatli", yildiz:1.5 },
+
+  // ─── SÜPER MARKET MARKALARI (1641-1650) ──────────────────────────
+  { id:1641, ad:"Alpro Soya Sütü (200ml)", marka:"Alpro", kal:54, pro:3.3, karb:4.8, yag:1.8, lif:0.4, sod:52, demir:0.2, kals:120, vitC:0, vitD:1.5, vitB12:1.0, acik:30, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3.5 },
+  { id:1642, ad:"Oatly Oat Milk (200ml)", marka:"Oatly", kal:90, pro:3.0, karb:14, yag:1.5, lif:1.0, sod:95, demir:0.2, kals:120, vitC:0, vitD:1.5, vitB12:1.0, acik:30, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3.5 },
+  { id:1643, ad:"Tropicana Smooth Orange (330ml)", marka:"Tropicana", kal:156, pro:2.5, karb:37, yag:0, lif:0.3, sod:4, demir:0.3, kals:18, vitC:98, vitD:0, vitB12:0, acik:22, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1644, ad:"Sütaş Meyve Aromalı Süt Çilek (200ml)", marka:"Sütaş", kal:132, pro:5.5, karb:19, yag:3.5, lif:0, sod:80, demir:0, kals:185, vitC:0, vitD:0.5, vitB12:0.8, acik:45, por:200, aclik:"1-2 saat", onay:true, kat:"SutUrunleri", yildiz:3 },
+  { id:1645, ad:"Nesquik Çikolatalı Süt (200ml)", marka:"Nestlé", kal:148, pro:6.0, karb:22, yag:4.0, lif:0.5, sod:90, demir:1.0, kals:200, vitC:0, vitD:1.0, vitB12:0.8, acik:45, por:200, aclik:"1-2 saat", onay:true, kat:"SutUrunleri", yildiz:3 },
+  { id:1646, ad:"Pınar Laktozsuz Süt (200ml)", marka:"Pınar", kal:68, pro:3.5, karb:5.0, yag:3.5, lif:0, sod:48, demir:0, kals:120, vitC:0, vitD:0.5, vitB12:0.4, acik:40, por:200, aclik:"1-2 saat", onay:true, kat:"SutUrunleri", yildiz:3.5 },
+  { id:1647, ad:"Activia Şeftali Yoğurt (125g)", marka:"Activia", kal:106, pro:3.8, karb:17, yag:2.5, lif:0, sod:50, demir:0, kals:110, vitC:0, vitD:0, vitB12:0.4, acik:38, por:125, aclik:"1-2 saat", onay:true, kat:"SutUrunleri", yildiz:3 },
+  { id:1648, ad:"Chobani Greek Yogurt Plain (200g)", marka:"Chobani", kal:100, pro:17, karb:6, yag:0, lif:0, sod:65, demir:0, kals:150, vitC:0, vitD:0, vitB12:0.5, acik:60, por:200, aclik:"2-3 saat", onay:true, kat:"SutUrunleri", yildiz:5 },
+  { id:1649, ad:"Philadelphia Krem Peynir (30g)", marka:"Philadelphia", kal:88, pro:2.0, karb:1.5, yag:8.5, lif:0, sod:145, demir:0, kals:48, vitC:0, vitD:0.2, vitB12:0.2, acik:20, por:30, aclik:"30 dk", onay:true, kat:"SutUrunleri", yildiz:2.5 },
+  { id:1650, ad:"Danone Activia İçme Yoğurdu Limon (200ml)", marka:"Danone", kal:95, pro:4.0, karb:13, yag:2.5, lif:0, sod:75, demir:0, kals:135, vitC:2, vitD:0, vitB12:0.5, acik:38, por:200, aclik:"1-2 saat", onay:true, kat:"SutUrunleri", yildiz:3.5 },
 ];
 
 // ─── DEMO VERİLER ───────────────────────────────────────────────
@@ -1703,6 +1935,7 @@ export default function App(){
   const profFotoRef = useRef(null);
   const besinFotoRef = useRef(null);
   const postFotoRef = useRef(null);
+  const perfPanelRef = useRef(null);
 
   // ── KARŞILAMA EKRANI ──
   const [welcomeGoster,setWelcomeGoster]=useState(()=>localStorage.getItem("doya_welcome_done")!=="1");
@@ -4264,7 +4497,7 @@ export default function App(){
             const fark=bugun.getDay()===0?6:bugun.getDay()-1;
 
             return(
-              <div style={{paddingBottom:20}}>
+              <div ref={perfPanelRef} style={{paddingBottom:20}}>
                 {/* Dönem seçici */}
                 <div style={{display:"flex",background:d?"#1e293b":"#f1f5f9",borderRadius:12,padding:4,margin:"0 16px 12px",gap:4}}>
                   {[{v:"hafta",l:"📅 Hafta"},{v:"ay",l:"📆 Ay"},{v:"yil",l:"🗓 Yıl"}].map(s=>(
@@ -4995,7 +5228,7 @@ export default function App(){
                 <button onClick={()=>setDonemOzetGoster(false)} style={{...BTN("#16a34a"),width:"100%",padding:"12px 0",fontSize:14,fontWeight:800,marginBottom:8}}>
                   Harika! Devam Et →
                 </button>
-                <button onClick={()=>{setDonemOzetGoster(false);setTab("profil");setProfilSekme("performans");}} style={{width:"100%",padding:"10px 0",background:"none",border:`1px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,color:r.sub}}>
+                <button onClick={()=>{setDonemOzetGoster(false);setTab("profil");setProfilSekme("performans");requestAnimationFrame(()=>window.scrollTo(0,0));}} style={{width:"100%",padding:"10px 0",background:"none",border:`1px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,color:r.sub}}>
                   📊 Detaylı Performans Gör
                 </button>
               </div>
@@ -5021,16 +5254,17 @@ export default function App(){
             const gKal=ys.reduce((s,y)=>s+(+y.kal||0),0);
             const sporK=(v.spor||[]).reduce((s,sp)=>s+(+sp.kcal||0),0);
             const adim=+v.adim||0;
-            const yakim=Math.round((tdee||2000)+sporK+adim*0.04);
+            const hasFood=ys.length>0;
+            const yakim=hasFood?Math.round((tdee||2000)+sporK+adim*0.04):0;
             const yildizliYs=ys.filter(y=>y.yildiz>0);
             const gYildiz=yildizliYs.length>0?Math.round(yildizliYs.reduce((s,y)=>s+(+y.yildiz||0),0)/yildizliYs.length*10)/10:null;
-            return {k,d:dd,gKal,yakim,fark:gKal-yakim,urun:ys.length,adim,su:+v.su||0,gYildiz,sporK};
+            return {k,d:dd,gKal,yakim,fark:hasFood?gKal-yakim:null,urun:ys.length,adim,su:+v.su||0,gYildiz,sporK};
           };
 
           const haftaV=haftaGunler.map(gunHesapla);
           const aktifGunler=haftaV.filter(g=>g.urun>0);
-          const topKal=Math.round(haftaV.reduce((s,g)=>s+g.gKal,0));
-          const topYakim=Math.round(haftaV.reduce((s,g)=>s+g.yakim,0));
+          const topKal=Math.round(aktifGunler.reduce((s,g)=>s+g.gKal,0));
+          const topYakim=Math.round(aktifGunler.reduce((s,g)=>s+g.yakim,0));
           const topAdim=Math.round(haftaV.reduce((s,g)=>s+g.adim,0));
           const topSu=Math.round(haftaV.reduce((s,g)=>s+g.su,0));
           const haftaFark=topKal-topYakim;
@@ -5086,7 +5320,7 @@ export default function App(){
                   <div style={{display:"flex",gap:8,marginTop:12}}>
                     {[
                       {l:"Aktif Gün",v:aktifGunler.length+" / 7",c:"#fff"},
-                      {l:"Kalori Farkı",v:(haftaFark>0?"+":"")+Math.round(haftaFark/100)/10+"K",c:fR(haftaFark)},
+                      {l:"Kalori Farkı",v:aktifGunler.length>0?(haftaFark>0?"+":"")+Math.round(haftaFark/100)/10+"K":"—",c:aktifGunler.length>0?fR(haftaFark):"rgba(255,255,255,.6)"},
                       {l:"Toplam Adım",v:(topAdim/1000).toFixed(1)+"K",c:"#fff"},
                     ].map(s=>(
                       <div key={s.l} style={{flex:1,background:"rgba(255,255,255,.15)",borderRadius:12,padding:"8px 6px",textAlign:"center"}}>
@@ -5133,8 +5367,8 @@ export default function App(){
                           <div style={{fontSize:9,color:isSec?"rgba(255,255,255,.65)":r.muted,marginBottom:5}}>{gv.d.getDate()}</div>
                           <div style={{fontSize:17,fontWeight:900,color:isSec?"#fff":has?"#16a34a":"#cbd5e1",lineHeight:1}}>{has?gv.urun:"·"}</div>
                           <div style={{fontSize:8,color:isSec?"rgba(255,255,255,.7)":r.muted,marginBottom:4}}>{has?"ürün":""}</div>
-                          {has&&(
-                            <div style={{fontSize:8,fontWeight:800,color:isSec?"#fff":renk,background:isSec?"rgba(255,255,255,.2)":renk+"15",borderRadius:5,padding:"2px 0",marginBottom:3}}>
+                          {has&&gv.fark!==null&&(
+                            <div style={{fontSize:8,fontWeight:800,color:isSec?"#fff":fR(gv.fark),background:isSec?"rgba(255,255,255,.2)":fR(gv.fark)+"15",borderRadius:5,padding:"2px 0",marginBottom:3}}>
                               {gv.fark>0?"+":""}{Math.round(Math.abs(gv.fark)/100)/10}k
                             </div>
                           )}
@@ -5200,7 +5434,15 @@ export default function App(){
 
                 {/* Tam detay butonu */}
                 <div style={{padding:"14px 16px 0"}}>
-                  <button onClick={()=>{setHpModal(false);setTab("profil");setProfilSekme("performans");}} style={{...BTN("#16a34a"),width:"100%",padding:"13px 0",fontSize:13,fontWeight:800}}>
+                  <button onClick={()=>{
+                    setHpModal(false);
+                    setTab("profil");
+                    setProfilSekme("performans");
+                    requestAnimationFrame(()=>{
+                      if(perfPanelRef.current) perfPanelRef.current.scrollIntoView({behavior:"smooth",block:"start"});
+                      else window.scrollTo(0,0);
+                    });
+                  }} style={{...BTN("#16a34a"),width:"100%",padding:"13px 0",fontSize:13,fontWeight:800}}>
                     📊 Tüm Performans Geçmişi →
                   </button>
                 </div>
