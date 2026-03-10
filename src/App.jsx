@@ -2912,7 +2912,9 @@ export default function App(){
                 const adim  =+v.adim||0;
                 const su    =+v.su  ||0;
                 const yakim =Math.round((tdee||2000)+sporKcal+adim*0.04);
-                return {k,d,gKal,gPro,gKarb,gYag,gLif,gVitC,gVitD,gB12,gDemir,gKals,sporKcal,adim,su,yakim,urun:ys.length,fark:gKal-yakim};
+                const yildizliYs=ys.filter(y=>y.yildiz>0);
+                const gYildiz=yildizliYs.length>0?Math.round(yildizliYs.reduce((s,y)=>s+(+y.yildiz||0),0)/yildizliYs.length*10)/10:null;
+                return {k,d,gKal,gPro,gKarb,gYag,gLif,gVitC,gVitD,gB12,gDemir,gKals,sporKcal,adim,su,yakim,urun:ys.length,fark:gKal-yakim,gYildiz};
               };
 
               const haftaV   = haftaGunler.map(gunHesapla);
@@ -2921,7 +2923,10 @@ export default function App(){
               const secVHafta= haftaV.find(g=>g.k===secK)||haftaV[pazFark]||haftaV[0];
 
               // Dönem toplamaları
-              const topla=(arr)=>({
+              const topla=(arr)=>{
+                const yildizliG=arr.filter(g=>g.gYildiz!==null&&g.gYildiz!==undefined);
+                const ortaYildiz=yildizliG.length>0?Math.round(yildizliG.reduce((s,g)=>s+g.gYildiz,0)/yildizliG.length*10)/10:null;
+                return {
                 kal  :Math.round(arr.reduce((s,g)=>s+g.gKal ,0)),
                 pro  :Math.round(arr.reduce((s,g)=>s+g.gPro ,0)),
                 karb :Math.round(arr.reduce((s,g)=>s+g.gKarb,0)),
@@ -2937,7 +2942,9 @@ export default function App(){
                 yakim:Math.round(arr.reduce((s,g)=>s+g.yakim,0)),
                 urun :arr.reduce((s,g)=>s+g.urun,0),
                 aktif:arr.filter(g=>g.urun>0).length,
-              });
+                yildiz:ortaYildiz,
+                };
+              };
 
               const hTop = topla(haftaV);
               const aTop = topla(ayV);
@@ -2946,7 +2953,8 @@ export default function App(){
               const yilAyOzetler = yilAylar.map(mi=>{
                 const gs=new Date(yil,mi+1,0).getDate();
                 const mV=Array.from({length:gs},(_,di)=>gunHesapla(new Date(yil,mi,di+1)));
-                return {...topla(mV), mi};
+                const t=topla(mV);
+                return {...t, mi};
               });
               const yTop=topla(yilAyOzetler.map(a=>({...a,gKal:a.kal,gPro:a.pro,gKarb:a.karb,gYag:a.yag,gLif:a.lif,gVitC:a.vitC,gVitD:a.vitD,gB12:a.b12,gDemir:a.demir,gKals:a.kals})));
 
@@ -2954,6 +2962,21 @@ export default function App(){
               const fRenk=(f)=>f>300?"#ef4444":f>0?"#f59e0b":f>-300?"#22c55e":"#2563eb";
               const fEtiket=(f)=>f>0?"+"+(+f).toLocaleString()+" kcal fazla":f<0?(-f).toLocaleString()+" kcal eksik":"Dengeli";
               const pct=(v,h)=>Math.min(100,Math.round((v/Math.max(h,1))*100));
+
+              // Yıldız gösterici (mini)
+              const YildizMini=({v,buyuk})=>{
+                if(v===null||v===undefined) return <span style={{fontSize:buyuk?11:9,color:r.muted}}>—</span>;
+                const dolu=Math.floor(v); const yarim=v-dolu>=0.5;
+                return(
+                  <span style={{display:"inline-flex",alignItems:"center",gap:1}}>
+                    {Array.from({length:5},(_,i)=>(
+                      <span key={i} style={{fontSize:buyuk?13:10,color:i<dolu?"#f59e0b":i===dolu&&yarim?"#f59e0b":"#d1d5db",opacity:i===dolu&&yarim?0.6:1}}>★</span>
+                    ))}
+                    <span style={{fontSize:buyuk?11:9,fontWeight:800,color:"#f59e0b",marginLeft:2}}>{v.toFixed(1)}</span>
+                  </span>
+                );
+              };
+              const yRenk=(v)=>v>=4?"#22c55e":v>=3?"#f59e0b":v>=2?"#f97316":"#ef4444";
 
               // Nutrient karşılaştırma satırı
               const NRow=({ikon,l,v,hedef,renk,birim=""})=>{
@@ -3056,9 +3079,12 @@ export default function App(){
                                 <div style={{fontSize:8,color:isSec?"rgba(255,255,255,.75)":r.muted,marginBottom:5}}>{hasData?"ürün":""}</div>
                                 {/* Kalori fark */}
                                 {hasData&&(
-                                  <div style={{fontSize:9,fontWeight:800,color:isSec?"#fff":renk,background:isSec?"rgba(255,255,255,.2)":renk+"18",borderRadius:6,padding:"2px 0"}}>
+                                  <div style={{fontSize:9,fontWeight:800,color:isSec?"#fff":renk,background:isSec?"rgba(255,255,255,.2)":renk+"18",borderRadius:6,padding:"2px 0",marginBottom:3}}>
                                     {gv.fark>0?"+":""}{Math.round(Math.abs(gv.fark)/100)/10}k
                                   </div>
+                                )}
+                                {hasData&&gv.gYildiz&&(
+                                  <div style={{fontSize:9,color:isSec?"rgba(255,255,255,.9)":"#f59e0b",fontWeight:800}}>{gv.gYildiz.toFixed(1)}★</div>
                                 )}
                               </div>
                             );
@@ -3076,7 +3102,13 @@ export default function App(){
                                 <div style={{fontSize:14,fontWeight:900,color:r.text}}>
                                   {GUN_TAM[haftaV.findIndex(g=>g.k===secK)]} Performansı
                                 </div>
-                                <div style={{fontSize:10,color:r.muted}}>{secVHafta.urun} ürün · {secVHafta.k===bugunK?"Bugün":secVHafta.d?.getDate()+". "+AYLAR[secVHafta.d?.getMonth()]}</div>
+                                <div style={{fontSize:10,color:r.muted,marginTop:2}}>{secVHafta.urun} ürün · {secVHafta.k===bugunK?"Bugün":secVHafta.d?.getDate()+". "+AYLAR[secVHafta.d?.getMonth()]}</div>
+                                {secVHafta.gYildiz&&(
+                                  <div style={{marginTop:5,display:"flex",alignItems:"center",gap:4}}>
+                                    <span style={{fontSize:9,color:r.sub,fontWeight:700}}>Günlük ort.:</span>
+                                    <YildizMini v={secVHafta.gYildiz} buyuk={true}/>
+                                  </div>
+                                )}
                               </div>
                               <div style={{background:fRenk(secVHafta.fark)+"18",borderRadius:12,padding:"8px 12px",textAlign:"center",border:`1.5px solid ${fRenk(secVHafta.fark)}44`}}>
                                 <div style={{fontSize:18,fontWeight:900,color:fRenk(secVHafta.fark)}}>{secVHafta.fark>0?"+":""}{(Math.round(secVHafta.fark/100)/10).toFixed(1)}k</div>
@@ -3111,6 +3143,21 @@ export default function App(){
                         <div style={{background:d?"#0f172a":"#f0fdf4",borderRadius:14,padding:14,border:`1.5px solid ${d?"#16a34a33":"#bbf7d0"}`}}>
                           <div style={{fontSize:12,fontWeight:900,color:"#16a34a",marginBottom:10}}>📊 Haftalık Toplam</div>
                           <KalBar aldi={hTop.kal} yakti={hTop.yakim} label="🗓 7 Günlük Kalori Dengesi"/>
+                          {/* Haftalık yıldız ortalaması */}
+                          {hTop.yildiz&&(
+                            <div style={{background:d?"#1c1a10":"#fffbeb",borderRadius:12,padding:"10px 14px",marginBottom:10,border:"1.5px solid #fde68a",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                              <div>
+                                <div style={{fontSize:11,fontWeight:900,color:"#92400e"}}>⭐ Haftalık Ortalama Sağlık Yıldızı</div>
+                                <div style={{fontSize:9,color:"#b45309",marginTop:2}}>{hTop.aktif} aktif günün ortalaması</div>
+                              </div>
+                              <div style={{textAlign:"right"}}>
+                                <YildizMini v={hTop.yildiz} buyuk={true}/>
+                                <div style={{fontSize:9,color:yRenk(hTop.yildiz),fontWeight:700,marginTop:2}}>
+                                  {hTop.yildiz>=4?"Harika 🌟":hTop.yildiz>=3?"İyi 👍":hTop.yildiz>=2?"Gelişebilir ⚠️":"Dikkat ❗"}
+                                </div>
+                              </div>
+                            </div>
+                          )}
                           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6,marginTop:8}}>
                             {[
                               {l:"Aktif Gün",v:hTop.aktif+" gün",c:"#16a34a"},
@@ -3189,6 +3236,21 @@ export default function App(){
                         {ikon:"🦴",l:"Kalsiyum",   v:aTop.kals,      hedef:30000,renk:"#0ea5e9", birim:"mg"},
                       ].map(m=><NRow key={m.l} {...m}/>)}
 
+                      {/* Aylık yıldız */}
+                      {aTop.yildiz&&(
+                        <div style={{background:d?"#1c1a10":"#fffbeb",borderRadius:12,padding:"10px 14px",marginTop:10,border:"1.5px solid #fde68a",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                          <div>
+                            <div style={{fontSize:11,fontWeight:900,color:"#92400e"}}>⭐ Aylık Ortalama Sağlık Yıldızı</div>
+                            <div style={{fontSize:9,color:"#b45309",marginTop:2}}>{aTop.aktif} aktif günün ortalaması</div>
+                          </div>
+                          <div style={{textAlign:"right"}}>
+                            <YildizMini v={aTop.yildiz} buyuk={true}/>
+                            <div style={{fontSize:9,color:yRenk(aTop.yildiz),fontWeight:700,marginTop:2}}>
+                              {aTop.yildiz>=4?"Harika 🌟":aTop.yildiz>=3?"İyi 👍":aTop.yildiz>=2?"Gelişebilir ⚠️":"Dikkat ❗"}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                       {/* Özet kartlar */}
                       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6,marginTop:12}}>
                         {[
@@ -3241,7 +3303,7 @@ export default function App(){
                                 {hasData?(f2>0?"+":"")+Math.round(f2/100)/10+"k":"—"}
                               </div>
                             </div>
-                            {hasData&&<div style={{fontSize:8,color:r.muted,paddingLeft:38,marginTop:1}}>{ay2.aktif} aktif gün · {ay2.urun} ürün</div>}
+                            {hasData&&<div style={{fontSize:8,color:r.muted,paddingLeft:38,marginTop:1,display:"flex",gap:8,alignItems:"center"}}><span>{ay2.aktif} aktif gün · {ay2.urun} ürün</span>{ay2.yildiz&&<YildizMini v={ay2.yildiz}/>}</div>}
                           </div>
                         );
                       })}
@@ -3268,6 +3330,26 @@ export default function App(){
                           ))}
                         </div>
                       </div>
+
+                      {/* Yıllık yıldız */}
+                      {(()=>{
+                        const yilYildizliAylar=yilAyOzetler.filter(a=>a.yildiz);
+                        const yilOrta=yilYildizliAylar.length>0?Math.round(yilYildizliAylar.reduce((s,a)=>s+a.yildiz,0)/yilYildizliAylar.length*10)/10:null;
+                        return yilOrta?(
+                          <div style={{background:d?"#1c1a10":"#fffbeb",borderRadius:12,padding:"10px 14px",marginTop:10,border:"1.5px solid #fde68a",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                            <div>
+                              <div style={{fontSize:11,fontWeight:900,color:"#92400e"}}>⭐ Yıllık Ortalama Sağlık Yıldızı</div>
+                              <div style={{fontSize:9,color:"#b45309",marginTop:2}}>{yilAyOzetler.filter(a=>a.aktif>0).length} aktif ayın ortalaması</div>
+                            </div>
+                            <div style={{textAlign:"right"}}>
+                              <YildizMini v={yilOrta} buyuk={true}/>
+                              <div style={{fontSize:9,color:yRenk(yilOrta),fontWeight:700,marginTop:2}}>
+                                {yilOrta>=4?"Harika 🌟":yilOrta>=3?"İyi 👍":yilOrta>=2?"Gelişebilir ⚠️":"Dikkat ❗"}
+                              </div>
+                            </div>
+                          </div>
+                        ):null;
+                      })()}
 
                       {/* Yıllık legend */}
                       <div style={{display:"flex",gap:16,marginTop:10,justifyContent:"center"}}>
