@@ -537,6 +537,11 @@ export default function App(){
   const [doyuruBilgi,setDoyuruBilgi]=useState(null);
   const [derinAnaliz,setDerinAnaliz]=useState(null); // besin id
 
+  // ── REFERANS KODU GİRİŞ ──
+  const [girRefKod,setGirRefKod]=useState("");
+  const [girRefMesaj,setGirRefMesaj]=useState(null); // {tip:"basari"|"hata", mesaj}
+  const [girRefKilitli,setGirRefKilitli]=useState(false);
+
   // ── PAYLASIM MODAL ──
   const [psModal,setPsModal]=useState(false);
 
@@ -727,6 +732,7 @@ export default function App(){
             setSosyalAktif(tam.sosyal??true);
             setProfFoto(tam.foto||null);
             if(tam.kilo||tam.boy) setProfil({kilo:tam.kilo||"",boy:tam.boy||"",yas:tam.yas||"",cinsiyet:tam.cinsiyet||"erkek",aktivite:tam.aktivite||"orta",hedef:tam.hedef||""});
+            if(tam.refKodKullandi) setGirRefKilitli(true);
             // Günlük verileri yükle
             const gunler = await tumGunleriGetir(user.uid);
             if(Object.keys(gunler).length>0) setGunluk(gunler);
@@ -952,6 +958,37 @@ export default function App(){
     const h=kullanicilar.find(u=>u.uid===uid);
     if(h?.firebaseUID) await kullaniciyiGuncelle(h.firebaseUID,{refTip:null,refOnay:false}).catch(console.error);
     setKullanicilar(p=>p.map(u=>u.uid===uid?{...u,refTip:null,refOnay:false}:u));
+  };
+
+  // ─── REFERANS KODU UYGULA ─────────────────────────────────────
+  const refKodUygula=async()=>{
+    const kod=girRefKod.trim().toUpperCase();
+    if(!kod){setGirRefMesaj({tip:"hata",mesaj:"Lütfen bir referans kodu gir."});return;}
+    if(girRefKilitli){return;}
+    // Kendi kodunu giremez
+    if(kod===aktif.refKod){setGirRefMesaj({tip:"hata",mesaj:"Kendi referans kodunu kullanamazsın."});return;}
+    // Kodu bul
+    const sahip=kullanicilar.find(u=>u.refKod===kod&&u.uid!==aktif.uid);
+    if(!sahip){setGirRefMesaj({tip:"hata",mesaj:"Geçersiz referans kodu. Tekrar kontrol et."});return;}
+    // Puanları ver — kodu giren kişiye +150, kodu sahibine +150
+    const yeniPuanGiren=(puan||0)+150;
+    const yeniPuanSahip=(sahip.puan||0)+150;
+    setPuan(yeniPuanGiren);
+    setAktif(p=>({...p,puan:yeniPuanGiren,refKodKullandi:kod}));
+    setKullanicilar(p=>p.map(u=>{
+      if(u.uid===aktif.uid) return{...u,puan:yeniPuanGiren,refKodKullandi:kod};
+      if(u.uid===sahip.uid) return{...u,puan:yeniPuanSahip,davet:(u.davet||0)+1};
+      return u;
+    }));
+    // Firebase'e kaydet
+    if(firebaseUID){
+      await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuanGiren,refKodKullandi:kod}).catch(console.error);
+    }
+    if(sahip.firebaseUID){
+      await kullaniciyiGuncelle(sahip.firebaseUID,{puan:yeniPuanSahip,davet:(sahip.davet||0)+1}).catch(console.error);
+    }
+    setGirRefKilitli(true);
+    setGirRefMesaj({tip:"basari",mesaj:`✅ Kod geçerli! Sana +150, ${sahip.isim}'e +150 puan eklendi.`});
   };
 
   // ─── TAKVIM ──────────────────────────────────────────────────
@@ -1400,7 +1437,6 @@ export default function App(){
             <div style={{display:"flex",gap:5,alignItems:"center"}}>
               <div style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 9px",fontSize:11,fontWeight:700}}>{puan} puan</div>
               <button onClick={()=>setDark(!d)} style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"5px 8px",fontSize:14,cursor:"pointer"}}>{d?"☀️":"🌙"}</button>
-              <button onClick={cikis} style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"5px 9px",fontSize:11,fontWeight:700,cursor:"pointer",color:"#fff",fontFamily:"'Nunito',sans-serif"}}>Çıkış</button>
             </div>
           </div>
         </div>
@@ -2355,6 +2391,45 @@ export default function App(){
                   <div style={{fontSize:10,color:r.sub}}>Kazanılan Puan</div>
                 </div>
               </div>
+            </div>
+
+            {/* REFERANS KODU GİR */}
+            <div style={{...CS,border:girRefKilitli?"1.5px solid #16a34a":"1.5px solid "+r.brd,background:girRefKilitli?(d?"#0f2a1a":"#f0fdf4"):r.card}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+                <div style={{fontSize:14,fontWeight:900,color:r.text}}>🎁 Referans Kodu Gir</div>
+                {girRefKilitli&&<span style={{background:"#16a34a",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:20}}>✓ Kullanıldı</span>}
+              </div>
+              {girRefKilitli?(
+                <div style={{fontSize:12,color:r.sub,lineHeight:1.6}}>
+                  <div style={{fontWeight:700,color:"#16a34a",marginBottom:2}}>Referans kodu başarıyla uygulandı!</div>
+                  <div>Kullandığın kod: <b style={{color:r.text}}>{aktif.refKodKullandi}</b></div>
+                  <div style={{marginTop:4,fontSize:11,color:r.muted}}>Her satın alımda referans sahibine otomatik +150 puan eklenir.</div>
+                </div>
+              ):(
+                <>
+                  <div style={{fontSize:11,color:r.sub,marginBottom:10,lineHeight:1.6}}>
+                    Arkadaşının referans kodunu gir — sana <b style={{color:"#f59e0b"}}>+150 puan</b>, arkadaşına da <b style={{color:"#f59e0b"}}>+150 puan</b>!
+                  </div>
+                  <div style={{display:"flex",gap:8,marginBottom:8}}>
+                    <input
+                      style={{...IS,flex:1,fontWeight:800,fontSize:15,letterSpacing:2,textTransform:"uppercase"}}
+                      placeholder="DOYA123"
+                      value={girRefKod}
+                      onChange={e=>setGirRefKod(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,""))}
+                      maxLength={12}
+                    />
+                    <button
+                      style={{...BTN(girRefKod.length>=3?"#16a34a":"#d1d5db"),padding:"0 18px",fontWeight:800}}
+                      onClick={refKodUygula}
+                    >Uygula</button>
+                  </div>
+                  {girRefMesaj&&(
+                    <div style={{background:girRefMesaj.tip==="basari"?(d?"#0f2a1a":"#f0fdf4"):(d?"#2a0f0f":"#fef2f2"),border:`1px solid ${girRefMesaj.tip==="basari"?"#86efac":"#fca5a5"}`,borderRadius:10,padding:"8px 12px",fontSize:12,fontWeight:700,color:girRefMesaj.tip==="basari"?"#16a34a":"#ef4444"}}>
+                      {girRefMesaj.mesaj}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
             {!isOrtak&&(
