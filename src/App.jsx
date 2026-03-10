@@ -524,6 +524,8 @@ export default function App(){
   // ── ADMIN ──
   const [adminUid,setAdminUid]=useState(""); const [adminTip,setAdminTip]=useState("influencer");
   const [adminMsg,setAdminMsg]=useState(""); const [banMsg,setBanMsg]=useState("");
+  const [adminOzelRefKod,setAdminOzelRefKod]=useState("");
+  const [adminIsletmeIsmi,setAdminIsletmeIsmi]=useState("");
   const [sikayetler,setSikayetler]=useState([]);
 
   // ── SERİLER ──
@@ -533,6 +535,7 @@ export default function App(){
   const [seriMsg,setSeriMsg]=useState(null);
   const [dogrulamaGonderildi,setDogrulamaGonderildi]=useState(false);
   const [doyuruBilgi,setDoyuruBilgi]=useState(null);
+  const [derinAnaliz,setDerinAnaliz]=useState(null); // besin id
 
   // ── PAYLASIM MODAL ──
   const [psModal,setPsModal]=useState(false);
@@ -932,13 +935,18 @@ export default function App(){
     if(hedef?.firebaseUID) await kullaniciyiGuncelle(hedef.firebaseUID,{sosyalKisitli:false,sosyal:true}).catch(console.error);
     setKullanicilar(p=>p.map(u=>u.uid===hedefUID?{...u,sosyalKisitli:false,sosyal:true}:u));
   };
-  const adminOrtak=async(uid,tip)=>{
+  const adminOrtak=async(uid,tip,ozelRefKod,isletmeIsmi)=>{
     const h=kullanicilar.find(u=>u.uid===uid);
     if(!h){setAdminMsg("UID bulunamadı!");return;}
     if(h.admin){setAdminMsg("Admin hesabına atanamaz!");return;}
-    if(h.firebaseUID) await kullaniciyiGuncelle(h.firebaseUID,{refTip:tip,refOnay:true}).catch(console.error);
-    setKullanicilar(p=>p.map(u=>u.uid===uid?{...u,refTip:tip,refOnay:true}:u));
-    setAdminMsg(`${h.isim} → ${tip} yapıldı!`); setTimeout(()=>setAdminMsg(""),2500); setAdminUid("");
+    const guncellemeler={refTip:tip,refOnay:true};
+    if(ozelRefKod&&ozelRefKod.trim()) guncellemeler.refKod=ozelRefKod.trim().toUpperCase();
+    if(isletmeIsmi&&isletmeIsmi.trim()) guncellemeler.isletmeIsmi=isletmeIsmi.trim();
+    if(h.firebaseUID) await kullaniciyiGuncelle(h.firebaseUID,guncellemeler).catch(console.error);
+    setKullanicilar(p=>p.map(u=>u.uid===uid?{...u,...guncellemeler}:u));
+    setAdminMsg(`${h.isim} → ${tip} yapıldı!${ozelRefKod?" Kod: "+ozelRefKod.toUpperCase():""}${isletmeIsmi?" · "+isletmeIsmi:""}`);
+    setTimeout(()=>setAdminMsg(""),3000);
+    setAdminUid(""); setAdminOzelRefKod(""); setAdminIsletmeIsmi("");
   };
   const adminOrtakKaldir=async(uid)=>{
     const h=kullanicilar.find(u=>u.uid===uid);
@@ -1727,17 +1735,26 @@ export default function App(){
               <>
                 <input style={{...IS,marginBottom:10}} placeholder="Besin veya marka ara..." value={besinArama} onChange={e=>setBesinArama(e.target.value)} autoFocus/>
                 {filtreBesinler.map(b=>(
-                  <div key={b.id} style={{...CS,margin:"7px 0",cursor:"pointer",padding:12}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <div key={b.id} style={{...CS,margin:"7px 0",padding:12}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
                       <div>
                         <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
                         <div style={{marginBottom:1}}><YildizGoster v={b.yildiz??3} boyut={12}/></div>
                         <div style={{fontSize:10,color:r.muted}}>{b.por}g · P:{b.pro}g K:{b.karb}g Y:{b.yag}g · {b.kat}</div>
                         <div style={{fontSize:9,color:r.muted,fontStyle:"italic",marginTop:1}}>*Tahmini değerlerdir</div>
                       </div>
-                      <div style={{textAlign:"right"}}>
-                        <div style={{fontWeight:900,color:"#16a34a",fontSize:16}}>{b.kal}</div>
-                        <div style={{fontSize:9,color:r.muted}}>kcal/{b.por}g</div>
+                      <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
+                        <div style={{textAlign:"right"}}>
+                          <div style={{fontWeight:900,color:"#16a34a",fontSize:16}}>{b.kal}</div>
+                          <div style={{fontSize:9,color:r.muted}}>kcal/{b.por}g</div>
+                        </div>
+                        {/* 🔬 Derin analiz tik */}
+                        <button
+                          onClick={e=>{e.stopPropagation();setDerinAnaliz(p=>p===b.id?null:b.id);}}
+                          title="Derin Analiz"
+                          style={{background:derinAnaliz===b.id?"#7c3aed":"transparent",border:`1.5px solid ${derinAnaliz===b.id?"#7c3aed":r.inpB}`,borderRadius:8,padding:"3px 7px",cursor:"pointer",fontSize:10,fontWeight:800,color:derinAnaliz===b.id?"#fff":r.sub,fontFamily:"'Nunito',sans-serif",display:"flex",alignItems:"center",gap:3}}>
+                          🔬 {derinAnaliz===b.id?"▲":"▼"}
+                        </button>
                       </div>
                     </div>
                     <div style={{...PB,height:5,marginTop:6}}><div style={{...PF(b.acik,acikRenk(b.acik)),height:5}}/></div>
@@ -1759,6 +1776,58 @@ export default function App(){
                         {b.kat==="Atıştırmalık"&&<div>🍪 İşlenmiş atıştırmalıklar <b>yüksek kalori, düşük lif</b> dengesiyle tasarlanmıştır. Hızlı sindirilir, kan şekerini ani yükseltir — birkaç dakika sonra daha çok yemek istenir.</div>}
                         {!["Meyve","Sebze","İçecek","Atıştırmalık"].includes(b.kat)&&<div>Bu besin <b>düşük protein ve lif</b> içerdiğinden mide boşalması hızlı olur. Yanına protein (yumurta, yoğurt) veya lif (sebze) eklemek doyum süresini uzatır.</div>}
                         <div style={{fontSize:10,color:d?"#a16207":"#92400e",marginTop:6,fontStyle:"italic"}}>💡 İpucu: Az doyurucu besinleri protein veya sağlıklı yağlarla tüket.</div>
+                      </div>
+                    )}
+                    {/* 🔬 DERİN ANALİZ PANELİ */}
+                    {derinAnaliz===b.id&&(
+                      <div style={{background:d?"#1e1b2e":"#f5f3ff",border:"1.5px solid #7c3aed",borderRadius:12,padding:12,marginTop:8}}>
+                        <div style={{fontSize:12,fontWeight:900,color:"#7c3aed",marginBottom:10}}>🔬 Derin Analiz — 100g başına</div>
+                        {/* Ana makro çubukları */}
+                        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginBottom:10}}>
+                          {[
+                            {l:"Protein",  v:b.pro,  birim:"g",  renk:"#3b82f6"},
+                            {l:"Karbonhidrat",v:b.karb,birim:"g",renk:"#f59e0b"},
+                            {l:"Yağ",      v:b.yag,  birim:"g",  renk:"#f97316"},
+                            {l:"Lif",      v:b.lif,  birim:"g",  renk:"#16a34a"},
+                            {l:"Sodyum",   v:b.sod,  birim:"mg", renk:"#ef4444"},
+                          ].map(m=>(
+                            <div key={m.l} style={{background:d?"#0f172a":"#fff",borderRadius:8,padding:"7px 10px"}}>
+                              <div style={{display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:3}}>
+                                <span style={{color:r.sub,fontWeight:700}}>{m.l}</span>
+                                <span style={{fontWeight:900,color:m.renk}}>{m.v}{m.birim}</span>
+                              </div>
+                              <div style={{...PB,height:4,marginTop:0}}>
+                                <div style={{...PF(Math.min(100,(m.v/(m.birim==="mg"?500:30))*100),m.renk),height:4}}/>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        {/* Vitamin & Mineral */}
+                        <div style={{fontSize:11,fontWeight:800,color:"#7c3aed",marginBottom:6}}>Vitamin & Mineral</div>
+                        {[
+                          {l:"🩸 Demir",    v:b.demir, birim:"mg",  ihtiyac:8,   renk:"#ef4444"},
+                          {l:"🦴 Kalsiyum", v:b.kals,  birim:"mg",  ihtiyac:1000,renk:"#f97316"},
+                          {l:"🍊 Vit C",    v:b.vitC,  birim:"mg",  ihtiyac:90,  renk:"#f59e0b"},
+                          {l:"☀️ Vit D",    v:b.vitD,  birim:"mcg", ihtiyac:20,  renk:"#fbbf24"},
+                          {l:"💊 Vit B12",  v:b.vitB12,birim:"mcg", ihtiyac:2.4, renk:"#8b5cf6"},
+                        ].map(m=>{
+                          const pct=Math.min(100,((m.v||0)/m.ihtiyac)*100);
+                          const gunlukYuzde=pct.toFixed(0);
+                          return(
+                            <div key={m.l} style={{marginBottom:7}}>
+                              <div style={{display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:2}}>
+                                <span style={{color:r.sub,fontWeight:700}}>{m.l}</span>
+                                <span style={{fontWeight:700,color:m.v>0?m.renk:r.muted}}>
+                                  {m.v>0?`${m.v}${m.birim} (%${gunlukYuzde} günlük)`:"—"}
+                                </span>
+                              </div>
+                              <div style={{...PB,height:5,marginTop:0}}>
+                                <div style={{...PF(pct,m.renk),height:5,background:m.v>0?m.renk:"#e5e7eb"}}/>
+                              </div>
+                            </div>
+                          );
+                        })}
+                        <div style={{fontSize:9,color:r.muted,marginTop:6,fontStyle:"italic"}}>*Günlük yüzdeler 70kg yetişkin referansına göredir</div>
                       </div>
                     )}
                   </div>
@@ -1812,21 +1881,29 @@ export default function App(){
 
                   {/* Vitamin & Mineral */}
                   <div style={{marginBottom:12}}>
-                    <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:5}}>Min. Vitamin & Mineral</div>
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+                    <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:7}}>Vitamin & Mineral Filtrele</div>
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
                       {[
-                        {l:"Demir (mg)",  k:"minDemir", ph:"2"},
-                        {l:"Kalsiyum (mg)",k:"minKals",  ph:"50"},
-                        {l:"Vit C (mg)",  k:"minVitC",  ph:"10"},
-                        {l:"Vit D (mcg)", k:"minVitD",  ph:"1"},
-                        {l:"Vit B12 (mcg)",k:"minVitB12",ph:"0.5"},
-                      ].map(f=>(
-                        <div key={f.k}>
-                          <div style={{fontSize:10,color:r.sub,fontWeight:700,marginBottom:3}}>{f.l} ≥</div>
-                          <input style={{...IS,padding:"7px 9px",fontSize:12}} type="number" placeholder={f.ph} value={besinFil[f.k]} onChange={e=>setBesinFil(p=>({...p,[f.k]:e.target.value}))}/>
-                        </div>
-                      ))}
+                        {l:"🩸 Demir",   k:"minDemir", val:"2",   renk:"#ef4444"},
+                        {l:"🦴 Kalsiyum",k:"minKals",  val:"50",  renk:"#f97316"},
+                        {l:"🍊 Vit C",   k:"minVitC",  val:"10",  renk:"#f59e0b"},
+                        {l:"☀️ Vit D",   k:"minVitD",  val:"1",   renk:"#fbbf24"},
+                        {l:"💊 Vit B12", k:"minVitB12",val:"0.5", renk:"#8b5cf6"},
+                      ].map(f=>{
+                        const aktif=!!besinFil[f.k];
+                        return(
+                          <button key={f.k} onClick={()=>setBesinFil(p=>({...p,[f.k]:p[f.k]?undefined:f.val}))}
+                            style={{padding:"5px 11px",border:`2px solid ${aktif?f.renk:r.inpB}`,borderRadius:20,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:11,background:aktif?f.renk+"22":r.inp,color:aktif?f.renk:r.sub,display:"flex",alignItems:"center",gap:4}}>
+                            {aktif&&<span style={{fontSize:10}}>✓</span>}{f.l}
+                          </button>
+                        );
+                      })}
                     </div>
+                    {(besinFil.minDemir||besinFil.minKals||besinFil.minVitC||besinFil.minVitD||besinFil.minVitB12)&&(
+                      <div style={{marginTop:6,fontSize:10,color:"#16a34a",fontWeight:700}}>
+                        ✓ Seçilen vitaminleri yeterince içeren besinler gösteriliyor
+                      </div>
+                    )}
                   </div>
 
                   {/* Yıldız Filtresi */}
@@ -2282,9 +2359,16 @@ export default function App(){
 
             {!isOrtak&&(
               <div style={{...CS,border:"1.5px dashed #f59e0b",background:d?"#1c1a10":"#fffbeb"}}>
-                <div style={{fontSize:13,fontWeight:800,color:"#d97706",marginBottom:4}}>💸 Para da Kazan!</div>
-                <div style={{fontSize:12,color:r.sub,marginBottom:10}}>Influencer / işletme başvurusu yap. Onaylanırsan reklam gelirinin <b>%25'ini</b> + satın alımlardan <b>%10</b> komisyon al!</div>
-                <button style={{...BTN("#f59e0b"),width:"100%",padding:"11px 0"}} onClick={()=>setRefBasvuruModal(true)}>Başvur</button>
+                <div style={{fontSize:13,fontWeight:800,color:"#d97706",marginBottom:6}}>🤝 Ortaklık Programı</div>
+                <div style={{fontSize:12,color:r.sub,lineHeight:1.7,marginBottom:12}}>
+                  Doya'yı çevrenle paylaş, davet ettiğin kişilerden <b>gelir kazan</b>! Influencer veya işletme olarak başvurabilirsin.
+                </div>
+                <div style={{display:"flex",gap:8,marginBottom:12}}>
+                  {["👥 Arkadaşlarını davet et","💼 İşletmeni tanıt","📣 İçerik üret"].map((t,i)=>(
+                    <div key={i} style={{flex:1,background:d?"#1e293b":"#fff8e1",borderRadius:10,padding:"8px 6px",textAlign:"center",fontSize:10,fontWeight:700,color:"#d97706"}}>{t}</div>
+                  ))}
+                </div>
+                <button style={{...BTN("#f59e0b"),width:"100%",padding:"11px 0"}} onClick={()=>setRefBasvuruModal(true)}>Kazanmak için Başvur →</button>
               </div>
             )}
 
@@ -2661,15 +2745,33 @@ export default function App(){
 
             <div style={{...CS,border:"2px solid #2563eb"}}>
               <div style={CT}>UID ile Ortak Ata / Kaldır</div>
+              <div style={{fontSize:11,color:r.sub,marginBottom:6}}>Kullanıcı UID'si veya NTR kodunu gir:</div>
               <input style={{...IS,marginBottom:8}} placeholder="NTR-000000" value={adminUid} onChange={e=>setAdminUid(e.target.value)}/>
+
               <div style={{display:"flex",gap:8,marginBottom:10}}>
                 {[{v:"influencer",l:"🎯 Influencer"},{v:"isletme",l:"🏢 İşletme"}].map(o=>(
                   <button key={o.v} onClick={()=>setAdminTip(o.v)} style={{flex:1,padding:"8px",border:`2px solid ${adminTip===o.v?"#2563eb":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:adminTip===o.v?"#eff6ff":r.inp,color:adminTip===o.v?"#2563eb":r.sub}}>{o.l}</button>
                 ))}
               </div>
+
+              {/* İşletme ismi (işletme tipinde) */}
+              {adminTip==="isletme"&&(
+                <div style={{marginBottom:8}}>
+                  <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:3}}>İşletme Adı <span style={{color:"#6b7280"}}>(opsiyonel)</span></div>
+                  <input style={{...IS}} placeholder="FitLife Spor Salonu — Kadıköy" value={adminIsletmeIsmi} onChange={e=>setAdminIsletmeIsmi(e.target.value)}/>
+                </div>
+              )}
+
+              {/* Özel Ref Kodu */}
+              <div style={{marginBottom:10}}>
+                <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:3}}>Özel Ref Kodu <span style={{color:"#6b7280"}}>(opsiyonel — boş bırakılırsa otomatik)</span></div>
+                <input style={{...IS}} placeholder="FITLIFE25 veya ZEYNEP10..." value={adminOzelRefKod} onChange={e=>setAdminOzelRefKod(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,""))} maxLength={12}/>
+                {adminOzelRefKod&&<div style={{fontSize:10,color:"#2563eb",marginTop:3,fontWeight:700}}>Kod: {adminOzelRefKod}</div>}
+              </div>
+
               {adminMsg&&<div style={{background:r.card,color:"#16a34a",padding:"8px 11px",borderRadius:10,fontSize:12,fontWeight:700,marginBottom:8}}>{adminMsg}</div>}
               <div style={{display:"flex",gap:8}}>
-                <button style={{...BTN("#2563eb"),flex:2,padding:"10px 0"}} onClick={()=>adminOrtak(adminUid,adminTip)}>Ata</button>
+                <button style={{...BTN("#2563eb"),flex:2,padding:"10px 0"}} onClick={()=>adminOrtak(adminUid,adminTip,adminOzelRefKod,adminIsletmeIsmi)}>Ata</button>
                 <button style={{...BTN("#ef4444"),flex:1,padding:"10px 0"}} onClick={()=>adminOrtakKaldir(adminUid)}>Kaldır</button>
               </div>
             </div>
@@ -3233,9 +3335,9 @@ export default function App(){
                 <button onClick={()=>setRefBasvuruModal(false)} style={{background:"none",border:"none",fontSize:22,cursor:"pointer",color:r.sub}}>×</button>
               </div>
               <div style={{background:d?"#1c1a10":"#fffbeb",border:"1.5px solid #fcd34d",borderRadius:12,padding:12,marginBottom:14}}>
-                <div style={{fontSize:12,fontWeight:700,color:"#d97706",marginBottom:4}}>⚠️ Başvurmadan önce oku</div>
-                <div style={{fontSize:11,color:"#78350f",lineHeight:1.7}}>
-                  Ortak olarak onaylanırsan reklam gelirinin <b>%25'ini</b> + satın alımlardan <b>%10</b> alırsın. Ancak şirketin mali durumu kötüleşirse ödemeler gecikebilir; iflas halinde ödeme yapılamayabilir. <span style={{fontWeight:700,textDecoration:"underline",cursor:"pointer",color:"#d97706"}} onClick={()=>setSozlesmeModal(true)}>Ortaklık Sözleşmesini oku →</span>
+                <div style={{fontSize:12,fontWeight:700,color:"#d97706",marginBottom:4}}>🤝 Ortaklık hakkında</div>
+                <div style={{fontSize:11,color:d?"#fde68a":"#78350f",lineHeight:1.7}}>
+                  Davet ettiğin kişilerden gelir kazanırsın. Detaylar onaylanınca Para Panelinde gösterilir. <span style={{fontWeight:700,textDecoration:"underline",cursor:"pointer",color:"#d97706"}} onClick={()=>setSozlesmeModal(true)}>Ortaklık Sözleşmesini oku →</span>
                 </div>
               </div>
 
