@@ -371,47 +371,94 @@ export default function Doya(){
   }[besinFil.sira](a,b2):0));
 
   // ─── ADIM SAYAR ──────────────────────────────────────────────
+  // Otomatik başlat: izin daha önce verilmişse hemen başlat
+  useEffect(()=>{
+    const bugunKey2=tarihKey(new Date());
+    // Gün değiştiyse sıfırla
+    const kayitliGun=localStorage.getItem("doya_adim_gun");
+    if(kayitliGun&&kayitliGun!==bugunKey2){
+      setAdimSayar(0);
+      adimRef.current.sayac=0;
+      localStorage.setItem("doya_adim_"+bugunKey2,"0");
+    }
+    localStorage.setItem("doya_adim_gun",bugunKey2);
+    
+    // Kaydedilmiş adım sayısını yükle
+    const kayitli=parseInt(localStorage.getItem("doya_adim_"+bugunKey2)||"0");
+    adimRef.current.sayac=kayitli;
+
+    // İzin zaten verilmişse otomatik başlat
+    const kayitliIzin=localStorage.getItem("doya_adim_izin");
+    if(kayitliIzin==="verildi"||kayitliIzin==="android"){
+      setAdimAktif(true);
+    } else if(kayitliIzin==="bekliyor"||!kayitliIzin){
+      // İlk açılışta izin modalı göster
+      setTimeout(()=>setAdimIzinModal(true),1500);
+    }
+  },[]);
+
   useEffect(()=>{
     if(!adimAktif) return;
     let handler=null;
 
-    const basla=(e)=>{
-      if(!e) return;
+    const baslat=()=>{
+      adimRef.current.sayac=parseInt(localStorage.getItem("doya_adim_"+tarihKey(new Date()))||"0");
       handler=(event)=>{
-        const {x,y,z}=event.acceleration||event.accelerationIncludingGravity||{};
-        if(x==null||y==null||z==null) return;
+        const acc=event.acceleration||event.accelerationIncludingGravity||{};
+        const {x=0,y=0,z=0}=acc;
         const mag=Math.sqrt(x*x+y*y+z*z);
         const ref=adimRef.current;
         const now=Date.now();
         if(ref.son!==null){
           const delta=Math.abs(mag-ref.son);
-          if(delta>2.5&&(now-(ref.lastStep||0))>300){
+          if(delta>2.8&&(now-ref.lastStep)>280){
             ref.lastStep=now;
             ref.sayac+=1;
             setAdimSayar(ref.sayac);
+            // Her 10 adımda kaydet
+            if(ref.sayac%10===0){
+              const bg=tarihKey(new Date());
+              localStorage.setItem("doya_adim_"+bg, ref.sayac);
+              // Takvime kaydet
+              gunSet(bg,"adim",ref.sayac);
+              gunSet(bg,"adimKal",Math.round(ref.sayac*0.04));
+            }
           }
         }
         ref.son=mag;
       };
-      window.addEventListener("devicemotion",handler);
+      window.addEventListener("devicemotion",handler,{passive:true});
+      setAdimIzin("verildi");
     };
 
-    // iOS 13+ izin gerektirir
     if(typeof DeviceMotionEvent!=="undefined"&&typeof DeviceMotionEvent.requestPermission==="function"){
+      // iOS
       DeviceMotionEvent.requestPermission().then(r=>{
-        if(r==="granted"){ setAdimIzin("verildi"); basla(true); }
-        else setAdimIzin("reddedildi");
-      }).catch(()=>setAdimIzin("reddedildi"));
+        if(r==="granted"){ localStorage.setItem("doya_adim_izin","verildi"); baslat(); }
+        else { setAdimIzin("reddedildi"); localStorage.setItem("doya_adim_izin","reddedildi"); setAdimAktif(false); }
+      }).catch(()=>{ setAdimIzin("reddedildi"); setAdimAktif(false); });
     } else if(typeof DeviceMotionEvent!=="undefined"){
-      // Android / Desktop
-      setAdimIzin("verildi");
-      basla(true);
+      localStorage.setItem("doya_adim_izin","android");
+      baslat();
     } else {
       setAdimIzin("desteklenmiyor");
+      setAdimAktif(false);
     }
 
     return ()=>{ if(handler) window.removeEventListener("devicemotion",handler); };
   },[adimAktif]);
+
+  // Adım sayısı değişince takvime kaydet (debounced)
+  useEffect(()=>{
+    if(adimSayar===0) return;
+    const t=setTimeout(()=>{
+      const bg=tarihKey(new Date());
+      localStorage.setItem("doya_adim_"+bg,adimSayar);
+      gunSet(bg,"adim",adimSayar);
+      gunSet(bg,"adimKal",Math.round(adimSayar*0.04));
+    },2000);
+    return ()=>clearTimeout(t);
+  },[adimSayar]);
 
   // ─── TEMA ────────────────────────────────────────────────────
   const r = {
@@ -1124,63 +1171,48 @@ export default function Doya(){
 
             {/* ADIM SAYAR */}
             <div style={CS}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                 <div style={CT}>👟 Adım Sayar</div>
-                <div style={{display:"flex",gap:6,alignItems:"center"}}>
-                  {adimIzin==="verildi"&&(
-                    <span style={{fontSize:10,fontWeight:700,color:"#16a34a",background:"#dcfce7",padding:"2px 8px",borderRadius:99}}>● Aktif</span>
-                  )}
-                  {adimIzin==="reddedildi"&&(
-                    <span style={{fontSize:10,fontWeight:700,color:"#ef4444",background:"#fef2f2",padding:"2px 8px",borderRadius:99}}>İzin Reddedildi</span>
-                  )}
-                  {adimIzin==="desteklenmiyor"&&(
-                    <span style={{fontSize:10,fontWeight:700,color:"#f59e0b",background:"#fffbeb",padding:"2px 8px",borderRadius:99}}>Desteklenmiyor</span>
-                  )}
-                </div>
+                {adimIzin==="verildi"||adimIzin==="android"
+                  ?<span style={{fontSize:10,fontWeight:700,color:"#16a34a",background:"#dcfce7",padding:"2px 10px",borderRadius:99}}>● Sayıyor</span>
+                  :adimIzin==="reddedildi"
+                  ?<span style={{fontSize:10,fontWeight:700,color:"#ef4444",background:"#fef2f2",padding:"2px 10px",borderRadius:99}}>İzin Yok</span>
+                  :<span style={{fontSize:10,fontWeight:700,color:"#f59e0b",background:"#fffbeb",padding:"2px 10px",borderRadius:99}}>Bekliyor</span>
+                }
               </div>
 
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:10}}>
                 <div>
-                  <div style={{fontSize:36,fontWeight:900,color:"#f59e0b",lineHeight:1}}>{adimSayar.toLocaleString("tr-TR")}</div>
-                  <div style={{fontSize:11,color:r.sub,marginTop:2}}>Adım · ~{Math.round(adimSayar*0.04)} kcal · ~{(adimSayar*0.00076).toFixed(1)} km</div>
+                  <div style={{fontSize:40,fontWeight:900,color:"#f59e0b",lineHeight:1}}>{adimSayar.toLocaleString("tr-TR")}</div>
+                  <div style={{fontSize:11,color:r.sub,marginTop:3}}>
+                    ~{Math.round(adimSayar*0.04)} kcal yakıldı · ~{(adimSayar*0.00076).toFixed(2)} km
+                  </div>
                 </div>
-                <div style={{textAlign:"right"}}>
-                  <div style={{fontSize:11,color:r.muted,marginBottom:4}}>Hedef: 10.000</div>
-                  <div style={{fontSize:20,fontWeight:900,color:(adimSayar/10000)>=1?"#16a34a":"#f59e0b"}}>{Math.min(100,Math.round((adimSayar/10000)*100))}%</div>
+                <div style={{textAlign:"right",paddingBottom:4}}>
+                  <div style={{fontSize:11,color:r.muted}}>Hedef: 10.000</div>
+                  <div style={{fontSize:22,fontWeight:900,color:adimSayar>=10000?"#16a34a":"#f59e0b"}}>{Math.min(100,Math.round((adimSayar/10000)*100))}%</div>
                 </div>
               </div>
 
               <div style={PB}><div style={PF(Math.min(100,(adimSayar/10000)*100),"#f59e0b")}/></div>
 
-              {!adimAktif?(
-                <button style={{...BTN("#f59e0b","10px 0"),width:"100%",marginTop:10,fontSize:13}} onClick={()=>{
-                  adimRef.current.sayac=adimSayar;
-                  adimRef.current.aktif=true;
-                  setAdimAktif(true);
-                }}>
-                  📱 Adım Saymayı Başlat
-                </button>
-              ):(
-                <div>
-                  {adimIzin==="bekliyor"&&(
-                    <div style={{textAlign:"center",fontSize:12,color:r.muted,padding:"8px 0"}}>⏳ İzin bekleniyor...</div>
-                  )}
-                  {adimIzin==="verildi"&&(
-                    <div style={{display:"flex",gap:8,marginTop:10}}>
-                      <button style={{...BTN("#6b7280","9px 0"),flex:1,fontSize:12}} onClick={()=>{setAdimAktif(false);setAdimIzin("bekliyor");}}>⏹ Durdur</button>
-                      <button style={{...BTN("#ef4444","9px 0"),flex:1,fontSize:12}} onClick={()=>{setAdimSayar(0);adimRef.current.sayac=0;}}>🔄 Sıfırla</button>
-                    </div>
-                  )}
-                  {adimIzin==="reddedildi"&&(
-                    <div style={{background:"#fef2f2",border:"1px solid #fca5a5",borderRadius:10,padding:"10px 12px",marginTop:8,fontSize:11,color:"#ef4444"}}>
-                      ❌ Hareket izni reddedildi. Telefonunun ayarlarından tarayıcıya hareket sensörü iznini ver, sonra tekrar dene.
-                    </div>
-                  )}
-                  {adimIzin==="desteklenmiyor"&&(
-                    <div style={{background:"#fffbeb",border:"1px solid #fcd34d",borderRadius:10,padding:"10px 12px",marginTop:8,fontSize:11,color:"#d97706"}}>
-                      ⚠️ Bu cihaz/tarayıcı hareket sensörünü desteklemiyor. Adım saymak için Chrome ile mobil cihazdan giriş yap.
-                    </div>
-                  )}
+              {adimSayar>=10000&&<div style={{textAlign:"center",fontSize:13,fontWeight:800,color:"#16a34a",marginTop:8}}>🎉 Günlük hedefe ulaştın!</div>}
+
+              {adimIzin==="reddedildi"&&(
+                <div style={{background:"#fef2f2",border:"1px solid #fca5a5",borderRadius:10,padding:"10px 12px",marginTop:10,fontSize:11,color:"#ef4444"}}>
+                  ❌ Hareket izni reddedildi. Telefon Ayarları → Safari/Chrome → Hareket & Yön iznini aç, sonra sayfayı yenile.
+                  <button style={{...BTN("#ef4444","5px 0"),width:"100%",marginTop:6,fontSize:11}} onClick={()=>{localStorage.removeItem("doya_adim_izin");setAdimIzin("bekliyor");setAdimIzinModal(true);}}>Tekrar Dene</button>
+                </div>
+              )}
+              {adimIzin==="desteklenmiyor"&&(
+                <div style={{background:"#fffbeb",border:"1px solid #fcd34d",borderRadius:10,padding:"10px 12px",marginTop:10,fontSize:11,color:"#d97706"}}>
+                  ⚠️ Bu tarayıcı sensörü desteklemiyor. iPhone'da Safari, Android'de Chrome kullan.
+                </div>
+              )}
+              {(adimIzin==="verildi"||adimIzin==="android")&&(
+                <div style={{display:"flex",gap:8,marginTop:10}}>
+                  <button style={{...BTN("#6b7280","8px 0"),flex:1,fontSize:11}} onClick={()=>{setAdimAktif(false);localStorage.setItem("doya_adim_izin","bekliyor");setAdimIzin("bekliyor");}}>⏹ Durdur</button>
+                  <button style={{...BTN("#ef4444","8px 0"),flex:1,fontSize:11}} onClick={()=>{setAdimSayar(0);adimRef.current.sayac=0;localStorage.setItem("doya_adim_"+tarihKey(new Date()),"0");}}>🔄 Sıfırla</button>
                 </div>
               )}
             </div>
@@ -2556,7 +2588,29 @@ export default function Doya(){
           </div>
         )}
 
-        {/* INFLUENCER SÖZLEŞMESİ MODAL */}
+        {/* ADIM SAYAR İZİN MODAL */}
+        {adimIzinModal&&(
+          <div style={{position:"fixed",inset:0,background:"#000a",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center",padding:16}}>
+            <div style={{background:r.card,borderRadius:20,padding:24,width:"100%",maxWidth:400}}>
+              <div style={{fontSize:40,textAlign:"center",marginBottom:12}}>👟</div>
+              <div style={{fontSize:17,fontWeight:900,color:r.text,textAlign:"center",marginBottom:8}}>Adım Sayar</div>
+              <div style={{fontSize:13,color:r.sub,textAlign:"center",marginBottom:20,lineHeight:1.6}}>
+                Doya adımlarını otomatik saymak için telefonunun <b>hareket sensörüne</b> erişmek istiyor.<br/>
+                İzin verirsen her gün otomatik olarak çalışır, tekrar sorulmaz.
+              </div>
+              <button style={{...BTN("#f59e0b","13px 0"),width:"100%",marginBottom:10,fontSize:14}} onClick={()=>{
+                setAdimIzinModal(false);
+                setAdimAktif(true);
+              }}>📱 İzin Ver ve Başlat</button>
+              <button style={{background:"none",border:"none",width:"100%",padding:"10px 0",cursor:"pointer",fontSize:13,color:r.muted,fontFamily:"'Nunito',sans-serif"}} onClick={()=>{
+                setAdimIzinModal(false);
+                localStorage.setItem("doya_adim_izin","reddedildi");
+              }}>Şimdi Değil</button>
+            </div>
+          </div>
+        )}
+
+        {/* INFLUENCER SÖZLEŞMESİ MODAL */}}
         {sozlesmeModal&&(
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
             <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
