@@ -292,7 +292,8 @@ export default function Doya(){
 
   // ── SOSYAL AKIŞ ──
   const [paylasimlar,setPaylasimlar]=useState([]);
-  const [yeniPS,setYeniPS]=useState(""); const [postFoto,setPostFoto]=useState(null); const [yorumMet,setYorumMet]=useState({});
+  const [yeniPS,setYeniPS]=useState(""); const [postFoto,setPostFoto]=useState(null); const [sosyalSekme,setSosyalSekme]=useState("genel");
+  const [yorumMet,setYorumMet]=useState({});
   const [sikayet,setSikayet]=useState({ hedef:null,sebep:"",modal:false,tip:"kullanici",postId:null,postFotoUrl:null });
 
   // ── REFERANS ──
@@ -1448,7 +1449,20 @@ export default function Doya(){
                 </>
               )}
             </div>
-            {paylasimlar.filter(ps=>!engelliler.includes(ps.uid)).map(ps=>(
+            {/* Genel / Arkadaşlar sekmesi */}
+            <div style={{display:"flex",background:d?"#1e293b":"#f0fdf4",borderRadius:12,padding:4,marginBottom:12,gap:4}}>
+              {[{v:"genel",l:"🌍 Genel"},{v:"arkadaslar",l:"👥 Arkadaşlar"}].map(s=>(
+                <button key={s.v} onClick={()=>setSosyalSekme(s.v)} style={{flex:1,padding:"8px 0",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:sosyalSekme===s.v?d?"#334155":"#fff":"transparent",color:sosyalSekme===s.v?"#16a34a":r.sub,boxShadow:sosyalSekme===s.v?"0 1px 4px #0001":"none",transition:"all .15s"}}>{s.l}</button>
+              ))}
+            </div>
+            {(sosyalSekme==="arkadaslar"&&arkadaslar.length===0)&&(
+              <div style={{textAlign:"center",color:r.muted,padding:"24px 0",fontSize:13}}>Henüz arkadaşın yok. Arkadaş ekleyerek onların paylaşımlarını gör!</div>
+            )}
+            {paylasimlar.filter(ps=>{
+              if(engelliler.includes(ps.uid)) return false;
+              if(sosyalSekme==="arkadaslar") return arkadaslar.some(a=>a.uid===ps.uid)||ps.uid===aktif.uid;
+              return true;
+            }).map(ps=>(
               <div key={ps.id} style={CS}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
                   <div style={{display:"flex",gap:8,alignItems:"center"}}>
@@ -2045,16 +2059,31 @@ export default function Doya(){
                         <img src={s.postFotoUrl} style={{width:52,height:52,objectFit:"cover",borderRadius:8,flexShrink:0}} alt=""/>
                       )}
                       <div style={{flex:1}}>
-                        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:2}}>
-                          <span style={BAD(s.tip==="foto"?"#f59e0b":"#6b7280")}>{s.tip==="foto"?"📷 Fotoğraf":"👤 Kullanıcı"}</span>
+                        <div style={{display:"flex",gap:5,alignItems:"center",flexWrap:"wrap",marginBottom:4}}>
+                          <span style={BAD(s.tip==="foto"?"#f59e0b":s.tip==="yorum"?"#3b82f6":"#6b7280")}>
+                            {s.tip==="foto"?"📷 Fotoğraf":s.tip==="yorum"?"💬 Yorum":"👤 Kullanıcı"}
+                          </span>
                           <span style={{fontWeight:700,color:r.text,fontSize:12}}>{kullanicilar.find(u=>u.uid===s.hedef)?.isim||s.hedef}</span>
+                          <span style={{fontSize:10,color:r.muted}}>· Bildiren: {kullanicilar.find(u=>u.uid===s.eden)?.isim||s.eden}</span>
                         </div>
-                        <div style={{fontSize:11,color:r.muted}}>Sebep: {s.sebep} · {s.zaman}</div>
+                        <div style={{background:d?"#0f172a":"#f9fafb",borderRadius:8,padding:"6px 10px",marginBottom:5}}>
+                          <div style={{fontSize:11,fontWeight:700,color:"#ef4444",marginBottom:2}}>📋 Sebep: {s.sebep||"Belirtilmemiş"}</div>
+                          {s.icerik&&<div style={{fontSize:11,color:r.muted,fontStyle:"italic"}}>"{s.icerik}"</div>}
+                        </div>
+                        <div style={{fontSize:10,color:r.muted}}>{s.zaman}</div>
                         {s.tip==="foto"&&s.postId&&!s.islem&&(
                           <button style={{...BTN("#f59e0b","4px 8px"),fontSize:10,marginTop:4}} onClick={()=>{
                             setPaylasimlar(prev=>prev.map(p=>p.id===s.postId?{...p,postFoto:null}:p));
+                            postGuncelle(s.postId,{postFoto:null}).catch(console.error);
                             setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"foto_silindi"}:x));
                           }}>🗑 Fotoğrafı Kaldır</button>
+                        )}
+                        {s.postId&&!s.islem&&(
+                          <button style={{...BTN("#ef4444","4px 8px"),fontSize:10,marginTop:4,marginLeft:4}} onClick={()=>{
+                            setPaylasimlar(prev=>prev.filter(p=>p.id!==s.postId));
+                            postSil(s.postId).catch(console.error);
+                            setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"post_silindi"}:x));
+                          }}>🗑 Postu Sil</button>
                         )}
                       </div>
                     </div>
@@ -2068,6 +2097,28 @@ export default function Doya(){
                 ))}
               </div>
             )}
+
+            {/* Admin - Tüm Yorumları Yönet */}
+            <div style={CS}>
+              <div style={CT}>💬 Yorum Yönetimi</div>
+              {paylasimlar.filter(p=>p.yorumlar?.length>0).length===0?(
+                <div style={{color:r.muted,fontSize:12,textAlign:"center",padding:"10px 0"}}>Yorum yok.</div>
+              ):paylasimlar.filter(p=>p.yorumlar?.length>0).map(p=>(
+                <div key={p.id} style={{padding:"8px 0",borderBottom:`1px solid ${r.brd}`}}>
+                  <div style={{fontSize:11,fontWeight:700,color:r.sub,marginBottom:4}}>📝 {p.isim}: <span style={{fontStyle:"italic",fontWeight:400}}>"{p.icerik?.slice(0,40)}..."</span></div>
+                  {p.yorumlar.map((y,i)=>(
+                    <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"4px 8px",background:d?"#0f172a":"#f9fafb",borderRadius:7,marginBottom:3}}>
+                      <div><span style={{fontWeight:700,fontSize:11,color:r.text}}>{y.isim}: </span><span style={{fontSize:11,color:r.sub}}>{y.yorum}</span></div>
+                      <button onClick={async()=>{
+                        const yeniYorumlar=p.yorumlar.filter((_,ii)=>ii!==i);
+                        setPaylasimlar(prev=>prev.map(x=>x.id===p.id?{...x,yorumlar:yeniYorumlar}:x));
+                        await postGuncelle(p.id,{yorumlar:yeniYorumlar}).catch(console.error);
+                      }} style={{background:"none",border:"none",cursor:"pointer",color:"#ef4444",fontSize:13,fontWeight:700}}>×</button>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
 
             {refBasvurular.filter(b=>b.onay==="bekliyor").length>0&&(
               <div style={{...CS,border:"2px solid #7c3aed"}}>
@@ -2387,11 +2438,14 @@ export default function Doya(){
               <div style={{display:"flex",gap:8}}>
                 <button style={{...BTN("#ef4444"),flex:1,padding:"10px 0"}} onClick={async()=>{
                   if(sikayet.sebep.trim()){
+                    const bildirilenPost = paylasimlar.find(p=>p.id===sikayet.postId);
                     await sikayetGonder({
                       eden:aktif.uid, hedef:sikayet.hedef,
                       sebep:sikayet.sebep, tip:sikayet.tip,
                       postId:sikayet.postId||null,
                       postFotoUrl:sikayet.postFotoUrl||null,
+                      icerik:bildirilenPost?.icerik||null,
+                      isim:kullanicilar.find(u=>u.uid===sikayet.hedef)?.isim||"",
                       islem:null
                     }).catch(console.error);
                   }
