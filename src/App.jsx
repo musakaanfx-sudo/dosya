@@ -322,6 +322,9 @@ export default function Doya(){
   const [yemekSeri,setYemekSeri]=useState(0);
   const [adimSeri,setAdimSeri]=useState(0);
   const [seriToast,setSeriToast]=useState(null);
+  const [seriMsg,setSeriMsg]=useState(null);
+  const [dogrulamaGonderildi,setDogrulamaGonderildi]=useState(false);
+  const [doyuruBilgi,setDoyuruBilgi]=useState(null);
 
   // ── PAYLASIM MODAL ──
   const [psModal,setPsModal]=useState(false);
