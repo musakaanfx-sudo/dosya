@@ -15,10 +15,12 @@ import {
   sikayetGonder,
   sikayetleriGetir,
   sikayetGuncelle,
+  istekleriDinle,
   gunVeriKaydet,
   tumGunleriGetir,
   besinGonder,
   onAuthStateChanged,
+  sendEmailVerification,
 } from "./firebase.js";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -525,6 +527,10 @@ export default function Doya(){
               });
               setArkadaslar(arkFull);
             }
+            // Arkadaş isteklerini gerçek zamanlı dinle
+            istekleriDinle(user.uid, (istekler)=>{
+              setGelenIstekler(istekler.filter(i=>i.durum==="bekliyor"));
+            }).catch(console.error);
           }
         } catch(e){ console.error("Veri yükleme hatası:",e); }
         setYukleniyor(false);
@@ -998,6 +1004,26 @@ export default function Doya(){
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
       <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:88,transition:"background .3s"}}>
 
+        {/* EMAIL DOĞRULAMA BANNER */}
+        {(()=>{
+          const fbUser=auth.currentUser;
+          if(!fbUser||fbUser.emailVerified||eVeriGizle||fbUser.providerData?.some(p=>p.providerId==="google.com")) return null;
+          return(
+            <div style={{background:"#fffbeb",borderBottom:"2px solid #fcd34d",padding:"10px 16px",display:"flex",gap:10,alignItems:"center"}}>
+              <div style={{fontSize:18}}>📧</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:12,color:"#92400e"}}>E-posta adresin doğrulanmadı</div>
+                <div style={{fontSize:11,color:"#78350f"}}>{aktif?.email} — gelen kutunu kontrol et</div>
+              </div>
+              <button style={{...BTN("#f59e0b","5px 10px"),fontSize:11,flexShrink:0}} onClick={async()=>{
+                const u=auth.currentUser;
+                if(u){await sendEmailVerification(u).catch(console.error);setDogrulamaGonderildi(true);setTimeout(()=>setDogrulamaGonderildi(false),4000);}
+              }}>{dogrulamaGonderildi?"✓ Gönderildi":"Tekrar Gönder"}</button>
+              <button onClick={()=>setEVeriGizle(true)} style={{background:"none",border:"none",fontSize:16,cursor:"pointer",color:"#92400e",fontWeight:900}}>×</button>
+            </div>
+          );
+        })()}
+
         {/* HEADER */}
         <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",padding:"14px 18px 18px",color:"#fff"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
@@ -1360,10 +1386,26 @@ export default function Doya(){
                       </div>
                     </div>
                     <div style={{...PB,height:5,marginTop:6}}><div style={{...PF(b.acik,acikRenk(b.acik)),height:5}}/></div>
-                    <div style={{display:"flex",justifyContent:"space-between",marginTop:3}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:3}}>
                       <span style={{fontSize:10,color:r.muted}}>{b.aclik} içinde acıktırır</span>
-                      <span style={BAD(acikRenk(b.acik))}>{acikEtiket(b.acik)}</span>
+                      <div style={{display:"flex",alignItems:"center",gap:4}}>
+                        {b.acik<45&&(
+                          <button onClick={e=>{e.stopPropagation();setDoyuruBilgi(p=>p===b.id?false:b.id);}} style={{background:"#fef9c3",border:"1.5px solid #fde047",borderRadius:"50%",width:16,height:16,fontSize:10,fontWeight:900,cursor:"pointer",color:"#ca8a04",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontFamily:"'Nunito',sans-serif"}}>!</button>
+                        )}
+                        <span style={BAD(acikRenk(b.acik))}>{acikEtiket(b.acik)}</span>
+                      </div>
                     </div>
+                    {doyuruBilgi===b.id&&(
+                      <div style={{background:d?"#1c1917":"#fffbeb",border:"1.5px solid #fde047",borderRadius:10,padding:"10px 12px",marginTop:6,fontSize:11,color:d?"#fef3c7":"#78350f",lineHeight:1.7}}>
+                        <div style={{fontWeight:800,marginBottom:4}}>⚠️ Neden az doyurucu?</div>
+                        {b.kat==="Meyve"&&<div>🍎 Meyveler ağırlıklı olarak <b>su ve basit şeker</b> içerir. Mide hızla sindirir, tokluk hormonu (leptin) yeterince tetiklenmez. Yüksek lif içeren meyveler (elma, armut) biraz daha doyurucudur.</div>}
+                        {b.kat==="Sebze"&&<div>🥦 Sebzeler <b>çok düşük kalorili</b> olduğu için mide hacmini doldursa da enerji düşük kalır. Protein ve yağ içermediğinden tokluk kısa sürer — ama bu aslında düşük kalorili beslenme için <b>büyük avantaj!</b></div>}
+                        {b.kat==="İçecek"&&<div>🧃 Sıvılar mide duvarını <b>katı gıdalar kadar germez</b>, bu yüzden tokluk sinyali zayıf kalır. Şekerli içecekler kan şekerini hızlı yükseltip hızlı düşürdüğü için kısa sürede tekrar acıktırır.</div>}
+                        {b.kat==="Atıştırmalık"&&<div>🍪 İşlenmiş atıştırmalıklar <b>yüksek kalori, düşük lif</b> dengesiyle tasarlanmıştır. Hızlı sindirilir, kan şekerini ani yükseltir — birkaç dakika sonra daha çok yemek istenir.</div>}
+                        {!["Meyve","Sebze","İçecek","Atıştırmalık"].includes(b.kat)&&<div>Bu besin <b>düşük protein ve lif</b> içerdiğinden mide boşalması hızlı olur. Yanına protein (yumurta, yoğurt) veya lif (sebze) eklemek doyum süresini uzatır.</div>}
+                        <div style={{fontSize:10,color:d?"#a16207":"#92400e",marginTop:6,fontStyle:"italic"}}>💡 İpucu: Az doyurucu besinleri protein veya sağlıklı yağlarla tüket.</div>
+                      </div>
+                    )}
                   </div>
                 ))}
               </>
