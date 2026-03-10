@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import {
   auth, db,
   googleGiris as fbGoogleGiris,
-  girisYap as fbGiris,
-  kayitOl as fbKayit,
   cikisYap as fbCikis,
   kullaniciyiGetir,
   kullaniciyiGuncelle,
@@ -235,10 +233,8 @@ export default function App(){
 
   // ── AUTH ──
   const [ekran,setEkran]=useState("giris");
-  const [gEmail,setGEmail]=useState(""); const [gSifre,setGSifre]=useState(""); const [gHata,setGHata]=useState("");
-  const [kIsim,setKIsim]=useState(""); const [kEmail,setKEmail]=useState(""); const [kSifre,setKSifre]=useState("");
-  const [kRef,setKRef]=useState(""); const [kHata,setKHata]=useState("");
-  const [kvkkOnay,setKvkkOnay]=useState(false); const [kvkkModal,setKvkkModal]=useState(false);
+  const [gHata,setGHata]=useState("");
+  const [kvkkModal,setKvkkModal]=useState(false);
   const [kullanicilar,setKullanicilar]=useState([]);
   const [aktif,setAktif]=useState(null);
   const [firebaseUID,setFirebaseUID]=useState(null);
@@ -577,38 +573,10 @@ export default function App(){
   }
 
   // ─── AUTH ────────────────────────────────────────────────────
-  const girisYap=async()=>{
-    setGHata("");
-    try {
-      await fbGiris({ email:gEmail, sifre:gSifre });
-      // onAuthStateChanged tetiklenir, veri oradan yüklenir
-      setOnboard(true); setObAdim(1);
-    } catch(e){
-      if(e.message==="BANLI") setGHata("Hesabınız banlanmıştır. "+DESTEK_MAIL);
-      else setGHata("E-posta veya şifre yanlış!");
-    }
-  };
-
-  const kayitOl=async()=>{
-    if(!kIsim||!kEmail||!kSifre){setKHata("Tüm alanları doldurun!");return;}
-    if(!kvkkOnay){setKHata("KVKK metnini onaylamanız gerekiyor!");return;}
-    setKHata("");
-    try {
-      await fbKayit({ email:kEmail, sifre:kSifre, isim:kIsim, refKodGirilen:kRef.trim()||null });
-      setKHata(""); 
-      alert("📧 " + kEmail + " adresine doğrulama maili gönderildi! Lütfen mailinizi onaylayın.");
-      setOnboard(true); setObAdim(1);
-    } catch(e){
-      if(e.code==="auth/email-already-in-use") setKHata("Bu e-posta zaten kayıtlı!");
-      else if(e.code==="auth/weak-password") setKHata("Şifre en az 6 karakter olmalı!");
-      else setKHata("Kayıt başarısız: "+e.message);
-    }
-  };
-
   const cikis=async()=>{
     await fbCikis();
     setAktif(null); setFirebaseUID(null);
-    setGEmail(""); setGSifre(""); setTab("anasayfa"); setOnboard(false);
+    setGHata(""); setTab("anasayfa"); setOnboard(false);
     setGunluk({}); setPaylasimlar([]); setKullanicilar([]);
   };
 
