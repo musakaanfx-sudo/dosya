@@ -268,7 +268,9 @@ export default function Doya(){
   const [profFoto,setProfFoto]=useState(null);
   const [adimSayar,setAdimSayar]=useState(0);
   const [adimAktif,setAdimAktif]=useState(false);
-  const [adimIzin,setAdimIzin]=useState("bekliyor"); // "bekliyor"|"verildi"|"reddedildi"|"desteklenmiyor"
+  const [adimIzin,setAdimIzin]=useState("bekliyor");
+  const [adimIzinModal,setAdimIzinModal]=useState(false);
+  const [eVeriGizle,setEVeriGizle]=useState(false); // "bekliyor"|"verildi"|"reddedildi"|"desteklenmiyor"
   const adimRef=useRef({son:null,sayac:0,aktif:false});
 
   // ── BESİN ARA ──
@@ -837,71 +839,37 @@ export default function Doya(){
         </div>
         <div style={{padding:"0 20px",marginTop:-22}}>
           <div style={{background:"#fff",borderRadius:22,padding:24,boxShadow:"0 8px 32px #00000018"}}>
-            <div style={{display:"flex",background:"#f3f4f6",borderRadius:12,padding:4,marginBottom:20}}>
-              {["giris","kayit"].map(t=>(
-                <button key={t} onClick={()=>{setEkran(t);setGHata("");setKHata("");}} style={{flex:1,padding:"9px 0",border:"none",borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:ekran===t?"#16a34a":"transparent",color:ekran===t?"#fff":"#6b7280"}}>
-                  {t==="giris"?"Giriş Yap":"Kayıt Ol"}
-                </button>
-              ))}
+            <div style={{textAlign:"center",marginBottom:20}}>
+              <div style={{fontSize:15,fontWeight:900,color:"#111",marginBottom:4}}>Hoşgeldin 👋</div>
+              <div style={{fontSize:12,color:"#6b7280"}}>Devam etmek için Google hesabınla giriş yap</div>
             </div>
 
-            {ekran==="giris" ? (
-              <>
-                {[{l:"E-posta",v:gEmail,s:setGEmail,t:"email",ph:"ornek@email.com"},{l:"Şifre",v:gSifre,s:setGSifre,t:"password",ph:"••••••"}].map(f=>(
-                  <div key={f.l} style={{marginBottom:13}}>
-                    <div style={{fontSize:12,fontWeight:700,color:"#6b7280",marginBottom:5}}>{f.l}</div>
-                    <input style={{...IS}} placeholder={f.ph} type={f.t} value={f.v} onChange={e=>f.s(e.target.value)} onKeyDown={e=>e.key==="Enter"&&girisYap()}/>
-                  </div>
-                ))}
-                {gHata&&<div style={{background:"#fef2f2",color:"#ef4444",padding:"9px 13px",borderRadius:10,fontSize:13,marginBottom:13}}>{gHata}</div>}
-                <button style={{...BTN(),width:"100%",padding:"13px 0"}} onClick={girisYap}>Giriş Yap</button>
-                <div style={{display:"flex",alignItems:"center",gap:8,margin:"12px 0"}}>
-                  <div style={{flex:1,height:1,background:"#e5e7eb"}}/>
-                  <span style={{fontSize:11,color:"#9ca3af"}}>veya</span>
-                  <div style={{flex:1,height:1,background:"#e5e7eb"}}/>
-                </div>
-                <button style={{width:"100%",padding:"13px 0",borderRadius:12,border:"1.5px solid #e5e7eb",background:"#fff",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:14,color:"#374151",display:"flex",alignItems:"center",justifyContent:"center",gap:10}} onClick={async()=>{
-                  try{
-                    const kul = await fbGoogleGiris();
-                    setAktif(kul); setFirebaseUID(kul.firebaseUID);
-                    if(kul.admin) setIsAdmin(true);
-                  }catch(e){setGHata(e.message);}
-                }}>
-                  <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.1 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-9 20-20 0-1.3-.1-2.7-.4-4z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.6 26.9 36.5 24 36.5c-5.2 0-9.7-3-11.3-7.2L6 33.6C9.4 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6.2 5.2C41 35.7 44 30.3 44 24c0-1.3-.1-2.7-.4-4z"/></svg>
-                  Google ile Giriş Yap
-                </button>
-                <div style={{marginTop:14,textAlign:"center"}}>
-                  <a href={"mailto:"+DESTEK_MAIL} style={{fontSize:12,color:"#16a34a",textDecoration:"none"}}>✉️ Destek: {DESTEK_MAIL}</a>
-                </div>
-              </>
-            ) : (
-              <>
-                {[{l:"Ad Soyad",v:kIsim,s:setKIsim,t:"text",ph:"Ahmet Yılmaz"},{l:"E-posta",v:kEmail,s:setKEmail,t:"email",ph:"ornek@email.com"},{l:"Şifre",v:kSifre,s:setKSifre,t:"password",ph:"••••••"}].map(f=>(
-                  <div key={f.l} style={{marginBottom:13}}>
-                    <div style={{fontSize:12,fontWeight:700,color:"#6b7280",marginBottom:5}}>{f.l}</div>
-                    <input style={{...IS}} placeholder={f.ph} type={f.t} value={f.v} onChange={e=>f.s(e.target.value)}/>
-                  </div>
-                ))}
-                <div style={{marginBottom:13}}>
-                  <div style={{fontSize:12,fontWeight:700,color:"#6b7280",marginBottom:5}}>Referans Kodu <span style={{fontWeight:400}}>(isteğe bağlı — +100 puan)</span></div>
-                  <input style={{...IS}} placeholder="REF-XXXXXX" value={kRef} onChange={e=>setKRef(e.target.value.toUpperCase())}/>
-                </div>
+            {gHata&&<div style={{background:"#fef2f2",color:"#ef4444",padding:"9px 13px",borderRadius:10,fontSize:13,marginBottom:13}}>{gHata}</div>}
 
-                {/* KVKK CHECKBOX */}
-                <div style={{background:"#f0fdf4",border:"1.5px solid #86efac",borderRadius:12,padding:13,marginBottom:13}}>
-                  <div style={{display:"flex",alignItems:"flex-start",gap:10}}>
-                    <input type="checkbox" id="kvkk" checked={kvkkOnay} onChange={e=>setKvkkOnay(e.target.checked)} style={{marginTop:3,width:18,height:18,cursor:"pointer",accentColor:"#16a34a"}}/>
-                    <label htmlFor="kvkk" style={{fontSize:12,color:"#374151",cursor:"pointer",lineHeight:1.6}}>
-                      <span onClick={e=>{e.preventDefault();setKvkkModal(true);}} style={{color:"#16a34a",fontWeight:700,textDecoration:"underline",cursor:"pointer"}}>KVKK Aydınlatma Metni</span>{" "}ve{" "}
-                      <span onClick={e=>{e.preventDefault();setKvkkModal(true);}} style={{color:"#16a34a",fontWeight:700,textDecoration:"underline",cursor:"pointer"}}>Kullanım Koşullarını</span>{" "}okudum, kabul ediyorum.
-                    </label>
-                  </div>
-                </div>
+            <button style={{width:"100%",padding:"14px 0",borderRadius:14,border:"1.5px solid #e5e7eb",background:"#fff",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:15,color:"#374151",display:"flex",alignItems:"center",justifyContent:"center",gap:12,boxShadow:"0 2px 8px #0001"}} onClick={async()=>{
+              try{
+                const kul = await fbGoogleGiris();
+                setAktif(kul); setFirebaseUID(kul.firebaseUID);
+              }catch(e){setGHata(e.message);}
+            }}>
+              <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.1 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-9 20-20 0-1.3-.1-2.7-.4-4z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.6 26.9 36.5 24 36.5c-5.2 0-9.7-3-11.3-7.2L6 33.6C9.4 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6.2 5.2C41 35.7 44 30.3 44 24c0-1.3-.1-2.7-.4-4z"/></svg>
+              Google ile Giriş Yap
+            </button>
 
-                {kHata&&<div style={{background:"#fef2f2",color:"#ef4444",padding:"9px 13px",borderRadius:10,fontSize:13,marginBottom:13}}>{kHata}</div>}
-                <button style={{...BTN(),width:"100%",padding:"13px 0"}} onClick={kayitOl}>Kayıt Ol</button>
-              </>
-            )}
+            <div style={{display:"flex",alignItems:"center",gap:8,margin:"14px 0"}}>
+              <div style={{flex:1,height:1,background:"#e5e7eb"}}/>
+              <span style={{fontSize:11,color:"#9ca3af"}}>yakında</span>
+              <div style={{flex:1,height:1,background:"#e5e7eb"}}/>
+            </div>
+
+            <button disabled style={{width:"100%",padding:"14px 0",borderRadius:14,border:"1.5px solid #e5e7eb",background:"#f9fafb",cursor:"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:15,color:"#9ca3af",display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#9ca3af"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              Apple ile Giriş Yap
+            </button>
+
+            <div style={{marginTop:16,textAlign:"center"}}>
+              <a href={"mailto:"+DESTEK_MAIL} style={{fontSize:12,color:"#16a34a",textDecoration:"none"}}>✉️ {DESTEK_MAIL}</a>
+            </div>
           </div>
         </div>
       </div>
