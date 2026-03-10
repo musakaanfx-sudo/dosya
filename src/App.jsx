@@ -458,6 +458,7 @@ export default function Doya(){
       localStorage.setItem("doya_adim_"+bg,adimSayar);
       gunSet(bg,"adim",adimSayar);
       gunSet(bg,"adimKal",Math.round(adimSayar*0.04));
+      if(adimSayar>=10000) seriGuncelle("adim");
     },2000);
     return ()=>clearTimeout(t);
   },[adimSayar]);
@@ -651,6 +652,23 @@ export default function Doya(){
     setPuan(yeniPuan);
     if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan}).catch(console.error);
     setSecBesin(null); setBesinArama(""); setYemekGram("100"); setTab("anasayfa");
+    seriGuncelle("yemek");
+  };
+
+  // ─── SERİ GÜNCELLE ───────────────────────────────────────────
+  const seriGuncelle=(tip)=>{
+    const bugun=tarihKey(new Date());
+    const dun=tarihKey(new Date(Date.now()-864e5));
+    const sonGun=localStorage.getItem("doya_"+tip+"_son");
+    let yeniSeri=1;
+    if(sonGun===dun){ yeniSeri=(tip==="yemek"?yemekSeri:adimSeri)+1; }
+    else if(sonGun===bugun){ return; } // bugün zaten sayıldı
+    localStorage.setItem("doya_"+tip+"_son",bugun);
+    localStorage.setItem("doya_"+tip+"_seri",yeniSeri);
+    if(tip==="yemek") setYemekSeri(yeniSeri);
+    else setAdimSeri(yeniSeri);
+    if(yeniSeri>1) setSeriMsg({tip, gun:yeniSeri});
+    if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{[tip+"Seri"]:yeniSeri}).catch(console.error);
   };
 
   // ─── SOSYAL ──────────────────────────────────────────────────
@@ -1067,7 +1085,7 @@ export default function Doya(){
         {/* ──── ANASAYFA ──────────────────────────────────────────── */}
         {tab==="anasayfa"&&(
           <div>
-            {reklam&&!premium&&(
+            {reklam&&!premium&&(eVeriGizle||!auth.currentUser||auth.currentUser?.emailVerified||auth.currentUser?.providerData?.some(p=>p.providerId==="google.com"))&&(
               <div style={{background:d?"#1c1a10":"#fef3c7",border:"1px dashed #f59e0b",borderRadius:12,padding:"9px 14px",margin:"10px 16px 0",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <div><div style={{fontSize:9,color:"#92400e",fontWeight:700}}>REKLAM</div><div style={{fontSize:12,color:"#78350f"}}>Protein Tozu %20 İndirim → Premium: sadece {PREMIUM_FIYAT}₺/ay</div></div>
                 <button onClick={()=>setReklam(false)} style={{background:"none",border:"none",cursor:"pointer",color:"#92400e",fontSize:18}}>×</button>
@@ -1125,6 +1143,28 @@ export default function Doya(){
                 ))}
               </div>
             </div>
+
+            {/* SERİ KARTLARI */}
+            {(yemekSeri>0||adimSeri>0)&&(
+              <div style={{display:"flex",gap:8,marginBottom:0}}>
+                {yemekSeri>0&&(
+                  <div style={{flex:1,background:d?"#1c1917":"#fff7ed",border:`2px solid ${yemekSeri>=7?"#f59e0b":"#fed7aa"}`,borderRadius:14,padding:"12px 14px",textAlign:"center"}}>
+                    <div style={{fontSize:24}}>🍽️</div>
+                    <div style={{fontSize:22,fontWeight:900,color:"#ea580c",lineHeight:1}}>{yemekSeri}</div>
+                    <div style={{fontSize:10,color:r.sub,fontWeight:700}}>günlük yemek serisi</div>
+                    {yemekSeri>=7&&<div style={{fontSize:9,color:"#f59e0b",fontWeight:800,marginTop:2}}>🔥 {yemekSeri>=30?"Efsane!":yemekSeri>=14?"Harika!":"Devam et!"}</div>}
+                  </div>
+                )}
+                {adimSeri>0&&(
+                  <div style={{flex:1,background:d?"#0c1a1a":"#ecfdf5",border:`2px solid ${adimSeri>=7?"#16a34a":"#86efac"}`,borderRadius:14,padding:"12px 14px",textAlign:"center"}}>
+                    <div style={{fontSize:24}}>👟</div>
+                    <div style={{fontSize:22,fontWeight:900,color:"#16a34a",lineHeight:1}}>{adimSeri}</div>
+                    <div style={{fontSize:10,color:r.sub,fontWeight:700}}>günlük 10K adım serisi</div>
+                    {adimSeri>=7&&<div style={{fontSize:9,color:"#16a34a",fontWeight:800,marginTop:2}}>🔥 {adimSeri>=30?"Efsane!":adimSeri>=14?"Harika!":"Devam et!"}</div>}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* ÖĞÜNLER */}
             <div style={CS}>
@@ -2630,7 +2670,22 @@ export default function Doya(){
           </div>
         )}
 
-        {/* ADIM SAYAR İZİN MODAL */}
+        {/* SERİ TOAST */}
+        {seriMsg&&(
+          <div style={{position:"fixed",top:70,left:"50%",transform:"translateX(-50%)",zIndex:600,background:seriMsg.tip==="yemek"?"#fff7ed":"#ecfdf5",border:`2px solid ${seriMsg.tip==="yemek"?"#f59e0b":"#16a34a"}`,borderRadius:16,padding:"14px 20px",boxShadow:"0 8px 32px #0002",display:"flex",alignItems:"center",gap:10,minWidth:240,maxWidth:340}} onClick={()=>setSeriMsg(null)}>
+            <div style={{fontSize:28}}>{seriMsg.tip==="yemek"?"🍽️":"👟"}</div>
+            <div>
+              <div style={{fontWeight:900,fontSize:14,color:seriMsg.tip==="yemek"?"#ea580c":"#16a34a"}}>
+                {seriMsg.gun} günlük seri! 🔥
+              </div>
+              <div style={{fontSize:11,color:"#6b7280"}}>
+                {seriMsg.tip==="yemek"?"Her gün yemek kaydettirdin!":"10.000 adımı geçtin, tebrikler!"}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ADIM SAYAR İZİN MODAL */}}
         {adimIzinModal&&(
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center",padding:16}}>
             <div style={{background:r.card,borderRadius:20,padding:24,width:"100%",maxWidth:400}}>
