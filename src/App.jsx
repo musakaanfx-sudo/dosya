@@ -1626,8 +1626,40 @@ const BESIN_DB = [
   { id:1450, ad:"Doya Yıldız Gıda (5 Yıldız)", marka:"Doya",kal:350, pro:30, karb:35, yag:10, lif:12, sod:320, demir:8, kals:350, vitC:60, vitD:5, vitB12:4, acik:88, por:250, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
 ];
 
-// ─── DEMO VERİLER (sadece sosyal akış için örnek post'lar) ───
-const DEMO_PAYLASIM = {};
+// ─── DEMO VERİLER ───────────────────────────────────────────────
+function demoGunluk(){
+  const g={};
+  const bugun=new Date();
+  const pt=new Date(bugun);
+  const fark=pt.getDay()===0?6:pt.getDay()-1;
+  pt.setDate(bugun.getDate()-fark);
+  const yemekHavuzu=[
+    [{ad:"Yulaf Ezmesi",kal:310,pro:12,karb:52,yag:6,lif:8},{ad:"Yeşil Çay",kal:2,pro:0,karb:0,yag:0,lif:0}],
+    [{ad:"Tavuk Göğsü (Fırın)",kal:165,pro:31,karb:0,yag:3,lif:0},{ad:"Bulgur Pilavı",kal:195,pro:5,karb:38,yag:2,lif:4},{ad:"Ayran",kal:40,pro:2,karb:3,yag:2,lif:0}],
+    [{ad:"Somon Fileto",kal:185,pro:25,karb:0,yag:9,lif:0},{ad:"Brokoli Buharda",kal:35,pro:2,karb:7,yag:0,lif:2}],
+    [{ad:"Yoğurt (Tam Yağlı)",kal:62,pro:3,karb:5,yag:3,lif:0},{ad:"Kivi",kal:61,pro:1,karb:15,yag:0,lif:3}],
+    [{ad:"Mercimek Çorbası",kal:98,pro:6,karb:16,yag:2,lif:4},{ad:"Gözleme (Ispanaklı)",kal:260,pro:10,karb:30,yag:11,lif:2}],
+    [{ad:"Protein Shake",kal:120,pro:24,karb:3,yag:1,lif:0},{ad:"Muz",kal:89,pro:1,karb:23,yag:0,lif:2},{ad:"Badem Ezmesi",kal:196,pro:7,karb:6,yag:18,lif:3}],
+    [{ad:"Kinoa Tabule",kal:190,pro:7,karb:30,yag:6,lif:4},{ad:"Izgara Tavuk",kal:165,pro:31,karb:0,yag:3,lif:0},{ad:"Taze Portakal Suyu",kal:45,pro:0,karb:10,yag:0,lif:0}],
+  ];
+  const suHavuzu=[1800,2200,1600,2400,2000,1900,2100];
+  const adimHavuzu=[8200,11500,6800,13200,9400,7600,10800];
+  for(let i=0;i<7;i++){
+    const d=new Date(pt);d.setDate(pt.getDate()+i);
+    const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+    g[key]={yemekler:yemekHavuzu[i],su:suHavuzu[i],adim:adimHavuzu[i]};
+  }
+  return g;
+}
+const DEMO_PAYLASIM={
+  "bendensize769":{
+    profil:{isim:"Doya Demo",kilo:68,boy:170,yas:25,cinsiyet:"erkek",aktivite:"orta"},
+    gunluk:demoGunluk(),
+    puan:1240,
+    yemekSeri:5,
+    adimSeri:3
+  }
+};
 
 // ─── YARDIMCI FONKSİYONLAR ───────────────────────────────────
 function tarihKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
@@ -3574,9 +3606,14 @@ export default function App(){
             </div>
 
             {!demoEklendi&&arkadaslar.length===0&&(
-              <div style={{...CS,border:"1px dashed #6b7280",textAlign:"center"}}>
-                <div style={{fontSize:12,color:r.sub,marginBottom:8}}>Demo: Gelen istek simüle et</div>
-                <button onClick={()=>{setGelenIstekler([{uid:"NTR-000003",isim:"Ayşe Kaya"}]);setDemoEklendi(true);}} style={{...BTN("#6b7280","8px 16px"),fontSize:12}}>Demo İstek</button>
+              <div style={{...CS,border:"1px dashed #16a34a",textAlign:"center",background:d?"#0f172a":"#f0fdf4"}}>
+                <div style={{fontSize:14,marginBottom:4}}>👋</div>
+                <div style={{fontSize:12,color:r.sub,marginBottom:10,fontWeight:600}}>Demo hesabını arkadaş olarak ekle!</div>
+                <button onClick={()=>{
+                  setArkadaslar([{uid:"bendensize769",isim:"Doya Demo 🤖"}]);
+                  setPaylasimDB(p=>({...p,"bendensize769":DEMO_PAYLASIM["bendensize769"]}));
+                  setDemoEklendi(true);
+                }} style={{...BTN("#16a34a","9px 18px"),fontSize:12}}>+ Demo Arkadaş Ekle</button>
               </div>
             )}
 
@@ -4865,27 +4902,93 @@ export default function App(){
             {l:"📅 Aktif Gün",v:(aktifGun||0)+" gün",renk:"#8b5cf6"},
             {l:"🏅 Puan",v:puan+" pts",renk:"#f59e0b"},
           ];
+
+          // Arkadaş haftalık özeti — hem gerçek arkadaşlar hem demo
+          const demoHesap=DEMO_PAYLASIM["bendensize769"];
+          const arkListeTam=[
+            ...arkadaslar.map(a=>({uid:a.uid,isim:a.isim,veri:paylasimDB[a.uid]||{}})),
+            {uid:"bendensize769",isim:"Doya Demo 🤖",veri:demoHesap}
+          ];
+          const arkHafta=arkListeTam.map(ark=>{
+            const bugunObj=new Date();
+            const farkGun=bugunObj.getDay()===0?6:bugunObj.getDay()-1;
+            let aKal=0,aPro=0,aAdim=0,aSu=0,aAktif=0;
+            for(let i=0;i<7;i++){
+              const dd=new Date(bugunObj);dd.setDate(bugunObj.getDate()-farkGun+i);
+              const kk=dd.getFullYear()+"-"+String(dd.getMonth()+1).padStart(2,"0")+"-"+String(dd.getDate()).padStart(2,"0");
+              const gv=(ark.veri.gunluk||{})[kk]||{};
+              const ys=gv.yemekler||[];
+              const gKal=ys.reduce((s,y)=>s+(+y.kal||0),0);
+              if(gKal>0)aAktif++;
+              aKal+=gKal;
+              aPro+=ys.reduce((s,y)=>s+(+y.pro||0),0);
+              aAdim+=(+gv.adim||0);
+              aSu+=(+gv.su||0);
+            }
+            return {uid:ark.uid,isim:ark.isim,kal:Math.round(aKal),pro:Math.round(aPro),adim:Math.round(aAdim),su:Math.round(aSu/100)/10,aktif:aAktif};
+          }).filter(a=>a.aktif>0||a.uid==="bendensize769");
+
           return(
-            <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:900,background:"rgba(0,0,0,.7)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}} onClick={()=>setDonemOzetGoster(false)}>
-              <div onClick={e=>e.stopPropagation()} style={{background:d?"#1e293b":"#fff",borderRadius:24,padding:24,width:"100%",maxWidth:380,boxShadow:"0 20px 60px #0004",animation:"slideUp 0.35s ease-out"}}>
+            <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:900,background:"rgba(0,0,0,.7)",display:"flex",alignItems:"center",justifyContent:"center",padding:"20px 16px"}} onClick={()=>setDonemOzetGoster(false)}>
+              <div onClick={e=>e.stopPropagation()} style={{background:d?"#1e293b":"#fff",borderRadius:24,padding:22,width:"100%",maxWidth:400,boxShadow:"0 20px 60px #0006",animation:"slideUp 0.35s ease-out",maxHeight:"90vh",overflowY:"auto"}}>
                 <style>{`@keyframes slideUp{from{opacity:0;transform:scale(0.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}`}</style>
-                <div style={{background:tipRenk,borderRadius:16,padding:"16px 20px",color:"#fff",marginBottom:16,textAlign:"center"}}>
-                  <div style={{fontSize:11,fontWeight:700,opacity:.85,marginBottom:4}}>{tipLabel}</div>
+
+                {/* Başlık */}
+                <div style={{background:tipRenk,borderRadius:16,padding:"14px 18px",color:"#fff",marginBottom:14,textAlign:"center"}}>
+                  <div style={{fontSize:11,fontWeight:700,opacity:.85,marginBottom:3}}>{tipLabel}</div>
                   <div style={{fontSize:22,fontWeight:900}}>{donemAdi}</div>
-                  <div style={{fontSize:12,opacity:.85,marginTop:4}}>tamamlandı! 🎉</div>
+                  <div style={{fontSize:12,opacity:.85,marginTop:3}}>tamamlandı! 🎉</div>
                 </div>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
+
+                {/* Kendi istatistikler */}
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
                   {istatler.map(s=>(
-                    <div key={s.l} style={{background:d?"#0f172a":"#f8fafc",borderRadius:12,padding:"12px 10px",textAlign:"center"}}>
-                      <div style={{fontSize:9,color:"#94a3b8",fontWeight:700,marginBottom:4}}>{s.l}</div>
-                      <div style={{fontSize:18,fontWeight:900,color:s.renk}}>{s.v}</div>
+                    <div key={s.l} style={{background:d?"#0f172a":"#f8fafc",borderRadius:12,padding:"10px 8px",textAlign:"center"}}>
+                      <div style={{fontSize:9,color:"#94a3b8",fontWeight:700,marginBottom:3}}>{s.l}</div>
+                      <div style={{fontSize:17,fontWeight:900,color:s.renk}}>{s.v}</div>
                     </div>
                   ))}
                 </div>
-                <button onClick={()=>setDonemOzetGoster(false)} style={{...BTN("#16a34a"),width:"100%",padding:"12px 0",fontSize:14,fontWeight:800}}>
+
+                {/* ── Arkadaşların Bu Hafta ── */}
+                {arkHafta.length>0&&tip==="hafta"&&(
+                  <div style={{background:d?"#0f172a":"#f0fdf4",borderRadius:16,padding:14,marginBottom:14,border:`1.5px solid ${d?"#16a34a33":"#bbf7d0"}`}}>
+                    <div style={{fontSize:12,fontWeight:900,color:"#16a34a",marginBottom:10,display:"flex",alignItems:"center",gap:6}}>
+                      <span>👥 Arkadaşların Bu Hafta</span>
+                      <span style={{fontSize:10,background:"#16a34a",color:"#fff",borderRadius:20,padding:"2px 8px",fontWeight:700}}>{arkHafta.length}</span>
+                    </div>
+                    {arkHafta.map((a,i)=>(
+                      <div key={a.uid} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:i<arkHafta.length-1?`1px solid ${d?"#1e293b":"#dcfce7"}`:"none"}}>
+                        {/* Avatar */}
+                        <div style={{width:36,height:36,borderRadius:"50%",background:"linear-gradient(135deg,#16a34a,#059669)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:900,color:"#fff",flexShrink:0}}>
+                          {a.isim[0]}
+                        </div>
+                        {/* İsim + istatler */}
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontSize:12,fontWeight:800,color:r.text,marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{a.isim}</div>
+                          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                            <span style={{fontSize:10,background:d?"#1e293b":"#fff",border:"1px solid #fde68a",borderRadius:8,padding:"2px 7px",color:"#f59e0b",fontWeight:700}}>🔥 {a.kal.toLocaleString()} kcal</span>
+                            <span style={{fontSize:10,background:d?"#1e293b":"#fff",border:"1px solid #bbf7d0",borderRadius:8,padding:"2px 7px",color:"#16a34a",fontWeight:700}}>💪 {a.pro}g</span>
+                            <span style={{fontSize:10,background:d?"#1e293b":"#fff",border:"1px solid #bfdbfe",borderRadius:8,padding:"2px 7px",color:"#2563eb",fontWeight:700}}>👟 {(a.adim/1000).toFixed(1)}K</span>
+                          </div>
+                        </div>
+                        {/* Aktif gün */}
+                        <div style={{textAlign:"center",flexShrink:0}}>
+                          <div style={{fontSize:16,fontWeight:900,color:"#8b5cf6"}}>{a.aktif}</div>
+                          <div style={{fontSize:9,color:r.muted}}>aktif gün</div>
+                        </div>
+                      </div>
+                    ))}
+                    <button onClick={()=>{setDonemOzetGoster(false);setTab("arkadaslar");}} style={{width:"100%",padding:"9px 0",marginTop:10,background:"none",border:`1px solid ${d?"#16a34a66":"#86efac"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,color:"#16a34a"}}>
+                      👥 Tüm arkadaşlarına bak →
+                    </button>
+                  </div>
+                )}
+
+                <button onClick={()=>setDonemOzetGoster(false)} style={{...BTN("#16a34a"),width:"100%",padding:"12px 0",fontSize:14,fontWeight:800,marginBottom:8}}>
                   Harika! Devam Et →
                 </button>
-                <button onClick={()=>{setDonemOzetGoster(false);setTab("profil");setProfilSekme("performans");}} style={{width:"100%",padding:"10px 0",marginTop:8,background:"none",border:`1px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,color:r.sub}}>
+                <button onClick={()=>{setDonemOzetGoster(false);setTab("profil");setProfilSekme("performans");}} style={{width:"100%",padding:"10px 0",background:"none",border:`1px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,color:r.sub}}>
                   📊 Detaylı Performans Gör
                 </button>
               </div>
