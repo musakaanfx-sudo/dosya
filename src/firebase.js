@@ -193,6 +193,10 @@ export async function sikayetleriGetir() {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
+export async function sikayetGuncelle(id, islem) {
+  await updateDoc(doc(db, "sikayetler", id), { islem });
+}
+
 // ─── GÜNLÜK VERİ (yemekler, su, spor) ───────────────────────
 // Her kullanıcı için: users/{firebaseUID}/gunler/{tarih}
 
