@@ -403,6 +403,11 @@ export default function App(){
   // ── PAYLASIM MODAL ──
   const [psModal,setPsModal]=useState(false);
 
+  // ── PROFİL DÜZENLEME ──
+  const [isimDuzenle,setIsimDuzenle]=useState(false);
+  const [yeniIsim,setYeniIsim]=useState("");
+  const [profilSekme,setProfilSekme]=useState("genel"); // "genel" | "gonderiler"
+
   const isAdmin = aktif?.admin===true;
   const isOrtak = !!(aktif?.refTip && aktif?.refOnay);
 
@@ -2248,131 +2253,260 @@ export default function App(){
         {/* ──── PROFİL ──────────────────────────────────────────── */}
         {tab==="profil"&&(
           <div style={{padding:16}}>
-            <div style={CS}>
-              <div style={{display:"flex",gap:14,alignItems:"center",marginBottom:12}}>
-                <div onClick={()=>profFotoRef.current.click()} style={{width:62,height:62,borderRadius:"50%",background:"#16a34a",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,color:"#fff",cursor:"pointer",overflow:"hidden",border:"3px solid #86efac",flexShrink:0}}>
-                  {profFoto?<img src={profFoto} style={{width:"100%",height:"100%",objectFit:"cover"}} alt="profil"/>:aktif.isim[0]}
+
+            {/* PROFIL KARTI — büyük fotoğraf + isim düzenleme */}
+            <div style={{...CS,padding:0,overflow:"hidden"}}>
+              {/* Arka plan banner */}
+              <div style={{height:90,background:"linear-gradient(135deg,#16a34a,#15803d)",position:"relative"}}>
+                <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle,#ffffff0a 1px,transparent 1px)",backgroundSize:"20px 20px"}}/>
+              </div>
+
+              <div style={{padding:"0 16px 16px",position:"relative"}}>
+                {/* Büyük profil fotoğrafı */}
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:12}}>
+                  <div style={{position:"relative",marginTop:-36}}>
+                    <div
+                      onClick={()=>profFotoRef.current.click()}
+                      style={{width:80,height:80,borderRadius:"50%",background:"linear-gradient(135deg,#22c55e,#052e16)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:32,color:"#fff",cursor:"pointer",overflow:"hidden",border:"4px solid "+r.card,boxShadow:"0 4px 14px #0003",flexShrink:0}}
+                    >
+                      {profFoto
+                        ?<img src={profFoto} style={{width:"100%",height:"100%",objectFit:"cover"}} alt="profil"/>
+                        :<span>{aktif.isim[0]}</span>
+                      }
+                    </div>
+                    {/* Fotoğraf değiştir butonu */}
+                    <button
+                      onClick={()=>profFotoRef.current.click()}
+                      style={{position:"absolute",bottom:2,right:2,width:24,height:24,borderRadius:"50%",background:"#16a34a",border:"2px solid "+r.card,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:12,color:"#fff"}}
+                    >📷</button>
+                  </div>
+                  <div style={{display:"flex",gap:6,paddingBottom:4}}>
+                    {isAdmin&&<span style={{background:"#fef3c7",color:"#78350f",fontSize:11,fontWeight:800,padding:"3px 9px",borderRadius:20}}>ADMIN</span>}
+                    {isOrtak&&<span style={{background:"#eff6ff",color:"#2563eb",fontSize:11,fontWeight:800,padding:"3px 9px",borderRadius:20}}>{aktif.refTip==="influencer"?"🎯":"🏢"}</span>}
+                    {premium&&<span style={{background:"#fef3c7",color:"#92400e",fontSize:11,fontWeight:800,padding:"3px 9px",borderRadius:20}}>⭐</span>}
+                  </div>
                 </div>
-                <div>
-                  <div style={{fontSize:15,fontWeight:700,color:r.text}}>{aktif.isim}</div>
-                  <div style={{fontSize:12,color:r.sub}}>{aktif.email}</div>
-                  <div style={{fontSize:11,color:"#16a34a",fontWeight:700,marginTop:2}}>{aktif.uid}</div>
-                  <div style={{fontSize:10,color:r.muted,marginTop:1}}>Fotoğrafı değiştirmek için tıkla</div>
+
+                {/* İsim düzenleme */}
+                {isimDuzenle?(
+                  <div style={{marginBottom:10}}>
+                    <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:5}}>Yeni İsim</div>
+                    <div style={{display:"flex",gap:8}}>
+                      <input
+                        style={{...IS,flex:1,fontWeight:800,fontSize:15}}
+                        value={yeniIsim}
+                        onChange={e=>setYeniIsim(e.target.value)}
+                        placeholder={aktif.isim}
+                        autoFocus
+                        maxLength={30}
+                      />
+                      <button style={{...BTN("#16a34a","10px 14px")}} onClick={async()=>{
+                        const trimmed=yeniIsim.trim();
+                        if(!trimmed||trimmed===aktif.isim){setIsimDuzenle(false);return;}
+                        setAktif(p=>({...p,isim:trimmed}));
+                        setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,isim:trimmed}:u));
+                        if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{isim:trimmed}).catch(console.error);
+                        setIsimDuzenle(false);
+                      }}>✓</button>
+                      <button style={{...BTN("#6b7280","10px 14px")}} onClick={()=>setIsimDuzenle(false)}>×</button>
+                    </div>
+                    <div style={{fontSize:10,color:r.muted,marginTop:4}}>{yeniIsim.length}/30 karakter</div>
+                  </div>
+                ):(
+                  <div style={{marginBottom:8}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:2}}>
+                      <div style={{fontSize:20,fontWeight:900,color:r.text}}>{aktif.isim}</div>
+                      <button
+                        onClick={()=>{setYeniIsim(aktif.isim);setIsimDuzenle(true);}}
+                        style={{background:d?"#334155":"#f3f4f6",border:"none",borderRadius:8,padding:"4px 8px",fontSize:11,cursor:"pointer",color:r.sub,fontFamily:"'Nunito',sans-serif",fontWeight:700}}
+                      >✏️ Düzenle</button>
+                    </div>
+                    <div style={{fontSize:12,color:r.sub}}>{aktif.email}</div>
+                    <div style={{fontSize:11,color:"#16a34a",fontWeight:700,marginTop:2}}>{aktif.uid}</div>
+                  </div>
+                )}
+
+                {/* İstatistikler */}
+                <div style={{display:"flex",gap:8,marginTop:8}}>
+                  {[
+                    {l:"Gönderi",v:paylasimlar.filter(p=>p.uid===aktif.uid).length},
+                    {l:"Puan",v:puan},
+                    {l:"Arkadaş",v:arkadaslar.length},
+                  ].map(s=>(
+                    <div key={s.l} style={{flex:1,textAlign:"center",background:d?"#0f172a":"#f9fafb",borderRadius:10,padding:"8px 4px"}}>
+                      <div style={{fontSize:18,fontWeight:900,color:"#16a34a"}}>{s.v}</div>
+                      <div style={{fontSize:9,color:r.muted,fontWeight:700}}>{s.l}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
+
               <input ref={profFotoRef} type="file" accept="image/*" style={{display:"none"}} onChange={e=>{
                 const f=e.target.files[0]; if(!f)return;
                 const reader=new FileReader();
-                reader.onload=ev=>{setProfFoto(ev.target.result);setKullanicilar(prev=>prev.map(u=>u.uid===aktif.uid?{...u,foto:ev.target.result}:u));};
+                reader.onload=ev=>{
+                  setProfFoto(ev.target.result);
+                  setKullanicilar(prev=>prev.map(u=>u.uid===aktif.uid?{...u,foto:ev.target.result}:u));
+                  if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{foto:ev.target.result}).catch(console.error);
+                };
                 reader.readAsDataURL(f);
               }}/>
-              <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                {isAdmin&&<span style={{background:"#fef3c7",color:"#78350f",fontSize:11,fontWeight:800,padding:"3px 9px",borderRadius:20}}>ADMIN</span>}
-                {isOrtak&&<span style={{background:"#eff6ff",color:"#2563eb",fontSize:11,fontWeight:800,padding:"3px 9px",borderRadius:20}}>{aktif.refTip==="influencer"?"🎯 Influencer":"🏢 İşletme"}</span>}
-                {premium&&<span style={{background:"#fef3c7",color:"#92400e",fontSize:11,fontWeight:800,padding:"3px 9px",borderRadius:20}}>⭐ Premium</span>}
-              </div>
             </div>
 
-            {/* FOTOĞRAF GALERİSİ */}
-            {(()=>{
-              const benimFotolar = paylasimlar.filter(ps=>ps.uid===aktif.uid&&ps.postFoto);
-              return benimFotolar.length>0?(
-                <div style={CS}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                    <div style={{fontSize:14,fontWeight:900,color:r.text}}>📷 Fotoğraflarım</div>
-                    <div style={{fontSize:11,color:r.muted}}>{benimFotolar.length} fotoğraf</div>
-                  </div>
-                  <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:4}}>
-                    {benimFotolar.map(ps=>(
-                      <div key={ps.id} style={{position:"relative",aspectRatio:"1",borderRadius:10,overflow:"hidden",cursor:"pointer"}}>
-                        <img src={ps.postFoto} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} alt=""/>
-                        <button
-                          onClick={()=>{if(window.confirm("Bu fotoğrafı silmek istiyor musun?"))setPaylasimlar(prev=>prev.map(p2=>p2.id===ps.id?{...p2,postFoto:null}:p2));}}
-                          style={{position:"absolute",top:4,right:4,background:"rgba(0,0,0,.6)",border:"none",borderRadius:"50%",width:22,height:22,color:"#fff",fontSize:12,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900}}>
-                          ×
-                        </button>
-                        {ps.icerik&&(
-                          <div style={{position:"absolute",bottom:0,left:0,right:0,background:"linear-gradient(transparent,rgba(0,0,0,.7))",padding:"12px 6px 5px",fontSize:9,color:"#fff",lineHeight:1.2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
-                            {ps.icerik}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{fontSize:10,color:r.muted,marginTop:8,fontStyle:"italic"}}>× ile fotoğrafı gönderiden kaldırabilirsin</div>
-                </div>
-              ):null;
-            })()}
+            {/* SEKME: Genel / Gönderiler */}
+            <div style={{display:"flex",background:d?"#0f172a":"#f3f4f6",borderRadius:12,padding:3,marginBottom:12,gap:3}}>
+              {[{v:"genel",l:"⚙️ Genel"},{v:"gonderiler",l:`📸 Gönderilerim (${paylasimlar.filter(p=>p.uid===aktif.uid).length})`}].map(s=>(
+                <button key={s.v} onClick={()=>setProfilSekme(s.v)} style={{flex:1,padding:"9px 4px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:profilSekme===s.v?"#16a34a":"transparent",color:profilSekme===s.v?"#fff":r.sub,transition:"all .15s"}}>{s.l}</button>
+              ))}
+            </div>
 
-            {bmi&&bmiD&&(
-              <div style={{...CS,background:`${bmiD.renk}12`,border:`1.5px solid ${bmiD.renk}30`}}>
-                <div style={CT}>İlerleme & BMI</div>
-                <div style={{fontSize:32,fontWeight:900,color:bmiD.renk}}>{bmi} <span style={{fontSize:14}}>{bmiD.etiket}</span></div>
-                <div style={{fontSize:12,color:r.sub}}>{bmiD.acik}</div>
-                {tdee&&<div style={{marginTop:10,background:d?"#1e293b":"#f9fafb",borderRadius:10,padding:10}}>
-                  <div style={{fontSize:12,color:r.sub,fontWeight:700,marginBottom:6}}>Günlük Yakım</div>
-                  <div style={{display:"flex",gap:8}}>
-                    {[{l:"İdeal sürdür",v:tdee},{l:"Kilo ver",v:tdee-500},{l:"Kilo al",v:tdee+300}].map(x=>(
-                      <div key={x.l} style={{flex:1,textAlign:"center"}}>
-                        <div style={{fontSize:13,fontWeight:900,color:"#7c3aed"}}>{x.v}</div>
-                        <div style={{fontSize:9,color:r.muted}}>{x.l}</div>
+            {/* ── GENEL SEKME ── */}
+            {profilSekme==="genel"&&(
+              <>
+                {bmi&&bmiD&&(
+                  <div style={{...CS,background:`${bmiD.renk}12`,border:`1.5px solid ${bmiD.renk}30`}}>
+                    <div style={CT}>İlerleme & BMI</div>
+                    <div style={{fontSize:32,fontWeight:900,color:bmiD.renk}}>{bmi} <span style={{fontSize:14}}>{bmiD.etiket}</span></div>
+                    <div style={{fontSize:12,color:r.sub}}>{bmiD.acik}</div>
+                    {tdee&&<div style={{marginTop:10,background:d?"#1e293b":"#f9fafb",borderRadius:10,padding:10}}>
+                      <div style={{fontSize:12,color:r.sub,fontWeight:700,marginBottom:6}}>Günlük Yakım</div>
+                      <div style={{display:"flex",gap:8}}>
+                        {[{l:"İdeal sürdür",v:tdee},{l:"Kilo ver",v:tdee-500},{l:"Kilo al",v:tdee+300}].map(x=>(
+                          <div key={x.l} style={{flex:1,textAlign:"center"}}>
+                            <div style={{fontSize:13,fontWeight:900,color:"#7c3aed"}}>{x.v}</div>
+                            <div style={{fontSize:9,color:r.muted}}>{x.l}</div>
+                          </div>
+                        ))}
                       </div>
+                    </div>}
+                  </div>
+                )}
+
+                <div style={CS}>
+                  <div style={CT}>Vücut Bilgileri</div>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}>
+                    {[{l:"Kilo (kg)",k:"kilo"},{l:"Boy (cm)",k:"boy"},{l:"Yaş",k:"yas"},{l:"Hedef Kilo",k:"hedef"}].map(f=>(
+                      <div key={f.k}><div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:3}}>{f.l}</div>
+                      <input style={{...IS,padding:"9px 11px",fontSize:13}} type="number" value={profil[f.k]} onChange={e=>setProfil(p=>({...p,[f.k]:e.target.value}))}/></div>
                     ))}
                   </div>
-                </div>}
-              </div>
+                  <div style={{marginBottom:10}}>
+                    <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:4}}>Cinsiyet</div>
+                    <div style={{display:"flex",gap:8}}>
+                      {["erkek","kadin"].map(c=><button key={c} onClick={()=>setProfil(p=>({...p,cinsiyet:c}))} style={{flex:1,padding:"9px",border:`2px solid ${profil.cinsiyet===c?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:profil.cinsiyet===c?d?"#0f2a1a":"#f0fdf4":r.inp,color:profil.cinsiyet===c?"#16a34a":r.sub}}>{c==="erkek"?"Erkek":"Kadın"}</button>)}
+                    </div>
+                  </div>
+                  <div style={{marginBottom:14}}>
+                    <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:4}}>Aktivite Seviyesi</div>
+                    {Object.entries(AKTIVITE_ETIKET).map(([k,v])=>(
+                      <button key={k} onClick={()=>setProfil(p=>({...p,aktivite:k}))} style={{display:"block",width:"100%",textAlign:"left",padding:"8px 12px",marginBottom:4,border:`2px solid ${profil.aktivite===k?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:profil.aktivite===k?700:500,fontSize:12,background:profil.aktivite===k?d?"#0f2a1a":"#f0fdf4":r.inp,color:profil.aktivite===k?"#16a34a":r.text}}>{v}</button>
+                    ))}
+                  </div>
+                  <button style={{...BTN(),width:"100%",padding:"12px 0"}} onClick={async()=>{
+                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{
+                      kilo:profil.kilo, boy:profil.boy, yas:profil.yas,
+                      cinsiyet:profil.cinsiyet, aktivite:profil.aktivite, hedef:profil.hedef
+                    }).catch(console.error);
+                    setTab("anasayfa");
+                  }}>Kaydet</button>
+                </div>
+
+                <div style={CS}>
+                  <div style={CT}>Gizlilik & Sosyal</div>
+                  <div style={{marginBottom:10}}>
+                    <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Sosyal Özellikler</div>
+                    <div style={{display:"flex",gap:8}}>
+                      {[{v:true,l:"Aktif"},{v:false,l:"Kapalı"}].map(o=><button key={String(o.v)} onClick={()=>{setSosyalAktif(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,sosyal:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${sosyalAktif===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:sosyalAktif===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:sosyalAktif===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
+                    </div>
+                  </div>
+                  {sosyalAktif&&<div>
+                    <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Hesap Türü</div>
+                    <div style={{display:"flex",gap:8}}>
+                      {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=><button key={String(o.v)} onClick={()=>{setAcikHesap(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,acik:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${acikHesap===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:acikHesap===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:acikHesap===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
+                    </div>
+                  </div>}
+                </div>
+
+                <div style={CS}>
+                  <div style={CT}>İletişim & Destek</div>
+                  <a href={"mailto:"+DESTEK_MAIL} style={{display:"block",padding:"10px 14px",background:d?"#0f172a":"#f0fdf4",borderRadius:10,color:"#16a34a",fontWeight:700,fontSize:13,textDecoration:"none",marginBottom:8}}>✉️ Destek: {DESTEK_MAIL}</a>
+                  <a href={"mailto:"+ORTAKLIK_MAIL} style={{display:"block",padding:"10px 14px",background:d?"#0f172a":"#eff6ff",borderRadius:10,color:"#2563eb",fontWeight:700,fontSize:13,textDecoration:"none"}}>🤝 Ortaklık: {ORTAKLIK_MAIL}</a>
+                </div>
+              </>
             )}
 
-            <div style={CS}>
-              <div style={CT}>Vücut Bilgileri</div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:10}}>
-                {[{l:"Kilo (kg)",k:"kilo"},{l:"Boy (cm)",k:"boy"},{l:"Yaş",k:"yas"},{l:"Hedef Kilo",k:"hedef"}].map(f=>(
-                  <div key={f.k}><div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:3}}>{f.l}</div>
-                  <input style={{...IS,padding:"9px 11px",fontSize:13}} type="number" value={profil[f.k]} onChange={e=>setProfil(p=>({...p,[f.k]:e.target.value}))}/></div>
-                ))}
-              </div>
-              <div style={{marginBottom:10}}>
-                <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:4}}>Cinsiyet</div>
-                <div style={{display:"flex",gap:8}}>
-                  {["erkek","kadin"].map(c=><button key={c} onClick={()=>setProfil(p=>({...p,cinsiyet:c}))} style={{flex:1,padding:"9px",border:`2px solid ${profil.cinsiyet===c?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:profil.cinsiyet===c?d?"#0f2a1a":"#f0fdf4":r.inp,color:profil.cinsiyet===c?"#16a34a":r.sub}}>{c==="erkek"?"Erkek":"Kadın"}</button>)}
+            {/* ── GÖNDERİLER SEKME ── */}
+            {profilSekme==="gonderiler"&&(()=>{
+              const benimGonderiler=paylasimlar.filter(ps=>ps.uid===aktif.uid);
+              if(benimGonderiler.length===0) return(
+                <div style={{...CS,textAlign:"center",padding:"32px 16px"}}>
+                  <div style={{fontSize:44,marginBottom:10}}>📭</div>
+                  <div style={{fontSize:15,fontWeight:800,color:r.text,marginBottom:6}}>Henüz gönderin yok</div>
+                  <div style={{fontSize:12,color:r.muted,marginBottom:16}}>Sosyal akıştan bir şeyler paylaşınca burada görünür.</div>
+                  <button onClick={()=>setTab("sosyal")} style={{...BTN(),padding:"10px 24px",fontSize:13}}>📢 Paylaşım Yap</button>
                 </div>
-              </div>
-              <div style={{marginBottom:14}}>
-                <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:4}}>Aktivite Seviyesi</div>
-                {Object.entries(AKTIVITE_ETIKET).map(([k,v])=>(
-                  <button key={k} onClick={()=>setProfil(p=>({...p,aktivite:k}))} style={{display:"block",width:"100%",textAlign:"left",padding:"8px 12px",marginBottom:4,border:`2px solid ${profil.aktivite===k?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:profil.aktivite===k?700:500,fontSize:12,background:profil.aktivite===k?d?"#0f2a1a":"#f0fdf4":r.inp,color:profil.aktivite===k?"#16a34a":r.text}}>{v}</button>
-                ))}
-              </div>
-              <button style={{...BTN(),width:"100%",padding:"12px 0"}} onClick={async()=>{
-                if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{
-                  kilo:profil.kilo, boy:profil.boy, yas:profil.yas,
-                  cinsiyet:profil.cinsiyet, aktivite:profil.aktivite, hedef:profil.hedef
-                }).catch(console.error);
-                setTab("anasayfa");
-              }}>Kaydet</button>
-            </div>
+              );
 
-            <div style={CS}>
-              <div style={CT}>Gizlilik & Sosyal</div>
-              <div style={{marginBottom:10}}>
-                <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Sosyal Özellikler</div>
-                <div style={{display:"flex",gap:8}}>
-                  {[{v:true,l:"Aktif"},{v:false,l:"Kapalı"}].map(o=><button key={String(o.v)} onClick={()=>{setSosyalAktif(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,sosyal:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${sosyalAktif===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:sosyalAktif===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:sosyalAktif===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
-                </div>
-              </div>
-              {sosyalAktif&&<div>
-                <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Hesap Türü</div>
-                <div style={{display:"flex",gap:8}}>
-                  {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=><button key={String(o.v)} onClick={()=>{setAcikHesap(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,acik:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${acikHesap===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:acikHesap===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:acikHesap===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
-                </div>
-              </div>}
-            </div>
+              // Fotoğraflı gönderiler grid
+              const fotoluGonderiler=benimGonderiler.filter(ps=>ps.postFoto);
+              const metinGonderiler=benimGonderiler.filter(ps=>!ps.postFoto);
 
-            <div style={CS}>
-              <div style={CT}>İletişim & Destek</div>
-              <a href={"mailto:"+DESTEK_MAIL} style={{display:"block",padding:"10px 14px",background:d?"#0f172a":"#f0fdf4",borderRadius:10,color:"#16a34a",fontWeight:700,fontSize:13,textDecoration:"none",marginBottom:8}}>✉️ Destek: {DESTEK_MAIL}</a>
-              <a href={"mailto:"+ORTAKLIK_MAIL} style={{display:"block",padding:"10px 14px",background:d?"#0f172a":"#eff6ff",borderRadius:10,color:"#2563eb",fontWeight:700,fontSize:13,textDecoration:"none"}}>🤝 Ortaklık: {ORTAKLIK_MAIL}</a>
-            </div>
+              return(
+                <div>
+                  {/* Fotoğraf grid */}
+                  {fotoluGonderiler.length>0&&(
+                    <div style={CS}>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                        <div style={{fontSize:13,fontWeight:900,color:r.text}}>📷 Fotoğraflı Gönderiler</div>
+                        <div style={{fontSize:11,color:r.muted}}>{fotoluGonderiler.length} adet</div>
+                      </div>
+                      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:4}}>
+                        {fotoluGonderiler.map(ps=>(
+                          <div key={ps.id} style={{position:"relative",aspectRatio:"1",borderRadius:10,overflow:"hidden"}}>
+                            <img src={ps.postFoto} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} alt=""/>
+                            <div style={{position:"absolute",inset:0,background:"linear-gradient(transparent 50%,rgba(0,0,0,.7))",opacity:0,transition:"opacity .2s"}}/>
+                            {/* Beğeni sayısı */}
+                            <div style={{position:"absolute",bottom:4,left:5,fontSize:9,color:"#fff",fontWeight:700,textShadow:"0 1px 3px #000"}}>❤️ {ps.begeniler?.length||0}</div>
+                            <button onClick={async()=>{
+                              if(!window.confirm("Bu gönderiyi silmek istiyor musun?"))return;
+                              await postSil(ps.id).catch(console.error);
+                            }} style={{position:"absolute",top:4,right:4,background:"rgba(0,0,0,.55)",border:"none",borderRadius:"50%",width:22,height:22,color:"#fff",fontSize:12,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900}}>×</button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Metin gönderileri liste */}
+                  {metinGonderiler.length>0&&(
+                    <div style={CS}>
+                      <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>💬 Metin Gönderileri</div>
+                      {metinGonderiler.map(ps=>(
+                        <div key={ps.id} style={{padding:"12px 0",borderBottom:`1px solid ${r.rowB}`}}>
+                          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:6}}>
+                            <div style={{fontSize:12,color:r.muted}}>{ps.zaman}</div>
+                            <button onClick={async()=>{
+                              if(!window.confirm("Bu gönderiyi silmek istiyor musun?"))return;
+                              await postSil(ps.id).catch(console.error);
+                            }} style={{background:"none",border:"none",cursor:"pointer",color:"#ef4444",fontSize:14,fontWeight:700}}>🗑</button>
+                          </div>
+                          <div style={{fontSize:13,color:r.text,lineHeight:1.5,marginBottom:6}}>{ps.icerik}</div>
+                          {ps.yemekler?.length>0&&(
+                            <div style={{background:d?"#0f172a":"#f0fdf4",borderRadius:8,padding:"6px 10px",marginBottom:6}}>
+                              {ps.yemekler.map((y,i)=><div key={i} style={{fontSize:11,color:r.sub}}>🍽 {y.ad} — {y.kal} kcal</div>)}
+                            </div>
+                          )}
+                          <div style={{display:"flex",gap:10,fontSize:11,color:r.muted}}>
+                            <span>❤️ {ps.begeniler?.length||0}</span>
+                            <span>💬 {ps.yorumlar?.length||0}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         )}
 
