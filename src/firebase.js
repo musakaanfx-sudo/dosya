@@ -42,7 +42,6 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // ─── UID SAYAÇ ────────────────────────────────────────────────
-// Firestore'da "meta/uidCounter" belgesinde tutulur
 async function uidUretFirestore() {
   const ref = doc(db, "meta", "uidCounter");
   const snap = await getDoc(ref);
@@ -54,58 +53,27 @@ async function uidUretFirestore() {
 // ─── AUTH İŞLEMLERİ ──────────────────────────────────────────
 
 export async function kayitOl({ email, sifre, isim, refKodGirilen }) {
-  // 1. Firebase Auth ile hesap oluştur
   const cred = await createUserWithEmailAndPassword(auth, email, sifre);
   const firebaseUID = cred.user.uid;
-
-  // 2. Sıralı UID üret
   const uid = await uidUretFirestore();
-
-  // 3. Referans kodu oluştur
   const refKod =
     "REF-" +
-    isim
-      .split(" ")[0]
-      .toUpperCase()
-      .replace(/[^A-Z]/g, "")
-      .slice(0, 3) +
+    isim.split(" ")[0].toUpperCase().replace(/[^A-Z]/g, "").slice(0, 3) +
     Math.floor(Math.random() * 900 + 100);
 
-  // 4. Firestore'a kullanıcı belgesi yaz
   const kullanici = {
-    uid,
-    firebaseUID,
-    email,
-    isim,
-    foto: null,
-    admin: false,
-    acik: true,
-    sosyal: true,
-    refKod,
-    refTip: null,
-    refOnay: false,
-    davet: 0,
-    kazanim: 0,
-    premium: false,
-    banli: false,
-    sosyalKisit: false,
-    puan: 100,
-    iban: "",
-    ibanAd: "",
-    boy: "",
-    kilo: "",
-    yas: "",
-    cinsiyet: "erkek",
-    aktivite: "sedanter",
-    createdAt: serverTimestamp(),
+    uid, firebaseUID, email, isim,
+    foto: null, admin: false, acik: true, sosyal: true,
+    refKod, refTip: null, refOnay: false,
+    davet: 0, kazanim: 0, premium: false, banli: false,
+    sosyalKisit: false, puan: 100, iban: "", ibanAd: "",
+    boy: "", kilo: "", yas: "", cinsiyet: "erkek",
+    aktivite: "sedanter", createdAt: serverTimestamp(),
   };
 
-  // E-posta doğrulama gönder
   await sendEmailVerification(cred.user);
-
   await setDoc(doc(db, "users", firebaseUID), kullanici);
 
-  // 5. Referans kodu kullanıldıysa daveti kaydet
   if (refKodGirilen) {
     await addDoc(collection(db, "referrals"), {
       refKod: refKodGirilen,
@@ -150,15 +118,9 @@ export async function tumKullanicilariGetir() {
 
 export async function postPaylas({ uid, isim, foto, icerik, postFoto, yemekler }) {
   const ref = await addDoc(collection(db, "posts"), {
-    uid,
-    isim,
-    foto: foto || null,
-    icerik,
-    postFoto: postFoto || null,
-    yemekler: yemekler || [],
-    begeniler: [],
-    yorumlar: [],
-    createdAt: serverTimestamp(),
+    uid, isim, foto: foto || null, icerik,
+    postFoto: postFoto || null, yemekler: yemekler || [],
+    begeniler: [], yorumlar: [], createdAt: serverTimestamp(),
   });
   return ref.id;
 }
@@ -183,8 +145,7 @@ export async function postGuncelle(postId, data) {
 
 export async function sikayetGonder(data) {
   await addDoc(collection(db, "sikayetler"), {
-    ...data,
-    createdAt: serverTimestamp(),
+    ...data, createdAt: serverTimestamp(),
   });
 }
 
@@ -197,30 +158,21 @@ export async function sikayetGuncelle(id, islem) {
   await updateDoc(doc(db, "sikayetler", id), { islem });
 }
 
-// ─── GÜNLÜK VERİ (yemekler, su, spor) ───────────────────────
-// Her kullanıcı için: users/{firebaseUID}/gunler/{tarih}
+// ─── GÜNLÜK VERİ ────────────────────────────────────────────
 
 export async function gunVeriKaydet(firebaseUID, tarih, data) {
-  await setDoc(doc(db, "users", firebaseUID, "gunler", tarih), data, {
-    merge: true,
-  });
+  await setDoc(doc(db, "users", firebaseUID, "gunler", tarih), data, { merge: true });
 }
 
 export async function gunVeriGetir(firebaseUID, tarih) {
-  const snap = await getDoc(
-    doc(db, "users", firebaseUID, "gunler", tarih)
-  );
+  const snap = await getDoc(doc(db, "users", firebaseUID, "gunler", tarih));
   return snap.exists() ? snap.data() : {};
 }
 
 export async function tumGunleriGetir(firebaseUID) {
-  const snap = await getDocs(
-    collection(db, "users", firebaseUID, "gunler")
-  );
+  const snap = await getDocs(collection(db, "users", firebaseUID, "gunler"));
   const result = {};
-  snap.docs.forEach((d) => {
-    result[d.id] = d.data();
-  });
+  snap.docs.forEach((d) => { result[d.id] = d.data(); });
   return result;
 }
 
@@ -244,8 +196,7 @@ export async function istekleriDinle(firebaseUID, callback) {
 
 export async function besinGonder(data) {
   await addDoc(collection(db, "besinOnay"), {
-    ...data,
-    createdAt: serverTimestamp(),
+    ...data, createdAt: serverTimestamp(),
   });
 }
 
@@ -254,35 +205,33 @@ export async function besinleriGetir() {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
+// ─── GOOGLE GİRİŞ ────────────────────────────────────────────
+
 export async function googleGiris() {
   const provider = new GoogleAuthProvider();
   const cred = await signInWithPopup(auth, provider);
   const firebaseUID = cred.user.uid;
-  // Kullanıcı daha önce kayıtlı mı?
-  const snap = await getDoc(doc(db, 'users', firebaseUID));
+  const snap = await getDoc(doc(db, "users", firebaseUID));
   if (snap.exists()) {
     const data = snap.data();
-    if (data.banli) throw new Error('Hesabınız banlanmıştır.');
+    if (data.banli) throw new Error("Hesabınız banlanmıştır.");
     return data;
   }
-  // Yeni kullanıcı — otomatik kayıt
   const uid = await uidUretFirestore();
-  const isim = cred.user.displayName || 'Kullanıcı';
-  const refKod = 'REF-' + isim.split(' ')[0].toUpperCase().replace(/[^A-Z]/g, '').slice(0,3) + Math.floor(Math.random()*900+100);
+  const isim = cred.user.displayName || "Kullanıcı";
+  const refKod = "REF-" + isim.split(" ")[0].toUpperCase().replace(/[^A-Z]/g, "").slice(0, 3) + Math.floor(Math.random() * 900 + 100);
   const kullanici = {
-    uid, firebaseUID,
-    email: cred.user.email,
-    isim,
+    uid, firebaseUID, email: cred.user.email, isim,
     foto: cred.user.photoURL || null,
     admin: false, acik: true, sosyal: true,
     refKod, refTip: null, refOnay: false,
     davet: 0, kazanim: 0, premium: false, banli: false,
-    sosyalKisit: false, puan: 100, iban: '', ibanAd: '',
-    boy: '', kilo: '', yas: '', cinsiyet: 'erkek',
-    aktivite: 'sedanter', createdAt: serverTimestamp(),
+    sosyalKisit: false, puan: 100, iban: "", ibanAd: "",
+    boy: "", kilo: "", yas: "", cinsiyet: "erkek",
+    aktivite: "sedanter", createdAt: serverTimestamp(),
   };
-  await setDoc(doc(db, 'users', firebaseUID), kullanici);
+  await setDoc(doc(db, "users", firebaseUID), kullanici);
   return kullanici;
 }
 
-export { onAuthStateChanged, sendEmailVerification, auth };
+export { onAuthStateChanged, sendEmailVerification };
