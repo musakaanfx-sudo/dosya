@@ -318,6 +318,11 @@ export default function Doya(){
   const [adminMsg,setAdminMsg]=useState(""); const [banMsg,setBanMsg]=useState("");
   const [sikayetler,setSikayetler]=useState([]);
 
+  // ── SERİLER ──
+  const [yemekSeri,setYemekSeri]=useState(0);
+  const [adimSeri,setAdimSeri]=useState(0);
+  const [seriToast,setSeriToast]=useState(null);
+
   // ── PAYLASIM MODAL ──
   const [psModal,setPsModal]=useState(false);
 
