@@ -224,7 +224,7 @@ function YildizGoster({v=3,boyut=12}){
 }
 
 // ─── ANA COMPONENT ───────────────────────────────────────────
-export default function Doya(){
+export default function App(){
   const profFotoRef = useRef(null);
   const besinFotoRef = useRef(null);
   const postFotoRef = useRef(null);
