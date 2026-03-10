@@ -1792,6 +1792,10 @@ export default function App(){
   const [basGonderildi,setBasGonderildi]=useState(false);
   const [refBasvurular,setRefBasvurular]=useState([]);
 
+  // ── HAFTALIK PANEL ──
+  const [hpDonem,setHpDonem]=useState("hafta"); // hafta | ay | yil
+  const [hpSecGun,setHpSecGun]=useState(null);  // seçilen gün key'i
+
   // ── ADMIN ──
   const [adminUid,setAdminUid]=useState(""); const [adminTip,setAdminTip]=useState("influencer");
   const [adminMsg,setAdminMsg]=useState(""); const [banMsg,setBanMsg]=useState("");
@@ -2868,7 +2872,416 @@ export default function App(){
               </div>
             )}
 
-            {/* ÖĞÜNLER */}
+            {/* ── PERFORMANS SLAYTLARI ── */}
+            {(()=>{
+              const bugun   = new Date();
+              const bugunK  = tarihKey(bugun);
+              const pazFark = bugun.getDay()===0?6:bugun.getDay()-1;
+              const GUN_AD  = ["Paz","Pzt","Sal","Çar","Per","Cum","Cmt"];
+              const GUN_TAM = ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"];
+
+              // ── Haftanın 7 günü (Pzt→Paz) ──
+              const haftaGunler = Array.from({length:7},(_,i)=>{
+                const d=new Date(bugun); d.setDate(bugun.getDate()-pazFark+i); return d;
+              });
+
+              // ── Ayın günleri ──
+              const ay=bugun.getMonth(), yil=bugun.getFullYear();
+              const ayGunSayisi=new Date(yil,ay+1,0).getDate();
+              const ayGunler=Array.from({length:ayGunSayisi},(_,i)=>new Date(yil,ay,i+1));
+
+              // ── Yılın 12 ayı ──
+              const yilAylar=Array.from({length:12},(_,mi)=>mi);
+
+              // Gün verisi hesapla
+              const gunHesapla=(d)=>{
+                const k=tarihKey(d);
+                const v=gunV(k);
+                const ys=v.yemekler||[];
+                const gKal  =ys.reduce((s,y)=>s+(+y.kal   ||0),0);
+                const gPro  =ys.reduce((s,y)=>s+(+y.pro   ||0),0);
+                const gKarb =ys.reduce((s,y)=>s+(+y.karb  ||0),0);
+                const gYag  =ys.reduce((s,y)=>s+(+y.yag   ||0),0);
+                const gLif  =ys.reduce((s,y)=>s+(+y.lif   ||0),0);
+                const gVitC =ys.reduce((s,y)=>s+(+y.vitC  ||0),0);
+                const gVitD =ys.reduce((s,y)=>s+(+y.vitD  ||0),0);
+                const gB12  =ys.reduce((s,y)=>s+(+y.vitB12||0),0);
+                const gDemir=ys.reduce((s,y)=>s+(+y.demir ||0),0);
+                const gKals =ys.reduce((s,y)=>s+(+y.kals  ||0),0);
+                const sporKcal=(v.spor||[]).reduce((s,sp)=>s+(+sp.kcal||0),0);
+                const adim  =+v.adim||0;
+                const su    =+v.su  ||0;
+                const yakim =Math.round((tdee||2000)+sporKcal+adim*0.04);
+                return {k,d,gKal,gPro,gKarb,gYag,gLif,gVitC,gVitD,gB12,gDemir,gKals,sporKcal,adim,su,yakim,urun:ys.length,fark:gKal-yakim};
+              };
+
+              const haftaV   = haftaGunler.map(gunHesapla);
+              const ayV      = ayGunler.map(gunHesapla);
+              const secK     = hpSecGun||bugunK;
+              const secVHafta= haftaV.find(g=>g.k===secK)||haftaV[pazFark]||haftaV[0];
+
+              // Dönem toplamaları
+              const topla=(arr)=>({
+                kal  :Math.round(arr.reduce((s,g)=>s+g.gKal ,0)),
+                pro  :Math.round(arr.reduce((s,g)=>s+g.gPro ,0)),
+                karb :Math.round(arr.reduce((s,g)=>s+g.gKarb,0)),
+                yag  :Math.round(arr.reduce((s,g)=>s+g.gYag ,0)),
+                lif  :Math.round(arr.reduce((s,g)=>s+g.gLif ,0)),
+                vitC :Math.round(arr.reduce((s,g)=>s+g.gVitC,0)),
+                vitD :Math.round(arr.reduce((s,g)=>s+g.gVitD,0)*10)/10,
+                b12  :Math.round(arr.reduce((s,g)=>s+g.gB12 ,0)*10)/10,
+                demir:Math.round(arr.reduce((s,g)=>s+g.gDemir,0)*10)/10,
+                kals :Math.round(arr.reduce((s,g)=>s+g.gKals,0)),
+                su   :Math.round(arr.reduce((s,g)=>s+g.su   ,0)),
+                adim :Math.round(arr.reduce((s,g)=>s+g.adim ,0)),
+                yakim:Math.round(arr.reduce((s,g)=>s+g.yakim,0)),
+                urun :arr.reduce((s,g)=>s+g.urun,0),
+                aktif:arr.filter(g=>g.urun>0).length,
+              });
+
+              const hTop = topla(haftaV);
+              const aTop = topla(ayV);
+
+              // Yıllık ay özetleri
+              const yilAyOzetler = yilAylar.map(mi=>{
+                const gs=new Date(yil,mi+1,0).getDate();
+                const mV=Array.from({length:gs},(_,di)=>gunHesapla(new Date(yil,mi,di+1)));
+                return {...topla(mV), mi};
+              });
+              const yTop=topla(yilAyOzetler.map(a=>({...a,gKal:a.kal,gPro:a.pro,gKarb:a.karb,gYag:a.yag,gLif:a.lif,gVitC:a.vitC,gVitD:a.vitD,gB12:a.b12,gDemir:a.demir,gKals:a.kals})));
+
+              // Renk yardımcıları
+              const fRenk=(f)=>f>300?"#ef4444":f>0?"#f59e0b":f>-300?"#22c55e":"#2563eb";
+              const fEtiket=(f)=>f>0?"+"+(+f).toLocaleString()+" kcal fazla":f<0?(-f).toLocaleString()+" kcal eksik":"Dengeli";
+              const pct=(v,h)=>Math.min(100,Math.round((v/Math.max(h,1))*100));
+
+              // Nutrient karşılaştırma satırı
+              const NRow=({ikon,l,v,hedef,renk,birim=""})=>{
+                const y=pct(v,hedef);
+                const eksik=y<50;
+                return(
+                  <div style={{display:"flex",alignItems:"center",gap:8,padding:"5px 0",borderBottom:`1px solid ${d?"#1e293b22":"#f1f5f933"}`}}>
+                    <div style={{fontSize:14,width:20,textAlign:"center",flexShrink:0}}>{ikon}</div>
+                    <div style={{fontSize:10,fontWeight:700,color:r.text,width:58,flexShrink:0}}>{l}</div>
+                    <div style={{flex:1,background:d?"#0f172a":"#f1f5f9",borderRadius:5,height:7,overflow:"hidden"}}>
+                      <div style={{height:"100%",width:y+"%",background:renk,borderRadius:5,transition:"width .6s"}}/>
+                    </div>
+                    <div style={{fontSize:10,fontWeight:800,color:renk,width:52,textAlign:"right",flexShrink:0}}>{v}{birim}</div>
+                    <div style={{fontSize:9,color:r.muted,width:38,textAlign:"right",flexShrink:0}}>{y}%</div>
+                  </div>
+                );
+              };
+
+              // Kalori çubuk karşılaştırması
+              const KalBar=({aldi,yakti,label})=>{
+                const maks=Math.max(aldi,yakti,1);
+                const fark2=aldi-yakti;
+                return(
+                  <div style={{marginBottom:10}}>
+                    <div style={{fontSize:10,fontWeight:800,color:r.sub,marginBottom:5}}>{label}</div>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                      <div style={{fontSize:9,color:"#f59e0b",fontWeight:700,width:22}}>🔥</div>
+                      <div style={{flex:1,background:d?"#1e293b":"#fef3c7",borderRadius:6,height:12,overflow:"hidden"}}>
+                        <div style={{height:"100%",width:pct(aldi,maks)+"%",background:"linear-gradient(90deg,#f59e0b,#fbbf24)",borderRadius:6,transition:"width .8s ease-out"}}/>
+                      </div>
+                      <div style={{fontSize:10,fontWeight:900,color:"#f59e0b",width:56,textAlign:"right"}}>{(aldi/1000).toFixed(1)}K</div>
+                    </div>
+                    <div style={{display:"flex",alignItems:"center",gap:8}}>
+                      <div style={{fontSize:9,color:"#7c3aed",fontWeight:700,width:22}}>⚡</div>
+                      <div style={{flex:1,background:d?"#1e293b":"#ede9fe",borderRadius:6,height:12,overflow:"hidden"}}>
+                        <div style={{height:"100%",width:pct(yakti,maks)+"%",background:"linear-gradient(90deg,#7c3aed,#8b5cf6)",borderRadius:6,transition:"width .8s ease-out"}}/>
+                      </div>
+                      <div style={{fontSize:10,fontWeight:900,color:"#7c3aed",width:56,textAlign:"right"}}>{(yakti/1000).toFixed(1)}K</div>
+                    </div>
+                    <div style={{display:"flex",justifyContent:"space-between",marginTop:6}}>
+                      <div style={{fontSize:9,color:"#f59e0b",fontWeight:700}}>🔥 Alınan kalori</div>
+                      <div style={{fontSize:10,fontWeight:900,color:fRenk(fark2)}}>{fark2>0?"+":""}{(fark2/1000).toFixed(1)}K {fark2>0?"fazla":"eksik"}</div>
+                      <div style={{fontSize:9,color:"#7c3aed",fontWeight:700}}>⚡ Yakılan kalori</div>
+                    </div>
+                  </div>
+                );
+              };
+
+              // Seçili dönem verileri
+              const donemData = hpDonem==="hafta"?{top:hTop,gunler:haftaV}:hpDonem==="ay"?{top:aTop,gunler:ayV}:{top:yTop,gunler:[]};
+
+              return(
+                <div style={{...CS,padding:0,overflow:"hidden",marginBottom:10}}>
+
+                  {/* ── BAŞLIK + DÖNEM SEÇİCİ ── */}
+                  <div style={{padding:"14px 16px 10px",background:d?"linear-gradient(135deg,#0f172a,#1e293b)":"linear-gradient(135deg,#f0fdf4,#dcfce7)",borderBottom:`1px solid ${r.rowB}`}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                      <div style={{fontSize:15,fontWeight:900,color:r.text}}>📊 Performans Slaytları</div>
+                      <button onClick={()=>{setTab("profil");setProfilSekme("performans");}} style={{...BTN("#16a34a","5px 11px"),fontSize:11}}>Tüm Detay →</button>
+                    </div>
+                    <div style={{display:"flex",background:d?"rgba(0,0,0,.3)":"rgba(255,255,255,.6)",borderRadius:12,padding:3,gap:3}}>
+                      {[{v:"hafta",l:"📅 Haftalık"},{v:"ay",l:"📆 Aylık"},{v:"yil",l:"🗓 Yıllık"}].map(s=>(
+                        <button key={s.v} onClick={()=>{setHpDonem(s.v);setHpSecGun(null);}} style={{flex:1,padding:"7px 0",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:11,background:hpDonem===s.v?"#16a34a":"transparent",color:hpDonem===s.v?"#fff":r.sub,transition:"all .2s"}}>{s.l}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ══════════ SLAYT 1: GÜN/AY/YIL KARTLARI ══════════ */}
+                  {hpDonem==="hafta"&&(
+                    <div>
+                      {/* Haftalık gün satırı */}
+                      <div style={{padding:"12px 16px 8px"}}>
+                        <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:8}}>📆 Bu Haftanın Günleri — Ürün & Kalori Farkı</div>
+                        <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:4,scrollbarWidth:"none"}}>
+                          {haftaV.map((gv,i)=>{
+                            const isSec=gv.k===secK;
+                            const isBug=gv.k===bugunK;
+                            const hasData=gv.urun>0;
+                            const renk=fRenk(gv.fark);
+                            const gunIdx=gv.d.getDay(); // 0=Paz,...,6=Cmt
+                            // Haftanın günü: 0=Pzt...6=Paz (kendi index)
+                            return(
+                              <div key={gv.k} onClick={()=>setHpSecGun(isSec?null:gv.k)} style={{
+                                flexShrink:0,width:46,
+                                borderRadius:14,
+                                padding:"10px 4px 8px",
+                                textAlign:"center",
+                                cursor:"pointer",
+                                border:`2px solid ${isSec?"#16a34a":isBug?"#86efac30":hasData?renk+"44":d?"#1e293b":"#e2e8f0"}`,
+                                background:isSec?"#16a34a":hasData?(d?"#0f172a":"#f0fdf4"):(d?"#1e293b":"#f8fafc"),
+                                transition:"all .2s",
+                                boxShadow:isSec?"0 4px 14px #16a34a44":"none",
+                              }}>
+                                {/* Gün adı */}
+                                <div style={{fontSize:10,fontWeight:900,color:isSec?"#fff":isBug?"#16a34a":r.sub,marginBottom:4}}>{["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"][i]}</div>
+                                {/* Gün no */}
+                                <div style={{fontSize:9,color:isSec?"rgba(255,255,255,.7)":r.muted,marginBottom:6}}>{gv.d.getDate()}</div>
+                                {/* Ürün sayısı */}
+                                <div style={{fontSize:16,fontWeight:900,color:isSec?"#fff":hasData?"#16a34a":"#cbd5e1",lineHeight:1,marginBottom:3}}>{hasData?gv.urun:"·"}</div>
+                                <div style={{fontSize:8,color:isSec?"rgba(255,255,255,.75)":r.muted,marginBottom:5}}>{hasData?"ürün":""}</div>
+                                {/* Kalori fark */}
+                                {hasData&&(
+                                  <div style={{fontSize:9,fontWeight:800,color:isSec?"#fff":renk,background:isSec?"rgba(255,255,255,.2)":renk+"18",borderRadius:6,padding:"2px 0"}}>
+                                    {gv.fark>0?"+":""}{Math.round(Math.abs(gv.fark)/100)/10}k
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Seçili gün detayı */}
+                      {secVHafta&&secK&&(
+                        <div style={{padding:"0 16px 14px"}}>
+                          {/* Gün başlık */}
+                          <div style={{background:d?"#0f172a":"#f8fafc",borderRadius:14,padding:"14px",border:`1.5px solid ${d?"#1e293b":"#e2e8f0"}`}}>
+                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+                              <div>
+                                <div style={{fontSize:14,fontWeight:900,color:r.text}}>
+                                  {GUN_TAM[haftaV.findIndex(g=>g.k===secK)]} Performansı
+                                </div>
+                                <div style={{fontSize:10,color:r.muted}}>{secVHafta.urun} ürün · {secVHafta.k===bugunK?"Bugün":secVHafta.d?.getDate()+". "+AYLAR[secVHafta.d?.getMonth()]}</div>
+                              </div>
+                              <div style={{background:fRenk(secVHafta.fark)+"18",borderRadius:12,padding:"8px 12px",textAlign:"center",border:`1.5px solid ${fRenk(secVHafta.fark)}44`}}>
+                                <div style={{fontSize:18,fontWeight:900,color:fRenk(secVHafta.fark)}}>{secVHafta.fark>0?"+":""}{(Math.round(secVHafta.fark/100)/10).toFixed(1)}k</div>
+                                <div style={{fontSize:8,color:fRenk(secVHafta.fark),fontWeight:700}}>{secVHafta.fark>0?"fazla kcal":"eksik kcal"}</div>
+                              </div>
+                            </div>
+
+                            {/* Alınan vs Yakılan */}
+                            <KalBar aldi={secVHafta.gKal} yakti={secVHafta.yakim} label="🔥 Günlük Kalori Karşılaştırması"/>
+
+                            {/* Tüm besinler */}
+                            <div style={{fontSize:11,fontWeight:800,color:r.sub,margin:"10px 0 6px"}}>📋 Besin & Aktivite Detayı</div>
+                            {[
+                              {ikon:"💪",l:"Protein",    v:Math.round(secVHafta.gPro),    hedef:Math.round((+profil.kilo||70)*1.6), renk:"#16a34a", birim:"g"},
+                              {ikon:"🌾",l:"Karbonhidrat",v:Math.round(secVHafta.gKarb),  hedef:250,  renk:"#f59e0b", birim:"g"},
+                              {ikon:"🫙",l:"Yağ",         v:Math.round(secVHafta.gYag),   hedef:65,   renk:"#ef4444", birim:"g"},
+                              {ikon:"🥦",l:"Lif",         v:Math.round(secVHafta.gLif),   hedef:30,   renk:"#22c55e", birim:"g"},
+                              {ikon:"💧",l:"Su",          v:secVHafta.su,                  hedef:suHed,renk:"#2563eb", birim:"ml"},
+                              {ikon:"👟",l:"Adım",        v:secVHafta.adim,                hedef:10000,renk:"#8b5cf6", birim:""},
+                              {ikon:"🍊",l:"Vit C",       v:Math.round(secVHafta.gVitC),  hedef:90,   renk:"#f97316", birim:"mg"},
+                              {ikon:"☀️",l:"Vit D",       v:Math.round(secVHafta.gVitD*10)/10,hedef:15,renk:"#eab308",birim:"mcg"},
+                              {ikon:"🩸",l:"B12",         v:Math.round(secVHafta.gB12*10)/10,hedef:2.4,renk:"#ec4899",birim:"mcg"},
+                              {ikon:"⚡",l:"Demir",       v:Math.round(secVHafta.gDemir*10)/10,hedef:18,renk:"#dc2626",birim:"mg"},
+                              {ikon:"🦴",l:"Kalsiyum",    v:Math.round(secVHafta.gKals),  hedef:1000, renk:"#0ea5e9", birim:"mg"},
+                            ].map(m=><NRow key={m.l} {...m}/>)}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Haftalık toplam */}
+                      <div style={{padding:"0 16px 14px"}}>
+                        <div style={{background:d?"#0f172a":"#f0fdf4",borderRadius:14,padding:14,border:`1.5px solid ${d?"#16a34a33":"#bbf7d0"}`}}>
+                          <div style={{fontSize:12,fontWeight:900,color:"#16a34a",marginBottom:10}}>📊 Haftalık Toplam</div>
+                          <KalBar aldi={hTop.kal} yakti={hTop.yakim} label="🗓 7 Günlük Kalori Dengesi"/>
+                          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6,marginTop:8}}>
+                            {[
+                              {l:"Aktif Gün",v:hTop.aktif+" gün",c:"#16a34a"},
+                              {l:"Toplam Ürün",v:hTop.urun+" adet",c:"#8b5cf6"},
+                              {l:"Protein",v:hTop.pro+"g",c:"#3b82f6"},
+                              {l:"Su",v:(hTop.su/1000).toFixed(1)+"L",c:"#2563eb"},
+                              {l:"Adım",v:(hTop.adim/1000).toFixed(1)+"K",c:"#7c3aed"},
+                              {l:"Lif",v:hTop.lif+"g",c:"#22c55e"},
+                            ].map(s=>(
+                              <div key={s.l} style={{background:d?"#1e293b":"#fff",borderRadius:10,padding:"8px 6px",textAlign:"center"}}>
+                                <div style={{fontSize:14,fontWeight:900,color:s.c}}>{s.v}</div>
+                                <div style={{fontSize:8,color:r.muted,marginTop:2}}>{s.l}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ══════════ SLAYT 2: AYLIK ══════════ */}
+                  {hpDonem==="ay"&&(
+                    <div style={{padding:"12px 16px 14px"}}>
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:8}}>📆 {AYLAR[ay]} {yil} — Günlük Kalori Farkı</div>
+
+                      {/* Mini bar chart - her gün */}
+                      <div style={{overflowX:"auto",scrollbarWidth:"none",marginBottom:12}}>
+                        <div style={{display:"flex",alignItems:"flex-end",gap:2,minWidth:ayGunSayisi*12,height:60,paddingBottom:4}}>
+                          {ayV.map((gv,i)=>{
+                            const hasData=gv.urun>0;
+                            const pozitif=gv.fark>=0;
+                            const yukseklik=hasData?Math.max(8,Math.min(52,Math.round(Math.abs(gv.fark)/80)+8)):6;
+                            const isBug=gv.k===bugunK;
+                            const isSec=gv.k===secK;
+                            return(
+                              <div key={gv.k} onClick={()=>setHpSecGun(isSec?null:gv.k)} style={{
+                                display:"flex",flexDirection:"column",alignItems:"center",cursor:"pointer",flexShrink:0,width:10,
+                              }}>
+                                {isBug&&<div style={{width:4,height:4,borderRadius:"50%",background:"#16a34a",marginBottom:2}}/>}
+                                <div style={{
+                                  width:8,
+                                  height:yukseklik,
+                                  borderRadius:3,
+                                  background:isSec?"#16a34a":hasData?fRenk(gv.fark):(d?"#1e293b":"#e2e8f0"),
+                                  transition:"height .3s",
+                                  flexShrink:0,
+                                }}/>
+                                {(i===0||(i+1)%7===0)&&<div style={{fontSize:7,color:r.muted,marginTop:2,transform:"rotate(-45deg)",transformOrigin:"top left",width:16}}>{gv.d.getDate()}</div>}
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div style={{display:"flex",gap:10,marginTop:4}}>
+                          <span style={{fontSize:9,color:"#ef4444",fontWeight:700}}>■ Fazla</span>
+                          <span style={{fontSize:9,color:"#22c55e",fontWeight:700}}>■ Eksik (iyi)</span>
+                          <span style={{fontSize:9,color:"#2563eb",fontWeight:700}}>■ Çok eksik</span>
+                        </div>
+                      </div>
+
+                      {/* Aylık toplam kalori dengesi */}
+                      <KalBar aldi={aTop.kal} yakti={aTop.yakim} label={`📆 ${AYLAR[ay]} Toplam Kalori`}/>
+
+                      {/* Nutrient satırları */}
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,margin:"10px 0 6px"}}>🧪 Aylık Besin Toplamları</div>
+                      {[
+                        {ikon:"💪",l:"Protein",    v:aTop.pro,       hedef:Math.round((+profil.kilo||70)*1.6*30),  renk:"#16a34a", birim:"g"},
+                        {ikon:"🌾",l:"Karbonhidrat",v:aTop.karb,     hedef:7500, renk:"#f59e0b", birim:"g"},
+                        {ikon:"🫙",l:"Yağ",        v:aTop.yag,       hedef:1950, renk:"#ef4444", birim:"g"},
+                        {ikon:"🥦",l:"Lif",        v:aTop.lif,       hedef:900,  renk:"#22c55e", birim:"g"},
+                        {ikon:"💧",l:"Su Toplam",  v:(aTop.su/1000).toFixed(1),hedef:(suHed/1000*30).toFixed(1),renk:"#2563eb",birim:"L"},
+                        {ikon:"👟",l:"Adım Toplam",v:(aTop.adim/1000).toFixed(1),hedef:(30*10000/1000).toFixed(0),renk:"#8b5cf6",birim:"K"},
+                        {ikon:"🍊",l:"Vit C",      v:aTop.vitC,      hedef:2700, renk:"#f97316", birim:"mg"},
+                        {ikon:"☀️",l:"Vit D",      v:aTop.vitD,      hedef:450,  renk:"#eab308", birim:"mcg"},
+                        {ikon:"🩸",l:"B12",        v:aTop.b12,       hedef:72,   renk:"#ec4899", birim:"mcg"},
+                        {ikon:"⚡",l:"Demir",      v:aTop.demir,     hedef:540,  renk:"#dc2626", birim:"mg"},
+                        {ikon:"🦴",l:"Kalsiyum",   v:aTop.kals,      hedef:30000,renk:"#0ea5e9", birim:"mg"},
+                      ].map(m=><NRow key={m.l} {...m}/>)}
+
+                      {/* Özet kartlar */}
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6,marginTop:12}}>
+                        {[
+                          {l:"Aktif Gün",v:aTop.aktif+" gün",c:"#16a34a"},
+                          {l:"Toplam Ürün",v:aTop.urun,c:"#8b5cf6"},
+                          {l:"Fark",v:(aTop.kal-aTop.yakim>0?"+":"")+Math.round((aTop.kal-aTop.yakim)/1000).toFixed(1)+"K",c:fRenk(aTop.kal-aTop.yakim)},
+                        ].map(s=>(
+                          <div key={s.l} style={{background:d?"#1e293b":"#fff",borderRadius:10,padding:"10px 6px",textAlign:"center"}}>
+                            <div style={{fontSize:16,fontWeight:900,color:s.c}}>{s.v}</div>
+                            <div style={{fontSize:9,color:r.muted,marginTop:2}}>{s.l}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ══════════ SLAYT 3: YILLIK ══════════ */}
+                  {hpDonem==="yil"&&(
+                    <div style={{padding:"12px 16px 14px"}}>
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:10}}>{yil} Yılı — Aylık Kalori Dengesi</div>
+
+                      {/* Ay-ay karşılaştırma */}
+                      {yilAyOzetler.map(ay2=>{
+                        const maks=Math.max(...yilAyOzetler.map(a=>Math.max(a.kal,a.yakim)),1);
+                        const pAldi=pct(ay2.kal,maks);
+                        const pYakti=pct(ay2.yakim,maks);
+                        const f2=ay2.kal-ay2.yakim;
+                        const hasData=ay2.aktif>0;
+                        return(
+                          <div key={ay2.mi} style={{marginBottom:10}}>
+                            <div style={{display:"flex",alignItems:"center",gap:8}}>
+                              <div style={{fontSize:10,fontWeight:900,color:r.text,width:30,flexShrink:0}}>{AYLAR[ay2.mi].slice(0,3)}</div>
+                              <div style={{flex:1}}>
+                                <div style={{display:"flex",alignItems:"center",gap:4,marginBottom:3}}>
+                                  <div style={{fontSize:8,color:"#f59e0b",width:6}}>●</div>
+                                  <div style={{flex:1,background:d?"#1e293b":"#fef3c7",borderRadius:4,height:8,overflow:"hidden"}}>
+                                    <div style={{height:"100%",width:pAldi+"%",background:"#f59e0b",borderRadius:4}}/>
+                                  </div>
+                                  <div style={{fontSize:9,color:"#f59e0b",fontWeight:700,width:38,textAlign:"right"}}>{(ay2.kal/1000).toFixed(1)}K</div>
+                                </div>
+                                <div style={{display:"flex",alignItems:"center",gap:4}}>
+                                  <div style={{fontSize:8,color:"#7c3aed",width:6}}>●</div>
+                                  <div style={{flex:1,background:d?"#1e293b":"#ede9fe",borderRadius:4,height:8,overflow:"hidden"}}>
+                                    <div style={{height:"100%",width:pYakti+"%",background:"#7c3aed",borderRadius:4}}/>
+                                  </div>
+                                  <div style={{fontSize:9,color:"#7c3aed",fontWeight:700,width:38,textAlign:"right"}}>{(ay2.yakim/1000).toFixed(1)}K</div>
+                                </div>
+                              </div>
+                              <div style={{fontSize:10,fontWeight:900,color:hasData?fRenk(f2):r.muted,width:38,textAlign:"right",flexShrink:0}}>
+                                {hasData?(f2>0?"+":"")+Math.round(f2/100)/10+"k":"—"}
+                              </div>
+                            </div>
+                            {hasData&&<div style={{fontSize:8,color:r.muted,paddingLeft:38,marginTop:1}}>{ay2.aktif} aktif gün · {ay2.urun} ürün</div>}
+                          </div>
+                        );
+                      })}
+
+                      {/* Yıllık nutrient toplamları */}
+                      <div style={{background:d?"#0f172a":"#f8fafc",borderRadius:14,padding:12,marginTop:10,border:`1px solid ${d?"#1e293b":"#e2e8f0"}`}}>
+                        <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:8}}>🧪 Yıllık Besin Toplamları</div>
+                        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
+                          {[
+                            {ikon:"🔥",l:"Alınan Kalori",v:(yilAyOzetler.reduce((s,a)=>s+a.kal,0)/1000).toFixed(0)+"K kcal",c:"#f59e0b"},
+                            {ikon:"⚡",l:"Yakılan Kalori",v:(yilAyOzetler.reduce((s,a)=>s+a.yakim,0)/1000).toFixed(0)+"K kcal",c:"#7c3aed"},
+                            {ikon:"💪",l:"Protein",v:(yilAyOzetler.reduce((s,a)=>s+a.pro,0)/1000).toFixed(1)+"K g",c:"#16a34a"},
+                            {ikon:"💧",l:"Su",v:(yilAyOzetler.reduce((s,a)=>s+a.su,0)/1000000).toFixed(0)+" L",c:"#2563eb"},
+                            {ikon:"👟",l:"Adım",v:(yilAyOzetler.reduce((s,a)=>s+a.adim,0)/1000000).toFixed(1)+"M",c:"#8b5cf6"},
+                            {ikon:"📦",l:"Toplam Ürün",v:yilAyOzetler.reduce((s,a)=>s+a.urun,0),c:"#16a34a"},
+                          ].map(s=>(
+                            <div key={s.l} style={{background:d?"#1e293b":"#fff",borderRadius:10,padding:"8px 10px",display:"flex",alignItems:"center",gap:8}}>
+                              <div style={{fontSize:18}}>{s.ikon}</div>
+                              <div>
+                                <div style={{fontSize:14,fontWeight:900,color:s.c}}>{s.v}</div>
+                                <div style={{fontSize:9,color:r.muted}}>{s.l}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Yıllık legend */}
+                      <div style={{display:"flex",gap:16,marginTop:10,justifyContent:"center"}}>
+                        <div style={{fontSize:10,color:"#f59e0b",fontWeight:700}}>🔥 Alınan</div>
+                        <div style={{fontSize:10,color:"#7c3aed",fontWeight:700}}>⚡ Yakılan</div>
+                        <div style={{fontSize:10,color:"#22c55e",fontWeight:700}}>✓ Fark</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+                        {/* ÖĞÜNLER */}
             <div style={CS}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                 <div style={CT}>Bugünün Öğünleri</div>
