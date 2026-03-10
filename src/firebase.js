@@ -285,4 +285,4 @@ export async function googleGiris() {
   return kullanici;
 }
 
-export { onAuthStateChanged };
+export { onAuthStateChanged, sendEmailVerification, auth };
