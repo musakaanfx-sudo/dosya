@@ -265,6 +265,9 @@ export default function Doya(){
   const [bekBesin,setBekBesin]=useState([]);
   const [profFoto,setProfFoto]=useState(null);
   const [adimSayar,setAdimSayar]=useState(0);
+  const [adimAktif,setAdimAktif]=useState(false);
+  const [adimIzin,setAdimIzin]=useState("bekliyor"); // "bekliyor"|"verildi"|"reddedildi"|"desteklenmiyor"
+  const adimRef=useRef({son:null,sayac:0,aktif:false});
 
   // ── BESİN ARA ──
   const [secBesin,setSecBesin]=useState(null);
@@ -366,6 +369,49 @@ export default function Doya(){
     yildiz_az:(a2,b3)=>(a2.yildiz??3)-(b3.yildiz??3),
     isim:(a2,b3)=>a2.ad.localeCompare(b3.ad),
   }[besinFil.sira](a,b2):0));
+
+  // ─── ADIM SAYAR ──────────────────────────────────────────────
+  useEffect(()=>{
+    if(!adimAktif) return;
+    let handler=null;
+
+    const basla=(e)=>{
+      if(!e) return;
+      handler=(event)=>{
+        const {x,y,z}=event.acceleration||event.accelerationIncludingGravity||{};
+        if(x==null||y==null||z==null) return;
+        const mag=Math.sqrt(x*x+y*y+z*z);
+        const ref=adimRef.current;
+        const now=Date.now();
+        if(ref.son!==null){
+          const delta=Math.abs(mag-ref.son);
+          if(delta>2.5&&(now-(ref.lastStep||0))>300){
+            ref.lastStep=now;
+            ref.sayac+=1;
+            setAdimSayar(ref.sayac);
+          }
+        }
+        ref.son=mag;
+      };
+      window.addEventListener("devicemotion",handler);
+    };
+
+    // iOS 13+ izin gerektirir
+    if(typeof DeviceMotionEvent!=="undefined"&&typeof DeviceMotionEvent.requestPermission==="function"){
+      DeviceMotionEvent.requestPermission().then(r=>{
+        if(r==="granted"){ setAdimIzin("verildi"); basla(true); }
+        else setAdimIzin("reddedildi");
+      }).catch(()=>setAdimIzin("reddedildi"));
+    } else if(typeof DeviceMotionEvent!=="undefined"){
+      // Android / Desktop
+      setAdimIzin("verildi");
+      basla(true);
+    } else {
+      setAdimIzin("desteklenmiyor");
+    }
+
+    return ()=>{ if(handler) window.removeEventListener("devicemotion",handler); };
+  },[adimAktif]);
 
   // ─── TEMA ────────────────────────────────────────────────────
   const r = {
@@ -1077,16 +1123,66 @@ export default function Doya(){
             </div>
 
             {/* ADIM SAYAR */}
-            <div style={{...CS,cursor:"pointer"}} onClick={()=>setAdimSayar(p=>p+Math.floor(Math.random()*400+100))}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <div>
-                  <div style={CT}>Adım Sayar <span style={{fontSize:9,color:r.muted}}>(tıkla simüle et)</span></div>
-                  <div style={{fontSize:28,fontWeight:900,color:"#f59e0b"}}>{adimSayar.toLocaleString("tr-TR")}</div>
-                  <div style={{fontSize:11,color:r.sub}}>Adım · ~{Math.round(adimSayar*0.04)} kcal · Hedef: 10.000</div>
+            <div style={CS}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                <div style={CT}>👟 Adım Sayar</div>
+                <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                  {adimIzin==="verildi"&&(
+                    <span style={{fontSize:10,fontWeight:700,color:"#16a34a",background:"#dcfce7",padding:"2px 8px",borderRadius:99}}>● Aktif</span>
+                  )}
+                  {adimIzin==="reddedildi"&&(
+                    <span style={{fontSize:10,fontWeight:700,color:"#ef4444",background:"#fef2f2",padding:"2px 8px",borderRadius:99}}>İzin Reddedildi</span>
+                  )}
+                  {adimIzin==="desteklenmiyor"&&(
+                    <span style={{fontSize:10,fontWeight:700,color:"#f59e0b",background:"#fffbeb",padding:"2px 8px",borderRadius:99}}>Desteklenmiyor</span>
+                  )}
                 </div>
-                <div style={{fontSize:30}}>👟</div>
               </div>
-              <div style={PB}><div style={PF((adimSayar/10000)*100,"#f59e0b")}/></div>
+
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                <div>
+                  <div style={{fontSize:36,fontWeight:900,color:"#f59e0b",lineHeight:1}}>{adimSayar.toLocaleString("tr-TR")}</div>
+                  <div style={{fontSize:11,color:r.sub,marginTop:2}}>Adım · ~{Math.round(adimSayar*0.04)} kcal · ~{(adimSayar*0.00076).toFixed(1)} km</div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontSize:11,color:r.muted,marginBottom:4}}>Hedef: 10.000</div>
+                  <div style={{fontSize:20,fontWeight:900,color:(adimSayar/10000)>=1?"#16a34a":"#f59e0b"}}>{Math.min(100,Math.round((adimSayar/10000)*100))}%</div>
+                </div>
+              </div>
+
+              <div style={PB}><div style={PF(Math.min(100,(adimSayar/10000)*100),"#f59e0b")}/></div>
+
+              {!adimAktif?(
+                <button style={{...BTN("#f59e0b","10px 0"),width:"100%",marginTop:10,fontSize:13}} onClick={()=>{
+                  adimRef.current.sayac=adimSayar;
+                  adimRef.current.aktif=true;
+                  setAdimAktif(true);
+                }}>
+                  📱 Adım Saymayı Başlat
+                </button>
+              ):(
+                <div>
+                  {adimIzin==="bekliyor"&&(
+                    <div style={{textAlign:"center",fontSize:12,color:r.muted,padding:"8px 0"}}>⏳ İzin bekleniyor...</div>
+                  )}
+                  {adimIzin==="verildi"&&(
+                    <div style={{display:"flex",gap:8,marginTop:10}}>
+                      <button style={{...BTN("#6b7280","9px 0"),flex:1,fontSize:12}} onClick={()=>{setAdimAktif(false);setAdimIzin("bekliyor");}}>⏹ Durdur</button>
+                      <button style={{...BTN("#ef4444","9px 0"),flex:1,fontSize:12}} onClick={()=>{setAdimSayar(0);adimRef.current.sayac=0;}}>🔄 Sıfırla</button>
+                    </div>
+                  )}
+                  {adimIzin==="reddedildi"&&(
+                    <div style={{background:"#fef2f2",border:"1px solid #fca5a5",borderRadius:10,padding:"10px 12px",marginTop:8,fontSize:11,color:"#ef4444"}}>
+                      ❌ Hareket izni reddedildi. Telefonunun ayarlarından tarayıcıya hareket sensörü iznini ver, sonra tekrar dene.
+                    </div>
+                  )}
+                  {adimIzin==="desteklenmiyor"&&(
+                    <div style={{background:"#fffbeb",border:"1px solid #fcd34d",borderRadius:10,padding:"10px 12px",marginTop:8,fontSize:11,color:"#d97706"}}>
+                      ⚠️ Bu cihaz/tarayıcı hareket sensörünü desteklemiyor. Adım saymak için Chrome ile mobil cihazdan giriş yap.
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}
