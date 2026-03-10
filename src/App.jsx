@@ -14,6 +14,7 @@ import {
   postGuncelle,
   sikayetGonder,
   sikayetleriGetir,
+  sikayetGuncelle,
   gunVeriKaydet,
   tumGunleriGetir,
   besinGonder,
@@ -2076,6 +2077,7 @@ export default function Doya(){
                             setPaylasimlar(prev=>prev.map(p=>p.id===s.postId?{...p,postFoto:null}:p));
                             postGuncelle(s.postId,{postFoto:null}).catch(console.error);
                             setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"foto_silindi"}:x));
+                            sikayetGuncelle(s.id,"foto_silindi").catch(console.error);
                           }}>🗑 Fotoğrafı Kaldır</button>
                         )}
                         {s.postId&&!s.islem&&(
@@ -2083,14 +2085,15 @@ export default function Doya(){
                             setPaylasimlar(prev=>prev.filter(p=>p.id!==s.postId));
                             postSil(s.postId).catch(console.error);
                             setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"post_silindi"}:x));
+                            sikayetGuncelle(s.id,"post_silindi").catch(console.error);
                           }}>🗑 Postu Sil</button>
                         )}
                       </div>
                     </div>
                     {!s.islem&&<div style={{display:"flex",gap:6,marginTop:6}}>
-                      <button style={{...BTN("#ef4444","5px 9px"),fontSize:11}} onClick={()=>{banla(s.hedef);setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"banlandi"}:x));}}>🚫 Banla</button>
-                      <button style={{...BTN("#7c3aed","5px 9px"),fontSize:11}} onClick={()=>{sosyalKisitla(s.hedef);setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"sosyal_kisitlandi"}:x));}}>🔇 Sosyal Kısıtla</button>
-                      <button style={{...BTN("#f59e0b","5px 9px"),fontSize:11}} onClick={()=>setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"incelendi"}:x))}>✓ İncelendi</button>
+                      <button style={{...BTN("#ef4444","5px 9px"),fontSize:11}} onClick={async()=>{banla(s.hedef);setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"banlandi"}:x));await sikayetGuncelle(s.id,"banlandi").catch(console.error);}}>🚫 Banla</button>
+                      <button style={{...BTN("#7c3aed","5px 9px"),fontSize:11}} onClick={async()=>{sosyalKisitla(s.hedef);setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"sosyal_kisitlandi"}:x));await sikayetGuncelle(s.id,"sosyal_kisitlandi").catch(console.error);}}>🔇 Sosyal Kısıtla</button>
+                      <button style={{...BTN("#f59e0b","5px 9px"),fontSize:11}} onClick={async()=>{setSikayetler(p=>p.map(x=>x.id===s.id?{...x,islem:"incelendi"}:x));await sikayetGuncelle(s.id,"incelendi").catch(console.error);}}>✓ İncelendi</button>
                     </div>}
                     {s.islem&&<span style={BAD(s.islem==="banlandi"?"#ef4444":s.islem==="sosyal_kisitlandi"?"#7c3aed":s.islem==="foto_silindi"?"#f59e0b":"#16a34a")}>{s.islem==="banlandi"?"🚫 Banlandı":s.islem==="sosyal_kisitlandi"?"🔇 Sosyal Kısıtlandı":s.islem==="foto_silindi"?"🗑 Fotoğraf Kaldırıldı":"✓ İncelendi"}</span>}
                   </div>
