@@ -25,6 +25,78 @@ import { doc, getDoc } from "firebase/firestore";
 // ─── UID SAYAÇ — artık Firebase'de tutulur ───────────────────
 function uidUret() { return "NTR-" + String(Math.floor(Math.random()*900000)+100000); }
 
+// ─── DİL METİNLERİ ───────────────────────────────────────────
+const LANG = {
+  tr: {
+    dilSec: "Dil Seçin",
+    hosgeldin: "Hoşgeldin!",
+    basla: "Başlayalım →",
+    atla: "Geç",
+    devam: "Devam →",
+    slides: [
+      {
+        ikon: "🥗",
+        baslik: "Doya ile Sağlıklı Beslen",
+        acik: "Yediğin her şeyi saniyeler içinde kaydet. 105'ten fazla Türk yemeği ve besin içeren veritabanımızla günlük kalorini, protein, karbonhidrat ve yağ alımını takip et.",
+      },
+      {
+        ikon: "⭐",
+        baslik: "Sağlık Yıldız Sistemi",
+        acik: "Her besine 0-5 arası sağlık puanı verilmiştir. Protein, lif, vitamin ve sodyum dengesi baz alınarak hesaplanır. Ne kadar sağlıklı yediğini tek bakışta gör.",
+      },
+      {
+        ikon: "👟",
+        baslik: "Adım Sayar & Spor Takibi",
+        acik: "Telefonunun hareket sensörüyle adımlarını otomatik say. Günlük 10.000 adım hedefini tamamla. Yürüyüş, koşu, bisiklet ve 13 farklı spor aktivitesi ekle.",
+      },
+      {
+        ikon: "📢",
+        baslik: "Sosyal Beslenme",
+        acik: "Arkadaşlarınla günlük yemeklerini paylaş, yarışmalarda puanlarını karşılaştır. Birbirini motive eden bir sağlık topluluğunun parçası ol.",
+      },
+      {
+        ikon: "🔥",
+        baslik: "Seri Sistemi",
+        acik: "Her gün yemek kaydet ve yemek serini artır. 10.000 adımı geçtiğinde adım serini yükselt. Serini koruyarak sağlıklı yaşam alışkanlığı kazan!",
+      },
+    ],
+  },
+  en: {
+    dilSec: "Select Language",
+    hosgeldin: "Welcome!",
+    basla: "Get Started →",
+    atla: "Skip",
+    devam: "Next →",
+    slides: [
+      {
+        ikon: "🥗",
+        baslik: "Eat Healthy with Doya",
+        acik: "Log everything you eat in seconds. Track your daily calories, protein, carbs and fat with our database of 105+ Turkish foods and nutrition items.",
+      },
+      {
+        ikon: "⭐",
+        baslik: "Health Star System",
+        acik: "Every food has a health score from 0-5 stars based on protein, fiber, vitamins and sodium balance. See how healthy you're eating at a glance.",
+      },
+      {
+        ikon: "👟",
+        baslik: "Step Counter & Exercise",
+        acik: "Automatically count your steps using your phone's motion sensor. Hit your daily 10,000 step goal. Add walking, running, cycling and 13 more activities.",
+      },
+      {
+        ikon: "📢",
+        baslik: "Social Nutrition",
+        acik: "Share your daily meals with friends and compare scores in competitions. Be part of a health community that motivates each other.",
+      },
+      {
+        ikon: "🔥",
+        baslik: "Streak System",
+        acik: "Log food every day to grow your meal streak. Hit 10,000 steps to grow your step streak. Build healthy habits by keeping your streaks alive!",
+      },
+    ],
+  },
+};
+
 // ─── SABİTLER ────────────────────────────────────────────────
 const DESTEK_MAIL   = "Doyasupport@gmail.com";
 const ORTAKLIK_MAIL = "Doyasupport@gmail.com";
@@ -226,6 +298,12 @@ export default function App(){
   const profFotoRef = useRef(null);
   const besinFotoRef = useRef(null);
   const postFotoRef = useRef(null);
+
+  // ── KARŞILAMA EKRANI ──
+  const [welcomeGoster,setWelcomeGoster]=useState(()=>localStorage.getItem("doya_welcome_done")!=="1");
+  const [welcomeSlide,setWelcomeSlide]=useState(0); // 0=dil seç, 1-5=slaytlar
+  const [dil,setDil]=useState(()=>localStorage.getItem("doya_dil")||"tr");
+  const L=LANG[dil]||LANG.tr;
 
   // ── DARK MODE ──
   const [dark,setDark]=useState(false);
@@ -752,6 +830,160 @@ export default function App(){
         sporBug:as.reduce((t,s)=>t+(s.kcal||0),0)};
     }),
   ].sort((a,b2)=>b2.puan-a.puan);
+
+  // ─── KARŞILAMA / TANITIM EKRANI ──────────────────────────────
+  if(welcomeGoster) {
+    const slideIdx = welcomeSlide - 1; // -1 = dil seçim ekranı
+    const slide = welcomeSlide > 0 ? L.slides[slideIdx] : null;
+    const toplamSlide = L.slides.length;
+
+    const welcomeBit=()=>{
+      localStorage.setItem("doya_welcome_done","1");
+      localStorage.setItem("doya_dil",dil);
+      setWelcomeGoster(false);
+    };
+
+    const ileri=()=>{
+      if(welcomeSlide===0){
+        localStorage.setItem("doya_dil",dil);
+        setWelcomeSlide(1);
+      } else if(welcomeSlide < toplamSlide){
+        setWelcomeSlide(s=>s+1);
+      } else {
+        welcomeBit();
+      }
+    };
+
+    return (
+      <>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+        <div style={{fontFamily:"'Nunito',sans-serif",minHeight:"100vh",maxWidth:430,margin:"0 auto",background:"linear-gradient(160deg,#052e16 0%,#15803d 50%,#16a34a 100%)",display:"flex",flexDirection:"column",position:"relative",overflow:"hidden"}}>
+
+          {/* Dekoratif nokta desen */}
+          <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle,#ffffff0a 1px,transparent 1px)",backgroundSize:"30px 30px",pointerEvents:"none"}}/>
+          {/* Glow efekti */}
+          <div style={{position:"absolute",top:-80,right:-80,width:300,height:300,background:"radial-gradient(#4ade8022,transparent 70%)",pointerEvents:"none"}}/>
+          <div style={{position:"absolute",bottom:-60,left:-60,width:250,height:250,background:"radial-gradient(#22c55e18,transparent 70%)",pointerEvents:"none"}}/>
+
+          {/* Üst bar */}
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 20px",position:"relative",zIndex:2}}>
+            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:26,color:"#f0fdf4",lineHeight:1}}>Do<span style={{color:"#86efac"}}>ya</span></div>
+            {welcomeSlide > 0 && (
+              <button onClick={welcomeBit} style={{background:"rgba(255,255,255,.15)",border:"none",borderRadius:20,padding:"5px 14px",color:"#f0fdf4",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
+                {L.atla}
+              </button>
+            )}
+          </div>
+
+          {/* DİL SEÇİM EKRANI */}
+          {welcomeSlide===0&&(
+            <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"0 28px 40px",position:"relative",zIndex:2}}>
+              <div style={{fontSize:64,marginBottom:16,filter:"drop-shadow(0 4px 12px #0004)"}}>🌍</div>
+              <div style={{fontSize:24,fontWeight:900,color:"#f0fdf4",marginBottom:6,textAlign:"center"}}>{L.dilSec}</div>
+              <div style={{fontSize:13,color:"#86efac",marginBottom:36,textAlign:"center",opacity:.85}}>Select Language / Dil Seçin</div>
+
+              <div style={{display:"flex",flexDirection:"column",gap:12,width:"100%",maxWidth:280}}>
+                {[{k:"tr",ad:"🇹🇷  Türkçe",alt:"Turkish"},{k:"en",ad:"🇬🇧  English",alt:"İngilizce"}].map(l=>(
+                  <button key={l.k} onClick={()=>setDil(l.k)} style={{
+                    padding:"16px 20px",
+                    borderRadius:16,
+                    border:`2.5px solid ${dil===l.k?"#4ade80":"rgba(255,255,255,.2)"}`,
+                    background:dil===l.k?"rgba(74,222,128,.15)":"rgba(255,255,255,.08)",
+                    cursor:"pointer",
+                    fontFamily:"'Nunito',sans-serif",
+                    display:"flex",alignItems:"center",justifyContent:"space-between",
+                    transition:"all .2s",
+                  }}>
+                    <div style={{textAlign:"left"}}>
+                      <div style={{fontSize:16,fontWeight:800,color:"#f0fdf4"}}>{l.ad}</div>
+                      <div style={{fontSize:11,color:"#86efac",opacity:.8,marginTop:2}}>{l.alt}</div>
+                    </div>
+                    {dil===l.k&&<div style={{width:22,height:22,borderRadius:"50%",background:"#4ade80",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:900,color:"#052e16",flexShrink:0}}>✓</div>}
+                  </button>
+                ))}
+              </div>
+
+              <button onClick={ileri} style={{
+                marginTop:36,
+                background:"linear-gradient(135deg,#22c55e,#16a34a)",
+                border:"none",
+                borderRadius:16,
+                padding:"15px 48px",
+                fontSize:16,
+                fontWeight:900,
+                color:"#fff",
+                cursor:"pointer",
+                fontFamily:"'Nunito',sans-serif",
+                boxShadow:"0 6px 24px #22c55e40",
+              }}>{L.devam}</button>
+            </div>
+          )}
+
+          {/* SLAYT EKRANLARI */}
+          {welcomeSlide > 0 && slide && (
+            <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:2}}>
+
+              {/* İlerleme çubukları */}
+              <div style={{display:"flex",gap:5,padding:"0 20px 20px"}}>
+                {L.slides.map((_,i)=>(
+                  <div key={i} style={{flex:1,height:3,borderRadius:3,background:i<welcomeSlide?"#4ade80":"rgba(255,255,255,.2)",transition:"background .3s"}}/>
+                ))}
+              </div>
+
+              {/* İkon büyük */}
+              <div style={{textAlign:"center",padding:"20px 0 0",fontSize:90,filter:"drop-shadow(0 8px 24px #0006)",lineHeight:1}}>
+                {slide.ikon}
+              </div>
+
+              {/* Metin */}
+              <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",padding:"24px 28px"}}>
+                <div style={{fontSize:26,fontWeight:900,color:"#f0fdf4",lineHeight:1.2,marginBottom:16,textAlign:"center"}}>
+                  {slide.baslik}
+                </div>
+                <div style={{fontSize:14,color:"#bbf7d0",lineHeight:1.8,textAlign:"center",opacity:.9}}>
+                  {slide.acik}
+                </div>
+              </div>
+
+              {/* Alt butonlar */}
+              <div style={{padding:"0 20px 44px",display:"flex",flexDirection:"column",gap:10,alignItems:"center"}}>
+                <button onClick={ileri} style={{
+                  width:"100%",
+                  maxWidth:360,
+                  padding:"15px 0",
+                  background:"linear-gradient(135deg,#22c55e,#16a34a)",
+                  border:"none",
+                  borderRadius:16,
+                  fontSize:16,
+                  fontWeight:900,
+                  color:"#fff",
+                  cursor:"pointer",
+                  fontFamily:"'Nunito',sans-serif",
+                  boxShadow:"0 6px 24px #22c55e40",
+                }}>
+                  {welcomeSlide===toplamSlide ? L.basla : L.devam}
+                </button>
+
+                {/* Nokta indikatör */}
+                <div style={{display:"flex",gap:7,marginTop:6}}>
+                  {L.slides.map((_,i)=>(
+                    <div key={i} onClick={()=>setWelcomeSlide(i+1)} style={{
+                      width:i===slideIdx?22:7,
+                      height:7,
+                      borderRadius:4,
+                      background:i===slideIdx?"#4ade80":"rgba(255,255,255,.3)",
+                      cursor:"pointer",
+                      transition:"all .3s",
+                    }}/>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </>
+    );
+  }
 
   // ─── YÜKLENİYOR EKRANI ───────────────────────────────────────
   if(yukleniyor) return (
