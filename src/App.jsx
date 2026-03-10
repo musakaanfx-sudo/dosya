@@ -1024,6 +1024,606 @@ const BESIN_DB = [
   { id:848, ad:"Taze Sikilmis Elma Suyu", marka:"",kal:46, pro:0.1, karb:11, yag:0.1, lif:0.2, sod:1, demir:0.1, kals:5, vitC:1.5, vitD:0, vitB12:0, acik:12, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3 },
   { id:849, ad:"Taze Sikilmis Havuc Suyu", marka:"",kal:40, pro:0.9, karb:9.3, yag:0.2, lif:0.5, sod:69, demir:0.5, kals:29, vitC:9, vitD:0, vitB12:0, acik:22, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:5 },
   { id:850, ad:"Ispanakli Yumurtali Pide", marka:"",kal:290, pro:14, karb:38, yag:10, lif:2.5, sod:550, demir:2.5, kals:130, vitC:5, vitD:1.0, vitB12:0.6, acik:52, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3.5 },
+  { id:851, ad:"Simit (Susam)", marka:"",kal:285, pro:9, karb:54, yag:4.5, lif:3, sod:410, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:38, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:852, ad:"Pogaca (Zeytinli)", marka:"",kal:320, pro:7, karb:44, yag:13, lif:2, sod:480, demir:1.8, kals:40, vitC:0, vitD:0, vitB12:0, acik:30, por:80, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:853, ad:"Pogaca (Peynirli)", marka:"",kal:335, pro:10, karb:42, yag:14, lif:1.5, sod:520, demir:1.5, kals:120, vitC:0, vitD:0.1, vitB12:0.2, acik:32, por:80, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:854, ad:"Borek (Kiymali)", marka:"",kal:310, pro:14, karb:28, yag:17, lif:1.5, sod:560, demir:2.5, kals:50, vitC:1, vitD:0, vitB12:0.8, acik:50, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:855, ad:"Acma (Tereyagli)", marka:"",kal:360, pro:8, karb:48, yag:16, lif:1.5, sod:390, demir:1.5, kals:30, vitC:0, vitD:0.1, vitB12:0.1, acik:25, por:90, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:0.5 },
+  { id:856, ad:"Tost (Kasar-Domates)", marka:"",kal:340, pro:14, karb:42, yag:13, lif:2, sod:680, demir:1.5, kals:200, vitC:3, vitD:0.2, vitB12:0.3, acik:38, por:120, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:857, ad:"Tost (Sucuklu-Kasar)", marka:"",kal:420, pro:18, karb:40, yag:22, lif:2, sod:980, demir:2.0, kals:180, vitC:0, vitD:0.2, vitB12:0.5, acik:42, por:140, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:1 },
+  { id:858, ad:"Doner Kebap (Dana)", marka:"",kal:240, pro:22, karb:2, yag:16, lif:0, sod:580, demir:2.5, kals:20, vitC:0, vitD:0, vitB12:1.5, acik:75, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:859, ad:"Doner Kebap (Tavuk)", marka:"",kal:185, pro:24, karb:2, yag:9, lif:0, sod:520, demir:0.8, kals:15, vitC:0, vitD:0, vitB12:0.3, acik:78, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:860, ad:"Kofte Ekmek", marka:"",kal:380, pro:22, karb:40, yag:14, lif:2.5, sod:640, demir:2.8, kals:50, vitC:2, vitD:0, vitB12:0.9, acik:55, por:180, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:861, ad:"Pilav Ustu Nohut", marka:"",kal:280, pro:10, karb:52, yag:5, lif:5, sod:310, demir:2.5, kals:35, vitC:1, vitD:0, vitB12:0, acik:62, por:300, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:862, ad:"Pilav Ustu Tavuk", marka:"",kal:310, pro:22, karb:40, yag:8, lif:1, sod:420, demir:1.0, kals:15, vitC:0, vitD:0, vitB12:0.2, acik:65, por:300, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:863, ad:"Kuru Fasulye (Pismis)", marka:"",kal:140, pro:9.5, karb:22, yag:1.5, lif:6.5, sod:280, demir:2.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:72, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:864, ad:"Nohut (Pismis)", marka:"",kal:165, pro:9, karb:27, yag:2.5, lif:7.5, sod:8, demir:3.0, kals:49, vitC:1.5, vitD:0, vitB12:0, acik:70, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:865, ad:"Mercimek (Yesil, Pismis)", marka:"",kal:115, pro:9, karb:20, yag:0.4, lif:7.9, sod:2, demir:3.3, kals:19, vitC:1.5, vitD:0, vitB12:0, acik:70, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:866, ad:"Asure", marka:"",kal:190, pro:5.5, karb:39, yag:2, lif:4, sod:30, demir:2.0, kals:50, vitC:2, vitD:0, vitB12:0, acik:40, por:200, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:3.5 },
+  { id:867, ad:"Kabak Mucveri", marka:"",kal:145, pro:7, karb:12, yag:8, lif:2, sod:320, demir:1.0, kals:80, vitC:10, vitD:0.5, vitB12:0.3, acik:48, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:3.5 },
+  { id:868, ad:"Patates Mucveri", marka:"",kal:165, pro:5, karb:22, yag:7.5, lif:2, sod:280, demir:0.8, kals:50, vitC:12, vitD:0.3, vitB12:0.2, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:3 },
+  { id:869, ad:"Midye Tavasi", marka:"",kal:320, pro:14, karb:28, yag:18, lif:1, sod:580, demir:3.5, kals:40, vitC:0.5, vitD:0.2, vitB12:5, acik:45, por:150, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:2 },
+  { id:870, ad:"Karides Guvec", marka:"",kal:180, pro:20, karb:8, yag:8, lif:1.5, sod:680, demir:1.5, kals:80, vitC:8, vitD:0.2, vitB12:1.2, acik:68, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:871, ad:"Katmer (Antep)", marka:"",kal:485, pro:8, karb:55, yag:27, lif:1.5, sod:180, demir:1.5, kals:40, vitC:0, vitD:0.2, vitB12:0.1, acik:18, por:100, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:0.5 },
+  { id:872, ad:"Gullac", marka:"",kal:185, pro:5, karb:32, yag:5, lif:0.5, sod:95, demir:0.3, kals:150, vitC:0.5, vitD:0.2, vitB12:0.4, acik:30, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2.5 },
+  { id:873, ad:"Kalburabasti", marka:"",kal:420, pro:5, karb:60, yag:20, lif:2, sod:150, demir:1.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:874, ad:"Sekerpare", marka:"",kal:380, pro:4.5, karb:60, yag:15, lif:1, sod:100, demir:1.2, kals:25, vitC:0, vitD:0, vitB12:0, acik:10, por:80, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:875, ad:"Revani", marka:"",kal:355, pro:5, karb:58, yag:12, lif:1, sod:80, demir:1.0, kals:20, vitC:0, vitD:0.1, vitB12:0.1, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:876, ad:"Ekmek Kadayifi", marka:"",kal:340, pro:6, karb:54, yag:12, lif:1, sod:220, demir:0.8, kals:100, vitC:0, vitD:0.2, vitB12:0.2, acik:12, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:877, ad:"Tahin Kurabiyesi", marka:"",kal:470, pro:9, karb:55, yag:25, lif:3, sod:120, demir:3.0, kals:130, vitC:0, vitD:0, vitB12:0, acik:15, por:100, aclik:"1 saat", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:878, ad:"Cevizli Rulo", marka:"",kal:430, pro:8, karb:52, yag:22, lif:3, sod:140, demir:1.8, kals:40, vitC:0.5, vitD:0, vitB12:0, acik:14, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:879, ad:"Sobiyet", marka:"",kal:510, pro:7, karb:56, yag:30, lif:2, sod:190, demir:1.2, kals:50, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:880, ad:"Tepsi Boregi (Ispanakli)", marka:"",kal:240, pro:9, karb:26, yag:12, lif:2.5, sod:440, demir:2.0, kals:130, vitC:5, vitD:0.2, vitB12:0.2, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:881, ad:"Tike Adana Durum", marka:"Tike",kal:510, pro:30, karb:44, yag:24, lif:2.5, sod:920, demir:2.8, kals:45, vitC:2, vitD:0, vitB12:1.2, acik:55, por:220, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:882, ad:"Borsa Balik Ekmek", marka:"Borsa",kal:310, pro:20, karb:32, yag:10, lif:2, sod:580, demir:1.5, kals:45, vitC:1, vitD:3.0, vitB12:2.0, acik:50, por:160, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:883, ad:"Popeyes Chicken Sandwich", marka:"Popeyes",kal:700, pro:28, karb:69, yag:42, lif:3, sod:1440, demir:3.0, kals:80, vitC:0.5, vitD:0.1, vitB12:0.4, acik:40, por:270, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:0.5 },
+  { id:884, ad:"Little Caesars Pepperoni", marka:"Little Caesars",kal:280, pro:13, karb:31, yag:12, lif:1.5, sod:680, demir:2.0, kals:160, vitC:1, vitD:0.2, vitB12:0.5, acik:35, por:107, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1 },
+  { id:885, ad:"Dominos Sucuklu Pizza Dilim", marka:"Dominos",kal:295, pro:13, karb:34, yag:12, lif:2, sod:720, demir:1.8, kals:120, vitC:0.5, vitD:0.2, vitB12:0.4, acik:35, por:110, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1 },
+  { id:886, ad:"Starbucks Egg Bites", marka:"Starbucks",kal:300, pro:19, karb:9, yag:22, lif:0, sod:730, demir:1.5, kals:150, vitC:0.5, vitD:1.2, vitB12:1.0, acik:60, por:110, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:887, ad:"Simit Sarayi Sigara Boregi", marka:"Simit Sarayi",kal:180, pro:6, karb:20, yag:9, lif:0.8, sod:310, demir:0.6, kals:90, vitC:0, vitD:0.1, vitB12:0.1, acik:28, por:80, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:888, ad:"Simit Sarayi Klasik Simit", marka:"Simit Sarayi",kal:295, pro:9.5, karb:55, yag:5, lif:3.5, sod:420, demir:2.8, kals:35, vitC:0, vitD:0, vitB12:0, acik:40, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:889, ad:"Kebapci Pirzola (200g)", marka:"",kal:480, pro:40, karb:0, yag:36, lif:0, sod:95, demir:2.8, kals:18, vitC:0, vitD:0.1, vitB12:2.5, acik:88, por:200, aclik:"4-5 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:890, ad:"Ocakbasi Kofte (4 adet)", marka:"",kal:380, pro:28, karb:4, yag:28, lif:0.5, sod:640, demir:3.5, kals:25, vitC:0, vitD:0, vitB12:2.0, acik:82, por:160, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:891, ad:"Coca-Cola (1.5L)", marka:"Coca-Cola",kal:630, pro:0, karb:162, yag:0, lif:0, sod:64, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:1500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0 },
+  { id:892, ad:"Pepsi (330ml)", marka:"Pepsi",kal:152, pro:0, karb:40, yag:0, lif:0, sod:25, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0 },
+  { id:893, ad:"Pepsi Max (330ml)", marka:"Pepsi",kal:1, pro:0, karb:0, yag:0, lif:0, sod:25, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:894, ad:"7UP (330ml)", marka:"7UP",kal:140, pro:0, karb:36, yag:0, lif:0, sod:40, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0 },
+  { id:895, ad:"Mountain Dew (330ml)", marka:"Mountain Dew",kal:170, pro:0, karb:46, yag:0, lif:0, sod:60, demir:0, kals:0, vitC:54, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0 },
+  { id:896, ad:"Burn Energy (500ml)", marka:"Burn",kal:225, pro:0, karb:55, yag:0, lif:0, sod:350, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0 },
+  { id:897, ad:"Tiger Energy (250ml)", marka:"Tiger",kal:113, pro:0.5, karb:27, yag:0, lif:0, sod:100, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:250, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0 },
+  { id:898, ad:"Prime Hydration", marka:"Prime",kal:25, pro:0, karb:6, yag:0, lif:0, sod:10, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:10, por:500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3 },
+  { id:899, ad:"Powerade (500ml)", marka:"Powerade",kal:120, pro:0, karb:30, yag:0, lif:0, sod:150, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:8, por:500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:900, ad:"Gatorade (500ml)", marka:"Gatorade",kal:130, pro:0, karb:34, yag:0, lif:0, sod:270, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:8, por:500, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:901, ad:"Fuze Tea Limon (330ml)", marka:"Fuze Tea",kal:75, pro:0, karb:19, yag:0, lif:0, sod:15, demir:0, kals:0, vitC:1.5, vitD:0, vitB12:0, acik:5, por:330, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:0.5 },
+  { id:902, ad:"Cappy Karisik Meyve", marka:"Cappy",kal:90, pro:0.5, karb:22, yag:0.1, lif:0, sod:10, demir:0.1, kals:8, vitC:20, vitD:0, vitB12:0, acik:10, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:903, ad:"Minute Maid Portakal", marka:"Minute Maid",kal:110, pro:1, karb:27, yag:0, lif:0, sod:10, demir:0, kals:11, vitC:120, vitD:0, vitB12:0, acik:15, por:240, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:904, ad:"Pinar Icecat (200ml)", marka:"Pinar",kal:72, pro:3, karb:10, yag:2, lif:0, sod:90, demir:0, kals:120, vitC:0, vitD:0.5, vitB12:0.5, acik:35, por:200, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:3.5 },
+  { id:905, ad:"Ikitelli Soda", marka:"Ikitelli",kal:0, pro:0, karb:0, yag:0, lif:0, sod:158, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:906, ad:"Frosted Flakes", marka:"Kelloggs",kal:380, pro:5, karb:90, yag:0.5, lif:1, sod:520, demir:8, kals:1, vitC:15, vitD:4.5, vitB12:1.5, acik:25, por:100, aclik:"30 dk", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:907, ad:"Honey Smacks", marka:"Kelloggs",kal:395, pro:8, karb:90, yag:1.5, lif:2, sod:130, demir:9, kals:5, vitC:15, vitD:3.5, vitB12:1.5, acik:25, por:100, aclik:"30 dk", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:908, ad:"Cheerios (Orijinal)", marka:"General Mills",kal:375, pro:13, karb:68, yag:6.5, lif:10, sod:540, demir:25, kals:350, vitC:10, vitD:10, vitB12:25, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:909, ad:"Honey Nut Cheerios", marka:"General Mills",kal:375, pro:8, karb:74, yag:5, lif:5, sod:410, demir:25, kals:130, vitC:10, vitD:10, vitB12:25, acik:38, por:100, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:910, ad:"Coco Pops", marka:"Kelloggs",kal:390, pro:5, karb:88, yag:2, lif:2, sod:500, demir:7, kals:2, vitC:15, vitD:4.5, vitB12:1.5, acik:22, por:100, aclik:"30 dk", onay:true, kat:"Tahil", yildiz:1 },
+  { id:911, ad:"Lucky Charms", marka:"General Mills",kal:380, pro:8, karb:80, yag:5, lif:2.5, sod:380, demir:25, kals:130, vitC:10, vitD:10, vitB12:25, acik:25, por:100, aclik:"30 dk", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:912, ad:"Quaker Oat Granola", marka:"Quaker",kal:450, pro:11, karb:62, yag:18, lif:6, sod:200, demir:3.5, kals:45, vitC:0, vitD:0, vitB12:0, acik:52, por:100, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3.5 },
+  { id:913, ad:"Bircher Muesli", marka:"",kal:310, pro:9, karb:52, yag:7.5, lif:5.5, sod:85, demir:2.5, kals:180, vitC:2, vitD:0.2, vitB12:0.3, acik:58, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:914, ad:"Yulaf Sutlu Kaynatilmis", marka:"",kal:115, pro:4.5, karb:18, yag:2.8, lif:2, sod:55, demir:1.0, kals:130, vitC:0, vitD:0.5, vitB12:0.3, acik:52, por:250, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:915, ad:"Tam Bugday Muesli", marka:"Dr. Oetker",kal:360, pro:10, karb:64, yag:7, lif:9, sod:40, demir:3.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:58, por:100, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:916, ad:"Kabak Cicegi Tohumu", marka:"",kal:559, pro:30, karb:10, yag:49, lif:6, sod:7, demir:8.8, kals:46, vitC:1.9, vitD:0, vitB12:0, acik:65, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:5 },
+  { id:917, ad:"Ayi Cigneme Gurme Antep", marka:"Kuruyemisci",kal:585, pro:21, karb:19, yag:51, lif:7, sod:300, demir:2.5, kals:60, vitC:3, vitD:0, vitB12:0, acik:65, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:3.5 },
+  { id:918, ad:"Cin Fistig (Tuzlu)", marka:"Tadim",kal:567, pro:26, karb:16, yag:49, lif:8.5, sod:320, demir:3.9, kals:105, vitC:5.6, vitD:0, vitB12:0, acik:65, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:919, ad:"Brezilya Fistigi", marka:"",kal:656, pro:14, karb:12, yag:66, lif:7.5, sod:3, demir:2.4, kals:160, vitC:0.7, vitD:0, vitB12:0, acik:60, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4 },
+  { id:920, ad:"Cekirdek (Aycicegi Tuzlu)", marka:"",kal:588, pro:21, karb:20, yag:52, lif:8.6, sod:540, demir:5.2, kals:78, vitC:1.4, vitD:0, vitB12:0, acik:58, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:921, ad:"Cekirdek (Aycicegi Sade)", marka:"",kal:570, pro:21, karb:20, yag:51, lif:8.6, sod:9, demir:5.2, kals:78, vitC:1.4, vitD:0, vitB12:0, acik:58, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4.5 },
+  { id:922, ad:"Keten Tohumu (Ogutulmus)", marka:"",kal:534, pro:18, karb:29, yag:42, lif:27, sod:6, demir:5.7, kals:255, vitC:0.6, vitD:0, vitB12:0, acik:58, por:100, aclik:"2-3 saat", onay:true, kat:"Diger", yildiz:5 },
+  { id:923, ad:"Chia Tohumu", marka:"",kal:486, pro:17, karb:42, yag:31, lif:34, sod:16, demir:7.7, kals:631, vitC:1.6, vitD:0, vitB12:0, acik:60, por:100, aclik:"2-3 saat", onay:true, kat:"Diger", yildiz:5 },
+  { id:924, ad:"Kino Tohumu", marka:"",kal:368, pro:14, karb:64, yag:6, lif:7, sod:5, demir:4.6, kals:47, vitC:0, vitD:0, vitB12:0, acik:55, por:100, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:5 },
+  { id:925, ad:"Susam (Siyah)", marka:"",kal:573, pro:18, karb:23, yag:50, lif:11.6, sod:11, demir:14.6, kals:975, vitC:0.4, vitD:0, vitB12:0, acik:58, por:100, aclik:"2-3 saat", onay:true, kat:"Diger", yildiz:5 },
+  { id:926, ad:"Simit + Ayran", marka:"",kal:355, pro:13, karb:58, yag:6, lif:3, sod:710, demir:2.5, kals:150, vitC:0, vitD:0.1, vitB12:0.3, acik:48, por:280, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:927, ad:"Pogaca + Cay", marka:"",kal:330, pro:7.5, karb:45, yag:13.5, lif:2, sod:490, demir:1.8, kals:45, vitC:0, vitD:0, vitB12:0, acik:28, por:120, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1.5 },
+  { id:928, ad:"Karisik Tabak (Okul)", marka:"",kal:580, pro:25, karb:65, yag:22, lif:4, sod:850, demir:3.0, kals:80, vitC:5, vitD:0.2, vitB12:0.8, acik:65, por:300, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:929, ad:"Calippo Portakal", marka:"Algida",kal:75, pro:0.5, karb:18, yag:0.1, lif:0, sod:10, demir:0.1, kals:5, vitC:3, vitD:0, vitB12:0, acik:8, por:75, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:930, ad:"Twister (Meyveli)", marka:"Algida",kal:85, pro:0.5, karb:19, yag:1.5, lif:0, sod:15, demir:0.1, kals:5, vitC:1.5, vitD:0, vitB12:0, acik:8, por:85, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:931, ad:"Cornetto Classico", marka:"Algida",kal:255, pro:3.5, karb:32, yag:13, lif:0.5, sod:75, demir:0.3, kals:80, vitC:0.5, vitD:0.2, vitB12:0.2, acik:10, por:90, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:932, ad:"Bounty Dondurma", marka:"Mars",kal:275, pro:3, karb:30, yag:16, lif:1, sod:80, demir:0.8, kals:60, vitC:0, vitD:0, vitB12:0, acik:8, por:55, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:933, ad:"Haagen-Dazs Cikolata", marka:"Haagen-Dazs",kal:285, pro:5, karb:27, yag:17, lif:1, sod:60, demir:1.5, kals:130, vitC:0.5, vitD:0.3, vitB12:0.3, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:934, ad:"Haagen-Dazs Vanilya", marka:"Haagen-Dazs",kal:265, pro:4.5, karb:26, yag:16, lif:0, sod:60, demir:0.1, kals:120, vitC:0.5, vitD:0.4, vitB12:0.3, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:935, ad:"Lotus Biskuvi", marka:"Lotus",kal:497, pro:5.6, karb:70, yag:21, lif:1.8, sod:230, demir:2.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:936, ad:"Digestive Biskuvi (McVities)", marka:"McVities",kal:476, pro:8.2, karb:64, yag:20, lif:3.5, sod:490, demir:2.0, kals:55, vitC:0, vitD:0, vitB12:0, acik:18, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:937, ad:"After Eight", marka:"Nestle",kal:369, pro:2.5, karb:72, yag:8, lif:1, sod:60, demir:2.5, kals:10, vitC:0, vitD:0, vitB12:0, acik:8, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:938, ad:"Raffaello (3 adet)", marka:"Ferrero",kal:210, pro:2.5, karb:19, yag:14, lif:1, sod:35, demir:0.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:939, ad:"Kinder Bueno", marka:"Ferrero",kal:554, pro:9, karb:57, yag:32, lif:1.5, sod:120, demir:1.5, kals:80, vitC:0, vitD:0.2, vitB12:0.2, acik:12, por:43, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:940, ad:"Kinder Maxi", marka:"Ferrero",kal:558, pro:9, karb:56, yag:33, lif:0.5, sod:120, demir:0.8, kals:180, vitC:0, vitD:0.3, vitB12:0.3, acik:12, por:21, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:941, ad:"Godiva Cilekli Pralin", marka:"Godiva",kal:540, pro:5, karb:58, yag:32, lif:1.5, sod:50, demir:1.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:942, ad:"Dolfin 85 Kakao Cikolata", marka:"Dolfin",kal:620, pro:10, karb:32, yag:52, lif:12, sod:10, demir:10, kals:55, vitC:0.5, vitD:0, vitB12:0, acik:28, por:100, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:4 },
+  { id:943, ad:"Labneh (Yoğurt Peyniri)", marka:"",kal:195, pro:8.5, karb:3.5, yag:16, lif:0, sod:85, demir:0.1, kals:130, vitC:0, vitD:0.1, vitB12:0.3, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:3 },
+  { id:944, ad:"Suttas Dondurulmus Yoğurt", marka:"Suttas",kal:90, pro:4, karb:15, yag:2, lif:0, sod:65, demir:0.1, kals:130, vitC:0, vitD:0.2, vitB12:0.3, acik:38, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:3.5 },
+  { id:945, ad:"Clotted Cream", marka:"",kal:586, pro:2, karb:2.5, yag:63, lif:0, sod:35, demir:0, kals:65, vitC:0, vitD:0.3, vitB12:0.1, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Sut Urunu", yildiz:0.5 },
+  { id:946, ad:"Yoğurt (Tam Yagli Ev)", marka:"",kal:62, pro:3.5, karb:4.8, yag:3.2, lif:0, sod:46, demir:0, kals:121, vitC:0.5, vitD:0.1, vitB12:0.4, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:4.5 },
+  { id:947, ad:"Bebek Peyniri (Minik Peynir)", marka:"Mini Babybel",kal:305, pro:23, karb:0, yag:24, lif:0, sod:800, demir:0, kals:750, vitC:0, vitD:0.5, vitB12:1.0, acik:48, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:3 },
+  { id:948, ad:"Mozarella (Taze)", marka:"",kal:280, pro:17, karb:3.1, yag:22, lif:0, sod:370, demir:0.3, kals:505, vitC:0, vitD:0.3, vitB12:0.7, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:3.5 },
+  { id:949, ad:"Parmesan (Rendelenmis)", marka:"",kal:431, pro:38, karb:4.1, yag:29, lif:0, sod:1529, demir:0.9, kals:1184, vitC:0, vitD:0.4, vitB12:1.2, acik:50, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:950, ad:"Edam Peyniri", marka:"",kal:357, pro:25, karb:1.4, yag:28, lif:0, sod:965, demir:0.4, kals:731, vitC:0, vitD:0.5, vitB12:1.5, acik:48, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2.5 },
+  { id:951, ad:"Levrek (Izgara)", marka:"",kal:97, pro:19, karb:0, yag:2.2, lif:0, sod:63, demir:0.3, kals:12, vitC:0, vitD:5.5, vitB12:3.8, acik:80, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:952, ad:"Barbun (Tawa)", marka:"",kal:117, pro:20, karb:0, yag:3.8, lif:0, sod:65, demir:1.0, kals:50, vitC:0.5, vitD:4.5, vitB12:3.5, acik:78, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:953, ad:"Hamsi Tavas", marka:"",kal:195, pro:18, karb:8, yag:10, lif:0.5, sod:280, demir:1.5, kals:40, vitC:0, vitD:4.2, vitB12:4.5, acik:72, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:954, ad:"Hamsi Buglama", marka:"",kal:145, pro:22, karb:0.5, yag:6, lif:0, sod:68, demir:1.0, kals:45, vitC:0, vitD:5.5, vitB12:5.5, acik:80, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:955, ad:"Lufler (Izgara)", marka:"",kal:188, pro:20, karb:0, yag:12, lif:0, sod:71, demir:0.8, kals:15, vitC:0, vitD:6.8, vitB12:3.5, acik:78, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:956, ad:"Hamsili Pilav", marka:"",kal:280, pro:16, karb:38, yag:7, lif:1.5, sod:380, demir:1.8, kals:40, vitC:0, vitD:2.5, vitB12:2.8, acik:68, por:250, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:957, ad:"Enginar (Taze)", marka:"",kal:47, pro:3.3, karb:11, yag:0.2, lif:5.4, sod:94, demir:1.3, kals:44, vitC:11.7, vitD:0, vitB12:0, acik:62, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:958, ad:"Asparajus (Buharda)", marka:"",kal:22, pro:2.2, karb:4.1, yag:0.2, lif:2.1, sod:14, demir:2.1, kals:24, vitC:5.6, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:959, ad:"Bezelye Filizi", marka:"",kal:38, pro:3.8, karb:7, yag:0.2, lif:1.8, sod:8, demir:1.0, kals:36, vitC:13, vitD:0, vitB12:0, acik:40, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:960, ad:"Kuzu Kulagi (Ev)", marka:"",kal:22, pro:2, karb:3.2, yag:0.7, lif:0.9, sod:4, demir:2.4, kals:44, vitC:48, vitD:0, vitB12:0, acik:40, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:961, ad:"Tere (Acı)", marka:"",kal:32, pro:2.6, karb:5.5, yag:0.7, lif:1.1, sod:14, demir:1.3, kals:81, vitC:69, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:962, ad:"Enginar Kalbi (Konserve)", marka:"",kal:53, pro:2.9, karb:11, yag:0.3, lif:4.4, sod:240, demir:0.6, kals:18, vitC:6, vitD:0, vitB12:0, acik:55, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:963, ad:"Sun-Dried Tomato", marka:"",kal:258, pro:14, karb:55, yag:3, lif:12, sod:2095, demir:9.1, kals:110, vitC:39, vitD:0, vitB12:0, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:964, ad:"Patlican (Firinda)", marka:"",kal:33, pro:0.8, karb:8.7, yag:0.2, lif:2.5, sod:2, demir:0.2, kals:9, vitC:1.3, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:965, ad:"Kivi", marka:"",kal:61, pro:1.1, karb:15, yag:0.5, lif:3, sod:3, demir:0.3, kals:34, vitC:92.7, vitD:0, vitB12:0, acik:50, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:966, ad:"Hurma (Medjool)", marka:"",kal:277, pro:1.8, karb:75, yag:0.2, lif:6.7, sod:1, demir:0.9, kals:64, vitC:0, vitD:0, vitB12:0, acik:28, por:100, aclik:"1 saat", onay:true, kat:"Meyve", yildiz:3 },
+  { id:967, ad:"Coruk Elmasi", marka:"",kal:52, pro:0.3, karb:14, yag:0.2, lif:2.4, sod:1, demir:0.1, kals:6, vitC:4.6, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:968, ad:"Avokado (Yarım)", marka:"",kal:160, pro:2, karb:9, yag:15, lif:7, sod:7, demir:0.6, kals:12, vitC:10, vitD:0, vitB12:0, acik:52, por:100, aclik:"1-2 saat", onay:true, kat:"Meyve", yildiz:5 },
+  { id:969, ad:"Muz (Olgun)", marka:"",kal:89, pro:1.1, karb:23, yag:0.3, lif:2.6, sod:1, demir:0.3, kals:5, vitC:8.7, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:4 },
+  { id:970, ad:"Kuru Kaysisi (Organik)", marka:"",kal:241, pro:3.4, karb:63, yag:0.5, lif:7.3, sod:10, demir:2.7, kals:55, vitC:1, vitD:0, vitB12:0, acik:28, por:100, aclik:"1-2 saat", onay:true, kat:"Meyve", yildiz:3.5 },
+  { id:971, ad:"Acai Kaseleri (Dondurulmus)", marka:"Sambazon",kal:70, pro:1.5, karb:6, yag:5, lif:2, sod:10, demir:0.8, kals:20, vitC:9, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:972, ad:"Sea Buckthorn (Deniz Igdesi)", marka:"",kal:82, pro:1.2, karb:18, yag:1.6, lif:3.6, sod:0, demir:0.5, kals:12, vitC:695, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:973, ad:"Kakaolu Kinoa Kasesi", marka:"",kal:280, pro:10, karb:45, yag:8, lif:5, sod:95, demir:3.5, kals:50, vitC:1, vitD:0, vitB12:0, acik:58, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:5 },
+  { id:974, ad:"Protein Smoothie (Cilek)", marka:"",kal:285, pro:28, karb:32, yag:5, lif:3, sod:180, demir:1.5, kals:200, vitC:18, vitD:0.5, vitB12:0.8, acik:65, por:350, aclik:"2-3 saat", onay:true, kat:"Icecek", yildiz:5 },
+  { id:975, ad:"Turmeric Latte", marka:"",kal:85, pro:3.5, karb:10, yag:4, lif:0.5, sod:85, demir:0.5, kals:140, vitC:0.5, vitD:0.5, vitB12:0.3, acik:38, por:240, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:5 },
+  { id:976, ad:"Pirinc Lapasi", marka:"",kal:70, pro:1.5, karb:15, yag:0.5, lif:0.5, sod:30, demir:0.5, kals:20, vitC:0, vitD:0.2, vitB12:0, acik:22, por:100, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:2 },
+  { id:977, ad:"Sebzeli Tavuk Lapasi", marka:"",kal:85, pro:6, karb:12, yag:1.5, lif:1.5, sod:75, demir:0.8, kals:25, vitC:5, vitD:0.1, vitB12:0.2, acik:42, por:150, aclik:"30-60 dk", onay:true, kat:"Hazir Yemek", yildiz:4.5 },
+  { id:978, ad:"Ketojenik Bombe Kahve", marka:"",kal:230, pro:0.5, karb:0.5, yag:26, lif:0, sod:8, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:45, por:300, aclik:"2-3 saat", onay:true, kat:"Icecek", yildiz:2 },
+  { id:979, ad:"Protein Shake (Su ile)", marka:"Optimum",kal:120, pro:24, karb:3, yag:1, lif:0.5, sod:150, demir:0.5, kals:130, vitC:0, vitD:0, vitB12:0.5, acik:65, por:300, aclik:"2-3 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:980, ad:"Protein Shake (Sutlu)", marka:"Optimum",kal:275, pro:30, karb:15, yag:8, lif:1, sod:200, demir:0.5, kals:280, vitC:0, vitD:0.8, vitB12:1.0, acik:70, por:400, aclik:"2-3 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:981, ad:"Kind Protein Bar Badem", marka:"Kind",kal:250, pro:12, karb:26, yag:12, lif:4, sod:230, demir:1.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:55, por:60, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4 },
+  { id:982, ad:"RX Bar Cikolata Deniz Tuzu", marka:"RXBAR",kal:210, pro:12, karb:24, yag:9, lif:5, sod:250, demir:1.5, kals:30, vitC:0, vitD:0, vitB12:0.4, acik:55, por:52, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4 },
+  { id:983, ad:"Clif Bar (Cikolata)", marka:"Clif",kal:260, pro:10, karb:45, yag:6, lif:5, sod:200, demir:2.5, kals:300, vitC:0, vitD:0, vitB12:0, acik:55, por:68, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:3.5 },
+  { id:984, ad:"Larabar (Hurma-Badem)", marka:"Larabar",kal:230, pro:6, karb:29, yag:11, lif:5, sod:5, demir:1.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:52, por:48, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4 },
+  { id:985, ad:"Grenade Protein Bar Karamel", marka:"Grenade",kal:215, pro:20, karb:22, yag:8, lif:7, sod:355, demir:2.5, kals:100, vitC:0, vitD:0, vitB12:0.5, acik:58, por:60, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4 },
+  { id:986, ad:"Croissant (Tereyagli)", marka:"",kal:406, pro:8, karb:46, yag:21, lif:1.5, sod:375, demir:1.8, kals:25, vitC:0, vitD:0.2, vitB12:0.2, acik:18, por:100, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:1 },
+  { id:987, ad:"Bagel (Sade)", marka:"",kal:245, pro:10, karb:48, yag:1.5, lif:2, sod:440, demir:2.5, kals:15, vitC:0, vitD:0, vitB12:0, acik:38, por:98, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:988, ad:"Pretzel (Kalin)", marka:"",kal:380, pro:9, karb:79, yag:3, lif:3, sod:1710, demir:2.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:28, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:989, ad:"Tortilla (Tam Bugday)", marka:"Mission",kal:218, pro:6, karb:38, yag:5.5, lif:3.5, sod:460, demir:2.0, kals:100, vitC:0, vitD:0, vitB12:0, acik:38, por:66, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:990, ad:"Focaccia Ekmegi", marka:"",kal:295, pro:7.5, karb:45, yag:10, lif:2, sod:480, demir:2.0, kals:30, vitC:0, vitD:0, vitB12:0, acik:32, por:80, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:991, ad:"Naan Ekmegi (Tereyagli)", marka:"",kal:310, pro:9, karb:54, yag:8, lif:2, sod:480, demir:2.5, kals:45, vitC:0, vitD:0, vitB12:0, acik:38, por:110, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:992, ad:"Injera (Etiyopya Ekmegi)", marka:"",kal:145, pro:5, karb:28, yag:1, lif:4, sod:240, demir:3.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:52, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:993, ad:"Corn Tortilla Chip", marka:"",kal:490, pro:8, karb:67, yag:23, lif:5, sod:520, demir:1.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:18, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:994, ad:"Takoyaki (3 adet)", marka:"",kal:175, pro:7, karb:22, yag:7, lif:1, sod:560, demir:0.8, kals:35, vitC:0.5, vitD:0, vitB12:0.3, acik:35, por:90, aclik:"30-60 dk", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:995, ad:"Momo (Tibetli Mantisi)", marka:"",kal:250, pro:12, karb:32, yag:8, lif:1.5, sod:620, demir:1.5, kals:40, vitC:1, vitD:0, vitB12:0.4, acik:42, por:120, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:996, ad:"Intermittent Fasting Cayı", marka:"",kal:2, pro:0, karb:0.5, yag:0, lif:0, sod:0, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:250, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:997, ad:"Detox Suyu (Limon-Nane-Zencefil)", marka:"",kal:15, pro:0.2, karb:3.5, yag:0.1, lif:0.3, sod:2, demir:0.1, kals:8, vitC:8, vitD:0, vitB12:0, acik:10, por:300, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:998, ad:"Sicak Su + Limon (Sabah)", marka:"",kal:5, pro:0.1, karb:1.5, yag:0, lif:0.1, sod:0, demir:0, kals:2, vitC:9, vitD:0, vitB12:0, acik:5, por:250, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:999, ad:"Apple Cider Vinegar Sulandirmis", marka:"Bragg",kal:3, pro:0, karb:0.7, yag:0, lif:0, sod:5, demir:0.1, kals:2, vitC:0, vitD:0, vitB12:0, acik:5, por:250, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1000, ad:"Doya Saglikli Tabak", marka:"Doya",kal:480, pro:35, karb:45, yag:18, lif:10, sod:420, demir:4.5, kals:180, vitC:35, vitD:1.0, vitB12:1.5, acik:85, por:300, aclik:"3-4 saat", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:1001, ad:"Hunkar Begendi", marka:"",kal:310, pro:20, karb:15, yag:19, lif:2.5, sod:580, demir:2.5, kals:80, vitC:4, vitD:0.1, vitB12:0.9, acik:68, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:1002, ad:"Terbiyeli Kofte", marka:"",kal:195, pro:16, karb:8, yag:11, lif:0.8, sod:420, demir:2.2, kals:45, vitC:1, vitD:0.5, vitB12:0.8, acik:68, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1003, ad:"Sehriyeli Kofte Corbasi", marka:"",kal:110, pro:8, karb:12, yag:4, lif:1, sod:480, demir:1.5, kals:30, vitC:0, vitD:0.2, vitB12:0.4, acik:60, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:4 },
+  { id:1004, ad:"Eksi Corbasi", marka:"",kal:85, pro:5, karb:11, yag:3, lif:1, sod:380, demir:0.8, kals:50, vitC:0, vitD:0.1, vitB12:0.2, acik:48, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3.5 },
+  { id:1005, ad:"Yoğurt Corbasi", marka:"",kal:90, pro:4.5, karb:10, yag:4, lif:0.5, sod:350, demir:0.3, kals:120, vitC:0, vitD:0.1, vitB12:0.3, acik:42, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3.5 },
+  { id:1006, ad:"Yayla Corbasi", marka:"",kal:95, pro:5, karb:11, yag:4.5, lif:0.5, sod:360, demir:0.4, kals:130, vitC:0, vitD:0.1, vitB12:0.3, acik:45, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3.5 },
+  { id:1007, ad:"Paça Corbasi", marka:"",kal:78, pro:9, karb:2, yag:4, lif:0, sod:750, demir:1.0, kals:30, vitC:0, vitD:0, vitB12:0.5, acik:52, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:2 },
+  { id:1008, ad:"Etli Lahana Sarmasi", marka:"",kal:215, pro:15, karb:16, yag:10, lif:2, sod:520, demir:2.0, kals:50, vitC:18, vitD:0, vitB12:0.8, acik:68, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1009, ad:"Zeytinyagli Asma Yaprak", marka:"",kal:140, pro:2.5, karb:20, yag:6.5, lif:3, sod:380, demir:1.2, kals:28, vitC:2, vitD:0, vitB12:0, acik:40, por:100, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:1010, ad:"Firinda Kofte (Soslu)", marka:"",kal:285, pro:22, karb:12, yag:17, lif:1.5, sod:580, demir:3.0, kals:55, vitC:8, vitD:0, vitB12:1.2, acik:72, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:1011, ad:"Sebzeli Guvec", marka:"",kal:135, pro:5, karb:18, yag:6, lif:4.5, sod:340, demir:1.5, kals:50, vitC:25, vitD:0, vitB12:0, acik:62, por:250, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1012, ad:"Etli Guvec", marka:"",kal:225, pro:18, karb:14, yag:12, lif:3, sod:460, demir:2.8, kals:45, vitC:20, vitD:0, vitB12:1.0, acik:72, por:250, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1013, ad:"Kasarli Kofte", marka:"",kal:355, pro:26, karb:8, yag:25, lif:0.8, sod:680, demir:3.0, kals:180, vitC:0, vitD:0.3, vitB12:1.5, acik:72, por:180, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1014, ad:"Cavuş Unu Ekmegi", marka:"",kal:225, pro:7, karb:44, yag:1.5, lif:6, sod:380, demir:2.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:48, por:70, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:1015, ad:"Misir Ekmegi (Karadeniz)", marka:"",kal:230, pro:5, karb:46, yag:3, lif:2.5, sod:290, demir:1.5, kals:8, vitC:0, vitD:0, vitB12:0, acik:35, por:80, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1016, ad:"Peksimed (Kuru Ekmek)", marka:"",kal:390, pro:11, karb:78, yag:4, lif:5, sod:580, demir:3.0, kals:30, vitC:0, vitD:0, vitB12:0, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1017, ad:"Haribo Goldbaren", marka:"Haribo",kal:343, pro:6.5, karb:77, yag:0.5, lif:0, sod:30, demir:0.2, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0 },
+  { id:1018, ad:"Skittles", marka:"Mars",kal:404, pro:0, karb:90, yag:4.5, lif:0, sod:20, demir:0.2, kals:0, vitC:40, vitD:0, vitB12:0, acik:5, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0 },
+  { id:1019, ad:"Starburst", marka:"Wrigley",kal:400, pro:0, karb:88, yag:6, lif:0, sod:30, demir:0.1, kals:0, vitC:12, vitD:0, vitB12:0, acik:5, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0 },
+  { id:1020, ad:"Trolli Solucan Sekeri", marka:"Trolli",kal:340, pro:7, karb:76, yag:0.5, lif:0, sod:35, demir:0.2, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0 },
+  { id:1021, ad:"Ülker Biskuvi Cizi", marka:"Ulker",kal:480, pro:8, karb:65, yag:22, lif:1.5, sod:440, demir:2.0, kals:30, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1022, ad:"Eti Cin Biskuvi", marka:"Eti",kal:460, pro:7, karb:68, yag:19, lif:2, sod:380, demir:1.8, kals:20, vitC:0, vitD:0, vitB12:0, acik:14, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1023, ad:"Ülker Meşhur Çikolatalı Gofret", marka:"Ulker",kal:530, pro:6, karb:62, yag:28, lif:1.5, sod:110, demir:1.5, kals:55, vitC:0, vitD:0, vitB12:0.1, acik:15, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1024, ad:"Eti Tender Cikolata", marka:"Eti",kal:510, pro:6.5, karb:60, yag:27, lif:2, sod:95, demir:2.0, kals:60, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1025, ad:"Ülker Dankek", marka:"Ulker",kal:370, pro:5.5, karb:56, yag:15, lif:1.5, sod:180, demir:1.5, kals:50, vitC:0, vitD:0, vitB12:0, acik:12, por:50, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1026, ad:"Eti Kremali Rulo", marka:"Eti",kal:460, pro:5.5, karb:63, yag:21, lif:1.5, sod:210, demir:1.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1027, ad:"Pınar Tereyagi (10g)", marka:"Pinar",kal:74, pro:0.1, karb:0.1, yag:8.3, lif:0, sod:64, demir:0, kals:2, vitC:0, vitD:0.1, vitB12:0, acik:5, por:10, aclik:"—", onay:true, kat:"Diger", yildiz:0.5 },
+  { id:1028, ad:"Sütaş Kaymak (20g)", marka:"Sutas",kal:68, pro:0.5, karb:0.5, yag:7, lif:0, sod:8, demir:0, kals:18, vitC:0, vitD:0.1, vitB12:0, acik:8, por:20, aclik:"—", onay:true, kat:"Sut Urunu", yildiz:1 },
+  { id:1029, ad:"Pınar Light Labne", marka:"Pinar",kal:115, pro:7, karb:4, yag:8, lif:0, sod:75, demir:0.1, kals:100, vitC:0, vitD:0.1, vitB12:0.2, acik:40, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:3.5 },
+  { id:1030, ad:"Sütaş Sutumsuz Fındık Kreması", marka:"Sutas",kal:490, pro:8, karb:56, yag:27, lif:3, sod:80, demir:2.0, kals:100, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Diger", yildiz:1 },
+  { id:1031, ad:"Çiğ Köfte Wrap (Küçük)", marka:"Antalya Ocakbasi",kal:220, pro:6, karb:38, yag:6.5, lif:5, sod:480, demir:2.5, kals:30, vitC:3, vitD:0, vitB12:0, acik:45, por:120, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:1032, ad:"Kokorec (Yari Ekmek)", marka:"",kal:480, pro:22, karb:38, yag:28, lif:2.5, sod:920, demir:3.5, kals:30, vitC:0, vitD:0, vitB12:2.0, acik:52, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:1 },
+  { id:1033, ad:"Misir (Soguk, Bardak)", marka:"",kal:130, pro:4, karb:27, yag:1.5, lif:3, sod:10, demir:0.5, kals:4, vitC:6, vitD:0, vitB12:0, acik:42, por:200, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:3 },
+  { id:1034, ad:"Kestane (Kavrulmus)", marka:"",kal:245, pro:3.2, karb:53, yag:2.2, lif:5.1, sod:3, demir:1.7, kals:29, vitC:40, vitD:0, vitB12:0, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Meyve", yildiz:4.5 },
+  { id:1035, ad:"Kirmizibiber Dolmasi", marka:"",kal:75, pro:2, karb:12, yag:3, lif:2.5, sod:180, demir:0.8, kals:15, vitC:55, vitD:0, vitB12:0, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1036, ad:"Kizarmis Peynir (Hellim)", marka:"",kal:280, pro:17, karb:2.5, yag:22, lif:0, sod:1080, demir:0.3, kals:560, vitC:0, vitD:0.2, vitB12:0.4, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1037, ad:"Firinda Mantar (Dolmali)", marka:"",kal:95, pro:4, karb:8, yag:5.5, lif:2.5, sod:280, demir:0.8, kals:20, vitC:2, vitD:0.2, vitB12:0, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:1038, ad:"Domates Corbasi (Kremali)", marka:"",kal:120, pro:2.5, karb:14, yag:6.5, lif:2, sod:420, demir:0.8, kals:30, vitC:12, vitD:0, vitB12:0, acik:42, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3.5 },
+  { id:1039, ad:"Tarator (Cevizli Sarimsakli)", marka:"",kal:155, pro:4, karb:6, yag:14, lif:1.5, sod:180, demir:0.8, kals:50, vitC:1, vitD:0, vitB12:0, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Diger", yildiz:3.5 },
+  { id:1040, ad:"Haydari", marka:"",kal:80, pro:4, karb:5, yag:5, lif:0.5, sod:210, demir:0.2, kals:90, vitC:1, vitD:0.1, vitB12:0.3, acik:48, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:4 },
+  { id:1041, ad:"Hummus (Klasik)", marka:"",kal:177, pro:8, karb:20, yag:10, lif:6, sod:380, demir:2.4, kals:49, vitC:1, vitD:0, vitB12:0, acik:58, por:100, aclik:"2-3 saat", onay:true, kat:"Diger", yildiz:5 },
+  { id:1042, ad:"Baba Ghanoush (Ev)", marka:"",kal:95, pro:2.5, karb:8.5, yag:6, lif:2, sod:95, demir:0.5, kals:28, vitC:1, vitD:0, vitB12:0, acik:52, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:1043, ad:"Shakshuka (2 Yumurta)", marka:"",kal:195, pro:15, karb:10, yag:12, lif:2.5, sod:620, demir:2.8, kals:60, vitC:22, vitD:1.5, vitB12:0.9, acik:65, por:200, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:1044, ad:"Poke Bowl (Somon)", marka:"",kal:420, pro:28, karb:48, yag:14, lif:4, sod:680, demir:1.5, kals:40, vitC:5, vitD:8, vitB12:3.5, acik:72, por:350, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:1045, ad:"Açık Sandviç (Avokado-Yumurta)", marka:"",kal:310, pro:16, karb:30, yag:17, lif:6, sod:420, demir:2.5, kals:55, vitC:8, vitD:1.2, vitB12:0.5, acik:62, por:180, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1046, ad:"Açık Sandviç (Somon-Krem Peynir)", marka:"",kal:345, pro:22, karb:28, yag:16, lif:2, sod:680, demir:0.8, kals:80, vitC:0, vitD:8, vitB12:3.0, acik:62, por:160, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:1047, ad:"Sashimi (6 Dilim Somon)", marka:"",kal:180, pro:26, karb:0, yag:8, lif:0, sod:75, demir:0.4, kals:14, vitC:0, vitD:14, vitB12:4.0, acik:75, por:120, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1048, ad:"Tempura Karides", marka:"",kal:290, pro:14, karb:26, yag:16, lif:1, sod:490, demir:0.8, kals:60, vitC:0, vitD:0.1, vitB12:0.8, acik:45, por:150, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:2.5 },
+  { id:1049, ad:"Banh Mi Sandvici", marka:"",kal:440, pro:20, karb:55, yag:16, lif:2.5, sod:780, demir:2.5, kals:40, vitC:3, vitD:0.1, vitB12:0.5, acik:52, por:220, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1050, ad:"Bibimbap (Biftek)", marka:"",kal:380, pro:24, karb:52, yag:9, lif:3.5, sod:820, demir:3.0, kals:40, vitC:8, vitD:0, vitB12:1.5, acik:72, por:350, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1051, ad:"Tavuk Gogus Salata Bowl", marka:"",kal:320, pro:35, karb:22, yag:10, lif:6, sod:480, demir:2.5, kals:80, vitC:25, vitD:0.1, vitB12:0.3, acik:75, por:300, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1052, ad:"Somon Pilaki", marka:"",kal:280, pro:25, karb:12, yag:15, lif:3, sod:420, demir:1.5, kals:45, vitC:8, vitD:9, vitB12:3.8, acik:75, por:200, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1053, ad:"Kinoa Tabbule", marka:"",kal:190, pro:7, karb:30, yag:6, lif:4.5, sod:280, demir:2.5, kals:40, vitC:18, vitD:0, vitB12:0, acik:60, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:5 },
+  { id:1054, ad:"Tavuk Brokoli Bowl", marka:"",kal:290, pro:32, karb:20, yag:9, lif:5.5, sod:420, demir:2.0, kals:80, vitC:55, vitD:0.2, vitB12:0.3, acik:78, por:300, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1055, ad:"Nohut Salatasi (Pirasa Biberiye)", marka:"",kal:195, pro:9, karb:28, yag:6.5, lif:7, sod:280, demir:2.8, kals:55, vitC:10, vitD:0, vitB12:0, acik:65, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1056, ad:"Hibiskus Cay", marka:"",kal:3, pro:0.1, karb:0.7, yag:0, lif:0.1, sod:3, demir:0.2, kals:8, vitC:6, vitD:0, vitB12:0, acik:5, por:240, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1057, ad:"Kuşburnu Cay", marka:"Doğadan",kal:8, pro:0.2, karb:1.8, yag:0.1, lif:0.5, sod:2, demir:0.3, kals:10, vitC:18, vitD:0, vitB12:0, acik:8, por:240, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1058, ad:"Ihlamur Cay", marka:"Doğadan",kal:2, pro:0, karb:0.5, yag:0, lif:0.1, sod:1, demir:0.1, kals:5, vitC:1, vitD:0, vitB12:0, acik:5, por:240, aclik:"—", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1059, ad:"Yeşil Cay (Matcha Yok)", marka:"",kal:2, pro:0.2, karb:0.3, yag:0, lif:0, sod:2, demir:0.1, kals:3, vitC:0, vitD:0, vitB12:0, acik:5, por:240, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1060, ad:"Siyah Cay (Demli)", marka:"Çaykur",kal:2, pro:0.1, karb:0.4, yag:0, lif:0, sod:0, demir:0.2, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1061, ad:"Elma Cay (Tatli)", marka:"Lipton",kal:40, pro:0, karb:10, yag:0, lif:0, sod:5, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:240, aclik:"—", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1062, ad:"Buzlu Cay Ev Yapimi", marka:"",kal:15, pro:0.1, karb:3.5, yag:0, lif:0, sod:5, demir:0.1, kals:0, vitC:1, vitD:0, vitB12:0, acik:5, por:300, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1063, ad:"Oat Milk Latte", marka:"",kal:130, pro:3, karb:19, yag:5, lif:1, sod:95, demir:0.5, kals:120, vitC:0, vitD:0.8, vitB12:0.3, acik:35, por:300, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:3.5 },
+  { id:1064, ad:"Hindistan Cevizi Su", marka:"Vita Coco",kal:45, pro:0.5, karb:11, yag:0, lif:0, sod:25, demir:0.1, kals:57, vitC:2.4, vitD:0, vitB12:0, acik:15, por:330, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1065, ad:"Aloe Vera Suyu", marka:"",kal:25, pro:0, karb:6.5, yag:0, lif:0, sod:5, demir:0.1, kals:5, vitC:0.5, vitD:0, vitB12:0, acik:8, por:240, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1066, ad:"Mocha Protein Shake", marka:"",kal:210, pro:30, karb:15, yag:5, lif:2, sod:200, demir:1.0, kals:200, vitC:0, vitD:0.5, vitB12:0.5, acik:68, por:300, aclik:"2-3 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1067, ad:"Sporcu Muzlu Shake", marka:"",kal:320, pro:28, karb:42, yag:4, lif:3, sod:180, demir:1.5, kals:180, vitC:8, vitD:0.5, vitB12:0.5, acik:70, por:400, aclik:"2-3 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1068, ad:"Post Workout Karişik", marka:"",kal:380, pro:32, karb:55, yag:5, lif:3, sod:250, demir:2.0, kals:200, vitC:5, vitD:0.5, vitB12:0.5, acik:75, por:400, aclik:"2-3 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1069, ad:"Collagen Smoothie", marka:"",kal:180, pro:18, karb:22, yag:3, lif:2, sod:80, demir:0.5, kals:150, vitC:25, vitD:0, vitB12:0, acik:60, por:300, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1070, ad:"Magnezyumlu Su", marka:"Doğadan",kal:0, pro:0, karb:0, yag:0, lif:0, sod:5, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:500, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1071, ad:"Elektrolit Icecegi Ev Yapimi", marka:"",kal:20, pro:0, karb:5, yag:0, lif:0, sod:380, demir:0, kals:15, vitC:8, vitD:0, vitB12:0, acik:5, por:500, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1072, ad:"Probiyotik Yoğurt (Activo)", marka:"Activia",kal:65, pro:3.8, karb:8, yag:2, lif:0, sod:55, demir:0, kals:120, vitC:0, vitD:0.1, vitB12:0.3, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:4.5 },
+  { id:1073, ad:"Vitamin C Takviye", marka:"Now Foods",kal:4, pro:0, karb:1, yag:0, lif:0, sod:10, demir:0, kals:0, vitC:1000, vitD:0, vitB12:0, acik:5, por:1, aclik:"—", onay:true, kat:"Diger", yildiz:5 },
+  { id:1074, ad:"Multivitamin Tablet", marka:"Centrum",kal:0, pro:0, karb:0, yag:0, lif:0, sod:0, demir:18, kals:162, vitC:60, vitD:400, vitB12:6, acik:5, por:1, aclik:"—", onay:true, kat:"Diger", yildiz:5 },
+  { id:1075, ad:"Demir Bisgilysinat", marka:"Solgar",kal:0, pro:0, karb:0.5, yag:0, lif:0, sod:5, demir:25, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:1, aclik:"—", onay:true, kat:"Diger", yildiz:5 },
+  { id:1076, ad:"Karadeniz Tereyagli Pilav", marka:"",kal:265, pro:4.5, karb:45, yag:9, lif:0.5, sod:290, demir:0.8, kals:15, vitC:0, vitD:0.2, vitB12:0.1, acik:42, por:150, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1077, ad:"Ege Zeytinyagli Barbunya", marka:"",kal:150, pro:7.5, karb:22, yag:4.5, lif:6, sod:230, demir:2.2, kals:45, vitC:5, vitD:0, vitB12:0, acik:70, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1078, ad:"Manisa Tarhana Corbasi", marka:"",kal:78, pro:3.5, karb:13, yag:1.5, lif:2, sod:350, demir:1.5, kals:28, vitC:2, vitD:0, vitB12:0, acik:58, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:4.5 },
+  { id:1079, ad:"Konya Firini Ekmek", marka:"",kal:255, pro:8.5, karb:50, yag:2, lif:3, sod:395, demir:2.2, kals:20, vitC:0, vitD:0, vitB12:0, acik:40, por:80, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1080, ad:"Gaziantep Sutlu Tatli", marka:"",kal:295, pro:6, karb:42, yag:13, lif:0.5, sod:80, demir:0.3, kals:150, vitC:0, vitD:0.2, vitB12:0.3, acik:20, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1081, ad:"Denizli Kiremit Tavuğu", marka:"",kal:275, pro:32, karb:4, yag:15, lif:0.5, sod:620, demir:1.5, kals:25, vitC:2, vitD:0.1, vitB12:0.3, acik:80, por:200, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1082, ad:"Urfa Bıber Kebab", marka:"",kal:260, pro:24, karb:3, yag:17, lif:0.5, sod:580, demir:2.8, kals:25, vitC:2, vitD:0, vitB12:1.5, acik:78, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1083, ad:"Antakya Kunefelik Peynir", marka:"",kal:260, pro:18, karb:2, yag:21, lif:0, sod:1100, demir:0.2, kals:530, vitC:0, vitD:0.3, vitB12:0.5, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1084, ad:"Trabzon Hamsili Ekmek", marka:"",kal:315, pro:18, karb:38, yag:10, lif:2, sod:420, demir:2.0, kals:40, vitC:0, vitD:4.5, vitB12:4.0, acik:65, por:180, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4.5 },
+  { id:1085, ad:"Bolu Dağı Güveç", marka:"",kal:320, pro:22, karb:20, yag:18, lif:4, sod:520, demir:3.0, kals:60, vitC:20, vitD:0.1, vitB12:1.0, acik:72, por:250, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1086, ad:"Cig Kofte (Hazir Paket)", marka:"Asyum",kal:155, pro:5, karb:28, yag:3.5, lif:5.5, sod:520, demir:2.5, kals:28, vitC:3, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1087, ad:"Lokma Tatlisi", marka:"",kal:380, pro:4, karb:58, yag:16, lif:1, sod:120, demir:1.0, kals:15, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1088, ad:"Churros (3 adet)", marka:"",kal:320, pro:4.5, karb:44, yag:15, lif:1.5, sod:280, demir:1.2, kals:20, vitC:0, vitD:0, vitB12:0, acik:14, por:90, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1089, ad:"Waffle (Taze)", marka:"",kal:350, pro:7, karb:48, yag:15, lif:1.5, sod:360, demir:2.0, kals:80, vitC:0, vitD:0.5, vitB12:0.3, acik:25, por:120, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:1090, ad:"Galeta Unu", marka:"",kal:395, pro:12, karb:78, yag:4, lif:4, sod:590, demir:3.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:25, por:100, aclik:"—", onay:true, kat:"Diger", yildiz:2 },
+  { id:1091, ad:"Crème Brûlée", marka:"",kal:285, pro:4.5, karb:30, yag:17, lif:0, sod:55, demir:0.2, kals:80, vitC:0, vitD:0.3, vitB12:0.2, acik:10, por:120, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1092, ad:"Panna Cotta (Vanilya)", marka:"",kal:220, pro:3.5, karb:22, yag:14, lif:0, sod:60, demir:0, kals:90, vitC:0, vitD:0.2, vitB12:0.2, acik:10, por:120, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1093, ad:"Mousse au Chocolat", marka:"",kal:310, pro:6, karb:28, yag:21, lif:2, sod:50, demir:2.5, kals:50, vitC:0.2, vitD:0.3, vitB12:0.2, acik:12, por:120, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1094, ad:"Sufle (Cikolata)", marka:"",kal:325, pro:8, karb:38, yag:17, lif:1.5, sod:140, demir:2.0, kals:60, vitC:0, vitD:0.4, vitB12:0.3, acik:12, por:130, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1095, ad:"Waffle (Nutellali)", marka:"",kal:490, pro:8, karb:66, yag:23, lif:2, sod:340, demir:2.0, kals:90, vitC:0, vitD:0.5, vitB12:0.3, acik:15, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1096, ad:"Mercimekli Pirinc Pilavi", marka:"",kal:245, pro:9, karb:48, yag:3, lif:4.5, sod:220, demir:2.8, kals:25, vitC:0, vitD:0, vitB12:0, acik:62, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1097, ad:"Sarimsakli Yogurt Makarna", marka:"",kal:385, pro:14, karb:62, yag:11, lif:2, sod:420, demir:1.5, kals:80, vitC:1, vitD:0.2, vitB12:0.2, acik:45, por:250, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1098, ad:"Makarna Carbonara", marka:"",kal:480, pro:18, karb:55, yag:22, lif:2, sod:580, demir:1.5, kals:100, vitC:0, vitD:0.5, vitB12:0.5, acik:48, por:250, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1099, ad:"Ton Balikli Makarna", marka:"",kal:350, pro:25, karb:42, yag:8, lif:2.5, sod:520, demir:1.8, kals:30, vitC:0, vitD:3.5, vitB12:2.0, acik:65, por:250, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1100, ad:"Kisir (Tam Bardak)", marka:"",kal:198, pro:5, karb:34, yag:6, lif:5, sod:350, demir:1.8, kals:35, vitC:15, vitD:0, vitB12:0, acik:62, por:200, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:1101, ad:"Manti (100g Pismis)", marka:"",kal:220, pro:10, karb:32, yag:7, lif:1.5, sod:420, demir:1.5, kals:50, vitC:0, vitD:0.2, vitB12:0.4, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1102, ad:"Manti (Yoğurtlu Tam Porsiyon)", marka:"",kal:380, pro:16, karb:52, yag:13, lif:2, sod:680, demir:2.0, kals:130, vitC:0, vitD:0.2, vitB12:0.4, acik:52, por:300, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1103, ad:"Gözleme (Kıymalı)", marka:"",kal:310, pro:15, karb:34, yag:14, lif:2, sod:520, demir:2.5, kals:35, vitC:1, vitD:0, vitB12:0.8, acik:52, por:150, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1104, ad:"Börek (Patatesli)", marka:"",kal:255, pro:6, karb:34, yag:12, lif:2, sod:380, demir:1.2, kals:30, vitC:8, vitD:0, vitB12:0, acik:38, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1105, ad:"Firinda Sütlaç", marka:"",kal:145, pro:4.5, karb:24, yag:4, lif:0.2, sod:70, demir:0.1, kals:125, vitC:0, vitD:0.3, vitB12:0.4, acik:38, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2.5 },
+  { id:1106, ad:"Tulum Peyniri (Izmir)", marka:"",kal:360, pro:25, karb:0.5, yag:30, lif:0, sod:1080, demir:0.3, kals:650, vitC:0, vitD:0.3, vitB12:0.8, acik:48, por:100, aclik:"2-3 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1107, ad:"Mihalıç Peyniri", marka:"",kal:345, pro:26, karb:1, yag:27, lif:0, sod:1260, demir:0.3, kals:720, vitC:0, vitD:0.3, vitB12:0.9, acik:50, por:100, aclik:"2-3 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1108, ad:"Civil Peyniri (Haskoy)", marka:"",kal:280, pro:24, karb:2, yag:20, lif:0, sod:980, demir:0.2, kals:580, vitC:0, vitD:0.3, vitB12:0.7, acik:48, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2.5 },
+  { id:1109, ad:"Kelle Peyniri", marka:"",kal:320, pro:22, karb:1.5, yag:26, lif:0, sod:1100, demir:0.3, kals:600, vitC:0, vitD:0.3, vitB12:0.8, acik:48, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1110, ad:"Sirdan (Kuzey Doğu)", marka:"",kal:185, pro:10, karb:18, yag:8.5, lif:1.5, sod:450, demir:1.5, kals:60, vitC:2, vitD:0, vitB12:0.5, acik:55, por:150, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1111, ad:"Duz Soda (Maden Suyu)", marka:"",kal:0, pro:0, karb:0, yag:0, lif:0, sod:170, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:330, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1112, ad:"Kefir + Meyve Karisimi", marka:"",kal:155, pro:7, karb:24, yag:3, lif:1.5, sod:85, demir:0.5, kals:200, vitC:12, vitD:0.1, vitB12:0.5, acik:52, por:250, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1113, ad:"Zeytin Yagi + Ekmek", marka:"",kal:320, pro:6, karb:42, yag:14, lif:2.5, sod:390, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:35, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1114, ad:"Bütün Yumurta (Rafadan)", marka:"",kal:77, pro:6.3, karb:0.6, yag:5.3, lif:0, sod:62, demir:0.9, kals:25, vitC:0, vitD:0.9, vitB12:0.6, acik:55, por:50, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1115, ad:"Cig Yumurta (Smoothie)", marka:"",kal:72, pro:6.3, karb:0.4, yag:5, lif:0, sod:71, demir:0.9, kals:28, vitC:0, vitD:0.9, vitB12:0.5, acik:55, por:50, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1116, ad:"Fırında Yumurta (Shakshuka Stili)", marka:"",kal:145, pro:12, karb:6, yag:9, lif:1.5, sod:480, demir:2.5, kals:50, vitC:18, vitD:1.5, vitB12:0.9, acik:65, por:150, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1117, ad:"Yumurta (Baked, Firin)", marka:"",kal:155, pro:13, karb:1.5, yag:11, lif:0, sod:140, demir:1.8, kals:50, vitC:0, vitD:1.5, vitB12:0.9, acik:65, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1118, ad:"Develi Yoğurt (Koyun)", marka:"",kal:90, pro:5.5, karb:5, yag:5.5, lif:0, sod:50, demir:0.1, kals:180, vitC:0, vitD:0.1, vitB12:0.5, acik:52, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:5 },
+  { id:1119, ad:"İnek Sütü (Çiğ, Taze)", marka:"",kal:65, pro:3.4, karb:4.8, yag:3.7, lif:0, sod:44, demir:0, kals:125, vitC:0, vitD:0.1, vitB12:0.4, acik:48, por:100, aclik:"1 saat", onay:true, kat:"Sut Urunu", yildiz:4.5 },
+  { id:1120, ad:"Manda Sütü", marka:"",kal:97, pro:4.5, karb:5.2, yag:6.9, lif:0, sod:52, demir:0.1, kals:169, vitC:0, vitD:0.1, vitB12:0.5, acik:52, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:4 },
+  { id:1121, ad:"Kefir (Keçi Sütü)", marka:"",kal:58, pro:3.2, karb:4.5, yag:3, lif:0, sod:38, demir:0.1, kals:120, vitC:1, vitD:0.1, vitB12:0.3, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:5 },
+  { id:1122, ad:"Keçi Sütü", marka:"",kal:69, pro:3.6, karb:4.5, yag:4.1, lif:0, sod:50, demir:0, kals:134, vitC:1.3, vitD:0.1, vitB12:0.1, acik:45, por:100, aclik:"1 saat", onay:true, kat:"Sut Urunu", yildiz:4.5 },
+  { id:1123, ad:"Oat Krema (Kafedeki)", marka:"Oatly",kal:150, pro:1, karb:15, yag:9, lif:0.5, sod:95, demir:0.2, kals:120, vitC:0, vitD:1.0, vitB12:0.3, acik:20, por:200, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1124, ad:"Bebek Dondurması (Meyve Suyu)", marka:"",kal:40, pro:0.2, karb:10, yag:0.1, lif:0, sod:5, demir:0, kals:3, vitC:3, vitD:0, vitB12:0, acik:5, por:60, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1125, ad:"Dondurmali Waffle", marka:"",kal:580, pro:8, karb:78, yag:28, lif:2, sod:380, demir:1.5, kals:110, vitC:0, vitD:0.3, vitB12:0.2, acik:14, por:200, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1126, ad:"Hazır Döner (Dondurulmus)", marka:"Banvit",kal:195, pro:16, karb:4, yag:13, lif:0.5, sod:680, demir:1.0, kals:12, vitC:0, vitD:0, vitB12:0.2, acik:55, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:1.5 },
+  { id:1127, ad:"Hazır Kofte (Dondurulmus)", marka:"Banvit",kal:240, pro:18, karb:8, yag:16, lif:1, sod:720, demir:2.0, kals:20, vitC:0, vitD:0, vitB12:0.8, acik:58, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:1.5 },
+  { id:1128, ad:"Hazır Tavuk Nugget", marka:"Pinar",kal:270, pro:14, karb:18, yag:16, lif:0.5, sod:680, demir:0.8, kals:20, vitC:0, vitD:0, vitB12:0.2, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:1 },
+  { id:1129, ad:"Hazır Çorba (Knorr Mercimek)", marka:"Knorr",kal:62, pro:3.5, karb:10, yag:1, lif:2, sod:540, demir:1.5, kals:20, vitC:0.5, vitD:0, vitB12:0, acik:55, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:2.5 },
+  { id:1130, ad:"Hazır Pilav (Mikrodalgada)", marka:"Uncle Bens",kal:250, pro:5, karb:52, yag:3, lif:1, sod:380, demir:1.0, kals:8, vitC:0, vitD:0, vitB12:0, acik:32, por:200, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:1131, ad:"Havuc Cipsi (Kekikli)", marka:"",kal:120, pro:2, karb:19, yag:4.5, lif:4.5, sod:190, demir:0.6, kals:35, vitC:6, vitD:0, vitB12:0, acik:40, por:50, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1132, ad:"Pancar Cipsi (Tuzlu)", marka:"",kal:115, pro:2.5, karb:18, yag:4, lif:3.5, sod:280, demir:1.0, kals:20, vitC:3.5, vitD:0, vitB12:0, acik:42, por:50, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:1133, ad:"Lahana Cipsi", marka:"",kal:115, pro:4, karb:12, yag:6, lif:4, sod:280, demir:1.2, kals:90, vitC:35, vitD:0, vitB12:0, acik:42, por:30, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1134, ad:"Tatli Patates Cipsi (Firın)", marka:"",kal:130, pro:1.5, karb:22, yag:4.5, lif:3, sod:160, demir:0.5, kals:20, vitC:12, vitD:0, vitB12:0, acik:38, por:50, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:1135, ad:"Nohut Cipsi (Baharatlı)", marka:"",kal:155, pro:7, karb:22, yag:5.5, lif:5, sod:380, demir:2.2, kals:35, vitC:0.5, vitD:0, vitB12:0, acik:55, por:50, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:4.5 },
+  { id:1136, ad:"Fasulye Cipsi", marka:"",kal:148, pro:7.5, karb:20, yag:5, lif:5.5, sod:280, demir:2.0, kals:30, vitC:0, vitD:0, vitB12:0, acik:52, por:50, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:4.5 },
+  { id:1137, ad:"Kinoa Krekerler", marka:"",kal:415, pro:10, karb:62, yag:15, lif:5, sod:380, demir:3.0, kals:35, vitC:0, vitD:0, vitB12:0, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:3.5 },
+  { id:1138, ad:"Tam Bugday Galeta", marka:"",kal:370, pro:12, karb:68, yag:5.5, lif:8, sod:490, demir:3.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:48, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1139, ad:"Badem Sütü Dondurma", marka:"",kal:110, pro:1.5, karb:15, yag:5.5, lif:0.5, sod:95, demir:0.5, kals:180, vitC:0, vitD:1.0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:1140, ad:"Kokonat Dondurma (Vegán)", marka:"",kal:200, pro:1.5, karb:22, yag:12, lif:1, sod:55, demir:0.8, kals:10, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1141, ad:"Pirinç Pilavi (Yağlı)", marka:"",kal:215, pro:3.8, karb:44, yag:3.5, lif:0.5, sod:280, demir:0.8, kals:10, vitC:0, vitD:0, vitB12:0, acik:38, por:150, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1142, ad:"Mercimekli Bulgur (Pismis)", marka:"",kal:210, pro:10, karb:40, yag:2, lif:7, sod:180, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:65, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:5 },
+  { id:1143, ad:"Domatesli Bulgur Pilavi", marka:"",kal:195, pro:5, karb:38, yag:5, lif:4.5, sod:310, demir:1.8, kals:25, vitC:5, vitD:0, vitB12:0, acik:58, por:200, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:1144, ad:"Ezogelin Corbasi", marka:"",kal:92, pro:5.5, karb:15, yag:2, lif:3.8, sod:320, demir:1.8, kals:22, vitC:2, vitD:0, vitB12:0, acik:62, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:4.5 },
+  { id:1145, ad:"Patates Corbasi (Kremali)", marka:"",kal:130, pro:3, karb:18, yag:6, lif:2, sod:390, demir:0.6, kals:30, vitC:10, vitD:0, vitB12:0, acik:42, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3 },
+  { id:1146, ad:"Ispanak Corbasi (Kremali)", marka:"",kal:105, pro:4, karb:9, yag:6.5, lif:2.5, sod:360, demir:2.2, kals:120, vitC:20, vitD:0, vitB12:0.1, acik:50, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:5 },
+  { id:1147, ad:"Tavuklu Sebze Corbasi", marka:"",kal:88, pro:7, karb:10, yag:2.5, lif:2.5, sod:420, demir:0.8, kals:25, vitC:8, vitD:0, vitB12:0.2, acik:58, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:5 },
+  { id:1148, ad:"Pirasa Sote (Zeytinyagli)", marka:"",kal:75, pro:1.5, karb:9, yag:4, lif:2.5, sod:145, demir:1.2, kals:45, vitC:10, vitD:0, vitB12:0, acik:48, por:150, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1149, ad:"Kabak Sote (Zeytinyagli)", marka:"",kal:60, pro:1.5, karb:7, yag:3.5, lif:2, sod:130, demir:0.5, kals:20, vitC:15, vitD:0, vitB12:0, acik:40, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1150, ad:"Biber Sote (Acili-Tatli)", marka:"",kal:65, pro:1.8, karb:9.5, yag:3, lif:3, sod:160, demir:0.6, kals:15, vitC:85, vitD:0, vitB12:0, acik:42, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1151, ad:"Menemen (Sucuklu)", marka:"",kal:285, pro:18, karb:8, yag:20, lif:1.5, sod:820, demir:2.5, kals:50, vitC:12, vitD:0.8, vitB12:1.2, acik:68, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1152, ad:"Omlet (Domatesli Biberli)", marka:"",kal:195, pro:14, karb:5, yag:14, lif:1.5, sod:380, demir:2.0, kals:55, vitC:18, vitD:1.5, vitB12:0.9, acik:65, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1153, ad:"Omlet (Peynirli)", marka:"",kal:250, pro:16, karb:2, yag:20, lif:0, sod:480, demir:1.8, kals:180, vitC:0, vitD:1.5, vitB12:0.9, acik:62, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1154, ad:"Sahanda Yumurta (Tereyagli)", marka:"",kal:200, pro:12, karb:1, yag:17, lif:0, sod:290, demir:1.8, kals:40, vitC:0, vitD:1.5, vitB12:0.9, acik:60, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1155, ad:"Pastirma Yumurta", marka:"",kal:310, pro:22, karb:1.5, yag:24, lif:0, sod:1050, demir:3.0, kals:45, vitC:0, vitD:1.5, vitB12:1.8, acik:70, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:2.5 },
+  { id:1156, ad:"Sucuklu Yumurta", marka:"",kal:350, pro:20, karb:2, yag:29, lif:0, sod:980, demir:2.8, kals:40, vitC:0, vitD:1.5, vitB12:1.5, acik:65, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:2 },
+  { id:1157, ad:"Avokado Toast (2 dilim)", marka:"",kal:340, pro:9, karb:38, yag:18, lif:8, sod:420, demir:2.5, kals:40, vitC:12, vitD:0, vitB12:0, acik:55, por:180, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1158, ad:"French Toast (2 dilim)", marka:"",kal:380, pro:13, karb:44, yag:18, lif:1.5, sod:420, demir:2.0, kals:90, vitC:0, vitD:1.2, vitB12:0.5, acik:42, por:160, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1159, ad:"Pancakes (3 adet, Surup)", marka:"",kal:420, pro:10, karb:70, yag:14, lif:2, sod:580, demir:2.5, kals:80, vitC:0, vitD:0.5, vitB12:0.3, acik:38, por:180, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:1160, ad:"Granola + Yoğurt Kaseleri", marka:"",kal:310, pro:10, karb:48, yag:9, lif:5, sod:120, demir:2.5, kals:180, vitC:1, vitD:0.2, vitB12:0.3, acik:55, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:1161, ad:"Beyaz Peynir (Klasik)", marka:"",kal:265, pro:16, karb:1.5, yag:22, lif:0, sod:1210, demir:0.2, kals:520, vitC:0, vitD:0.3, vitB12:0.8, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1162, ad:"Kasar Peyniri", marka:"",kal:390, pro:26, karb:2, yag:32, lif:0, sod:920, demir:0.4, kals:780, vitC:0, vitD:0.5, vitB12:1.2, acik:48, por:100, aclik:"2-3 saat", onay:true, kat:"Sut Urunu", yildiz:2.5 },
+  { id:1163, ad:"Ezine Peyniri", marka:"",kal:280, pro:17, karb:1.8, yag:23, lif:0, sod:1180, demir:0.2, kals:540, vitC:0, vitD:0.3, vitB12:0.9, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1164, ad:"Lor Peyniri", marka:"",kal:98, pro:9, karb:3.5, yag:5.5, lif:0, sod:80, demir:0.1, kals:160, vitC:0, vitD:0.2, vitB12:0.3, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:4.5 },
+  { id:1165, ad:"Çökelek", marka:"",kal:85, pro:11, karb:3, yag:3, lif:0, sod:95, demir:0.2, kals:200, vitC:0, vitD:0.1, vitB12:0.3, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:5 },
+  { id:1166, ad:"Dil Peyniri", marka:"",kal:300, pro:20, karb:1, yag:25, lif:0, sod:990, demir:0.3, kals:600, vitC:0, vitD:0.3, vitB12:0.9, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2.5 },
+  { id:1167, ad:"Örgü Peyniri", marka:"",kal:315, pro:21, karb:1.5, yag:26, lif:0, sod:1100, demir:0.3, kals:620, vitC:0, vitD:0.3, vitB12:0.9, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1168, ad:"Süzme Peynir (Krem)", marka:"",kal:190, pro:7, karb:4.5, yag:16, lif:0, sod:320, demir:0.1, kals:98, vitC:0, vitD:0.2, vitB12:0.3, acik:38, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:3 },
+  { id:1169, ad:"Aydın Milas Yağlı Peynir", marka:"",kal:355, pro:22, karb:1, yag:30, lif:0, sod:1050, demir:0.3, kals:670, vitC:0, vitD:0.3, vitB12:0.9, acik:48, por:100, aclik:"2-3 saat", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1170, ad:"Kars Gravyeri", marka:"",kal:420, pro:30, karb:0.5, yag:34, lif:0, sod:680, demir:0.4, kals:890, vitC:0, vitD:0.5, vitB12:1.5, acik:52, por:100, aclik:"2-3 saat", onay:true, kat:"Sut Urunu", yildiz:3 },
+  { id:1171, ad:"Siyah Zeytin (Gemlik)", marka:"",kal:185, pro:1.5, karb:5, yag:19, lif:3.2, sod:1480, demir:3.3, kals:94, vitC:0, vitD:0, vitB12:0, acik:30, por:100, aclik:"1 saat", onay:true, kat:"Diger", yildiz:3 },
+  { id:1172, ad:"Yesil Zeytin (Yaglanmis)", marka:"",kal:145, pro:1.2, karb:4.5, yag:15, lif:3.3, sod:1560, demir:3.1, kals:88, vitC:0, vitD:0, vitB12:0, acik:30, por:100, aclik:"1 saat", onay:true, kat:"Diger", yildiz:2.5 },
+  { id:1173, ad:"Kizartilmis Zeytin", marka:"",kal:220, pro:1.3, karb:5.5, yag:23, lif:3, sod:1280, demir:3.0, kals:90, vitC:0, vitD:0, vitB12:0, acik:28, por:100, aclik:"1 saat", onay:true, kat:"Diger", yildiz:2.5 },
+  { id:1174, ad:"Ketçap (Heinz, 1 yemek kasigi)", marka:"Heinz",kal:20, pro:0.3, karb:5, yag:0, lif:0.2, sod:160, demir:0.1, kals:3, vitC:2, vitD:0, vitB12:0, acik:5, por:17, aclik:"—", onay:true, kat:"Diger", yildiz:1 },
+  { id:1175, ad:"Mayonez (1 yemek kasigi)", marka:"Hellmanns",kal:90, pro:0.1, karb:0.5, yag:10, lif:0, sod:90, demir:0, kals:0, vitC:0, vitD:0.1, vitB12:0, acik:5, por:14, aclik:"—", onay:true, kat:"Diger", yildiz:0.5 },
+  { id:1176, ad:"Hardal (1 yemek kasigi)", marka:"",kal:10, pro:0.6, karb:1, yag:0.5, lif:0.4, sod:190, demir:0.2, kals:12, vitC:0.2, vitD:0, vitB12:0, acik:5, por:15, aclik:"—", onay:true, kat:"Diger", yildiz:3 },
+  { id:1177, ad:"Domates Sosu (Ev Yapimi, 100g)", marka:"",kal:35, pro:1.2, karb:7.5, yag:0.5, lif:1.5, sod:280, demir:0.5, kals:15, vitC:12, vitD:0, vitB12:0, acik:12, por:100, aclik:"—", onay:true, kat:"Diger", yildiz:4.5 },
+  { id:1178, ad:"Tahin (1 yemek kasigi)", marka:"",kal:89, pro:2.6, karb:3.2, yag:8, lif:1.4, sod:17, demir:1.3, kals:64, vitC:0, vitD:0, vitB12:0, acik:25, por:15, aclik:"30-60 dk", onay:true, kat:"Diger", yildiz:4.5 },
+  { id:1179, ad:"Zeytinyağı (1 yemek kasigi)", marka:"",kal:119, pro:0, karb:0, yag:13.5, lif:0, sod:0, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:14, aclik:"—", onay:true, kat:"Diger", yildiz:4.5 },
+  { id:1180, ad:"Tereyağı (1 yemek kasigi)", marka:"",kal:102, pro:0.1, karb:0, yag:11.5, lif:0, sod:82, demir:0, kals:3, vitC:0, vitD:0.1, vitB12:0, acik:5, por:14, aclik:"—", onay:true, kat:"Diger", yildiz:0.5 },
+  { id:1181, ad:"Bal (1 yemek kasigi)", marka:"",kal:64, pro:0.1, karb:17.3, yag:0, lif:0, sod:1, demir:0.1, kals:1, vitC:0.1, vitD:0, vitB12:0, acik:8, por:21, aclik:"30 dk", onay:true, kat:"Diger", yildiz:3 },
+  { id:1182, ad:"Pekmez (Üzüm, 1 yemek kasigi)", marka:"",kal:75, pro:0.3, karb:19, yag:0, lif:0, sod:3, demir:1.2, kals:18, vitC:0, vitD:0, vitB12:0, acik:10, por:20, aclik:"30 dk", onay:true, kat:"Diger", yildiz:3.5 },
+  { id:1183, ad:"Reçel (Çilek, 1 yemek kasigi)", marka:"Balparmak",kal:55, pro:0.1, karb:14, yag:0, lif:0.3, sod:5, demir:0.1, kals:4, vitC:1, vitD:0, vitB12:0, acik:5, por:20, aclik:"—", onay:true, kat:"Diger", yildiz:1 },
+  { id:1184, ad:"Acı Biber Sosu (Tabasco)", marka:"Tabasco",kal:1, pro:0, karb:0.1, yag:0, lif:0, sod:35, demir:0, kals:0, vitC:0.3, vitD:0, vitB12:0, acik:5, por:5, aclik:"—", onay:true, kat:"Diger", yildiz:4 },
+  { id:1185, ad:"Soya Sosu (1 yemek kasigi)", marka:"Kikkoman",kal:8, pro:1, karb:1, yag:0, lif:0, sod:920, demir:0.2, kals:3, vitC:0, vitD:0, vitB12:0, acik:5, por:15, aclik:"—", onay:true, kat:"Diger", yildiz:2 },
+  { id:1186, ad:"Worcestershire Sosu", marka:"Lea Perrins",kal:13, pro:0.2, karb:3, yag:0, lif:0, sod:165, demir:0.3, kals:10, vitC:0.5, vitD:0, vitB12:0, acik:5, por:17, aclik:"—", onay:true, kat:"Diger", yildiz:3 },
+  { id:1187, ad:"Fıstık Ezmesi (Doğal, 2 k.k.)", marka:"",kal:188, pro:8, karb:6.5, yag:16, lif:2, sod:75, demir:0.6, kals:12, vitC:0, vitD:0, vitB12:0, acik:45, por:32, aclik:"1-2 saat", onay:true, kat:"Diger", yildiz:4.5 },
+  { id:1188, ad:"Badem Ezmesi (2 k.k.)", marka:"",kal:196, pro:7, karb:6, yag:18, lif:3.5, sod:55, demir:1.0, kals:88, vitC:0, vitD:0, vitB12:0, acik:48, por:32, aclik:"1-2 saat", onay:true, kat:"Diger", yildiz:5 },
+  { id:1189, ad:"Kaju Ezmesi (2 k.k.)", marka:"",kal:188, pro:5.5, karb:9, yag:16, lif:0.5, sod:90, demir:1.5, kals:13, vitC:0, vitD:0, vitB12:0, acik:42, por:32, aclik:"1-2 saat", onay:true, kat:"Diger", yildiz:4 },
+  { id:1190, ad:"Fındık Kreması (Nutella Tarzı, Ev)", marka:"",kal:540, pro:7, karb:56, yag:33, lif:3, sod:50, demir:2.0, kals:80, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Diger", yildiz:1.5 },
+  { id:1191, ad:"McDonalds Big Mac", marka:"McDonalds",kal:550, pro:25, karb:47, yag:29, lif:3, sod:1040, demir:4.5, kals:250, vitC:1, vitD:0.3, vitB12:1.5, acik:45, por:220, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1 },
+  { id:1192, ad:"McDonalds McChicken", marka:"McDonalds",kal:400, pro:17, karb:41, yag:19, lif:2, sod:820, demir:2.5, kals:100, vitC:0.5, vitD:0.1, vitB12:0.5, acik:38, por:165, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1 },
+  { id:1193, ad:"McDonalds McNugget (6 adet)", marka:"McDonalds",kal:280, pro:15, karb:17, yag:17, lif:1, sod:510, demir:0.5, kals:14, vitC:0, vitD:0, vitB12:0.2, acik:32, por:104, aclik:"30-60 dk", onay:true, kat:"Protein", yildiz:1 },
+  { id:1194, ad:"McDonalds Büyük Boy Patates", marka:"McDonalds",kal:490, pro:6, karb:63, yag:23, lif:5, sod:400, demir:2.0, kals:26, vitC:9, vitD:0, vitB12:0, acik:25, por:178, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:0.5 },
+  { id:1195, ad:"McDonalds McFlurry Oreo", marka:"McDonalds",kal:510, pro:12, karb:80, yag:17, lif:0.5, sod:270, demir:0.5, kals:360, vitC:1, vitD:1.5, vitB12:0.5, acik:12, por:278, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1196, ad:"Burger King Whopper", marka:"Burger King",kal:660, pro:28, karb:51, yag:40, lif:2, sod:980, demir:4.0, kals:80, vitC:3, vitD:0.2, vitB12:1.5, acik:42, por:287, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:0.5 },
+  { id:1197, ad:"Burger King Chick n Crispy", marka:"Burger King",kal:560, pro:22, karb:56, yag:28, lif:2, sod:1060, demir:2.5, kals:90, vitC:1, vitD:0.1, vitB12:0.4, acik:38, por:210, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:0.5 },
+  { id:1198, ad:"Burger King Onion Rings", marka:"Burger King",kal:310, pro:4.5, karb:42, yag:15, lif:2, sod:560, demir:1.0, kals:20, vitC:1, vitD:0, vitB12:0, acik:20, por:91, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:0.5 },
+  { id:1199, ad:"KFC Original Chicken (1 Parca)", marka:"KFC",kal:320, pro:20, karb:16, yag:20, lif:0.5, sod:710, demir:0.8, kals:20, vitC:0, vitD:0.1, vitB12:0.3, acik:45, por:130, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:1 },
+  { id:1200, ad:"KFC Coleslaw (Orta)", marka:"KFC",kal:180, pro:1, karb:24, yag:9, lif:1.5, sod:280, demir:0.5, kals:30, vitC:18, vitD:0, vitB12:0, acik:22, por:113, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:2 },
+  { id:1201, ad:"Pizza Margherita (Ev Yapimi, 1 dilim)", marka:"",kal:200, pro:9, karb:26, yag:7, lif:1.5, sod:380, demir:1.5, kals:150, vitC:3, vitD:0.2, vitB12:0.2, acik:32, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1202, ad:"Pizza Margarita (Hazir, Firin)", marka:"Dr. Oetker",kal:245, pro:11, karb:31, yag:9, lif:2, sod:550, demir:1.5, kals:160, vitC:2, vitD:0.2, vitB12:0.3, acik:30, por:115, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1203, ad:"Pizza Hut Pepperoni (1 dilim)", marka:"Pizza Hut",kal:310, pro:14, karb:32, yag:14, lif:1.5, sod:760, demir:2.0, kals:180, vitC:1, vitD:0.2, vitB12:0.5, acik:32, por:120, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1 },
+  { id:1204, ad:"Calzone (Ispanakli Ricotta)", marka:"",kal:380, pro:16, karb:42, yag:16, lif:2.5, sod:680, demir:2.5, kals:220, vitC:5, vitD:0.3, vitB12:0.3, acik:42, por:200, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1205, ad:"Subway Italian BMT (15cm)", marka:"Subway",kal:480, pro:23, karb:47, yag:22, lif:3.5, sod:1580, demir:3.5, kals:140, vitC:5, vitD:0.1, vitB12:0.8, acik:45, por:210, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1 },
+  { id:1206, ad:"Subway Tavuklu Teriyaki (15cm)", marka:"Subway",kal:430, pro:28, karb:55, yag:10, lif:4, sod:1180, demir:3.0, kals:120, vitC:8, vitD:0.1, vitB12:0.5, acik:48, por:210, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1207, ad:"Club Sandvici (Ev)", marka:"",kal:440, pro:28, karb:38, yag:20, lif:3, sod:820, demir:2.5, kals:80, vitC:2, vitD:0.5, vitB12:0.8, acik:52, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1208, ad:"BLT Sandvici (Bacon-Marul-Domates)", marka:"",kal:380, pro:18, karb:36, yag:20, lif:2.5, sod:920, demir:2.0, kals:60, vitC:5, vitD:0.2, vitB12:0.5, acik:48, por:180, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1209, ad:"Karisik Sandvic (Kasar Jambon)", marka:"",kal:360, pro:18, karb:36, yag:18, lif:2, sod:880, demir:1.8, kals:200, vitC:1, vitD:0.2, vitB12:0.5, acik:45, por:160, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1210, ad:"Makarna Bolognese (Kiyma Soslu)", marka:"",kal:420, pro:22, karb:52, yag:14, lif:3, sod:580, demir:3.0, kals:60, vitC:5, vitD:0, vitB12:1.5, acik:58, por:300, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3.5 },
+  { id:1211, ad:"Makarna Arabiata", marka:"",kal:340, pro:11, karb:60, yag:7, lif:4, sod:480, demir:2.5, kals:30, vitC:12, vitD:0, vitB12:0, acik:48, por:250, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3.5 },
+  { id:1212, ad:"Lazanya (Kiymali)", marka:"",kal:350, pro:18, karb:32, yag:17, lif:2, sod:620, demir:2.5, kals:180, vitC:3, vitD:0.2, vitB12:0.8, acik:55, por:250, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1213, ad:"Penne Arrabiata", marka:"Barilla",kal:180, pro:7, karb:36, yag:1, lif:2.5, sod:330, demir:2.0, kals:15, vitC:8, vitD:0, vitB12:0, acik:40, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3.5 },
+  { id:1214, ad:"Rigatoni Pastırmalı", marka:"",kal:480, pro:20, karb:56, yag:20, lif:2.5, sod:780, demir:2.5, kals:80, vitC:0, vitD:0.1, vitB12:1.0, acik:52, por:300, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1215, ad:"Ramen (Hazir, Tavuk Aromalı)", marka:"Nongshim",kal:380, pro:9, karb:55, yag:14, lif:2, sod:1820, demir:2.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:28, por:120, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:0.5 },
+  { id:1216, ad:"Eriste (Ev Yapimi)", marka:"",kal:330, pro:11, karb:64, yag:3, lif:3, sod:250, demir:2.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:45, por:150, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1217, ad:"Eriste Corbasi", marka:"",kal:95, pro:4.5, karb:16, yag:2, lif:1, sod:380, demir:1.0, kals:20, vitC:0, vitD:0, vitB12:0, acik:42, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3.5 },
+  { id:1218, ad:"Sardalya (Konserve, Zeytinyagli)", marka:"",kal:208, pro:25, karb:0, yag:12, lif:0, sod:505, demir:2.9, kals:351, vitC:0, vitD:4.8, vitB12:8.9, acik:82, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1219, ad:"Somon Fileto (Buharda)", marka:"",kal:185, pro:25, karb:0, yag:9, lif:0, sod:59, demir:0.8, kals:13, vitC:3.9, vitD:14.4, vitB12:3.2, acik:82, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1220, ad:"Ton Baligi (Konserve, Sade)", marka:"",kal:109, pro:24, karb:0, yag:1, lif:0, sod:320, demir:1.3, kals:10, vitC:0, vitD:3.1, vitB12:2.5, acik:80, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1221, ad:"Ringa Baligi (Islenmis)", marka:"",kal:262, pro:18, karb:0, yag:21, lif:0, sod:870, demir:1.1, kals:68, vitC:0, vitD:5.1, vitB12:13.7, acik:78, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1222, ad:"Akya (Izgara)", marka:"",kal:168, pro:22, karb:0, yag:9, lif:0, sod:60, demir:0.6, kals:14, vitC:0, vitD:7.5, vitB12:3.8, acik:78, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1223, ad:"Iskorpit (Firin)", marka:"",kal:97, pro:18, karb:0, yag:2.5, lif:0, sod:68, demir:0.5, kals:50, vitC:0, vitD:4.2, vitB12:2.5, acik:80, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1224, ad:"Sazan (Kizartma)", marka:"",kal:235, pro:20, karb:8, yag:14, lif:0.5, sod:280, demir:0.9, kals:35, vitC:0, vitD:4.8, vitB12:2.8, acik:72, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1225, ad:"Levrek Buharda (Tam Balik)", marka:"",kal:97, pro:19, karb:0, yag:2, lif:0, sod:63, demir:0.3, kals:12, vitC:0, vitD:5.5, vitB12:3.8, acik:82, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1226, ad:"Hamsi Tava (Misir Unlu)", marka:"",kal:210, pro:17, karb:10, yag:11, lif:1, sod:290, demir:1.5, kals:45, vitC:0, vitD:4.2, vitB12:4.5, acik:68, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1227, ad:"Midye (Haşlanmış)", marka:"",kal:86, pro:12, karb:4, yag:2.2, lif:0, sod:290, demir:3.9, kals:26, vitC:8, vitD:0.3, vitB12:12.0, acik:72, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1228, ad:"Karides (Izgara)", marka:"",kal:99, pro:21, karb:0.9, yag:1.7, lif:0, sod:111, demir:0.5, kals:52, vitC:0, vitD:0.1, vitB12:1.0, acik:75, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1229, ad:"Istakoz (Haşlanmış)", marka:"",kal:98, pro:21, karb:1.3, yag:0.6, lif:0, sod:380, demir:0.4, kals:61, vitC:0, vitD:0.1, vitB12:1.4, acik:80, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1230, ad:"Yengeç (Buharda)", marka:"",kal:97, pro:19, karb:0, yag:1.8, lif:0, sod:395, demir:0.7, kals:89, vitC:3.5, vitD:0.1, vitB12:9.0, acik:78, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1231, ad:"Dana Bonfile (Izgara, 150g)", marka:"",kal:330, pro:40, karb:0, yag:18, lif:0, sod:65, demir:3.0, kals:20, vitC:0, vitD:0, vitB12:2.8, acik:88, por:150, aclik:"4-5 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1232, ad:"Dana Antrikot (Izgara)", marka:"",kal:285, pro:26, karb:0, yag:20, lif:0, sod:68, demir:2.5, kals:14, vitC:0, vitD:0, vitB12:2.2, acik:85, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1233, ad:"Kuzu Sis Kebap", marka:"",kal:255, pro:22, karb:0, yag:18, lif:0, sod:72, demir:2.0, kals:14, vitC:0, vitD:0, vitB12:2.5, acik:82, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1234, ad:"Tavuk Gogus (Firin)", marka:"",kal:165, pro:31, karb:0, yag:3.6, lif:0, sod:74, demir:0.9, kals:15, vitC:0, vitD:0.1, vitB12:0.3, acik:85, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1235, ad:"Tavuk Gogus (Haşlanmış)", marka:"",kal:150, pro:30, karb:0, yag:3, lif:0, sod:72, demir:0.8, kals:14, vitC:0, vitD:0.1, vitB12:0.3, acik:85, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1236, ad:"Hindi Göğsü (Fırın)", marka:"",kal:135, pro:30, karb:0, yag:1.5, lif:0, sod:58, demir:1.2, kals:14, vitC:0, vitD:0.1, vitB12:0.3, acik:85, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1237, ad:"Ördek But (Firin)", marka:"",kal:337, pro:19, karb:0, yag:29, lif:0, sod:74, demir:2.7, kals:13, vitC:0, vitD:0.2, vitB12:0.4, acik:78, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1238, ad:"Sucuk (100g)", marka:"Namet",kal:460, pro:18, karb:2, yag:42, lif:0, sod:1420, demir:2.5, kals:18, vitC:0, vitD:0, vitB12:1.2, acik:28, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:0.5 },
+  { id:1239, ad:"Salam (100g)", marka:"",kal:290, pro:14, karb:2.5, yag:25, lif:0, sod:1280, demir:1.5, kals:10, vitC:0, vitD:0, vitB12:0.8, acik:22, por:100, aclik:"1 saat", onay:true, kat:"Protein", yildiz:0.5 },
+  { id:1240, ad:"Jambon (Tavuk, 100g)", marka:"Banvit",kal:115, pro:17, karb:2.5, yag:4, lif:0, sod:980, demir:0.8, kals:12, vitC:0, vitD:0, vitB12:0.3, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:1.5 },
+  { id:1241, ad:"Eksi Hamur Ekmegi", marka:"",kal:260, pro:8, karb:50, yag:2, lif:3, sod:430, demir:2.5, kals:25, vitC:0, vitD:0, vitB12:0, acik:45, por:80, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:1242, ad:"Çavdar Ekmegi (Dilim)", marka:"",kal:210, pro:6, karb:40, yag:2.5, lif:7, sod:390, demir:2.5, kals:23, vitC:0, vitD:0, vitB12:0, acik:55, por:65, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1243, ad:"Spelta Ekmegi", marka:"",kal:240, pro:9, karb:46, yag:3, lif:5, sod:380, demir:2.8, kals:25, vitC:0, vitD:0, vitB12:0, acik:50, por:70, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1244, ad:"Glutensiz Ekmek", marka:"Schar",kal:250, pro:3, karb:52, yag:3.5, lif:2.5, sod:420, demir:1.5, kals:10, vitC:0, vitD:0, vitB12:0, acik:30, por:75, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1245, ad:"Yulaf Kraker", marka:"Nairns",kal:420, pro:9, karb:68, yag:12, lif:8, sod:450, demir:3.0, kals:35, vitC:0, vitD:0, vitB12:0, acik:50, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1246, ad:"Dondurma Wafer Rulo", marka:"Algida",kal:155, pro:2, karb:20, yag:7.5, lif:0.3, sod:55, demir:0.2, kals:50, vitC:0, vitD:0.1, vitB12:0.1, acik:8, por:50, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1247, ad:"Çikolata Fondue (2 k.k.)", marka:"",kal:155, pro:1.5, karb:18, yag:9, lif:1, sod:12, demir:1.5, kals:15, vitC:0, vitD:0, vitB12:0, acik:8, por:30, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1248, ad:"Çilek Cheesecake (Dilim)", marka:"",kal:380, pro:7, karb:42, yag:21, lif:1, sod:280, demir:0.8, kals:100, vitC:5, vitD:0.2, vitB12:0.3, acik:14, por:120, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1249, ad:"Tiramisu (Dilim)", marka:"",kal:350, pro:6, karb:36, yag:21, lif:0.5, sod:120, demir:1.0, kals:70, vitC:0.2, vitD:0.3, vitB12:0.3, acik:12, por:120, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1250, ad:"Muzlu Kek (Ev)", marka:"",kal:310, pro:5, karb:48, yag:12, lif:2, sod:180, demir:1.0, kals:20, vitC:2, vitD:0.2, vitB12:0.1, acik:18, por:80, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1251, ad:"Kek (Limonlu Kremalı)", marka:"",kal:360, pro:4.5, karb:52, yag:16, lif:0.8, sod:220, demir:1.2, kals:30, vitC:3, vitD:0.2, vitB12:0.1, acik:14, por:80, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1252, ad:"Kurabiye (Hayvani Yaglib)", marka:"",kal:480, pro:5, karb:68, yag:22, lif:1.5, sod:280, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1253, ad:"Churros (Nutellali, 3 adet)", marka:"",kal:480, pro:6, karb:64, yag:23, lif:2, sod:310, demir:1.5, kals:25, vitC:0, vitD:0, vitB12:0, acik:12, por:120, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1254, ad:"Çilek (Taze)", marka:"",kal:32, pro:0.7, karb:7.7, yag:0.3, lif:2, sod:1, demir:0.4, kals:16, vitC:58.8, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1255, ad:"Böğürtlen (Taze)", marka:"",kal:43, pro:1.4, karb:10, yag:0.5, lif:5.3, sod:1, demir:0.6, kals:29, vitC:21, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1256, ad:"Ahududu (Taze)", marka:"",kal:52, pro:1.2, karb:12, yag:0.7, lif:6.5, sod:1, demir:0.7, kals:25, vitC:26.2, vitD:0, vitB12:0, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1257, ad:"Yaban Mersini (Blueberry)", marka:"",kal:57, pro:0.7, karb:14, yag:0.3, lif:2.4, sod:1, demir:0.3, kals:6, vitC:9.7, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1258, ad:"Nar (Taze Taneler)", marka:"",kal:83, pro:1.7, karb:19, yag:1.2, lif:4, sod:3, demir:0.3, kals:10, vitC:10.2, vitD:0, vitB12:0, acik:45, por:100, aclik:"1 saat", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1259, ad:"Papaya (Taze)", marka:"",kal:43, pro:0.5, karb:11, yag:0.3, lif:1.7, sod:8, demir:0.3, kals:20, vitC:62, vitD:0, vitB12:0, acik:32, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1260, ad:"Mango (Taze)", marka:"",kal:60, pro:0.8, karb:15, yag:0.4, lif:1.6, sod:1, demir:0.2, kals:11, vitC:36.4, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1261, ad:"Ananas (Taze)", marka:"",kal:50, pro:0.5, karb:13, yag:0.1, lif:1.4, sod:1, demir:0.3, kals:13, vitC:47.8, vitD:0, vitB12:0, acik:30, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:5 },
+  { id:1262, ad:"Hindistancevizi Eti (Taze)", marka:"",kal:354, pro:3.3, karb:15, yag:33, lif:9, sod:20, demir:2.4, kals:14, vitC:3.3, vitD:0, vitB12:0, acik:42, por:100, aclik:"1-2 saat", onay:true, kat:"Meyve", yildiz:4 },
+  { id:1263, ad:"Incir (Taze)", marka:"",kal:74, pro:0.8, karb:19, yag:0.3, lif:2.9, sod:1, demir:0.4, kals:35, vitC:2, vitD:0, vitB12:0, acik:32, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:4.5 },
+  { id:1264, ad:"Kuru İncir", marka:"",kal:249, pro:3.3, karb:64, yag:0.9, lif:9.8, sod:10, demir:2.0, kals:162, vitC:1.2, vitD:0, vitB12:0, acik:28, por:100, aclik:"1-2 saat", onay:true, kat:"Meyve", yildiz:4 },
+  { id:1265, ad:"Kuru Üzüm", marka:"",kal:299, pro:3.1, karb:79, yag:0.5, lif:3.7, sod:11, demir:1.9, kals:50, vitC:3.2, vitD:0, vitB12:0, acik:20, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:3 },
+  { id:1266, ad:"Brokoli (Buharda)", marka:"",kal:35, pro:2.4, karb:7, yag:0.4, lif:2.6, sod:41, demir:0.7, kals:47, vitC:89.2, vitD:0, vitB12:0, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1267, ad:"Karnabahar (Buharda)", marka:"",kal:25, pro:2, karb:5, yag:0.3, lif:2, sod:30, demir:0.4, kals:22, vitC:48.2, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1268, ad:"Bezelye (Taze)", marka:"",kal:81, pro:5.4, karb:14, yag:0.4, lif:5.1, sod:5, demir:1.5, kals:25, vitC:40, vitD:0, vitB12:0, acik:60, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1269, ad:"Brokoli Rabe (Fırın)", marka:"",kal:55, pro:3.2, karb:8.5, yag:2, lif:3.5, sod:180, demir:1.8, kals:90, vitC:20, vitD:0, vitB12:0, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1270, ad:"Tatlı Mısır (Haşlanmış)", marka:"",kal:96, pro:3.4, karb:21, yag:1.5, lif:2.4, sod:15, demir:0.5, kals:3, vitC:7, vitD:0, vitB12:0, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:3.5 },
+  { id:1271, ad:"Tatlı Patates (Fırın)", marka:"",kal:90, pro:2, karb:21, yag:0.1, lif:3.3, sod:36, demir:0.7, kals:38, vitC:19.6, vitD:0, vitB12:0, acik:50, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1272, ad:"Pancar (Haşlanmış)", marka:"",kal:44, pro:1.7, karb:10, yag:0.2, lif:2, sod:77, demir:0.8, kals:16, vitC:3.6, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1273, ad:"Kırmızıbiber (Çiğ)", marka:"",kal:31, pro:1, karb:7.3, yag:0.3, lif:2.1, sod:4, demir:0.4, kals:7, vitC:127.7, vitD:0, vitB12:0, acik:38, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1274, ad:"Turp (Kırmızı, Çiğ)", marka:"",kal:16, pro:0.7, karb:3.4, yag:0.1, lif:1.6, sod:39, demir:0.3, kals:25, vitC:14.8, vitD:0, vitB12:0, acik:25, por:100, aclik:"—", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1275, ad:"Pırasa (Haşlanmış)", marka:"",kal:31, pro:0.8, karb:7.6, yag:0.2, lif:1.8, sod:10, demir:1.1, kals:35, vitC:8, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1276, ad:"Mass Gainer Shake", marka:"Optimum",kal:650, pro:50, karb:90, yag:8, lif:5, sod:350, demir:3.5, kals:280, vitC:15, vitD:3.5, vitB12:6.0, acik:75, por:330, aclik:"3-4 saat", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1277, ad:"BCAA Tozu (1 porsiyon)", marka:"Scitec",kal:18, pro:5, karb:0, yag:0, lif:0, sod:110, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:20, por:10, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1278, ad:"Kreatin Monohidrat (1 porsiyon)", marka:"Myprotein",kal:0, pro:0, karb:0, yag:0, lif:0, sod:0, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:5, aclik:"—", onay:true, kat:"Diger", yildiz:5 },
+  { id:1279, ad:"Pre-Workout C4 (1 porsiyon)", marka:"Cellucor",kal:30, pro:1, karb:5, yag:0, lif:0, sod:200, demir:0, kals:0, vitC:250, vitD:0, vitB12:0, acik:5, por:6, aclik:"—", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1280, ad:"Yoğun Yulaf (4 k.k.)", marka:"",kal:300, pro:10, karb:54, yag:5, lif:8, sod:0, demir:3.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:65, por:100, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:5 },
+  { id:1281, ad:"Smoothie Yeşil Detoks", marka:"",kal:120, pro:3, karb:26, yag:1, lif:4, sod:65, demir:2.5, kals:80, vitC:45, vitD:0, vitB12:0, acik:35, por:300, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1282, ad:"Smoothie Cilek Muz", marka:"",kal:165, pro:4, karb:38, yag:1.5, lif:3.5, sod:55, demir:0.8, kals:130, vitC:35, vitD:0.2, vitB12:0.3, acik:42, por:300, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1283, ad:"Smoothie Mango Hindistancevizi", marka:"",kal:195, pro:2, karb:42, yag:5, lif:3, sod:40, demir:0.5, kals:25, vitC:28, vitD:0, vitB12:0, acik:32, por:300, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1284, ad:"Kefir (Hazir, Sade)", marka:"Suttas",kal:52, pro:3.3, karb:4.8, yag:1.5, lif:0, sod:38, demir:0.1, kals:120, vitC:0, vitD:0.1, vitB12:0.4, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1285, ad:"Kefir (Meyveli)", marka:"Activia",kal:85, pro:3, karb:13, yag:2, lif:0, sod:45, demir:0.1, kals:110, vitC:1, vitD:0.1, vitB12:0.3, acik:35, por:200, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:3.5 },
+  { id:1286, ad:"Sut + Banan Smoothie", marka:"",kal:185, pro:7, karb:35, yag:3.5, lif:2, sod:90, demir:0.4, kals:220, vitC:8, vitD:0.8, vitB12:0.5, acik:50, por:350, aclik:"1-2 saat", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1287, ad:"Taze Portakal Suyu", marka:"",kal:45, pro:0.7, karb:10.4, yag:0.2, lif:0.2, sod:1, demir:0.2, kals:11, vitC:50, vitD:0, vitB12:0, acik:15, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1288, ad:"Taze Domates Suyu", marka:"",kal:17, pro:0.8, karb:3.5, yag:0.2, lif:0.4, sod:10, demir:0.4, kals:10, vitC:22.7, vitD:0, vitB12:0, acik:15, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1289, ad:"Taze Kereviz Suyu", marka:"",kal:14, pro:0.7, karb:3, yag:0.2, lif:0.7, sod:88, demir:0.2, kals:40, vitC:3.1, vitD:0, vitB12:0, acik:15, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:5 },
+  { id:1290, ad:"Kombucha (Zencefil)", marka:"Health-Ade",kal:30, pro:0, karb:7, yag:0, lif:0, sod:15, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:8, por:355, aclik:"—", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1291, ad:"Mercimek Corbasi (Ev)", marka:"",kal:98, pro:6, karb:16, yag:2, lif:4, sod:330, demir:2.2, kals:25, vitC:2, vitD:0, vitB12:0, acik:62, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:5 },
+  { id:1292, ad:"Domates Corbasi (Ev)", marka:"",kal:65, pro:2, karb:11, yag:2, lif:2.5, sod:340, demir:0.8, kals:20, vitC:15, vitD:0, vitB12:0, acik:42, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:4.5 },
+  { id:1293, ad:"Kremali Brokoli Corbasi", marka:"",kal:115, pro:4.5, karb:10, yag:7, lif:3.5, sod:380, demir:0.8, kals:80, vitC:35, vitD:0, vitB12:0.1, acik:55, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:5 },
+  { id:1294, ad:"Mısır Corbasi", marka:"",kal:88, pro:2.5, karb:16, yag:2.5, lif:1.5, sod:360, demir:0.4, kals:12, vitC:5, vitD:0, vitB12:0, acik:42, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3 },
+  { id:1295, ad:"Trabzon Lahana Corbasi", marka:"",kal:72, pro:4, karb:10, yag:2, lif:3, sod:320, demir:0.8, kals:80, vitC:22, vitD:0, vitB12:0, acik:52, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:5 },
+  { id:1296, ad:"Pumpkin Spice Latte (Orta)", marka:"Starbucks",kal:380, pro:14, karb:52, yag:14, lif:0.5, sod:240, demir:0.2, kals:400, vitC:2, vitD:3.5, vitB12:1.2, acik:28, por:473, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1297, ad:"Starbucks Caramel Macchiato", marka:"Starbucks",kal:250, pro:10, karb:33, yag:9, lif:0, sod:150, demir:0.2, kals:350, vitC:0, vitD:2.5, vitB12:0.8, acik:28, por:354, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:1.5 },
+  { id:1298, ad:"Tim Hortons Double Double", marka:"Tim Hortons",kal:210, pro:4, karb:24, yag:11, lif:0, sod:80, demir:0, kals:130, vitC:0, vitD:0.5, vitB12:0.3, acik:18, por:355, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:1 },
+  { id:1299, ad:"Türk Kahvesi (Sade)", marka:"",kal:4, pro:0.2, karb:0.8, yag:0, lif:0, sod:1, demir:0, kals:2, vitC:0, vitD:0, vitB12:0, acik:5, por:60, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1300, ad:"Türk Kahvesi (Sekerli)", marka:"",kal:38, pro:0.2, karb:9.5, yag:0, lif:0, sod:1, demir:0, kals:2, vitC:0, vitD:0, vitB12:0, acik:5, por:60, aclik:"—", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1301, ad:"Yaprak Sarma (Kiymali, Sos)", marka:"",kal:205, pro:12, karb:18, yag:10, lif:2, sod:480, demir:2.0, kals:40, vitC:5, vitD:0, vitB12:0.8, acik:65, por:150, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:1302, ad:"Salca Kofte", marka:"",kal:260, pro:20, karb:10, yag:16, lif:1.5, sod:560, demir:2.8, kals:35, vitC:5, vitD:0, vitB12:1.2, acik:68, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1303, ad:"Hamsi Tuzlamasi (Karadeniz)", marka:"",kal:148, pro:20, karb:0, yag:7.5, lif:0, sod:2800, demir:1.0, kals:45, vitC:0, vitD:4.2, vitB12:4.5, acik:72, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:2 },
+  { id:1304, ad:"Pastirma (Ince Dilim)", marka:"Cumhuriyet",kal:380, pro:25, karb:1, yag:32, lif:0, sod:2100, demir:3.5, kals:20, vitC:0, vitD:0, vitB12:2.0, acik:30, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:1 },
+  { id:1305, ad:"Kavurma (Dana)", marka:"",kal:310, pro:24, karb:0, yag:24, lif:0, sod:620, demir:2.8, kals:18, vitC:0, vitD:0, vitB12:2.0, acik:78, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1306, ad:"Konya Etli Ekmek", marka:"",kal:380, pro:20, karb:44, yag:14, lif:2, sod:680, demir:3.0, kals:40, vitC:1, vitD:0, vitB12:1.0, acik:58, por:220, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1307, ad:"Pide (Kiymali, Tam)", marka:"",kal:650, pro:32, karb:82, yag:22, lif:4, sod:980, demir:4.5, kals:80, vitC:2, vitD:0, vitB12:1.5, acik:60, por:350, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1308, ad:"Pide (Peynirli, Tam)", marka:"",kal:580, pro:24, karb:78, yag:22, lif:3, sod:1050, demir:2.5, kals:420, vitC:0, vitD:0.3, vitB12:0.8, acik:52, por:320, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1309, ad:"Adana Kebap (Tam Porsiyon)", marka:"",kal:420, pro:32, karb:2, yag:32, lif:0.5, sod:860, demir:3.5, kals:25, vitC:0.5, vitD:0, vitB12:2.0, acik:78, por:200, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1310, ad:"Urfa Kebap (Tam Porsiyon)", marka:"",kal:390, pro:30, karb:2, yag:30, lif:0.5, sod:780, demir:3.2, kals:22, vitC:0.5, vitD:0, vitB12:1.8, acik:78, por:200, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1311, ad:"Sushi Nigiri Somon (2 adet)", marka:"",kal:140, pro:9, karb:20, yag:3, lif:0.5, sod:350, demir:0.5, kals:15, vitC:0, vitD:5.5, vitB12:2.0, acik:45, por:80, aclik:"30-60 dk", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1312, ad:"Sushi Maki (8 adet)", marka:"",kal:220, pro:7, karb:40, yag:3, lif:2, sod:580, demir:0.8, kals:18, vitC:2, vitD:0.5, vitB12:0.5, acik:38, por:160, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:3.5 },
+  { id:1313, ad:"Pad Thai (Karides)", marka:"",kal:360, pro:18, karb:52, yag:9, lif:2.5, sod:980, demir:1.5, kals:60, vitC:3, vitD:0.1, vitB12:0.8, acik:55, por:300, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1314, ad:"Pho Ga (Tavuklu Noodle Corbasi)", marka:"",kal:280, pro:22, karb:35, yag:5, lif:1.5, sod:980, demir:1.8, kals:30, vitC:4, vitD:0.1, vitB12:0.3, acik:65, por:400, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1315, ad:"Nasi Goreng (Endonezya)", marka:"",kal:380, pro:14, karb:55, yag:13, lif:2, sod:880, demir:2.0, kals:40, vitC:4, vitD:0.5, vitB12:0.5, acik:55, por:300, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1316, ad:"Butter Chicken (Hint)", marka:"",kal:295, pro:25, karb:14, yag:16, lif:2, sod:650, demir:2.0, kals:40, vitC:5, vitD:0.1, vitB12:0.4, acik:68, por:250, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1317, ad:"Dhal (Mercimek Hint Currysi)", marka:"",kal:165, pro:9.5, karb:25, yag:4, lif:7.5, sod:380, demir:3.2, kals:35, vitC:4, vitD:0, vitB12:0, acik:68, por:250, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1318, ad:"Tom Yum Corbasi", marka:"",kal:95, pro:8, karb:9, yag:3.5, lif:1.5, sod:820, demir:1.2, kals:30, vitC:8, vitD:0.2, vitB12:0.5, acik:52, por:300, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:4.5 },
+  { id:1319, ad:"Kimchi (Fermente Lahana)", marka:"",kal:15, pro:1.1, karb:2.4, yag:0.5, lif:1.6, sod:890, demir:0.3, kals:33, vitC:18, vitD:0, vitB12:0, acik:22, por:100, aclik:"—", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1320, ad:"Tacos (2 Adet, Tavuklu)", marka:"",kal:380, pro:22, karb:42, yag:14, lif:4, sod:720, demir:2.5, kals:80, vitC:8, vitD:0.1, vitB12:0.3, acik:52, por:160, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:1321, ad:"Mozaik Pasta", marka:"",kal:420, pro:5.5, karb:52, yag:22, lif:2, sod:110, demir:2.0, kals:60, vitC:0, vitD:0.1, vitB12:0.1, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1322, ad:"Çikolatalı Sufle", marka:"",kal:350, pro:8.5, karb:40, yag:19, lif:2, sod:160, demir:2.5, kals:65, vitC:0, vitD:0.4, vitB12:0.3, acik:14, por:130, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1323, ad:"Sütlaç (Soğuk)", marka:"",kal:130, pro:4, karb:22, yag:3.5, lif:0.2, sod:65, demir:0.1, kals:115, vitC:0, vitD:0.3, vitB12:0.4, acik:35, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2.5 },
+  { id:1324, ad:"Kazandibi", marka:"",kal:195, pro:5, karb:30, yag:7, lif:0.3, sod:80, demir:0.2, kals:140, vitC:0, vitD:0.3, vitB12:0.4, acik:32, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1325, ad:"Keşkül", marka:"",kal:175, pro:4.5, karb:27, yag:6, lif:1, sod:75, demir:0.5, kals:120, vitC:0, vitD:0.3, vitB12:0.3, acik:28, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1326, ad:"Trileçe", marka:"",kal:305, pro:6.5, karb:38, yag:15, lif:0, sod:145, demir:0.3, kals:160, vitC:0.5, vitD:0.4, vitB12:0.4, acik:14, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1327, ad:"Ayva Tatlisi (Kaymakli)", marka:"",kal:220, pro:2, karb:38, yag:8, lif:3.5, sod:50, demir:0.4, kals:60, vitC:8, vitD:0.1, vitB12:0.1, acik:22, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:1328, ad:"Armut Kompostosu", marka:"",kal:85, pro:0.4, karb:22, yag:0.1, lif:2.5, sod:10, demir:0.2, kals:8, vitC:4, vitD:0, vitB12:0, acik:18, por:200, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:1329, ad:"Visne Kompostosu", marka:"",kal:75, pro:0.5, karb:19, yag:0.2, lif:1, sod:5, demir:0.3, kals:12, vitC:10, vitD:0, vitB12:0, acik:15, por:200, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:3.5 },
+  { id:1330, ad:"Elma Kompostosu", marka:"",kal:68, pro:0.2, karb:18, yag:0.1, lif:1.5, sod:8, demir:0.1, kals:6, vitC:2, vitD:0, vitB12:0, acik:12, por:200, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:1331, ad:"Kabak Tatlisi (Tahinli)", marka:"",kal:260, pro:3.5, karb:42, yag:10, lif:3, sod:30, demir:1.5, kals:80, vitC:5, vitD:0, vitB12:0, acik:18, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:1332, ad:"Zerde (Saffron Pudding)", marka:"",kal:155, pro:1, karb:38, yag:0.5, lif:0.5, sod:15, demir:0.5, kals:10, vitC:0, vitD:0, vitB12:0, acik:10, por:150, aclik:"—", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1333, ad:"Dondurma Sandwich", marka:"",kal:320, pro:4.5, karb:45, yag:14, lif:0.8, sod:190, demir:0.5, kals:80, vitC:0, vitD:0.3, vitB12:0.2, acik:10, por:110, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1334, ad:"Tofu (Sert, Izgara)", marka:"",kal:144, pro:15, karb:3.5, yag:9, lif:0.3, sod:15, demir:2.7, kals:350, vitC:0.1, vitD:0, vitB12:0, acik:52, por:150, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1335, ad:"Tempeh (Izgara)", marka:"",kal:193, pro:19, karb:9, yag:11, lif:4.1, sod:9, demir:2.7, kals:111, vitC:0, vitD:0, vitB12:0, acik:62, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1336, ad:"Seitan (Buğday Proteini)", marka:"",kal:370, pro:75, karb:14, yag:2, lif:0, sod:960, demir:5.2, kals:142, vitC:0, vitD:0, vitB12:0, acik:72, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1337, ad:"Vegan Burger (Beyond Meat)", marka:"Beyond Meat",kal:260, pro:20, karb:5, yag:18, lif:2, sod:390, demir:4.1, kals:40, vitC:0, vitD:0, vitB12:0, acik:65, por:113, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1338, ad:"Jackfruit Tacos (Vegan)", marka:"",kal:195, pro:3, karb:42, yag:4, lif:5, sod:480, demir:1.0, kals:22, vitC:8, vitD:0, vitB12:0, acik:42, por:200, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1339, ad:"Nüks Burgers (Mercimekli)", marka:"",kal:210, pro:10, karb:30, yag:6, lif:6.5, sod:420, demir:2.8, kals:35, vitC:2, vitD:0, vitB12:0, acik:55, por:130, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1340, ad:"Nohut Köftesi (Falafel)", marka:"",kal:333, pro:13, karb:32, yag:18, lif:5, sod:580, demir:3.4, kals:55, vitC:5.1, vitD:0, vitB12:0, acik:60, por:150, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1341, ad:"Chips Ahoy Orijinal", marka:"Chips Ahoy",kal:480, pro:5, karb:68, yag:22, lif:1.5, sod:380, demir:2.5, kals:10, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1342, ad:"Doritos Cool Ranch", marka:"Doritos",kal:490, pro:7, karb:60, yag:25, lif:3.5, sod:640, demir:1.5, kals:50, vitC:0, vitD:0, vitB12:0, acik:15, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1343, ad:"Cheetos Puffs", marka:"Cheetos",kal:540, pro:7, karb:60, yag:31, lif:1.5, sod:820, demir:1.5, kals:10, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0 },
+  { id:1344, ad:"Ritz Kraker", marka:"Ritz",kal:480, pro:7, karb:66, yag:21, lif:2, sod:780, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:18, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1345, ad:"Lay's Klasik Tuzlu", marka:"Lays",kal:535, pro:7, karb:52, yag:34, lif:4.5, sod:490, demir:1.5, kals:18, vitC:22, vitD:0, vitB12:0, acik:15, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1346, ad:"Pringles Krem Peynirli", marka:"Pringles",kal:520, pro:6.5, karb:55, yag:31, lif:4, sod:640, demir:1.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:14, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1347, ad:"M&Ms Fistikli", marka:"Mars",kal:491, pro:10, karb:63, yag:24, lif:2.5, sod:75, demir:1.5, kals:80, vitC:1, vitD:0.2, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1348, ad:"Snickers (55g)", marka:"Mars",kal:265, pro:4.5, karb:35, yag:13, lif:1, sod:105, demir:0.5, kals:55, vitC:0.5, vitD:0, vitB12:0, acik:12, por:55, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1349, ad:"Twix (50g)", marka:"Mars",kal:250, pro:2.5, karb:32, yag:13, lif:0.5, sod:105, demir:0.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:8, por:50, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1350, ad:"Doya Protein Kasesi (1000 Kcal Hedef)", marka:"Doya",kal:995, pro:85, karb:95, yag:28, lif:18, sod:680, demir:9.0, kals:380, vitC:65, vitD:3.5, vitB12:3.5, acik:95, por:600, aclik:"5-6 saat", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:1351, ad:"Beyin Tava (Kuzu)", marka:"",kal:185, pro:12, karb:0, yag:14, lif:0, sod:180, demir:1.8, kals:12, vitC:0, vitD:0.5, vitB12:2.5, acik:60, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:2 },
+  { id:1352, ad:"Ciğer Tava (Dana)", marka:"",kal:175, pro:26, karb:3, yag:6, lif:0, sod:80, demir:17.9, kals:10, vitC:2.5, vitD:1.1, vitB12:59.3, acik:75, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1353, ad:"Böbrek Sote (Kuzu)", marka:"",kal:112, pro:20, karb:0, yag:3.5, lif:0, sod:180, demir:5.0, kals:14, vitC:10.0, vitD:0.5, vitB12:27.5, acik:72, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1354, ad:"Dana Dil (Haşlanmış)", marka:"",kal:280, pro:21, karb:0, yag:22, lif:0, sod:110, demir:3.2, kals:6, vitC:2, vitD:0.4, vitB12:5.5, acik:75, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1355, ad:"Tavuk Kalp (Izgara)", marka:"",kal:185, pro:26, karb:0.1, yag:9, lif:0, sod:90, demir:9.9, kals:10, vitC:3.5, vitD:0.5, vitB12:7.3, acik:75, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1356, ad:"Tavuk Kara Ciğer", marka:"",kal:119, pro:17, karb:0.9, yag:5, lif:0, sod:71, demir:9.0, kals:11, vitC:13.4, vitD:1.1, vitB12:16.6, acik:72, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1357, ad:"Sakatat Şiş (Karaciğer+Böbrek)", marka:"",kal:155, pro:22, karb:1, yag:7, lif:0, sod:135, demir:11.2, kals:12, vitC:6, vitD:0.8, vitB12:35.0, acik:72, por:120, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1358, ad:"Beyti Sarma", marka:"",kal:390, pro:28, karb:22, yag:22, lif:2, sod:780, demir:3.2, kals:80, vitC:2, vitD:0, vitB12:1.8, acik:65, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:1359, ad:"Tantuni (Tam Porsiyon)", marka:"",kal:350, pro:24, karb:32, yag:14, lif:2.5, sod:680, demir:2.5, kals:40, vitC:3, vitD:0, vitB12:1.2, acik:65, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:1360, ad:"Lahmacun (1 Adet Ince)", marka:"",kal:195, pro:10, karb:26, yag:7, lif:2, sod:380, demir:2.0, kals:25, vitC:2, vitD:0, vitB12:0.5, acik:40, por:110, aclik:"30-60 dk", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1361, ad:"Sac Kavurma (Dana)", marka:"",kal:320, pro:26, karb:5, yag:22, lif:1, sod:520, demir:3.0, kals:30, vitC:5, vitD:0, vitB12:2.0, acik:78, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1362, ad:"Sac Kavurma (Tavuk)", marka:"",kal:265, pro:28, karb:6, yag:15, lif:1.5, sod:480, demir:1.2, kals:25, vitC:8, vitD:0.1, vitB12:0.3, acik:78, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1363, ad:"Tas Kebabı", marka:"",kal:285, pro:22, karb:12, yag:18, lif:2.5, sod:480, demir:2.8, kals:40, vitC:8, vitD:0, vitB12:1.5, acik:72, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:1364, ad:"Çökertme Kebabı", marka:"",kal:420, pro:28, karb:30, yag:22, lif:2, sod:680, demir:2.5, kals:60, vitC:5, vitD:0.1, vitB12:1.5, acik:68, por:300, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:1365, ad:"Kuzu Tandır", marka:"",kal:310, pro:30, karb:0, yag:22, lif:0, sod:72, demir:2.2, kals:16, vitC:0, vitD:0.1, vitB12:2.5, acik:85, por:200, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1366, ad:"Kuzu Kapama", marka:"",kal:295, pro:24, karb:8, yag:20, lif:2, sod:520, demir:2.5, kals:35, vitC:4, vitD:0.1, vitB12:2.2, acik:78, por:250, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:1367, ad:"İskembe Corbasi", marka:"",kal:68, pro:7.5, karb:2.5, yag:3.2, lif:0, sod:450, demir:0.8, kals:20, vitC:0, vitD:0, vitB12:0.8, acik:52, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:2 },
+  { id:1368, ad:"Kelle Paça Corbasi", marka:"",kal:88, pro:9, karb:2, yag:5, lif:0, sod:380, demir:1.5, kals:25, vitC:0, vitD:0, vitB12:1.0, acik:55, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:2 },
+  { id:1369, ad:"Sütlü Pirinç Corbasi", marka:"",kal:82, pro:3, karb:13, yag:2, lif:0.3, sod:280, demir:0.2, kals:90, vitC:0, vitD:0.2, vitB12:0.2, acik:38, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:3 },
+  { id:1370, ad:"Tarhana (Hazır Toz)", marka:"",kal:78, pro:4, karb:14, yag:1, lif:2.5, sod:340, demir:1.8, kals:28, vitC:3, vitD:0, vitB12:0, acik:60, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:4.5 },
+  { id:1371, ad:"Noodle Soup (Cup, Tavuk)", marka:"Nongshim",kal:310, pro:7, karb:46, yag:12, lif:2, sod:1550, demir:2.0, kals:12, vitC:0, vitD:0, vitB12:0, acik:22, por:75, aclik:"30 dk", onay:true, kat:"Tahil", yildiz:0 },
+  { id:1372, ad:"Yufka (Çiğ, 1 Yaprak)", marka:"",kal:310, pro:8, karb:62, yag:3.5, lif:2, sod:280, demir:2.0, kals:15, vitC:0, vitD:0, vitB12:0, acik:30, por:100, aclik:"1 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1373, ad:"Börek Yufkası (Hazır)", marka:"",kal:330, pro:9, karb:66, yag:3.5, lif:2.5, sod:380, demir:2.2, kals:18, vitC:0, vitD:0, vitB12:0, acik:28, por:100, aclik:"1 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1374, ad:"Milföy Hamuru (Pişmiş)", marka:"",kal:540, pro:7, karb:44, yag:38, lif:1.5, sod:390, demir:1.5, kals:20, vitC:0, vitD:0.1, vitB12:0.1, acik:18, por:100, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:0.5 },
+  { id:1375, ad:"Pizza Hamuru (Pişmiş)", marka:"",kal:270, pro:9, karb:52, yag:3.5, lif:2.5, sod:450, demir:3.0, kals:25, vitC:0, vitD:0, vitB12:0, acik:38, por:100, aclik:"1 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:1376, ad:"Fırın Patates (Zeytinyağlı)", marka:"",kal:110, pro:2.5, karb:20, yag:3.5, lif:2.5, sod:180, demir:0.8, kals:10, vitC:12, vitD:0, vitB12:0, acik:40, por:150, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:1377, ad:"Patates Graten", marka:"",kal:220, pro:7, karb:25, yag:11, lif:2, sod:380, demir:0.8, kals:130, vitC:10, vitD:0.2, vitB12:0.3, acik:42, por:150, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:2.5 },
+  { id:1378, ad:"Patates Kızartması (Ev, İnce)", marka:"",kal:312, pro:3.8, karb:38, yag:17, lif:3.5, sod:210, demir:0.9, kals:12, vitC:10, vitD:0, vitB12:0, acik:30, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:1 },
+  { id:1379, ad:"Mücver (Kabak Peynirli)", marka:"",kal:165, pro:8, karb:12, yag:10, lif:1.5, sod:380, demir:1.0, kals:100, vitC:8, vitD:0.3, vitB12:0.3, acik:52, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:1380, ad:"Karışık Izgara (Restoran)", marka:"",kal:580, pro:48, karb:5, yag:42, lif:0.5, sod:780, demir:4.5, kals:35, vitC:0, vitD:0.1, vitB12:3.5, acik:88, por:300, aclik:"4-5 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1381, ad:"Sebze Sote (Karışık)", marka:"",kal:95, pro:3, karb:12, yag:5, lif:4, sod:220, demir:1.2, kals:45, vitC:28, vitD:0, vitB12:0, acik:50, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1382, ad:"Çiğ Köfte (Porsiyonluk)", marka:"Asyum",kal:210, pro:6.5, karb:38, yag:5, lif:7, sod:680, demir:3.5, kals:35, vitC:4, vitD:0, vitB12:0, acik:48, por:140, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:2.5 },
+  { id:1383, ad:"Kısır (Küçük Kase)", marka:"",kal:145, pro:3.5, karb:26, yag:4.5, lif:4, sod:260, demir:1.5, kals:28, vitC:12, vitD:0, vitB12:0, acik:52, por:150, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:1384, ad:"Taze Fasulye Zeytinyağlı", marka:"",kal:70, pro:1.8, karb:9, yag:3.5, lif:3, sod:170, demir:0.8, kals:32, vitC:12, vitD:0, vitB12:0, acik:48, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1385, ad:"Semizotu Salatası", marka:"",kal:50, pro:1.8, karb:7, yag:2, lif:1.5, sod:140, demir:1.8, kals:65, vitC:21, vitD:0, vitB12:0, acik:40, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1386, ad:"Tarator (Yoğurtlu Ceviz)", marka:"",kal:165, pro:5, karb:8, yag:13, lif:1, sod:200, demir:0.8, kals:100, vitC:1, vitD:0.1, vitB12:0.3, acik:50, por:100, aclik:"1-2 saat", onay:true, kat:"Diger", yildiz:3.5 },
+  { id:1387, ad:"Meze Tabağı (Karışık)", marka:"",kal:280, pro:8, karb:18, yag:22, lif:4, sod:680, demir:2.5, kals:80, vitC:8, vitD:0.1, vitB12:0.2, acik:45, por:200, aclik:"1-2 saat", onay:true, kat:"Diger", yildiz:3.5 },
+  { id:1388, ad:"Patlıcan Ezmesi", marka:"",kal:75, pro:2, karb:8, yag:4.5, lif:2.5, sod:160, demir:0.5, kals:18, vitC:2, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:1389, ad:"Atom (Sarımsaklı Yoğurt)", marka:"",kal:95, pro:5, karb:7, yag:5.5, lif:0.5, sod:250, demir:0.2, kals:120, vitC:1, vitD:0.1, vitB12:0.3, acik:50, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:4 },
+  { id:1390, ad:"Acılı Ezme", marka:"",kal:45, pro:1.5, karb:8, yag:1.5, lif:2.5, sod:280, demir:0.8, kals:15, vitC:18, vitD:0, vitB12:0, acik:35, por:100, aclik:"—", onay:true, kat:"Diger", yildiz:4.5 },
+  { id:1391, ad:"Gavurdağı Salatası", marka:"",kal:85, pro:2, karb:10, yag:5, lif:3, sod:220, demir:0.8, kals:22, vitC:18, vitD:0, vitB12:0, acik:42, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1392, ad:"Sirkeli Patlıcan Salatası", marka:"",kal:65, pro:1.5, karb:8, yag:3.5, lif:3, sod:180, demir:0.4, kals:12, vitC:3, vitD:0, vitB12:0, acik:40, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:1393, ad:"Kapuska (Etli Lahana)", marka:"",kal:145, pro:10, karb:10, yag:8, lif:3.5, sod:420, demir:1.8, kals:55, vitC:22, vitD:0, vitB12:0.8, acik:62, por:200, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1394, ad:"Taze Soğan Salatası", marka:"",kal:32, pro:0.8, karb:7, yag:0.2, lif:2, sod:8, demir:0.4, kals:30, vitC:9, vitD:0, vitB12:0, acik:25, por:100, aclik:"—", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1395, ad:"Rokfor Soslu Biftek Salata", marka:"",kal:320, pro:28, karb:8, yag:20, lif:2.5, sod:580, demir:3.0, kals:120, vitC:5, vitD:0.1, vitB12:2.5, acik:75, por:250, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1396, ad:"Caesar Salata (Tavuklu)", marka:"",kal:295, pro:22, karb:18, yag:17, lif:2.5, sod:680, demir:2.0, kals:120, vitC:6, vitD:0.3, vitB12:0.3, acik:62, por:250, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1397, ad:"Nişasta (Patates, 1 yemek kasigi)", marka:"",kal:40, pro:0, karb:9.7, yag:0, lif:0.1, sod:1, demir:0, kals:1, vitC:0, vitD:0, vitB12:0, acik:5, por:10, aclik:"—", onay:true, kat:"Diger", yildiz:1 },
+  { id:1398, ad:"Çöp Şiş", marka:"",kal:175, pro:20, karb:0, yag:10, lif:0, sod:380, demir:1.5, kals:10, vitC:0, vitD:0, vitB12:0.5, acik:70, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1399, ad:"Fistikli Kebap", marka:"",kal:360, pro:26, karb:5, yag:27, lif:1.5, sod:620, demir:2.8, kals:28, vitC:0, vitD:0, vitB12:1.8, acik:78, por:180, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1400, ad:"Doya Günlük Sağlıklı Menü", marka:"Doya",kal:1800, pro:120, karb:200, yag:55, lif:30, sod:2000, demir:18, kals:800, vitC:90, vitD:10, vitB12:6, acik:95, por:1500, aclik:"tüm gün", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:1401, ad:"Kıymalı Ispanak", marka:"",kal:165, pro:12, karb:8, yag:10, lif:3, sod:380, demir:3.5, kals:80, vitC:18, vitD:0, vitB12:0.8, acik:68, por:200, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:4.5 },
+  { id:1402, ad:"Kıymalı Enginar", marka:"",kal:145, pro:10, karb:10, yag:8, lif:4, sod:340, demir:2.0, kals:45, vitC:8, vitD:0, vitB12:0.5, acik:65, por:200, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:1403, ad:"Kıymalı Patlıcan", marka:"",kal:180, pro:11, karb:10, yag:12, lif:3, sod:420, demir:1.8, kals:25, vitC:5, vitD:0, vitB12:0.5, acik:65, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1404, ad:"Patatesli Yumurta (Sote)", marka:"",kal:230, pro:10, karb:26, yag:11, lif:2.5, sod:360, demir:1.8, kals:40, vitC:12, vitD:1.2, vitB12:0.6, acik:58, por:200, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:1405, ad:"Sucuklu Patates (Sote)", marka:"",kal:310, pro:12, karb:28, yag:18, lif:3, sod:780, demir:1.5, kals:25, vitC:10, vitD:0, vitB12:0.5, acik:48, por:200, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:1.5 },
+  { id:1406, ad:"Arpa Şehriyeli Pilav", marka:"",kal:200, pro:5, karb:40, yag:4, lif:2, sod:280, demir:1.0, kals:12, vitC:0, vitD:0, vitB12:0, acik:38, por:150, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1407, ad:"Tas Fırında Patlıcan Kebabı", marka:"",kal:260, pro:16, karb:14, yag:16, lif:3.5, sod:480, demir:2.0, kals:35, vitC:10, vitD:0, vitB12:1.0, acik:68, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:1408, ad:"Karnıyarık (Kıymasız)", marka:"",kal:130, pro:2, karb:14, yag:8.5, lif:3.5, sod:280, demir:0.8, kals:18, vitC:8, vitD:0, vitB12:0, acik:50, por:200, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:1409, ad:"Mısır Lapası (Muhlama)", marka:"",kal:380, pro:14, karb:32, yag:22, lif:0.5, sod:580, demir:0.5, kals:280, vitC:0, vitD:0.3, vitB12:0.5, acik:42, por:200, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1410, ad:"Kuymak (Trabzon)", marka:"",kal:410, pro:15, karb:30, yag:28, lif:0.5, sod:620, demir:0.5, kals:300, vitC:0, vitD:0.3, vitB12:0.5, acik:42, por:200, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:1411, ad:"Fırın Sütlaç (Görkemlisi)", marka:"",kal:210, pro:5.5, karb:32, yag:7.5, lif:0.2, sod:90, demir:0.2, kals:160, vitC:0, vitD:0.5, vitB12:0.5, acik:35, por:200, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:2.5 },
+  { id:1412, ad:"Vezir Parmagi", marka:"",kal:480, pro:5.5, karb:62, yag:25, lif:1.5, sod:160, demir:1.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1413, ad:"Hanım Göbeği", marka:"",kal:430, pro:4.5, karb:60, yag:21, lif:1, sod:130, demir:1.2, kals:20, vitC:0, vitD:0, vitB12:0, acik:10, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1414, ad:"Kemalpaşa Tatlısı", marka:"",kal:315, pro:7, karb:48, yag:11, lif:0.5, sod:110, demir:0.5, kals:120, vitC:0, vitD:0.2, vitB12:0.2, acik:14, por:120, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1415, ad:"Höşmerim", marka:"",kal:280, pro:8, karb:38, yag:12, lif:0.3, sod:180, demir:0.3, kals:140, vitC:0, vitD:0.3, vitB12:0.3, acik:22, por:150, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:2 },
+  { id:1416, ad:"Şekerpare Syrup", marka:"",kal:395, pro:4, karb:62, yag:15, lif:0.8, sod:90, demir:1.0, kals:22, vitC:0, vitD:0, vitB12:0, acik:10, por:90, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1417, ad:"Dilber Dudağı", marka:"",kal:415, pro:5, karb:58, yag:19, lif:1, sod:120, demir:1.2, kals:25, vitC:0, vitD:0, vitB12:0, acik:10, por:90, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1418, ad:"Pelte (Şalgam Şerbeti)", marka:"",kal:65, pro:0.5, karb:16, yag:0.5, lif:0.3, sod:20, demir:0.2, kals:8, vitC:1, vitD:0, vitB12:0, acik:8, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:1419, ad:"Boza (Geleneksel)", marka:"Vefa",kal:75, pro:1.2, karb:17, yag:0.3, lif:1, sod:5, demir:0.5, kals:12, vitC:0, vitD:0, vitB12:0, acik:15, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3 },
+  { id:1420, ad:"Şalgam Suyu (Sade)", marka:"",kal:18, pro:0.8, karb:4, yag:0.2, lif:1, sod:240, demir:0.5, kals:25, vitC:12, vitD:0, vitB12:0, acik:8, por:200, aclik:"—", onay:true, kat:"Icecek", yildiz:4 },
+  { id:1421, ad:"Limonata (Ev, Şekersiz)", marka:"",kal:15, pro:0.1, karb:3.8, yag:0, lif:0.1, sod:1, demir:0, kals:5, vitC:15, vitD:0, vitB12:0, acik:5, por:250, aclik:"—", onay:true, kat:"Icecek", yildiz:4.5 },
+  { id:1422, ad:"Limonata (Şekerli)", marka:"",kal:75, pro:0.1, karb:19, yag:0, lif:0.1, sod:1, demir:0, kals:5, vitC:12, vitD:0, vitB12:0, acik:5, por:250, aclik:"—", onay:true, kat:"Icecek", yildiz:2 },
+  { id:1423, ad:"Tahin Pekmez", marka:"",kal:295, pro:4, karb:38, yag:15, lif:2.5, sod:30, demir:2.5, kals:90, vitC:0, vitD:0, vitB12:0, acik:28, por:60, aclik:"1-2 saat", onay:true, kat:"Diger", yildiz:3.5 },
+  { id:1424, ad:"Mısır Ekmeği (Kepekli)", marka:"",kal:245, pro:7, karb:48, yag:3, lif:5, sod:320, demir:2.0, kals:12, vitC:0, vitD:0, vitB12:0, acik:45, por:80, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:4 },
+  { id:1425, ad:"Protein Pancake (2 Adet)", marka:"",kal:280, pro:24, karb:28, yag:9, lif:3, sod:360, demir:2.5, kals:120, vitC:0, vitD:0.5, vitB12:0.5, acik:65, por:160, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1426, ad:"Yüksek Proteinli Yoğurt (Skyr)", marka:"Arla",kal:62, pro:10, karb:4.5, yag:0.2, lif:0, sod:40, demir:0, kals:120, vitC:0, vitD:0.1, vitB12:0.5, acik:55, por:100, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:5 },
+  { id:1427, ad:"İzlanda Yoğurdu Skyr (Meyveli)", marka:"Arla",kal:88, pro:9, karb:10, yag:0.3, lif:0.3, sod:45, demir:0, kals:115, vitC:1, vitD:0.1, vitB12:0.4, acik:50, por:150, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:4.5 },
+  { id:1428, ad:"Tavuk Sote (Sarımsaklı Limonlu)", marka:"",kal:220, pro:30, karb:4, yag:10, lif:0.5, sod:380, demir:1.0, kals:18, vitC:5, vitD:0.1, vitB12:0.3, acik:80, por:200, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1429, ad:"Portakallı Ördek Göğsü", marka:"",kal:265, pro:25, karb:8, yag:15, lif:0.5, sod:320, demir:2.5, kals:15, vitC:12, vitD:0.2, vitB12:0.5, acik:80, por:180, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:1430, ad:"Kuzu Fıstıklı (Antep)", marka:"",kal:395, pro:24, karb:8, yag:31, lif:2, sod:680, demir:2.5, kals:40, vitC:0, vitD:0, vitB12:1.8, acik:78, por:180, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1431, ad:"Kıyma (Dana, Çiğ, 100g)", marka:"",kal:215, pro:17, karb:0, yag:17, lif:0, sod:75, demir:2.1, kals:15, vitC:0, vitD:0, vitB12:2.0, acik:70, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:1432, ad:"Kıyma (Karışık Kuzu+Dana)", marka:"",kal:250, pro:18, karb:0, yag:20, lif:0, sod:78, demir:2.3, kals:14, vitC:0, vitD:0, vitB12:2.5, acik:72, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:1433, ad:"Yumurta Akı (3 Adet)", marka:"",kal:51, pro:10.8, karb:0.7, yag:0.2, lif:0, sod:165, demir:0.1, kals:15, vitC:0, vitD:0, vitB12:0, acik:55, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:1434, ad:"Yumurta Sarısı (2 Adet)", marka:"",kal:110, pro:5.4, karb:1.2, yag:9.6, lif:0, sod:14, demir:1.6, kals:49, vitC:0, vitD:1.8, vitB12:1.1, acik:45, por:34, aclik:"30-60 dk", onay:true, kat:"Protein", yildiz:4 },
+  { id:1435, ad:"Peynirli Omlet Makarna Wrap", marka:"",kal:480, pro:28, karb:45, yag:20, lif:2.5, sod:780, demir:2.5, kals:200, vitC:2, vitD:1.2, vitB12:0.8, acik:58, por:280, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3 },
+  { id:1436, ad:"Protein Waffles", marka:"",kal:310, pro:25, karb:32, yag:9, lif:3.5, sod:400, demir:2.5, kals:140, vitC:0, vitD:0.5, vitB12:0.5, acik:65, por:150, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1437, ad:"High Protein Pasta Salata", marka:"",kal:390, pro:30, karb:40, yag:11, lif:4, sod:520, demir:2.5, kals:60, vitC:5, vitD:0.2, vitB12:0.5, acik:70, por:300, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:1438, ad:"İnce Bulgur (Çiğ)", marka:"",kal:342, pro:12, karb:73, yag:1.5, lif:18, sod:9, demir:2.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:65, por:100, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:5 },
+  { id:1439, ad:"Pilavlık Pirinç (Çiğ)", marka:"",kal:365, pro:7, karb:80, yag:0.7, lif:1.3, sod:5, demir:0.8, kals:10, vitC:0, vitD:0, vitB12:0, acik:30, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:1440, ad:"Tam Pirinç (Pişmiş)", marka:"",kal:111, pro:2.6, karb:23, yag:0.9, lif:1.8, sod:5, demir:0.4, kals:10, vitC:0, vitD:0, vitB12:0, acik:45, por:180, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:3.5 },
+  { id:1441, ad:"Süt Helvası", marka:"",kal:425, pro:7.5, karb:55, yag:21, lif:0.5, sod:105, demir:0.5, kals:170, vitC:0, vitD:0.2, vitB12:0.3, acik:15, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1442, ad:"İrmik Helvası", marka:"",kal:460, pro:6.5, karb:62, yag:22, lif:1, sod:90, demir:2.5, kals:25, vitC:0, vitD:0.1, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:1443, ad:"Tahin Helvası", marka:"Koska",kal:504, pro:12, karb:55, yag:29, lif:3, sod:80, demir:6.5, kals:200, vitC:0, vitD:0, vitB12:0, acik:18, por:100, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:1444, ad:"Çikolatalı Helva", marka:"Koska",kal:530, pro:11, karb:58, yag:31, lif:2.5, sod:75, demir:5.5, kals:180, vitC:0, vitD:0, vitB12:0, acik:15, por:100, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:1.5 },
+  { id:1445, ad:"Pestil (Üzüm)", marka:"",kal:285, pro:2, karb:72, yag:0.5, lif:2, sod:8, demir:1.5, kals:30, vitC:2, vitD:0, vitB12:0, acik:15, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:3 },
+  { id:1446, ad:"Köme (Cevizli Pestil Rulo)", marka:"",kal:380, pro:8, karb:62, yag:14, lif:3.5, sod:10, demir:2.5, kals:45, vitC:1, vitD:0, vitB12:0, acik:30, por:100, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:3.5 },
+  { id:1447, ad:"Macun (Bitki Karışımlı)", marka:"",kal:310, pro:1.5, karb:78, yag:0.5, lif:0.5, sod:15, demir:0.8, kals:25, vitC:5, vitD:0, vitB12:0, acik:10, por:100, aclik:"30 dk", onay:true, kat:"Diger", yildiz:2.5 },
+  { id:1448, ad:"Cevizli Sucuk (Tatlı)", marka:"",kal:345, pro:6.5, karb:58, yag:12, lif:2.5, sod:15, demir:2.0, kals:50, vitC:1, vitD:0, vitB12:0, acik:22, por:100, aclik:"1-2 saat", onay:true, kat:"Atistirmalik", yildiz:3.5 },
+  { id:1449, ad:"Lokum (Gül Aromalı)", marka:"",kal:325, pro:0.5, karb:82, yag:0.5, lif:0.2, sod:20, demir:0.2, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:100, aclik:"30 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:1450, ad:"Doya Yıldız Gıda (5 Yıldız)", marka:"Doya",kal:350, pro:30, karb:35, yag:10, lif:12, sod:320, demir:8, kals:350, vitC:60, vitD:5, vitB12:4, acik:88, por:250, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:5 },
 ];
 
 // ─── DEMO VERİLER (sadece sosyal akış için örnek post'lar) ───
@@ -3550,175 +4150,180 @@ export default function App(){
 
         {/* ──── PERFORMANS PANELİ (profil sekmesi) ──────────────── */}
         {tab==="profil"&&profilSekme==="performans"&&(()=>{
-          // Dönem hesaplama
-          const bugun = new Date();
-          const gunler = [];
-          let etiket = "";
-          if(perfDonem==="hafta"){
-            // Bu haftanın Pazartesisi
-            const gun = bugun.getDay();
-            const fark = (gun===0?6:gun-1);
-            for(let i=0;i<7;i++){const d=new Date(bugun);d.setDate(bugun.getDate()-fark+i);gunler.push(tarihKey(d));}
-            etiket="Bu Hafta";
-          } else if(perfDonem==="ay"){
-            const yil=bugun.getFullYear(),ay=bugun.getMonth();
-            const gunSayisi=new Date(yil,ay+1,0).getDate();
-            for(let i=1;i<=gunSayisi;i++){const d=new Date(yil,ay,i);gunler.push(tarihKey(d));}
-            etiket=AYLAR[ay]+" "+yil;
-          } else {
-            const yil=bugun.getFullYear();
-            for(let ay=0;ay<12;ay++){const gunSayisi=new Date(yil,ay+1,0).getDate();for(let i=1;i<=gunSayisi;i++){const d=new Date(yil,ay,i);gunler.push(tarihKey(d));}}
-            etiket=bugun.getFullYear()+" Yılı";
-          }
-          // Topla
-          let topKal=0,topPro=0,topKarb=0,topYag=0,topSu=0,topAdim=0,aktifGun=0,topLif=0;
-          gunler.forEach(k=>{
-            const v=gunV(k);
-            const gKal=(v.yemekler||[]).reduce((s,y)=>s+(y.kal||0),0);
-            const gPro=(v.yemekler||[]).reduce((s,y)=>s+(y.pro||0),0);
-            const gKarb=(v.yemekler||[]).reduce((s,y)=>s+(y.karb||0),0);
-            const gYag=(v.yemekler||[]).reduce((s,y)=>s+(y.yag||0),0);
-            const gLif=(v.yemekler||[]).reduce((s,y)=>s+(y.lif||0),0);
-            if(gKal>0)aktifGun++;
-            topKal+=gKal; topPro+=Math.round(gPro); topKarb+=Math.round(gKarb); topYag+=Math.round(gYag); topLif+=Math.round(gLif);
-            topSu+=(v.su||0); topAdim+=(v.adim||0);
-          });
-          const aktifGunSayisi = gunler.filter(k=>gunV(k).yemekler?.length>0).length||1;
-          const ortaKal=Math.round(topKal/Math.max(aktifGunSayisi,1));
-          const ortaPro=Math.round(topPro/Math.max(aktifGunSayisi,1));
-          const hedefPro=Math.round((profil.kilo||70)*1.6);
-          const hedefKal=2000;
-          const ProYuzde=Math.min(100,Math.round((ortaPro/hedefPro)*100));
-          const KalYuzde=Math.min(100,Math.round((ortaKal/hedefKal)*100));
-          const suOrt=Math.round(topSu/Math.max(aktifGunSayisi,1));
-          const suYuzde=Math.min(100,Math.round((suOrt/suHed)*100));
-          const adimOrt=Math.round(topAdim/Math.max(aktifGunSayisi,1));
-          const adimYuzde=Math.min(100,Math.round((adimOrt/10000)*100));
+          try {
+            const bugun = new Date();
+            const gunler = [];
+            let etiket = "";
+            if(perfDonem==="hafta"){
+              const fark = (bugun.getDay()===0?6:bugun.getDay()-1);
+              for(let i=0;i<7;i++){const d=new Date(bugun);d.setDate(bugun.getDate()-fark+i);gunler.push(tarihKey(d));}
+              etiket="Bu Hafta";
+            } else if(perfDonem==="ay"){
+              const yil=bugun.getFullYear(),ay=bugun.getMonth();
+              const gunSayisi=new Date(yil,ay+1,0).getDate();
+              for(let i=1;i<=gunSayisi;i++)gunler.push(tarihKey(new Date(yil,ay,i)));
+              etiket=AYLAR[ay]+" "+yil;
+            } else {
+              const yil=bugun.getFullYear();
+              for(let ay=0;ay<12;ay++){const gs=new Date(yil,ay+1,0).getDate();for(let i=1;i<=gs;i++)gunler.push(tarihKey(new Date(yil,ay,i)));}
+              etiket=yil+" Yılı";
+            }
 
-          const statRenk=(y)=>y>=80?"#16a34a":y>=50?"#f59e0b":"#ef4444";
-          const AnimBar=({yuzde,renk,label,deger})=>{
-            const [anim,setAnim]=React.useState(0);
-            React.useEffect(()=>{
-              setAnim(0);
-              const timer=setTimeout(()=>{
-                let start=0;
-                const step=()=>{start+=2;setAnim(Math.min(start,yuzde));if(start<yuzde)requestAnimationFrame(step);};
-                requestAnimationFrame(step);
-              },200);
-              return()=>clearTimeout(timer);
-            },[yuzde,perfDonem]);
-            return(
-              <div style={{marginBottom:14}}>
-                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                  <div style={{fontSize:12,fontWeight:700,color:r.text}}>{label}</div>
-                  <div style={{fontSize:12,fontWeight:800,color:renk(anim)}}>{deger}</div>
-                </div>
-                <div style={{background:d?"#1e293b":"#f1f5f9",borderRadius:8,height:10,overflow:"hidden"}}>
-                  <div style={{height:"100%",width:anim+"%",background:renk(anim),borderRadius:8,transition:"width 0.05s linear"}}/>
-                </div>
-                <div style={{fontSize:9,color:r.muted,marginTop:2,textAlign:"right"}}>{anim}%</div>
+            let topKal=0,topPro=0,topKarb=0,topYag=0,topSu=0,topAdim=0,aktifGun=0,topLif=0;
+            gunler.forEach(k=>{
+              const v=gunV(k);
+              const yemekler=v.yemekler||[];
+              const gKal=yemekler.reduce((s,y)=>s+(+y.kal||0),0);
+              topKal+=gKal;
+              topPro+=yemekler.reduce((s,y)=>s+(+y.pro||0),0);
+              topKarb+=yemekler.reduce((s,y)=>s+(+y.karb||0),0);
+              topYag+=yemekler.reduce((s,y)=>s+(+y.yag||0),0);
+              topLif+=yemekler.reduce((s,y)=>s+(+y.lif||0),0);
+              if(gKal>0)aktifGun++;
+              topSu+=(+v.su||0);
+              topAdim+=(+v.adim||0);
+            });
+
+            const aktifSayi=Math.max(aktifGun,1);
+            const ortaKal=Math.round(topKal/aktifSayi);
+            const ortaPro=Math.round(topPro/aktifSayi);
+            const ortaSu=Math.round(topSu/aktifSayi);
+            const ortaAdim=Math.round(topAdim/aktifSayi);
+            const hedefPro=Math.round((+profil.kilo||70)*1.6);
+            const hedefKal=2000;
+            const suHedAylik=suHed||2000;
+
+            const statRenk=(y)=>y>=80?"#16a34a":y>=50?"#f59e0b":"#ef4444";
+            const pbar=(y,renk)=>(
+              <div style={{background:d?"#1e293b":"#f1f5f9",borderRadius:8,height:10,overflow:"hidden",marginTop:4}}>
+                <div style={{height:"100%",width:Math.min(100,y||0)+"%",background:renk,borderRadius:8,transition:"width 0.8s ease-out"}}/>
               </div>
             );
-          };
+            const StatRow=({label,deger,yuzde})=>{
+              const renk=statRenk(yuzde||0);
+              return(
+                <div style={{marginBottom:14}}>
+                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
+                    <div style={{fontSize:12,fontWeight:700,color:r.text}}>{label}</div>
+                    <div style={{fontSize:12,fontWeight:800,color:renk}}>{deger}</div>
+                  </div>
+                  {pbar(yuzde,renk)}
+                  <div style={{fontSize:9,color:r.muted,textAlign:"right",marginTop:2}}>{Math.min(100,yuzde||0)}%</div>
+                </div>
+              );
+            };
 
-          // En çok yenen besinler
-          const besinSayac={};
-          gunler.forEach(k=>{(gunV(k).yemekler||[]).forEach(y=>{besinSayac[y.ad]=(besinSayac[y.ad]||0)+1;});});
-          const topBesinler=Object.entries(besinSayac).sort((a,b)=>b[1]-a[1]).slice(0,5);
+            const besinSayac={};
+            gunler.forEach(k=>{(gunV(k).yemekler||[]).forEach(y=>{if(y.ad)besinSayac[y.ad]=(besinSayac[y.ad]||0)+1;});});
+            const topBesinler=Object.entries(besinSayac).sort((a,b)=>b[1]-a[1]).slice(0,5);
 
-          return(
-            <div>
-              {/* Dönem seçici */}
-              <div style={{display:"flex",background:d?"#1e293b":"#f1f5f9",borderRadius:12,padding:4,margin:"0 16px 12px",gap:4}}>
-                {[{v:"hafta",l:"📅 Hafta"},{v:"ay",l:"📆 Ay"},{v:"yil",l:"🗓 Yıl"}].map(s=>(
-                  <button key={s.v} onClick={()=>setPerfDonem(s.v)} style={{flex:1,padding:"8px 0",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:perfDonem===s.v?(d?"#16a34a":"#16a34a"):"transparent",color:perfDonem===s.v?"#fff":r.sub,transition:"all .2s"}}>{s.l}</button>
-                ))}
-              </div>
+            const fark=bugun.getDay()===0?6:bugun.getDay()-1;
 
-              {/* Başlık kartı */}
-              <div style={{margin:"0 16px 12px",background:"linear-gradient(135deg,#16a34a,#15803d)",borderRadius:16,padding:"16px 18px",color:"#fff"}}>
-                <div style={{fontSize:11,fontWeight:700,opacity:.85}}>DÖNEM ÖZETİ</div>
-                <div style={{fontSize:20,fontWeight:900,marginTop:2}}>{etiket}</div>
-                <div style={{display:"flex",gap:12,marginTop:10,flexWrap:"wrap"}}>
-                  {[
-                    {l:"Aktif Gün",v:aktifGun},
-                    {l:"Toplam Kalori",v:topKal.toLocaleString()+" kcal"},
-                    {l:"Toplam Adım",v:topAdim.toLocaleString()},
-                  ].map(s=>(
-                    <div key={s.l} style={{background:"rgba(255,255,255,.18)",borderRadius:10,padding:"8px 12px",flex:1,minWidth:90}}>
-                      <div style={{fontSize:16,fontWeight:900}}>{s.v}</div>
-                      <div style={{fontSize:9,opacity:.85}}>{s.l}</div>
-                    </div>
+            return(
+              <div style={{paddingBottom:20}}>
+                {/* Dönem seçici */}
+                <div style={{display:"flex",background:d?"#1e293b":"#f1f5f9",borderRadius:12,padding:4,margin:"0 16px 12px",gap:4}}>
+                  {[{v:"hafta",l:"📅 Hafta"},{v:"ay",l:"📆 Ay"},{v:"yil",l:"🗓 Yıl"}].map(s=>(
+                    <button key={s.v} onClick={()=>setPerfDonem(s.v)} style={{flex:1,padding:"8px 0",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:perfDonem===s.v?"#16a34a":"transparent",color:perfDonem===s.v?"#fff":r.sub,transition:"all .2s"}}>{s.l}</button>
                   ))}
                 </div>
-              </div>
 
-              {/* Animasyonlu progress barlar */}
-              <div style={{...CS,margin:"0 16px 10px"}}>
-                <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:12}}>📈 Günlük Ortalamalar</div>
-                <AnimBar yuzde={KalYuzde} renk={statRenk} label={"🔥 Kalori — "+ortaKal+" kcal/gün"} deger={ortaKal+" / "+hedefKal+" kcal"}/>
-                <AnimBar yuzde={ProYuzde} renk={statRenk} label={"💪 Protein — "+ortaPro+"g/gün"} deger={ortaPro+" / "+hedefPro+"g"}/>
-                <AnimBar yuzde={suYuzde} renk={statRenk} label={"💧 Su — "+suOrt+"ml/gün"} deger={suOrt+" / "+suHed+"ml"}/>
-                <AnimBar yuzde={adimYuzde} renk={statRenk} label={"👟 Adım — "+adimOrt.toLocaleString()+"/gün"} deger={adimOrt.toLocaleString()+" / 10.000"}/>
-              </div>
-
-              {/* Makro dağılımı */}
-              <div style={{...CS,margin:"0 16px 10px"}}>
-                <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>🥗 Makro Dağılımı (Toplam)</div>
-                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
-                  {[
-                    {l:"Protein",v:topPro+"g",renk:"#16a34a"},
-                    {l:"Karbonhidrat",v:topKarb+"g",renk:"#f59e0b"},
-                    {l:"Yağ",v:topYag+"g",renk:"#ef4444"},
-                    {l:"Lif",v:topLif+"g",renk:"#8b5cf6"},
-                    {l:"Su Toplam",v:Math.round(topSu/1000*10)/10+"L",renk:"#2563eb"},
-                    {l:"Adım Toplam",v:(topAdim/1000).toFixed(1)+"K",renk:"#f97316"},
-                  ].map(s=>(
-                    <div key={s.l} style={{background:d?"#1e293b":"#f9fafb",borderRadius:10,padding:"10px 8px",textAlign:"center"}}>
-                      <div style={{fontSize:18,fontWeight:900,color:s.renk}}>{s.v}</div>
-                      <div style={{fontSize:9,color:r.sub,marginTop:2}}>{s.l}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* En çok yenen besinler */}
-              {topBesinler.length>0&&(
-                <div style={{...CS,margin:"0 16px 10px"}}>
-                  <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>🏆 En Çok Yediklerin</div>
-                  {topBesinler.map(([ad,sayi],i)=>(
-                    <div key={ad} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:`1px solid ${r.rowB}`}}>
-                      <div style={{fontSize:16,fontWeight:900,color:["#f59e0b","#9ca3af","#cd7c3a","#16a34a","#6b7280"][i],width:20,textAlign:"center"}}>{i+1}</div>
-                      <div style={{flex:1,fontSize:12,fontWeight:700,color:r.text}}>{ad}</div>
-                      <div style={{fontSize:11,color:r.sub,background:d?"#1e293b":"#f1f5f9",padding:"3px 10px",borderRadius:20}}>{sayi}x</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Günlük detay çizelgesi */}
-              {perfDonem==="hafta"&&(
-                <div style={{...CS,margin:"0 16px 10px"}}>
-                  <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>📅 Günlük Kalorim</div>
-                  {gunler.map((k,i)=>{
-                    const v=gunV(k);
-                    const gKal=(v.yemekler||[]).reduce((s,y)=>s+(y.kal||0),0);
-                    const yuzde=Math.min(100,Math.round((gKal/hedefKal)*100));
-                    const dt=new Date();dt.setDate(dt.getDate()-((bugun.getDay()===0?6:bugun.getDay()-1))+i-new Date(bugun).setHours(0,0,0,0)/86400000+new Date().setHours(0,0,0,0)/86400000);
-                    return(
-                      <div key={k} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 0"}}>
-                        <div style={{fontSize:10,color:r.sub,width:28}}>{GUNLER[i]}</div>
-                        <div style={{flex:1,background:d?"#1e293b":"#f1f5f9",borderRadius:6,height:8,overflow:"hidden"}}>
-                          <div style={{height:"100%",width:yuzde+"%",background:yuzde>=80?"#16a34a":yuzde>=50?"#f59e0b":"#ef4444",borderRadius:6}}/>
-                        </div>
-                        <div style={{fontSize:10,fontWeight:700,color:r.text,width:60,textAlign:"right"}}>{gKal>0?gKal+" kcal":"—"}</div>
+                {/* Başlık kartı */}
+                <div style={{margin:"0 16px 12px",background:"linear-gradient(135deg,#16a34a,#15803d)",borderRadius:16,padding:"16px 18px",color:"#fff"}}>
+                  <div style={{fontSize:11,fontWeight:700,opacity:.85}}>DÖNEM ÖZETİ</div>
+                  <div style={{fontSize:20,fontWeight:900,marginTop:2}}>{etiket}</div>
+                  <div style={{display:"flex",gap:10,marginTop:10,flexWrap:"wrap"}}>
+                    {[{l:"Aktif Gün",v:aktifGun},{l:"Toplam Kalori",v:Math.round(topKal).toLocaleString()+" kcal"},{l:"Toplam Adım",v:Math.round(topAdim).toLocaleString()}].map(s=>(
+                      <div key={s.l} style={{background:"rgba(255,255,255,.18)",borderRadius:10,padding:"8px 12px",flex:1,minWidth:90}}>
+                        <div style={{fontSize:16,fontWeight:900}}>{s.v}</div>
+                        <div style={{fontSize:9,opacity:.85}}>{s.l}</div>
                       </div>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
-              )}
-            </div>
-          );
+
+                {/* Progress barlar — inline, hook yok */}
+                <div style={{...CS,margin:"0 16px 10px"}}>
+                  <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:14}}>📈 Günlük Ortalamalar</div>
+                  <StatRow label={"🔥 Kalori — "+ortaKal+" kcal/gün"} deger={ortaKal+" / "+hedefKal+" kcal"} yuzde={Math.min(100,Math.round((ortaKal/hedefKal)*100))}/>
+                  <StatRow label={"💪 Protein — "+ortaPro+"g/gün"} deger={ortaPro+" / "+hedefPro+"g"} yuzde={Math.min(100,Math.round((ortaPro/hedefPro)*100))}/>
+                  <StatRow label={"💧 Su — "+ortaSu+"ml/gün"} deger={ortaSu+" / "+suHedAylik+"ml"} yuzde={Math.min(100,Math.round((ortaSu/suHedAylik)*100))}/>
+                  <StatRow label={"👟 Adım — "+ortaAdim.toLocaleString()+"/gün"} deger={ortaAdim.toLocaleString()+" / 10.000"} yuzde={Math.min(100,Math.round((ortaAdim/10000)*100))}/>
+                </div>
+
+                {/* Makro dağılımı */}
+                <div style={{...CS,margin:"0 16px 10px"}}>
+                  <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>🥗 Makro Dağılımı (Toplam)</div>
+                  <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+                    {[
+                      {l:"Protein",v:Math.round(topPro)+"g",renk:"#16a34a"},
+                      {l:"Karbonhidrat",v:Math.round(topKarb)+"g",renk:"#f59e0b"},
+                      {l:"Yağ",v:Math.round(topYag)+"g",renk:"#ef4444"},
+                      {l:"Lif",v:Math.round(topLif)+"g",renk:"#8b5cf6"},
+                      {l:"Su Toplam",v:(Math.round(topSu/100)/10)+"L",renk:"#2563eb"},
+                      {l:"Adım Toplam",v:(Math.round(topAdim/100)/10)+"K",renk:"#f97316"},
+                    ].map(s=>(
+                      <div key={s.l} style={{background:d?"#1e293b":"#f9fafb",borderRadius:10,padding:"10px 8px",textAlign:"center"}}>
+                        <div style={{fontSize:18,fontWeight:900,color:s.renk}}>{s.v}</div>
+                        <div style={{fontSize:9,color:r.sub,marginTop:2}}>{s.l}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* En çok yenenler */}
+                {topBesinler.length>0&&(
+                  <div style={{...CS,margin:"0 16px 10px"}}>
+                    <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>🏆 En Çok Yediklerin</div>
+                    {topBesinler.map(([ad,sayi],i)=>(
+                      <div key={ad} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:`1px solid ${r.rowB}`}}>
+                        <div style={{fontSize:15,fontWeight:900,color:["#f59e0b","#9ca3af","#cd7c3a","#16a34a","#6b7280"][i],width:22,textAlign:"center"}}>{i+1}</div>
+                        <div style={{flex:1,fontSize:12,fontWeight:700,color:r.text}}>{ad}</div>
+                        <div style={{fontSize:11,color:r.sub,background:d?"#1e293b":"#f1f5f9",padding:"3px 10px",borderRadius:20}}>{sayi}x</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Haftalık çizelge */}
+                {perfDonem==="hafta"&&(
+                  <div style={{...CS,margin:"0 16px 10px"}}>
+                    <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>📅 Günlük Kalorim</div>
+                    {gunler.map((k,i)=>{
+                      const gKal=(gunV(k).yemekler||[]).reduce((s,y)=>s+(+y.kal||0),0);
+                      const yp=Math.min(100,Math.round((gKal/hedefKal)*100));
+                      return(
+                        <div key={k} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 0"}}>
+                          <div style={{fontSize:10,color:r.sub,width:28,flexShrink:0}}>{GUNLER[i]}</div>
+                          <div style={{flex:1,background:d?"#1e293b":"#f1f5f9",borderRadius:6,height:8,overflow:"hidden"}}>
+                            <div style={{height:"100%",width:yp+"%",background:yp>=80?"#16a34a":yp>=50?"#f59e0b":"#ef4444",borderRadius:6,transition:"width 0.6s ease-out"}}/>
+                          </div>
+                          <div style={{fontSize:10,fontWeight:700,color:r.text,width:65,textAlign:"right",flexShrink:0}}>{gKal>0?gKal+" kcal":"—"}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Veri yok mesajı */}
+                {aktifGun===0&&(
+                  <div style={{...CS,margin:"0 16px 10px",textAlign:"center",padding:"32px 16px"}}>
+                    <div style={{fontSize:36,marginBottom:8}}>📊</div>
+                    <div style={{fontSize:14,fontWeight:800,color:r.text,marginBottom:6}}>Henüz veri yok</div>
+                    <div style={{fontSize:12,color:r.sub}}>Yemek kaydettikçe burada dönem özetini göreceksin!</div>
+                  </div>
+                )}
+              </div>
+            );
+          } catch(e) {
+            return(
+              <div style={{padding:32,textAlign:"center"}}>
+                <div style={{fontSize:32,marginBottom:8}}>⚠️</div>
+                <div style={{fontSize:14,fontWeight:800,color:r.text||"#111",marginBottom:6}}>Bir hata oluştu</div>
+                <div style={{fontSize:12,color:"#64748b"}}>{String(e.message||e)}</div>
+              </div>
+            );
+          }
         })()}
 
         {/* ──── ADMİN ───────────────────────────────────────────── */}
@@ -4252,35 +4857,28 @@ export default function App(){
           const {tip,donemAdi,kal,pro,adim,su,aktifGun}=donemOzetTip;
           const tipLabel=tip==="yil"?"🗓 Yıl Özeti":tip==="ay"?"📆 Ay Özeti":"📅 Hafta Özeti";
           const tipRenk=tip==="yil"?"linear-gradient(135deg,#7c3aed,#4f46e5)":tip==="ay"?"linear-gradient(135deg,#2563eb,#1d4ed8)":"linear-gradient(135deg,#16a34a,#15803d)";
-          const [anim,setAnim]=React.useState(false);
-          React.useEffect(()=>{setTimeout(()=>setAnim(true),100);},[]);
-          const AnimNum=({hedef,renk,suffix})=>{
-            const [v,setV]=React.useState(0);
-            React.useEffect(()=>{if(!anim)return;let s=0;const step=()=>{s+=Math.ceil(hedef/60);setV(Math.min(s,hedef));if(s<hedef)requestAnimationFrame(step);};requestAnimationFrame(step);},[anim,hedef]);
-            return <span style={{color:renk}}>{v.toLocaleString()}{suffix}</span>;
-          };
+          const istatler=[
+            {l:"🔥 Kalori",v:Math.round(kal||0).toLocaleString()+" kcal",renk:"#f59e0b"},
+            {l:"💪 Protein",v:Math.round(pro||0)+"g",renk:"#16a34a"},
+            {l:"👟 Adım",v:(adim||0).toLocaleString(),renk:"#2563eb"},
+            {l:"💧 Su",v:(Math.round((su||0)/100)/10)+"L",renk:"#0ea5e9"},
+            {l:"📅 Aktif Gün",v:(aktifGun||0)+" gün",renk:"#8b5cf6"},
+            {l:"🏅 Puan",v:puan+" pts",renk:"#f59e0b"},
+          ];
           return(
             <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:900,background:"rgba(0,0,0,.7)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}} onClick={()=>setDonemOzetGoster(false)}>
-              <div onClick={e=>e.stopPropagation()} style={{background:d?"#1e293b":"#fff",borderRadius:24,padding:24,width:"100%",maxWidth:380,boxShadow:"0 20px 60px #0004",transform:anim?"scale(1)":"scale(0.8)",opacity:anim?1:0,transition:"all 0.4s cubic-bezier(.175,.885,.32,1.275)"}}>
+              <div onClick={e=>e.stopPropagation()} style={{background:d?"#1e293b":"#fff",borderRadius:24,padding:24,width:"100%",maxWidth:380,boxShadow:"0 20px 60px #0004",animation:"slideUp 0.35s ease-out"}}>
+                <style>{`@keyframes slideUp{from{opacity:0;transform:scale(0.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}`}</style>
                 <div style={{background:tipRenk,borderRadius:16,padding:"16px 20px",color:"#fff",marginBottom:16,textAlign:"center"}}>
                   <div style={{fontSize:11,fontWeight:700,opacity:.85,marginBottom:4}}>{tipLabel}</div>
                   <div style={{fontSize:22,fontWeight:900}}>{donemAdi}</div>
                   <div style={{fontSize:12,opacity:.85,marginTop:4}}>tamamlandı! 🎉</div>
                 </div>
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
-                  {[
-                    {l:"🔥 Kalori",v:kal,renk:"#f59e0b",s:" kcal"},
-                    {l:"💪 Protein",v:pro,renk:"#16a34a",s:"g"},
-                    {l:"👟 Adım",v:adim,renk:"#2563eb",s:""},
-                    {l:"💧 Su",v:Math.round(su/1000*10)/10,renk:"#0ea5e9",s:"L"},
-                    {l:"📅 Aktif Gün",v:aktifGun,renk:"#8b5cf6",s:" gün"},
-                    {l:"🏅 Puan",v:puan,renk:"#f59e0b",s:" pts"},
-                  ].map(s=>(
+                  {istatler.map(s=>(
                     <div key={s.l} style={{background:d?"#0f172a":"#f8fafc",borderRadius:12,padding:"12px 10px",textAlign:"center"}}>
                       <div style={{fontSize:9,color:"#94a3b8",fontWeight:700,marginBottom:4}}>{s.l}</div>
-                      <div style={{fontSize:20,fontWeight:900}}>
-                        <AnimNum hedef={typeof s.v==="number"?Math.round(s.v):0} renk={s.renk} suffix={s.s}/>
-                      </div>
+                      <div style={{fontSize:18,fontWeight:900,color:s.renk}}>{s.v}</div>
                     </div>
                   ))}
                 </div>
