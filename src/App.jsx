@@ -37,27 +37,27 @@ const LANG = {
       {
         ikon: "🥗",
         baslik: "Doya ile Sağlıklı Beslen",
-        acik: "Yediğin her şeyi saniyeler içinde kaydet. 105'ten fazla Türk yemeği ve besin içeren veritabanımızla günlük kalorini, protein, karbonhidrat ve yağ alımını takip et.",
+        acik: "Yediğin her şeyi saniyeler içinde kaydet. McDonald's, Ülker, Barilla ve daha fazlası dahil 800'den fazla besin içeren veritabanımızla günlük kalorini, protein ve vitamin alımını takip et.",
       },
       {
         ikon: "⭐",
         baslik: "Sağlık Yıldız Sistemi",
-        acik: "Her besine 0-5 arası sağlık puanı verilmiştir. Protein, lif, vitamin ve sodyum dengesi baz alınarak hesaplanır. Ne kadar sağlıklı yediğini tek bakışta gör.",
+        acik: "Her besine 0-5 arası sağlık puanı verilmiştir. Protein, lif, vitamin ve sodyum dengesi baz alınarak hesaplanır. 🔬 Derin Analiz ile vitamin ve mineral detaylarını incele.",
       },
       {
         ikon: "👟",
-        baslik: "Adım Sayar & Spor Takibi",
-        acik: "Telefonunun hareket sensörüyle adımlarını otomatik say. Günlük 10.000 adım hedefini tamamla. Yürüyüş, koşu, bisiklet ve 13 farklı spor aktivitesi ekle.",
+        baslik: "Adım Sayar & Haftalık Performans",
+        acik: "Telefonunun sensörüyle adımlarını otomatik say. Profilinde haftalık, aylık ve yıllık performans özeti gör — ne kadar protein aldın, kaç kalori yaktın, su hedefine ulaştın mı?",
       },
       {
-        ikon: "📢",
-        baslik: "Sosyal Beslenme",
-        acik: "Arkadaşlarınla günlük yemeklerini paylaş, yarışmalarda puanlarını karşılaştır. Birbirini motive eden bir sağlık topluluğunun parçası ol.",
+        ikon: "🎁",
+        baslik: "Referans Kodu ile Kazan",
+        acik: "Arkadaşına referans kodunu gönder — ikisine de +150 puan! Her satın alımda referans sahibine bonus puan. Ortak olursan satışlardan %25 komisyon kazanırsın.",
       },
       {
         ikon: "🔥",
-        baslik: "Seri Sistemi",
-        acik: "Her gün yemek kaydet ve yemek serini artır. 10.000 adımı geçtiğinde adım serini yükselt. Serini koruyarak sağlıklı yaşam alışkanlığı kazan!",
+        baslik: "Seri & Sosyal Beslenme",
+        acik: "Her gün yemek kaydet ve seri artır. 10.000 adımı geçince adım serini yükselt. Arkadaşlarınla beslenme yarışması yap, puan kazan ve en sağlıklı sen ol!",
       },
     ],
   },
@@ -71,27 +71,27 @@ const LANG = {
       {
         ikon: "🥗",
         baslik: "Eat Healthy with Doya",
-        acik: "Log everything you eat in seconds. Track your daily calories, protein, carbs and fat with our database of 105+ Turkish foods and nutrition items.",
+        acik: "Log everything you eat in seconds. Track calories, protein and vitamins with 800+ foods including McDonald's, Ülker, Barilla and many more brands.",
       },
       {
         ikon: "⭐",
         baslik: "Health Star System",
-        acik: "Every food has a health score from 0-5 stars based on protein, fiber, vitamins and sodium balance. See how healthy you're eating at a glance.",
+        acik: "Every food has a health score from 0-5 stars. Use Deep Analysis to inspect vitamins, minerals and daily intake percentages for each food.",
       },
       {
         ikon: "👟",
-        baslik: "Step Counter & Exercise",
-        acik: "Automatically count your steps using your phone's motion sensor. Hit your daily 10,000 step goal. Add walking, running, cycling and 13 more activities.",
+        baslik: "Steps & Weekly Performance",
+        acik: "Auto-count steps with your phone sensor. View weekly, monthly and yearly performance summaries — protein intake, calories burned, water goals and more.",
       },
       {
-        ikon: "📢",
-        baslik: "Social Nutrition",
-        acik: "Share your daily meals with friends and compare scores in competitions. Be part of a health community that motivates each other.",
+        ikon: "🎁",
+        baslik: "Earn with Referral Codes",
+        acik: "Share your referral code — both you and your friend get +150 points! Partners earn 25% commission on every premium purchase through their code.",
       },
       {
         ikon: "🔥",
-        baslik: "Streak System",
-        acik: "Log food every day to grow your meal streak. Hit 10,000 steps to grow your step streak. Build healthy habits by keeping your streaks alive!",
+        baslik: "Streaks & Social Nutrition",
+        acik: "Keep your meal and step streaks alive. Compete with friends on nutrition goals, earn points and become the healthiest in your circle!",
       },
     ],
   },
@@ -213,7 +213,6 @@ const BESIN_DB = [
   { id:67,  ad:"Ezogelin Çorbası",      marka:"", kal:70,  pro:4.5,  karb:12,  yag:1,   lif:4.2, sod:350, demir:2.1, kals:22,  vitC:1.8,  vitD:0,    vitB12:0,    acik:84, por:100, aclik:"2-3 saat", onay:true, kat:"Çorba", yildiz:5 },
   { id:68,  ad:"Tarhana Çorbası",       marka:"", kal:60,  pro:3,    karb:11,  yag:0.8, lif:2,   sod:400, demir:1.2, kals:38,  vitC:3,    vitD:0,    vitB12:0,    acik:70, por:100, aclik:"2-3 saat", onay:true, kat:"Çorba", yildiz:4 },
   // ── ATIŞTIRMALIk ──
-  { id:69,  ad:"Çikolatalı Gofret",     marka:"Ülker", kal:508,pro:5.8,karb:60,yag:27, lif:1.2, sod:110, demir:1.1, kals:55,  vitC:0,    vitD:0,    vitB12:0,    acik:18, por:100,  aclik:"30-60 dk", onay:true, kat:"Atıştırmalık", yildiz:0 },
   { id:70,  ad:"Sütlü Çikolata",        marka:"",kal:535, pro:7.7,  karb:60,  yag:30,  lif:1.4, sod:79,  demir:1.2, kals:189, vitC:0.5,  vitD:0,    vitB12:0.5,  acik:22, por:100,  aclik:"30-60 dk", onay:true, kat:"Atıştırmalık", yildiz:1.5 },
   { id:71,  ad:"Bitter Çikolata (%70)", marka:"",kal:598, pro:7.8,  karb:46,  yag:43,  lif:11,  sod:20,  demir:12,  kals:73,  vitC:0,    vitD:0,    vitB12:0,    acik:35, por:100,  aclik:"1 saat",   onay:true, kat:"Atıştırmalık", yildiz:3.5 },
   { id:72,  ad:"Cips (Patates)",        marka:"",kal:536, pro:7,    karb:53,  yag:35,  lif:4.4, sod:525, demir:1.9, kals:35,  vitC:13,   vitD:0,    vitB12:0,    acik:14, por:100,  aclik:"30-60 dk", onay:true, kat:"Atıştırmalık", yildiz:0.5 },
@@ -975,6 +974,56 @@ const BESIN_DB = [
   { id:798, ad:"Lychee", marka:"Çin",kal:66, pro:0.8, karb:17, yag:0.4, lif:1.3, sod:1, demir:0.3, kals:5, vitC:71.5, vitD:0, vitB12:0, acik:42, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:4.5 },
   { id:799, ad:"Longan", marka:"Tayland",kal:60, pro:1.3, karb:15, yag:0.1, lif:1.1, sod:0, demir:0.1, kals:1, vitC:84, vitD:0, vitB12:0, acik:40, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:4.5 },
   { id:800, ad:"Sapote (Siyah)", marka:"Orta Amerika",kal:130, pro:0.7, karb:32, yag:0.5, lif:8, sod:3, demir:0.5, kals:26, vitC:0, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Meyve", yildiz:4 },
+  { id:801, ad:"Mantar Corbasi (Knorr)", marka:"Knorr",kal:68, pro:2.5, karb:10, yag:2, lif:1, sod:740, demir:0.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:42, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:2 },
+  { id:802, ad:"Kremali Tavuk Corbasi", marka:"Knorr",kal:85, pro:4, karb:10, yag:3.5, lif:0.5, sod:820, demir:0.4, kals:30, vitC:0, vitD:0.1, vitB12:0.2, acik:45, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:2 },
+  { id:803, ad:"Havuc (Haslanmis)", marka:"",kal:35, pro:0.8, karb:8.2, yag:0.2, lif:2.9, sod:58, demir:0.4, kals:30, vitC:3.6, vitD:0, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:804, ad:"Kereviz Sapi (Cig)", marka:"",kal:16, pro:0.7, karb:3, yag:0.2, lif:1.6, sod:80, demir:0.2, kals:40, vitC:3.1, vitD:0, vitB12:0, acik:20, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:805, ad:"Mantar (Kultur, Cig)", marka:"",kal:22, pro:3.1, karb:3.3, yag:0.3, lif:1, sod:5, demir:0.5, kals:3, vitC:2.1, vitD:0.2, vitB12:0, acik:35, por:100, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:806, ad:"Bezelye Corbasi (Ev)", marka:"",kal:92, pro:5.5, karb:15, yag:2, lif:4.5, sod:310, demir:1.8, kals:22, vitC:8, vitD:0, vitB12:0, acik:62, por:200, aclik:"1-2 saat", onay:true, kat:"Corba", yildiz:4.5 },
+  { id:807, ad:"Sebze Corbasi (Ev)", marka:"",kal:55, pro:2.5, karb:10, yag:1.5, lif:3, sod:290, demir:0.8, kals:30, vitC:12, vitD:0, vitB12:0, acik:52, por:200, aclik:"30-60 dk", onay:true, kat:"Corba", yildiz:5 },
+  { id:808, ad:"Bulgur Pilavi", marka:"",kal:185, pro:5.5, karb:38, yag:2, lif:4.5, sod:180, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:58, por:150, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:4.5 },
+  { id:809, ad:"Sehriye Pilavi", marka:"",kal:210, pro:5, karb:42, yag:4, lif:1.5, sod:320, demir:1.2, kals:15, vitC:0, vitD:0, vitB12:0, acik:45, por:150, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2.5 },
+  { id:810, ad:"Zeytinyagli Fasulye", marka:"",kal:95, pro:4, karb:13, yag:4, lif:4.5, sod:180, demir:1.5, kals:42, vitC:8, vitD:0, vitB12:0, acik:68, por:150, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:5 },
+  { id:811, ad:"Zeytinyagli Pirasa", marka:"",kal:80, pro:2, karb:10, yag:4, lif:2.5, sod:160, demir:1.2, kals:50, vitC:12, vitD:0, vitB12:0, acik:52, por:150, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:812, ad:"Zeytinyagli Enginar", marka:"",kal:65, pro:2, karb:8, yag:3.5, lif:4, sod:150, demir:0.8, kals:44, vitC:8, vitD:0, vitB12:0, acik:55, por:150, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:5 },
+  { id:813, ad:"Patates Koftesi (Firin)", marka:"",kal:155, pro:4, karb:28, yag:3.5, lif:2.5, sod:240, demir:1.0, kals:18, vitC:10, vitD:0, vitB12:0, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:3 },
+  { id:814, ad:"Firin Tavuk (But)", marka:"",kal:245, pro:28, karb:0, yag:15, lif:0, sod:75, demir:1.2, kals:15, vitC:0, vitD:0.1, vitB12:0.3, acik:82, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:815, ad:"Tavuk Kanat (Izgara)", marka:"",kal:203, pro:18, karb:0, yag:14, lif:0, sod:82, demir:1.0, kals:12, vitC:0, vitD:0.1, vitB12:0.3, acik:72, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:816, ad:"Kusbasi Dana (Sote)", marka:"",kal:195, pro:24, karb:3, yag:10, lif:0.5, sod:320, demir:2.5, kals:18, vitC:3, vitD:0, vitB12:1.8, acik:80, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:817, ad:"Mercimekli Kofte", marka:"",kal:165, pro:7, karb:26, yag:5, lif:6, sod:260, demir:2.8, kals:30, vitC:3, vitD:0, vitB12:0, acik:65, por:100, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:818, ad:"Domates Salatasi", marka:"",kal:70, pro:1.5, karb:9, yag:4, lif:2, sod:180, demir:0.5, kals:18, vitC:20, vitD:0, vitB12:0, acik:38, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:819, ad:"Cacik", marka:"",kal:55, pro:3.5, karb:5, yag:2.5, lif:0.5, sod:200, demir:0.2, kals:80, vitC:2, vitD:0.1, vitB12:0.3, acik:45, por:100, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:4.5 },
+  { id:820, ad:"Coban Salatasi", marka:"",kal:55, pro:1.5, karb:8, yag:2.5, lif:2.5, sod:220, demir:0.5, kals:20, vitC:22, vitD:0, vitB12:0, acik:40, por:150, aclik:"30-60 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:821, ad:"Tavuk Sis", marka:"",kal:165, pro:28, karb:2, yag:5, lif:0.5, sod:420, demir:0.8, kals:15, vitC:1.5, vitD:0, vitB12:0.3, acik:80, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:822, ad:"Kuzu Pirzola (Izgara)", marka:"",kal:285, pro:26, karb:0, yag:20, lif:0, sod:72, demir:1.9, kals:14, vitC:0, vitD:0.1, vitB12:2.0, acik:82, por:150, aclik:"3-4 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:823, ad:"Nohutlu Tavuk", marka:"",kal:220, pro:22, karb:18, yag:7, lif:4, sod:380, demir:2.0, kals:45, vitC:2, vitD:0, vitB12:0.3, acik:75, por:200, aclik:"3-4 saat", onay:true, kat:"Hazir Yemek", yildiz:4.5 },
+  { id:824, ad:"Etli Nohut", marka:"",kal:240, pro:18, karb:22, yag:9, lif:5, sod:420, demir:3.0, kals:50, vitC:2, vitD:0, vitB12:1.0, acik:78, por:200, aclik:"3-4 saat", onay:true, kat:"Hazir Yemek", yildiz:4.5 },
+  { id:825, ad:"Imam Bayildi", marka:"",kal:120, pro:2, karb:12, yag:8, lif:3.5, sod:280, demir:0.8, kals:20, vitC:8, vitD:0, vitB12:0, acik:55, por:200, aclik:"1-2 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:826, ad:"Karniyarik", marka:"",kal:185, pro:10, karb:12, yag:12, lif:3, sod:380, demir:1.5, kals:30, vitC:8, vitD:0, vitB12:0.5, acik:68, por:200, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:3.5 },
+  { id:827, ad:"Barbunya Pilaki", marka:"",kal:145, pro:7, karb:22, yag:4, lif:6, sod:240, demir:2.2, kals:45, vitC:5, vitD:0, vitB12:0, acik:70, por:200, aclik:"2-3 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:828, ad:"Fava (Bakla Ezmesi)", marka:"",kal:110, pro:6.5, karb:16, yag:2.5, lif:5, sod:180, demir:1.5, kals:35, vitC:5, vitD:0, vitB12:0, acik:65, por:100, aclik:"1-2 saat", onay:true, kat:"Protein", yildiz:5 },
+  { id:829, ad:"Zeytinyagli Dolma", marka:"",kal:155, pro:3, karb:22, yag:7, lif:2.5, sod:290, demir:1.0, kals:25, vitC:3, vitD:0, vitB12:0, acik:45, por:100, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:3 },
+  { id:830, ad:"Etli Biber Dolma", marka:"",kal:195, pro:14, karb:18, yag:9, lif:2, sod:480, demir:1.8, kals:30, vitC:25, vitD:0, vitB12:0.8, acik:68, por:150, aclik:"2-3 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:831, ad:"Menemen (2 Yumurta)", marka:"",kal:185, pro:14, karb:8, yag:12, lif:1.5, sod:480, demir:2.2, kals:55, vitC:18, vitD:1.5, vitB12:0.9, acik:65, por:200, aclik:"1-2 saat", onay:true, kat:"Hazir Yemek", yildiz:4 },
+  { id:832, ad:"Sigara Boregi (2 adet)", marka:"",kal:160, pro:5, karb:18, yag:8, lif:0.8, sod:280, demir:0.5, kals:80, vitC:0, vitD:0.1, vitB12:0.2, acik:30, por:80, aclik:"30-60 dk", onay:true, kat:"Tahil", yildiz:1.5 },
+  { id:833, ad:"Su Boregi (Peynirli)", marka:"",kal:220, pro:9, karb:24, yag:10, lif:1, sod:420, demir:0.8, kals:150, vitC:0, vitD:0.2, vitB12:0.3, acik:40, por:100, aclik:"1-2 saat", onay:true, kat:"Tahil", yildiz:2 },
+  { id:834, ad:"Ulker Banta Biskuvi", marka:"Ulker",kal:460, pro:7, karb:66, yag:20, lif:2, sod:350, demir:2.0, kals:30, vitC:0, vitD:0, vitB12:0, acik:14, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:835, ad:"Ulker 9Kat Tat", marka:"Ulker",kal:490, pro:6, karb:64, yag:23, lif:1.5, sod:300, demir:1.5, kals:25, vitC:0, vitD:0, vitB12:0, acik:12, por:100, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:836, ad:"Eti Popkek", marka:"Eti",kal:380, pro:4.5, karb:57, yag:16, lif:1, sod:210, demir:1.2, kals:30, vitC:0, vitD:0, vitB12:0, acik:10, por:45, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:837, ad:"Eti Sultan Kek", marka:"Eti",kal:365, pro:4, karb:55, yag:15, lif:0.8, sod:230, demir:1.0, kals:25, vitC:0, vitD:0, vitB12:0, acik:10, por:50, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:838, ad:"Ulker Albeni", marka:"Ulker",kal:490, pro:5, karb:65, yag:24, lif:1, sod:200, demir:1.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:10, por:45, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:0.5 },
+  { id:839, ad:"Tadim Leblebi", marka:"Tadim",kal:364, pro:22, karb:58, yag:4.5, lif:17, sod:10, demir:5.8, kals:57, vitC:0.5, vitD:0, vitB12:0, acik:60, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4.5 },
+  { id:840, ad:"Tadim Antep Fistigi", marka:"Tadim",kal:557, pro:20, karb:28, yag:45, lif:10, sod:1, demir:3.9, kals:105, vitC:5.6, vitD:0, vitB12:0, acik:68, por:100, aclik:"2-3 saat", onay:true, kat:"Atistirmalik", yildiz:4.5 },
+  { id:841, ad:"Sutas Meyveli Yogurt", marka:"Sutas",kal:105, pro:3.5, karb:16, yag:3, lif:0.2, sod:55, demir:0.1, kals:110, vitC:1, vitD:0.1, vitB12:0.3, acik:35, por:150, aclik:"30-60 dk", onay:true, kat:"Sut Urunu", yildiz:2.5 },
+  { id:842, ad:"Pinar Kakaolu Icecek", marka:"Pinar",kal:120, pro:4.5, karb:16, yag:4, lif:0.5, sod:60, demir:0.8, kals:140, vitC:0, vitD:0.5, vitB12:0.4, acik:35, por:200, aclik:"30-60 dk", onay:true, kat:"Icecek", yildiz:2.5 },
+  { id:843, ad:"Nescafe Gold (Sade)", marka:"Nestle",kal:4, pro:0.6, karb:0.5, yag:0.1, lif:0, sod:3, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:2, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3 },
+  { id:844, ad:"Icim Sut Tam Yag 200ml", marka:"Icim",kal:124, pro:6.4, karb:9.4, yag:7, lif:0, sod:88, demir:0, kals:240, vitC:0, vitD:0.8, vitB12:0.8, acik:48, por:200, aclik:"1-2 saat", onay:true, kat:"Sut Urunu", yildiz:4 },
+  { id:845, ad:"Torku Helvasi", marka:"Torku",kal:490, pro:8.5, karb:64, yag:23, lif:2.5, sod:85, demir:3.5, kals:160, vitC:0, vitD:0, vitB12:0, acik:15, por:100, aclik:"1 saat", onay:true, kat:"Atistirmalik", yildiz:2 },
+  { id:846, ad:"Dr Oetker Puding Cikolata", marka:"Dr. Oetker",kal:335, pro:4, karb:71, yag:4.5, lif:0.8, sod:200, demir:0.8, kals:100, vitC:0, vitD:0.2, vitB12:0.3, acik:18, por:150, aclik:"30-60 dk", onay:true, kat:"Atistirmalik", yildiz:1 },
+  { id:847, ad:"Taze Sikilmis Nar Suyu", marka:"",kal:62, pro:0.9, karb:15, yag:0.3, lif:0.2, sod:9, demir:0.3, kals:11, vitC:10, vitD:0, vitB12:0, acik:18, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:4 },
+  { id:848, ad:"Taze Sikilmis Elma Suyu", marka:"",kal:46, pro:0.1, karb:11, yag:0.1, lif:0.2, sod:1, demir:0.1, kals:5, vitC:1.5, vitD:0, vitB12:0, acik:12, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:3 },
+  { id:849, ad:"Taze Sikilmis Havuc Suyu", marka:"",kal:40, pro:0.9, karb:9.3, yag:0.2, lif:0.5, sod:69, demir:0.5, kals:29, vitC:9, vitD:0, vitB12:0, acik:22, por:200, aclik:"30 dk", onay:true, kat:"Icecek", yildiz:5 },
+  { id:850, ad:"Ispanakli Yumurtali Pide", marka:"",kal:290, pro:14, karb:38, yag:10, lif:2.5, sod:550, demir:2.5, kals:130, vitC:5, vitD:1.0, vitB12:0.6, acik:52, por:200, aclik:"2-3 saat", onay:true, kat:"Tahil", yildiz:3.5 },
 ];
 
 // ─── DEMO VERİLER (sadece sosyal akış için örnek post'lar) ───
@@ -1138,7 +1187,11 @@ export default function App(){
   // ── PROFİL DÜZENLEME ──
   const [isimDuzenle,setIsimDuzenle]=useState(false);
   const [yeniIsim,setYeniIsim]=useState("");
-  const [profilSekme,setProfilSekme]=useState("genel"); // "genel" | "gonderiler"
+  const [profilSekme,setProfilSekme]=useState("genel"); // "genel" | "gonderiler" | "performans"
+  const [perfDonem,setPerfDonem]=useState("hafta"); // "hafta" | "ay" | "yil"
+  const [perfAnimDeger,setPerfAnimDeger]=useState({kal:0,pro:0,karb:0,yag:0,su:0,adim:0});
+  const [donemOzetGoster,setDonemOzetGoster]=useState(false);
+  const [donemOzetTip,setDonemOzetTip]=useState(null);
 
   const isAdmin = aktif?.admin===true;
   const isOrtak = !!(aktif?.refTip && aktif?.refOnay);
@@ -1378,6 +1431,74 @@ export default function App(){
     });
     return ()=>unsub();
   },[]);
+
+  // ─── DÖNEM BAŞLANGIÇ ÖZET KONTROLÜ ─────────────────────────
+  useEffect(()=>{
+    if(!aktif||!firebaseUID) return;
+    const bugun = new Date();
+    const bugunStr = tarihKey(bugun);
+    const kontolKey = "donemOzetKontrol_"+firebaseUID;
+    const son = localStorage.getItem ? (()=>{try{return JSON.parse(localStorage.getItem(kontolKey)||"{}")}catch{return{}}})() : {};
+    
+    // Hafta başı: Pazartesi
+    const gunHafta = bugun.getDay();
+    const pazartesTarih = new Date(bugun);
+    pazartesTarih.setDate(bugun.getDate()-(gunHafta===0?6:gunHafta-1));
+    const haftaKey = tarihKey(pazartesTarih);
+    
+    // Ay başı
+    const ayKey = bugun.getFullYear()+"-"+String(bugun.getMonth()+1).padStart(2,"0");
+    
+    // Yıl başı
+    const yilKey = String(bugun.getFullYear());
+    
+    let tip = null;
+    if(son.yil !== yilKey) tip = "yil";
+    else if(son.ay !== ayKey) tip = "ay";
+    else if(son.hafta !== haftaKey) tip = "hafta";
+    
+    if(tip){
+      // Bir önceki dönemi hesapla
+      const gosterilenVeri = {};
+      const donemGunler = [];
+      if(tip==="yil"){
+        const gecenYil = bugun.getFullYear()-1;
+        for(let ay=0;ay<12;ay++){const g=new Date(gecenYil,ay+1,0).getDate();for(let i=1;i<=g;i++){donemGunler.push(tarihKey(new Date(gecenYil,ay,i)));}}
+        gosterilenVeri.donemAdi = gecenYil+" Yılı";
+      } else if(tip==="ay"){
+        const gecenAy = new Date(bugun.getFullYear(),bugun.getMonth(),0);
+        const g=gecenAy.getDate(),m=gecenAy.getMonth(),y=gecenAy.getFullYear();
+        for(let i=1;i<=g;i++) donemGunler.push(tarihKey(new Date(y,m,i)));
+        gosterilenVeri.donemAdi = AYLAR[m]+" "+y;
+      } else {
+        // Geçen hafta
+        const pt = new Date(pazartesTarih);
+        pt.setDate(pt.getDate()-7);
+        for(let i=0;i<7;i++){const d=new Date(pt);d.setDate(pt.getDate()+i);donemGunler.push(tarihKey(d));}
+        gosterilenVeri.donemAdi = "Geçen Hafta";
+      }
+      
+      let tKal=0,tPro=0,tAdim=0,tSu=0,aktifG=0;
+      donemGunler.forEach(k=>{
+        const v=gunV(k);
+        const gk=(v.yemekler||[]).reduce((s,y)=>s+(y.kal||0),0);
+        if(gk>0)aktifG++;
+        tKal+=gk; tPro+=Math.round((v.yemekler||[]).reduce((s,y)=>s+(y.pro||0),0));
+        tAdim+=(v.adim||0); tSu+=(v.su||0);
+      });
+      
+      if(aktifG>0){
+        gosterilenVeri.kal=tKal; gosterilenVeri.pro=tPro;
+        gosterilenVeri.adim=tAdim; gosterilenVeri.su=tSu; gosterilenVeri.aktifGun=aktifG;
+        setDonemOzetTip({tip, ...gosterilenVeri});
+        setDonemOzetGoster(true);
+      }
+      
+      // Kaydet
+      const yeniSon={...son,yil:yilKey,ay:ayKey,hafta:haftaKey};
+      if(localStorage.setItem) try{localStorage.setItem(kontolKey,JSON.stringify(yeniSon));}catch(e){}
+    }
+  },[aktif,firebaseUID]);
 
   // ─── ZAMAN FARKI YARDIMCISI ──────────────────────────────────
   function zamanFarki(tarih){
@@ -2273,6 +2394,39 @@ export default function App(){
                 </div>
               </div>
             </div>
+            {/* SU FAYDALARI */}
+            <div style={{...CS,background:d?"#0f1f3d":"#eff6ff",border:`1px solid ${d?"#1e3a5f":"#bfdbfe"}`}}>
+              <div style={{fontSize:13,fontWeight:900,color:"#2563eb",marginBottom:10}}>💧 Neden Su İçmeliyiz?</div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+                {[
+                  {ikon:"🧠",baslik:"Beyin Fonksiyonu",acik:"Yalnızca %1-2 dehidrasyon konsantrasyon ve hafızayı bozar"},
+                  {ikon:"🔥",baslik:"Metabolizma",acik:"Günlük 2L su içmek metabolizmayı %30 hızlandırır"},
+                  {ikon:"💪",baslik:"Kas Performansı",acik:"Kasların %75'i sudur — spor öncesi/sonrası içmek gücü artırır"},
+                  {ikon:"🫀",baslik:"Kalp Sağlığı",acik:"Yeterli hidrasyon kan viskozitesini düşürür, kalbi korur"},
+                  {ikon:"🌿",baslik:"Toksin Atımı",acik:"Böbrekler suyla çalışır, toksinleri idrarla dışarı atar"},
+                  {ikon:"✨",baslik:"Cilt Sağlığı",acik:"Su cildi nemlendirir, kırışıklıkları azaltır, parlaklık verir"},
+                  {ikon:"🤸",baslik:"Eklem Sağlığı",acik:"Eklem sıvısının ana maddesi sudur, ağrıyı önler"},
+                  {ikon:"😴",baslik:"Uyku Kalitesi",acik:"Gece yeterli hidrasyon kas kramplarını ve uykusuzluğu azaltır"},
+                ].map(f=>(
+                  <div key={f.baslik} style={{background:d?"#0d1b2a":"#fff",borderRadius:10,padding:"10px 10px",display:"flex",gap:8,alignItems:"flex-start"}}>
+                    <div style={{fontSize:18,flexShrink:0}}>{f.ikon}</div>
+                    <div>
+                      <div style={{fontSize:11,fontWeight:800,color:d?"#93c5fd":"#1d4ed8",marginBottom:2}}>{f.baslik}</div>
+                      <div style={{fontSize:10,color:r.sub,lineHeight:1.4}}>{f.acik}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{marginTop:10,background:d?"#0d1b2a":"#dbeafe",borderRadius:10,padding:"10px 12px"}}>
+                <div style={{fontSize:11,fontWeight:800,color:"#1d4ed8",marginBottom:4}}>💡 Günlük Su Hedefi Nasıl Hesaplanır?</div>
+                <div style={{fontSize:11,color:r.sub,lineHeight:1.6}}>
+                  <b>Temel kural:</b> Vücut ağırlığı (kg) × 35ml = günlük su ihtiyacı<br/>
+                  Örneğin 70 kg → 70 × 35 = <b style={{color:"#2563eb"}}>2.450 ml/gün</b><br/>
+                  Yoğun spor yapıyorsan +500-750ml ekle. Sıcak havalarda +300-500ml.
+                </div>
+              </div>
+            </div>
+
             <div style={CS}>
               <div style={CT}>Son 7 Gün</div>
               {Array.from({length:7},(_,i)=>{const dt=new Date();dt.setDate(dt.getDate()-i);return{key:tarihKey(dt),label:i===0?"Bugün":AYLAR[dt.getMonth()]+" "+dt.getDate()};}).map(g=>{
@@ -3238,7 +3392,7 @@ export default function App(){
 
             {/* SEKME: Genel / Gönderiler */}
             <div style={{display:"flex",background:d?"#0f172a":"#f3f4f6",borderRadius:12,padding:3,marginBottom:12,gap:3}}>
-              {[{v:"genel",l:"⚙️ Genel"},{v:"gonderiler",l:`📸 Gönderilerim (${paylasimlar.filter(p=>p.uid===aktif.uid).length})`}].map(s=>(
+              {[{v:"genel",l:"⚙️ Genel"},{v:"gonderiler",l:`📸 Gönderilerim (${paylasimlar.filter(p=>p.uid===aktif.uid).length})`},{v:"performans",l:"📊 Performans"}].map(s=>(
                 <button key={s.v} onClick={()=>setProfilSekme(s.v)} style={{flex:1,padding:"9px 4px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:profilSekme===s.v?"#16a34a":"transparent",color:profilSekme===s.v?"#fff":r.sub,transition:"all .15s"}}>{s.l}</button>
               ))}
             </div>
@@ -3392,6 +3546,180 @@ export default function App(){
             })()}
           </div>
         )}
+
+
+        {/* ──── PERFORMANS PANELİ (profil sekmesi) ──────────────── */}
+        {tab==="profil"&&profilSekme==="performans"&&(()=>{
+          // Dönem hesaplama
+          const bugun = new Date();
+          const gunler = [];
+          let etiket = "";
+          if(perfDonem==="hafta"){
+            // Bu haftanın Pazartesisi
+            const gun = bugun.getDay();
+            const fark = (gun===0?6:gun-1);
+            for(let i=0;i<7;i++){const d=new Date(bugun);d.setDate(bugun.getDate()-fark+i);gunler.push(tarihKey(d));}
+            etiket="Bu Hafta";
+          } else if(perfDonem==="ay"){
+            const yil=bugun.getFullYear(),ay=bugun.getMonth();
+            const gunSayisi=new Date(yil,ay+1,0).getDate();
+            for(let i=1;i<=gunSayisi;i++){const d=new Date(yil,ay,i);gunler.push(tarihKey(d));}
+            etiket=AYLAR[ay]+" "+yil;
+          } else {
+            const yil=bugun.getFullYear();
+            for(let ay=0;ay<12;ay++){const gunSayisi=new Date(yil,ay+1,0).getDate();for(let i=1;i<=gunSayisi;i++){const d=new Date(yil,ay,i);gunler.push(tarihKey(d));}}
+            etiket=bugun.getFullYear()+" Yılı";
+          }
+          // Topla
+          let topKal=0,topPro=0,topKarb=0,topYag=0,topSu=0,topAdim=0,aktifGun=0,topLif=0;
+          gunler.forEach(k=>{
+            const v=gunV(k);
+            const gKal=(v.yemekler||[]).reduce((s,y)=>s+(y.kal||0),0);
+            const gPro=(v.yemekler||[]).reduce((s,y)=>s+(y.pro||0),0);
+            const gKarb=(v.yemekler||[]).reduce((s,y)=>s+(y.karb||0),0);
+            const gYag=(v.yemekler||[]).reduce((s,y)=>s+(y.yag||0),0);
+            const gLif=(v.yemekler||[]).reduce((s,y)=>s+(y.lif||0),0);
+            if(gKal>0)aktifGun++;
+            topKal+=gKal; topPro+=Math.round(gPro); topKarb+=Math.round(gKarb); topYag+=Math.round(gYag); topLif+=Math.round(gLif);
+            topSu+=(v.su||0); topAdim+=(v.adim||0);
+          });
+          const aktifGunSayisi = gunler.filter(k=>gunV(k).yemekler?.length>0).length||1;
+          const ortaKal=Math.round(topKal/Math.max(aktifGunSayisi,1));
+          const ortaPro=Math.round(topPro/Math.max(aktifGunSayisi,1));
+          const hedefPro=Math.round((profil.kilo||70)*1.6);
+          const hedefKal=2000;
+          const ProYuzde=Math.min(100,Math.round((ortaPro/hedefPro)*100));
+          const KalYuzde=Math.min(100,Math.round((ortaKal/hedefKal)*100));
+          const suOrt=Math.round(topSu/Math.max(aktifGunSayisi,1));
+          const suYuzde=Math.min(100,Math.round((suOrt/suHed)*100));
+          const adimOrt=Math.round(topAdim/Math.max(aktifGunSayisi,1));
+          const adimYuzde=Math.min(100,Math.round((adimOrt/10000)*100));
+
+          const statRenk=(y)=>y>=80?"#16a34a":y>=50?"#f59e0b":"#ef4444";
+          const AnimBar=({yuzde,renk,label,deger})=>{
+            const [anim,setAnim]=React.useState(0);
+            React.useEffect(()=>{
+              setAnim(0);
+              const timer=setTimeout(()=>{
+                let start=0;
+                const step=()=>{start+=2;setAnim(Math.min(start,yuzde));if(start<yuzde)requestAnimationFrame(step);};
+                requestAnimationFrame(step);
+              },200);
+              return()=>clearTimeout(timer);
+            },[yuzde,perfDonem]);
+            return(
+              <div style={{marginBottom:14}}>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                  <div style={{fontSize:12,fontWeight:700,color:r.text}}>{label}</div>
+                  <div style={{fontSize:12,fontWeight:800,color:renk(anim)}}>{deger}</div>
+                </div>
+                <div style={{background:d?"#1e293b":"#f1f5f9",borderRadius:8,height:10,overflow:"hidden"}}>
+                  <div style={{height:"100%",width:anim+"%",background:renk(anim),borderRadius:8,transition:"width 0.05s linear"}}/>
+                </div>
+                <div style={{fontSize:9,color:r.muted,marginTop:2,textAlign:"right"}}>{anim}%</div>
+              </div>
+            );
+          };
+
+          // En çok yenen besinler
+          const besinSayac={};
+          gunler.forEach(k=>{(gunV(k).yemekler||[]).forEach(y=>{besinSayac[y.ad]=(besinSayac[y.ad]||0)+1;});});
+          const topBesinler=Object.entries(besinSayac).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+          return(
+            <div>
+              {/* Dönem seçici */}
+              <div style={{display:"flex",background:d?"#1e293b":"#f1f5f9",borderRadius:12,padding:4,margin:"0 16px 12px",gap:4}}>
+                {[{v:"hafta",l:"📅 Hafta"},{v:"ay",l:"📆 Ay"},{v:"yil",l:"🗓 Yıl"}].map(s=>(
+                  <button key={s.v} onClick={()=>setPerfDonem(s.v)} style={{flex:1,padding:"8px 0",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:perfDonem===s.v?(d?"#16a34a":"#16a34a"):"transparent",color:perfDonem===s.v?"#fff":r.sub,transition:"all .2s"}}>{s.l}</button>
+                ))}
+              </div>
+
+              {/* Başlık kartı */}
+              <div style={{margin:"0 16px 12px",background:"linear-gradient(135deg,#16a34a,#15803d)",borderRadius:16,padding:"16px 18px",color:"#fff"}}>
+                <div style={{fontSize:11,fontWeight:700,opacity:.85}}>DÖNEM ÖZETİ</div>
+                <div style={{fontSize:20,fontWeight:900,marginTop:2}}>{etiket}</div>
+                <div style={{display:"flex",gap:12,marginTop:10,flexWrap:"wrap"}}>
+                  {[
+                    {l:"Aktif Gün",v:aktifGun},
+                    {l:"Toplam Kalori",v:topKal.toLocaleString()+" kcal"},
+                    {l:"Toplam Adım",v:topAdim.toLocaleString()},
+                  ].map(s=>(
+                    <div key={s.l} style={{background:"rgba(255,255,255,.18)",borderRadius:10,padding:"8px 12px",flex:1,minWidth:90}}>
+                      <div style={{fontSize:16,fontWeight:900}}>{s.v}</div>
+                      <div style={{fontSize:9,opacity:.85}}>{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Animasyonlu progress barlar */}
+              <div style={{...CS,margin:"0 16px 10px"}}>
+                <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:12}}>📈 Günlük Ortalamalar</div>
+                <AnimBar yuzde={KalYuzde} renk={statRenk} label={"🔥 Kalori — "+ortaKal+" kcal/gün"} deger={ortaKal+" / "+hedefKal+" kcal"}/>
+                <AnimBar yuzde={ProYuzde} renk={statRenk} label={"💪 Protein — "+ortaPro+"g/gün"} deger={ortaPro+" / "+hedefPro+"g"}/>
+                <AnimBar yuzde={suYuzde} renk={statRenk} label={"💧 Su — "+suOrt+"ml/gün"} deger={suOrt+" / "+suHed+"ml"}/>
+                <AnimBar yuzde={adimYuzde} renk={statRenk} label={"👟 Adım — "+adimOrt.toLocaleString()+"/gün"} deger={adimOrt.toLocaleString()+" / 10.000"}/>
+              </div>
+
+              {/* Makro dağılımı */}
+              <div style={{...CS,margin:"0 16px 10px"}}>
+                <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>🥗 Makro Dağılımı (Toplam)</div>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+                  {[
+                    {l:"Protein",v:topPro+"g",renk:"#16a34a"},
+                    {l:"Karbonhidrat",v:topKarb+"g",renk:"#f59e0b"},
+                    {l:"Yağ",v:topYag+"g",renk:"#ef4444"},
+                    {l:"Lif",v:topLif+"g",renk:"#8b5cf6"},
+                    {l:"Su Toplam",v:Math.round(topSu/1000*10)/10+"L",renk:"#2563eb"},
+                    {l:"Adım Toplam",v:(topAdim/1000).toFixed(1)+"K",renk:"#f97316"},
+                  ].map(s=>(
+                    <div key={s.l} style={{background:d?"#1e293b":"#f9fafb",borderRadius:10,padding:"10px 8px",textAlign:"center"}}>
+                      <div style={{fontSize:18,fontWeight:900,color:s.renk}}>{s.v}</div>
+                      <div style={{fontSize:9,color:r.sub,marginTop:2}}>{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* En çok yenen besinler */}
+              {topBesinler.length>0&&(
+                <div style={{...CS,margin:"0 16px 10px"}}>
+                  <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>🏆 En Çok Yediklerin</div>
+                  {topBesinler.map(([ad,sayi],i)=>(
+                    <div key={ad} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderBottom:`1px solid ${r.rowB}`}}>
+                      <div style={{fontSize:16,fontWeight:900,color:["#f59e0b","#9ca3af","#cd7c3a","#16a34a","#6b7280"][i],width:20,textAlign:"center"}}>{i+1}</div>
+                      <div style={{flex:1,fontSize:12,fontWeight:700,color:r.text}}>{ad}</div>
+                      <div style={{fontSize:11,color:r.sub,background:d?"#1e293b":"#f1f5f9",padding:"3px 10px",borderRadius:20}}>{sayi}x</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Günlük detay çizelgesi */}
+              {perfDonem==="hafta"&&(
+                <div style={{...CS,margin:"0 16px 10px"}}>
+                  <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:10}}>📅 Günlük Kalorim</div>
+                  {gunler.map((k,i)=>{
+                    const v=gunV(k);
+                    const gKal=(v.yemekler||[]).reduce((s,y)=>s+(y.kal||0),0);
+                    const yuzde=Math.min(100,Math.round((gKal/hedefKal)*100));
+                    const dt=new Date();dt.setDate(dt.getDate()-((bugun.getDay()===0?6:bugun.getDay()-1))+i-new Date(bugun).setHours(0,0,0,0)/86400000+new Date().setHours(0,0,0,0)/86400000);
+                    return(
+                      <div key={k} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 0"}}>
+                        <div style={{fontSize:10,color:r.sub,width:28}}>{GUNLER[i]}</div>
+                        <div style={{flex:1,background:d?"#1e293b":"#f1f5f9",borderRadius:6,height:8,overflow:"hidden"}}>
+                          <div style={{height:"100%",width:yuzde+"%",background:yuzde>=80?"#16a34a":yuzde>=50?"#f59e0b":"#ef4444",borderRadius:6}}/>
+                        </div>
+                        <div style={{fontSize:10,fontWeight:700,color:r.text,width:60,textAlign:"right"}}>{gKal>0?gKal+" kcal":"—"}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* ──── ADMİN ───────────────────────────────────────────── */}
         {tab==="admin"&&isAdmin&&(
@@ -3919,6 +4247,54 @@ export default function App(){
           </div>
         )}
 
+        {/* DÖNEM ÖZETİ POPUP */}
+        {donemOzetGoster&&donemOzetTip&&(()=>{
+          const {tip,donemAdi,kal,pro,adim,su,aktifGun}=donemOzetTip;
+          const tipLabel=tip==="yil"?"🗓 Yıl Özeti":tip==="ay"?"📆 Ay Özeti":"📅 Hafta Özeti";
+          const tipRenk=tip==="yil"?"linear-gradient(135deg,#7c3aed,#4f46e5)":tip==="ay"?"linear-gradient(135deg,#2563eb,#1d4ed8)":"linear-gradient(135deg,#16a34a,#15803d)";
+          const [anim,setAnim]=React.useState(false);
+          React.useEffect(()=>{setTimeout(()=>setAnim(true),100);},[]);
+          const AnimNum=({hedef,renk,suffix})=>{
+            const [v,setV]=React.useState(0);
+            React.useEffect(()=>{if(!anim)return;let s=0;const step=()=>{s+=Math.ceil(hedef/60);setV(Math.min(s,hedef));if(s<hedef)requestAnimationFrame(step);};requestAnimationFrame(step);},[anim,hedef]);
+            return <span style={{color:renk}}>{v.toLocaleString()}{suffix}</span>;
+          };
+          return(
+            <div style={{position:"fixed",top:0,left:0,right:0,bottom:0,zIndex:900,background:"rgba(0,0,0,.7)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}} onClick={()=>setDonemOzetGoster(false)}>
+              <div onClick={e=>e.stopPropagation()} style={{background:d?"#1e293b":"#fff",borderRadius:24,padding:24,width:"100%",maxWidth:380,boxShadow:"0 20px 60px #0004",transform:anim?"scale(1)":"scale(0.8)",opacity:anim?1:0,transition:"all 0.4s cubic-bezier(.175,.885,.32,1.275)"}}>
+                <div style={{background:tipRenk,borderRadius:16,padding:"16px 20px",color:"#fff",marginBottom:16,textAlign:"center"}}>
+                  <div style={{fontSize:11,fontWeight:700,opacity:.85,marginBottom:4}}>{tipLabel}</div>
+                  <div style={{fontSize:22,fontWeight:900}}>{donemAdi}</div>
+                  <div style={{fontSize:12,opacity:.85,marginTop:4}}>tamamlandı! 🎉</div>
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
+                  {[
+                    {l:"🔥 Kalori",v:kal,renk:"#f59e0b",s:" kcal"},
+                    {l:"💪 Protein",v:pro,renk:"#16a34a",s:"g"},
+                    {l:"👟 Adım",v:adim,renk:"#2563eb",s:""},
+                    {l:"💧 Su",v:Math.round(su/1000*10)/10,renk:"#0ea5e9",s:"L"},
+                    {l:"📅 Aktif Gün",v:aktifGun,renk:"#8b5cf6",s:" gün"},
+                    {l:"🏅 Puan",v:puan,renk:"#f59e0b",s:" pts"},
+                  ].map(s=>(
+                    <div key={s.l} style={{background:d?"#0f172a":"#f8fafc",borderRadius:12,padding:"12px 10px",textAlign:"center"}}>
+                      <div style={{fontSize:9,color:"#94a3b8",fontWeight:700,marginBottom:4}}>{s.l}</div>
+                      <div style={{fontSize:20,fontWeight:900}}>
+                        <AnimNum hedef={typeof s.v==="number"?Math.round(s.v):0} renk={s.renk} suffix={s.s}/>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <button onClick={()=>setDonemOzetGoster(false)} style={{...BTN("#16a34a"),width:"100%",padding:"12px 0",fontSize:14,fontWeight:800}}>
+                  Harika! Devam Et →
+                </button>
+                <button onClick={()=>{setDonemOzetGoster(false);setTab("profil");setProfilSekme("performans");}} style={{width:"100%",padding:"10px 0",marginTop:8,background:"none",border:`1px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,color:r.sub}}>
+                  📊 Detaylı Performans Gör
+                </button>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* SERİ TOAST */}
         {seriMsg&&(
           <div style={{position:"fixed",top:70,left:"50%",transform:"translateX(-50%)",zIndex:600,background:seriMsg.tip==="yemek"?"#fff7ed":"#ecfdf5",border:`2px solid ${seriMsg.tip==="yemek"?"#f59e0b":"#16a34a"}`,borderRadius:16,padding:"14px 20px",boxShadow:"0 8px 32px #0002",display:"flex",alignItems:"center",gap:10,minWidth:240,maxWidth:340}} onClick={()=>setSeriMsg(null)}>
@@ -3964,7 +4340,7 @@ export default function App(){
               <div style={{fontSize:12,color:"#374151",lineHeight:1.9}}>
                 Bu sözleşme, <b>Doya</b> uygulaması ile onaylanan Influencer/İşletme ortağı arasındaki ilişkiyi düzenler.<br/><br/>
                 <b>1. Kazanç Modeli</b><br/>
-                Ortaklar, referans kodlarıyla uygulamaya davet ettikleri aktif kullanıcıların ürettiği reklam gelirinin <b>%25'ini</b> ve premium satın alımlardan <b>%10 komisyonu</b> alır. Kazanç, kullanıcıların aktifliğine bağlıdır ve her ay değişebilir.<br/><br/>
+                Ortaklar, referans kodlarıyla uygulamaya davet ettikleri aktif kullanıcıların ürettiği reklam gelirinin <b>%25'ini</b> ve premium satın alımlardan <b>%25 komisyonu</b> alır. Kazanç, kullanıcıların aktifliğine bağlıdır ve her ay değişebilir.<br/><br/>
                 <b>2. Ödeme Koşulları</b><br/>
                 Ödemeler her ayın 1'inde kayıtlı IBAN'a yapılır. Minimum ödeme tutarı 50 ₺'dir.<br/><br/>
                 <b>3. Mali Risk ve Ödeme Gecikmesi</b><br/>
