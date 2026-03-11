@@ -2252,7 +2252,7 @@ export default function App(){
   const perfPanelRef = useRef(null);
 
   // ── KARŞILAMA EKRANI ──
-  const [welcomeGoster,setWelcomeGoster]=useState(()=>localStorage.getItem("doya_welcome_done")!=="1");
+  const [welcomeGoster,setWelcomeGoster]=useState(false); // Firebase'den kontrol edilir
   const [welcomeSlide,setWelcomeSlide]=useState(0); // 0=dil seç, 1-5=slaytlar
   const [dil,setDil]=useState(()=>localStorage.getItem("doya_dil")||"tr");
   const L=LANG[dil]||LANG.tr;
@@ -2604,6 +2604,8 @@ export default function App(){
         try {
           const veri = await kullaniciyiGetir(user.uid);
           if(veri){
+            // Eski kullanıcı → welcome slaytları gösterme
+            setWelcomeGoster(false);
             // Admin kontrolü: Firestore'dan oku, kodda şifre YOK
             const adminSnap = await getDoc(doc(db,"adminConfig","settings"));
             const adminEmails = adminSnap.exists() ? (adminSnap.data().adminEmails||[]) : [];
@@ -2659,6 +2661,8 @@ export default function App(){
         setYukleniyor(false);
       } else {
         setAktif(null); setFirebaseUID(null);
+        // Giriş yapılmamış → daha önce welcome görmediyse göster
+        if(localStorage.getItem("doya_welcome_done")!=="1") setWelcomeGoster(true);
         setYukleniyor(false);
       }
     });
@@ -3059,6 +3063,7 @@ export default function App(){
       localStorage.setItem("doya_welcome_done","1");
       localStorage.setItem("doya_dil",dil);
       setWelcomeGoster(false);
+      // Welcome bitince giriş/kayıt ekranına geçer (aktif null olduğundan zaten geçecek)
     };
 
     const ileri=()=>{
@@ -3938,171 +3943,59 @@ export default function App(){
         )}
 
         {/* ──── ARA ─────────────────────────────────────────────── */}
-        {tab==="ara"&&(
+        {/* ──── GÖZAT ─────────────────────────────────────────────── */}
+        {tab==="gozat"&&(
           <div style={{padding:16}}>
+            {/* ARAMA KUTUSU */}
+            <div style={{position:"relative",marginBottom:12}}>
+              <input
+                style={{...IS,paddingLeft:38,fontSize:14}}
+                placeholder="Besin veya marka ara..."
+                value={besinArama}
+                onChange={e=>{setBesinArama(e.target.value);setAramaOdak(true);}}
+                onFocus={()=>setAramaOdak(true)}
+                onBlur={()=>setTimeout(()=>setAramaOdak(false),200)}
+                autoFocus={aramaOdak}
+                ref={el=>{if(el&&aramaOdak)el.focus();}}
+              />
+              <span style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",fontSize:16,pointerEvents:"none"}}>🔍</span>
+              {besinArama&&<button onClick={()=>setBesinArama("")} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:18,color:r.muted,lineHeight:1}}>×</button>}
+            </div>
 
-            {true&&(
-              <>
-                <div style={{position:"relative",marginBottom:besinArama?10:0}}>
-                  <input
-                    style={{...IS,paddingLeft:36}}
-                    placeholder="Besin veya marka ara..."
-                    value={besinArama}
-                    onChange={e=>{
-                      setBesinArama(e.target.value);
-                      setAramaOdak(true);
-                    }}
-                    onFocus={()=>setAramaOdak(true)}
-                    onBlur={()=>setTimeout(()=>setAramaOdak(false),200)}
-                    autoFocus={aramaOdak}
-                    ref={el=>{if(el&&aramaOdak)el.focus();}}
-                  />
-                  <span style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",fontSize:15,pointerEvents:"none"}}>🔍</span>
-                  {besinArama&&(
-                    <button onClick={()=>setBesinArama("")} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:16,color:r.muted,lineHeight:1}}>×</button>
-                  )}
+            {/* Önceki aramalar */}
+            {!besinArama&&aramaOdak&&oncekiAramalar.length>0&&(
+              <div style={{background:d?"#1e293b":"#f8fafc",borderRadius:14,padding:"10px 14px",marginBottom:10,border:`1px solid ${d?"#334155":"#e2e8f0"}`}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                  <div style={{fontSize:11,fontWeight:800,color:r.sub}}>🕐 Son Aramalar</div>
+                  <button onClick={()=>{setOncekiAramalar([]);localStorage.setItem("doya_ara_gecmis",JSON.stringify([]));}} style={{background:"none",border:"none",cursor:"pointer",fontSize:10,color:r.muted,fontFamily:"'Nunito',sans-serif",fontWeight:700}}>Temizle</button>
                 </div>
+                <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                  {oncekiAramalar.map((ara,i)=>(
+                    <button key={i} onClick={()=>{setBesinArama(ara);setAramaOdak(true);}} style={{background:d?"#0f172a":"#fff",border:`1.5px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:20,padding:"5px 12px",fontSize:12,fontWeight:700,cursor:"pointer",color:r.sub,fontFamily:"'Nunito',sans-serif"}}>🔍 {ara}</button>
+                  ))}
+                </div>
+              </div>
+            )}
 
-                {/* Önceki aramalar - sadece input boşsa ve odaktaysa */}
-                {!besinArama&&aramaOdak&&oncekiAramalar.length>0&&(
-                  <div style={{background:d?"#1e293b":"#f8fafc",borderRadius:14,padding:"10px 14px",marginBottom:10,border:`1px solid ${d?"#334155":"#e2e8f0"}`}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-                      <div style={{fontSize:11,fontWeight:800,color:r.sub}}>🕐 Son Aramalar</div>
-                      <button onClick={()=>{const e=[];setOncekiAramalar(e);localStorage.setItem("doya_ara_gecmis",JSON.stringify(e));}} style={{background:"none",border:"none",cursor:"pointer",fontSize:10,color:r.muted,fontFamily:"'Nunito',sans-serif",fontWeight:700}}>Temizle</button>
-                    </div>
-                    <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                      {oncekiAramalar.map((ara,i)=>(
-                        <button key={i} onClick={()=>{
-                          setBesinArama(ara);
-                          setAramaOdak(true);
-                        }} style={{background:d?"#0f172a":"#fff",border:`1.5px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:20,padding:"5px 12px",fontSize:12,fontWeight:700,cursor:"pointer",color:r.sub,fontFamily:"'Nunito',sans-serif"}}>
-                          🔍 {ara}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Sonuç yok mesajı */}
-                {!besinArama&&!aramaOdak&&oncekiAramalar.length===0&&(
-                  <div style={{textAlign:"center",padding:"30px 0",color:r.muted}}>
-                    <div style={{fontSize:32,marginBottom:8}}>🔍</div>
-                    <div style={{fontSize:13,fontWeight:700}}>Besin veya marka ara</div>
-                    <div style={{fontSize:11,marginTop:4}}>Örn: "Tavuk", "Coca-Cola", "Ülker"</div>
-                  </div>
-                )}
-
-                {/* Arama sonuçları — arama kaydı */}
-                {besinArama&&(()=>{
-                  // Aramayı geçmişe ekle (2+ karakter, debounce yok ama sadece Enter/tam kelime değil, otomatik)
-                  return null;
-                })()}
-                {besinArama&&filtreBesinler.map(b=>(
+            {/* Arama sonuçları */}
+            {besinArama&&(
+              <div>
+                {filtreBesinler.length===0&&<div style={{textAlign:"center",padding:"24px",color:r.muted,fontSize:13}}>Sonuç bulunamadı.</div>}
+                {filtreBesinler.slice(0,30).map(b=>(
                   <div key={b.id} style={{...CS,margin:"7px 0",padding:12}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
                       <div>
                         <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
                         <div style={{marginBottom:1}}><YildizGoster v={b.yildiz??3} boyut={12}/></div>
-                        <div style={{fontSize:10,color:r.muted}}>{b.por}g · P:{b.pro}g K:{b.karb}g Y:{b.yag}g · {b.kat}</div>
-                        <div style={{fontSize:9,color:r.muted,fontStyle:"italic",marginTop:1}}>*Tahmini değerlerdir</div>
+                        <div style={{fontSize:11,color:r.muted}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g</div>
                       </div>
-                      <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
-                        <div style={{textAlign:"right"}}>
-                          <div style={{fontWeight:900,color:"#16a34a",fontSize:16}}>{b.kal}</div>
-                          <div style={{fontSize:9,color:r.muted}}>kcal/{b.por}g</div>
-                        </div>
-                        {/* 🔬 Derin analiz tik */}
-                        <button
-                          onClick={e=>{e.stopPropagation();setDerinAnaliz(p=>p===b.id?null:b.id);}}
-                          title="Derin Analiz"
-                          style={{background:derinAnaliz===b.id?"#7c3aed":"transparent",border:`1.5px solid ${derinAnaliz===b.id?"#7c3aed":r.inpB}`,borderRadius:8,padding:"3px 7px",cursor:"pointer",fontSize:10,fontWeight:800,color:derinAnaliz===b.id?"#fff":r.sub,fontFamily:"'Nunito',sans-serif",display:"flex",alignItems:"center",gap:3}}>
-                          🔬 {derinAnaliz===b.id?"▲":"▼"}
-                        </button>
-                      </div>
+                      <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}} style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>+</button>
                     </div>
-                    <div style={{...PB,height:5,marginTop:6}}><div style={{...PF(b.acik,acikRenk(b.acik)),height:5}}/></div>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:3}}>
-                      <span style={{fontSize:10,color:r.muted}}>{b.aclik} içinde acıktırır</span>
-                      <div style={{display:"flex",alignItems:"center",gap:4}}>
-                        {b.acik<45&&(
-                          <button onClick={e=>{e.stopPropagation();setDoyuruBilgi(p=>p===b.id?false:b.id);}} style={{background:"#fef9c3",border:"1.5px solid #fde047",borderRadius:"50%",width:16,height:16,fontSize:10,fontWeight:900,cursor:"pointer",color:"#ca8a04",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontFamily:"'Nunito',sans-serif"}}>!</button>
-                        )}
-                        <span style={BAD(acikRenk(b.acik))}>{acikEtiket(b.acik)}</span>
-                      </div>
-                    </div>
-                    {doyuruBilgi===b.id&&(
-                      <div style={{background:d?"#1c1917":"#fffbeb",border:"1.5px solid #fde047",borderRadius:10,padding:"10px 12px",marginTop:6,fontSize:11,color:d?"#fef3c7":"#78350f",lineHeight:1.7}}>
-                        <div style={{fontWeight:800,marginBottom:4}}>⚠️ Neden az doyurucu?</div>
-                        {b.kat==="Meyve"&&<div>🍎 Meyveler ağırlıklı olarak <b>su ve basit şeker</b> içerir. Mide hızla sindirir, tokluk hormonu (leptin) yeterince tetiklenmez. Yüksek lif içeren meyveler (elma, armut) biraz daha doyurucudur.</div>}
-                        {b.kat==="Sebze"&&<div>🥦 Sebzeler <b>çok düşük kalorili</b> olduğu için mide hacmini doldursa da enerji düşük kalır. Protein ve yağ içermediğinden tokluk kısa sürer — ama bu aslında düşük kalorili beslenme için <b>büyük avantaj!</b></div>}
-                        {b.kat==="İçecek"&&<div>🧃 Sıvılar mide duvarını <b>katı gıdalar kadar germez</b>, bu yüzden tokluk sinyali zayıf kalır. Şekerli içecekler kan şekerini hızlı yükseltip hızlı düşürdüğü için kısa sürede tekrar acıktırır.</div>}
-                        {b.kat==="Atıştırmalık"&&<div>🍪 İşlenmiş atıştırmalıklar <b>yüksek kalori, düşük lif</b> dengesiyle tasarlanmıştır. Hızlı sindirilir, kan şekerini ani yükseltir — birkaç dakika sonra daha çok yemek istenir.</div>}
-                        {!["Meyve","Sebze","İçecek","Atıştırmalık"].includes(b.kat)&&<div>Bu besin <b>düşük protein ve lif</b> içerdiğinden mide boşalması hızlı olur. Yanına protein (yumurta, yoğurt) veya lif (sebze) eklemek doyum süresini uzatır.</div>}
-                        <div style={{fontSize:10,color:d?"#a16207":"#92400e",marginTop:6,fontStyle:"italic"}}>💡 İpucu: Az doyurucu besinleri protein veya sağlıklı yağlarla tüket.</div>
-                      </div>
-                    )}
-                    {/* 🔬 DERİN ANALİZ PANELİ */}
-                    {derinAnaliz===b.id&&(
-                      <div style={{background:d?"#1e1b2e":"#f5f3ff",border:"1.5px solid #7c3aed",borderRadius:12,padding:12,marginTop:8}}>
-                        <div style={{fontSize:12,fontWeight:900,color:"#7c3aed",marginBottom:10}}>🔬 Derin Analiz — 100g başına</div>
-                        {/* Ana makro çubukları */}
-                        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginBottom:10}}>
-                          {[
-                            {l:"Protein",  v:b.pro,  birim:"g",  renk:"#3b82f6"},
-                            {l:"Karbonhidrat",v:b.karb,birim:"g",renk:"#f59e0b"},
-                            {l:"Yağ",      v:b.yag,  birim:"g",  renk:"#f97316"},
-                            {l:"Lif",      v:b.lif,  birim:"g",  renk:"#16a34a"},
-                            {l:"Sodyum",   v:b.sod,  birim:"mg", renk:"#ef4444"},
-                          ].map(m=>(
-                            <div key={m.l} style={{background:d?"#0f172a":"#fff",borderRadius:8,padding:"7px 10px"}}>
-                              <div style={{display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:3}}>
-                                <span style={{color:r.sub,fontWeight:700}}>{m.l}</span>
-                                <span style={{fontWeight:900,color:m.renk}}>{m.v}{m.birim}</span>
-                              </div>
-                              <div style={{...PB,height:4,marginTop:0}}>
-                                <div style={{...PF(Math.min(100,(m.v/(m.birim==="mg"?500:30))*100),m.renk),height:4}}/>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        {/* Vitamin & Mineral */}
-                        <div style={{fontSize:11,fontWeight:800,color:"#7c3aed",marginBottom:6}}>Vitamin & Mineral</div>
-                        {[
-                          {l:"🩸 Demir",    v:b.demir, birim:"mg",  ihtiyac:8,   renk:"#ef4444"},
-                          {l:"🦴 Kalsiyum", v:b.kals,  birim:"mg",  ihtiyac:1000,renk:"#f97316"},
-                          {l:"🍊 Vit C",    v:b.vitC,  birim:"mg",  ihtiyac:90,  renk:"#f59e0b"},
-                          {l:"☀️ Vit D",    v:b.vitD,  birim:"mcg", ihtiyac:20,  renk:"#fbbf24"},
-                          {l:"💊 Vit B12",  v:b.vitB12,birim:"mcg", ihtiyac:2.4, renk:"#8b5cf6"},
-                        ].map(m=>{
-                          const pct=Math.min(100,((m.v||0)/m.ihtiyac)*100);
-                          const gunlukYuzde=pct.toFixed(0);
-                          return(
-                            <div key={m.l} style={{marginBottom:7}}>
-                              <div style={{display:"flex",justifyContent:"space-between",fontSize:11,marginBottom:2}}>
-                                <span style={{color:r.sub,fontWeight:700}}>{m.l}</span>
-                                <span style={{fontWeight:700,color:m.v>0?m.renk:r.muted}}>
-                                  {m.v>0?`${m.v}${m.birim} (%${gunlukYuzde} günlük)`:"—"}
-                                </span>
-                              </div>
-                              <div style={{...PB,height:5,marginTop:0}}>
-                                <div style={{...PF(pct,m.renk),height:5,background:m.v>0?m.renk:"#e5e7eb"}}/>
-                              </div>
-                            </div>
-                          );
-                        })}
-                        <div style={{fontSize:9,color:r.muted,marginTop:6,fontStyle:"italic"}}>*Günlük yüzdeler 70kg yetişkin referansına göredir</div>
-                      </div>
-                    )}
                   </div>
                 ))}
-              </>
+              </div>
             )}
-          </div>
-        )}
 
-        {/* ──── GÖZAT ─────────────────────────────────────────────── */}
-        {tab==="gozat"&&(
-          <div style={{padding:16}}>
                 <div style={CS}>
                   <div style={CT}>Filtreler</div>
 
@@ -5585,7 +5478,6 @@ export default function App(){
         <nav style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:430,background:r.nav,display:"flex",borderTop:`1px solid ${r.brd}`,zIndex:100}}>
           {[
             {id:"anasayfa",ikon:"🏠",label:"Ana"},
-            {id:"ara",     ikon:"🔍",label:"Ara"},
             {id:"gozat",   ikon:"🗂",label:"Gözat"},
             ...(sosyalAktif?[
               {id:"sosyal",    ikon:"📢",label:"Sosyal"},
@@ -5595,8 +5487,7 @@ export default function App(){
             {id:"profil", ikon:"👤",label:"Profil"},
           ].map(n=>(
             <button key={n.id} style={NB(tab===n.id)} onClick={()=>{
-  if(n.id==="ara"){setTab("ara");setAramaOdak(true);}
-  else if(n.id==="gozat"){setTab("gozat");setGozatLimit(30);}
+  if(n.id==="gozat"){setTab("gozat");setGozatLimit(30);setAramaOdak(true);}
   else setTab(n.id);
 }}>
               <span style={{fontSize:17}}>{n.ikon}</span>
