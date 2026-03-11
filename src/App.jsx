@@ -2276,6 +2276,7 @@ export default function App(){
   const [obK,setObK]=useState(""); const [obB,setObB]=useState(""); const [obY,setObY]=useState("");
   const [obC,setObC]=useState("erkek"); const [obA,setObA]=useState("orta"); const [obHK,setObHK]=useState("");
   const [obSosyal,setObSosyal]=useState(true); const [obAcik,setObAcik]=useState(true);
+  const [obHedef,setObHedef]=useState("saglikli"); const [obDiyet,setObDiyet]=useState("");
 
   // ── APP STATE ──
   const [tab,setTab]=useState("anasayfa");
@@ -3339,9 +3340,6 @@ export default function App(){
   );
 
   // ─── ONBOARDING ──────────────────────────────────────────────
-  const [obHedef,setObHedef]=useState("saglikli");
-  const [obDiyet,setObDiyet]=useState("");
-
   if(onboard) return (
     <>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
