@@ -2476,12 +2476,15 @@ export default function App(){
         })
       });
       const data = await res.json();
+      console.log("AI yanıt:", data);
+      if(data.error) { setAiHata("API Hata: " + (data.error?.message || JSON.stringify(data.error))); setAiYukleniyor(false); return; }
       const text = data.content?.map(i=>i.text||"").join("") || "";
       const clean = text.replace(/```json|```/g,"").trim();
       const parsed = JSON.parse(clean);
       setAiSonuc(parsed);
     } catch(e) {
-      setAiHata("Analiz yapılamadı. Fotoğrafı netleştirip tekrar deneyin.");
+      console.error("AI Hata:", e);
+      setAiHata("Hata: " + (e?.message || JSON.stringify(e)));
     }
     setAiYukleniyor(false);
   };
