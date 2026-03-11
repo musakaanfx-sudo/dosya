@@ -2000,6 +2000,8 @@ export default function App(){
   const [besinArama,setBesinArama]=useState("");
   const [aramaOdak,setAramaOdak]=useState(false);
   const [aiModal,setAiModal]=useState(false);
+  const [aiNot,setAiNot]=useState("");
+  const [aiOgun,setAiOgun]=useState("Kahvaltı");
   const [aiYukleniyor,setAiYukleniyor]=useState(false);
   const [aiSonuc,setAiSonuc]=useState(null);
   const [aiHata,setAiHata]=useState(null);
@@ -2441,32 +2443,34 @@ export default function App(){
     try{localStorage.setItem("doya_ai_kullanim",JSON.stringify({tarih:bugun,sayi:yeni}));}catch(e){}
   };
 
-  const aiFotoAnalizEt = async (base64, mediaType) => {
+  const aiFotoAnalizEt = async (base64, mediaType, kullaniciNot="") => {
     setAiYukleniyor(true);
     setAiSonuc(null);
     setAiHata(null);
     aiKullanimArttir();
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const notEkle = kullaniciNot.trim() ? `\n\nKullanıcı notu: "${kullaniciNot.trim()}"` : "";
+      const res = await fetch("/.netlify/functions/ai-proxy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
+          max_tokens: 1200,
           system: `Sen bir beslenme uzmanı yapay zekasısın. Fotoğraftaki yemeği/içeceği analiz et ve TAM OLARAK şu JSON formatında cevap ver, başka hiçbir şey yazma:
-{"yemekAdi":"string","kal":number,"pro":number,"porsiyon":number,"birim":"string","karb":number,"yag":number,"lif":number,"guven":"yuksek|orta|dusuk","aciklama":"string","parcalar":[{"ad":"string","kal":number}]}
+{"yemekAdi":"string","kal":number,"pro":number,"porsiyon":number,"birim":"string","karb":number,"yag":number,"lif":number,"guven":"yuksek|orta|dusuk","aciklama":"string","parcalar":[{"ad":"string","kal":number,"gram":number}]}
 Önemli notlar:
-- Tüm değerler tahminidir, belirsizse en makul tahmini ver
-- porsiyon: görsel porsiyonu gram veya ml olarak tahmin et
-- birim: "g" veya "ml"
-- parcalar: tabakta birden fazla yiyecek varsa her biri için ayrı tahmini listele
-- guven: ne kadar emin olduğun (yuksek/orta/dusuk)
-- aciklama: kısa Türkçe not (maks 60 karakter)`,
+- Tüm değerler TAHMİNDİR, hata payı olabilir
+- porsiyon: görsel porsiyonu gram/ml olarak tahmin et
+- birim: "g" veya "ml"  
+- parcalar: tabakta birden fazla yiyecek varsa her biri için ayrı tahmin
+- guven: yuksek=net görünüyor, orta=biraz belirsiz, dusuk=çok belirsiz
+- aciklama: kısa Türkçe açıklama (max 80 karakter)
+- Eğer kullanıcı not verdiyse bunu dikkate al (porsiyon miktarı, malzeme bilgisi vs)`,
           messages: [{
             role: "user",
             content: [
               { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
-              { type: "text", text: "Bu yiyeceğin/içeceğin kalori ve makro değerlerini tahmin et." }
+              { type: "text", text: `Bu yiyeceğin kalori ve makro değerlerini tahmin et.${notEkle}` }
             ]
           }]
         })
@@ -3071,7 +3075,7 @@ export default function App(){
                 <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
               </button>
               <button onClick={()=>{setTab("ara");setAramaOdak(true);}} title="Besin Ara" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 9px",cursor:"pointer",fontSize:16,lineHeight:1}}>🔍</button>
-              <button onClick={()=>{setAiModal(true);setAiSonuc(null);setAiHata(null);setAiImg(null);}} title="Fotoğrafla Kalori Tara" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 9px",cursor:"pointer",fontSize:16,lineHeight:1}}>📷</button>
+              <button onClick={()=>{setAiModal(true);setAiSonuc(null);setAiHata(null);setAiImg(null);setAiNot("");setAiOgun("Kahvaltı");}} title="Fotoğrafla Kalori Tara" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 9px",cursor:"pointer",fontSize:16,lineHeight:1}}>📷</button>
               <div>
                 <div style={{display:"flex",alignItems:"center",gap:7}}>
                   <div style={{width:28,height:28,background:"linear-gradient(145deg,#22c55e,#052e16 90%)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
@@ -5678,7 +5682,7 @@ export default function App(){
                 {/* Fotoğraf yükleme alanı */}
                 {!aiImg&&(
                   <div>
-                    {/* Limit doluysa uyarı */}
+                    {/* Premium değilse */}
                     {!premiumPlus&&(
                       <div style={{background:d?"#1e1b4b":"#f5f3ff",border:"2px solid #7c3aed",borderRadius:14,padding:"14px",marginBottom:12,textAlign:"center"}}>
                         <div style={{fontSize:24,marginBottom:6}}>🤖</div>
@@ -5689,6 +5693,7 @@ export default function App(){
                         </button>
                       </div>
                     )}
+                    {/* Limit doldu */}
                     {premiumPlus&&aiGunlukKullanim>=AI_GUNLUK_LIMIT&&(
                       <div style={{background:d?"#1c1a10":"#fef2f2",border:"1.5px solid #fca5a5",borderRadius:14,padding:"14px",marginBottom:12,textAlign:"center"}}>
                         <div style={{fontSize:24,marginBottom:6}}>⏰</div>
@@ -5696,76 +5701,74 @@ export default function App(){
                         <div style={{fontSize:11,color:r.sub}}>Bugün {AI_GUNLUK_LIMIT} analiz hakkını kullandın. Yarın yenilenir.</div>
                       </div>
                     )}
+                    {/* Plus aktif + hak var */}
                     {premiumPlus&&aiGunlukKullanim<AI_GUNLUK_LIMIT&&(
-                      <div style={{background:d?"#1e293b":"#f0fdf4",borderRadius:12,padding:"8px 12px",marginBottom:10,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                        <div style={{fontSize:11,color:r.sub}}>Bugünkü hak</div>
-                        <div style={{fontSize:13,fontWeight:900,color:"#16a34a"}}>{AI_GUNLUK_LIMIT-aiGunlukKullanim} / {AI_GUNLUK_LIMIT} kaldı</div>
+                      <div>
+                        {/* Kalan hak */}
+                        <div style={{background:d?"#1e293b":"#f0fdf4",borderRadius:12,padding:"8px 12px",marginBottom:10,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                          <div style={{fontSize:11,color:r.sub}}>Bugünkü hak</div>
+                          <div style={{fontSize:13,fontWeight:900,color:"#16a34a"}}>{AI_GUNLUK_LIMIT-aiGunlukKullanim} / {AI_GUNLUK_LIMIT} kaldı</div>
+                        </div>
+                        {/* Gizli input'lar */}
+                        <input type="file" accept="image/*" capture="environment" id="aiCameraInput" style={{display:"none"}}
+                          onChange={e=>{
+                            const file=e.target.files[0]; if(!file)return;
+                            const reader=new FileReader();
+                            reader.onload=ev=>{
+                              const dataUrl=ev.target.result;
+                              setAiImg(dataUrl);
+                              aiFotoAnalizEt(dataUrl.split(",")[1],file.type||"image/jpeg",aiNot);
+                            };
+                            reader.readAsDataURL(file);
+                          }}
+                        />
+                        <input type="file" accept="image/*" id="aiGalleryInput" style={{display:"none"}}
+                          onChange={e=>{
+                            const file=e.target.files[0]; if(!file)return;
+                            const reader=new FileReader();
+                            reader.onload=ev=>{
+                              const dataUrl=ev.target.result;
+                              setAiImg(dataUrl);
+                              aiFotoAnalizEt(dataUrl.split(",")[1],file.type||"image/jpeg",aiNot);
+                            };
+                            reader.readAsDataURL(file);
+                          }}
+                        />
+                        {/* Çek / Yükle butonları */}
+                        <div style={{display:"flex",gap:10,marginBottom:12}}>
+                          <button onClick={()=>document.getElementById("aiCameraInput").click()}
+                            style={{flex:1,background:d?"#1e293b":"#f5f3ff",border:"2px dashed #7c3aed",borderRadius:16,padding:"24px 12px",cursor:"pointer",textAlign:"center",fontFamily:"'Nunito',sans-serif"}}>
+                            <div style={{fontSize:32,marginBottom:6}}>📸</div>
+                            <div style={{fontSize:13,fontWeight:800,color:"#7c3aed"}}>Fotoğraf Çek</div>
+                            <div style={{fontSize:10,color:r.muted,marginTop:2}}>Kamera ile çek</div>
+                          </button>
+                          <button onClick={()=>document.getElementById("aiGalleryInput").click()}
+                            style={{flex:1,background:d?"#1e293b":"#f5f3ff",border:"2px dashed #7c3aed",borderRadius:16,padding:"24px 12px",cursor:"pointer",textAlign:"center",fontFamily:"'Nunito',sans-serif"}}>
+                            <div style={{fontSize:32,marginBottom:6}}>🖼️</div>
+                            <div style={{fontSize:13,fontWeight:800,color:"#7c3aed"}}>Galeriden Seç</div>
+                            <div style={{fontSize:10,color:r.muted,marginTop:2}}>Kayıtlı fotoğraf</div>
+                          </button>
+                        </div>
+                        {/* Açıklama kutusu */}
+                        <div style={{marginBottom:10}}>
+                          <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:5}}>📝 Yapay zekaya ipucu ver (isteğe bağlı)</div>
+                          <textarea
+                            value={aiNot}
+                            onChange={e=>setAiNot(e.target.value)}
+                            placeholder="Örn: 2 kişilik tavuk güveç, 200g pilav, ev yapımı köfte..."
+                            style={{...IS,height:64,resize:"none",fontSize:12,lineHeight:1.5}}
+                          ></textarea>
+                          <div style={{fontSize:10,color:r.muted,marginTop:3}}>💡 Porsiyon bilgisi verirsen tahmin daha doğru olur</div>
+                        </div>
+                        {/* İpuçları */}
+                        <div style={{background:d?"#0f172a":"#f8fafc",borderRadius:14,padding:"12px 14px",border:`1px solid ${d?"#1e293b":"#e2e8f0"}`}}>
+                          <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:6}}>📸 En iyi sonuç için:</div>
+                          {["Tabakta ne olduğu açıkça görünsün","İyi aydınlatılmış bir ortamda çek","Tek tabak daha doğru tahmin verir","Paket/etiket varsa o da görünsün"].map((t,i)=>(
+                            <div key={i} style={{fontSize:11,color:r.muted,marginBottom:3}}>• {t}</div>
+                          ))}
+                        </div>
                       </div>
                     )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      capture="environment"
-                      id="aiCameraInput"
-                      style={{display:"none"}}
-                      onChange={async e=>{
-                        const file=e.target.files[0];
-                        if(!file)return;
-                        const reader=new FileReader();
-                        reader.onload=ev=>{
-                          const dataUrl=ev.target.result;
-                          const base64=dataUrl.split(",")[1];
-                          const mediaType=file.type||"image/jpeg";
-                          setAiImg(dataUrl);
-                          aiFotoAnalizEt(base64,mediaType);
-                        };
-                        reader.readAsDataURL(file);
-                      }}
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="aiGalleryInput"
-                      style={{display:"none"}}
-                      onChange={async e=>{
-                        const file=e.target.files[0];
-                        if(!file)return;
-                        const reader=new FileReader();
-                        reader.onload=ev=>{
-                          const dataUrl=ev.target.result;
-                          const base64=dataUrl.split(",")[1];
-                          const mediaType=file.type||"image/jpeg";
-                          setAiImg(dataUrl);
-                          aiFotoAnalizEt(base64,mediaType);
-                        };
-                        reader.readAsDataURL(file);
-                      }}
-                    />
-
-                    {premiumPlus&&aiGunlukKullanim<AI_GUNLUK_LIMIT&&<div style={{display:"flex",gap:10,marginBottom:16}}>
-                      <button
-                        onClick={()=>document.getElementById("aiCameraInput").click()}
-                        style={{flex:1,background:d?"#1e293b":"#f5f3ff",border:"2px dashed #7c3aed",borderRadius:16,padding:"24px 12px",cursor:"pointer",textAlign:"center",fontFamily:"'Nunito',sans-serif"}}>
-                        <div style={{fontSize:32,marginBottom:6}}>📸</div>
-                        <div style={{fontSize:13,fontWeight:800,color:"#7c3aed"}}>Fotoğraf Çek</div>
-                        <div style={{fontSize:10,color:r.muted,marginTop:2}}>Kamera ile çek</div>
-                      </button>
-                      <button
-                        onClick={()=>document.getElementById("aiGalleryInput").click()}
-                        style={{flex:1,background:d?"#1e293b":"#f5f3ff",border:"2px dashed #7c3aed",borderRadius:16,padding:"24px 12px",cursor:"pointer",textAlign:"center",fontFamily:"'Nunito',sans-serif"}}>
-                        <div style={{fontSize:32,marginBottom:6}}>🖼️</div>
-                        <div style={{fontSize:13,fontWeight:800,color:"#7c3aed"}}>Galeriden Seç</div>
-                        <div style={{fontSize:10,color:r.muted,marginTop:2}}>Kayıtlı fotoğraf</div>
-                      </button>
-                    </div>
-
-                    </div>}
-                    {premiumPlus&&aiGunlukKullanim<AI_GUNLUK_LIMIT&&<div style={{background:d?"#0f172a":"#f8fafc",borderRadius:14,padding:"12px 14px",border:`1px solid ${d?"#1e293b":"#e2e8f0"}`}}>
-                      <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:6}}>💡 En iyi sonuç için:</div>
-                      {["Tabakta ne olduğu açıkça görünsün","Iyi aydınlatılmış bir ortamda çek","Tek bir tabak/yemek daha doğru tahmin verir","Paket/etiket varsa o da görünsün"].map((t,i)=>(
-                        <div key={i} style={{fontSize:11,color:r.muted,marginBottom:3}}>• {t}</div>
-                      ))}
-                    </div>}
                   </div>
                 )}
 
@@ -5803,55 +5806,83 @@ export default function App(){
                     {aiSonuc&&!aiYukleniyor&&(()=>{
                       const s=aiSonuc;
                       const guvenRenk=s.guven==="yuksek"?"#22c55e":s.guven==="orta"?"#f59e0b":"#ef4444";
-                      const guvenEt=s.guven==="yuksek"?"Yüksek Güven":s.guven==="orta"?"Orta Güven":"Düşük Güven";
+                      const guvenEt=s.guven==="yuksek"?"✅ Yüksek Güven":s.guven==="orta"?"⚠️ Orta Güven":"❓ Düşük Güven";
                       return(
                         <div>
                           {/* Ana sonuç kartı */}
-                          <div style={{background:`linear-gradient(135deg,${guvenRenk}18,${guvenRenk}08)`,border:`1.5px solid ${guvenRenk}44`,borderRadius:16,padding:"14px 16px",marginBottom:10}}>
-                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:10}}>
-                              <div style={{flex:1}}>
-                                <div style={{fontSize:16,fontWeight:900,color:r.text}}>{s.yemekAdi}</div>
-                                <div style={{fontSize:11,color:r.muted,marginTop:2}}>~{s.porsiyon}{s.birim} · {s.aciklama}</div>
+                          <div style={{background:d?"#1e293b":"#f8fafc",border:`2px solid ${guvenRenk}55`,borderRadius:18,padding:"14px 16px",marginBottom:10}}>
+
+                            {/* Başlık + kalori */}
+                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
+                              <div style={{flex:1,paddingRight:10}}>
+                                <div style={{fontSize:17,fontWeight:900,color:r.text,lineHeight:1.2}}>{s.yemekAdi}</div>
+                                <div style={{fontSize:11,color:r.muted,marginTop:3}}>Tahmini porsiyon: ~{s.porsiyon}{s.birim}</div>
+                                <div style={{marginTop:5,background:guvenRenk+"20",color:guvenRenk,fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:20,display:"inline-block"}}>{guvenEt}</div>
                               </div>
-                              <div style={{textAlign:"right"}}>
-                                <div style={{fontSize:28,fontWeight:900,color:guvenRenk,lineHeight:1}}>{s.kal}</div>
-                                <div style={{fontSize:10,color:guvenRenk,fontWeight:700}}>kcal</div>
-                                <div style={{fontSize:9,background:guvenRenk+"20",color:guvenRenk,padding:"2px 7px",borderRadius:10,fontWeight:800,marginTop:3}}>{guvenEt}</div>
+                              <div style={{textAlign:"center",background:`linear-gradient(135deg,${guvenRenk}22,${guvenRenk}08)`,borderRadius:14,padding:"10px 14px",minWidth:70}}>
+                                <div style={{fontSize:30,fontWeight:900,color:guvenRenk,lineHeight:1}}>{s.kal}</div>
+                                <div style={{fontSize:10,color:guvenRenk,fontWeight:800}}>kcal</div>
                               </div>
                             </div>
 
-                            {/* Makrolar */}
-                            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:6}}>
+                            {/* Makrolar - 4'lü grid */}
+                            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr 1fr",gap:5,marginBottom:8}}>
                               {[
-                                {l:"💪 Protein",v:s.pro,c:"#16a34a",b:"g"},
-                                {l:"🌾 Karb",v:s.karb,c:"#f59e0b",b:"g"},
-                                {l:"🫙 Yağ",v:s.yag,c:"#ef4444",b:"g"},
+                                {l:"Protein",v:s.pro,c:"#16a34a",e:"💪"},
+                                {l:"Karb",v:s.karb,c:"#f59e0b",e:"🌾"},
+                                {l:"Yağ",v:s.yag,c:"#ef4444",e:"🫙"},
+                                {l:"Lif",v:s.lif||0,c:"#8b5cf6",e:"🌿"},
                               ].map(m=>(
-                                <div key={m.l} style={{background:d?"#1e293b":"#fff",borderRadius:10,padding:"8px 6px",textAlign:"center"}}>
-                                  <div style={{fontSize:14,fontWeight:900,color:m.c}}>{m.v}{m.b}</div>
+                                <div key={m.l} style={{background:d?"#0f172a":"#fff",borderRadius:10,padding:"8px 4px",textAlign:"center",border:`1px solid ${m.c}22`}}>
+                                  <div style={{fontSize:11}}>{m.e}</div>
+                                  <div style={{fontSize:14,fontWeight:900,color:m.c,lineHeight:1.1}}>{m.v}g</div>
                                   <div style={{fontSize:9,color:r.muted,marginTop:1}}>{m.l}</div>
                                 </div>
                               ))}
                             </div>
+
+                            {/* Açıklama */}
+                            {s.aciklama&&<div style={{fontSize:11,color:r.sub,fontStyle:"italic",marginTop:4}}>💬 {s.aciklama}</div>}
                           </div>
 
-                          {/* Parçalar (varsa) */}
+                          {/* Parçalar (birden fazla besin varsa) */}
                           {s.parcalar&&s.parcalar.length>1&&(
                             <div style={{background:d?"#1e293b":"#f8fafc",borderRadius:14,padding:"10px 14px",marginBottom:10,border:`1px solid ${d?"#334155":"#e2e8f0"}`}}>
                               <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:8}}>📋 Tabaktaki bileşenler</div>
                               {s.parcalar.map((p,i)=>(
-                                <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",borderBottom:i<s.parcalar.length-1?`1px solid ${d?"#334155":"#f1f5f9"}`:"none"}}>
-                                  <div style={{fontSize:12,color:r.text}}>{p.ad}</div>
-                                  <div style={{fontSize:12,fontWeight:800,color:"#16a34a"}}>~{p.kal} kcal</div>
+                                <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:i<s.parcalar.length-1?`1px solid ${d?"#334155":"#f1f5f9"}`:"none"}}>
+                                  <div>
+                                    <div style={{fontSize:12,color:r.text,fontWeight:700}}>{p.ad}</div>
+                                    {p.gram&&<div style={{fontSize:10,color:r.muted}}>~{p.gram}g</div>}
+                                  </div>
+                                  <div style={{fontSize:13,fontWeight:900,color:"#16a34a"}}>~{p.kal} kcal</div>
                                 </div>
                               ))}
                             </div>
                           )}
 
-                          {/* Uyarı */}
-                          <div style={{background:d?"#1c1a10":"#fffbeb",border:"1px solid #fde68a",borderRadius:12,padding:"8px 12px",marginBottom:14,display:"flex",gap:8,alignItems:"flex-start"}}>
-                            <span style={{fontSize:14}}>⚠️</span>
-                            <div style={{fontSize:10,color:"#92400e"}}>Bu değerler yapay zeka tahminidir. Gerçek değerler pişirme yöntemi ve porsiyona göre değişebilir.</div>
+                          {/* ⚠️ Yapay Zeka Uyarısı */}
+                          <div style={{background:d?"#1c1a10":"#fffbeb",border:"1.5px solid #fde68a",borderRadius:12,padding:"10px 14px",marginBottom:12}}>
+                            <div style={{fontSize:11,fontWeight:800,color:"#92400e",marginBottom:3}}>⚠️ Önemli Uyarı</div>
+                            <div style={{fontSize:10,color:"#a16207",lineHeight:1.5}}>
+                              Bu değerler yapay zekanın tahminidir. Gerçek kalori pişirme yöntemi, porsiyon ve malzemelere göre değişir. Düşük güven seviyesindeki tahminlerde hata payı yüksektir. Diyet takibinde referans olarak kullanın.
+                            </div>
+                          </div>
+
+                          {/* Öğün seçimi */}
+                          <div style={{marginBottom:10}}>
+                            <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:6}}>🍽️ Hangi öğüne eklensin?</div>
+                            <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                              {["Kahvaltı","Öğle","Akşam","Atıştırmalık"].map(og=>(
+                                <button key={og} onClick={()=>setAiOgun(og)} style={{
+                                  padding:"7px 14px",border:`2px solid ${aiOgun===og?"#7c3aed":d?"#334155":"#e2e8f0"}`,
+                                  borderRadius:20,fontSize:12,fontWeight:800,cursor:"pointer",
+                                  background:aiOgun===og?"#7c3aed":d?"#1e293b":"#fff",
+                                  color:aiOgun===og?"#fff":r.sub,
+                                  fontFamily:"'Nunito',sans-serif"
+                                }}>{og}</button>
+                              ))}
+                            </div>
                           </div>
 
                           {/* Butonlar */}
@@ -5861,8 +5892,8 @@ export default function App(){
                               const gram=s.porsiyon||100;
                               const kayit={
                                 id:Date.now(),
-                                ad:s.yemekAdi+" (AI Tahmin)",
-                                marka:"🤖 AI",
+                                ad:s.yemekAdi+" 📷",
+                                marka:"🤖 AI Tahmin",
                                 kal:s.kal, gramKal:s.kal,
                                 pro:s.pro,  gramPro:s.pro,
                                 karb:s.karb,gramKarb:s.karb,
@@ -5870,7 +5901,7 @@ export default function App(){
                                 lif:s.lif||0,
                                 gram,
                                 saat:new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}),
-                                kat:"Yapay Zeka",
+                                kat:aiOgun,
                                 yildiz:null,
                               };
                               const eskiY=gunV(bg).yemekler||[];
@@ -5883,9 +5914,9 @@ export default function App(){
                               setAiModal(false);
                               setTab("anasayfa");
                             }} style={{...BTN("#16a34a"),flex:2,padding:"13px 0",fontSize:13,fontWeight:800}}>
-                              ✅ Günlüğüme Ekle
+                              ✅ {aiOgun}'a Ekle
                             </button>
-                            <button onClick={()=>{setAiImg(null);setAiSonuc(null);setAiHata(null);}} style={{...BTN("#7c3aed"),flex:1,padding:"13px 0",fontSize:13}}>
+                            <button onClick={()=>{setAiImg(null);setAiSonuc(null);setAiHata(null);setAiNot("");}} style={{...BTN("#7c3aed"),flex:1,padding:"13px 0",fontSize:13}}>
                               🔄 Yeni
                             </button>
                           </div>
