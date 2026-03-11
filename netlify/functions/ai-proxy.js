@@ -3,14 +3,31 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  
+  if (!apiKey) {
+    return {
+      statusCode: 500,
+      headers: { "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ error: { message: "API key bulunamadı - env variable yok" } })
+    };
+  }
+
+  if (!apiKey.startsWith("sk-ant-")) {
+    return {
+      statusCode: 500,
+      headers: { "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ error: { message: "Key format yanlış: " + apiKey.substring(0, 10) + "..." } })
+    };
+  }
+
   try {
     const body = JSON.parse(event.body);
-
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "x-api-key": apiKey,
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify(body),
@@ -25,7 +42,8 @@ exports.handler = async (event) => {
   } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message }),
+      headers: { "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ error: { message: err.message } }),
     };
   }
 };
