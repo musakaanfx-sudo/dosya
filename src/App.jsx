@@ -3077,7 +3077,6 @@ export default function App(){
                 <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
                 <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
               </button>
-              <button onClick={()=>{setTab("ara");setAramaOdak(true);}} title="Besin Ara" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 9px",cursor:"pointer",fontSize:16,lineHeight:1}}>🔍</button>
               <button onClick={()=>{setAiModal(true);setAiSonuc(null);setAiHata(null);setAiImg(null);setAiNot("");setAiOgun("Kahvaltı");}} title="Fotoğrafla Kalori Tara" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 9px",cursor:"pointer",fontSize:16,lineHeight:1}}>📷</button>
               <div>
                 <div style={{display:"flex",alignItems:"center",gap:7}}>
@@ -3465,17 +3464,10 @@ export default function App(){
         )}
 
         {/* ──── ARA ─────────────────────────────────────────────── */}
-        {(tab==="ara"||tab==="gozat")&&(
+        {tab==="ara"&&(
           <div style={{padding:16}}>
-            <div style={{display:"flex",background:d?"#0f172a":"#f3f4f6",borderRadius:12,padding:3,marginBottom:12}}>
-              {["ara","gozat"].map(t=><button key={t} onClick={()=>{
-                setTab(t);
-                if(t==="ara") setAramaOdak(true);
-                if(t==="gozat") setGozatLimit(30);
-              }} style={{flex:1,padding:"9px 0",border:"none",borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:tab===t?"#16a34a":"transparent",color:tab===t?"#fff":r.sub}}>{t==="ara"?"🔍 Ara":"🗂 Gözat"}</button>)}
-            </div>
 
-            {tab==="ara"&&(
+            {true&&(
               <>
                 <div style={{position:"relative",marginBottom:besinArama?10:0}}>
                   <input
@@ -3631,9 +3623,12 @@ export default function App(){
                 ))}
               </>
             )}
+          </div>
+        )}
 
-            {tab==="gozat"&&(
-              <>
+        {/* ──── GÖZAT ─────────────────────────────────────────────── */}
+        {tab==="gozat"&&(
+          <div style={{padding:16}}>
                 <div style={CS}>
                   <div style={CT}>Filtreler</div>
 
@@ -3778,9 +3773,6 @@ export default function App(){
                 {gozatLimit>30&&filtreBesinler.length<=gozatLimit&&(
                   <div style={{textAlign:"center",fontSize:11,color:r.muted,padding:"10px 0"}}>Tüm ürünler listelendi ({filtreBesinler.length})</div>
                 )}
-              </>
-            )}
-
             {/* YENİ BESİN GÖNDER */}
             <div style={{...CS,border:"2px dashed #16a34a"}}>
               <div style={{fontWeight:800,color:"#16a34a",marginBottom:8}}>Yeni Besin Gönder (+20 puan)</div>
@@ -5035,6 +5027,7 @@ export default function App(){
           {[
             {id:"anasayfa",ikon:"🏠",label:"Ana"},
             {id:"ara",     ikon:"🔍",label:"Ara"},
+            {id:"gozat",   ikon:"🗂",label:"Gözat"},
             ...(sosyalAktif?[
               {id:"sosyal",    ikon:"📢",label:"Sosyal"},
               {id:"arkadaslar",ikon:"👥",label:"Arkadaş",badge:gelenIstekler.length},
