@@ -3,21 +3,13 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = (process.env.ANTHROPIC_API_KEY || "").trim();
   
   if (!apiKey) {
     return {
       statusCode: 500,
       headers: { "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ error: { message: "API key bulunamadı - env variable yok" } })
-    };
-  }
-
-  if (!apiKey.startsWith("sk-ant-")) {
-    return {
-      statusCode: 500,
-      headers: { "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ error: { message: "Key format yanlış: " + apiKey.substring(0, 10) + "..." } })
+      body: JSON.stringify({ error: { message: "API key yok" } })
     };
   }
 
