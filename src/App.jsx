@@ -69,10 +69,10 @@ const LANG = {
       {
         ikon: "💰",
         baslik: "Kazan & Büyü",
-        acik: "Referans kodunu paylaş — Normal kodla +150, influencer/işletme koduyla +500 puan! Ortak ol, premium satışlardan ve reklam gelirinden %25 komisyon kazan.",
+        acik: "Referans kodunu paylaş — Normal kodla +150, influencer/işletme koduyla +300 puan! Ortak ol, premium satışlardan ve reklam gelirinden %25 komisyon kazan.",
         renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
         vurgu: "#93c5fd",
-        detaylar: ["🎯 Influencer: +500 puan", "💳 %25 komisyon", "📢 Reklam payı"],
+        detaylar: ["🎯 Influencer: +300 puan", "💳 %25 komisyon", "📢 Reklam payı"],
       },
     ],
   },
@@ -118,7 +118,7 @@ const LANG = {
       {
         ikon: "💰",
         baslik: "Earn & Grow",
-        acik: "Share your code — regular codes give +150 pts, influencer/business codes give +500 pts! Earn 25% commission on premium sales.",
+        acik: "Share your code — regular codes give +150 pts, influencer/business codes give +300 pts! Earn 25% commission on premium sales.",
         renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
         vurgu: "#93c5fd",
         detaylar: ["🎯 Influencer: +500 pts", "💳 25% commission", "📢 Ad revenue share"],
@@ -130,9 +130,10 @@ const LANG = {
 // ─── SABİTLER ────────────────────────────────────────────────
 const DESTEK_MAIL   = "Doyasupport@gmail.com";
 const ORTAKLIK_MAIL = "Doyasupport@gmail.com";
-const PREMIUM_FIYAT = 25;  // aylık ₺ (temel)
-const PREMIUM_PLUS_FIYAT = 60; // aylık ₺ (AI + reklamsız)
-const AI_GUNLUK_LIMIT = 10; // premium plus günlük fotoğraf hakkı
+const PREMIUM_FIYAT = 100;  // aylık ₺ (reklamsız)
+const PREMIUM_PLUS_FIYAT = 110; // aylık ₺ (AI + reklamsız)
+const AI_GUNLUK_LIMIT = 10;
+const GUNLUK_MAX_PUAN = 750; // Günlük kazanılabilir max puan (manipülasyon önleme) // premium plus günlük fotoğraf hakkı
 const AYLAR  = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
 const GUNLER = ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
 
@@ -2170,42 +2171,122 @@ const BESIN_DB = [
   { id:1898, ad:"Doritos Sweet Chili (30g)", marka:"Doritos", kal:148, pro:2, karb:18, yag:7.5, lif:1.5, sod:185, demir:0.4, kals:40, vitC:2, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
   { id:1899, ad:"Mısır Cipsi Yoğurt Soğan (28g)", marka:"", kal:115, pro:2, karb:22, yag:3, lif:1.2, sod:185, demir:0.3, kals:5, vitC:0, vitD:0, vitB12:0, acik:7, por:28, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
   { id:1900, ad:"Lay's Strong Sriracha (35g)", marka:"Lay's", kal:188, pro:2.2, karb:18, yag:12, lif:1.2, sod:210, demir:0.3, kals:5, vitC:5, vitD:0, vitB12:0, acik:7, por:35, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+
+  // ─── FASTFOOD & EKMEKLER (ID 1901-2000) ──────────────────────────────────
+  // McDONALD'S
+  { id:1901, ad:"McDonald's Big Mac", marka:"McDonald's", kal:550, pro:25, karb:46, yag:30, lif:3, sod:1010, demir:4, kals:100, vitC:2, vitD:0, vitB12:0.8, acik:60, por:214, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1902, ad:"McDonald's McChicken", marka:"McDonald's", kal:400, pro:20, karb:39, yag:18, lif:2, sod:680, demir:2.5, kals:60, vitC:1, vitD:0, vitB12:0.5, acik:55, por:158, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1903, ad:"McDonald's McFish", marka:"McDonald's", kal:380, pro:18, karb:38, yag:18, lif:2, sod:580, demir:2, kals:120, vitC:0, vitD:1, vitB12:1, acik:50, por:142, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1904, ad:"McDonald's Double Cheeseburger", marka:"McDonald's", kal:450, pro:25, karb:35, yag:23, lif:2, sod:1050, demir:3, kals:200, vitC:1, vitD:0, vitB12:1.2, acik:58, por:175, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1905, ad:"McDonald's Patates Kızartması Büyük", marka:"McDonald's", kal:490, pro:6, karb:66, yag:23, lif:6, sod:400, demir:1.5, kals:15, vitC:6, vitD:0, vitB12:0, acik:40, por:154, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1906, ad:"McDonald's Patates Kızartması Orta", marka:"McDonald's", kal:340, pro:4, karb:44, yag:16, lif:4, sod:270, demir:1, kals:10, vitC:4, vitD:0, vitB12:0, acik:35, por:117, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1907, ad:"McDonald's McNuggets 6'lı", marka:"McDonald's", kal:280, pro:16, karb:18, yag:16, lif:1, sod:520, demir:1, kals:10, vitC:0, vitD:0, vitB12:0.2, acik:40, por:105, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1908, ad:"McDonald's McFlurry Oreo", marka:"McDonald's", kal:510, pro:12, karb:80, yag:17, lif:1, sod:220, demir:0.5, kals:300, vitC:0, vitD:1, vitB12:0.8, acik:25, por:278, aclik:"1 saat", onay:true, kat:"Hazır Yemek", yildiz:1 },
+  { id:1909, ad:"McDonald's Hamburger", marka:"McDonald's", kal:250, pro:13, karb:31, yag:9, lif:1, sod:480, demir:2, kals:60, vitC:1, vitD:0, vitB12:0.5, acik:40, por:102, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1910, ad:"McDonald's Cheese Burger", marka:"McDonald's", kal:300, pro:15, karb:33, yag:13, lif:1, sod:680, demir:2, kals:120, vitC:1, vitD:0, vitB12:0.6, acik:42, por:119, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  // BURGER KING
+  { id:1911, ad:"Burger King Whopper", marka:"Burger King", kal:660, pro:28, karb:49, yag:40, lif:3, sod:910, demir:4, kals:80, vitC:3, vitD:0, vitB12:1, acik:65, por:270, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1912, ad:"Burger King Whopper Jr.", marka:"Burger King", kal:410, pro:19, karb:32, yag:24, lif:2, sod:560, demir:2.5, kals:50, vitC:2, vitD:0, vitB12:0.6, acik:55, por:165, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1913, ad:"Burger King Big King", marka:"Burger King", kal:570, pro:30, karb:44, yag:30, lif:2, sod:1020, demir:4, kals:90, vitC:2, vitD:0, vitB12:1, acik:62, por:224, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1914, ad:"Burger King Onion Rings Orta", marka:"Burger King", kal:320, pro:4, karb:40, yag:16, lif:3, sod:460, demir:1, kals:20, vitC:2, vitD:0, vitB12:0, acik:30, por:91, aclik:"1 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1915, ad:"Burger King Crispy Chicken", marka:"Burger King", kal:680, pro:30, karb:62, yag:36, lif:3, sod:1290, demir:3.5, kals:80, vitC:2, vitD:0, vitB12:0.8, acik:60, por:258, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1916, ad:"Burger King BK Fish", marka:"Burger King", kal:470, pro:20, karb:50, yag:22, lif:2, sod:800, demir:2, kals:100, vitC:0, vitD:1, vitB12:0.8, acik:52, por:186, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  // KFC
+  { id:1917, ad:"KFC Original Piece (but)", marka:"KFC", kal:320, pro:32, karb:9, yag:18, lif:0, sod:750, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:0.5, acik:58, por:152, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1918, ad:"KFC Zinger Burger", marka:"KFC", kal:540, pro:28, karb:50, yag:26, lif:3, sod:1100, demir:3, kals:80, vitC:2, vitD:0, vitB12:0.6, acik:58, por:218, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1919, ad:"KFC Popcorn Chicken (L)", marka:"KFC", kal:490, pro:30, karb:30, yag:27, lif:1, sod:1250, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:0.3, acik:50, por:186, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1920, ad:"KFC Cole Slaw", marka:"KFC", kal:190, pro:2, karb:22, yag:11, lif:2, sod:190, demir:0.5, kals:30, vitC:15, vitD:0, vitB12:0, acik:25, por:130, aclik:"1 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  // PIZZA
+  { id:1921, ad:"Pizza Hut Margarita (1 dilim)", marka:"Pizza Hut", kal:220, pro:10, karb:28, yag:8, lif:2, sod:480, demir:1.5, kals:150, vitC:4, vitD:0, vitB12:0.4, acik:35, por:100, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1922, ad:"Pizza Hut Pepperoni (1 dilim)", marka:"Pizza Hut", kal:290, pro:13, karb:29, yag:14, lif:2, sod:680, demir:1.5, kals:150, vitC:3, vitD:0, vitB12:0.6, acik:38, por:110, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1923, ad:"Domino's Margarita (1 dilim)", marka:"Domino's", kal:210, pro:9, karb:27, yag:8, lif:2, sod:440, demir:1.4, kals:140, vitC:3, vitD:0, vitB12:0.3, acik:34, por:98, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1924, ad:"Domino's ExtravaganZZa (1 dilim)", marka:"Domino's", kal:330, pro:15, karb:30, yag:17, lif:2, sod:820, demir:2, kals:150, vitC:4, vitD:0, vitB12:0.8, acik:40, por:130, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1925, ad:"Ev Yapımı Pizza (1 dilim)", marka:"", kal:250, pro:11, karb:30, yag:10, lif:2, sod:420, demir:1.5, kals:160, vitC:5, vitD:0, vitB12:0.4, acik:38, por:105, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  // DÖNER / TÜRK FASTFOOd
+  { id:1926, ad:"Döner Dürüm (Tavuk)", marka:"", kal:480, pro:30, karb:48, yag:18, lif:3, sod:820, demir:2.5, kals:80, vitC:8, vitD:0, vitB12:0.5, acik:65, por:250, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:1927, ad:"Döner Dürüm (Et)", marka:"", kal:560, pro:32, karb:48, yag:26, lif:3, sod:950, demir:4, kals:60, vitC:5, vitD:0, vitB12:1.2, acik:68, por:270, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1928, ad:"Döner Tabak (Tavuk)", marka:"", kal:520, pro:36, karb:42, yag:20, lif:3, sod:780, demir:2.5, kals:60, vitC:10, vitD:0, vitB12:0.6, acik:70, por:300, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:1929, ad:"Döner Tabak (Et)", marka:"", kal:600, pro:38, karb:42, yag:28, lif:3, sod:900, demir:5, kals:50, vitC:8, vitD:0, vitB12:1.5, acik:72, por:320, aclik:"3 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1930, ad:"Lahmacun (1 adet)", marka:"", kal:260, pro:12, karb:36, yag:8, lif:2, sod:480, demir:2, kals:40, vitC:4, vitD:0, vitB12:0.4, acik:45, por:130, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:1931, ad:"Pide (Kıymalı, 1 porsiyon)", marka:"", kal:480, pro:22, karb:58, yag:16, lif:3, sod:680, demir:3, kals:80, vitC:4, vitD:0, vitB12:0.8, acik:65, por:260, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1932, ad:"Pide (Kaşarlı, 1 porsiyon)", marka:"", kal:440, pro:18, karb:56, yag:16, lif:2, sod:620, demir:1.5, kals:250, vitC:2, vitD:0, vitB12:0.5, acik:58, por:240, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1933, ad:"Köfte Ekmek", marka:"", kal:420, pro:24, karb:42, yag:16, lif:3, sod:720, demir:3, kals:60, vitC:3, vitD:0, vitB12:0.8, acik:60, por:200, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:1934, ad:"Balık Ekmek (İstanbul)", marka:"", kal:380, pro:28, karb:38, yag:12, lif:2, sod:580, demir:1.5, kals:80, vitC:4, vitD:2, vitB12:2, acik:58, por:220, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
+  { id:1935, ad:"Tantuni (1 porsiyon)", marka:"", kal:440, pro:28, karb:44, yag:16, lif:3, sod:780, demir:3, kals:60, vitC:12, vitD:0, vitB12:1, acik:62, por:230, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  // EKMEKLER
+  { id:1936, ad:"Beyaz Ekmek (1 dilim)", marka:"", kal:67, pro:2.2, karb:13, yag:0.8, lif:0.6, sod:130, demir:0.8, kals:20, vitC:0, vitD:0, vitB12:0, acik:12, por:30, aclik:"30 dk", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1937, ad:"Tam Buğday Ekmek (1 dilim)", marka:"", kal:70, pro:3.5, karb:12, yag:1, lif:2, sod:115, demir:1, kals:20, vitC:0, vitD:0, vitB12:0, acik:18, por:30, aclik:"45 dk", onay:true, kat:"Tahıl", yildiz:3.5 },
+  { id:1938, ad:"Çavdar Ekmeği (1 dilim)", marka:"", kal:65, pro:2.5, karb:12, yag:0.8, lif:2, sod:120, demir:1, kals:18, vitC:0, vitD:0, vitB12:0, acik:20, por:28, aclik:"45 dk", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:1939, ad:"Simit (1 adet)", marka:"", kal:270, pro:8, karb:52, yag:4, lif:2, sod:400, demir:2, kals:30, vitC:0, vitD:0, vitB12:0, acik:35, por:110, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1940, ad:"Bazlama (1 adet)", marka:"", kal:290, pro:8, karb:55, yag:5, lif:2, sod:350, demir:1.5, kals:25, vitC:0, vitD:0, vitB12:0, acik:40, por:120, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1941, ad:"Pide Ekmeği (1 adet)", marka:"", kal:320, pro:10, karb:62, yag:2, lif:2.5, sod:420, demir:2, kals:30, vitC:0, vitD:0, vitB12:0, acik:42, por:140, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1942, ad:"Lavaş (1 adet)", marka:"", kal:200, pro:6, karb:38, yag:2, lif:1.5, sod:300, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:30, por:80, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1943, ad:"Baget Ekmek (100g)", marka:"", kal:270, pro:9, karb:53, yag:1.5, lif:2, sod:500, demir:2, kals:25, vitC:0, vitD:0, vitB12:0, acik:38, por:100, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1944, ad:"Hamburger Ekmeği", marka:"", kal:210, pro:6, karb:38, yag:4, lif:1.5, sod:340, demir:1.5, kals:50, vitC:0, vitD:0, vitB12:0, acik:28, por:85, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1945, ad:"Tost Ekmeği (2 dilim)", marka:"", kal:130, pro:4, karb:24, yag:1.5, lif:1, sod:240, demir:1.2, kals:40, vitC:0, vitD:0, vitB12:0, acik:20, por:56, aclik:"45 dk", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1946, ad:"Kepekli Tost Ekmeği (2 dilim)", marka:"", kal:120, pro:5, karb:22, yag:1.5, lif:3, sod:200, demir:1.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:25, por:56, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:3.5 },
+  { id:1947, ad:"Yufka (1 adet)", marka:"", kal:160, pro:5, karb:32, yag:2, lif:1, sod:250, demir:1, kals:15, vitC:0, vitD:0, vitB12:0, acik:25, por:65, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1948, ad:"Kruvasan (1 adet)", marka:"", kal:310, pro:6, karb:34, yag:17, lif:1.5, sod:340, demir:1, kals:30, vitC:0, vitD:0, vitB12:0.1, acik:25, por:85, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:1.5 },
+  { id:1949, ad:"Çok Tahıllı Ekmek (1 dilim)", marka:"", kal:75, pro:3.5, karb:13, yag:1.5, lif:2.5, sod:110, demir:1.2, kals:25, vitC:0, vitD:0, vitB12:0, acik:22, por:32, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:1950, ad:"Glutensiz Ekmek (1 dilim)", marka:"", kal:80, pro:2, karb:15, yag:2, lif:1, sod:180, demir:0.5, kals:15, vitC:0, vitD:0, vitB12:0, acik:15, por:35, aclik:"30 dk", onay:true, kat:"Tahıl", yildiz:2.5 },
+  // DAHA FAZLA FASTFOOD
+  { id:1951, ad:"Subway Tavuklu (15 cm)", marka:"Subway", kal:360, pro:28, karb:42, yag:8, lif:4, sod:720, demir:3, kals:80, vitC:12, vitD:0, vitB12:0.5, acik:60, por:220, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
+  { id:1952, ad:"Subway Ton Balıklı (15 cm)", marka:"Subway", kal:390, pro:22, karb:44, yag:14, lif:4, sod:680, demir:2, kals:100, vitC:10, vitD:0.5, vitB12:1.5, acik:58, por:225, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
+  { id:1953, ad:"Subway Veggie Delite (15 cm)", marka:"Subway", kal:220, pro:10, karb:40, yag:3, lif:5, sod:480, demir:2, kals:80, vitC:15, vitD:0, vitB12:0, acik:45, por:185, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:4 },
+  { id:1954, ad:"Popeyes Spicy Chicken Sandviç", marka:"Popeyes", kal:700, pro:36, karb:56, yag:38, lif:3, sod:1440, demir:3, kals:100, vitC:2, vitD:0, vitB12:0.8, acik:65, por:283, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1955, ad:"Taco Bell Chalupa Supreme", marka:"Taco Bell", kal:390, pro:17, karb:38, yag:19, lif:4, sod:640, demir:2, kals:120, vitC:2, vitD:0, vitB12:0.4, acik:50, por:153, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1956, ad:"Sbarro New York Pizza (1 dilim)", marka:"Sbarro", kal:480, pro:18, karb:60, yag:18, lif:3, sod:900, demir:2.5, kals:200, vitC:5, vitD:0, vitB12:0.5, acik:52, por:200, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1957, ad:"Little Caesars Pepperoni Pizza (1 dilim)", marka:"Little Caesars", kal:280, pro:13, karb:28, yag:13, lif:2, sod:580, demir:1.5, kals:140, vitC:3, vitD:0, vitB12:0.5, acik:38, por:110, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1958, ad:"Arby's Beef & Cheddar", marka:"Arby's", kal:450, pro:24, karb:44, yag:20, lif:2, sod:1240, demir:3.5, kals:150, vitC:0, vitD:0, vitB12:1, acik:58, por:192, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1959, ad:"Wingstop Buffalo Wings (6 adet)", marka:"Wingstop", kal:400, pro:32, karb:4, yag:28, lif:0, sod:1080, demir:2, kals:20, vitC:0, vitD:0, vitB12:0.4, acik:55, por:170, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1960, ad:"Çorba (Hazır Restoran, Mercimek)", marka:"", kal:160, pro:8, karb:24, yag:4, lif:4, sod:600, demir:2, kals:30, vitC:2, vitD:0, vitB12:0, acik:40, por:250, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  // TÜRK EKMEĞE EŞLİK EDENLER
+  { id:1961, ad:"Açma (1 adet)", marka:"", kal:280, pro:7, karb:44, yag:9, lif:1.5, sod:380, demir:1.2, kals:30, vitC:0, vitD:0, vitB12:0, acik:30, por:100, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1962, ad:"Poğaça (Sade, 1 adet)", marka:"", kal:260, pro:6, karb:36, yag:11, lif:1, sod:300, demir:1, kals:20, vitC:0, vitD:0, vitB12:0, acik:28, por:90, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1963, ad:"Poğaça (Peynirli, 1 adet)", marka:"", kal:290, pro:9, karb:35, yag:13, lif:1, sod:420, demir:1, kals:80, vitC:0, vitD:0, vitB12:0.2, acik:32, por:100, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1964, ad:"Borek (Sigara, 1 adet)", marka:"", kal:120, pro:4, karb:14, yag:6, lif:0.5, sod:180, demir:0.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:18, por:40, aclik:"45 dk", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1965, ad:"Börek (Su Böreği, 1 porsiyon)", marka:"", kal:360, pro:14, karb:38, yag:18, lif:1, sod:520, demir:1.5, kals:120, vitC:0, vitD:0, vitB12:0.3, acik:50, por:150, aclik:"2 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1966, ad:"Katmer (1 adet)", marka:"", kal:340, pro:8, karb:42, yag:16, lif:1.5, sod:260, demir:1, kals:30, vitC:0, vitD:0, vitB12:0, acik:38, por:120, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1967, ad:"Gözleme (Peynirli, 1 adet)", marka:"", kal:310, pro:12, karb:38, yag:13, lif:1.5, sod:480, demir:1, kals:150, vitC:0, vitD:0, vitB12:0.3, acik:45, por:140, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1968, ad:"Gözleme (Ispanaklı, 1 adet)", marka:"", kal:280, pro:11, karb:35, yag:12, lif:2.5, sod:440, demir:1.5, kals:140, vitC:5, vitD:0, vitB12:0.2, acik:48, por:140, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:3 },
+  { id:1969, ad:"Pişi (1 adet)", marka:"", kal:180, pro:4, karb:28, yag:7, lif:1, sod:160, demir:0.8, kals:15, vitC:0, vitD:0, vitB12:0, acik:22, por:60, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1970, ad:"Tam Buğday Lavaş (1 adet)", marka:"", kal:180, pro:7, karb:34, yag:2.5, lif:4, sod:280, demir:2, kals:25, vitC:0, vitD:0, vitB12:0, acik:35, por:75, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:3.5 },
+  // DAHA FAZLA FASTFOOD TÜRK
+  { id:1971, ad:"Hamburger (Ev Yapımı)", marka:"", kal:480, pro:30, karb:38, yag:22, lif:3, sod:620, demir:3.5, kals:80, vitC:4, vitD:0, vitB12:1, acik:65, por:220, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:1972, ad:"Islak Hamburger (İstanbul)", marka:"", kal:380, pro:16, karb:48, yag:14, lif:2, sod:740, demir:2, kals:60, vitC:2, vitD:0, vitB12:0.5, acik:50, por:180, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1973, ad:"Kumpir (Büyük)", marka:"", kal:620, pro:18, karb:82, yag:26, lif:6, sod:980, demir:2.5, kals:200, vitC:18, vitD:0, vitB12:0.3, acik:72, por:400, aclik:"3 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1974, ad:"Midye Dolma (5 adet)", marka:"", kal:240, pro:10, karb:32, yag:8, lif:2, sod:520, demir:4, kals:40, vitC:2, vitD:0.5, vitB12:6, acik:45, por:150, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
+  { id:1975, ad:"Simit Saray Kumru", marka:"Simit Sarayı", kal:360, pro:14, karb:46, yag:14, lif:2, sod:620, demir:2, kals:120, vitC:1, vitD:0, vitB12:0.3, acik:52, por:170, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1976, ad:"Simit Saray Poğaça", marka:"Simit Sarayı", kal:290, pro:8, karb:40, yag:12, lif:1.5, sod:360, demir:1, kals:40, vitC:0, vitD:0, vitB12:0, acik:32, por:110, aclik:"1 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1977, ad:"Nazar Böreği (1 dilim)", marka:"", kal:260, pro:9, karb:30, yag:13, lif:1.5, sod:440, demir:1.2, kals:100, vitC:0, vitD:0, vitB12:0.2, acik:38, por:100, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1978, ad:"Tavuk Wrap (Restoran)", marka:"", kal:460, pro:32, karb:44, yag:16, lif:4, sod:780, demir:2.5, kals:80, vitC:8, vitD:0, vitB12:0.5, acik:62, por:240, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:1979, ad:"Waffle (Şekerli, 1 adet)", marka:"", kal:380, pro:8, karb:58, yag:14, lif:1.5, sod:380, demir:1.5, kals:60, vitC:0, vitD:0, vitB12:0.2, acik:30, por:150, aclik:"1 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1980, ad:"Tost (Restoran Kaşarlı)", marka:"", kal:360, pro:14, karb:44, yag:14, lif:2, sod:680, demir:1.5, kals:180, vitC:1, vitD:0, vitB12:0.4, acik:45, por:160, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  // ÇEŞITLI EKMEK VE TAHIL
+  { id:1981, ad:"Mısır Ekmeği (1 dilim)", marka:"", kal:80, pro:2, karb:16, yag:1.5, lif:1.5, sod:100, demir:0.8, kals:10, vitC:0, vitD:0, vitB12:0, acik:20, por:35, aclik:"45 dk", onay:true, kat:"Tahıl", yildiz:3 },
+  { id:1982, ad:"Sourdough (Ekşi Maya, 1 dilim)", marka:"", kal:74, pro:3.8, karb:14.5, yag:0.8, lif:0.8, sod:180, demir:1, kals:15, vitC:0, vitD:0, vitB12:0, acik:22, por:32, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:3.5 },
+  { id:1983, ad:"Proteinli Ekmek (1 dilim)", marka:"", kal:80, pro:6, karb:10, yag:2, lif:3, sod:130, demir:1.2, kals:30, vitC:0, vitD:0, vitB12:0, acik:28, por:35, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:4.5 },
+  { id:1984, ad:"Pirinç Ekmeği (1 dilim)", marka:"", kal:70, pro:1.5, karb:15, yag:1, lif:0.5, sod:100, demir:0.3, kals:5, vitC:0, vitD:0, vitB12:0, acik:14, por:30, aclik:"30 dk", onay:true, kat:"Tahıl", yildiz:2 },
+  { id:1985, ad:"Sandviç Ekmeği (1 adet)", marka:"", kal:120, pro:4, karb:22, yag:1.5, lif:1.5, sod:200, demir:1.2, kals:35, vitC:0, vitD:0, vitB12:0, acik:22, por:50, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1986, ad:"Keto Ekmek (1 dilim)", marka:"", kal:60, pro:5, karb:2, yag:4, lif:3, sod:120, demir:0.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:30, por:30, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:1987, ad:"Brioche Ekmek (1 dilim)", marka:"", kal:110, pro:3, karb:16, yag:4, lif:0.5, sod:140, demir:0.8, kals:20, vitC:0, vitD:0, vitB12:0.1, acik:18, por:40, aclik:"45 dk", onay:true, kat:"Tahıl", yildiz:1.5 },
+  { id:1988, ad:"Pita Ekmeği (1 adet)", marka:"", kal:165, pro:5.5, karb:33, yag:1, lif:1.5, sod:320, demir:1.5, kals:50, vitC:0, vitD:0, vitB12:0, acik:28, por:68, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:1989, ad:"Kepekli Pide (1 adet)", marka:"", kal:290, pro:11, karb:54, yag:2.5, lif:5, sod:380, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:48, por:130, aclik:"2 saat", onay:true, kat:"Tahıl", yildiz:3.5 },
+  { id:1990, ad:"Chapati (1 adet)", marka:"", kal:120, pro:3.5, karb:22, yag:2.5, lif:2.5, sod:150, demir:1.2, kals:15, vitC:0, vitD:0, vitB12:0, acik:26, por:50, aclik:"1 saat", onay:true, kat:"Tahıl", yildiz:3 },
+  // SON 10 - KARIŞIK FASTFOOD
+  { id:1991, ad:"Patatesi Kızartma (Ev Yapımı, 1 porsiyon)", marka:"", kal:320, pro:4, karb:42, yag:16, lif:4, sod:240, demir:1, kals:15, vitC:10, vitD:0, vitB12:0, acik:38, por:150, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1992, ad:"Mozarella Stick (5 adet)", marka:"", kal:350, pro:16, karb:28, yag:20, lif:1, sod:680, demir:1, kals:280, vitC:0, vitD:0, vitB12:0.6, acik:35, por:130, aclik:"1 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1993, ad:"Chicken Nugget (Ev Yapımı, 8 adet)", marka:"", kal:380, pro:24, karb:22, yag:22, lif:1, sod:580, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:0.3, acik:48, por:160, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1994, ad:"Hot Dog (Sosis Ekmek)", marka:"", kal:340, pro:14, karb:34, yag:16, lif:1.5, sod:880, demir:2, kals:60, vitC:2, vitD:0, vitB12:0.8, acik:40, por:150, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:1.5 },
+  { id:1995, ad:"Fried Chicken (2 parça)", marka:"", kal:420, pro:34, karb:16, yag:26, lif:1, sod:880, demir:2, kals:30, vitC:0, vitD:0, vitB12:0.5, acik:55, por:190, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:1996, ad:"Shawarma (Tavuklu)", marka:"", kal:500, pro:32, karb:46, yag:20, lif:3, sod:860, demir:2.5, kals:80, vitC:8, vitD:0, vitB12:0.5, acik:65, por:260, aclik:"2-3 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:1997, ad:"Tacos (2 adet)", marka:"", kal:360, pro:20, karb:36, yag:16, lif:4, sod:580, demir:2.5, kals:80, vitC:6, vitD:0, vitB12:0.6, acik:48, por:180, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:1998, ad:"Falafel Dürüm", marka:"", kal:420, pro:16, karb:52, yag:18, lif:7, sod:620, demir:3.5, kals:100, vitC:4, vitD:0, vitB12:0, acik:60, por:240, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
+  { id:1999, ad:"Crepe (Tuzlu, Peynirli)", marka:"", kal:300, pro:12, karb:34, yag:14, lif:1.5, sod:480, demir:1, kals:160, vitC:1, vitD:0, vitB12:0.3, acik:38, por:130, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:2000, ad:"Burger (Bütçe Restoran)", marka:"", kal:440, pro:22, karb:42, yag:20, lif:2, sod:780, demir:2.5, kals:100, vitC:2, vitD:0, vitB12:0.6, acik:58, por:200, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
 ];
 
 // ─── DEMO VERİLER ───────────────────────────────────────────────
-function demoGunluk(){
-  const g={};
-  const bugun=new Date();
-  const pt=new Date(bugun);
-  const fark=pt.getDay()===0?6:pt.getDay()-1;
-  pt.setDate(bugun.getDate()-fark);
-  const yemekHavuzu=[
-    [{ad:"Yulaf Ezmesi",kal:310,pro:12,karb:52,yag:6,lif:8},{ad:"Yeşil Çay",kal:2,pro:0,karb:0,yag:0,lif:0}],
-    [{ad:"Tavuk Göğsü (Fırın)",kal:165,pro:31,karb:0,yag:3,lif:0},{ad:"Bulgur Pilavı",kal:195,pro:5,karb:38,yag:2,lif:4},{ad:"Ayran",kal:40,pro:2,karb:3,yag:2,lif:0}],
-    [{ad:"Somon Fileto",kal:185,pro:25,karb:0,yag:9,lif:0},{ad:"Brokoli Buharda",kal:35,pro:2,karb:7,yag:0,lif:2}],
-    [{ad:"Yoğurt (Tam Yağlı)",kal:62,pro:3,karb:5,yag:3,lif:0},{ad:"Kivi",kal:61,pro:1,karb:15,yag:0,lif:3}],
-    [{ad:"Mercimek Çorbası",kal:98,pro:6,karb:16,yag:2,lif:4},{ad:"Gözleme (Ispanaklı)",kal:260,pro:10,karb:30,yag:11,lif:2}],
-    [{ad:"Protein Shake",kal:120,pro:24,karb:3,yag:1,lif:0},{ad:"Muz",kal:89,pro:1,karb:23,yag:0,lif:2},{ad:"Badem Ezmesi",kal:196,pro:7,karb:6,yag:18,lif:3}],
-    [{ad:"Kinoa Tabule",kal:190,pro:7,karb:30,yag:6,lif:4},{ad:"Izgara Tavuk",kal:165,pro:31,karb:0,yag:3,lif:0},{ad:"Taze Portakal Suyu",kal:45,pro:0,karb:10,yag:0,lif:0}],
-  ];
-  const suHavuzu=[1800,2200,1600,2400,2000,1900,2100];
-  const adimHavuzu=[8200,11500,6800,13200,9400,7600,10800];
-  for(let i=0;i<7;i++){
-    const d=new Date(pt);d.setDate(pt.getDate()+i);
-    const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
-    g[key]={yemekler:yemekHavuzu[i],su:suHavuzu[i],adim:adimHavuzu[i]};
-  }
-  return g;
-}
-const DEMO_PAYLASIM={
-  "bendensize769":{
-    profil:{isim:"Doya Demo",kilo:68,boy:170,yas:25,cinsiyet:"erkek",aktivite:"orta"},
-    gunluk:demoGunluk(),
-    puan:1240,
-    yemekSeri:5,
-    adimSeri:3
-  }
-};
 
 // ─── YARDIMCI FONKSİYONLAR ───────────────────────────────────
 function tarihKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
@@ -2269,7 +2350,7 @@ export default function App(){
   const [aktif,setAktif]=useState(null);
   const [firebaseUID,setFirebaseUID]=useState(null);
   const [yukleniyor,setYukleniyor]=useState(true);
-  const [paylasimDB,setPaylasimDB]=useState(DEMO_PAYLASIM);
+  const [paylasimDB,setPaylasimDB]=useState({});
 
   // ── ONBOARDING ──
   const [onboard,setOnboard]=useState(false); const [obAdim,setObAdim]=useState(1);
@@ -2337,6 +2418,114 @@ export default function App(){
     {id:38,baslik:"Karabuğday Gözleme",emoji:"🫓",sure:"20 dk",kalori:340,porsiyon:2,malzemeler:["Karabuğday unu 150g","Su 180ml","Tuz","Ispanak 100g","Lor peyniri 100g","Zeytinyağı"],adimlar:["Un, su ve tuzu karıştır, 10 dk dinlendir","Ispanak ve loru karıştır","İnce aç, iç harcı koy","Tavada her yüzü 2 dk pişir"],makro:{p:16,k:46,y:8},kategori:"Öğle"},
     {id:39,baslik:"Bezelye Protein Çorbası",emoji:"💚",sure:"25 dk",kalori:240,porsiyon:2,malzemeler:["Bezelye 300g","Soğan 1 adet","Sarımsak 2 diş","Et suyu 500ml","Nane","Zeytinyağı","Tuz"],adimlar:["Soğan ve sarımsağı kavur","Bezelye ve et suyunu ekle","15 dk pişir","Blender'dan geçir","Nane ve zeytinyağı ile servis et"],makro:{p:14,k:32,y:5},kategori:"Çorba"},
     {id:40,baslik:"Antrenman Günü Makarna",emoji:"🍝",sure:"20 dk",kalori:580,porsiyon:1,malzemeler:["Tam buğday penne 120g","Tavuk göğsü 150g","Brokoli 150g","Parmesan peyniri 20g","Zeytinyağı","Sarımsak","Tuz, biber"],adimlar:["Makarnayı haşla","Tavuğu pişir, dilimle","Brokoli buharda yumuşat","Sarımsaklı zeytinyağında karıştır","Parmesan ile servis et"],makro:{p:48,k:70,y:10},kategori:"Öğle"},
+
+    // ── 100 YENİ TARİF (ID 41-140) ──────────────────────────────────────────
+    // KAHVALTILAR
+    {id:41,baslik:"Menemen",emoji:"🍳",sure:"15 dk",kalori:280,porsiyon:2,sporcu:false,malzemeler:["Yumurta 3 adet","Domates 2 adet","Yeşil biber 2 adet","Soğan 1 adet","Zeytinyağı 2 yemek kaşığı","Tuz, karabiber"],adimlar:["Soğan ve biberi zeytinyağında kavur","Domates ekle, 5 dk pişir","Yumurtaları kır, karıştırarak pişir","Tuz biber ekle, sıcak servis et"],makro:{p:14,k:12,y:16},kategori:"Kahvaltı"},
+    {id:42,baslik:"Simit & Beyaz Peynir",emoji:"🥯",sure:"5 dk",kalori:310,porsiyon:1,sporcu:false,malzemeler:["Simit 1 adet","Beyaz peynir 60g","Domates 1 adet","Salatalık 1/2 adet","Zeytin 5 adet"],adimlar:["Simidi ikiye böl","Peyniri dilimle","Domates ve salatalığı doğra","Hepsini tabağa diz"],makro:{p:14,k:42,y:10},kategori:"Kahvaltı"},
+    {id:43,baslik:"Sahanda Yumurta Kavurma",emoji:"🥚",sure:"10 dk",kalori:240,porsiyon:1,sporcu:false,malzemeler:["Yumurta 2 adet","Sucuk 30g","Tereyağı 1 tatlı kaşığı","Tuz, karabiber"],adimlar:["Sucuğu tavada kavur","Tereyağı ekle","Yumurtaları kır, pişir","Tuz biber ile servis et"],makro:{p:16,k:2,y:18},kategori:"Kahvaltı"},
+    {id:44,baslik:"Muzlu Pancake",emoji:"🥞",sure:"15 dk",kalori:380,porsiyon:2,sporcu:false,malzemeler:["Muz 2 adet","Yumurta 2 adet","Yulaf 100g","Bal","Tarçın"],adimlar:["Muzu ezdek yumurta ve yulaf ekle","Blenderdan geçir","Yağsız tavada her yüzü 2 dk pişir","Bal ve tarçın ile servis et"],makro:{p:12,k:62,y:8},kategori:"Kahvaltı"},
+    {id:45,baslik:"Gözleme (Ispanaklı)",emoji:"🫓",sure:"20 dk",kalori:320,porsiyon:2,sporcu:false,malzemeler:["Yufka 2 adet","Ispanak 200g","Beyaz peynir 100g","Tereyağı"],adimlar:["Ispanağı haşla, sık","Peynirle karıştır","Yufkaya harcı yay, kapat","Tavada tereyağıyla pişir"],makro:{p:14,k:36,y:14},kategori:"Kahvaltı"},
+    {id:46,baslik:"Tost (Kaşarlı)",emoji:"🥪",sure:"5 dk",kalori:360,porsiyon:1,sporcu:false,malzemeler:["Tost ekmeği 2 dilim","Kaşar peyniri 50g","Domates 1/2 adet","Sucuk 2 dilim"],adimlar:["Ekmeğe peynir, domates, sucuk koy","Tost makinesinde pişir","Sıcak servis et"],makro:{p:18,k:38,y:14},kategori:"Kahvaltı"},
+    {id:47,baslik:"Yoğurt & Granola Kasesi",emoji:"🫙",sure:"5 dk",kalori:310,porsiyon:1,sporcu:false,malzemeler:["Yoğurt 200g","Granola 50g","Çilek 8 adet","Bal 1 tatlı kaşığı","Kivi 1 adet"],adimlar:["Yoğurdu kaseye koy","Granolayı üstüne dök","Meyveleri ekle","Bal gezdir"],makro:{p:10,k:50,y:8},kategori:"Kahvaltı"},
+    {id:48,baslik:"Börek (Ispanaklı Rulo)",emoji:"🥐",sure:"40 dk",kalori:290,porsiyon:4,sporcu:false,malzemeler:["Yufka 3 adet","Ispanak 300g","Beyaz peynir 150g","Yumurta 2 adet","Zeytinyağı","Susamlı üst"],adimlar:["Ispanağı haşla sık, peynirle karıştır","Yufkaya harcı yay","Rulo yap","Üstüne yumurta sür, susam serp","Fırında 25 dk pişir"],makro:{p:12,k:28,y:14},kategori:"Kahvaltı"},
+    {id:49,baslik:"Omlet (Mantarlı)",emoji:"🍄",sure:"12 dk",kalori:260,porsiyon:1,sporcu:false,malzemeler:["Yumurta 3 adet","Mantar 80g","Soğan 1/4","Zeytinyağı","Tuz, karabiber","Maydanoz"],adimlar:["Mantar ve soğanı kavur","Yumurtaları çırp, dök","Mantarları üstüne koy","Katlayıp servis et"],makro:{p:18,k:6,y:16},kategori:"Kahvaltı"},
+    {id:50,baslik:"Pişi (Ev Yapımı)",emoji:"🫓",sure:"30 dk",kalori:340,porsiyon:6,sporcu:false,malzemeler:["Un 300g","Su 180ml","Maya 1 tatlı kaşığı","Tuz","Kızartma yağı"],adimlar:["Un, maya, tuz ve suyu yoğur","30 dk mayalandır","Küçük parçalara böl, aç","Kızgın yağda her iki tarafını pişir"],makro:{p:8,k:48,y:14},kategori:"Kahvaltı"},
+    // ÖĞLE
+    {id:51,baslik:"İzmir Köfte",emoji:"🥩",sure:"35 dk",kalori:420,porsiyon:3,sporcu:false,malzemeler:["Dana kıyma 400g","Soğan 1 adet","Yumurta 1 adet","Galeta unu","Patates 3 adet","Domates salçası","Baharatlar"],adimlar:["Kıyma, soğan, yumurta ve galeta ununu yoğur","Köfte şekli ver","Patates dilimle, tepsiye diz","Üstüne salça sos dök","Fırında 30 dk pişir"],makro:{p:34,k:32,y:18},kategori:"Öğle"},
+    {id:52,baslik:"Sigara Böreği",emoji:"🥐",sure:"30 dk",kalori:220,porsiyon:8,sporcu:false,malzemeler:["Yufka 4 adet","Beyaz peynir 200g","Maydanoz","Yumurta","Kızartma yağı"],adimlar:["Peynir ve maydanozu karıştır","Yufkayı üçgen kes, harcı koy","Rulo sar","Kızgın yağda pişir"],makro:{p:10,k:18,y:14},kategori:"Öğle"},
+    {id:53,baslik:"Türk Pilavı (Tereyağlı)",emoji:"🍚",sure:"25 dk",kalori:380,porsiyon:4,sporcu:false,malzemeler:["Pirinç 300g","Tereyağı 2 yemek kaşığı","Tavuk suyu 600ml","Tuz"],adimlar:["Tereyağında pirinci kavur","Tavuk suyu ekle","Kaynayınca kısık ateşe al","20 dk pişir, 10 dk dinlendir"],makro:{p:6,k:72,y:8},kategori:"Öğle"},
+    {id:54,baslik:"Mercimek Köftesi",emoji:"🟠",sure:"30 dk",kalori:180,porsiyon:12,sporcu:false,malzemeler:["Kırmızı mercimek 200g","Bulgur 150g","Soğan 1 adet","Domates salçası","Zeytinyağı","Baharatlar","Limon","Yeşil soğan"],adimlar:["Mercimeği haşla","Bulgur ekle, suyunu çektir","Soğan ve salçayı kavur, ekle","Baharatları ekle, yoğur","Şekil ver, servis et"],makro:{p:8,k:28,y:4},kategori:"Öğle"},
+    {id:55,baslik:"Kısır",emoji:"🌿",sure:"20 dk",kalori:190,porsiyon:6,sporcu:false,malzemeler:["Bulgur 200g","Domates salçası","Zeytinyağı","Limon","Maydanoz","Nane","Domates","Biber"],adimlar:["Bulguru kaynar su ile haşla","Salça ve yağı ekle, yoğur","Soğuyunca sebzeleri ekle","Limon sık, baharatla"],makro:{p:6,k:36,y:6},kategori:"Öğle"},
+    {id:56,baslik:"Çoban Salatası",emoji:"🥗",sure:"10 dk",kalori:120,porsiyon:2,sporcu:false,malzemeler:["Domates 3 adet","Salatalık 2 adet","Soğan 1 adet","Maydanoz","Zeytinyağı 2 yemek kaşığı","Limon","Tuz"],adimlar:["Tüm sebzeleri küçük doğra","Zeytinyağı ve limon ekle","Tuz ve maydanoz ile karıştır"],makro:{p:3,k:14,y:8},kategori:"Öğle"},
+    {id:57,baslik:"Lahmacun (Ev Yapımı)",emoji:"🫓",sure:"45 dk",kalori:280,porsiyon:4,sporcu:false,malzemeler:["Un 400g","Kıyma 200g","Domates 2 adet","Soğan 1 adet","Biber 1 adet","Baharatlar","Maya"],adimlar:["Hamuru yoğur, 30 dk dinlendir","Kıyma harçını hazırla","İnce aç, harcı yay","Çok sıcak fırında 8 dk pişir"],makro:{p:14,k:40,y:8},kategori:"Öğle"},
+    {id:58,baslik:"Tavuk Şiş",emoji:"🍢",sure:"30 dk",kalori:320,porsiyon:2,sporcu:true,malzemeler:["Tavuk göğsü 300g","Zeytinyağı","Limon","Sarımsak","Kekik","Biber"],adimlar:["Tavuğu marine et (30 dk)","Şişe diz","Ateşte veya fırında pişir","Limon ile servis et"],makro:{p:44,k:2,y:12},kategori:"Öğle"},
+    {id:59,baslik:"Falafel & Hummus",emoji:"🧆",sure:"35 dk",kalori:340,porsiyon:4,sporcu:false,malzemeler:["Nohut 250g","Soğan 1 adet","Sarımsak 3 diş","Maydanoz","Kimyon","Un","Hummus için: tahin, limon"],adimlar:["Nohutları blenderdan geçir","Soğan ve baharatlarla karıştır","Top yap, kızart","Hummusla servis et"],makro:{p:14,k:38,y:14},kategori:"Öğle"},
+    {id:60,baslik:"Patlıcan Salatası",emoji:"🍆",sure:"40 dk",kalori:160,porsiyon:3,sporcu:false,malzemeler:["Patlıcan 2 adet","Sarımsak 2 diş","Zeytinyağı","Limon","Maydanoz","Tuz"],adimlar:["Patlıcanı közle veya fırınla","Kabuğunu soy, doğra","Sarımsak, yağ ve limon ekle","Soğutup servis et"],makro:{p:3,k:14,y:10},kategori:"Öğle"},
+    // AKŞAM
+    {id:61,baslik:"Karnıyarık",emoji:"🍆",sure:"50 dk",kalori:380,porsiyon:4,sporcu:false,malzemeler:["Patlıcan 4 adet","Dana kıyma 300g","Soğan 1 adet","Domates 3 adet","Biber 2 adet","Sarımsak","Zeytinyağı","Baharatlar"],adimlar:["Patlıcanları kızart","Kıyma harcını hazırla","Patlıcanları yar, harcı koy","Domates-biber ile süsle","Fırında 25 dk pişir"],makro:{p:24,k:22,y:22},kategori:"Akşam"},
+    {id:62,baslik:"İmam Bayıldı",emoji:"🍆",sure:"45 dk",kalori:260,porsiyon:4,sporcu:false,malzemeler:["Patlıcan 4 adet","Soğan 2 adet","Domates 3 adet","Sarımsak 4 diş","Zeytinyağı 4 yemek kaşığı","Maydanoz","Tuz, şeker"],adimlar:["Patlıcanları yağda kavur","Soğan, sarımsak, domates harcını hazırla","Patlıcanların içini oyup harcı doldur","Kısık ateşte 30 dk pişir"],makro:{p:4,k:24,y:16},kategori:"Akşam"},
+    {id:63,baslik:"Hünkar Beğendi",emoji:"🫕",sure:"60 dk",kalori:440,porsiyon:4,sporcu:false,malzemeler:["Kuzu/dana eti 400g","Patlıcan 4 adet","Süt 200ml","Tereyağı 2 yemek kaşığı","Un 2 yemek kaşığı","Kaşar 50g","Baharatlar"],adimlar:["Eti kavur, haşla","Patlıcanı közle, püre yap","Béchamel sos hazırla","Püreyü sosla karıştır","Beğendi üstüne eti koy"],makro:{p:32,k:18,y:24},kategori:"Akşam"},
+    {id:64,baslik:"Mantı",emoji:"🥟",sure:"60 dk",kalori:420,porsiyon:4,sporcu:false,malzemeler:["Un 300g","Yumurta 2 adet","Kıyma 200g","Soğan","Sarımsaklı yoğurt","Tereyağı","Pul biber","Nane"],adimlar:["Hamuru yoğur, 30 dk dinlendir","İnce aç, kare kes","Kıyma harcını koy, kapat","Tuzlu suda haşla","Yoğurt ve sosla servis et"],makro:{p:22,k:52,y:14},kategori:"Akşam"},
+    {id:65,baslik:"Fırın Tavuk (Bütün)",emoji:"🍗",sure:"90 dk",kalori:380,porsiyon:4,sporcu:false,malzemeler:["Tavuk 1 bütün","Sarımsak 4 diş","Zeytinyağı","Kekik","Biberiye","Tuz, biber","Limon"],adimlar:["Tavuğu oda sıcaklığına getir","Baharatlı marinade yap","Tavuğu iyice ovuştur","180°C fırında 75 dk pişir","Dinlendirip dilimle"],makro:{p:40,k:2,y:18},kategori:"Akşam"},
+    {id:66,baslik:"Izgara Köfte",emoji:"🥩",sure:"25 dk",kalori:360,porsiyon:3,sporcu:false,malzemeler:["Dana kıyma 500g","Soğan 1 adet","Sarımsak 2 diş","Ekmek içi 30g","Baharatlar","Maydanoz"],adimlar:["Tüm malzemeleri yoğur","Köfte şekli ver","Izgarada her yüzü 4 dk pişir","Közlenmiş biber ile servis et"],makro:{p:36,k:8,y:20},kategori:"Akşam"},
+    {id:67,baslik:"Kabak Dolması",emoji:"🥒",sure:"50 dk",kalori:300,porsiyon:4,sporcu:false,malzemeler:["Kabak 4 adet","Pirinç 100g","Kıyma 150g","Soğan","Domates salçası","Baharatlar"],adimlar:["Kabakları oy","Pirinç, kıyma, soğan harcını hazırla","Doldur","Domates soslu suda haşla"],makro:{p:18,k:28,y:12},kategori:"Akşam"},
+    {id:68,baslik:"Etli Nohut",emoji:"🫘",sure:"45 dk",kalori:380,porsiyon:4,sporcu:false,malzemeler:["Nohut 250g","Dana eti 200g","Soğan 1 adet","Domates 2 adet","Zeytinyağı","Baharatlar"],adimlar:["Eti kavur","Soğan ekle, kavur","Domates ve suyu ekle","Haşlanmış nohut ekle","30 dk pişir"],makro:{p:28,k:36,y:12},kategori:"Akşam"},
+    {id:69,baslik:"Tas Kebabı",emoji:"🥘",sure:"60 dk",kalori:400,porsiyon:4,sporcu:false,malzemeler:["Dana kuşbaşı 400g","Soğan 2 adet","Domates 3 adet","Biber 2 adet","Sarımsak","Zeytinyağı","Baharatlar"],adimlar:["Eti mühürle","Soğan ekle, kavur","Sebzeleri ekle","Kısık ateşte 45 dk pişir"],makro:{p:34,k:16,y:18},kategori:"Akşam"},
+    {id:70,baslik:"Balık Buğulama",emoji:"🐟",sure:"30 dk",kalori:280,porsiyon:2,sporcu:true,malzemeler:["Levrek/çipura 2 adet","Zeytinyağı 3 yemek kaşığı","Limon","Sarımsak 3 diş","Maydanoz","Domates","Tuz"],adimlar:["Balığı temizle","Zeytinyağı ve baharatlarla hazırla","Derin tavaya koy","Kısık ateşte 20 dk pişir"],makro:{p:38,k:4,y:14},kategori:"Akşam"},
+    // ÇORBALAR
+    {id:71,baslik:"Domates Çorbası",emoji:"🍅",sure:"25 dk",kalori:140,porsiyon:4,sporcu:false,malzemeler:["Domates 500g","Soğan 1 adet","Sarımsak 2 diş","Tavuk suyu 500ml","Zeytinyağı","Tuz, şeker","Fesleğen"],adimlar:["Soğan ve sarımsağı kavur","Domates ekle, pişir","Suyu ekle, 15 dk kaynat","Blenderdan geçir","Fesleğen ile servis et"],makro:{p:4,k:20,y:5},kategori:"Çorba"},
+    {id:72,baslik:"Ezogelin Çorbası",emoji:"🍲",sure:"30 dk",kalori:180,porsiyon:4,sporcu:false,malzemeler:["Kırmızı mercimek 150g","Bulgur 60g","Soğan 1 adet","Domates salçası","Zeytinyağı","Nane, kimyon, pul biber"],adimlar:["Soğanı kavur, salça ekle","Mercimek ve bulgur ekle","Su ekle, 20 dk pişir","Nane ve pul biber ile servis et"],makro:{p:10,k:30,y:4},kategori:"Çorba"},
+    {id:73,baslik:"Yayla Çorbası",emoji:"🥣",sure:"25 dk",kalori:160,porsiyon:4,sporcu:false,malzemeler:["Yoğurt 300g","Pirinç 60g","Et suyu 1L","Yumurta 1 adet","Nane","Tereyağı"],adimlar:["Pirinci haşla","Yoğurt, yumurta ve unu karıştır","Karışımı yavaşça suya ekle","Sürekli karıştırarak kaynat","Tereyağı-nane ile servis et"],makro:{p:8,k:22,y:6},kategori:"Çorba"},
+    {id:74,baslik:"Düğün Çorbası",emoji:"🍲",sure:"90 dk",kalori:220,porsiyon:6,sporcu:false,malzemeler:["Kuzu eti 300g","Yoğurt 400g","Yumurta 2 adet","Un 2 yemek kaşığı","Tereyağı","Pul biber","Sirke"],adimlar:["Eti haşla, suyu sakla","Yoğurt, yumurta ve unu karıştır","Et suyuna yavaşça ekle","Kaynayana kadar karıştır","Tereyağı-pul biber ile servis et"],makro:{p:18,k:14,y:10},kategori:"Çorba"},
+    {id:75,baslik:"Tarhana Çorbası",emoji:"🍲",sure:"15 dk",kalori:150,porsiyon:4,sporcu:false,malzemeler:["Tarhana 4 yemek kaşığı","Su 1L","Domates salçası 1 yemek kaşığı","Nane","Tereyağı","Pul biber"],adimlar:["Tarhanayı suda ısla","Tencereye salça ekle","Tarhana ve suyu ekle","Kaynarken karıştır","Tereyağı-nane ile servis et"],makro:{p:6,k:24,y:4},kategori:"Çorba"},
+    // ATIŞTIRLMAKLAR
+    {id:76,baslik:"Humus (Ev Yapımı)",emoji:"🫙",sure:"15 dk",kalori:180,porsiyon:4,sporcu:false,malzemeler:["Nohut 250g","Tahin 3 yemek kaşığı","Sarımsak 2 diş","Limon suyu","Zeytinyağı","Kimyon","Tuz"],adimlar:["Nohutları blenderdan geçir","Tahin ve limon ekle","Sarımsak ve kimyon ekle","Zeytinyağı ile servis et"],makro:{p:8,k:20,y:10},kategori:"Atıştırmalık"},
+    {id:77,baslik:"Cacık",emoji:"🥒",sure:"10 dk",kalori:100,porsiyon:3,sporcu:false,malzemeler:["Yoğurt 400g","Salatalık 2 adet","Sarımsak 1 diş","Zeytinyağı","Nane","Tuz"],adimlar:["Yoğurdu sulandır","Salatalığı rendele, sık","Sarımsak ve baharatları ekle","Üstüne zeytinyağı gezdirerek servis et"],makro:{p:6,k:10,y:6},kategori:"Atıştırmalık"},
+    {id:78,baslik:"Peynirli Poğaça",emoji:"🫓",sure:"50 dk",kalori:280,porsiyon:8,sporcu:false,malzemeler:["Un 400g","Yoğurt 150g","Tereyağı 100g","Beyaz peynir 150g","Maya","Yumurta","Susam"],adimlar:["Hamuru yoğur, 30 dk beklet","Peynirli harcı hazırla","Küçük toplar yap, harcı doldur","Üstüne yumurta ve susam sür","Fırında 20 dk pişir"],makro:{p:10,k:32,y:14},kategori:"Atıştırmalık"},
+    {id:79,baslik:"Kuru Yemiş Karışımı",emoji:"🥜",sure:"2 dk",kalori:280,porsiyon:1,sporcu:false,malzemeler:["Ceviz 10g","Badem 10g","Fındık 10g","Kaju 10g","Kuru üzüm 15g"],adimlar:["Hepsini karıştır","Servis et"],makro:{p:7,k:22,y:18},kategori:"Atıştırmalık"},
+    {id:80,baslik:"Ev Yapımı Dips Sos",emoji:"🌶️",sure:"10 dk",kalori:90,porsiyon:4,sporcu:false,malzemeler:["Yoğurt 200g","Sarımsak 1 diş","Zeytinyağı","Dereotu","Limon","Tuz"],adimlar:["Yoğurdu kaseye koy","Sarımsak rendele, ekle","Dereotu ve limon ekle","Zeytinyağı gezdirerek servis et"],makro:{p:5,k:8,y:5},kategori:"Atıştırmalık"},
+    // SPORCU TARİFLERİ
+    {id:81,baslik:"Yüksek Proteinli Tost",emoji:"🥪",sure:"8 dk",kalori:420,porsiyon:1,sporcu:true,malzemeler:["Tam buğday ekmek 2 dilim","Hindi jambon 80g","Kaşar 30g","Yumurta 1 adet","Marul","Domates"],adimlar:["Yumurtayı haşla","Ekmeğe hindi, kaşar, yumurta, marul ve domates koy","Tost makinesinde pişir"],makro:{p:38,k:36,y:12},kategori:"Atıştırmalık"},
+    {id:82,baslik:"Badem Ezmeli Elma",emoji:"🍎",sure:"3 dk",kalori:200,porsiyon:1,sporcu:true,malzemeler:["Elma 1 adet","Badem ezmesi 2 yemek kaşığı","Tarçın"],adimlar:["Elmayı dilimle","Badem ezmeye batır","Tarçın serp"],makro:{p:5,k:30,y:10},kategori:"Atıştırmalık"},
+    {id:83,baslik:"Lor Peynirli Krep",emoji:"🫓",sure:"15 dk",kalori:320,porsiyon:2,sporcu:true,malzemeler:["Yumurta 2 adet","Süt 100ml","Un 50g","Lor peyniri 100g","Bal","Ceviz"],adimlar:["Krep hamurunu hazırla","İnce pişir","Lor, bal ve ceviz ile doldur","Sar, servis et"],makro:{p:20,k:30,y:14},kategori:"Atıştırmalık"},
+    {id:84,baslik:"Pre-Workout Enerji Shake",emoji:"⚡",sure:"3 dk",kalori:280,porsiyon:1,sporcu:true,malzemeler:["Muz 1 adet","Yulaf 40g","Süt 250ml","Bal 1 yemek kaşığı","Kahve (soğuk) 50ml"],adimlar:["Tüm malzemeleri blenderdan geçir","Hemen iç","Antrenmandan 30-45 dk önce"],makro:{p:10,k:52,y:5},kategori:"Atıştırmalık"},
+    {id:85,baslik:"Protein Jöle",emoji:"🍮",sure:"10 dk + 2 saat",kalori:120,porsiyon:4,sporcu:true,malzemeler:["Protein tozu 60g","Jelatin 10g","Su 400ml","Meyve suyu 200ml","Meyve"],adimlar:["Jelatini suda eritin","Protein tozunu karıştır","Meyve suyunu ekle","Kalıplara dök, soğut","Servis et"],makro:{p:24,k:10,y:1},kategori:"Atıştırmalık"},
+    {id:86,baslik:"Tam Buğday Sandviç",emoji:"🥪",sure:"5 dk",kalori:360,porsiyon:1,sporcu:true,malzemeler:["Tam buğday ekmek 2 dilim","Ton balığı 100g","Avokado 1/4","Limon","Roka","Domates"],adimlar:["Ton balığını lemon ile tatlandır","Ekmeğe avokado sür","Ton balığı, roka ve domates ekle"],makro:{p:30,k:36,y:12},kategori:"Öğle"},
+    {id:87,baslik:"Kinoa Protein Bowl",emoji:"🌾",sure:"25 dk",kalori:480,porsiyon:1,sporcu:true,malzemeler:["Kinoa 100g","Somon 120g","Ispanak 1 avuç","Avokado 1/2","Limon","Zeytinyağı","Susam"],adimlar:["Kinoayı pişir","Somonu ızgarada pişir","Kasede kinoa üstüne dizin","Zeytinyağı ve limon gezdirin"],makro:{p:38,k:44,y:18},kategori:"Öğle"},
+    {id:88,baslik:"Makarna (Tavuklu Pesto)",emoji:"🍝",sure:"25 dk",kalori:520,porsiyon:1,sporcu:true,malzemeler:["Tam buğday makarna 100g","Tavuk göğsü 150g","Pesto sos 2 yemek kaşığı","Kiraz domates","Parmesan","Çam fıstığı"],adimlar:["Makarnayı haşla","Tavuğu pişir, dilimle","Makarna ve pestoyı karıştır","Tavuk ve domatesle servis et"],makro:{p:46,k:62,y:16},kategori:"Öğle"},
+    {id:89,baslik:"Dana Tartare",emoji:"🥩",sure:"15 dk",kalori:320,porsiyon:1,sporcu:true,malzemeler:["Taze dana eti 150g","Kapari","Hardal","Limon","Yumurta sarısı","Zeytinyağı","Tuz, karabiber"],adimlar:["Eti ince kıy","Malzemeleri karıştır","Yumurta sarısı ile servis et"],makro:{p:34,k:4,y:18},kategori:"Akşam"},
+    {id:90,baslik:"Tavuk Soslu Brokoli",emoji:"🥦",sure:"20 dk",kalori:350,porsiyon:2,sporcu:true,malzemeler:["Tavuk göğsü 250g","Brokoli 300g","Sarımsak 3 diş","Soya sosu","Zencefil","Susam yağı","Nişasta"],adimlar:["Tavuğu küp doğra","Sarımsak ve zencefili kavur","Tavuğu pişir","Brokoli ekle","Soya sosu ve nişastayla koyulaştır"],makro:{p:40,k:16,y:10},kategori:"Akşam"},
+    {id:91,baslik:"Keto Tavuk Salatası",emoji:"🥗",sure:"15 dk",kalori:380,porsiyon:1,sporcu:true,malzemeler:["Tavuk göğsü 200g","Avokado 1 adet","Roka 2 avuç","Bacon 30g","Zeytinyağı","Limon","Parmesan"],adimlar:["Tavuğu pişir","Bacon kızart","Hepsini karıştır","Parmesan rendeleyerek servis et"],makro:{p:38,k:6,y:28},kategori:"Öğle"},
+    {id:92,baslik:"Üç Beyaz Omlet",emoji:"🍳",sure:"8 dk",kalori:180,porsiyon:1,sporcu:true,malzemeler:["Yumurta beyazı 6 adet","Ispanak","Mantar 50g","Tuz","Karabiber"],adimlar:["Beyazları çırp","Sebzeleri kavur","Beyazları dök","Katlayarak pişir"],makro:{p:22,k:4,y:2},kategori:"Kahvaltı"},
+    {id:93,baslik:"Tereyağlı Steak",emoji:"🥩",sure:"15 dk",kalori:480,porsiyon:1,sporcu:true,malzemeler:["Antrikot 200g","Tereyağı 20g","Sarımsak 2 diş","Biberiye","Kekik","Tuz, karabiber"],adimlar:["Eti oda sıcaklığına getir","Tuz-biber sür","Kızgın tavada her yüz 3 dk","Tereyağı, sarımsak, biberiye ile aromalandır","5 dk dinlendir"],makro:{p:48,k:0,y:28},kategori:"Akşam"},
+    {id:94,baslik:"Karides Sote",emoji:"🦐",sure:"15 dk",kalori:280,porsiyon:2,sporcu:true,malzemeler:["Karides 300g","Sarımsak 4 diş","Zeytinyağı 2 yemek kaşığı","Limon","Maydanoz","Tuz, biber"],adimlar:["Sarımsağı yağda kavur","Karideleri ekle, 3 dk pişir","Limon sık","Maydanoz ile servis et"],makro:{p:36,k:4,y:12},kategori:"Akşam"},
+    {id:95,baslik:"Fırın Somon Teriyaki",emoji:"🐟",sure:"25 dk",kalori:420,porsiyon:2,sporcu:true,malzemeler:["Somon 300g","Soya sosu 3 yemek kaşığı","Bal 1 yemek kaşığı","Sarımsak","Zencefil","Susam","Yeşil soğan"],adimlar:["Soya, bal, sarımsak sosu hazırla","Somonu marine et","Fırında 200°C 15 dk pişir","Susam ve yeşil soğan ile servis et"],makro:{p:40,k:14,y:20},kategori:"Akşam"},
+    {id:96,baslik:"Protein Güveç",emoji:"🫕",sure:"55 dk",kalori:460,porsiyon:3,sporcu:true,malzemeler:["Tavuk 400g","Tatlı patates 200g","Brokoli 150g","Soğan","Tavuk suyu","Baharatlar"],adimlar:["Tavuğu kahverengileştir","Sebzeleri ekle","Suyu ekle","Fırında 40 dk pişir"],makro:{p:46,k:36,y:12},kategori:"Akşam"},
+    {id:97,baslik:"Izgara Levrek",emoji:"🐟",sure:"20 dk",kalori:300,porsiyon:2,sporcu:true,malzemeler:["Levrek fileto 400g","Zeytinyağı","Kekik","Limon","Tuz","Karabiber"],adimlar:["Filétolara yağ ve baharat sür","Izgarada her yüzü 4 dk pişir","Limon ile servis et"],makro:{p:46,k:0,y:14},kategori:"Akşam"},
+    {id:98,baslik:"Hindi Şinitzel",emoji:"🍗",sure:"25 dk",kalori:380,porsiyon:2,sporcu:true,malzemeler:["Hindi fileto 300g","Ekmek kırıntısı","Yumurta 2 adet","Un","Zeytinyağı","Limon","Tuz"],adimlar:["Fılétolara dövüp incelt","Un, yumurta, ekmek kırıntısı ile kapla","Az yağda pişir","Limon ile servis et"],makro:{p:44,k:22,y:14},kategori:"Öğle"},
+    {id:99,baslik:"Sebzeli Quinoa Risotto",emoji:"🍚",sure:"30 dk",kalori:380,porsiyon:2,sporcu:true,malzemeler:["Kinoa 150g","Kabak 1 adet","Brokoli 100g","Soğan","Sarımsak","Parmesan 30g","Zeytinyağı"],adimlar:["Soğan ve sarımsağı kavur","Kinoayı ekle, kavur","Su ekle, pişir","Sebzeleri ekle","Parmesan ile servis et"],makro:{p:20,k:52,y:12},kategori:"Öğle"},
+    {id:100,baslik:"Dövülmüş Tavuk Göğsü",emoji:"💪",sure:"18 dk",kalori:260,porsiyon:1,sporcu:true,malzemeler:["Tavuk göğsü 200g","Sarımsak","Zeytinyağı","Tuz","Karabiber","Kekik"],adimlar:["Tavuğu dövüp incelt","Tuz, biber, sarımsak sür","Izgarada her yüzü 3-4 dk pişir","Kekikle servis et"],makro:{p:46,k:0,y:8},kategori:"Akşam"},
+    {id:101,baslik:"Smoothie Bowl",emoji:"🍓",sure:"8 dk",kalori:320,porsiyon:1,sporcu:true,malzemeler:["Dondurulmuş çilek 150g","Muz 1 adet","Yoğurt 100g","Granola","Taze meyve","Bal"],adimlar:["Çilek, muz ve yoğurdu blenderdan geçir","Kaba dök","Granola ve meyve ile süsle","Hemen servis et"],makro:{p:10,k:58,y:6},kategori:"Kahvaltı"},
+    {id:102,baslik:"Sebzeli Omlet Wrap",emoji:"🌯",sure:"15 dk",kalori:340,porsiyon:1,sporcu:true,malzemeler:["Yumurta 3 adet","Tam buğday lavaş","Ispanak","Domates","Biber","Lor peyniri","Zeytinyağı"],adimlar:["Yumurtaları geniş tavada pişir","Sebzeleri üstüne koy","Lor peyniri ekle","Lavaşla sarıp servis et"],makro:{p:22,k:32,y:14},kategori:"Öğle"},
+    {id:103,baslik:"Yeşil Detoks Smoothie",emoji:"💚",sure:"5 dk",kalori:180,porsiyon:1,sporcu:true,malzemeler:["Ispanak 2 avuç","Elma 1 adet","Salatalık 1/2","Limon","Zencefil 1 cm","Su 200ml"],adimlar:["Tüm malzemeleri blenderdan geçir","Buzla servis et"],makro:{p:4,k:38,y:1},kategori:"Atıştırmalık"},
+    {id:104,baslik:"Keçi Peynirli Salata",emoji:"🧀",sure:"10 dk",kalori:280,porsiyon:1,sporcu:false,malzemeler:["Roka 2 avuç","Keçi peyniri 60g","Ceviz 20g","Nar tanesi","Zeytinyağı","Balzamik sirke"],adimlar:["Rokayı tabağa yay","Peyniri ufalayarak ekle","Ceviz ve nar ekle","Zeytinyağı-balzamik gezdirerek servis et"],makro:{p:12,k:16,y:18},kategori:"Öğle"},
+    {id:105,baslik:"Tuna Melt Sandviç",emoji:"🥪",sure:"10 dk",kalori:400,porsiyon:1,sporcu:true,malzemeler:["Ekmek 2 dilim","Ton balığı 1 kutu","Kaşar peyniri","Soğan 1/4","Mayonez light","Limon"],adimlar:["Ton balığını hazırla","Ekmeğe mayonez ve ton sür","Soğan ekle","Kaşar koy, tost makinesinde pişir"],makro:{p:36,k:38,y:14},kategori:"Öğle"},
+    {id:106,baslik:"Baked Potato (Fırın Patates)",emoji:"🥔",sure:"50 dk",kalori:320,porsiyon:1,sporcu:false,malzemeler:["Büyük patates 1 adet","Yoğurt 50g","Kaşar 30g","Yeşil soğan","Zeytinyağı","Tuz"],adimlar:["Patatesi yağlayıp tuzla","Fırında 200°C 45 dk pişir","Ortasını aç","Yoğurt, kaşar ve soğan ile doldur"],makro:{p:10,k:58,y:8},kategori:"Akşam"},
+    {id:107,baslik:"Ramen (Türk Usulü)",emoji:"🍜",sure:"30 dk",kalori:440,porsiyon:2,sporcu:false,malzemeler:["Ramen eriştesi 200g","Tavuk suyu 1L","Yumurta 2 adet","Mısır","Yeşil soğan","Soya sosu","Susam yağı"],adimlar:["Tavuk suyunu hazırla","Erişteyı haşla","Yumurtayı 7 dk haşla, ikiye böl","Kasede eriştey ve suyu birleştir","Üstüne mısır, soğan ve yumurta dizin"],makro:{p:20,k:62,y:12},kategori:"Akşam"},
+    {id:108,baslik:"Sebze Burger",emoji:"🍔",sure:"30 dk",kalori:360,porsiyon:2,sporcu:false,malzemeler:["Nohut 200g","Patates 1 adet","Yulaf 40g","Soğan","Baharatlar","Ekmek","Marul","Domates"],adimlar:["Nohut ve patatesi haşla","Tüm malzemeleri karıştır","Kalıp şekli ver","Tavada veya fırında pişir","Ekmeğe yerleştir"],makro:{p:14,k:58,y:8},kategori:"Öğle"},
+    {id:109,baslik:"Zeytinyağlı Barbunya",emoji:"🫘",sure:"45 dk",kalori:220,porsiyon:4,sporcu:false,malzemeler:["Barbunya 250g","Soğan 2 adet","Domates 2 adet","Havuç 1 adet","Zeytinyağı 3 yemek kaşığı","Şeker 1 tatlı kaşığı"],adimlar:["Soğanı kavur","Havuç ve domates ekle","Haşlanmış barbunya ekle","Kısık ateşte 25 dk pişir","Soğutup servis et"],makro:{p:10,k:30,y:8},kategori:"Akşam"},
+    {id:110,baslik:"Fırın Köfte",emoji:"🥩",sure:"35 dk",kalori:380,porsiyon:4,sporcu:false,malzemeler:["Kıyma 500g","Soğan","Sarımsak","Baharatlar","Galeta unu","Yumurta","Patates"],adimlar:["Köfte malzemelerini karıştır","Köfte şekli ver","Patatesle fırın tepsisine diz","180°C fırında 30 dk pişir"],makro:{p:34,k:26,y:18},kategori:"Akşam"},
+    {id:111,baslik:"Sütlaç",emoji:"🍮",sure:"40 dk",kalori:220,porsiyon:6,sporcu:false,malzemeler:["Pirinç 100g","Süt 1L","Şeker 100g","Nişasta 2 yemek kaşığı","Vanilya"],adimlar:["Pirinci haşla","Sütü kaynat, şeker ekle","Nişastayı soğuk sütde çöz, ekle","Karıştırarak koyulaştır","Kaplara dök, soğut"],makro:{p:6,k:40,y:5},kategori:"Atıştırmalık"},
+    {id:112,baslik:"Kabak Mücver",emoji:"🥒",sure:"25 dk",kalori:180,porsiyon:6,sporcu:false,malzemeler:["Kabak 3 adet","Yumurta 2 adet","Beyaz peynir 80g","Un 3 yemek kaşığı","Dereotu","Zeytinyağı"],adimlar:["Kabağı rendele, tuzla sık","Yumurta, peynir, un ekle","Karıştır","Zeytinyağında her yüzü pişir"],makro:{p:8,k:14,y:12},kategori:"Atıştırmalık"},
+    {id:113,baslik:"Zeytinyağlı Enginar",emoji:"🌿",sure:"50 dk",kalori:180,porsiyon:4,sporcu:false,malzemeler:["Enginar 4 adet","Zeytinyağı 3 yemek kaşığı","Limon","Bezelye","Havuç","Şeker","Tuz"],adimlar:["Enginarları temizle","Sebzeleri doğra","Zeytinyağı ve suyla pişir","Soğutup servis et"],makro:{p:6,k:22,y:8},kategori:"Akşam"},
+    {id:114,baslik:"Çilekli Yoğurt Parfait",emoji:"🍓",sure:"8 dk",kalori:260,porsiyon:2,sporcu:false,malzemeler:["Yoğurt 300g","Çilek 150g","Granola 40g","Bal 2 tatlı kaşığı","Nane"],adimlar:["Kadehlere sırayla yoğurt dök","Çilek ekle","Granola ekle","Tekrarla","Bal ve nane ile bitir"],makro:{p:10,k:40,y:6},kategori:"Atıştırmalık"},
+    {id:115,baslik:"Soğuk Çay",emoji:"🍵",sure:"10 dk + 2 saat",kalori:40,porsiyon:4,sporcu:false,malzemeler:["Çay 3 poşet","Su 1L","Limon 2 adet","Bal 2 tatlı kaşığı","Nane","Buz"],adimlar:["Çayı demliyip soğut","Limon sık","Bal ve nane ekle","Buzla servis et"],makro:{p:0,k:10,y:0},kategori:"Atıştırmalık"},
+    {id:116,baslik:"Roka Parmesan Salatası",emoji:"🥗",sure:"8 dk",kalori:200,porsiyon:2,sporcu:false,malzemeler:["Roka 2 avuç","Parmesan 30g","Çam fıstığı 15g","Kiraz domates 8 adet","Balzamik sirke","Zeytinyağı"],adimlar:["Rokayı tabağa yay","Domates ekle","Parmesan rende","Çam fıstığı ekle","Sos gezdirerek servis et"],makro:{p:8,k:8,y:14},kategori:"Öğle"},
+    {id:117,baslik:"Nohut Kavurma (Fırında)",emoji:"🫘",sure:"30 dk",kalori:200,porsiyon:4,sporcu:true,malzemeler:["Nohut 200g","Zeytinyağı","Kimyon","Pul biber","Sarımsak tozu","Tuz"],adimlar:["Nohutları kurula","Yağ ve baharatlarla karıştır","Fırında 200°C 20 dk pişir","Soğutup servis et"],makro:{p:10,k:28,y:6},kategori:"Atıştırmalık"},
+    {id:118,baslik:"Sütlü Mısır Çorbası",emoji:"🌽",sure:"25 dk",kalori:180,porsiyon:4,sporcu:false,malzemeler:["Mısır 300g","Süt 400ml","Soğan 1 adet","Tereyağı","Un","Tuz","Karabiber"],adimlar:["Soğanı tereyağında kavur","Un ekle, kavur","Mısır ve sütü ekle","Pişirip blenderdan geçir"],makro:{p:6,k:28,y:6},kategori:"Çorba"},
+    {id:119,baslik:"Nohutlu Pirinç Pilavı",emoji:"🍚",sure:"30 dk",kalori:340,porsiyon:4,sporcu:false,malzemeler:["Pirinç 200g","Nohut 100g","Tereyağı 2 yemek kaşığı","Tavuk suyu","Tuz"],adimlar:["Pirinci kavur","Nohut ekle","Tavuk suyunu ekle","Pişir, dinlendir"],makro:{p:10,k:60,y:8},kategori:"Öğle"},
+    {id:120,baslik:"Haydarı",emoji:"🧄",sure:"10 dk",kalori:140,porsiyon:4,sporcu:false,malzemeler:["Yoğurt 400g","Sarımsak 3 diş","Nane","Zeytinyağı","Ceviz"],adimlar:["Yoğurdu kase ile karıştır","Sarımsak rendele ekle","Nane ekle","Ceviz ve zeytinyağı ile servis et"],makro:{p:8,k:10,y:8},kategori:"Atıştırmalık"},
+    {id:121,baslik:"Rezene Salatası",emoji:"🌿",sure:"10 dk",kalori:120,porsiyon:2,sporcu:false,malzemeler:["Rezene 1 adet","Portakal 1 adet","Zeytin 8 adet","Zeytinyağı","Limon","Tuz"],adimlar:["Rezeneyi ince dilimle","Portakalı soy, dilimle","Zeytin ekle","Zeytinyağı ve limon gezdirerek servis et"],makro:{p:3,k:18,y:7},kategori:"Öğle"},
+    {id:122,baslik:"Tarhun Tavuk",emoji:"🌿",sure:"35 dk",kalori:340,porsiyon:2,sporcu:true,malzemeler:["Tavuk göğsü 300g","Tarhun","Sarımsak","Limon","Zeytinyağı","Tuz, biber"],adimlar:["Tavuğu marine et","Fırında veya ızgarada pişir","Taze tarhunla servis et"],makro:{p:44,k:2,y:14},kategori:"Akşam"},
+    {id:123,baslik:"Yeşil Mercimek Salatası",emoji:"💚",sure:"20 dk",kalori:240,porsiyon:3,sporcu:false,malzemeler:["Yeşil mercimek 200g","Kırmızı soğan 1 adet","Domates 2 adet","Maydanoz","Zeytinyağı","Limon","Nar ekşisi"],adimlar:["Mercimeği haşla","Sebzeleri doğra","Hepsini karıştır","Zeytinyağı ve nar ekşisiyle tatlandır"],makro:{p:14,k:36,y:8},kategori:"Öğle"},
+    {id:124,baslik:"Patlıcan Musakka",emoji:"🍆",sure:"55 dk",kalori:380,porsiyon:4,sporcu:false,malzemeler:["Patlıcan 3 adet","Kıyma 300g","Soğan 1 adet","Domates 3 adet","Zeytinyağı","Baharatlar"],adimlar:["Patlıcanları kızart","Kıyma harcını pişir","Fırın kabına sırayla diz","Domates sos dök","Fırında 30 dk pişir"],makro:{p:24,k:20,y:22},kategori:"Akşam"},
+    {id:125,baslik:"Karnıyarık Köfte",emoji:"🥩",sure:"40 dk",kalori:400,porsiyon:3,sporcu:false,malzemeler:["Kıyma 400g","Pirinç 100g","Soğan","Baharatlar","Domates","Biber"],adimlar:["Kıyma ve pirinç harcını hazırla","Uzun köfte şekli ver","Tepsiye diz","Domates ve biber ekle","Fırında pişir"],makro:{p:30,k:28,y:18},kategori:"Akşam"},
+    {id:126,baslik:"Soğuk Soba Eriştesi",emoji:"🍜",sure:"15 dk",kalori:340,porsiyon:2,sporcu:false,malzemeler:["Soba eriştesi 200g","Soya sosu","Susam yağı","Zencefil","Yeşil soğan","Salatalık","Susam"],adimlar:["Erişteyı pişir, soğuk suya koy","Sosu hazırla","Erişteyı sosla karıştır","Salatalık ve soğan ekle","Susam serperek servis et"],makro:{p:12,k:60,y:8},kategori:"Öğle"},
+    {id:127,baslik:"Sebzeli Kıymalı Makarna",emoji:"🍝",sure:"30 dk",kalori:480,porsiyon:2,sporcu:false,malzemeler:["Makarna 150g","Kıyma 200g","Soğan 1 adet","Domates 3 adet","Biber 1 adet","Sarımsak","Zeytinyağı","Baharatlar"],adimlar:["Makarnayı haşla","Kıymayı kavur","Soğan, biber, domates ekle","Karıştır, baharatla"],makro:{p:30,k:58,y:16},kategori:"Akşam"},
+    {id:128,baslik:"Avokadolu Yumurta",emoji:"🥑",sure:"10 dk",kalori:340,porsiyon:1,sporcu:true,malzemeler:["Avokado 1 adet","Yumurta 2 adet","Limon","Pul biber","Tuz","Ekmek 1 dilim"],adimlar:["Avokadoyu ez, limon ve tuz ekle","Yumurtayı çevirme pişir","Avokadoyu ekmeğe sür","Yumurtayı üstüne koy","Pul biber serp"],makro:{p:16,k:22,y:22},kategori:"Kahvaltı"},
+    {id:129,baslik:"Baharatlı Patates Çorbası",emoji:"🥔",sure:"30 dk",kalori:200,porsiyon:4,sporcu:false,malzemeler:["Patates 400g","Soğan 1 adet","Sarımsak","Tavuk suyu","Zerdeçal","Kimyon","Zeytinyağı"],adimlar:["Sebzeleri kavur","Baharatları ekle","Patates ve suyu ekle","Haşla, blenderdan geçir"],makro:{p:5,k:32,y:7},kategori:"Çorba"},
+    {id:130,baslik:"Pekmezli Tahin Ekmek",emoji:"🍞",sure:"3 dk",kalori:310,porsiyon:1,sporcu:false,malzemeler:["Tam buğday ekmek 2 dilim","Tahin 2 yemek kaşığı","Üzüm pekmezi 2 tatlı kaşığı"],adimlar:["Ekmeği dilimle","Tahini sür","Pekmez dökerek servis et"],makro:{p:10,k:42,y:14},kategori:"Kahvaltı"},
+    {id:131,baslik:"Atom (Spor İçeceği)",emoji:"⚡",sure:"3 dk",kalori:90,porsiyon:2,sporcu:true,malzemeler:["Nar suyu 200ml","Zencefil 1 cm","Zerdeçal 1/2 tatlı kaşığı","Limon","Bal 1 tatlı kaşığı","Buz"],adimlar:["Tüm malzemeleri blenderdan geçir","Buzla servis et"],makro:{p:1,k:22,y:0},kategori:"Atıştırmalık"},
+    {id:132,baslik:"Bütün Tahıllı Wrap",emoji:"🌯",sure:"10 dk",kalori:380,porsiyon:1,sporcu:true,malzemeler:["Tam buğday lavaş","Izgara tavuk 100g","Hummus 2 yemek kaşığı","Roka","Domates","Biber","Limon"],adimlar:["Lavaşa hummus sür","Tavuğu koy","Sebzeleri ekle","Sıkıca sar"],makro:{p:32,k:40,y:10},kategori:"Öğle"},
+    {id:133,baslik:"Kefir Smoothie",emoji:"🥛",sure:"5 dk",kalori:200,porsiyon:1,sporcu:true,malzemeler:["Kefir 250ml","Muz 1 adet","Yulaf 2 yemek kaşığı","Bal 1 tatlı kaşığı","Tarçın"],adimlar:["Tüm malzemeleri blenderdan geçir","Hemen iç"],makro:{p:12,k:34,y:4},kategori:"Atıştırmalık"},
+    {id:134,baslik:"Füme Somon Rulo",emoji:"🐟",sure:"10 dk",kalori:280,porsiyon:2,sporcu:true,malzemeler:["Füme somon 100g","Krem peynir 80g","Salatalık","Kapari","Limon","Ekmek"],adimlar:["Krem peyniri ekmeğe sür","Somon dilimleri koy","Salatalık ve kapari ekle","Limon sıkarak servis et"],makro:{p:20,k:22,y:14},kategori:"Atıştırmalık"},
+    {id:135,baslik:"Taze Fasulye Kavurma",emoji:"🫘",sure:"25 dk",kalori:160,porsiyon:3,sporcu:false,malzemeler:["Taze fasulye 400g","Domates 2 adet","Soğan 1 adet","Zeytinyağı 2 yemek kaşığı","Sarımsak","Tuz"],adimlar:["Fasulyeyi temizle","Soğanı kavur","Domates ekle","Fasulye ekle, pişir"],makro:{p:6,k:20,y:8},kategori:"Akşam"},
+    {id:136,baslik:"Hamursuz Pizza",emoji:"🍕",sure:"20 dk",kalori:320,porsiyon:2,sporcu:true,malzemeler:["Karnabahar 1 kafa","Yumurta 2 adet","Kaşar 60g","Domates sosu","Mantar","Biber"],adimlar:["Karnabaharı rendele, sık","Yumurta ve kaşarla karıştır","Tepside şekil ver","10 dk pişir","Sos ve malzeme ekle, 10 dk daha pişir"],makro:{p:22,k:16,y:14},kategori:"Akşam"},
+    {id:137,baslik:"Portakallı Havuç Çorbası",emoji:"🥕",sure:"25 dk",kalori:150,porsiyon:4,sporcu:false,malzemeler:["Havuç 6 adet","Portakal 1 adet","Soğan","Zencefil","Zeytinyağı","Tavuk suyu","Tuz"],adimlar:["Soğan ve zencefili kavur","Havuç ekle","Su ekle, haşla","Blenderdan geçir","Portakal suyu ekle"],makro:{p:3,k:28,y:4},kategori:"Çorba"},
+    {id:138,baslik:"Acılı Ezme",emoji:"🌶️",sure:"10 dk",kalori:80,porsiyon:4,sporcu:false,malzemeler:["Domates 3 adet","Biber 2 adet","Sarımsak 2 diş","Soğan 1/2","Maydanoz","Zeytinyağı","Nar ekşisi"],adimlar:["Hepsini ince kıy","Zeytinyağı ve nar ekşisi ekle","Baharatla","Servis et"],makro:{p:2,k:12,y:4},kategori:"Atıştırmalık"},
+    {id:139,baslik:"Yoğurtlu Nohut",emoji:"🫘",sure:"5 dk",kalori:240,porsiyon:2,sporcu:true,malzemeler:["Haşlanmış nohut 200g","Yoğurt 200g","Sarımsaklı tereyağı","Pul biber","Tuz"],adimlar:["Nohutları yoğurdun üstüne koy","Tereyağı eritip üstüne gezdirerek servis et","Pul biber serp"],makro:{p:14,k:28,y:10},kategori:"Öğle"},
+    {id:140,baslik:"Deniz Mahsullü Pilav",emoji:"🦐",sure:"35 dk",kalori:440,porsiyon:2,sporcu:true,malzemeler:["Pirinç 150g","Karides 150g","Midye 100g","Soğan","Sarımsak","Zeytinyağı","Safran","Maydanoz"],adimlar:["Pirinç pişir","Deniz mahsullerini kavur","Birleştir","Safranla renklendirerek servis et"],makro:{p:32,k:52,y:10},kategori:"Akşam"},
   ]);
   const [profFoto,setProfFoto]=useState(null);
   const [adimSayar,setAdimSayar]=useState(0);
@@ -2379,11 +2568,21 @@ export default function App(){
   const [engelliler,setEngelliler]=useState([]);
   const [uidArama,setUidArama]=useState(""); const [uidSonuc,setUidSonuc]=useState(null); const [uidHata,setUidHata]=useState("");
   const [secArk,setSecArk]=useState(null);
-  const [demoEklendi,setDemoEklendi]=useState(false);
+  
 
   // ── SOSYAL AKIŞ ──
   const [paylasimlar,setPaylasimlar]=useState([]);
   const [yeniPS,setYeniPS]=useState(""); const [postFoto,setPostFoto]=useState(null); const [sosyalSekme,setSosyalSekme]=useState("genel");
+  const [tarifLimit,setTarifLimit]=useState(10);
+  const [tarifKat,setTarifKat]=useState("");
+  const [gunlukKazanilanPuan,setGunlukKazanilanPuan]=useState(0);
+  const [gunlukPuanGun,setGunlukPuanGun]=useState("");
+  const [marketSekme,setMarketSekme]=useState("market"); // "market" | "reklam"
+  const [reklamIzleniyor,setReklamIzleniyor]=useState(false);
+  const [reklamSayac,setReklamSayac]=useState(0);
+  const [gunlukReklamIzle,setGunlukReklamIzle]=useState(0);
+  const [gunlukReklamGun,setGunlukReklamGun]=useState("");
+  const [ekstraAiHak,setEkstraAiHak]=useState(0);
   const [yorumMet,setYorumMet]=useState({});
   const [sikayet,setSikayet]=useState({ hedef:null,sebep:"",modal:false,tip:"kullanici",postId:null,postFotoUrl:null });
 
@@ -2463,8 +2662,13 @@ export default function App(){
   const HEDEF= (tdee||2000)+topSpor;
 
   const onayBesinler = besinler.filter(b=>b.onay&&!b.silindi);
+  // Sadece arama için (gözat filtreleri olmadan)
+  const aramaBesinler = !besinArama ? [] : onayBesinler.filter(b=>
+    b.ad.toLowerCase().includes(besinArama.toLowerCase())||
+    (b.marka&&b.marka.toLowerCase().includes(besinArama.toLowerCase()))
+  );
+  // Gözat listesi için (arama olmadan, sadece filtreler)
   const filtreBesinler = onayBesinler.filter(b=>{
-    const araUy  = b.ad.toLowerCase().includes(besinArama.toLowerCase())||(b.marka&&b.marka.toLowerCase().includes(besinArama.toLowerCase()));
     const katUy  = !besinFil.kat||b.kat===besinFil.kat;
     const minK   = !besinFil.minKal||b.kal>=+besinFil.minKal;
     const maxK   = !besinFil.maxKal||b.kal<=+besinFil.maxKal;
@@ -2475,7 +2679,7 @@ export default function App(){
     const vitDUy = !besinFil.minVitD||((b.vitD||0)>=+besinFil.minVitD);
     const vitB12Uy=!besinFil.minVitB12||((b.vitB12||0)>=+besinFil.minVitB12);
     const yildizUy = besinFil.yildizSecim.length===0||besinFil.yildizSecim.includes(b.yildiz??3);
-    return araUy&&katUy&&minK&&maxK&&acikUy&&demirUy&&kalsUy&&vitCUy&&vitDUy&&vitB12Uy&&yildizUy;
+    return katUy&&minK&&maxK&&acikUy&&demirUy&&kalsUy&&vitCUy&&vitDUy&&vitB12Uy&&yildizUy;
   }).sort((a,b2)=>({
     isim:"",kal_az:0,kal_cok:0,acik_cok:0
   }[besinFil.sira]!==undefined? {
@@ -2602,6 +2806,15 @@ export default function App(){
       if(user){
         setFirebaseUID(user.uid);
         try {
+          // Silinmiş tarifleri Firebase'den yükle
+          try {
+            const fbMod2 = await import("firebase/firestore");
+            const silSnap = await fbMod2.getDoc(fbMod2.doc(db,"appConfig","silinenTarifler"));
+            if(silSnap.exists()){
+              const silList = silSnap.data().ids||[];
+              setTarifler(prev=>prev.filter(t=>!silList.includes(t.id)));
+            }
+          } catch(e){ console.error("Tarif silme listesi:",e); }
           const veri = await kullaniciyiGetir(user.uid);
           if(veri){
             // Eski kullanıcı → welcome slaytları gösterme
@@ -2618,12 +2831,35 @@ export default function App(){
             setAcikHesap(tam.acik??true);
             setSosyalAktif(tam.sosyal??true);
             setProfFoto(tam.foto||null);
-            if(tam.kilo||tam.boy) setProfil({kilo:tam.kilo||"",boy:tam.boy||"",yas:tam.yas||"",cinsiyet:tam.cinsiyet||"erkek",aktivite:tam.aktivite||"orta",hedef:tam.hedef||""});
+            if(tam.kilo||tam.boy){
+              setProfil({kilo:tam.kilo||"",boy:tam.boy||"",yas:tam.yas||"",cinsiyet:tam.cinsiyet||"erkek",aktivite:tam.aktivite||"orta",hedef:tam.hedef||""});
+            } else {
+              // Firebase'de veri var ama kilo/boy yok → onboard tamamlanmamış
+              setOnboard(true);
+            }
             if(tam.refKodKullandi) setGirRefKilitli(true);
             // AI kullanım hakkını Firebase'den yükle (localStorage silinse de korunur)
             if(tam.aiKullanim){
               const bugun=new Date().toISOString().split("T")[0];
               setAiGunlukKullanim(tam.aiKullanim.tarih===bugun ? (tam.aiKullanim.sayi||0) : 0);
+            }
+            // Günlük puan takibi yükle
+            if(tam.gunlukPuan){
+              const bugunP=bugunKey();
+              if(tam.gunlukPuan.gun===bugunP){
+                setGunlukKazanilanPuan(tam.gunlukPuan.toplam||0);
+                setGunlukPuanGun(bugunP);
+              }
+            }
+            // Ekstra AI hak
+            if(tam.ekstraAiHak) setEkstraAiHak(tam.ekstraAiHak||0);
+            // Günlük reklam izleme sayısı
+            if(tam.gunlukReklam){
+              const bugunR=bugunKey();
+              if(tam.gunlukReklam.gun===bugunR){
+                setGunlukReklamIzle(tam.gunlukReklam.sayi||0);
+                setGunlukReklamGun(bugunR);
+              }
             }
             // Günlük verileri yükle
             const gunler = await tumGunleriGetir(user.uid);
@@ -2668,6 +2904,23 @@ export default function App(){
     });
     return ()=>unsub();
   },[]);
+
+  // ─── GÜNLÜK GİRİŞ BONUSU ─────────────────────────────────────
+  useEffect(()=>{
+    if(!firebaseUID||!aktif) return;
+    const bugun=bugunKey();
+    const sonGirisKey="doya_son_giris_"+firebaseUID;
+    const sonGiris=localStorage.getItem(sonGirisKey);
+    if(sonGiris===bugun) return; // Bugün zaten bonus aldı
+    // İlk kez bugün giriş yapıyor → +100 puan
+    const yeniPuan=(puan||0)+100;
+    setPuan(yeniPuan);
+    localStorage.setItem(sonGirisKey,bugun);
+    kullaniciyiGuncelle(firebaseUID,{
+      puan:yeniPuan,
+      sonGiris:bugun
+    }).catch(console.error);
+  },[firebaseUID,aktif?.uid]); // aktif.uid değişince (yeni oturum) tetikle
 
   // ─── FİREBASE: GERÇEK ZAMANLI POST DİNLEYİCİ ────────────────
   useEffect(()=>{
@@ -2773,10 +3026,11 @@ export default function App(){
       const yeniProfil={kilo:obK,boy:obB,yas:obY,cinsiyet:obC,aktivite:obA,hedef:obHK};
       setProfil(yeniProfil);
       setAcikHesap(obAcik); setSosyalAktif(obSosyal);
-      // Firestore'a kaydet
+      // Firestore'a kaydet (hedef ve diyet tipi dahil)
       await kullaniciyiGuncelle(firebaseUID, {
         kilo:obK, boy:obB, yas:obY, cinsiyet:obC, aktivite:obA, hedef:obHK,
-        acik:obAcik, sosyal:obSosyal
+        acik:obAcik, sosyal:obSosyal,
+        hedefTip:obHedef, diyetTip:obDiyet
       }).catch(console.error);
     }
     setOnboard(false);
@@ -2817,7 +3071,7 @@ export default function App(){
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-6",
+          model: "claude-haiku-4-5-20251001",
           max_tokens: 1200,
           system: `Sen bir beslenme uzmanı yapay zekasısın. Fotoğraftaki yemeği/içeceği analiz et ve TAM OLARAK şu JSON formatında cevap ver, başka hiçbir şey yazma:
 {"yemekAdi":"string","kal":number,"pro":number,"porsiyon":number,"birim":"string","karb":number,"yag":number,"lif":number,"guven":"yuksek|orta|dusuk","aciklama":"string","parcalar":[{"ad":"string","kal":number,"gram":number}]}
@@ -2881,10 +3135,8 @@ export default function App(){
     const yeniGun={...gunV(bg),yemekler:[...eskiY,kayit]};
     setGunluk(prev=>({...prev,[bg]:yeniGun}));
     if(firebaseUID) await gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
-    const yeniPuan=(puan||0)+10;
-    setPuan(yeniPuan);
-    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan}).catch(console.error);
-    setSecBesin(null); setBesinArama(""); setYemekGram("100"); setTab("anasayfa");
+    setSecBesin(null); setBesinArama(""); setYemekGram("100");
+    if(tab!=="gozat") setTab("anasayfa");
     seriGuncelle("yemek");
   };
 
@@ -2916,12 +3168,15 @@ export default function App(){
     if(arkadaslar.find(a=>a.uid===h.uid)){setUidHata("Zaten arkadaşsınız!");return;}
     setUidSonuc(h);
   };
+  const DAVET_PUAN_LIMIT = 5; // Max kaç kişi davet ederek puan alınabilir
   const istekGonder=async(hUid)=>{
     const h=kullanicilar.find(u=>u.uid===hUid); if(!h)return;
     if(h.acik){
-      const yeniPuan=(puan||0)+100;
+      const davetSayisi=aktif?.davet||0;
+      const puanKazanilsin=davetSayisi<DAVET_PUAN_LIMIT;
+      const yeniPuan=puanKazanilsin?(puan||0)+100:(puan||0);
       setArkadaslar(p=>[...p,{uid:h.uid,isim:h.isim}]);
-      setPuan(yeniPuan);
+      if(puanKazanilsin) setPuan(yeniPuan);
       if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan}).catch(console.error);
     } else {
       setGonderilen(p=>[...p,{uid:h.uid,isim:h.isim,zaman:"Az önce"}]);
@@ -3002,8 +3257,8 @@ export default function App(){
     // Influencer/işletme → sadece davet sayısı artar, puan kazanmaz (komisyon alır)
     // Normal kullanıcı → ikisine +150 puan
     const sahipOrtak = sahip.refTip==="influencer" || sahip.refTip==="isletme";
-    const girenPuan = sahipOrtak ? 500 : 150; // influencer/işletme kodunda +500, normalde +150
-    const sahipPuan = sahipOrtak ? 0 : 150; // influencer/işletme puan almaz
+    const girenPuan = sahipOrtak ? 300 : 100; // influencer/işletme kodunda +300, normalde +100
+    const sahipPuan = sahipOrtak ? 0 : 100; // influencer/işletme puan almaz
     const yeniPuanGiren = (puan||0) + girenPuan;
     const yeniPuanSahip = (sahip.puan||0) + sahipPuan;
     setPuan(yeniPuanGiren);
@@ -3024,8 +3279,8 @@ export default function App(){
     }
     setGirRefKilitli(true);
     const mesaj = sahipOrtak
-      ? `✅ Kod geçerli! Sana +500 puan eklendi. ${sahip.isim} komisyonunu alacak.`
-      : `✅ Kod geçerli! Sana +150, ${sahip.isim}'e +150 puan eklendi.`;
+      ? `✅ Kod geçerli! Sana +300 puan eklendi. ${sahip.isim} komisyonunu alacak.`
+      : `✅ Kod geçerli! Sana +100, ${sahip.isim}'e +100 puan eklendi.`;
     setGirRefMesaj({tip:"basari",mesaj});
   };
 
@@ -3288,6 +3543,10 @@ export default function App(){
               try{
                 const kul = await fbGoogleGiris();
                 setAktif(kul); setFirebaseUID(kul.firebaseUID);
+                // Yeni kullanıcı ise onboard göster
+                if(!kul.kilo && !kul.boy){
+                  setOnboard(true);
+                }
               }catch(e){setGHata(e.message);}
             }}>
               <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.1 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-9 20-20 0-1.3-.1-2.7-.4-4z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.6 26.9 36.5 24 36.5c-5.2 0-9.7-3-11.3-7.2L6 33.6C9.4 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6.2 5.2C41 35.7 44 30.3 44 24c0-1.3-.1-2.7-.4-4z"/></svg>
@@ -3916,7 +4175,7 @@ export default function App(){
               <div style={{display:"flex",gap:8,marginBottom:12,alignItems:"center"}}>
                 <div style={{fontSize:12,color:r.sub,fontWeight:700,whiteSpace:"nowrap"}}>Kilo:</div>
                 <input style={{...IS,flex:1,padding:"8px 11px",fontSize:13}} placeholder="kg" type="number" value={secilenGV.kilo||""} onChange={e=>gunSet(secTarih,"kilo",e.target.value)}/>
-                <button style={{...BTN("#8b5cf6","8px 12px"),fontSize:12}} onClick={()=>setPuan(pp=>pp+5)}>Kaydet +5</button>
+                <button style={{...BTN("#8b5cf6","8px 12px"),fontSize:12}} onClick={()=>{}}>Kaydet</button>
               </div>
               <div style={{fontSize:11,fontWeight:700,color:r.sub,marginBottom:6}}>YEMEKLER</div>
               {(secilenGV.yemekler||[]).length===0?<div style={{color:r.muted,fontSize:12}}>Kayıt yok.</div>:(secilenGV.yemekler||[]).map((y,i)=>(
@@ -3980,8 +4239,8 @@ export default function App(){
             {/* Arama sonuçları */}
             {besinArama&&(
               <div>
-                {filtreBesinler.length===0&&<div style={{textAlign:"center",padding:"24px",color:r.muted,fontSize:13}}>Sonuç bulunamadı.</div>}
-                {filtreBesinler.slice(0,30).map(b=>(
+                {aramaBesinler.length===0&&<div style={{textAlign:"center",padding:"24px",color:r.muted,fontSize:13}}>Sonuç bulunamadı.</div>}
+                {aramaBesinler.slice(0,30).map(b=>(
                   <div key={b.id} style={{...CS,margin:"7px 0",padding:12}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
                       <div>
@@ -3996,7 +4255,7 @@ export default function App(){
               </div>
             )}
 
-                <div style={CS}>
+                {!besinArama&&<div style={CS}>
                   <div style={CT}>Filtreler</div>
 
                   {/* Kategori */}
@@ -4116,9 +4375,10 @@ export default function App(){
                   </button>
                 </div>
 
-                <div style={{fontSize:12,color:r.sub,padding:"0 4px",marginBottom:6}}>{filtreBesinler.length} besin bulundu</div>
+                </div>}
+                {!besinArama&&<><div style={{fontSize:12,color:r.sub,padding:"0 4px",marginBottom:6}}>{filtreBesinler.length} besin bulundu</div>
                 {filtreBesinler.slice(0,gozatLimit).map(b=>(
-                  <div key={b.id} style={{...CS,margin:"6px 0",cursor:"pointer",padding:12}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));setTab("ara");}}>
+                  <div key={b.id} style={{...CS,margin:"6px 0",cursor:"pointer",padding:12}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
                     <div style={{display:"flex",justifyContent:"space-between"}}>
                       <div>
                         <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` · ${b.marka}`:""}</div>
@@ -4139,7 +4399,7 @@ export default function App(){
                 )}
                 {gozatLimit>30&&filtreBesinler.length<=gozatLimit&&(
                   <div style={{textAlign:"center",fontSize:11,color:r.muted,padding:"10px 0"}}>Tüm ürünler listelendi ({filtreBesinler.length})</div>
-                )}
+                )}</>}
             {/* YENİ BESİN GÖNDER */}
             <div style={{...CS,border:"2px dashed #16a34a"}}>
               <div style={{fontWeight:800,color:"#16a34a",marginBottom:8}}>Yeni Besin Gönder (+20 puan)</div>
@@ -4227,7 +4487,19 @@ export default function App(){
             )}
             {sosyalSekme==="tarifler"&&(
               <div>
-                {tarifler.map(tarif=>(
+                {/* Kategori filtreleri */}
+                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
+                  {["","Kahvaltı","Öğle","Akşam","Atıştırmalık","Çorba","Sporcu"].map(k=>(
+                    <button key={k} onClick={()=>{setTarifKat(k);setTarifLimit(10);}} style={{padding:"5px 12px",borderRadius:20,border:`1.5px solid ${tarifKat===k?"#16a34a":r.inpB}`,background:tarifKat===k?"#16a34a":r.inp,color:tarifKat===k?"#fff":r.sub,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
+                      {k||"Tümü"} {k===""?`(${tarifler.length})`:`(${tarifler.filter(t=>t.kategori===k||(k==="Sporcu"&&t.sporcu)).length})`}
+                    </button>
+                  ))}
+                </div>
+                {(()=>{
+                  const filtreli = tarifler.filter(t=>!tarifKat||(tarifKat==="Sporcu"?t.sporcu:t.kategori===tarifKat));
+                  const goster = filtreli.slice(0,tarifLimit);
+                  return(<>
+                {goster.map(tarif=>(
                   <div key={tarif.id} style={{...CS,marginBottom:10}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
                       <div>
@@ -4246,14 +4518,29 @@ export default function App(){
                         <div style={{fontSize:10,fontWeight:800,color:"#ef4444"}}>{tarif.makro.y}g</div>
                       </div>
                     </div>
-                    {/* Yıldız rating */}
-                    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8}}>
-                      {[1,2,3,4,5].map(y=>(
-                        <span key={y} style={{fontSize:18,cursor:"pointer",filter:y<=(tarif.yildiz||0)?"none":"grayscale(1) opacity(.35)",transition:"all .15s"}}
-                          onClick={()=>setTarifler(prev=>prev.map(t=>t.id===tarif.id?{...t,yildiz:t.yildiz===y?0:y}:t))}>⭐</span>
-                      ))}
-                      {tarif.yildiz>0&&<span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{tarif.yildiz}/5</span>}
-                    </div>
+                    {/* Sağlık Yıldızı - makro bazlı hesaplama */}
+                    {(()=>{
+                      const kal=tarif.kalori||300;
+                      const p=tarif.makro?.p||0;
+                      const k=tarif.makro?.k||0;
+                      const y=tarif.makro?.y||0;
+                      const toplam=p*4+k*4+y*9||1;
+                      const proOran=(p*4/toplam)*100;
+                      const yagOran=(y*9/toplam)*100;
+                      let puan=0;
+                      if(proOran>=30) puan+=2; else if(proOran>=20) puan+=1.5; else if(proOran>=10) puan+=1;
+                      if(yagOran<=25) puan+=1.5; else if(yagOran<=35) puan+=1; else if(yagOran<=45) puan+=0.5;
+                      if(kal<=350) puan+=1; else if(kal<=500) puan+=0.5;
+                      if(p>=30) puan+=0.5;
+                      const sag=Math.min(5,Math.max(0.5,Math.round(puan*2)/2));
+                      return(
+                        <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:8}}>
+                          <YildizGoster v={sag} boyut={14}/>
+                          <span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{sag}/5</span>
+                          <span style={{fontSize:10,color:r.muted}}>sağlık puanı</span>
+                        </div>
+                      );
+                    })()}
                     <details>
                       <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#16a34a",marginBottom:6}}>📋 Malzemeler ({tarif.malzemeler.length} adet)</summary>
                       <div style={{background:d?"#1e293b":"#f9fafb",borderRadius:8,padding:"8px 10px",marginBottom:6}}>
@@ -4283,14 +4570,22 @@ export default function App(){
                       const yeniGun={...gunV(bg),yemekler:[...eskiY,kayit]};
                       setGunluk(prev=>({...prev,[bg]:yeniGun}));
                       if(firebaseUID) await gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
-                      const yeniPuan=(puan||0)+10; setPuan(yeniPuan);
-                      if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan}).catch(console.error);
                       alert(`✅ "${tarif.baslik}" ${yemekKat} öğününe eklendi!`);
                     }} style={{...BTN(),width:"100%",padding:"10px 0",fontSize:13,marginTop:8}}>
                       🍽️ {yemekKat} Öğününe Ekle
                     </button>
                   </div>
                 ))}
+                {filtreli.length>tarifLimit&&(
+                  <button onClick={()=>setTarifLimit(p=>p+10)} style={{...BTN("#16a34a"),width:"100%",padding:"12px 0",fontSize:13,fontWeight:800,marginTop:4}}>
+                    ↓ Daha Fazla Göster ({filtreli.length-tarifLimit} tarif daha)
+                  </button>
+                )}
+                {tarifLimit>10&&filtreli.length<=tarifLimit&&(
+                  <div style={{textAlign:"center",fontSize:11,color:r.muted,padding:"8px 0"}}>Tüm tarifler listelendi ({filtreli.length})</div>
+                )}
+                  </>);
+                })()}
               </div>
             )}
             {sosyalSekme!=="tarifler"&&paylasimlar.filter(ps=>{
@@ -4425,17 +4720,7 @@ export default function App(){
               )}
             </div>
 
-            {!demoEklendi&&arkadaslar.length===0&&(
-              <div style={{...CS,border:"1px dashed #16a34a",textAlign:"center",background:d?"#0f172a":"#f0fdf4"}}>
-                <div style={{fontSize:14,marginBottom:4}}>👋</div>
-                <div style={{fontSize:12,color:r.sub,marginBottom:10,fontWeight:600}}>Demo hesabını arkadaş olarak ekle!</div>
-                <button onClick={()=>{
-                  setArkadaslar([{uid:"bendensize769",isim:"Doya Demo 🤖"}]);
-                  setPaylasimDB(p=>({...p,"bendensize769":DEMO_PAYLASIM["bendensize769"]}));
-                  setDemoEklendi(true);
-                }} style={{...BTN("#16a34a","9px 18px"),fontSize:12}}>+ Demo Arkadaş Ekle</button>
-              </div>
-            )}
+
 
             <div style={CS}>
               <div style={CT}>Arkadaşlarım ({arkadaslar.length})</div>
@@ -4552,7 +4837,8 @@ export default function App(){
             <div style={{background:"linear-gradient(135deg,#f59e0b,#d97706)",borderRadius:16,padding:18,color:"#fff",marginBottom:10}}>
               <div style={{fontSize:11,fontWeight:700}}>PUANINIZ</div>
               <div style={{fontSize:46,fontWeight:900}}>{puan}</div>
-              <div style={{fontSize:12,opacity:.8}}>Puan biriktir, premium kazan!</div>
+              <div style={{fontSize:12,opacity:.8}}>Puan biriktir, AI hakkı kazan!</div>
+              {(()=>{const bugun=bugunKey();const sk="doya_son_giris_"+(firebaseUID||"");const sl=localStorage.getItem(sk);return sl===bugun&&<div style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,marginTop:6}}>🌅 Bugünkü giriş bonusu: +100 puan aldın!</div>})()}
             </div>
 
             {/* Premium planlar */}
@@ -4565,7 +4851,7 @@ export default function App(){
                     <div style={{fontSize:20,fontWeight:900,color:"#d97706"}}>{PREMIUM_FIYAT}₺<span style={{fontSize:11,fontWeight:700}}>/ay</span></div>
                   </div>
                   <div style={{fontSize:12,color:r.sub,marginBottom:10}}>
-                    {["✅ Tüm reklamlar kalkar","✅ Reklamsız deneyim"].map((f,i)=><div key={i} style={{marginBottom:2}}>{f}</div>)}
+                    {["✅ Tüm banner reklamlar kalkar","✅ Reklamsız gezinme","✅ İstediğin zaman reklam izleyip puan kazanabilirsin"].map((f,i)=><div key={i} style={{marginBottom:2}}>{f}</div>)}
                   </div>
                   <button style={{...BTN("#f59e0b"),width:"100%",padding:"11px 0",fontSize:13}} onClick={async()=>{
                     setPremium(true); setReklam(false);
@@ -4584,7 +4870,7 @@ export default function App(){
                     <div style={{fontSize:20,fontWeight:900,color:"#7c3aed"}}>{PREMIUM_PLUS_FIYAT}₺<span style={{fontSize:11,fontWeight:700}}>/ay</span></div>
                   </div>
                   <div style={{fontSize:12,color:r.sub,marginBottom:10}}>
-                    {["✅ Tüm reklamlar kalkar","✅ Günde 20 AI fotoğraf analizi","✅ 📷 Fotoğraftan kalori hesaplama","✅ Temel Premium'ın tüm özellikleri"].map((f,i)=><div key={i} style={{marginBottom:2}}>{f}</div>)}
+                    {["✅ Tüm banner reklamlar kalkar","✅ Günde 10 AI fotoğraf analizi","✅ 📷 Fotoğraftan kalori hesaplama","✅ İstersen reklam izleyerek ek puan kazan","✅ Temel Premium'ın tüm özellikleri"].map((f,i)=><div key={i} style={{marginBottom:2}}>{f}</div>)}
                   </div>
                   <button style={{...BTN("#7c3aed"),width:"100%",padding:"11px 0",fontSize:13}} onClick={async()=>{
                     setPremiumPlus(true); setPremium(true); setReklam(false);
@@ -4602,7 +4888,7 @@ export default function App(){
               <div style={{...CS,background:"linear-gradient(135deg,#7c3aed18,#6d28d908)",border:"2px solid #7c3aed44",textAlign:"center"}}>
                 <div style={{fontSize:28,marginBottom:6}}>🤖</div>
                 <div style={{fontSize:16,fontWeight:900,color:"#7c3aed"}}>Premium Plus Aktif!</div>
-                <div style={{fontSize:11,color:r.sub,marginTop:4}}>Reklamlar kapalı · AI fotoğraf analizi aktif</div>
+                <div style={{fontSize:11,color:r.sub,marginTop:4}}>Banner reklamlar kapalı · AI analizi aktif · Reklam izleyerek puan kazanabilirsin 🎁</div>
                 <div style={{marginTop:10,background:d?"#1e293b":"#f5f3ff",borderRadius:10,padding:"8px 12px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <div style={{fontSize:11,color:r.sub}}>Bugünkü AI analiz hakkı</div>
                   <div style={{fontSize:14,fontWeight:900,color:"#7c3aed"}}>{AI_GUNLUK_LIMIT-aiGunlukKullanim} / {AI_GUNLUK_LIMIT}</div>
@@ -4613,13 +4899,196 @@ export default function App(){
               <div style={{...CS,background:"linear-gradient(135deg,#f59e0b18,#d9770608)",border:"2px solid #f59e0b44",textAlign:"center"}}>
                 <div style={{fontSize:28,marginBottom:6}}>⭐</div>
                 <div style={{fontSize:16,fontWeight:900,color:"#d97706"}}>Premium Aktif — Reklamsız!</div>
-                <div style={{fontSize:11,color:r.sub,marginTop:4}}>AI fotoğraf analizi için Plus'a yükseltin</div>
+                <div style={{fontSize:11,color:r.sub,marginTop:4}}>Banner reklamlar kapalı · Reklam izleyerek puan kazanabilirsin 🎁</div>
                 <button style={{...BTN("#7c3aed"),width:"100%",padding:"10px 0",fontSize:12,marginTop:10}} onClick={async()=>{
                   setPremiumPlus(true);
                   if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premiumPlus:true}).catch(console.error);
                 }}>
                   Plus'a Yükselt — {PREMIUM_PLUS_FIYAT}₺/ay
                 </button>
+              </div>
+            )}
+
+
+            {/* ── MARKET + REKLAM ─────────────────────────── */}
+            <div style={{...CS,padding:0,overflow:"hidden",marginBottom:12}}>
+              <div style={{display:"flex",background:d?"#1e293b":"#f0fdf4"}}>
+                {[{v:"market",l:"🛒 Market"},{v:"reklam",l:"📺 Reklam İzle"}].map(s=>(
+                  <button key={s.v} onClick={()=>setMarketSekme(s.v)} style={{flex:1,padding:"11px 0",border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:marketSekme===s.v?(d?"#334155":"#fff"):"transparent",color:marketSekme===s.v?"#16a34a":r.sub,boxShadow:marketSekme===s.v?"0 1px 4px #0001":"none",transition:"all .15s"}}>{s.l}</button>
+                ))}
+              </div>
+
+              {/* MARKET */}
+              {marketSekme==="market"&&(
+                <div style={{padding:14}}>
+                  <div style={{fontSize:11,color:r.muted,marginBottom:10,lineHeight:1.6}}>
+                    Biriktirdiğin puanları harcayarak ekstra AI analiz hakkı satın alabilirsin.
+                    <br/><span style={{color:"#f59e0b",fontWeight:700}}>1 reklam izle = 50 puan</span> · <span style={{color:"#7c3aed",fontWeight:700}}>1 AI hakkı = 100 puan</span>
+                  </div>
+
+                  {/* AI Hak paketleri */}
+                  {[
+                    {adet:1, puan:100, emoji:"⚡", acikla:"Tek seferlik analiz"},
+                    {adet:3, puan:270, emoji:"🔋", acikla:"En çok tercih edilen"},
+                    {adet:5, puan:420, emoji:"🚀", acikla:"Haftalık paket"},
+                    {adet:10,puan:800, emoji:"💎", acikla:"Tam günlük limit"},
+                  ].map(item=>(
+                    <div key={item.adet} style={{display:"flex",alignItems:"center",justifyContent:"space-between",background:d?"#0f172a":"#f9fafb",borderRadius:12,padding:"10px 12px",marginBottom:8,border:`1.5px solid ${puan>=item.puan?"#16a34a33":r.inpB}`}}>
+                      <div style={{display:"flex",alignItems:"center",gap:10}}>
+                        <div style={{fontSize:24}}>{item.emoji}</div>
+                        <div>
+                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>+{item.adet} AI Analiz Hakkı</div>
+                          <div style={{fontSize:10,color:r.muted}}>{item.acikla}</div>
+                        </div>
+                      </div>
+                      <button
+                        disabled={puan<item.puan}
+                        onClick={async()=>{
+                          if(puan<item.puan) return;
+                          const yeniPuan=puan-item.puan;
+                          const yeniHak=ekstraAiHak+item.adet;
+                          setPuan(yeniPuan);
+                          setEkstraAiHak(yeniHak);
+                          if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan,ekstraAiHak:yeniHak}).catch(console.error);
+                        }}
+                        style={{...BTN(puan>=item.puan?"#7c3aed":"#9ca3af","8px 14px"),fontSize:12,opacity:puan>=item.puan?1:0.5,cursor:puan>=item.puan?"pointer":"not-allowed"}}>
+                        {item.puan} puan
+                      </button>
+                    </div>
+                  ))}
+
+                  <div style={{background:d?"#0f172a":"#eff6ff",borderRadius:10,padding:"10px 12px",marginTop:4}}>
+                    <div style={{fontSize:10,fontWeight:700,color:"#3b82f6",marginBottom:4}}>💡 Nasıl puan kazanırsın?</div>
+                    <div style={{fontSize:10,color:r.sub,lineHeight:1.7}}>
+                      📺 Reklam izle → <b>+50 puan</b> (günde max 10 reklam)<br/>
+                      🍽️ Yemek kaydet → <b>+10 puan</b><br/>
+                      👥 Arkadaş davet et → <b>+100 puan</b>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* REKLAM İZLE */}
+              {marketSekme==="reklam"&&(()=>{
+                const bugunR=bugunKey();
+                const gecenGunR=gunlukReklamGun!==bugunR;
+                const bugunIzlenen=gecenGunR?0:gunlukReklamIzle;
+                const GUNLUK_REKLAM_MAX=10;
+                const kalanReklam=GUNLUK_REKLAM_MAX-bugunIzlenen;
+
+                return(
+                  <div style={{padding:14}}>
+                    {/* Günlük durum */}
+                    <div style={{background:"linear-gradient(135deg,#f59e0b22,#d9770611)",border:"1.5px solid #f59e0b44",borderRadius:12,padding:14,marginBottom:12,textAlign:"center"}}>
+                      <div style={{fontSize:28,marginBottom:4}}>📺</div>
+                      <div style={{fontSize:15,fontWeight:900,color:"#d97706"}}>Reklam İzle, Puan Kazan!</div>
+                      <div style={{fontSize:12,color:r.sub,marginTop:2}}>Her reklam <b style={{color:"#f59e0b"}}>+50 puan</b> kazandırır</div>
+                      <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:16,marginTop:10}}>
+                        <div style={{textAlign:"center"}}>
+                          <div style={{fontSize:28,fontWeight:900,color:"#f59e0b"}}>{bugunIzlenen}</div>
+                          <div style={{fontSize:9,color:r.muted}}>Bugün izlendi</div>
+                        </div>
+                        <div style={{fontSize:18,color:r.muted}}>/</div>
+                        <div style={{textAlign:"center"}}>
+                          <div style={{fontSize:28,fontWeight:900,color:r.sub}}>{GUNLUK_REKLAM_MAX}</div>
+                          <div style={{fontSize:9,color:r.muted}}>Günlük max</div>
+                        </div>
+                      </div>
+                      {/* Progress bar */}
+                      <div style={{...PB,height:8,marginTop:10,borderRadius:10}}>
+                        <div style={{...PF(bugunIzlenen/GUNLUK_REKLAM_MAX*100,"#f59e0b"),height:8,borderRadius:10}}/>
+                      </div>
+                    </div>
+
+                    {kalanReklam<=0?(
+                      <div style={{textAlign:"center",padding:"18px 0",color:r.muted}}>
+                        <div style={{fontSize:32,marginBottom:6}}>✅</div>
+                        <div style={{fontSize:13,fontWeight:700}}>Bugünkü tüm reklamları izledin!</div>
+                        <div style={{fontSize:11,marginTop:4}}>Yarın 10 reklam hakkın yenilenir.</div>
+                        <div style={{fontWeight:900,color:"#f59e0b",fontSize:16,marginTop:8}}>+{bugunIzlenen*50} puan kazandın bugün! 🎉</div>
+                      </div>
+                    ):(
+                      <>
+                        {reklamIzleniyor?(
+                          <div style={{textAlign:"center",padding:"20px 0"}}>
+                            <div style={{fontSize:14,fontWeight:700,color:r.text,marginBottom:12}}>Reklam yükleniyor...</div>
+                            <div style={{background:d?"#1e293b":"#f3f4f6",borderRadius:12,padding:"20px",marginBottom:12,position:"relative",overflow:"hidden"}}>
+                              {/* Simüle reklam */}
+                              <div style={{background:"linear-gradient(135deg,#667eea,#764ba2)",borderRadius:8,padding:"24px 20px",color:"#fff",marginBottom:8}}>
+                                <div style={{fontSize:11,fontWeight:700,opacity:.7,marginBottom:4}}>REKLAM</div>
+                                <div style={{fontSize:16,fontWeight:900,marginBottom:4}}>Sağlıklı Yaşam ile Doya!</div>
+                                <div style={{fontSize:11,opacity:.8}}>Beslenme takibini hiç bu kadar kolay yapmadın.</div>
+                                <div style={{marginTop:12,background:"rgba(255,255,255,.2)",borderRadius:6,padding:"6px 12px",display:"inline-block",fontSize:11,fontWeight:700}}>Daha Fazla Bilgi →</div>
+                              </div>
+                              {/* Geri sayım */}
+                              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                                <div style={{fontSize:12,color:r.muted}}>Reklam oynatılıyor...</div>
+                                <div style={{background:"#f59e0b",color:"#fff",borderRadius:20,padding:"3px 10px",fontSize:12,fontWeight:800}}>{reklamSayac}s</div>
+                              </div>
+                            </div>
+                            <div style={{...PB,height:6}}>
+                              <div style={{...PF((30-reklamSayac)/30*100,"#f59e0b"),height:6,transition:"width .9s linear"}}/>
+                            </div>
+                          </div>
+                        ):(
+                          <div style={{textAlign:"center"}}>
+                            <div style={{fontSize:12,color:r.sub,marginBottom:12,lineHeight:1.6}}>
+                              Reklam izleyerek puan kazan. Her reklam yaklaşık <b>30 saniye</b> sürer.
+                              {ekstraAiHak>0&&<div style={{marginTop:6,color:"#7c3aed",fontWeight:700}}>✅ Aktif: +{ekstraAiHak} ekstra AI hak</div>}
+                            </div>
+                            <button onClick={()=>{
+                              setReklamIzleniyor(true);
+                              setReklamSayac(30);
+                              const interval=setInterval(()=>{
+                                setReklamSayac(s=>{
+                                  if(s<=1){
+                                    clearInterval(interval);
+                                    setReklamIzleniyor(false);
+                                    setReklamSayac(0);
+                                    // Puan ver
+                                    const yeniPuan=puan+50;
+                                    const bugunRR=bugunKey();
+                                    const gecenRR=gunlukReklamGun!==bugunRR;
+                                    const yeniIzlenen=(gecenRR?0:gunlukReklamIzle)+1;
+                                    setPuan(yeniPuan);
+                                    setGunlukReklamIzle(yeniIzlenen);
+                                    setGunlukReklamGun(bugunRR);
+                                    if(firebaseUID){
+                                      kullaniciyiGuncelle(firebaseUID,{
+                                        puan:yeniPuan,
+                                        gunlukReklam:{gun:bugunRR,sayi:yeniIzlenen}
+                                      }).catch(console.error);
+                                    }
+                                    return 0;
+                                  }
+                                  return s-1;
+                                });
+                              },1000);
+                            }} style={{...BTN("#f59e0b"),width:"100%",padding:"14px 0",fontSize:15,fontWeight:900}}>
+                              📺 Reklam İzle → +50 Puan
+                            </button>
+                            <div style={{fontSize:10,color:r.muted,marginTop:8}}>
+                              Bugün {kalanReklam} reklam hakkın kaldı · Toplam kazanabilirsin: +{kalanReklam*50} puan
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
+
+            {/* Aktif AI hak gösterimi */}
+            {ekstraAiHak>0&&(
+              <div style={{...CS,background:"linear-gradient(135deg,#7c3aed15,#6d28d908)",border:"2px solid #7c3aed44"}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <div>
+                    <div style={{fontWeight:800,color:"#7c3aed",fontSize:13}}>⚡ Aktif Ekstra AI Hakkı</div>
+                    <div style={{fontSize:11,color:r.sub,marginTop:2}}>Günlük limitine ek olarak kullanılır</div>
+                  </div>
+                  <div style={{fontSize:32,fontWeight:900,color:"#7c3aed"}}>+{ekstraAiHak}</div>
+                </div>
               </div>
             )}
 
@@ -4632,11 +5101,11 @@ export default function App(){
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
                 <div style={{background:d?"#1e293b":"#f9fafb",borderRadius:10,padding:12,textAlign:"center"}}>
-                  <div style={{fontSize:24,fontWeight:900,color:"#f59e0b"}}>{aktif.davet||0}</div>
+                  <div style={{fontSize:24,fontWeight:900,color:"#f59e0b"}}>{aktif.davet||0}<span style={{fontSize:13,color:r.muted}}>/5</span></div>
                   <div style={{fontSize:10,color:r.sub}}>Davet Ettiğin</div>
                 </div>
                 <div style={{background:d?"#1e293b":"#f9fafb",borderRadius:10,padding:12,textAlign:"center"}}>
-                  <div style={{fontSize:24,fontWeight:900,color:"#16a34a"}}>{(aktif.davet||0)*100}</div>
+                  <div style={{fontSize:24,fontWeight:900,color:"#16a34a"}}>{Math.min(aktif.davet||0,5)*100}</div>
                   <div style={{fontSize:10,color:r.sub}}>Kazanılan Puan</div>
                 </div>
               </div>
@@ -4652,12 +5121,12 @@ export default function App(){
                 <div style={{fontSize:12,color:r.sub,lineHeight:1.6}}>
                   <div style={{fontWeight:700,color:"#16a34a",marginBottom:2}}>Referans kodu başarıyla uygulandı!</div>
                   <div>Kullandığın kod: <b style={{color:r.text}}>{aktif.refKodKullandi}</b></div>
-                  <div style={{marginTop:4,fontSize:11,color:r.muted}}>Normal kod: her iki tarafa +150 puan. Influencer/işletme kodu: sana +500 puan!</div>
+                  <div style={{marginTop:4,fontSize:11,color:r.muted}}>Normal kod: her iki tarafa +100 puan. Influencer/işletme kodu: sana +300 puan!</div>
                 </div>
               ):(
                 <>
                   <div style={{fontSize:11,color:r.sub,marginBottom:10,lineHeight:1.6}}>
-                    Arkadaşının referans kodunu gir — sana <b style={{color:"#f59e0b"}}>+150 puan</b>, arkadaşına da <b style={{color:"#f59e0b"}}>+150 puan</b>! (Influencer kodunda sana <b style={{color:"#16a34a"}}>+500 puan</b>!)
+                    Arkadaşının referans kodunu gir — sana <b style={{color:"#f59e0b"}}>+100 puan</b>, arkadaşına da <b style={{color:"#f59e0b"}}>+100 puan</b>! (Influencer kodunda sana <b style={{color:"#16a34a"}}>+300 puan</b>!)
                   </div>
                   <div style={{display:"flex",gap:8,marginBottom:8}}>
                     <input
@@ -4698,7 +5167,7 @@ export default function App(){
 
             <div style={CS}>
               <div style={CT}>Puan Kazanma Yolları</div>
-              {[{l:"Yemek kaydet",p:"+10"},{l:"Besin gönder (onay)",p:"+20"},{l:"Arkadaş davet et",p:"+100"},{l:"Referans kodu ile kayıt",p:"+100"},{l:"Kilo kaydı",p:"+5"}].map(x=>(
+              {[{l:"🌅 Günlük giriş",p:"+100"},{l:"📺 Reklam izle",p:"+50"},{l:"📋 Besin gönder (onay)",p:"+20"},{l:"👥 Arkadaş davet et (max 5)",p:"+100"},{l:"🎁 Referans kodu gir (normal)",p:"+100"},{l:"🎯 Influencer kodu gir",p:"+300"}].map(x=>(
                 <div key={x.l} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:`1px solid ${r.rowB}`}}>
                   <div style={{fontSize:13,color:r.text}}>{x.l}</div>
                   <div style={{fontWeight:800,color:"#f59e0b"}}>{x.p}</div>
@@ -5445,7 +5914,18 @@ export default function App(){
                       <span style={{fontSize:12,fontWeight:700,color:r.text}}>{t.baslik}</span>
                       <span style={{fontSize:10,color:r.muted,marginLeft:6}}>{t.kategori} · {t.kalori} kcal</span>
                     </div>
-                    <button onClick={()=>setTarifler(prev=>prev.filter(x=>x.id!==t.id))} style={{background:"#fef2f2",border:"1px solid #fca5a5",borderRadius:8,padding:"4px 10px",cursor:"pointer",fontSize:11,fontWeight:700,color:"#ef4444"}}>Kaldır</button>
+                    <button onClick={async()=>{
+  setTarifler(prev=>prev.filter(x=>x.id!==t.id));
+  try{
+    const fbMod2=await import("firebase/firestore");
+    const ref=fbMod2.doc(db,"appConfig","silinenTarifler");
+    const snap=await fbMod2.getDoc(ref);
+    const mevcutIds=snap.exists()?(snap.data().ids||[]):[];
+    if(!mevcutIds.includes(t.id)){
+      await fbMod2.setDoc(ref,{ids:[...mevcutIds,t.id]},{merge:true});
+    }
+  }catch(e){console.error("Tarif silme kayıt:",e);}
+}} style={{background:"#fef2f2",border:"1px solid #fca5a5",borderRadius:8,padding:"4px 10px",cursor:"pointer",fontSize:11,fontWeight:700,color:"#ef4444"}}>Kaldır</button>
                   </div>
                 ))}
               </div>
@@ -5460,7 +5940,17 @@ export default function App(){
                     <span style={BAD("#f59e0b")}>Bekliyor</span>
                   </div>
                   <div style={{display:"flex",gap:8}}>
-                    <button style={{...BTN("#16a34a"),flex:1,padding:"9px 0"}} onClick={()=>{setBesinler(p=>[...p,{...b,id:Date.now(),onay:true}]);setBekBesin(p=>p.filter(x=>x.id!==b.id));}}>Onayla</button>
+                    <button style={{...BTN("#16a34a"),flex:1,padding:"9px 0"}} onClick={async()=>{
+  const yeniB={...b,id:Date.now(),onay:true};
+  setBesinler(p=>[...p,yeniB]);
+  setBekBesin(p=>p.filter(x=>x.id!==b.id));
+  // Firestore'a kalıcı kaydet
+  try{
+    const {addDoc,collection:col,deleteDoc,doc:dc}=await import("firebase/firestore");
+    await addDoc(col(db,"onaylananBesinler"),yeniB);
+    if(b.firebaseId) await deleteDoc(dc(db,"besinOnay",b.firebaseId));
+  }catch(e){console.error("Besin onay kayıt:",e);}
+}}>Onayla</button>
                     <button style={{...BTN("#ef4444"),flex:1,padding:"9px 0"}} onClick={()=>setBekBesin(p=>p.filter(x=>x.id!==b.id))}>Reddet</button>
                   </div>
                 </div>
@@ -5471,7 +5961,7 @@ export default function App(){
 
         {/* FAB */}
         {tab==="anasayfa"&&(
-          <button style={{position:"fixed",bottom:94,right:"calc(50% - 215px + 14px)",background:"#16a34a",color:"#fff",border:"none",borderRadius:50,width:52,height:52,fontSize:28,cursor:"pointer",boxShadow:"0 4px 18px #16a34a66",display:"flex",alignItems:"center",justifyContent:"center",zIndex:99}} onClick={()=>setTab("ara")}>+</button>
+          <button style={{position:"fixed",bottom:94,right:"calc(50% - 215px + 14px)",background:"#16a34a",color:"#fff",border:"none",borderRadius:50,width:52,height:52,fontSize:28,cursor:"pointer",boxShadow:"0 4px 18px #16a34a66",display:"flex",alignItems:"center",justifyContent:"center",zIndex:99}} onClick={()=>{setTab("gozat");setAramaOdak(true);}}>+</button>
         )}
 
         {/* NAV */}
@@ -5791,11 +6281,9 @@ export default function App(){
             {l:"🏅 Puan",v:puan+" pts",renk:"#f59e0b"},
           ];
 
-          // Arkadaş haftalık özeti — hem gerçek arkadaşlar hem demo
-          const demoHesap=DEMO_PAYLASIM["bendensize769"];
+          // Arkadaş haftalık özeti
           const arkListeTam=[
             ...arkadaslar.map(a=>({uid:a.uid,isim:a.isim,veri:paylasimDB[a.uid]||{}})),
-            {uid:"bendensize769",isim:"Doya Demo 🤖",veri:demoHesap}
           ];
           const arkHafta=arkListeTam.map(ark=>{
             const bugunObj=new Date();
@@ -6140,20 +6628,21 @@ export default function App(){
                       </div>
                     )}
                     {/* Limit doldu */}
-                    {premiumPlus&&aiGunlukKullanim>=AI_GUNLUK_LIMIT&&(
+                    {(premiumPlus||ekstraAiHak>0)&&aiGunlukKullanim>=(AI_GUNLUK_LIMIT+ekstraAiHak)&&(
                       <div style={{background:d?"#1c1a10":"#fef2f2",border:"1.5px solid #fca5a5",borderRadius:14,padding:"14px",marginBottom:12,textAlign:"center"}}>
                         <div style={{fontSize:24,marginBottom:6}}>⏰</div>
                         <div style={{fontSize:13,fontWeight:900,color:"#ef4444",marginBottom:4}}>Günlük limit doldu</div>
-                        <div style={{fontSize:11,color:r.sub}}>Bugün {AI_GUNLUK_LIMIT} analiz hakkını kullandın. Yarın yenilenir.</div>
+                        <div style={{fontSize:11,color:r.sub}}>Bugün {AI_GUNLUK_LIMIT+ekstraAiHak} analiz hakkını kullandın. Yarın yenilenir.</div>
+                        <button onClick={()=>setTab("puan")} style={{...BTN("#f59e0b","8px 16px"),fontSize:12,marginTop:8}}>🛒 Ekstra Hak Al</button>
                       </div>
                     )}
-                    {/* Plus aktif + hak var */}
-                    {premiumPlus&&aiGunlukKullanim<AI_GUNLUK_LIMIT&&(
+                    {/* Plus ya da ekstra hak var + kullanılabilir */}
+                    {(premiumPlus||ekstraAiHak>0)&&aiGunlukKullanim<(AI_GUNLUK_LIMIT+(premiumPlus?0:0)+ekstraAiHak)&&(
                       <div>
                         {/* Kalan hak */}
                         <div style={{background:d?"#1e293b":"#f0fdf4",borderRadius:12,padding:"8px 12px",marginBottom:10,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                           <div style={{fontSize:11,color:r.sub}}>Bugünkü hak</div>
-                          <div style={{fontSize:13,fontWeight:900,color:"#16a34a"}}>{AI_GUNLUK_LIMIT-aiGunlukKullanim} / {AI_GUNLUK_LIMIT} kaldı</div>
+                          <div style={{fontSize:13,fontWeight:900,color:"#16a34a"}}>{(premiumPlus?AI_GUNLUK_LIMIT:0)+ekstraAiHak-aiGunlukKullanim} / {(premiumPlus?AI_GUNLUK_LIMIT:0)+ekstraAiHak} kaldı</div>
                         </div>
                         {/* Gizli input'lar */}
                         <input type="file" accept="image/*" capture="environment" id="aiCameraInput" style={{display:"none"}}
@@ -6354,9 +6843,6 @@ export default function App(){
                               const yeniGun={...gunV(bg),yemekler:[...eskiY,kayit]};
                               setGunluk(prev=>({...prev,[bg]:yeniGun}));
                               if(firebaseUID) gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
-                              const yeniPuan=(puan||0)+10;
-                              setPuan(yeniPuan);
-                              if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan}).catch(console.error);
                               setAiModal(false);
                               setTab("anasayfa");
                             }} style={{...BTN("#16a34a"),flex:2,padding:"13px 0",fontSize:13,fontWeight:800}}>
@@ -6418,27 +6904,73 @@ export default function App(){
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
             <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
               <div style={{fontSize:16,fontWeight:900,color:"#111",marginBottom:14}}>Ortaklık Sözleşmesi</div>
-              <div style={{fontSize:12,color:"#374151",lineHeight:1.9}}>
-                Bu sözleşme, <b>Doya</b> uygulaması ile onaylanan Influencer/İşletme ortağı arasındaki ilişkiyi düzenler.<br/><br/>
-                <b>1. Kazanç Modeli</b><br/>
-                Ortaklar, referans kodlarıyla uygulamaya davet ettikleri aktif kullanıcıların ürettiği reklam gelirinin <b>%25'ini</b> ve premium satın alımlardan <b>%25 komisyonu</b> alır. Kazanç, kullanıcıların aktifliğine bağlıdır ve her ay değişebilir.<br/><br/>
-                <b>2. Ödeme Koşulları</b><br/>
-                Ödemeler her ayın 1'inde kayıtlı IBAN'a yapılır. Minimum ödeme tutarı 50 ₺'dir.<br/><br/>
-                <b>3. Mali Risk ve Ödeme Gecikmesi</b><br/>
-                Doya'in mali durumunun kötüleşmesi, nakit akışı sorunları veya beklenmedik gider artışları durumunda <b>ödemeler gecikebilir</b>. Bu durum ortağa önceden bildirilir.<br/><br/>
-                <b>4. Şirketin İflası</b><br/>
-                Doya'in mahkeme kararıyla <b>iflası halinde</b>, ortakların birikmiş kazançları iflas masasına dahil edilir ve yasal süreç kapsamında ödeme yapılır ya da <b>yapılamayabilir</b>. Ortak bu riski kabul etmiş sayılır.<br/><br/>
-                <b>5. Sözleşmenin Feshi</b><br/>
-                Doya, gerekçe göstermeksizin ortaklığı 30 gün öncesinde bildirerek sonlandırabilir. Birikmiş kazançlar son ödeme döneminde ödenir.<br/><br/>
-                <b>6. Ortağın Sorumlulukları</b><br/>
-                Ortak, paylaşımlarında Doya'i yanıltıcı şekilde tanıtamaz. Sözleşmeye aykırı davranış ortaklığın derhal feshine neden olur.<br/><br/>
-                <b>7. Uyuşmazlık Çözümü</b><br/>
-                Taraflar arasındaki uyuşmazlıklarda Türkiye Cumhuriyeti mahkemeleri yetkilidir.<br/><br/>
-                <b>Destek:</b> {DESTEK_MAIL} | <b>Ortaklık:</b> {ORTAKLIK_MAIL}
+              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}}>
+                <div style={{background:"#fff7ed",border:"1.5px solid #f59e0b",borderRadius:10,padding:"10px 12px",marginBottom:14,fontSize:11,color:"#92400e",fontWeight:700}}>
+                  ⚠️ Bu sözleşmeyi dikkatlice okuyunuz. Onaylamanız hukuki bağlayıcılık taşır.
+                </div>
+
+                Bu sözleşme ("Sözleşme"), <b>Doya Beslenme Takip Uygulaması</b> ("Doya" veya "Platform") ile ortaklık başvurusu onaylanan <b>Influencer / İşletme Ortağı</b> ("Ortak") arasında kurulmaktadır. Başvuruyu onaylayarak ve referans kodunu kullanmaya başlayarak bu sözleşmenin tüm maddelerini okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.<br/><br/>
+
+                <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
+                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği reklam gelirinin <b>%25'ini</b> ve bu kullanıcıların gerçekleştirdiği premium satın alımlardan <b>%25 komisyonu</b> alır. Kazanç tutarı; kullanıcı aktivitesine, reklam piyasası koşullarına ve ülke bazlı eCPM değerlerine göre değişkenlik gösterir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
+
+                <b>2. ÖDEME KOŞULLARI</b><br/>
+                Ödemeler her takvim ayının 1'inde, Ortak'ın sisteme kaydettiği IBAN hesabına yapılır. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
+
+                <b>3. REKABET YASAĞI VE ANLИК FESİH HAKKI</b><br/>
+                Ortak; aktif ortaklık süresi boyunca ve ortaklık sona erdikten sonra <b>6 ay süreyle</b> aşağıdaki faaliyetlerde bulunamaz:<br/>
+                • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini sosyal medya hesaplarında, YouTube kanallarında, blog veya podcast gibi kanallarında tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
+                • Kullanıcıları Doya'dan rakip platformlara yönlendirecek içerik üretemez.<br/><br/>
+                <b>Bu maddenin ihlali halinde Doya, herhangi bir ihbar süresi, ön bildirim veya gerekçe gösterme yükümlülüğü olmaksızın ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş ve henüz ödenmemiş kazançlar minimum ödeme tutarını geçiyorsa bir sonraki dönemde ödenir; geçmiyorsa ödenmez.<br/><br/>
+
+                <b>4. İÇERİK STANDARTLARI VE MARKA KULLANIMI</b><br/>
+                Ortak; Doya adını, logosunu ve uygulama görsellerini yalnızca Doya'nın onayladığı biçimde kullanabilir. Ortak, Doya hakkında yanıltıcı, abartılı, bilimsel dayanaktan yoksun veya sağlık vaadinde bulunan hiçbir içerik üretemez. Ortak, sponsorlu içeriklerini yasal zorunluluklar çerçevesinde "reklam", "sponsorlu" veya "#reklam" etiketiyle açıkça işaretlemekle yükümlüdür; aksi hâlde doğacak idari ve hukuki yaptırımların sorumluluğu tamamen Ortak'a aittir.<br/><br/>
+
+                <b>5. PERFORMANS VE AKTİFLİK ZORUNLULUĞU</b><br/>
+                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca hiç yeni kullanıcı davet edilmemesi halinde Doya, herhangi bir bildirim yapmaksızın ortaklık statüsünü askıya alabilir ya da tamamen sonlandırabilir.<br/><br/>
+
+                <b>6. DOYA'NIN TEK TARAFLI FESİH HAKKI</b><br/>
+                Doya, aşağıdaki durumlarda ortaklığı önceden bildirim yapmaksızın derhal feshedebilir:<br/>
+                • Rekabet yasağının ihlali (Madde 3)<br/>
+                • Yanıltıcı, hakaret içerikli veya Doya'nın itibarını zedeleyen içerik paylaşımı<br/>
+                • Sahte hesap, bot trafik veya hile yoluyla referans kodu kullanımı<br/>
+                • Kullanıcıları manipüle edecek biçimde maddi vaat içeren paylaşımlar<br/>
+                • Ortağın mahkûmiyet kararıyla sonuçlanan suç işlemesi<br/>
+                • Doya'nın marka bütünlüğünü, güvenilirliğini veya ticari itibarını zedeleyecek herhangi bir kamuoyu açıklaması<br/><br/>
+                Bunların dışında Doya, gerekçe göstermeksizin ortaklığı <b>15 gün</b> öncesinde yazılı bildirimle sonlandırabilir.<br/><br/>
+
+                <b>7. GİZLİLİK VE TİCARİ SIRRN KORUNMASI</b><br/>
+                Ortak; ortaklık kapsamında öğrendiği kullanıcı verilerini, gelir rakamlarını, komisyon oranlarını, sistem altyapı bilgilerini ve iş modelini üçüncü şahıslarla paylaşamaz, kendi çıkarı için kullanamaz. Bu yükümlülük sözleşmenin sona ermesinden sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
+
+                <b>8. MALİ RİSK, ÖDEME GECİKMESİ VE İFLAS</b><br/>
+                Doya'nın nakit akışı sorunları, beklenmedik gider artışları veya piyasa koşullarının kötüleşmesi durumunda ödemeler gecikmeli yapılabilir; bu durum Ortak'a önceden bildirilir. Doya'nın mahkeme kararıyla iflası hâlinde birikmiş kazançlar iflas masasına dahil edilir ve yasal süreç kapsamında ödeme yapılır ya da yapılamayabilir. Ortak bu finansal riski peşinen kabul etmiş sayılır.<br/><br/>
+
+                <b>9. SINIRLI SORUMLULUK</b><br/>
+                Doya, Ortak'ın içerik üretim faaliyetleri sırasında üçüncü kişilere verdiği zararlardan, telif hakkı ihlallerinden veya vergi yükümlülüklerinden hiçbir şekilde sorumlu tutulamaz. Ortak, kendi ürettiği içeriklerden doğan tüm hukuki ve mali sorumluluğu bizzat üstlenir.<br/><br/>
+
+                <b>10. VERGİ, STOPAJ VE FATURA ZORUNLULUĞU</b><br/>
+                <u>a) Fatura/Makbuz İbrazı:</u> Ortak, her ödeme dönemine ilişkin hizmet bedelini belgelemek amacıyla Doya'ya fatura veya serbest meslek makbuzu ibraz etmekle yükümlüdür. Fatura/makbuz ibraz edilmemesi durumunda Doya, brüt ödeme tutarı üzerinden yürürlükteki vergi mevzuatı kapsamında gerekli <b>stopaj kesintilerini</b> yaparak ilgili vergi dairelerine beyan eder ve yatırır; Ortak'a kalan net tutar ödenir. Bu kesinti bir ceza olmayıp yasal bir zorunluluktur.<br/><br/>
+                <u>b) Stopaj Oranı:</u> Geçerli mevzuat çerçevesinde serbest meslek ödemelerinde uygulanan stopaj oranı (hâlihazırda brüt tutarın <b>%20'si</b>) esas alınır. Yasal oranın değişmesi hâlinde güncel oran otomatik olarak uygulanır; Ortak bu değişikliği ayrıca kabul etmiş sayılır.<br/><br/>
+                <u>c) Vergi Mükellefiyeti:</u> Ortaklık kapsamında elde edilen gelirler üzerindeki tüm vergi ve yasal yükümlülükler (gelir vergisi, KDV vb.) münhasıran Ortak'a aittir. Doya'nın stopaj kesip yatırması, Ortak'ın kendi vergi beyan ve ödeme yükümlülüklerini ortadan kaldırmaz.<br/><br/>
+                <u>d) Sorumluluk Reddi:</u> Ortak'ın hatalı veya eksik vergi beyanından, fatura kesmemesinden ya da muhasebe ihmâlinden doğacak her türlü idari para cezası, vergi ziyaı ve gecikme faizi münhasıran Ortak'a aittir; Doya bu konuda hiçbir sorumluluk kabul etmez.<br/><br/>
+
+                <b>11. DEĞİŞİKLİK HAKKI</b><br/>
+                Doya, sözleşme koşullarını, komisyon oranlarını ve ödeme politikalarını <b>15 gün</b> öncesinde Ortak'a e-posta yoluyla bildirerek değiştirebilir. Değişikliğin yürürlük tarihinden sonra referans kodu kullanılmaya devam edilmesi, yeni koşulların kabul edildiği anlamına gelir.<br/><br/>
+
+                <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
+                Bu sözleşmeden doğan uyuşmazlıklarda öncelikle taraflar arabuluculuk yoluna başvurur. Arabuluculukta uzlaşı sağlanamaması halinde <b>Adana mahkemeleri ve icra daireleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
+
+                <b>13. YÜRÜRLÜK</b><br/>
+                Bu sözleşme, Ortak'ın başvurusunun Doya tarafından onaylandığı tarihte yürürlüğe girer ve her iki tarafça feshedilene kadar geçerliliğini korur.<br/><br/>
+
+                <div style={{background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,padding:"8px 12px",fontSize:10.5,color:"#166534"}}>
+                  📌 <b>Önemli:</b> Bu sözleşme {new Date().toLocaleDateString("tr-TR")} tarihi itibarıyla geçerlidir.<br/>
+                  İletişim: <b>{DESTEK_MAIL}</b> | Ortaklık: <b>{ORTAKLIK_MAIL}</b>
+                </div>
               </div>
               <div style={{display:"flex",alignItems:"flex-start",gap:8,margin:"14px 0",background:"#fff7ed",borderRadius:10,padding:10}}>
                 <input type="checkbox" id="soz" checked={sozlesmeOnay} onChange={e=>setSozlesmeOnay(e.target.checked)} style={{marginTop:3,width:18,height:18,cursor:"pointer",accentColor:"#f59e0b"}}/>
-                <label htmlFor="soz" style={{fontSize:12,color:"#374151",cursor:"pointer",lineHeight:1.6}}>Sözleşmeyi okudum, yukarıdaki <b>mali risk ve iflas</b> koşulları dahil tüm maddeleri kabul ediyorum.</label>
+                <label htmlFor="soz" style={{fontSize:12,color:"#374151",cursor:"pointer",lineHeight:1.6}}>Sözleşmenin tüm maddelerini okudum; <b>rekabet yasağı, anlık fesih hakkı, mali risk ve gizlilik</b> koşulları dahil tüm hükümleri kabul ediyorum. Bu onayın hukuki bağlayıcılık taşıdığını biliyor ve kabul ediyorum.</label>
               </div>
               <div style={{display:"flex",gap:8}}>
                 <button style={{...BTN(sozlesmeOnay?"#f59e0b":"#d1d5db"),flex:2,padding:"11px 0"}} onClick={()=>{if(!sozlesmeOnay)return;setSozlesmeModal(false);}}>Kabul Et ve Devam</button>
