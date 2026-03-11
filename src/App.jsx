@@ -37,27 +37,42 @@ const LANG = {
       {
         ikon: "🥗",
         baslik: "Doya ile Sağlıklı Beslen",
-        acik: "Yediğin her şeyi saniyeler içinde kaydet. McDonald's, Ülker, Barilla ve daha fazlası dahil 800'den fazla besin içeren veritabanımızla günlük kalorini, protein ve vitamin alımını takip et.",
+        acik: "1.900+ besin içeren dev veritabanıyla her yediğini saniyeler içinde kaydet. Kalori, protein, karbonhidrat ve vitamin takibini kolaylaştır.",
+        renk: "linear-gradient(145deg,#052e16,#15803d)",
+        vurgu: "#4ade80",
+        detaylar: ["🍔 1.900+ besin", "📊 Makro takibi", "💊 Vitamin analizi"],
       },
       {
-        ikon: "⭐",
-        baslik: "Sağlık Yıldız Sistemi",
-        acik: "Her besine 0-5 arası sağlık puanı verilmiştir. Protein, lif, vitamin ve sodyum dengesi baz alınarak hesaplanır. 🔬 Derin Analiz ile vitamin ve mineral detaylarını incele.",
+        ikon: "📷",
+        baslik: "Fotoğrafla Kalori Tara",
+        acik: "Yapay zeka destekli kamera ile yemeğini fotoğrafla — anında kalori ve besin değerlerini öğren. Premium Plus üyelerine günde 10 analiz hakkı.",
+        renk: "linear-gradient(145deg,#1e1b4b,#4338ca)",
+        vurgu: "#a5b4fc",
+        detaylar: ["🤖 AI analiz", "📸 Fotoğrafla tara", "⚡ Anında sonuç"],
       },
       {
-        ikon: "👟",
-        baslik: "Adım Sayar & Haftalık Performans",
-        acik: "Telefonunun sensörüyle adımlarını otomatik say. Profilinde haftalık, aylık ve yıllık performans özeti gör — ne kadar protein aldın, kaç kalori yaktın, su hedefine ulaştın mı?",
+        ikon: "🏆",
+        baslik: "Puan Kazan & Yarış",
+        acik: "Her kayıtta puan kazan, arkadaşlarınla beslenme yarışması yap. Seri sistemiyle alışkanlıklarını güçlendir, liderlik tablosuna çık!",
+        renk: "linear-gradient(145deg,#78350f,#d97706)",
+        vurgu: "#fde68a",
+        detaylar: ["🔥 Günlük seri", "👥 Arkadaş yarışı", "🥇 Liderlik tablosu"],
       },
       {
-        ikon: "🎁",
-        baslik: "Referans Kodu ile Kazan",
-        acik: "Influencer/İşletme kodunu kullananlara +500 puan! Normal kodla +150 puan. Ortak influencer ve işletmeler her premium satıştan %25 + reklam gelirinden %25 komisyon kazanır.",
+        ikon: "🍳",
+        baslik: "Sporcu Tarifleri",
+        acik: "40+ sağlıklı ve sporcu tarifi keşfet. Makro değerleri hazır, tek tıkla öğününe ekle. Protein, karbonhidrat ve yağ dengeni kolayca kur.",
+        renk: "linear-gradient(145deg,#064e3b,#059669)",
+        vurgu: "#6ee7b7",
+        detaylar: ["💪 40+ tarif", "⭐ Yıldızlı öneriler", "🍽️ Öğüne ekle"],
       },
       {
-        ikon: "🔥",
-        baslik: "Seri & Sosyal Beslenme",
-        acik: "Her gün yemek kaydet ve seri artır. 10.000 adımı geçince adım serini yükselt. Arkadaşlarınla beslenme yarışması yap, puan kazan ve en sağlıklı sen ol!",
+        ikon: "💰",
+        baslik: "Kazan & Büyü",
+        acik: "Referans kodunu paylaş — Normal kodla +150, influencer/işletme koduyla +500 puan! Ortak ol, premium satışlardan ve reklam gelirinden %25 komisyon kazan.",
+        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
+        vurgu: "#93c5fd",
+        detaylar: ["🎯 Influencer: +500 puan", "💳 %25 komisyon", "📢 Reklam payı"],
       },
     ],
   },
@@ -71,27 +86,42 @@ const LANG = {
       {
         ikon: "🥗",
         baslik: "Eat Healthy with Doya",
-        acik: "Log everything you eat in seconds. Track calories, protein and vitamins with 800+ foods including McDonald's, Ülker, Barilla and many more brands.",
+        acik: "Log everything you eat in seconds. Track calories, protein and vitamins with 1,900+ foods from top Turkish & global brands.",
+        renk: "linear-gradient(145deg,#052e16,#15803d)",
+        vurgu: "#4ade80",
+        detaylar: ["🍔 1,900+ foods", "📊 Macro tracking", "💊 Vitamin analysis"],
       },
       {
-        ikon: "⭐",
-        baslik: "Health Star System",
-        acik: "Every food has a health score from 0-5 stars. Use Deep Analysis to inspect vitamins, minerals and daily intake percentages for each food.",
+        ikon: "📷",
+        baslik: "AI Photo Scanner",
+        acik: "Snap a photo of your meal and let AI instantly calculate calories and macros. Premium Plus members get 10 scans per day.",
+        renk: "linear-gradient(145deg,#1e1b4b,#4338ca)",
+        vurgu: "#a5b4fc",
+        detaylar: ["🤖 AI powered", "📸 Photo scan", "⚡ Instant results"],
       },
       {
-        ikon: "👟",
-        baslik: "Steps & Weekly Performance",
-        acik: "Auto-count steps with your phone sensor. View weekly, monthly and yearly performance summaries — protein intake, calories burned, water goals and more.",
+        ikon: "🏆",
+        baslik: "Earn Points & Compete",
+        acik: "Earn points with every log, compete with friends and climb the leaderboard. Build streaks and make healthy eating a habit!",
+        renk: "linear-gradient(145deg,#78350f,#d97706)",
+        vurgu: "#fde68a",
+        detaylar: ["🔥 Daily streaks", "👥 Friend battles", "🥇 Leaderboard"],
       },
       {
-        ikon: "🎁",
-        baslik: "Earn with Referral Codes",
-        acik: "Share your referral code — both you and your friend get +150 points! Partners earn 25% commission on every premium purchase through their code.",
+        ikon: "🍳",
+        baslik: "Athlete Recipes",
+        acik: "Explore 40+ healthy and athlete-focused recipes. Macros ready, add to your meal with one tap. Balance your protein and carbs easily.",
+        renk: "linear-gradient(145deg,#064e3b,#059669)",
+        vurgu: "#6ee7b7",
+        detaylar: ["💪 40+ recipes", "⭐ Star rated", "🍽️ Add to meal"],
       },
       {
-        ikon: "🔥",
-        baslik: "Streaks & Social Nutrition",
-        acik: "Keep your meal and step streaks alive. Compete with friends on nutrition goals, earn points and become the healthiest in your circle!",
+        ikon: "💰",
+        baslik: "Earn & Grow",
+        acik: "Share your code — regular codes give +150 pts, influencer/business codes give +500 pts! Earn 25% commission on premium sales.",
+        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
+        vurgu: "#93c5fd",
+        detaylar: ["🎯 Influencer: +500 pts", "💳 25% commission", "📢 Ad revenue share"],
       },
     ],
   },
@@ -102,7 +132,7 @@ const DESTEK_MAIL   = "Doyasupport@gmail.com";
 const ORTAKLIK_MAIL = "Doyasupport@gmail.com";
 const PREMIUM_FIYAT = 25;  // aylık ₺ (temel)
 const PREMIUM_PLUS_FIYAT = 60; // aylık ₺ (AI + reklamsız)
-const AI_GUNLUK_LIMIT = 20; // premium plus günlük fotoğraf hakkı
+const AI_GUNLUK_LIMIT = 10; // premium plus günlük fotoğraf hakkı
 const AYLAR  = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
 const GUNLER = ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
 
@@ -2088,6 +2118,58 @@ const BESIN_DB = [
   { id:1848, ad:"Eti Browni Çikolatalı Kek (45g)", marka:"Eti", kal:192, pro:2.5, karb:28, yag:8.5, lif:1, sod:120, demir:0.8, kals:20, vitC:0, vitD:0, vitB12:0, acik:10, por:45, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
   { id:1849, ad:"Torku Helva (50g)", marka:"Torku", kal:290, pro:5.5, karb:35, yag:15, lif:1.5, sod:55, demir:1.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:22, por:50, aclik:"1-2 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
   { id:1850, ad:"Knorr Hazır Çorba (1 paket)", marka:"Knorr", kal:95, pro:3, karb:15, yag:3, lif:1, sod:920, demir:0.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:20, por:250, aclik:"30-60 dk", onay:true, kat:"Çorba", yildiz:2 },
+
+  // ─── TÜRKİYE CİPSLERİ (ID 1851-1900) ───────────────────────────────────────
+  { id:1851, ad:"Lay's Klasik (30g)", marka:"Lay's", kal:161, pro:2, karb:15, yag:11, lif:1, sod:148, demir:0.2, kals:4, vitC:4, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1852, ad:"Lay's Fırında (23g)", marka:"Lay's", kal:95, pro:2, karb:16, yag:3, lif:1, sod:130, demir:0.2, kals:4, vitC:4, vitD:0, vitB12:0, acik:7, por:23, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1853, ad:"Lay's Max Ketchup (35g)", marka:"Lay's", kal:187, pro:2.2, karb:18, yag:12, lif:1.2, sod:200, demir:0.3, kals:5, vitC:5, vitD:0, vitB12:0, acik:7, por:35, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1854, ad:"Lay's Max Barbekü (35g)", marka:"Lay's", kal:185, pro:2.2, karb:18, yag:12, lif:1.2, sod:195, demir:0.3, kals:5, vitC:3, vitD:0, vitB12:0, acik:7, por:35, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1855, ad:"Lay's Acılı Limon (30g)", marka:"Lay's", kal:158, pro:2, karb:15, yag:10, lif:1, sod:185, demir:0.2, kals:4, vitC:6, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1856, ad:"Pringles Orijinal (40g)", marka:"Pringles", kal:208, pro:2.2, karb:21, yag:13, lif:1.4, sod:200, demir:0.5, kals:8, vitC:4, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1857, ad:"Pringles Ekşi Krema (40g)", marka:"Pringles", kal:204, pro:2.2, karb:21, yag:13, lif:1.4, sod:220, demir:0.5, kals:8, vitC:3, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1858, ad:"Pringles Barbekü (40g)", marka:"Pringles", kal:204, pro:2.2, karb:21, yag:13, lif:1.4, sod:215, demir:0.5, kals:8, vitC:3, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1859, ad:"Pringles Pizza (40g)", marka:"Pringles", kal:205, pro:2.2, karb:21, yag:13, lif:1.4, sod:210, demir:0.5, kals:8, vitC:3, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1860, ad:"Pringles Paprika (40g)", marka:"Pringles", kal:206, pro:2.2, karb:21, yag:13, lif:1.4, sod:205, demir:0.5, kals:8, vitC:4, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1861, ad:"Doritos Nacho Cheese (30g)", marka:"Doritos", kal:151, pro:2, karb:18, yag:8, lif:1.5, sod:200, demir:0.4, kals:40, vitC:0, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1862, ad:"Doritos Cool Ranch (30g)", marka:"Doritos", kal:148, pro:2, karb:18, yag:7.5, lif:1.5, sod:195, demir:0.4, kals:40, vitC:0, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1863, ad:"Doritos Acı Biberli (30g)", marka:"Doritos", kal:149, pro:2, karb:18, yag:7.5, lif:1.5, sod:210, demir:0.4, kals:40, vitC:2, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+  { id:1864, ad:"Cheetos Puffs (30g)", marka:"Cheetos", kal:162, pro:2.2, karb:17, yag:10, lif:0.5, sod:280, demir:0.4, kals:10, vitC:0, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1865, ad:"Cheetos Crunchy (30g)", marka:"Cheetos", kal:160, pro:2, karb:16, yag:10, lif:0.4, sod:260, demir:0.4, kals:9, vitC:0, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1866, ad:"Ruffles Original (30g)", marka:"Ruffles", kal:160, pro:2, karb:15, yag:11, lif:1, sod:148, demir:0.2, kals:4, vitC:4, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1867, ad:"Ruffles Ekşi Krema Soğan (30g)", marka:"Ruffles", kal:158, pro:2, karb:15, yag:10.5, lif:1, sod:175, demir:0.2, kals:5, vitC:3, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1868, ad:"Eti Pop (30g)", marka:"Eti", kal:115, pro:2, karb:24, yag:1.5, lif:0.8, sod:240, demir:0.5, kals:1, vitC:0, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1869, ad:"Ülker Cips Klasik (26g)", marka:"Ülker", kal:136, pro:1.8, karb:13, yag:9, lif:0.8, sod:135, demir:0.2, kals:3, vitC:3, vitD:0, vitB12:0, acik:7, por:26, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1870, ad:"Ülker Cips Acılı (26g)", marka:"Ülker", kal:135, pro:1.8, karb:13, yag:9, lif:0.8, sod:155, demir:0.2, kals:3, vitC:4, vitD:0, vitB12:0, acik:7, por:26, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1871, ad:"Ülker Cips Barbekü (26g)", marka:"Ülker", kal:135, pro:1.8, karb:13, yag:9, lif:0.8, sod:150, demir:0.2, kals:3, vitC:3, vitD:0, vitB12:0, acik:7, por:26, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1872, ad:"Crisps Tuz & Sirke (30g)", marka:"Ülker", kal:152, pro:2, karb:14, yag:10, lif:1, sod:185, demir:0.2, kals:4, vitC:2, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1873, ad:"Popkek Mısır Patlaması (25g)", marka:"Eti", kal:95, pro:2.5, karb:20, yag:1, lif:2, sod:220, demir:0.3, kals:1, vitC:0, vitD:0, vitB12:0, acik:8, por:25, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1874, ad:"Tortilla Chips Klasik (28g)", marka:"", kal:135, pro:2, karb:18, yag:6.5, lif:1.5, sod:110, demir:0.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:8, por:28, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1875, ad:"Tortilla Chips Acı (28g)", marka:"", kal:135, pro:2, karb:18, yag:6.5, lif:1.5, sod:130, demir:0.5, kals:35, vitC:1, vitD:0, vitB12:0, acik:8, por:28, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1876, ad:"Rusty's Cips Klasik (26g)", marka:"Rusty's", kal:138, pro:1.8, karb:14, yag:9, lif:0.9, sod:142, demir:0.2, kals:3, vitC:3, vitD:0, vitB12:0, acik:7, por:26, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1877, ad:"Crax Mısır Cipsi (25g)", marka:"", kal:103, pro:2, karb:20, yag:2.5, lif:1, sod:175, demir:0.4, kals:2, vitC:0, vitD:0, vitB12:0, acik:6, por:25, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:1878, ad:"Forno Fırında Patates (22g)", marka:"Forno", kal:88, pro:1.8, karb:15, yag:2.8, lif:1, sod:120, demir:0.2, kals:3, vitC:3, vitD:0, vitB12:0, acik:6, por:22, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1879, ad:"Patos Mısır Cipsi Tatlı (30g)", marka:"Patos", kal:118, pro:2, karb:23, yag:2.5, lif:1.5, sod:130, demir:0.5, kals:2, vitC:0, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1880, ad:"Patos Mısır Cipsi Tuzlu (30g)", marka:"Patos", kal:118, pro:2, karb:22, yag:2.5, lif:1.5, sod:175, demir:0.5, kals:2, vitC:0, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1881, ad:"Lay's Sour Cream & Onion (30g)", marka:"Lay's", kal:162, pro:2, karb:15, yag:11, lif:1, sod:168, demir:0.2, kals:5, vitC:3, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1882, ad:"Lay's Cheese (30g)", marka:"Lay's", kal:163, pro:2, karb:15, yag:11, lif:1, sod:172, demir:0.2, kals:8, vitC:3, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1883, ad:"Pringles Sour Cream (40g)", marka:"Pringles", kal:204, pro:2.2, karb:21, yag:13, lif:1.4, sod:218, demir:0.5, kals:8, vitC:3, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1884, ad:"Pringles Hot & Spicy (40g)", marka:"Pringles", kal:206, pro:2.2, karb:21, yag:13, lif:1.4, sod:225, demir:0.5, kals:8, vitC:4, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+  { id:1885, ad:"Pringles Mozzarella Stick (40g)", marka:"Pringles", kal:204, pro:2.3, karb:21, yag:13, lif:1.4, sod:210, demir:0.5, kals:10, vitC:3, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1886, ad:"Doritos Kızgın Acı (30g)", marka:"Doritos", kal:150, pro:2, karb:18, yag:8, lif:1.5, sod:220, demir:0.4, kals:40, vitC:3, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+  { id:1887, ad:"Doritos Mix Peynir (30g)", marka:"Doritos", kal:149, pro:2, karb:18, yag:7.5, lif:1.5, sod:205, demir:0.4, kals:45, vitC:0, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1888, ad:"Ruffles Max Domates (30g)", marka:"Ruffles", kal:162, pro:2, karb:15, yag:11, lif:1, sod:180, demir:0.2, kals:4, vitC:5, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1889, ad:"Chips Ahoy Cracker (28g)", marka:"Chips Ahoy", kal:130, pro:2, karb:20, yag:5.5, lif:0.8, sod:100, demir:0.8, kals:0, vitC:0, vitD:0, vitB12:0, acik:6, por:28, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1890, ad:"Tostitos Klasik (28g)", marka:"Tostitos", kal:130, pro:2, karb:19, yag:6, lif:1, sod:110, demir:0.4, kals:30, vitC:0, vitD:0, vitB12:0, acik:7, por:28, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1891, ad:"Ülker Cips Tuz & Biberiye (26g)", marka:"Ülker", kal:137, pro:1.8, karb:13, yag:9, lif:0.8, sod:140, demir:0.2, kals:3, vitC:2, vitD:0, vitB12:0, acik:7, por:26, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1892, ad:"PopCorn Karamelized (30g)", marka:"Act II", kal:138, pro:1.5, karb:26, yag:3, lif:2, sod:85, demir:0.4, kals:1, vitC:0, vitD:0, vitB12:0, acik:10, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1893, ad:"PopCorn Extra Butter (30g)", marka:"Act II", kal:148, pro:2, karb:19, yag:7, lif:2.5, sod:320, demir:0.5, kals:2, vitC:0, vitD:0, vitB12:0, acik:10, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1894, ad:"Pirinç Cipsi (20g)", marka:"", kal:82, pro:1.5, karb:17, yag:1.5, lif:0.3, sod:115, demir:0.2, kals:2, vitC:0, vitD:0, vitB12:0, acik:5, por:20, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1895, ad:"Lay's Baked Domates (23g)", marka:"Lay's", kal:94, pro:2, karb:16, yag:3, lif:1, sod:145, demir:0.2, kals:4, vitC:5, vitD:0, vitB12:0, acik:7, por:23, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:1896, ad:"Cheetos Flamin Hot (30g)", marka:"Cheetos", kal:163, pro:2, karb:16, yag:10, lif:0.5, sod:260, demir:0.4, kals:9, vitC:2, vitD:0, vitB12:0, acik:7, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+  { id:1897, ad:"Pringles Cheddar Cheese (40g)", marka:"Pringles", kal:205, pro:2.3, karb:21, yag:13, lif:1.4, sod:212, demir:0.5, kals:12, vitC:3, vitD:0, vitB12:0, acik:8, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1898, ad:"Doritos Sweet Chili (30g)", marka:"Doritos", kal:148, pro:2, karb:18, yag:7.5, lif:1.5, sod:185, demir:0.4, kals:40, vitC:2, vitD:0, vitB12:0, acik:8, por:30, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:1899, ad:"Mısır Cipsi Yoğurt Soğan (28g)", marka:"", kal:115, pro:2, karb:22, yag:3, lif:1.2, sod:185, demir:0.3, kals:5, vitC:0, vitD:0, vitB12:0, acik:7, por:28, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:1900, ad:"Lay's Strong Sriracha (35g)", marka:"Lay's", kal:188, pro:2.2, karb:18, yag:12, lif:1.2, sod:210, demir:0.3, kals:5, vitC:5, vitD:0, vitB12:0, acik:7, por:35, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
 ];
 
 // ─── DEMO VERİLER ───────────────────────────────────────────────
@@ -2205,18 +2287,56 @@ export default function App(){
   const [puan,setPuan]=useState(0);
   const [premium,setPremium]=useState(false);
   const [premiumPlus,setPremiumPlus]=useState(false);
-  const [aiGunlukKullanim,setAiGunlukKullanim]=useState(()=>{
-    try{
-      const bugun=new Date().toISOString().split("T")[0];
-      const k=JSON.parse(localStorage.getItem("doya_ai_kullanim")||"{}");
-      return k.tarih===bugun?k.sayi:0;
-    }catch{return 0;}
-  });
+  const [aiGunlukKullanim,setAiGunlukKullanim]=useState(0);
   const [reklam,setReklam]=useState(true);
   const [acikHesap,setAcikHesap]=useState(true);
   const [sosyalAktif,setSosyalAktif]=useState(true);
   const [besinler,setBesinler]=useState(BESIN_DB);
   const [bekBesin,setBekBesin]=useState([]);
+
+  const [tarifler, setTarifler] = useState([
+    {id:1,baslik:"Yulaf Ezmeli Protein Kahvaltısı",emoji:"🥣",sure:"10 dk",kalori:380,porsiyon:1,malzemeler:["Yulaf ezmesi 60g","Süt 200ml","Muz 1 adet","Bal 1 tatlı kaşığı","Tarçın","Fıstık ezmesi 1 yemek kaşığı"],adimlar:["Yulaf ve sütü karıştırıp 3 dk mikrodalgada pişir","Muz dilimle ve üzerine ekle","Bal ve fıstık ezmesini gezdir","Tarçın serp, sıcak servis et"],makro:{p:18,k:55,y:9},kategori:"Kahvaltı"},
+    {id:2,baslik:"Tavuklu Kinoa Salatası",emoji:"🥗",sure:"20 dk",kalori:420,porsiyon:2,malzemeler:["Kinoa 100g","Tavuk göğsü 200g","Kiraz domates 10 adet","Salatalık 1 adet","Zeytinyağı 2 yemek kaşığı","Limon suyu","Tuz, karabiber"],adimlar:["Kinoayı 2 kat su ile haşla (15 dk)","Tavuğu tuz-biberle ızgarada pişir ve küp doğra","Domates ve salatalığı doğra","Tüm malzemeleri karıştır","Zeytinyağı ve limon ile tatlandır"],makro:{p:35,k:40,y:12},kategori:"Öğle"},
+    {id:3,baslik:"Protein Smoothie",emoji:"🥤",sure:"5 dk",kalori:310,porsiyon:1,malzemeler:["Muz 1 adet","Protein tozu 1 ölçek (30g)","Süt 250ml","Yulaf 2 yemek kaşığı","Kakao tozu 1 tatlı kaşığı","Buz"],adimlar:["Tüm malzemeleri blender'a koy","1 dakika yüksek hızda karıştır","Buz ekleyip tekrar karıştır","Hemen servis et"],makro:{p:30,k:35,y:6},kategori:"Atıştırmalık"},
+    {id:4,baslik:"Fırın Somon & Sebze",emoji:"🐟",sure:"30 dk",kalori:460,porsiyon:2,malzemeler:["Somon fileto 300g","Brokoli 200g","Havuç 2 adet","Sarımsak 3 diş","Zeytinyağı 2 yemek kaşığı","Limon 1 adet","Dereotu, tuz, biber"],adimlar:["Fırını 200°C'ye ısıt","Sebzeleri büyük doğra, zeytinyağıyla harmanla","Somonu limon dilimleri ve dereotu ile hazırla","Tepsiye diz, 25 dk pişir"],makro:{p:42,k:18,y:20},kategori:"Akşam"},
+    {id:5,baslik:"Mercimek Çorbası (Ev Yapımı)",emoji:"🍲",sure:"35 dk",kalori:190,porsiyon:4,malzemeler:["Kırmızı mercimek 250g","Soğan 1 adet","Havuç 1 adet","Sarımsak 2 diş","Zeytinyağı","Kimyon, tuz, pul biber","Et veya sebze suyu 1.5L"],adimlar:["Soğan ve havucu yağda kavur","Sarımsak ve baharatları ekle","Yıkanmış mercimeği ve suyu ekle","25 dk kısık ateşte pişir","Blender ile pürüzsüz hale getir","Üzerine tereyağı-pul biber gezdirerek servis et"],makro:{p:11,k:28,y:5},kategori:"Çorba"},
+    {id:6,baslik:"Yoğurtlu Avokado Toast",emoji:"🥑",sure:"10 dk",kalori:340,porsiyon:1,malzemeler:["Tam buğday ekmek 2 dilim","Avokado 1 adet","Yoğurt 50g","Kiraz domates 5 adet","Limon suyu","Pul biber, tuz"],adimlar:["Ekmeği tost yap","Avokadoyu ezip limon-tuzla tatlandır","Ekmeklere sür","Yoğurt ve domatesi üzerine ekle","Pul biber serp"],makro:{p:12,k:38,y:18},kategori:"Kahvaltı"},
+    {id:7,baslik:"Izgara Sebze Wrap",emoji:"🌯",sure:"25 dk",kalori:350,porsiyon:2,malzemeler:["Tam buğday lavaş 2 adet","Kabak 1 adet","Biber 2 adet","Mantar 100g","Labne peynir 4 yemek kaşığı","Zeytinyağı","Baharatlar"],adimlar:["Sebzeleri yağ ve baharatla karıştır","Izgara veya tavada pişir","Lavaşa labne sür","Sebzeleri koy ve sar","Sıcak servis et"],makro:{p:14,k:42,y:12},kategori:"Öğle"},
+    {id:8,baslik:"Chia Puding",emoji:"🍮",sure:"5 dk + 4 saat bekleme",kalori:280,porsiyon:2,malzemeler:["Chia tohumu 60g","Badem sütü 400ml","Bal 2 tatlı kaşığı","Vanilya özütü","Çilek veya meyve"],adimlar:["Chia ve sütü karıştır","Bal ve vanilyayı ekle","Buzdolabında 4 saat (veya gece) beklet","Meyve ile servis et"],makro:{p:8,k:28,y:12},kategori:"Atıştırmalık"},
+    {id:9,baslik:"Tavuklu Sebze Sote",emoji:"🍳",sure:"25 dk",kalori:390,porsiyon:2,malzemeler:["Tavuk göğsü 300g","Biber 2 adet","Soğan 1 adet","Domates 2 adet","Sarımsak 3 diş","Zeytinyağı","Kekik, tuz, biber"],adimlar:["Tavuğu küp doğra, yağda mühürle","Soğan ve sarımsağı ekle","Biber ve domatesi ilave et","15 dk orta ateşte pişir","Kekik ve baharatlarla tatlandır"],makro:{p:38,k:15,y:14},kategori:"Akşam"},
+    {id:10,baslik:"Ev Yapımı Granola Bar",emoji:"🍫",sure:"30 dk",kalori:220,porsiyon:8,malzemeler:["Yulaf 200g","Bal 80g","Fıstık ezmesi 3 yemek kaşığı","Kuru üzüm 50g","Ay çiçeği tohumu 30g","Tarçın"],adimlar:["Fırını 175°C'ye ısıt","Bal ve fıstık ezmesini eritip karıştır","Kuru malzemeleri ekle","Yağlı kağıda yay, 20 dk pişir","Soğuyunca dilimle"],makro:{p:6,k:32,y:8},kategori:"Atıştırmalık"},
+    // SPORCU TARİFLERİ
+    {id:11,baslik:"Antrenman Öncesi Yulaf Kasesi",emoji:"💪",sure:"5 dk",kalori:450,porsiyon:1,malzemeler:["Yulaf 80g","Süt 200ml","Muz 1 adet","Bal 1 yemek kaşığı","Whey protein 20g","Kuru yemiş 15g"],adimlar:["Yulaf ve sütü 2 dk mikrodalgada pişir","Protein tozunu karıştır","Muz dilimle üstüne koy","Bal ve kuru yemiş ekle"],makro:{p:32,k:62,y:10},kategori:"Kahvaltı"},
+    {id:12,baslik:"Antrenman Sonrası Tavuk & Pirinç",emoji:"🍗",sure:"30 dk",kalori:520,porsiyon:1,malzemeler:["Tavuk göğsü 200g","Pirinç 100g (kuru)","Brokoli 150g","Zeytinyağı 1 yemek kaşığı","Sarımsak tozu","Tuz, karabiber"],adimlar:["Pirinci haşla","Tavuğu buharda veya ızgarada pişir","Brokoli buharda yumuşat","Hepsini tabağa diz","Zeytinyağı ve baharat ekle"],makro:{p:48,k:65,y:8},kategori:"Öğle"},
+    {id:13,baslik:"Yüksek Proteinli Omlet",emoji:"🥚",sure:"10 dk",kalori:380,porsiyon:1,malzemeler:["Yumurta 3 adet","Yumurta beyazı 3 adet","Lor peyniri 50g","Ispanak 1 avuç","Domates 1 adet","Zeytinyağı 1 tatlı kaşığı"],adimlar:["Yumurtaları çırp","Ispanak ve domatesi küçük doğra","Tavaya yağ koy, sebzeleri kavur","Yumurtayı dök, pişirirken lor ekle","İkiye katlayıp servis et"],makro:{p:38,k:6,y:18},kategori:"Kahvaltı"},
+    {id:14,baslik:"Somon Avokado Sushi Kasesi",emoji:"🍣",sure:"20 dk",kalori:490,porsiyon:1,malzemeler:["Sushi pirinci 150g","Somon 100g","Avokado 1/2 adet","Salatalık","Susam","Soya sosu","Wasabi"],adimlar:["Pirinci pişir, sirke-şeker-tuzla tatlandır","Somonu küp doğra","Avokado dilimle","Pirinç üzerine malzemeleri diz","Susam ve soya sosu ile servis et"],makro:{p:32,k:55,y:16},kategori:"Öğle"},
+    {id:15,baslik:"Kas Yapıcı Smoothie",emoji:"🥛",sure:"5 dk",kalori:480,porsiyon:1,malzemeler:["Whey protein 30g","Muz 1 adet","Yulaf 50g","Fıstık ezmesi 2 yemek kaşığı","Süt 300ml","Kakao 1 tatlı kaşığı"],adimlar:["Tüm malzemeleri blender'a koy","Yüksek hızda 1 dk karıştır","Hemen iç"],makro:{p:40,k:55,y:14},kategori:"Atıştırmalık"},
+    {id:16,baslik:"Ton Balıklı Makarna",emoji:"🍝",sure:"20 dk",kalori:510,porsiyon:1,malzemeler:["Tam buğday makarna 100g","Ton balığı 1 kutu (185g)","Kiraz domates 8 adet","Sarımsak 2 diş","Zeytinyağı","Fesleğen","Tuz, karabiber"],adimlar:["Makarnayı al dente haşla","Sarımsağı yağda çevir","Domates ekle, 3 dk pişir","Ton balığı ve makarnayı ekle","Fesleğen ile servis et"],makro:{p:42,k:58,y:10},kategori:"Akşam"},
+    {id:17,baslik:"Izgara Dana Köfte & Tatlı Patates",emoji:"🥩",sure:"35 dk",kalori:580,porsiyon:1,malzemeler:["Dana kıyma 200g","Tatlı patates 200g","Soğan 1/2 adet","Kimyon, kişniş","Zeytinyağı","Maydanoz"],adimlar:["Tatlı patatesi küp doğra, fırında 25 dk pişir","Kıymayı soğan ve baharatla yoğur","Köfte şekli ver, ızgarada pişir","İkisini servis tabağına al","Maydanoz ile süsle"],makro:{p:44,k:48,y:18},kategori:"Akşam"},
+    {id:18,baslik:"Protein Pancake",emoji:"🥞",sure:"15 dk",kalori:350,porsiyon:2,malzemeler:["Yulaf unu 80g","Whey protein 30g","Yumurta 2 adet","Süt 100ml","Kabartma tozu","Muz 1 adet","Bal"],adimlar:["Kuru malzemeleri karıştır","Yumurta ve sütü ekle, çırp","Yağlı tavada her yüzü 2 dk pişir","Dilimlenmiş muz ve bal ile servis et"],makro:{p:34,k:42,y:8},kategori:"Kahvaltı"},
+    {id:19,baslik:"Kinoa Protein Kasesi",emoji:"🌾",sure:"25 dk",kalori:460,porsiyon:1,malzemeler:["Kinoa 100g","Haşlanmış yumurta 2 adet","Edamame 80g","Avokado 1/2 adet","Mısır","Zeytinyağı","Limon"],adimlar:["Kinoayı pişir","Yumurtayı haşla, dörde böl","Avokado dilimle","Kasede kinoa üzerine hepsini diz","Zeytinyağı-limon gezdir"],makro:{p:30,k:48,y:16},kategori:"Öğle"},
+    {id:20,baslik:"Tavuk Kürdan Atıştırmalık",emoji:"🍢",sure:"20 dk",kalori:220,porsiyon:2,malzemeler:["Tavuk göğsü 150g","Yoğurt 100g","Sarımsak 1 diş","Kırmızı toz biber","Zeytinyağı","Tuz"],adimlar:["Yoğurt, sarımsak ve baharatları karıştır","Tavuğu marine et (30 dk)","Küçük parçalara kes","Kürdanlara diz","Tavada veya fırında pişir"],makro:{p:28,k:6,y:7},kategori:"Atıştırmalık"},
+    {id:21,baslik:"Karabuğdaylı Sporcu Salatası",emoji:"🥙",sure:"20 dk",kalori:380,porsiyon:1,malzemeler:["Karabuğday 80g","Nohut (haşlanmış) 100g","Roka 2 avuç","Nar tanesi","Ceviz 20g","Zeytinyağı","Nar ekşisi"],adimlar:["Karabuğdayı haşla","Malzemeleri büyük kaseye koy","Zeytinyağı ve nar ekşisi gezdir","Üstüne ceviz ve nar ekle"],makro:{p:18,k:52,y:12},kategori:"Öğle"},
+    {id:22,baslik:"Spor Sonrası Recovery Shake",emoji:"🍵",sure:"5 dk",kalori:290,porsiyon:1,malzemeler:["Casein protein 30g","Süt 250ml","Tarçın 1/2 tatlı kaşığı","Bal 1 tatlı kaşığı","Buz"],adimlar:["Tüm malzemeleri çalkala veya blender'a koy","Karıştır","Antrenman sonrası 30 dk içinde iç"],makro:{p:35,k:20,y:3},kategori:"Atıştırmalık"},
+    {id:23,baslik:"Yüksek Proteinli Köri Tavuk",emoji:"🍛",sure:"35 dk",kalori:480,porsiyon:2,malzemeler:["Tavuk göğsü 300g","Hindistan cevizi sütü 200ml","Soğan 1 adet","Sarımsak 3 diş","Zencefil 1 cm","Köri tozu 2 tatlı kaşığı","Domates 2 adet","Pirinç 150g"],adimlar:["Soğan, sarımsak, zencefili kavur","Köri tozunu ekle, 1 dk çevir","Domates ve hindistan cevizi sütünü ekle","Tavuk ekle, 20 dk pişir","Pirinçle servis et"],makro:{p:46,k:52,y:14},kategori:"Akşam"},
+    {id:24,baslik:"Egg Muffin (Hazır Atıştırmalık)",emoji:"🧁",sure:"25 dk",kalori:180,porsiyon:6,malzemeler:["Yumurta 8 adet","Ispanak 1 avuç","Kırmızı biber 1/2 adet","Lor peyniri 50g","Tuz, karabiber","Zeytinyağı"],adimlar:["Fırını 180°C'ye ısıt","Sebzeleri küçük doğra","Yumurtaları çırp, sebze ve lor ekle","Muffin kalıbına pay","20 dk pişir, buzdolabında sakla"],makro:{p:18,k:3,y:10},kategori:"Atıştırmalık"},
+    {id:25,baslik:"Baked Oats (Fırın Yulaf)",emoji:"🫙",sure:"30 dk",kalori:420,porsiyon:1,malzemeler:["Yulaf 80g","Muz 1 adet","Yumurta 1 adet","Süt 150ml","Kakao 1 yemek kaşığı","Whey 20g","Çikolata (bitter) 20g"],adimlar:["Fırını 180°C'ye ısıt","Tüm malzemeleri karıştır","Fırın kabına dök","25 dk pişir","Sıcak veya soğuk servis et"],makro:{p:30,k:50,y:10},kategori:"Kahvaltı"},
+    {id:26,baslik:"Dana Steak & Kuşkonmaz",emoji:"🥦",sure:"20 dk",kalori:520,porsiyon:1,malzemeler:["Dana biftek 200g","Kuşkonmaz 150g","Sarımsak 2 diş","Zeytinyağı","Tuz, karabiber","Limon"],adimlar:["Bifteği oda sıcaklığına getir","İki yüzüne tuz-biber","Kızgın tavada her yüzü 3 dk pişir","Kuşkonmazı sarımsak-yağda kavur","Yanyana servis et"],makro:{p:50,k:8,y:22},kategori:"Akşam"},
+    {id:27,baslik:"Zerdeçallı Protein Sütü",emoji:"🌼",sure:"5 dk",kalori:220,porsiyon:1,malzemeler:["Süt 300ml","Zerdeçal 1 tatlı kaşığı","Whey protein 20g","Karabiber (bir tutam)","Bal 1 tatlı kaşığı","Tarçın"],adimlar:["Sütü ısıt (kaynamamalı)","Zerdeçal, tarçın ve biberi ekle","Protein tozunu karıştır","Bal ekle, servis et"],makro:{p:24,k:18,y:6},kategori:"Atıştırmalık"},
+    {id:28,baslik:"Tavuk & Tatlı Patates Meal Prep",emoji:"📦",sure:"45 dk",kalori:550,porsiyon:4,malzemeler:["Tavuk göğsü 800g","Tatlı patates 600g","Brokoli 400g","Zeytinyağı","Baharatlar","Limon"],adimlar:["Fırını 200°C'ye ısıt","Hepsini fırın tepsisine diz","Zeytinyağı ve baharat gezdir","35-40 dk pişir","4 kaba paylaştır, buzdolabında sakla"],makro:{p:48,k:52,y:10},kategori:"Öğle"},
+    {id:29,baslik:"Yumurtalı Avokado Bol Protein",emoji:"🥗",sure:"10 dk",kalori:410,porsiyon:1,malzemeler:["Avokado 1 adet","Haşlanmış yumurta 3 adet","Roka 2 avuç","Kiraz domates 8 adet","Zeytinyağı","Limon, tuz"],adimlar:["Avokadoyu dilimle","Yumurtaları ikiye böl","Rokayı tabağa yay","Tüm malzemeleri üstüne diz","Zeytinyağı ve limon gezdir"],makro:{p:26,k:12,y:28},kategori:"Öğle"},
+    {id:30,baslik:"Spor Öncesi Enerji Topları",emoji:"⚡",sure:"15 dk + 30 dk buzdolabı",kalori:120,porsiyon:10,malzemeler:["Yulaf 150g","Fıstık ezmesi 80g","Bal 3 yemek kaşığı","Chia tohumu 2 yemek kaşığı","Kakao 1 yemek kaşığı","Hindistan cevizi rendesi"],adimlar:["Tüm malzemeleri karıştır","Top şekli ver (ceviz büyüklüğü)","Hindistan cevizine bula","30 dk buzdolabında beklet","Saklama kabında 1 hafta dayanır"],makro:{p:4,k:15,y:5},kategori:"Atıştırmalık"},
+    {id:31,baslik:"Yüksek Proteinli Waffle",emoji:"🧇",sure:"20 dk",kalori:390,porsiyon:2,malzemeler:["Yulaf unu 100g","Whey protein 30g","Yumurta 2 adet","Süt 150ml","Kabartma tozu","Muz 1 adet","Çilek"],adimlar:["Kuru ve yaş malzemeleri ayrı karıştır","Birleştir, top bırak","Waffle makinesine dök","Her iki tarafı altın rengi pişir","Çilek ve muz ile servis et"],makro:{p:36,k:46,y:8},kategori:"Kahvaltı"},
+    {id:32,baslik:"Ton Balıklı Protein Salatası",emoji:"🐟",sure:"10 dk",kalori:320,porsiyon:1,malzemeler:["Ton balığı 2 kutu","Mısır 50g","Fasulye (haşlanmış) 80g","Kırmızı soğan 1/4","Maydanoz","Zeytinyağı","Limon"],adimlar:["Ton balığını süz","Tüm malzemeleri karıştır","Zeytinyağı ve limonla tatlandır","Hemen servis et"],makro:{p:44,k:22,y:8},kategori:"Öğle"},
+    {id:33,baslik:"Fıstık Ezmeli Protein Bar",emoji:"🍫",sure:"20 dk + 1 saat buzdolabı",kalori:250,porsiyon:8,malzemeler:["Yulaf 200g","Fıstık ezmesi 120g","Whey protein 60g","Bal 60g","Bitter çikolata 50g"],adimlar:["Fıstık ezmesi ve balı ısıt","Yulaf ve proteini karıştır","Hamuru kaba bas","Eritilmiş çikolata üstüne gezdir","1 saat buzdolabında beklet, dilimle"],makro:{p:12,k:28,y:10},kategori:"Atıştırmalık"},
+    {id:34,baslik:"Spor Sonrası Pirinç Kasesi",emoji:"🍚",sure:"25 dk",kalori:530,porsiyon:1,malzemeler:["Pirinç 120g (kuru)","Tavuk göğsü 180g","Kabak 1 adet","Havuç 1 adet","Soya sosu","Susam yağı","Sarımsak"],adimlar:["Pirinci pişir","Tavuğu küp doğra, pişir","Sebzeleri wok'ta kavur","Soya sosu ve susam yağı ekle","Pirinç üzerine koy"],makro:{p:44,k:68,y:8},kategori:"Akşam"},
+    {id:35,baslik:"Nohutlu Ispanak Yemeği",emoji:"🫘",sure:"30 dk",kalori:360,porsiyon:2,malzemeler:["Nohut (haşlanmış) 250g","Ispanak 300g","Soğan 1 adet","Sarımsak 3 diş","Domates 2 adet","Zeytinyağı","Kimyon, tuz"],adimlar:["Soğan ve sarımsağı kavur","Domatesle pişir","Nohut ekle, 5 dk karıştır","Ispanağı ekle, 3 dk pişir","Kimyon ile tatlandır"],makro:{p:16,k:44,y:8},kategori:"Akşam"},
+    {id:36,baslik:"Kreatin Meyve Şerbeti",emoji:"🍊",sure:"3 dk",kalori:110,porsiyon:1,malzemeler:["Portakal suyu 200ml","Kreatin 5g","Limon suyu","Bal 1 tatlı kaşığı","Buz"],adimlar:["Portakal suyuna kreatin karıştır","Limon ve bal ekle","Buz koy, servis et","Antrenman öncesi iç"],makro:{p:1,k:24,y:0},kategori:"Atıştırmalık"},
+    {id:37,baslik:"Dana Kıymalı Sebze Güveç",emoji:"🫕",sure:"50 dk",kalori:480,porsiyon:3,malzemeler:["Dana kıyma 300g","Kabak 2 adet","Patlıcan 1 adet","Biber 2 adet","Domates 3 adet","Soğan 1 adet","Zeytinyağı","Baharatlar"],adimlar:["Kıymayı kavur","Soğan ve sarımsak ekle","Tüm sebzeleri küp doğra ekle","Baharat ve domates ekle","40 dk kısık ateşte pişir"],makro:{p:36,k:24,y:16},kategori:"Akşam"},
+    {id:38,baslik:"Karabuğday Gözleme",emoji:"🫓",sure:"20 dk",kalori:340,porsiyon:2,malzemeler:["Karabuğday unu 150g","Su 180ml","Tuz","Ispanak 100g","Lor peyniri 100g","Zeytinyağı"],adimlar:["Un, su ve tuzu karıştır, 10 dk dinlendir","Ispanak ve loru karıştır","İnce aç, iç harcı koy","Tavada her yüzü 2 dk pişir"],makro:{p:16,k:46,y:8},kategori:"Öğle"},
+    {id:39,baslik:"Bezelye Protein Çorbası",emoji:"💚",sure:"25 dk",kalori:240,porsiyon:2,malzemeler:["Bezelye 300g","Soğan 1 adet","Sarımsak 2 diş","Et suyu 500ml","Nane","Zeytinyağı","Tuz"],adimlar:["Soğan ve sarımsağı kavur","Bezelye ve et suyunu ekle","15 dk pişir","Blender'dan geçir","Nane ve zeytinyağı ile servis et"],makro:{p:14,k:32,y:5},kategori:"Çorba"},
+    {id:40,baslik:"Antrenman Günü Makarna",emoji:"🍝",sure:"20 dk",kalori:580,porsiyon:1,malzemeler:["Tam buğday penne 120g","Tavuk göğsü 150g","Brokoli 150g","Parmesan peyniri 20g","Zeytinyağı","Sarımsak","Tuz, biber"],adimlar:["Makarnayı haşla","Tavuğu pişir, dilimle","Brokoli buharda yumuşat","Sarımsaklı zeytinyağında karıştır","Parmesan ile servis et"],makro:{p:48,k:70,y:10},kategori:"Öğle"},
+  ]);
   const [profFoto,setProfFoto]=useState(null);
   const [adimSayar,setAdimSayar]=useState(0);
   const [adimAktif,setAdimAktif]=useState(false);
@@ -2497,6 +2617,11 @@ export default function App(){
             setProfFoto(tam.foto||null);
             if(tam.kilo||tam.boy) setProfil({kilo:tam.kilo||"",boy:tam.boy||"",yas:tam.yas||"",cinsiyet:tam.cinsiyet||"erkek",aktivite:tam.aktivite||"orta",hedef:tam.hedef||""});
             if(tam.refKodKullandi) setGirRefKilitli(true);
+            // AI kullanım hakkını Firebase'den yükle (localStorage silinse de korunur)
+            if(tam.aiKullanim){
+              const bugun=new Date().toISOString().split("T")[0];
+              setAiGunlukKullanim(tam.aiKullanim.tarih===bugun ? (tam.aiKullanim.sayi||0) : 0);
+            }
             // Günlük verileri yükle
             const gunler = await tumGunleriGetir(user.uid);
             if(Object.keys(gunler).length>0) setGunluk(gunler);
@@ -2666,11 +2791,14 @@ export default function App(){
   };
 
   // ─── YEMEK EKLE ──────────────────────────────────────────────
-  const aiKullanimArttir = () => {
+  const aiKullanimArttir = async () => {
     const bugun=new Date().toISOString().split("T")[0];
     const yeni=aiGunlukKullanim+1;
     setAiGunlukKullanim(yeni);
-    try{localStorage.setItem("doya_ai_kullanim",JSON.stringify({tarih:bugun,sayi:yeni}));}catch(e){}
+    // Firebase'e kaydet - veri silinse bile korunur
+    if(firebaseUID){
+      await kullaniciyiGuncelle(firebaseUID,{aiKullanim:{tarih:bugun,sayi:yeni}}).catch(console.error);
+    }
   };
 
   const aiFotoAnalizEt = async (base64, mediaType, kullaniciNot="") => {
@@ -3010,59 +3138,66 @@ export default function App(){
 
           {/* SLAYT EKRANLARI */}
           {welcomeSlide > 0 && slide && (
-            <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:2}}>
+            <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:2,background:slide.renk||"linear-gradient(145deg,#052e16,#15803d)",transition:"background .5s",minHeight:"100vh"}}>
+              {/* Dekoratif daireler */}
+              <div style={{position:"absolute",top:-60,right:-60,width:220,height:220,borderRadius:"50%",background:"rgba(255,255,255,.05)",pointerEvents:"none"}}/>
+              <div style={{position:"absolute",bottom:120,left:-40,width:160,height:160,borderRadius:"50%",background:"rgba(255,255,255,.04)",pointerEvents:"none"}}/>
+
+              {/* Üst bar */}
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 22px",position:"relative",zIndex:2}}>
+                <div style={{fontFamily:"'DM Serif Display',serif",fontSize:24,color:"#f0fdf4"}}>Do<span style={{color:slide.vurgu||"#86efac"}}>ya</span></div>
+                <button onClick={welcomeBit} style={{background:"rgba(255,255,255,.15)",border:"none",borderRadius:20,padding:"5px 14px",color:"#f0fdf4",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{L.atla}</button>
+              </div>
 
               {/* İlerleme çubukları */}
-              <div style={{display:"flex",gap:5,padding:"0 20px 20px"}}>
+              <div style={{display:"flex",gap:5,padding:"0 22px 0"}}>
                 {L.slides.map((_,i)=>(
-                  <div key={i} style={{flex:1,height:3,borderRadius:3,background:i<welcomeSlide?"#4ade80":"rgba(255,255,255,.2)",transition:"background .3s"}}/>
+                  <div key={i} style={{flex:1,height:3,borderRadius:3,background:i<welcomeSlide?(slide.vurgu||"#4ade80"):"rgba(255,255,255,.2)",transition:"background .3s"}}/>
                 ))}
               </div>
 
-              {/* İkon büyük */}
-              <div style={{textAlign:"center",padding:"20px 0 0",fontSize:90,filter:"drop-shadow(0 8px 24px #0006)",lineHeight:1}}>
+              {/* İkon */}
+              <div style={{textAlign:"center",padding:"32px 0 8px",fontSize:100,filter:"drop-shadow(0 8px 32px #0008)",lineHeight:1,position:"relative",zIndex:2}}>
                 {slide.ikon}
               </div>
 
-              {/* Metin */}
-              <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",padding:"24px 28px"}}>
-                <div style={{fontSize:26,fontWeight:900,color:"#f0fdf4",lineHeight:1.2,marginBottom:16,textAlign:"center"}}>
+              {/* Metin kartı */}
+              <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",padding:"16px 24px",position:"relative",zIndex:2}}>
+                <div style={{fontSize:28,fontWeight:900,color:"#f0fdf4",lineHeight:1.2,marginBottom:12,textAlign:"center"}}>
                   {slide.baslik}
                 </div>
-                <div style={{fontSize:14,color:"#bbf7d0",lineHeight:1.8,textAlign:"center",opacity:.9}}>
+                <div style={{fontSize:14,color:"rgba(255,255,255,.8)",lineHeight:1.8,textAlign:"center",marginBottom:20}}>
                   {slide.acik}
                 </div>
+                {/* Detay chips */}
+                {slide.detaylar&&(
+                  <div style={{display:"flex",justifyContent:"center",gap:8,flexWrap:"wrap"}}>
+                    {slide.detaylar.map((d,i)=>(
+                      <div key={i} style={{background:"rgba(255,255,255,.15)",backdropFilter:"blur(8px)",borderRadius:20,padding:"6px 14px",fontSize:12,fontWeight:700,color:"#f0fdf4",border:"1px solid rgba(255,255,255,.2)"}}>
+                        {d}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* Alt butonlar */}
-              <div style={{padding:"0 20px 44px",display:"flex",flexDirection:"column",gap:10,alignItems:"center"}}>
+              {/* Alt buton ve dots */}
+              <div style={{padding:"0 22px 48px",display:"flex",flexDirection:"column",gap:12,alignItems:"center",position:"relative",zIndex:2}}>
                 <button onClick={ileri} style={{
-                  width:"100%",
-                  maxWidth:360,
-                  padding:"15px 0",
-                  background:"linear-gradient(135deg,#22c55e,#16a34a)",
-                  border:"none",
-                  borderRadius:16,
-                  fontSize:16,
-                  fontWeight:900,
-                  color:"#fff",
-                  cursor:"pointer",
-                  fontFamily:"'Nunito',sans-serif",
-                  boxShadow:"0 6px 24px #22c55e40",
+                  width:"100%",maxWidth:360,padding:"16px 0",
+                  background:"rgba(255,255,255,.95)",
+                  border:"none",borderRadius:18,fontSize:16,fontWeight:900,
+                  color:"#052e16",cursor:"pointer",fontFamily:"'Nunito',sans-serif",
+                  boxShadow:"0 8px 30px rgba(0,0,0,.25)",
                 }}>
                   {welcomeSlide===toplamSlide ? L.basla : L.devam}
                 </button>
-
-                {/* Nokta indikatör */}
-                <div style={{display:"flex",gap:7,marginTop:6}}>
+                <div style={{display:"flex",gap:8}}>
                   {L.slides.map((_,i)=>(
                     <div key={i} onClick={()=>setWelcomeSlide(i+1)} style={{
-                      width:i===slideIdx?22:7,
-                      height:7,
-                      borderRadius:4,
-                      background:i===slideIdx?"#4ade80":"rgba(255,255,255,.3)",
-                      cursor:"pointer",
-                      transition:"all .3s",
+                      width:i===slideIdx?24:8,height:8,borderRadius:4,
+                      background:i===slideIdx?(slide.vurgu||"#4ade80"):"rgba(255,255,255,.3)",
+                      cursor:"pointer",transition:"all .3s",
                     }}/>
                   ))}
                 </div>
@@ -3204,75 +3339,177 @@ export default function App(){
   );
 
   // ─── ONBOARDING ──────────────────────────────────────────────
+  const [obHedef,setObHedef]=useState("saglikli");
+  const [obDiyet,setObDiyet]=useState("");
+
   if(onboard) return (
     <>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
-      <div style={{fontFamily:"'Nunito',sans-serif",background:"#f0fdf4",minHeight:"100vh",maxWidth:430,margin:"0 auto",padding:20}}>
-        <div style={{display:"flex",gap:6,marginBottom:24}}>
-          {[1,2].map(i=><div key={i} style={{flex:1,height:4,borderRadius:4,background:obAdim>=i?"#16a34a":"#e5e7eb"}}/>)}
+      <div style={{fontFamily:"'Nunito',sans-serif",background:"linear-gradient(160deg,#f0fdf4,#dcfce7)",minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden"}}>
+        {/* Dekoratif arka plan */}
+        <div style={{position:"absolute",top:-80,right:-80,width:250,height:250,borderRadius:"50%",background:"radial-gradient(#16a34a22,transparent 70%)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",bottom:-60,left:-60,width:200,height:200,borderRadius:"50%",background:"radial-gradient(#22c55e18,transparent 70%)",pointerEvents:"none"}}/>
+
+        <div style={{padding:"20px 20px 0",position:"relative",zIndex:1}}>
+          {/* Logo */}
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:20}}>
+            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:22,color:"#15803d"}}>Do<span style={{color:"#16a34a"}}>ya</span></div>
+          </div>
+          {/* İlerleme */}
+          <div style={{display:"flex",gap:5,marginBottom:6}}>
+            {[1,2,3,4].map(i=>(
+              <div key={i} style={{flex:1,height:4,borderRadius:4,background:obAdim>=i?"linear-gradient(90deg,#16a34a,#22c55e)":"#e5e7eb",transition:"background .3s"}}/>
+            ))}
+          </div>
+          <div style={{fontSize:11,color:"#6b7280",marginBottom:20}}>{obAdim} / 4</div>
         </div>
-        {obAdim===1&&(
-          <div>
-            <div style={{textAlign:"center",marginBottom:20}}>
-              <div style={{fontSize:40}}>👋</div>
-              <div style={{fontSize:22,fontWeight:900,color:"#111"}}>Hoşgeldin, {aktif.isim}!</div>
-              <div style={{fontSize:13,color:"#6b7280",marginTop:3}}>Kişisel plan için bilgilerini gir.</div>
-            </div>
-            <div style={{background:"#fff",borderRadius:18,padding:20,boxShadow:"0 4px 18px #00000012"}}>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}}>
-                {[{l:"Kilo (kg)",v:obK,s:setObK,ph:"75"},{l:"Boy (cm)",v:obB,s:setObB,ph:"175"},{l:"Yaş",v:obY,s:setObY,ph:"25"},{l:"Hedef Kilo",v:obHK,s:setObHK,ph:"70"}].map(f=>(
-                  <div key={f.l}><div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:4}}>{f.l}</div>
-                  <input style={{...IS,padding:"9px 11px",fontSize:13}} placeholder={f.ph} type="number" value={f.v} onChange={e=>f.s(e.target.value)}/></div>
-                ))}
+
+        <div style={{padding:"0 20px 40px",position:"relative",zIndex:1}}>
+
+          {/* ADIM 1: Fiziksel Bilgiler */}
+          {obAdim===1&&(
+            <div>
+              <div style={{marginBottom:22}}>
+                <div style={{fontSize:36,marginBottom:6}}>📏</div>
+                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Fiziksel Bilgilerin</div>
+                <div style={{fontSize:13,color:"#6b7280"}}>Kişisel kalori hedefini hesaplamak için</div>
               </div>
-              <div style={{marginBottom:10}}>
-                <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:5}}>Cinsiyet</div>
-                <div style={{display:"flex",gap:8}}>
-                  {["erkek","kadin"].map(c=><button key={c} onClick={()=>setObC(c)} style={{flex:1,padding:"9px",border:`2px solid ${obC===c?"#16a34a":"#e5e7eb"}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:obC===c?"#f0fdf4":"#fff",color:obC===c?"#16a34a":"#6b7280"}}>{c==="erkek"?"Erkek":"Kadın"}</button>)}
+              <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 20px #00000010",marginBottom:12}}>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+                  {[{l:"Mevcut Kilo (kg)",v:obK,s:setObK,ph:"75",ikon:"⚖️"},{l:"Boy (cm)",v:obB,s:setObB,ph:"175",ikon:"📐"},{l:"Yaş",v:obY,s:setObY,ph:"25",ikon:"🎂"},{l:"Hedef Kilo (kg)",v:obHK,s:setObHK,ph:"70",ikon:"🎯"}].map(f=>(
+                    <div key={f.l}>
+                      <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:4}}>{f.ikon} {f.l}</div>
+                      <input style={{...IS,padding:"10px 12px",fontSize:14,borderRadius:12}} placeholder={f.ph} type="number" value={f.v} onChange={e=>f.s(e.target.value)}/>
+                    </div>
+                  ))}
+                </div>
+                <div style={{marginBottom:14}}>
+                  <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:6}}>👤 Cinsiyet</div>
+                  <div style={{display:"flex",gap:8}}>
+                    {[{v:"erkek",l:"👨 Erkek"},{v:"kadin",l:"👩 Kadın"}].map(cc=>(
+                      <button key={cc.v} onClick={()=>setObC(cc.v)} style={{flex:1,padding:"11px",border:`2px solid ${obC===cc.v?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:obC===cc.v?"#f0fdf4":"#fff",color:obC===cc.v?"#16a34a":"#6b7280",transition:"all .15s"}}>{cc.l}</button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:6}}>⚡ Aktivite Seviyesi</div>
+                  {Object.entries(AKTIVITE_ETIKET).map(([k,v])=>(
+                    <button key={k} onClick={()=>setObA(k)} style={{display:"block",width:"100%",textAlign:"left",padding:"10px 14px",marginBottom:4,border:`2px solid ${obA===k?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:obA===k?700:500,fontSize:12,background:obA===k?"#f0fdf4":"#fff",color:obA===k?"#16a34a":"#374151",transition:"all .15s"}}>{v}</button>
+                  ))}
                 </div>
               </div>
-              <div style={{marginBottom:18}}>
-                <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:5}}>Aktivite Seviyesi</div>
-                {Object.entries(AKTIVITE_ETIKET).map(([k,v])=>(
-                  <button key={k} onClick={()=>setObA(k)} style={{display:"block",width:"100%",textAlign:"left",padding:"9px 12px",marginBottom:4,border:`2px solid ${obA===k?"#16a34a":"#e5e7eb"}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:obA===k?700:500,fontSize:12,background:obA===k?"#f0fdf4":"#fff",color:obA===k?"#16a34a":"#374151"}}>{v}</button>
-                ))}
-              </div>
-              <button style={{...BTN(),width:"100%",padding:"13px 0",marginBottom:8}} onClick={()=>setObAdim(2)}>Devam →</button>
+              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>setObAdim(2)}>Devam → <span style={{opacity:.7}}>2/4</span></button>
               <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>setObAdim(2)}>Atla</button>
             </div>
-          </div>
-        )}
-        {obAdim===2&&(
-          <div>
-            <div style={{textAlign:"center",marginBottom:20}}>
-              <div style={{fontSize:40}}>👥</div>
-              <div style={{fontSize:22,fontWeight:900,color:"#111"}}>Sosyal Tercihler</div>
+          )}
+
+          {/* ADIM 2: Hedef */}
+          {obAdim===2&&(
+            <div>
+              <div style={{marginBottom:22}}>
+                <div style={{fontSize:36,marginBottom:6}}>🎯</div>
+                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Hedefin Ne?</div>
+                <div style={{fontSize:13,color:"#6b7280"}}>Sana özel beslenme planı için seç</div>
+              </div>
+              <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
+                {[
+                  {v:"kilo_ver",l:"⬇️ Kilo Vermek",alt:"Yağ yakmak, form tutmak"},
+                  {v:"kas_yap",l:"💪 Kas Yapmak",alt:"Hacim kazanmak, protein artırmak"},
+                  {v:"saglikli",l:"🥗 Sağlıklı Beslenmek",alt:"Dengeli ve sağlıklı yaşam"},
+                  {v:"dayaniklilik",l:"🏃 Dayanıklılık & Performans",alt:"Spor performansını artırmak"},
+                  {v:"kilo_al",l:"⬆️ Kilo Almak",alt:"Sağlıklı kilo kazanmak"},
+                  {v:"diyabet",l:"🩺 Şeker / Diyet Kontrol",alt:"Kan şekeri veya özel diyet"},
+                ].map(h=>(
+                  <button key={h.v} onClick={()=>setObHedef(h.v)} style={{
+                    padding:"14px 16px",border:`2px solid ${obHedef===h.v?"#16a34a":"#e5e7eb"}`,
+                    borderRadius:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif",
+                    background:obHedef===h.v?"#f0fdf4":"#fff",textAlign:"left",
+                    boxShadow:obHedef===h.v?"0 2px 12px #16a34a22":"none",transition:"all .15s"
+                  }}>
+                    <div style={{fontWeight:800,fontSize:14,color:obHedef===h.v?"#15803d":"#111"}}>{h.l}</div>
+                    <div style={{fontSize:11,color:"#6b7280",marginTop:2}}>{h.alt}</div>
+                  </button>
+                ))}
+              </div>
+              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>setObAdim(3)}>Devam → <span style={{opacity:.7}}>3/4</span></button>
+              <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>setObAdim(3)}>Atla</button>
             </div>
-            <div style={{background:"#fff",borderRadius:18,padding:20,boxShadow:"0 4px 18px #00000012"}}>
-              <div style={{background:"#f0fdf4",border:"1.5px solid #86efac",borderRadius:12,padding:12,marginBottom:16,textAlign:"center"}}>
-                <div style={{fontSize:10,fontWeight:700,color:"#16a34a",marginBottom:3}}>KULLANICI KODUN</div>
-                <div style={{fontSize:20,fontWeight:900,letterSpacing:2,color:"#111"}}>{aktif.uid}</div>
+          )}
+
+          {/* ADIM 3: Diyet tipi */}
+          {obAdim===3&&(
+            <div>
+              <div style={{marginBottom:22}}>
+                <div style={{fontSize:36,marginBottom:6}}>🍽️</div>
+                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Beslenme Tarzın</div>
+                <div style={{fontSize:13,color:"#6b7280"}}>Diyetin veya kısıtlaman var mı?</div>
               </div>
-              <div style={{marginBottom:12}}>
-                <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>Sosyal özellikler aktif mi?</div>
-                <div style={{display:"flex",gap:8}}>
-                  {[{v:true,l:"Aktif"},{v:false,l:"Kapalı"}].map(o=><button key={String(o.v)} onClick={()=>setObSosyal(o.v)} style={{flex:1,padding:"9px",border:`2px solid ${obSosyal===o.v?"#16a34a":"#e5e7eb"}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:obSosyal===o.v?"#f0fdf4":"#fff",color:obSosyal===o.v?"#16a34a":"#6b7280"}}>{o.l}</button>)}
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:16}}>
+                {[
+                  {v:"normal",l:"🍖 Normal",alt:"Her şey"},
+                  {v:"vejetaryen",l:"🥦 Vejetaryen",alt:"Et yok"},
+                  {v:"vegan",l:"🌱 Vegan",alt:"Hayvansal yok"},
+                  {v:"glutensiz",l:"🌾 Glutensiz",alt:"Gluten yok"},
+                  {v:"laktossuz",l:"🥛 Laktozsuz",alt:"Süt ürünü yok"},
+                  {v:"ketojenik",l:"🥑 Ketojenik",alt:"Düşük karb"},
+                  {v:"paleo",l:"🍗 Paleo",alt:"İşlenmemiş"},
+                  {v:"yok",l:"💬 Belirtmek İstemiyorum",alt:""},
+                ].map(d=>(
+                  <button key={d.v} onClick={()=>setObDiyet(d.v)} style={{
+                    padding:"12px 10px",border:`2px solid ${obDiyet===d.v?"#16a34a":"#e5e7eb"}`,
+                    borderRadius:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif",
+                    background:obDiyet===d.v?"#f0fdf4":"#fff",textAlign:"center",
+                    boxShadow:obDiyet===d.v?"0 2px 12px #16a34a22":"none",transition:"all .15s"
+                  }}>
+                    <div style={{fontWeight:800,fontSize:13,color:obDiyet===d.v?"#15803d":"#111"}}>{d.l}</div>
+                    {d.alt&&<div style={{fontSize:10,color:"#6b7280",marginTop:1}}>{d.alt}</div>}
+                  </button>
+                ))}
+              </div>
+              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>setObAdim(4)}>Devam → <span style={{opacity:.7}}>4/4</span></button>
+              <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>setObAdim(4)}>Atla</button>
+            </div>
+          )}
+
+          {/* ADIM 4: Sosyal */}
+          {obAdim===4&&(
+            <div>
+              <div style={{marginBottom:22}}>
+                <div style={{fontSize:36,marginBottom:6}}>👥</div>
+                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Neredeyse Bitti!</div>
+                <div style={{fontSize:13,color:"#6b7280"}}>Son bir şey — sosyal tercihlerini belirle</div>
+              </div>
+              <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 20px #00000010",marginBottom:12}}>
+                <div style={{background:"linear-gradient(135deg,#f0fdf4,#dcfce7)",border:"1.5px solid #86efac",borderRadius:14,padding:14,marginBottom:16,textAlign:"center"}}>
+                  <div style={{fontSize:10,fontWeight:700,color:"#16a34a",marginBottom:4}}>KULLANICI KODUN</div>
+                  <div style={{fontSize:22,fontWeight:900,letterSpacing:3,color:"#111"}}>{aktif?.uid}</div>
+                  <div style={{fontSize:10,color:"#6b7280",marginTop:4}}>Arkadaşların bu kodla seni bulabilir</div>
                 </div>
-              </div>
-              {obSosyal&&(
-                <div style={{marginBottom:16}}>
-                  <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>Hesap türü</div>
+                <div style={{marginBottom:14}}>
+                  <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>Sosyal özellikler aktif mi?</div>
                   <div style={{display:"flex",gap:8}}>
-                    {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=><button key={String(o.v)} onClick={()=>setObAcik(o.v)} style={{flex:1,padding:"9px",border:`2px solid ${obAcik===o.v?"#16a34a":"#e5e7eb"}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:obAcik===o.v?"#f0fdf4":"#fff",color:obAcik===o.v?"#16a34a":"#6b7280"}}>{o.l}</button>)}
+                    {[{v:true,l:"✅ Aktif"},{v:false,l:"🔒 Kapalı"}].map(o=>(
+                      <button key={String(o.v)} onClick={()=>setObSosyal(o.v)} style={{flex:1,padding:"11px",border:`2px solid ${obSosyal===o.v?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:obSosyal===o.v?"#f0fdf4":"#fff",color:obSosyal===o.v?"#16a34a":"#6b7280"}}>{o.l}</button>
+                    ))}
                   </div>
-                  <div style={{fontSize:11,color:"#6b7280",marginTop:6,padding:"8px 10px",background:"#f9fafb",borderRadius:8}}>{obAcik?"Açık: Arkadaşlık istekleri otomatik kabul edilir.":"Gizli: İstekleri kendin onaylarsın."}</div>
                 </div>
-              )}
-              <button style={{...BTN(),width:"100%",padding:"13px 0",marginBottom:8}} onClick={()=>onboardBitir(false)}>Başlayalım! 🚀</button>
+                {obSosyal&&(
+                  <div style={{marginBottom:14}}>
+                    <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>Hesap türü</div>
+                    <div style={{display:"flex",gap:8}}>
+                      {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=>(
+                        <button key={String(o.v)} onClick={()=>setObAcik(o.v)} style={{flex:1,padding:"11px",border:`2px solid ${obAcik===o.v?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:obAcik===o.v?"#f0fdf4":"#fff",color:obAcik===o.v?"#16a34a":"#6b7280"}}>{o.l}</button>
+                      ))}
+                    </div>
+                    <div style={{fontSize:11,color:"#6b7280",marginTop:6,padding:"8px 10px",background:"#f9fafb",borderRadius:8}}>{obAcik?"Açık: Arkadaşlık istekleri otomatik kabul edilir.":"Gizli: İstekleri kendin onaylarsın."}</div>
+                  </div>
+                )}
+              </div>
+              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>onboardBitir(false)}>Başlayalım! 🚀</button>
               <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>onboardBitir(true)}>Atla</button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );
@@ -4099,18 +4336,7 @@ export default function App(){
             )}
             {sosyalSekme==="tarifler"&&(
               <div>
-                {[
-                  {id:1,baslik:"Yulaf Ezmeli Protein Kahvaltısı",emoji:"🥣",sure:"10 dk",kalori:380,porsiyon:1,malzemeler:["Yulaf ezmesi 60g","Süt 200ml","Muz 1 adet","Bal 1 tatlı kaşığı","Tarçın","Fıstık ezmesi 1 yemek kaşığı"],adimlar:["Yulaf ve sütü karıştırıp 3 dk mikrodalgada pişir","Muz dilimle ve üzerine ekle","Bal ve fıstık ezmesini gezdir","Tarçın serp, sıcak servis et"],makro:{p:18,k:55,y:9},kategori:"Kahvaltı"},
-                  {id:2,baslik:"Tavuklu Kinoa Salatası",emoji:"🥗",sure:"20 dk",kalori:420,porsiyon:2,malzemeler:["Kinoa 100g","Tavuk göğsü 200g","Kiraz domates 10 adet","Salatalık 1 adet","Zeytinyağı 2 yemek kaşığı","Limon suyu","Tuz, karabiber"],adimlar:["Kinoayı 2 kat su ile haşla (15 dk)","Tavuğu tuz-biberle ızgarada pişir ve küp doğra","Domates ve salatalığı doğra","Tüm malzemeleri karıştır","Zeytinyağı ve limon ile tatlandır"],makro:{p:35,k:40,y:12},kategori:"Öğle"},
-                  {id:3,baslik:"Protein Smoothie",emoji:"🥤",sure:"5 dk",kalori:310,porsiyon:1,malzemeler:["Muz 1 adet","Protein tozu 1 ölçek (30g)","Süt 250ml","Yulaf 2 yemek kaşığı","Kakao tozu 1 tatlı kaşığı","Buz"],adimlar:["Tüm malzemeleri blender'a koy","1 dakika yüksek hızda karıştır","Buz ekleyip tekrar karıştır","Hemen servis et"],makro:{p:30,k:35,y:6},kategori:"Atıştırmalık"},
-                  {id:4,baslik:"Fırın Somon & Sebze",emoji:"🐟",sure:"30 dk",kalori:460,porsiyon:2,malzemeler:["Somon fileto 300g","Brokoli 200g","Havuç 2 adet","Sarımsak 3 diş","Zeytinyağı 2 yemek kaşığı","Limon 1 adet","Dereotu, tuz, biber"],adimlar:["Fırını 200°C'ye ısıt","Sebzeleri büyük doğra, zeytinyağıyla harmanla","Somonu limon dilimleri ve dereotu ile hazırla","Tepsiye diz, 25 dk pişir"],makro:{p:42,k:18,y:20},kategori:"Akşam"},
-                  {id:5,baslik:"Mercimek Çorbası (Ev Yapımı)",emoji:"🍲",sure:"35 dk",kalori:190,porsiyon:4,malzemeler:["Kırmızı mercimek 250g","Soğan 1 adet","Havuç 1 adet","Sarımsak 2 diş","Zeytinyağı","Kimyon, tuz, pul biber","Et veya sebze suyu 1.5L"],adimlar:["Soğan ve havucu yağda kavur","Sarımsak ve baharatları ekle","Yıkanmış mercimeği ve suyu ekle","25 dk kısık ateşte pişir","Blender ile pürüzsüz hale getir","Üzerine tereyağı-pul biber gezdirerek servis et"],makro:{p:11,k:28,y:5},kategori:"Çorba"},
-                  {id:6,baslik:"Yoğurtlu Avokado Toast",emoji:"🥑",sure:"10 dk",kalori:340,porsiyon:1,malzemeler:["Tam buğday ekmek 2 dilim","Avokado 1 adet","Yoğurt 50g","Kiraz domates 5 adet","Limon suyu","Pul biber, tuz"],adimlar:["Ekmeği tost yap","Avokadoyu ezip limon-tuzla tatlandır","Ekmeklere sür","Yoğurt ve domatesi üzerine ekle","Pul biber serp"],makro:{p:12,k:38,y:18},kategori:"Kahvaltı"},
-                  {id:7,baslik:"Izgara Sebze Wrap",emoji:"🌯",sure:"25 dk",kalori:350,porsiyon:2,malzemeler:["Tam buğday lavaş 2 adet","Kabak 1 adet","Biber 2 adet","Mantar 100g","Labne peynir 4 yemek kaşığı","Zeytinyağı","Baharatlar"],adimlar:["Sebzeleri yağ ve baharatla karıştır","Izgara veya tavada pişir","Lavaşa labne sür","Sebzeleri koy ve sar","Sıcak servis et"],makro:{p:14,k:42,y:12},kategori:"Öğle"},
-                  {id:8,baslik:"Chia Puding",emoji:"🍮",sure:"5 dk + 4 saat bekleme",kalori:280,porsiyon:2,malzemeler:["Chia tohumu 60g","Badem sütü 400ml","Bal 2 tatlı kaşığı","Vanilya özütü","Çilek veya meyve"],adimlar:["Chia ve sütü karıştır","Bal ve vanilyayı ekle","Buzdolabında 4 saat (veya gece) beklet","Meyve ile servis et"],makro:{p:8,k:28,y:12},kategori:"Atıştırmalık"},
-                  {id:9,baslik:"Tavuklu Sebze Sote",emoji:"🍳",sure:"25 dk",kalori:390,porsiyon:2,malzemeler:["Tavuk göğsü 300g","Biber 2 adet","Soğan 1 adet","Domates 2 adet","Sarımsak 3 diş","Zeytinyağı","Kekik, tuz, biber"],adimlar:["Tavuğu küp doğra, yağda mühürle","Soğan ve sarımsağı ekle","Biber ve domatesi ilave et","15 dk orta ateşte pişir","Kekik ve baharatlarla tatlandır"],makro:{p:38,k:15,y:14},kategori:"Akşam"},
-                  {id:10,baslik:"Ev Yapımı Granola Bar",emoji:"🍫",sure:"30 dk",kalori:220,porsiyon:8,malzemeler:["Yulaf 200g","Bal 80g","Fıstık ezmesi 3 yemek kaşığı","Kuru üzüm 50g","Ay çiçeği tohumu 30g","Tarçın"],adimlar:["Fırını 175°C'ye ısıt","Bal ve fıstık ezmesini eritip karıştır","Kuru malzemeleri ekle","Yağlı kağıda yay, 20 dk pişir","Soğuyunca dilimle"],makro:{p:6,k:32,y:8},kategori:"Atıştırmalık"},
-                ].map(tarif=>(
+                {tarifler.map(tarif=>(
                   <div key={tarif.id} style={{...CS,marginBottom:10}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
                       <div>
@@ -4128,6 +4354,14 @@ export default function App(){
                         <div style={{fontSize:10,fontWeight:800,color:"#f59e0b"}}>{tarif.makro.k}g</div>
                         <div style={{fontSize:10,fontWeight:800,color:"#ef4444"}}>{tarif.makro.y}g</div>
                       </div>
+                    </div>
+                    {/* Yıldız rating */}
+                    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8}}>
+                      {[1,2,3,4,5].map(y=>(
+                        <span key={y} style={{fontSize:18,cursor:"pointer",filter:y<=(tarif.yildiz||0)?"none":"grayscale(1) opacity(.35)",transition:"all .15s"}}
+                          onClick={()=>setTarifler(prev=>prev.map(t=>t.id===tarif.id?{...t,yildiz:t.yildiz===y?0:y}:t))}>⭐</span>
+                      ))}
+                      {tarif.yildiz>0&&<span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{tarif.yildiz}/5</span>}
                     </div>
                     <details>
                       <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#16a34a",marginBottom:6}}>📋 Malzemeler ({tarif.malzemeler.length} adet)</summary>
@@ -4148,6 +4382,22 @@ export default function App(){
                         ))}
                       </div>
                     </details>
+                    <button onClick={async()=>{
+                      const bg=bugunKey();
+                      const saat=new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
+                      const kayit={id:Date.now(),ad:tarif.baslik,kat:yemekKat,saat,gram:tarif.porsiyon===1?1:1,
+                        gramKal:tarif.kalori,gramPro:tarif.makro.p,gramKarb:tarif.makro.k,gramYag:tarif.makro.y,
+                        kal:tarif.kalori,pro:tarif.makro.p,karb:tarif.makro.k,yag:tarif.makro.y,por:1,gramSod:0};
+                      const eskiY=gunV(bg).yemekler||[];
+                      const yeniGun={...gunV(bg),yemekler:[...eskiY,kayit]};
+                      setGunluk(prev=>({...prev,[bg]:yeniGun}));
+                      if(firebaseUID) await gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
+                      const yeniPuan=(puan||0)+10; setPuan(yeniPuan);
+                      if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan}).catch(console.error);
+                      alert(`✅ "${tarif.baslik}" ${yemekKat} öğününe eklendi!`);
+                    }} style={{...BTN(),width:"100%",padding:"10px 0",fontSize:13,marginTop:8}}>
+                      🍽️ {yemekKat} Öğününe Ekle
+                    </button>
                   </div>
                 ))}
               </div>
@@ -4511,12 +4761,12 @@ export default function App(){
                 <div style={{fontSize:12,color:r.sub,lineHeight:1.6}}>
                   <div style={{fontWeight:700,color:"#16a34a",marginBottom:2}}>Referans kodu başarıyla uygulandı!</div>
                   <div>Kullandığın kod: <b style={{color:r.text}}>{aktif.refKodKullandi}</b></div>
-                  <div style={{marginTop:4,fontSize:11,color:r.muted}}>Her satın alımda referans sahibine otomatik +500 puan eklenir.</div>
+                  <div style={{marginTop:4,fontSize:11,color:r.muted}}>Normal kod: her iki tarafa +150 puan. Influencer/işletme kodu: sana +500 puan!</div>
                 </div>
               ):(
                 <>
                   <div style={{fontSize:11,color:r.sub,marginBottom:10,lineHeight:1.6}}>
-                    Arkadaşının referans kodunu gir — sana <b style={{color:"#f59e0b"}}>+500 puan</b>, arkadaşına da <b style={{color:"#f59e0b"}}>+500 puan</b>!
+                    Arkadaşının referans kodunu gir — sana <b style={{color:"#f59e0b"}}>+150 puan</b>, arkadaşına da <b style={{color:"#f59e0b"}}>+150 puan</b>! (Influencer kodunda sana <b style={{color:"#16a34a"}}>+500 puan</b>!)
                   </div>
                   <div style={{display:"flex",gap:8,marginBottom:8}}>
                     <input
@@ -5292,6 +5542,23 @@ export default function App(){
                 ))}
               </div>
             )}
+
+            {/* TARİF YÖNETİMİ */}
+            <div style={{...CS,border:"2px solid #7c3aed",marginBottom:10}}>
+              <div style={{fontWeight:800,color:"#7c3aed",marginBottom:10,fontSize:13}}>🍳 Tarif Yönetimi ({tarifler.length} tarif)</div>
+              <div style={{maxHeight:320,overflowY:"auto"}}>
+                {tarifler.map(t=>(
+                  <div key={t.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:`1px solid ${r.brd}`}}>
+                    <div>
+                      <span style={{fontSize:16,marginRight:6}}>{t.emoji}</span>
+                      <span style={{fontSize:12,fontWeight:700,color:r.text}}>{t.baslik}</span>
+                      <span style={{fontSize:10,color:r.muted,marginLeft:6}}>{t.kategori} · {t.kalori} kcal</span>
+                    </div>
+                    <button onClick={()=>setTarifler(prev=>prev.filter(x=>x.id!==t.id))} style={{background:"#fef2f2",border:"1px solid #fca5a5",borderRadius:8,padding:"4px 10px",cursor:"pointer",fontSize:11,fontWeight:700,color:"#ef4444"}}>Kaldır</button>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div style={{fontSize:12,fontWeight:700,color:r.sub,padding:"4px 4px 6px"}}>Besin Onay Kuyruğu ({bekBesin.length})</div>
             {bekBesin.length===0?<div style={{...CS,textAlign:"center",color:r.muted,padding:"20px"}}>Onay bekleyen yok.</div>:
