@@ -72,7 +72,7 @@ const LANG = {
         acik: "Referans kodunu paylaş — Normal kodla +150, influencer/işletme koduyla +300 puan! Ortak ol, premium satışlardan ve reklam gelirinden %25 komisyon kazan.",
         renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
         vurgu: "#93c5fd",
-        detaylar: ["🎯 Influencer: +300 puan", "💳 %25 komisyon", "📢 Reklam payı"],
+        detaylar: ["🎯 Influencer: +300 puan", "💳 %50 net komisyon", "👤 1₺/aktif kullanıcı"],
       },
     ],
   },
@@ -2284,6 +2284,110 @@ const BESIN_DB = [
   { id:1998, ad:"Falafel Dürüm", marka:"", kal:420, pro:16, karb:52, yag:18, lif:7, sod:620, demir:3.5, kals:100, vitC:4, vitD:0, vitB12:0, acik:60, por:240, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
   { id:1999, ad:"Crepe (Tuzlu, Peynirli)", marka:"", kal:300, pro:12, karb:34, yag:14, lif:1.5, sod:480, demir:1, kals:160, vitC:1, vitD:0, vitB12:0.3, acik:38, por:130, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
   { id:2000, ad:"Burger (Bütçe Restoran)", marka:"", kal:440, pro:22, karb:42, yag:20, lif:2, sod:780, demir:2.5, kals:100, vitC:2, vitD:0, vitB12:0.6, acik:58, por:200, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  // ─── ETİ ÜRÜNLERİ ────────────────────────────────────────
+  { id:2001, ad:"Eti Browni", marka:"Eti", kal:200, pro:2.8, karb:28, yag:9.5, lif:1.2, sod:85, demir:0.8, kals:30, vitC:0, vitD:0, vitB12:0, acik:28, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2002, ad:"Eti Crax Tuzlu", marka:"Eti", kal:470, pro:9, karb:62, yag:20, lif:2, sod:700, demir:1.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:55, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2003, ad:"Eti Burçak Bisküvi", marka:"Eti", kal:440, pro:7, karb:68, yag:16, lif:1.5, sod:320, demir:1.2, kals:50, vitC:0, vitD:0, vitB12:0, acik:50, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2004, ad:"Eti Tutku Çikolata", marka:"Eti", kal:530, pro:5, karb:63, yag:28, lif:2, sod:55, demir:2.5, kals:80, vitC:0, vitD:0.5, vitB12:0, acik:40, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2005, ad:"Eti Gong Çikolatalı", marka:"Eti", kal:510, pro:6, karb:60, yag:27, lif:1.5, sod:60, demir:2, kals:70, vitC:0, vitD:0, vitB12:0, acik:42, por:36, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2006, ad:"Eti Petibör", marka:"Eti", kal:440, pro:7.5, karb:67, yag:15.5, lif:1.5, sod:280, demir:1.8, kals:60, vitC:0, vitD:0, vitB12:0, acik:48, por:48, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2007, ad:"Eti Dankek Portakallı", marka:"Eti", kal:380, pro:4.5, karb:55, yag:15, lif:0.8, sod:200, demir:0.6, kals:35, vitC:2, vitD:0, vitB12:0, acik:35, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2008, ad:"Eti Cin Zencefilli", marka:"Eti", kal:455, pro:6.5, karb:70, yag:16, lif:1.8, sod:350, demir:1.5, kals:45, vitC:0, vitD:0, vitB12:0, acik:50, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2009, ad:"Eti O'la Bütün Tahıllı", marka:"Eti", kal:415, pro:9, karb:64, yag:13, lif:4, sod:250, demir:2.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:55, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2010, ad:"Eti Benimo Kek", marka:"Eti", kal:395, pro:4, karb:56, yag:17, lif:0.8, sod:220, demir:0.8, kals:30, vitC:0, vitD:0, vitB12:0, acik:32, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2011, ad:"Eti Topkek Muzlu", marka:"Eti", kal:375, pro:4, karb:54, yag:16, lif:0.6, sod:190, demir:0.5, kals:28, vitC:1, vitD:0, vitB12:0, acik:30, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2012, ad:"Eti Çokokrem", marka:"Eti", kal:535, pro:6.5, karb:60, yag:29, lif:2.5, sod:45, demir:3, kals:90, vitC:0, vitD:0.5, vitB12:0, acik:38, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2013, ad:"Eti Form Meyve Bisküvi", marka:"Eti", kal:380, pro:6, karb:66, yag:10, lif:3, sod:220, demir:1.8, kals:60, vitC:2, vitD:0, vitB12:0, acik:52, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2014, ad:"Eti Filled Çikolata", marka:"Eti", kal:520, pro:5.5, karb:62, yag:27, lif:2, sod:50, demir:2, kals:75, vitC:0, vitD:0.5, vitB12:0, acik:38, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2015, ad:"Eti Negrito", marka:"Eti", kal:480, pro:4.5, karb:68, yag:21, lif:1.5, sod:180, demir:1, kals:40, vitC:0, vitD:0, vitB12:0, acik:42, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2016, ad:"Eti Crispo Fındıklı", marka:"Eti", kal:505, pro:7, karb:58, yag:26, lif:2, sod:120, demir:1.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:40, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2017, ad:"Eti Mini Browni", marka:"Eti", kal:195, pro:2.5, karb:27, yag:9, lif:1, sod:80, demir:0.8, kals:28, vitC:0, vitD:0, vitB12:0, acik:25, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2018, ad:"Eti Puf Mısır Cipsi", marka:"Eti", kal:490, pro:8, karb:58, yag:24, lif:1.5, sod:550, demir:1, kals:30, vitC:0, vitD:0, vitB12:0, acik:48, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2019, ad:"Eti Halley Bisküvi", marka:"Eti", kal:445, pro:5, karb:66, yag:18, lif:1.2, sod:200, demir:1, kals:35, vitC:0, vitD:0, vitB12:0, acik:45, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2020, ad:"Eti Probis", marka:"Eti", kal:460, pro:8, karb:62, yag:20, lif:2, sod:380, demir:1.5, kals:50, vitC:0, vitD:0, vitB12:0, acik:50, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  // ─── ÜLKER ÜRÜNLERİ ──────────────────────────────────────────
+  { id:2021, ad:"Ülker Çikolatalı Gofret", marka:"Ülker", kal:510, pro:5.5, karb:60, yag:27, lif:1.5, sod:70, demir:1.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:38, por:36, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2022, ad:"Ülker Biskrem", marka:"Ülker", kal:490, pro:6, karb:64, yag:22, lif:1.8, sod:200, demir:1.2, kals:40, vitC:0, vitD:0, vitB12:0, acik:50, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2023, ad:"Ülker Alpella", marka:"Ülker", kal:500, pro:5, karb:62, yag:26, lif:1.5, sod:65, demir:1.5, kals:70, vitC:0, vitD:0.5, vitB12:0, acik:40, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2024, ad:"Ülker Dido", marka:"Ülker", kal:485, pro:5.5, karb:60, yag:25, lif:1.5, sod:80, demir:1.5, kals:65, vitC:0, vitD:0.5, vitB12:0, acik:40, por:32, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2025, ad:"Ülker Çubuk Kraker", marka:"Ülker", kal:450, pro:9, karb:65, yag:16, lif:2, sod:650, demir:1.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:52, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2026, ad:"Ülker Ülker Bisküvi", marka:"Ülker", kal:440, pro:7.5, karb:67, yag:15, lif:1.5, sod:290, demir:1.8, kals:60, vitC:0, vitD:0, vitB12:0, acik:48, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2027, ad:"Ülker Rondo Vanilyalı", marka:"Ülker", kal:470, pro:5, karb:66, yag:20, lif:1.2, sod:250, demir:1, kals:45, vitC:0, vitD:0, vitB12:0, acik:45, por:44, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2028, ad:"Ülker Negro Şekeri", marka:"Ülker", kal:380, pro:0, karb:94, yag:0, lif:0, sod:20, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:20, por:20, aclik:"20 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2029, ad:"Ülker 2M Kraker", marka:"Ülker", kal:455, pro:8.5, karb:66, yag:17, lif:2, sod:580, demir:1.5, kals:45, vitC:0, vitD:0, vitB12:0, acik:50, por:46, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2030, ad:"Ülker Hoşbil Fındıklı", marka:"Ülker", kal:540, pro:6, karb:60, yag:30, lif:2, sod:45, demir:1.5, kals:70, vitC:0, vitD:0, vitB12:0, acik:38, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2031, ad:"Ülker Altın Yumuşak Çikolata", marka:"Ülker", kal:530, pro:5, karb:62, yag:28, lif:2, sod:55, demir:2, kals:75, vitC:0, vitD:0.5, vitB12:0, acik:38, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2032, ad:"Ülker Haylayf", marka:"Ülker", kal:460, pro:5.5, karb:64, yag:20, lif:1.5, sod:150, demir:1, kals:40, vitC:0, vitD:0, vitB12:0, acik:42, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2033, ad:"Ülker Metro Kek", marka:"Ülker", kal:390, pro:4, karb:57, yag:16, lif:0.8, sod:200, demir:0.8, kals:30, vitC:0, vitD:0, vitB12:0, acik:32, por:38, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2034, ad:"Ülker Çokokrem (Geniş)", marka:"Ülker", kal:530, pro:6, karb:60, yag:29, lif:2.5, sod:45, demir:3, kals:90, vitC:0, vitD:0.5, vitB12:0, acik:38, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2035, ad:"Ülker Ülker Sütlü Çikolata 30g", marka:"Ülker", kal:540, pro:7.5, karb:57, yag:31, lif:1.5, sod:60, demir:1.5, kals:200, vitC:0, vitD:0, vitB12:0.2, acik:40, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2036, ad:"Ülker Fındıklı Çikolata 60g", marka:"Ülker", kal:545, pro:8, karb:54, yag:33, lif:2, sod:40, demir:2, kals:120, vitC:0, vitD:0, vitB12:0.1, acik:42, por:60, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2037, ad:"Ülker Fıstıklı Çikolata 30g", marka:"Ülker", kal:550, pro:10, karb:50, yag:34, lif:2, sod:50, demir:1.5, kals:80, vitC:0, vitD:0, vitB12:0, acik:42, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2038, ad:"Ülker Benim Pastam Çilekli", marka:"Ülker", kal:400, pro:4.5, karb:58, yag:17, lif:0.8, sod:210, demir:0.6, kals:32, vitC:1, vitD:0, vitB12:0, acik:30, por:38, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2039, ad:"Ülker Café Crown 3ü1 Arada", marka:"Ülker", kal:110, pro:1.5, karb:17, yag:4, lif:0, sod:45, demir:0.2, kals:30, vitC:0, vitD:0, vitB12:0, acik:20, por:20, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2 },
+  { id:2040, ad:"Ülker Çamlıca Meyve Suyu 200ml", marka:"Ülker", kal:90, pro:0, karb:22, yag:0, lif:0, sod:15, demir:0, kals:8, vitC:10, vitD:0, vitB12:0, acik:18, por:200, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:1.5 },
+  // ─── ZÜBER ÜRÜNLERİ ──────────────────────────────────────────
+  { id:2041, ad:"Züber Leblebi Sarı", marka:"Züber", kal:360, pro:20, karb:52, yag:5, lif:8, sod:10, demir:3.5, kals:55, vitC:4, vitD:0, vitB12:0, acik:68, por:50, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2042, ad:"Züber Leblebi Kavrulmuş Tuzlu", marka:"Züber", kal:370, pro:19.5, karb:54, yag:5.5, lif:7.5, sod:250, demir:3.2, kals:50, vitC:2, vitD:0, vitB12:0, acik:65, por:50, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2043, ad:"Züber Antep Fıstığı", marka:"Züber", kal:560, pro:21, karb:27, yag:44, lif:6, sod:0, demir:3.5, kals:105, vitC:2, vitD:0, vitB12:0, acik:62, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2044, ad:"Züber Kaju", marka:"Züber", kal:575, pro:18, karb:30, yag:46, lif:3, sod:10, demir:4, kals:35, vitC:0, vitD:0, vitB12:0, acik:60, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2045, ad:"Züber Bademli Karışık Kuruyemiş", marka:"Züber", kal:565, pro:16, karb:22, yag:48, lif:5, sod:80, demir:2.5, kals:80, vitC:0, vitD:0, vitB12:0, acik:62, por:35, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2046, ad:"Züber Fındık", marka:"Züber", kal:620, pro:15, karb:17, yag:60, lif:5, sod:0, demir:3, kals:60, vitC:2, vitD:0, vitB12:0, acik:60, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2047, ad:"Züber Ceviz", marka:"Züber", kal:650, pro:15, karb:14, yag:65, lif:7, sod:0, demir:2.5, kals:45, vitC:1, vitD:0, vitB12:0, acik:62, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+  { id:2048, ad:"Züber Çiğ Badem", marka:"Züber", kal:580, pro:21, karb:21, yag:49, lif:8, sod:0, demir:3, kals:265, vitC:0, vitD:0, vitB12:0, acik:65, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+  { id:2049, ad:"Züber Karışık Kuruyemiş 30g", marka:"Züber", kal:545, pro:14, karb:25, yag:44, lif:4, sod:50, demir:2, kals:55, vitC:0, vitD:0, vitB12:0, acik:60, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2050, ad:"Züber Leblebi Acı Biberli", marka:"Züber", kal:365, pro:19, karb:53, yag:5, lif:7.5, sod:320, demir:3, kals:48, vitC:5, vitD:0, vitB12:0, acik:62, por:50, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2051, ad:"Züber Mısır Leblebi", marka:"Züber", kal:340, pro:8, karb:64, yag:4, lif:6, sod:15, demir:2, kals:30, vitC:3, vitD:0, vitB12:0, acik:55, por:50, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2052, ad:"Züber Çikolatalı Fındık Kreması", marka:"Züber", kal:560, pro:8, karb:57, yag:33, lif:3, sod:50, demir:2.5, kals:80, vitC:0, vitD:0.5, vitB12:0, acik:38, por:30, aclik:"45 dk", onay:true, kat:"Kahvaltılık", yildiz:2.5 },
+  { id:2053, ad:"Züber Antep Fıstıklı Ezme", marka:"Züber", kal:570, pro:22, karb:22, yag:46, lif:5, sod:15, demir:3, kals:60, vitC:0, vitD:0, vitB12:0, acik:60, por:30, aclik:"2 saat", onay:true, kat:"Kahvaltılık", yildiz:4.5 },
+  { id:2054, ad:"Züber Ballı Ceviz", marka:"Züber", kal:480, pro:8, karb:52, yag:28, lif:3, sod:10, demir:1.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:45, por:30, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2055, ad:"Züber Çerezli Granola", marka:"Züber", kal:420, pro:9, karb:62, yag:15, lif:5, sod:80, demir:2.5, kals:60, vitC:2, vitD:0, vitB12:0, acik:58, por:50, aclik:"1.5 saat", onay:true, kat:"Kahvaltılık", yildiz:3.5 },
+  { id:2056, ad:"Züber Kuru Kayısı", marka:"Züber", kal:240, pro:3.5, karb:57, yag:0.5, lif:7, sod:5, demir:2.5, kals:50, vitC:1, vitD:0, vitB12:0, acik:42, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2057, ad:"Züber Kuru Üzüm", marka:"Züber", kal:298, pro:3, karb:74, yag:0.3, lif:3.5, sod:12, demir:2, kals:50, vitC:3, vitD:0, vitB12:0, acik:35, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2058, ad:"Züber İncir", marka:"Züber", kal:250, pro:3, karb:60, yag:1, lif:10, sod:10, demir:2.5, kals:160, vitC:1, vitD:0, vitB12:0, acik:50, por:50, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2059, ad:"Züber Hurma", marka:"Züber", kal:277, pro:2, karb:72, yag:0.2, lif:8, sod:1, demir:1, kals:35, vitC:0, vitD:0, vitB12:0, acik:40, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2060, ad:"Züber Tuzlu Miks 50g", marka:"Züber", kal:540, pro:15, karb:26, yag:44, lif:4, sod:180, demir:2, kals:50, vitC:0, vitD:0, vitB12:0, acik:60, por:50, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  // ─── DİĞER POPULER MARKALAR ──────────────────────────────────
+  { id:2061, ad:"Torku Fındıklı Gofret", marka:"Torku", kal:500, pro:5.5, karb:60, yag:26, lif:1.5, sod:65, demir:1.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:40, por:36, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2062, ad:"Torku Sütlü Çikolata", marka:"Torku", kal:538, pro:7, karb:57, yag:30, lif:1.5, sod:60, demir:1.5, kals:195, vitC:0, vitD:0, vitB12:0.2, acik:40, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2063, ad:"Torku Toz Şeker 1 çay k.", marka:"Torku", kal:30, pro:0, karb:7.5, yag:0, lif:0, sod:0, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:10, por:7.5, aclik:"15 dk", onay:true, kat:"Diğer", yildiz:1 },
+  { id:2064, ad:"Tat Domates Salçası 1 yem.k.", marka:"Tat", kal:18, pro:0.8, karb:3.8, yag:0.1, lif:0.5, sod:200, demir:0.3, kals:10, vitC:4, vitD:0, vitB12:0, acik:8, por:15, aclik:"10 dk", onay:true, kat:"Diğer", yildiz:2.5 },
+  { id:2065, ad:"Tat Acı Biber Sosu", marka:"Tat", kal:25, pro:0.5, karb:5.5, yag:0.2, lif:0.5, sod:600, demir:0.3, kals:8, vitC:6, vitD:0, vitB12:0, acik:8, por:15, aclik:"10 dk", onay:true, kat:"Diğer", yildiz:3 },
+  { id:2066, ad:"Sana Margarin 1 yem.k.", marka:"Sana", kal:70, pro:0, karb:0, yag:8, lif:0, sod:70, demir:0, kals:0, vitC:0, vitD:0.5, vitB12:0, acik:5, por:10, aclik:"10 dk", onay:true, kat:"Kahvaltılık", yildiz:1.5 },
+  { id:2067, ad:"Pınar Süt 200ml", marka:"Pınar", kal:130, pro:7, karb:10, yag:7, lif:0, sod:120, demir:0.1, kals:240, vitC:1, vitD:1, vitB12:1, acik:42, por:200, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:4 },
+  { id:2068, ad:"Sütaş Yoğurt 200g", marka:"Sütaş", kal:136, pro:7, karb:12, yag:6, lif:0, sod:80, demir:0.1, kals:220, vitC:1, vitD:0.5, vitB12:0.8, acik:48, por:200, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:4.5 },
+  { id:2069, ad:"Danone Activia 125g", marka:"Danone", kal:80, pro:4, karb:12, yag:2, lif:0, sod:55, demir:0, kals:130, vitC:0, vitD:0, vitB12:0.5, acik:35, por:125, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:4 },
+  { id:2070, ad:"Çaykur Rize Çayı (demleme)", marka:"Çaykur", kal:2, pro:0, karb:0.3, yag:0, lif:0, sod:1, demir:0.1, kals:0, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"5 dk", onay:true, kat:"İçecek", yildiz:3.5 },
+  { id:2071, ad:"Nescafé Classic 1 kase", marka:"Nestlé", kal:8, pro:0.5, karb:1.2, yag:0.2, lif:0, sod:2, demir:0.2, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:2, aclik:"5 dk", onay:true, kat:"İçecek", yildiz:2.5 },
+  { id:2072, ad:"Eti Karam Bitter %70", marka:"Eti", kal:545, pro:6.5, karb:48, yag:36, lif:6, sod:15, demir:5, kals:45, vitC:0, vitD:0, vitB12:0, acik:45, por:30, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2073, ad:"Ülker Golden Kraker", marka:"Ülker", kal:445, pro:8.5, karb:65, yag:17, lif:2, sod:620, demir:1.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:50, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2074, ad:"Züber Çiğ Fıstık", marka:"Züber", kal:580, pro:26, karb:20, yag:49, lif:8, sod:18, demir:2.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:62, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2075, ad:"Eti 2'si 1 Arada Kahve", marka:"Eti", kal:70, pro:1, karb:13, yag:2, lif:0, sod:35, demir:0.1, kals:20, vitC:0, vitD:0, vitB12:0, acik:15, por:13, aclik:"15 dk", onay:true, kat:"İçecek", yildiz:2 },
+  { id:2076, ad:"Ülker Çokokek", marka:"Ülker", kal:390, pro:4.5, karb:57, yag:16, lif:1.2, sod:205, demir:0.8, kals:30, vitC:0, vitD:0, vitB12:0, acik:30, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2077, ad:"Eti Milk Sütlü Çikolata 30g", marka:"Eti", kal:535, pro:7, karb:58, yag:30, lif:1.5, sod:60, demir:1.5, kals:195, vitC:0, vitD:0, vitB12:0.2, acik:40, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2078, ad:"Züber Kuru Elma Dilimleri", marka:"Züber", kal:260, pro:1, karb:65, yag:0.5, lif:8, sod:10, demir:1, kals:15, vitC:5, vitD:0, vitB12:0, acik:40, por:40, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2079, ad:"Züber Acı Badem", marka:"Züber", kal:578, pro:21, karb:20, yag:49, lif:8, sod:0, demir:3, kals:265, vitC:0, vitD:0, vitB12:0, acik:65, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4.5 },
+  { id:2080, ad:"Ülker Sütlü Yumuşak Çikolata 80g", marka:"Ülker", kal:535, pro:7, karb:58, yag:29, lif:1.5, sod:55, demir:1.5, kals:200, vitC:0, vitD:0, vitB12:0.2, acik:42, por:80, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2081, ad:"Eti Crax Barbeku", marka:"Eti", kal:468, pro:8.5, karb:60, yag:21, lif:2, sod:720, demir:1.5, kals:38, vitC:0, vitD:0, vitB12:0, acik:52, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2082, ad:"Ülker Biskrem Çikolatalı 45g", marka:"Ülker", kal:490, pro:6, karb:62, yag:23, lif:1.8, sod:185, demir:1.2, kals:38, vitC:0, vitD:0, vitB12:0, acik:48, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2083, ad:"Züber Kuru Kayısı Diyet 100g", marka:"Züber", kal:240, pro:3.5, karb:57, yag:0.5, lif:7, sod:3, demir:2.5, kals:50, vitC:1, vitD:0, vitB12:0, acik:45, por:100, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2084, ad:"Eti Form Yulaf Bisküvi", marka:"Eti", kal:390, pro:7, karb:62, yag:12, lif:4.5, sod:230, demir:2, kals:55, vitC:0, vitD:0, vitB12:0, acik:55, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2085, ad:"Ülker Doğal Kahve 100g", marka:"Ülker", kal:200, pro:12, karb:30, yag:4, lif:0, sod:10, demir:4, kals:70, vitC:0, vitD:0, vitB12:0, acik:10, por:8, aclik:"10 dk", onay:true, kat:"İçecek", yildiz:3 },
+  { id:2086, ad:"Ülker Toya Fındıklı Krema", marka:"Ülker", kal:555, pro:7, karb:56, yag:34, lif:2.5, sod:45, demir:2, kals:80, vitC:0, vitD:0.5, vitB12:0, acik:38, por:30, aclik:"45 dk", onay:true, kat:"Kahvaltılık", yildiz:2 },
+  { id:2087, ad:"Züber Karışık Bakliyat Chips", marka:"Züber", kal:415, pro:14, karb:50, yag:17, lif:6, sod:380, demir:2.5, kals:45, vitC:0, vitD:0, vitB12:0, acik:58, por:40, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2088, ad:"Eti Crax Peynirli", marka:"Eti", kal:475, pro:9, karb:60, yag:22, lif:1.5, sod:680, demir:1.2, kals:50, vitC:0, vitD:0, vitB12:0.1, acik:52, por:35, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2089, ad:"Ülker Biskrem Portakallı", marka:"Ülker", kal:480, pro:5.5, karb:64, yag:21, lif:1.5, sod:210, demir:1, kals:40, vitC:1, vitD:0, vitB12:0, acik:46, por:44, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2090, ad:"Züber Yer Fıstığı Tuzlu", marka:"Züber", kal:580, pro:26, karb:20, yag:48, lif:8, sod:200, demir:2.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:60, por:30, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2091, ad:"Eti Karam %54 Sütlü", marka:"Eti", kal:530, pro:6, karb:55, yag:31, lif:3, sod:30, demir:3, kals:100, vitC:0, vitD:0, vitB12:0, acik:42, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2092, ad:"Ülker Çikolatalı Pasta 100g", marka:"Ülker", kal:390, pro:4.5, karb:54, yag:17, lif:1, sod:220, demir:1, kals:40, vitC:0, vitD:0, vitB12:0, acik:32, por:100, aclik:"45 dk", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2093, ad:"Züber Kuru Meyve Karışım 40g", marka:"Züber", kal:265, pro:2.5, karb:63, yag:0.5, lif:5, sod:8, demir:1.5, kals:35, vitC:4, vitD:0, vitB12:0, acik:38, por:40, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2094, ad:"Eti Topkek Çikolatalı", marka:"Eti", kal:385, pro:4.2, karb:55, yag:17, lif:0.8, sod:195, demir:0.8, kals:28, vitC:0, vitD:0, vitB12:0, acik:30, por:38, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2095, ad:"Ülker Albeni", marka:"Ülker", kal:460, pro:5, karb:61, yag:22, lif:1.5, sod:90, demir:1.5, kals:70, vitC:0, vitD:0, vitB12:0, acik:38, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2096, ad:"Züber Çikolatalı Badem Drajesi", marka:"Züber", kal:520, pro:10, karb:56, yag:28, lif:4, sod:20, demir:2.5, kals:100, vitC:0, vitD:0, vitB12:0, acik:45, por:30, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2097, ad:"Eti Göt (Tam Tahıllı Bisküvi)", marka:"Eti", kal:405, pro:8.5, karb:64, yag:12, lif:4, sod:280, demir:2, kals:50, vitC:0, vitD:0, vitB12:0, acik:55, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2098, ad:"Ülker Cafe Crown Sütlü Kahve", marka:"Ülker", kal:130, pro:2, karb:18, yag:5.5, lif:0, sod:65, demir:0.2, kals:65, vitC:0, vitD:0, vitB12:0.1, acik:22, por:25, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2 },
+  { id:2099, ad:"Züber Kuru Dut", marka:"Züber", kal:280, pro:3, karb:68, yag:0.8, lif:10, sod:10, demir:2.5, kals:50, vitC:3, vitD:0, vitB12:0, acik:45, por:50, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2100, ad:"Eti Cinnis Tarçınlı Bisküvi", marka:"Eti", kal:448, pro:6.5, karb:68, yag:16, lif:2, sod:330, demir:1.5, kals:48, vitC:0, vitD:0, vitB12:0, acik:50, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
 ];
 
 // ─── DEMO VERİLER ───────────────────────────────────────────────
@@ -4255,7 +4359,8 @@ export default function App(){
               </div>
             )}
 
-                {!besinArama&&<div style={CS}>
+                {!besinArama&&(
+                <div style={CS}>
                   <div style={CT}>Filtreler</div>
 
                   {/* Kategori */}
@@ -4375,7 +4480,8 @@ export default function App(){
                   </button>
                 </div>
 
-                </div>}
+                </div>
+                )}
                 {!besinArama&&<><div style={{fontSize:12,color:r.sub,padding:"0 4px",marginBottom:6}}>{filtreBesinler.length} besin bulundu</div>
                 {filtreBesinler.slice(0,gozatLimit).map(b=>(
                   <div key={b.id} style={{...CS,margin:"6px 0",cursor:"pointer",padding:12}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
@@ -4838,7 +4944,7 @@ export default function App(){
               <div style={{fontSize:11,fontWeight:700}}>PUANINIZ</div>
               <div style={{fontSize:46,fontWeight:900}}>{puan}</div>
               <div style={{fontSize:12,opacity:.8}}>Puan biriktir, AI hakkı kazan!</div>
-              {(()=>{const bugun=bugunKey();const sk="doya_son_giris_"+(firebaseUID||"");const sl=localStorage.getItem(sk);return sl===bugun&&<div style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,marginTop:6}}>🌅 Bugünkü giriş bonusu: +100 puan aldın!</div>})()}
+              {firebaseUID&&localStorage.getItem("doya_son_giris_"+firebaseUID)===bugunKey()&&<div style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,marginTop:6}}>🌅 Bugünkü giriş bonusu: +100 puan aldın!</div>}
             </div>
 
             {/* Premium planlar */}
@@ -5219,8 +5325,8 @@ export default function App(){
               <div style={{background:d?"#0f172a":"#f0fdf4",border:`1px solid #bbf7d0`,borderRadius:10,padding:12}}>
                 <div style={{fontSize:11,fontWeight:700,color:"#16a34a",marginBottom:6}}>💡 Nasıl daha fazla kazan?</div>
                 {[
-                  "Aktif kullanıcı davet et — günlük giren kişiler daha fazla reklam görür",
-                  "Premium kullanıcı getir — satın alım başına %25 komisyon",
+                  "Aktif kullanıcı davet et — ayda 1.000 puan yapan her kişi = +1₺ sabit gelir",
+                  "Premium kullanıcı getir — platform komisyonu sonrası net tutarın %50si sana",
                   "Sosyal medyanda referans kodunu paylaş",
                 ].map((t,i)=>(
                   <div key={i} style={{fontSize:11,color:r.sub,marginBottom:4}}>• {t}</div>
@@ -6912,13 +7018,17 @@ export default function App(){
                 Bu sözleşme ("Sözleşme"), <b>Doya Beslenme Takip Uygulaması</b> ("Doya" veya "Platform") ile ortaklık başvurusu onaylanan <b>Influencer / İşletme Ortağı</b> ("Ortak") arasında kurulmaktadır. Başvuruyu onaylayarak ve referans kodunu kullanmaya başlayarak bu sözleşmenin tüm maddelerini okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.<br/><br/>
 
                 <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
-                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği reklam gelirinin <b>%25'ini</b> ve bu kullanıcıların gerçekleştirdiği premium satın alımlardan <b>%25 komisyonu</b> alır. Kazanç tutarı; kullanıcı aktivitesine, reklam piyasası koşullarına ve ülke bazlı eCPM değerlerine göre değişkenlik gösterir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
+                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği kazançtan aşağıdaki şekilde pay alır:<br/>
+                <b>a) Aktif Kullanıcı Başına Sabit Ödeme:</b> Ortak'ın davet ettiği kullanıcılardan her biri, bir takvim ayı içinde en az <b>1.000 puan</b> kazanmışsa o kullanıcı "aktif" sayılır. Her aktif kullanıcı başına Ortak'a aylık <b>1 ₺ (bir Türk Lirası)</b> sabit ödeme yapılır.<br/>
+                <b>b) Satın Alım Komisyonu:</b> Ortak'ın davet ettiği kullanıcıların gerçekleştirdiği premium satın alımlarından; Google Play ve Apple App Store komisyonları (%15–30) düşüldükten sonra kalan net tutarın <b>%50'si</b> Ortak'a ödenir.<br/>
+                <b>c) Aktif Kullanıcı Tanımı:</b> Bir kullanıcının aktif sayılabilmesi için 30 takvim günü içinde uygulama içi puan sisteminde <b>1.000 puan</b> veya üzeri kazanmış olması şarttır. Bu eşiği karşılamayan kullanıcılar o ay için aktif sayılmaz ve komisyona dahil edilmez.<br/>
+                Kazanç tutarı; aktif kullanıcı sayısına, satın alım hacmine ve platform komisyon politikalarına göre değişkenlik gösterir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
 
                 <b>2. ÖDEME KOŞULLARI</b><br/>
                 Ödemeler her takvim ayının 1'inde, Ortak'ın sisteme kaydettiği IBAN hesabına yapılır. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
 
                 <b>3. REKABET YASAĞI VE ANLИК FESİH HAKKI</b><br/>
-                Ortak; aktif ortaklık süresi boyunca ve ortaklık sona erdikten sonra <b>6 ay süreyle</b> aşağıdaki faaliyetlerde bulunamaz:<br/>
+                Ortak; aktif ortaklık süresi boyunca aşağıdaki faaliyetlerde bulunamaz:<br/>
                 • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini sosyal medya hesaplarında, YouTube kanallarında, blog veya podcast gibi kanallarında tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
                 • Kullanıcıları Doya'dan rakip platformlara yönlendirecek içerik üretemez.<br/><br/>
                 <b>Bu maddenin ihlali halinde Doya, herhangi bir ihbar süresi, ön bildirim veya gerekçe gösterme yükümlülüğü olmaksızın ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş ve henüz ödenmemiş kazançlar minimum ödeme tutarını geçiyorsa bir sonraki dönemde ödenir; geçmiyorsa ödenmez.<br/><br/>
