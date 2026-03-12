@@ -10797,7 +10797,7 @@ export default function App(){
   const [hpDonem,setHpDonem]=useState("hafta"); // hafta | ay | yil
   const [hpSecGun,setHpSecGun]=useState(null);  // seçilen gün key'i
   const [hpModal,setHpModal]=useState(false);   // haftalık özet modal
-  const [alerjiModal,setAlerjiModal]=useState(false); // alerji modal
+  const [alerjiModal,setAlerjiModal]=useState(false);
 
   // ── ADMIN ──
   const [adminUid,setAdminUid]=useState(""); const [adminTip,setAdminTip]=useState("influencer");
@@ -17005,92 +17005,11 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-        {/* ════════════════ AI DİYETİSYEN MODAL ════════════════ */}
-        {diyetisyenAcik&&(
-          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setDiyetisyenAcik(false)}>
-            <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34,maxHeight:"90vh",display:"flex",flexDirection:"column"}} onClick={e=>e.stopPropagation()}>
-              <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 14px"}}/>
-              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
-                <div style={{width:42,height:42,background:"linear-gradient(135deg,#7c3aed,#4f46e5)",borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>🧑‍⚕️</div>
-                <div>
-                  <div style={{fontSize:16,fontWeight:900,color:r.text}}>AI Diyetisyen</div>
-                  <div style={{fontSize:11,color:r.sub}}>Beslenme danışmanlığı — Kişiselleştirilmiş</div>
-                </div>
-              </div>
-
-              {/* Sohbet geçmişi */}
-              <div style={{flex:1,overflowY:"auto",marginBottom:12,maxHeight:280}}>
-                {diyMesajlar.length===0&&(
-                  <div style={{textAlign:"center",padding:"20px 0",color:r.muted}}>
-                    <div style={{fontSize:32,marginBottom:8}}>💬</div>
-                    <div style={{fontSize:13,fontWeight:700}}>Merhaba! Ben Doya'nın AI diyetisyeniyim.</div>
-                    <div style={{fontSize:11,marginTop:4,color:r.sub}}>Beslenme hedeflerine göre kişiselleştirilmiş öneriler veririm.</div>
-                    <div style={{display:"flex",flexWrap:"wrap",gap:6,marginTop:14,justifyContent:"center"}}>
-                      {["Kilo vermem için ne yemeli?","Protein ihtiyacım ne kadar?","Günlük kalori hedefim?","Hangi besinler tok tutar?"].map(s=>(
-                        <button key={s} onClick={()=>setDiyYazi(s)} style={{padding:"6px 12px",borderRadius:20,border:`1px solid ${r.brd}`,background:"transparent",color:r.text,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{s}</button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {diyMesajlar.map((m,i)=>(
-                  <div key={i} style={{marginBottom:12}}>
-                    <div style={{textAlign:"right",marginBottom:6}}>
-                      <span style={{background:"#16a34a",color:"#fff",borderRadius:"14px 14px 4px 14px",padding:"8px 12px",fontSize:12,display:"inline-block",maxWidth:"80%",textAlign:"left"}}>{m.soru}</span>
-                    </div>
-                    <div style={{textAlign:"left"}}>
-                      <span style={{background:d?"#1e293b":"#f1f5f9",color:r.text,borderRadius:"14px 14px 14px 4px",padding:"8px 12px",fontSize:12,display:"inline-block",maxWidth:"85%",textAlign:"left",lineHeight:1.5}}>{m.cevap}</span>
-                    </div>
-                  </div>
-                ))}
-                {diyYukleniyor&&(
-                  <div style={{textAlign:"left",marginBottom:8}}>
-                    <span style={{background:d?"#1e293b":"#f1f5f9",borderRadius:"14px 14px 14px 4px",padding:"10px 16px",display:"inline-flex",gap:4}}>
-                      {[0,1,2].map(i=><span key={i} className="pulse" style={{width:8,height:8,background:"#9ca3af",borderRadius:"50%",animationDelay:i*0.2+"s"}}/>)}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Mesaj girişi */}
-              <div style={{display:"flex",gap:8}}>
-                <input value={diyYazi} onChange={e=>setDiyYazi(e.target.value)}
-                  onKeyDown={async e=>{if(e.key==="Enter"&&diyYazi.trim())diyetisyenMesajGonder();}}
-                  placeholder="Beslenme sorunuzu yazın..."
-                  style={{flex:1,padding:"11px 14px",borderRadius:12,border:`1.5px solid ${r.inpB}`,background:r.inp,color:r.text,fontSize:13,fontFamily:"'Nunito',sans-serif"}}/>
-                <button onClick={async()=>{
-                  if(!diyYazi.trim()||diyYukleniyor) return;
-                  const soru=diyYazi;
-                  setDiyYazi("");
-                  setDiyYukleniyor(true);
-                  try{
-                    const profKontext=`Kullanıcı profili: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas} yaş, ${profil.cinsiyet}, aktivite:${profil.aktivite}, hedef:${profil.hedef}kg. BMI:${bmi||"?"}, TDEE:${tdee||"?"} kcal. Alerjiler:${alerjiListesi.join(",")||"yok"}. Bugün ${bugToplamKal}kcal tüketildi.`;
-                    const gecmisMessages=diyMesajlar.map(m=>([{role:"user",content:m.soru},{role:"assistant",content:m.cevap}])).flat();
-                    const resp=await fetch("/.netlify/functions/ai-proxy",{
-                      method:"POST",headers:{"Content-Type":"application/json"},
-                      body:JSON.stringify({
-                        model:"claude-haiku-4-5-20251001",max_tokens:600,
-                        system:`Sen Doya beslenme uygulamasının yapay zeka diyetisyenisin. Türkçe cevap ver. Kısa ve pratik ol (max 150 kelime). ${profKontext}. Alerjileri mutlaka göz önünde bulundur.`,
-                        messages:[...gecmisMessages,{role:"user",content:soru}]
-                      })
-                    });
-                    const data=await resp.json();
-                    const cevap=data.content?.[0]?.text||"Üzgünüm, cevap alınamadı.";
-                    const yeniGecmis=[...diyMesajlar,{soru,cevap}].slice(-10);
-                    setDiyMesajlar(yeniGecmis);
-                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{diyMesajlar:yeniGecmis}).catch(console.error);
-                  }catch(e){console.error(e);}finally{setDiyYukleniyor(false);}
-                }} style={{width:44,height:44,borderRadius:12,border:"none",background:"#16a34a",color:"#fff",fontSize:20,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>➤</button>
-              </div>
-              {diyMesajlar.length>0&&(
-                <button onClick={async()=>{setDiyMesajlar([]);if(firebaseUID)await kullaniciyiGuncelle(firebaseUID,{diyMesajlar:[]}).catch(console.error);}} style={{marginTop:8,background:"none",border:"none",color:r.muted,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>🗑️ Geçmişi temizle</button>
-              )}
-            </div>
-          </div>
-        )}
+        {/* AI Diyetisyen modal satır 14452'de */}
 
         {/* ════════════════ GÜNLÜK DİYET LİSTESİ MODAL ════════════════ */}
         {diyetListesiAcik&&(
-          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setDiyetListesiModal(false)}>
+          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setDiyetListesiAcik(false)}>
             <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34,maxHeight:"90vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
               <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 14px"}}/>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
