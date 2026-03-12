@@ -66,14 +66,6 @@ const LANG = {
         vurgu: "#6ee7b7",
         detaylar: ["💪 40+ tarif", "⭐ Yıldızlı öneriler", "🍽️ Öğüne ekle"],
       },
-      {
-        ikon: "💰",
-        baslik: "Kazan & Büyü",
-        acik: "Referans kodunu paylaş — Normal kodla +150, influencer/işletme koduyla +300 puan! Ortak ol, premium satışlardan ve reklam gelirinden %25 komisyon kazan.",
-        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
-        vurgu: "#93c5fd",
-        detaylar: ["🎯 Influencer: +300 puan", "💳 %50 net komisyon", "👤 1₺/aktif kullanıcı"],
-      },
     ],
   },
   en: {
@@ -114,14 +106,6 @@ const LANG = {
         renk: "linear-gradient(145deg,#064e3b,#059669)",
         vurgu: "#6ee7b7",
         detaylar: ["💪 40+ recipes", "⭐ Star rated", "🍽️ Add to meal"],
-      },
-      {
-        ikon: "💰",
-        baslik: "Earn & Grow",
-        acik: "Share your code — regular codes give +150 pts, influencer/business codes give +300 pts! Earn 25% commission on premium sales.",
-        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
-        vurgu: "#93c5fd",
-        detaylar: ["🎯 Influencer: +500 pts", "💳 25% commission", "📢 Ad revenue share"],
       },
     ],
   },
@@ -164,14 +148,6 @@ const LANG = {
         vurgu: "#6ee7b7",
         detaylar: ["💪 140+ Rezepte", "⭐ Bewertet", "🍽️ Zur Mahlzeit"],
       },
-      {
-        ikon: "💰",
-        baslik: "Verdiene & wachse",
-        acik: "Teile deinen Code — normale Codes geben +150 Punkte, Influencer-Codes +300! Werde Partner und verdiene 1€/aktiver Nutzer.",
-        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
-        vurgu: "#93c5fd",
-        detaylar: ["🎯 Influencer: +300 Pkt.", "💳 50% Netto-Provision", "👤 1€/aktiver Nutzer"],
-      },
     ],
   },
   it: {
@@ -212,14 +188,6 @@ const LANG = {
         renk: "linear-gradient(145deg,#064e3b,#059669)",
         vurgu: "#6ee7b7",
         detaylar: ["💪 140+ ricette", "⭐ Valutate", "🍽️ Aggiungi al pasto"],
-      },
-      {
-        ikon: "💰",
-        baslik: "Guadagna & cresci",
-        acik: "Condividi il tuo codice — ottieni 1€/utente attivo + 50% di commissione sugli acquisti!",
-        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
-        vurgu: "#93c5fd",
-        detaylar: ["🎯 Influencer: +300 pti", "💳 50% netto commissione", "👤 1€/utente attivo"],
       },
     ],
   },
@@ -262,14 +230,6 @@ const LANG = {
         vurgu: "#6ee7b7",
         detaylar: ["💪 140+ recettes", "⭐ Notées", "🍽️ Ajouter au repas"],
       },
-      {
-        ikon: "💰",
-        baslik: "Gagnez & grandissez",
-        acik: "Partagez votre code — gagnez 1€/utilisateur actif + 50% de commission sur les achats !",
-        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
-        vurgu: "#93c5fd",
-        detaylar: ["🎯 Influenceur : +300 pts", "💳 50% commission nette", "👤 1€/utilisateur actif"],
-      },
     ],
   },
   es: {
@@ -310,14 +270,6 @@ const LANG = {
         renk: "linear-gradient(145deg,#064e3b,#059669)",
         vurgu: "#6ee7b7",
         detaylar: ["💪 140+ recetas", "⭐ Valoradas", "🍽️ Añadir a comida"],
-      },
-      {
-        ikon: "💰",
-        baslik: "Gana y crece",
-        acik: "Comparte tu código — ¡gana 1€/usuario activo + 50% de comisión en las compras!",
-        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
-        vurgu: "#93c5fd",
-        detaylar: ["🎯 Influencer: +300 ptos", "💳 50% comisión neta", "👤 1€/usuario activo"],
       },
     ],
   },
@@ -4175,8 +4127,7 @@ export default function App(){
                 // Consent'i Firebase'e kaydet
                 try{
                   const {doc,setDoc,serverTimestamp}=await import("firebase/firestore");
-                  const {db}=await import("./firebase.js");
-                  await setDoc(doc(db,"users",kul.firebaseUID),{
+                                    await setDoc(doc(db,"users",kul.firebaseUID),{
                     kvkkOnay:true, gdprOnay:true, pazarlamaOnay,
                     onayTarihi:new Date().toISOString(),
                   },{merge:true});
@@ -6952,8 +6903,7 @@ export default function App(){
               <button onClick={async()=>{
                 try{
                   const {doc,getDoc}=await import("firebase/firestore");
-                  const {db}=await import("./firebase.js");
-                  const snap=await getDoc(doc(db,"users",firebaseUID));
+                                    const snap=await getDoc(doc(db,"users",firebaseUID));
                   const blob=new Blob([JSON.stringify({profil:{isim:aktif?.isim,email:aktif?.email,kilo:aktif?.kilo,boy:aktif?.boy},tarih:new Date().toISOString(),...(snap.data()||{})},null,2)],{type:"application/json"});
                   const a=document.createElement("a");a.href=URL.createObjectURL(blob);
                   a.download=`doya-verilerim-${new Date().toISOString().split("T")[0]}.json`;a.click();
@@ -6999,8 +6949,7 @@ export default function App(){
                   if(!hesapSilOnay) return;
                   try{
                     const {doc,deleteDoc,collection,getDocs,writeBatch}=await import("firebase/firestore");
-                    const {db,auth}=await import("./firebase.js");
-                    const {deleteUser}=await import("firebase/auth");
+                                        const {deleteUser}=await import("firebase/auth");
                     // Firestore verilerini sil
                     const batch=writeBatch(db);
                     batch.delete(doc(db,"users",firebaseUID));
