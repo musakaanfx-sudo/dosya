@@ -3032,6 +3032,17 @@ export default function App(){
     {id:138,baslik:"Acılı Ezme",emoji:"🌶️",sure:"10 dk",kalori:80,porsiyon:4,sporcu:false,malzemeler:["Domates 3 adet","Biber 2 adet","Sarımsak 2 diş","Soğan 1/2","Maydanoz","Zeytinyağı","Nar ekşisi"],adimlar:["Hepsini ince kıy","Zeytinyağı ve nar ekşisi ekle","Baharatla","Servis et"],makro:{p:2,k:12,y:4},kategori:"Atıştırmalık"},
     {id:139,baslik:"Yoğurtlu Nohut",emoji:"🫘",sure:"5 dk",kalori:240,porsiyon:2,sporcu:true,malzemeler:["Haşlanmış nohut 200g","Yoğurt 200g","Sarımsaklı tereyağı","Pul biber","Tuz"],adimlar:["Nohutları yoğurdun üstüne koy","Tereyağı eritip üstüne gezdirerek servis et","Pul biber serp"],makro:{p:14,k:28,y:10},kategori:"Öğle"},
     {id:140,baslik:"Deniz Mahsullü Pilav",emoji:"🦐",sure:"35 dk",kalori:440,porsiyon:2,sporcu:true,malzemeler:["Pirinç 150g","Karides 150g","Midye 100g","Soğan","Sarımsak","Zeytinyağı","Safran","Maydanoz"],adimlar:["Pirinç pişir","Deniz mahsullerini kavur","Birleştir","Safranla renklendirerek servis et"],makro:{p:32,k:52,y:10},kategori:"Akşam"},
+    // ── ALMAN TARİFLERİ ──
+    {id:141,baslik:"Schweinshaxe (Fırın Pörç)",emoji:"🍖",sure:"3 saat",kalori:680,porsiyon:2,sporcu:false,ulke:"Almanya",malzemeler:["Domuz pörçü 1,2 kg","Bira 330ml","Soğan 2 adet","Sarımsak 4 diş","Kimyon 1 tsp","Tuz, karabiber","Hardal 1 tbsp"],adimlar:["Pörçü tuz, karabiber, kimyon ile ovun","Soğan ve sarımsakla fırın tepsisine koyun","Bira ekleyip 160°C de 2,5 saat pişirin","Son 30 dk 220°C ye çıkarıp kızartın"],makro:{p:58,k:4,y:42},kategori:"Akşam"},
+    {id:142,baslik:"Kartoffelsalat (Patates Salatası)",emoji:"🥗",sure:"30 dk",kalori:280,porsiyon:4,sporcu:false,ulke:"Almanya",malzemeler:["Haşlanmış patates 800g","Soğan 1 adet","Hardal 2 tsp","Elma sirkesi 3 tbsp","Zeytinyağı 3 tbsp","Maydanoz","Tuz, biber"],adimlar:["Patatesleri dilimleyin","Soğanı ince doğrayın","Hardal, sirke, yağ ile sos yapın","Karıştırıp ılık servis edin"],makro:{p:5,k:42,y:12},kategori:"Öğle"},
+    {id:143,baslik:"Sauerbraten (Ekşili Et)",emoji:"🥩",sure:"3 gün + 3 sa",kalori:520,porsiyon:4,sporcu:false,ulke:"Almanya",malzemeler:["Dana eti 1 kg","Şarap sirkesi 250ml","Su 250ml","Soğan 2 adet","Defne yaprağı","Karanfil","Şeker 1 tbsp","Sour cream 100ml"],adimlar:["Eti 3 gün sirke marinasında bekletin","Yüksek ısıda mühürleyin","Marinat sosuyla 2 saat kısık ateşte pişirin","Sour cream ekleyip servis edin"],makro:{p:48,k:8,y:28},kategori:"Akşam"},
+    {id:144,baslik:"Brezel (Yumuşak Pretzel)",emoji:"🥨",sure:"2 saat",kalori:310,porsiyon:6,sporcu:false,ulke:"Almanya",malzemeler:["Un 500g","Maya 7g","Tuz 1 tsp","Şeker 1 tsp","Tereyağı 30g","Karbonat 50g","Kaya tuzu"],adimlar:["Hamuru yoğurup 1 saat mayalandırın","Uzun şeritler kesip pretzel şekli verin","Karbonat suyuna 30 sn batırın","Tuzlayıp 220°C de 15 dk pişirin"],makro:{p:9,k:58,y:5},kategori:"Kahvaltı"},
+    {id:145,baslik:"Rote Grütze (Kırmızı Meyve Peltesi)",emoji:"🍓",sure:"20 dk",kalori:180,porsiyon:4,sporcu:false,ulke:"Almanya",malzemeler:["Karışık kırmızı meyveler 600g","Şeker 80g","Mısır nişastası 3 tbsp","Su 200ml","Limon suyu","Vanilya"],adimlar:["Meyveleri şekerle ısıtın","Nişastayı suyla eritip ekleyin","Koyulaşana kadar karıştırın","Soğutup vanilya dondurmayla servis edin"],makro:{p:2,k:40,y:1},kategori:"Atıştırmalık"},
+    {id:146,baslik:"Käsespätzle (Peynirli Hamur)",emoji:"🧀",sure:"40 dk",kalori:580,porsiyon:3,sporcu:false,ulke:"Almanya",malzemeler:["Un 300g","Yumurta 3 adet","Süt 150ml","Tuz","Emmental peyniri 200g","Soğan 2 adet","Tereyağı 40g"],adimlar:["Hamuru hazırlayın","Kaynayan tuzlu suya ince şeritler halinde geçirin","Katman katman peynirle dizin","Karamelize soğanla kapatın","Fırında 5 dk bekletin"],makro:{p:26,k:58,y:24},kategori:"Akşam"},
+    {id:147,baslik:"Labskaus (Hamburg Denizci Yemeği)",emoji:"🥔",sure:"40 dk",kalori:420,porsiyon:3,sporcu:false,ulke:"Almanya",malzemeler:["Haşlanmış patates 600g","Corned beef 200g","Pancar turşusu 100g","Soğan 1 adet","Yumurta 3 adet","Salatalık turşusu"],adimlar:["Patates, et ve pancarı ezin","Soğanı sote edip karışıma ekleyin","Sahanda yumurta kızartın","Üstüne yumurta ve turşuyla servis edin"],makro:{p:28,k:38,y:16},kategori:"Öğle"},
+    {id:148,baslik:"Flammkuchen (Alsace Pizza)",emoji:"🫓",sure:"30 dk",kalori:390,porsiyon:2,sporcu:false,ulke:"Almanya",malzemeler:["İnce pizza hamuru","Creme fraiche 150g","Soğan 2 adet","Pastırma 100g","Tuz, biber","Taze kekik"],adimlar:["Hamuru çok ince açın","Creme fraiche sürün","İnce soğan ve pastırma ekleyin","250°C fırında 12 dk pişirin"],makro:{p:18,k:44,y:18},kategori:"Akşam"},
+    {id:149,baslik:"Sauerkraut Çorbası",emoji:"🥣",sure:"45 dk",kalori:210,porsiyon:4,sporcu:false,ulke:"Almanya",malzemeler:["Lahana turşusu 400g","Domuz pastırması 150g","Patates 2 adet","Soğan 1 adet","Et suyu 1L","Kimyon","Defne yaprağı"],adimlar:["Pastırmayı kavurun","Soğan ekleyip soteleyin","Patates ve lahanayı ekleyin","Et suyuyla 30 dk pişirin"],makro:{p:14,k:18,y:10},kategori:"Çorba"},
+    {id:150,baslik:"Apfelstrudel (Elmalı Börek)",emoji:"🍎",sure:"1 saat",kalori:340,porsiyon:6,sporcu:false,ulke:"Almanya",malzemeler:["Elma 1 kg","Hazır yufka","Şeker 80g","Tarçın 2 tsp","Kuru üzüm 50g","Tereyağı 60g","Pudra şekeri"],adimlar:["Elmaları soyup dilimleyin","Şeker, tarçın, üzümle karıştırın","Yufkaya doldurup rulo yapın","Tereyağı sürüp 180°C de 35 dk pişirin","Pudra şekeriyle servis edin"],makro:{p:4,k:62,y:10},kategori:"Atıştırmalık"},
   ]);
   const [profFoto,setProfFoto]=useState(null);
   const [adimSayar,setAdimSayar]=useState(0);
@@ -3081,6 +3092,7 @@ export default function App(){
   const [yeniPS,setYeniPS]=useState(""); const [postFoto,setPostFoto]=useState(null); const [sosyalSekme,setSosyalSekme]=useState("genel");
   const [tarifLimit,setTarifLimit]=useState(10);
   const [tarifKat,setTarifKat]=useState("");
+  const [tarifUlke,setTarifUlke]=useState("");
   const [gunlukKazanilanPuan,setGunlukKazanilanPuan]=useState(0);
   const [gunlukPuanGun,setGunlukPuanGun]=useState("");
   const [marketSekme,setMarketSekme]=useState("market"); // "market" | "reklam"
@@ -5130,15 +5142,45 @@ export default function App(){
             {sosyalSekme==="tarifler"&&(
               <div>
                 {/* Kategori filtreleri */}
-                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
+                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:8}}>
                   {["","Kahvaltı","Öğle","Akşam","Atıştırmalık","Çorba","Sporcu"].map(k=>(
-                    <button key={k} onClick={()=>{setTarifKat(k);setTarifLimit(10);}} style={{padding:"5px 12px",borderRadius:20,border:`1.5px solid ${tarifKat===k?"#16a34a":r.inpB}`,background:tarifKat===k?"#16a34a":r.inp,color:tarifKat===k?"#fff":r.sub,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
+                    <button key={k} onClick={()=>{setTarifKat(k);setTarifUlke("");setTarifLimit(10);}} style={{padding:"5px 12px",borderRadius:20,border:`1.5px solid ${tarifKat===k&&!tarifUlke?"#16a34a":r.inpB}`,background:tarifKat===k&&!tarifUlke?"#16a34a":r.inp,color:tarifKat===k&&!tarifUlke?"#fff":r.sub,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
                       {k||"Tümü"} {k===""?`(${tarifler.length})`:`(${tarifler.filter(t=>t.kategori===k||(k==="Sporcu"&&t.sporcu)).length})`}
                     </button>
                   ))}
                 </div>
+                {/* Ülke filtreleri */}
+                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
+                  {[
+                    {k:"",l:"🌍 Tümü"},
+                    {k:"Almanya",l:"🇩🇪 Almanya"},
+                    {k:"Türkiye",l:"🇹🇷 Türkiye"},
+                  ].map(u=>{
+                    const ulkeSayisi = u.k===""
+                      ? tarifler.length
+                      : u.k==="Türkiye"
+                      ? tarifler.filter(t=>!t.ulke).length
+                      : tarifler.filter(t=>t.ulke===u.k).length;
+                    const aktif = tarifUlke===u.k;
+                    return(
+                      <button key={u.k} onClick={()=>{setTarifUlke(u.k);setTarifKat("");setTarifLimit(10);}}
+                        style={{padding:"5px 12px",borderRadius:20,
+                          border:`1.5px solid ${aktif?"#7c3aed":r.inpB}`,
+                          background:aktif?"#7c3aed":r.inp,
+                          color:aktif?"#fff":r.sub,
+                          fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
+                        {u.l} ({ulkeSayisi})
+                      </button>
+                    );
+                  })}
+                </div>
                 {(()=>{
-                  const filtreli = tarifler.filter(t=>!tarifKat||(tarifKat==="Sporcu"?t.sporcu:t.kategori===tarifKat));
+                  const filtreli = tarifler.filter(t=>{
+                    if(tarifUlke==="Almanya") return t.ulke==="Almanya";
+                    if(tarifUlke==="Türkiye") return !t.ulke;
+                    if(!tarifKat) return true;
+                    return tarifKat==="Sporcu"?t.sporcu:t.kategori===tarifKat;
+                  });
                   const goster = filtreli.slice(0,tarifLimit);
                   return(<>
                 {goster.map(tarif=>(
