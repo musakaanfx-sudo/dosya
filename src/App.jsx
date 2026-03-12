@@ -10462,6 +10462,255 @@ function YildizGoster({v=3,boyut=12}){
   return <span style={{display:"inline-flex",gap:0}}>{stars}</span>;
 }
 
+
+// ─── EGZERSİZ ANİMASYON BİLEŞENİ ────────────────────────────
+function EgzersizAnim({egzId, ikon}) {
+  const s = (extra={}) => ({
+    position:"absolute", ...extra
+  });
+
+  const animasyonlar = {
+    // ŞINAV
+    "sıkıştırma": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes sinav-govde {0%,100%{transform:translateY(0)} 50%{transform:translateY(18px)}}
+          @keyframes sinav-kol {0%,100%{transform:rotate(-30deg);transform-origin:20px 48px} 50%{transform:rotate(-70deg);transform-origin:20px 48px}}
+          .sg{animation:sinav-govde 1.4s ease-in-out infinite}
+          .sk{animation:sinav-kol 1.4s ease-in-out infinite}
+        `}</style>
+        <g className="sg">
+          <circle cx="80" cy="20" r="10" fill="#16a34a"/>
+          <line x1="80" y1="30" x2="80" y2="60" stroke="#15803d" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="60" x2="40" y2="80" stroke="#15803d" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="60" x2="120" y2="80" stroke="#15803d" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="40" y1="80" x2="30" y2="100" stroke="#15803d" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="120" y1="80" x2="130" y2="100" stroke="#15803d" strokeWidth="3" strokeLinecap="round"/>
+        </g>
+        <g className="sk">
+          <line x1="80" y1="42" x2="50" y2="55" stroke="#22c55e" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="42" x2="110" y2="55" stroke="#22c55e" strokeWidth="4" strokeLinecap="round"/>
+        </g>
+        <line x1="20" y1="105" x2="140" y2="105" stroke="#d1fae5" strokeWidth="3"/>
+        <text x="80" y="118" textAnchor="middle" fill="#6b7280" fontSize="9">ŞINAV</text>
+      </svg>
+    ),
+    // SQUAT
+    "squat": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes sq-body {0%,100%{transform:translateY(0) scaleY(1);transform-origin:80px 30px} 50%{transform:translateY(28px) scaleY(0.85);transform-origin:80px 30px}}
+          @keyframes sq-leg {0%,100%{transform:rotate(0deg);transform-origin:80px 70px} 50%{transform:rotate(30deg);transform-origin:80px 70px}}
+          .sqb{animation:sq-body 1.5s ease-in-out infinite}
+        `}</style>
+        <g className="sqb">
+          <circle cx="80" cy="22" r="10" fill="#7c3aed"/>
+          <line x1="80" y1="32" x2="80" y2="65" stroke="#6d28d9" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="42" x2="55" y2="52" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="80" y1="42" x2="105" y2="52" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
+        </g>
+        <g>
+          <line x1="80" y1="65" x2="55" y2="95" stroke="#7c3aed" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="65" x2="105" y2="95" stroke="#7c3aed" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="55" y1="95" x2="45" y2="108" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="105" y1="95" x2="115" y2="108" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
+        </g>
+        <line x1="20" y1="110" x2="140" y2="110" stroke="#ede9fe" strokeWidth="3"/>
+        <text x="80" y="119" textAnchor="middle" fill="#6b7280" fontSize="9">SQUAT</text>
+      </svg>
+    ),
+    // BARFİKS / PULL-UP
+    "barfix": () => (
+      <svg viewBox="0 0 160 130" width="160" height="130">
+        <style>{`
+          @keyframes bf-body {0%,100%{transform:translateY(0)} 50%{transform:translateY(-22px)}}
+          .bfb{animation:bf-body 1.6s ease-in-out infinite}
+        `}</style>
+        <line x1="20" y1="15" x2="140" y2="15" stroke="#374151" strokeWidth="5" strokeLinecap="round"/>
+        <line x1="55" y1="15" x2="55" y2="25" stroke="#374151" strokeWidth="3"/>
+        <line x1="105" y1="15" x2="105" y2="25" stroke="#374151" strokeWidth="3"/>
+        <g className="bfb">
+          <circle cx="80" cy="45" r="10" fill="#1d4ed8"/>
+          <line x1="80" y1="55" x2="80" y2="85" stroke="#1e40af" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="65" x2="58" y2="75" stroke="#1e40af" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="80" y1="65" x2="102" y2="75" stroke="#1e40af" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="80" y1="85" x2="65" y2="110" stroke="#1e40af" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="85" x2="95" y2="110" stroke="#1e40af" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="55" y1="25" x2="62" y2="38" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="105" y1="25" x2="98" y2="38" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round"/>
+        </g>
+        <text x="80" y="126" textAnchor="middle" fill="#6b7280" fontSize="9">BARFİKS</text>
+      </svg>
+    ),
+    // DAMBIL CURL
+    "dambil_curl": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes dc-arm {0%,100%{transform:rotate(0deg);transform-origin:80px 55px} 50%{transform:rotate(-75deg);transform-origin:80px 55px}}
+          .dca{animation:dc-arm 1.3s ease-in-out infinite}
+        `}</style>
+        <circle cx="80" cy="20" r="10" fill="#f59e0b"/>
+        <line x1="80" y1="30" x2="80" y2="65" stroke="#d97706" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="80" y1="65" x2="55" y2="85" stroke="#d97706" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="80" y1="65" x2="105" y2="85" stroke="#d97706" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="55" y1="85" x2="42" y2="108" stroke="#d97706" strokeWidth="3" strokeLinecap="round"/>
+        <line x1="105" y1="85" x2="118" y2="108" stroke="#d97706" strokeWidth="3" strokeLinecap="round"/>
+        <g className="dca">
+          <line x1="80" y1="45" x2="108" y2="60" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round"/>
+          <rect x="108" y="55" width="16" height="8" rx="4" fill="#92400e"/>
+        </g>
+        <line x1="20" y1="110" x2="140" y2="110" stroke="#fef3c7" strokeWidth="3"/>
+        <text x="80" y="119" textAnchor="middle" fill="#6b7280" fontSize="9">DAMBİL CURL</text>
+      </svg>
+    ),
+    // PLANK
+    "plank": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes plank-pulse {0%,100%{opacity:1} 50%{opacity:.5}}
+          .pp{animation:plank-pulse 1.2s ease-in-out infinite}
+        `}</style>
+        <circle cx="35" cy="52" r="10" fill="#10b981"/>
+        <line x1="45" y1="52" x2="130" y2="58" stroke="#059669" strokeWidth="6" strokeLinecap="round"/>
+        <line x1="45" y1="52" x2="55" y2="75" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="65" y1="54" x2="68" y2="78" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="110" y1="57" x2="115" y2="80" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="125" y1="57" x2="128" y2="80" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
+        <g className="pp">
+          <rect x="30" y="78" width="100" height="4" rx="2" fill="#d1fae5"/>
+          <text x="80" y="90" textAnchor="middle" fill="#10b981" fontSize="10" fontWeight="bold">KASIL!</text>
+        </g>
+        <text x="80" y="110" textAnchor="middle" fill="#6b7280" fontSize="9">PLANK</text>
+      </svg>
+    ),
+    // LUNGE
+    "lunge": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes lg-step {0%,100%{transform:translateX(0)} 50%{transform:translateX(15px)}}
+          .lgs{animation:lg-step 1.4s ease-in-out infinite}
+        `}</style>
+        <circle cx="75" cy="18" r="10" fill="#ec4899"/>
+        <line x1="75" y1="28" x2="75" y2="58" stroke="#db2777" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="75" y1="38" x2="50" y2="50" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
+        <line x1="75" y1="38" x2="100" y2="50" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
+        <line x1="75" y1="58" x2="50" y2="90" stroke="#db2777" strokeWidth="4" strokeLinecap="round"/>
+        <g className="lgs">
+          <line x1="75" y1="58" x2="110" y2="78" stroke="#ec4899" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="110" y1="78" x2="115" y2="108" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
+        </g>
+        <line x1="50" y1="90" x2="45" y2="108" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
+        <line x1="20" y1="108" x2="140" y2="108" stroke="#fce7f3" strokeWidth="3"/>
+        <text x="80" y="118" textAnchor="middle" fill="#6b7280" fontSize="9">LUNGE</text>
+      </svg>
+    ),
+    // OMUZ PRESS
+    "omuz_press": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes op-arms {0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)}}
+          .opa{animation:op-arms 1.4s ease-in-out infinite}
+        `}</style>
+        <circle cx="80" cy="22" r="10" fill="#0ea5e9"/>
+        <line x1="80" y1="32" x2="80" y2="70" stroke="#0284c7" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="80" y1="70" x2="58" y2="95" stroke="#0284c7" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="80" y1="70" x2="102" y2="95" stroke="#0284c7" strokeWidth="4" strokeLinecap="round"/>
+        <g className="opa">
+          <line x1="80" y1="45" x2="50" y2="35" stroke="#0ea5e9" strokeWidth="4" strokeLinecap="round"/>
+          <line x1="80" y1="45" x2="110" y2="35" stroke="#0ea5e9" strokeWidth="4" strokeLinecap="round"/>
+          <rect x="32" y="28" width="18" height="8" rx="4" fill="#075985"/>
+          <rect x="110" y="28" width="18" height="8" rx="4" fill="#075985"/>
+        </g>
+        <line x1="20" y1="108" x2="140" y2="108" stroke="#e0f2fe" strokeWidth="3"/>
+        <text x="80" y="118" textAnchor="middle" fill="#6b7280" fontSize="9">OMUZ PRESS</text>
+      </svg>
+    ),
+    // MEKIK (SİT-UP)
+    "mekik": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes mk-up {0%,100%{transform:rotate(0deg);transform-origin:100px 85px} 50%{transform:rotate(-45deg);transform-origin:100px 85px}}
+          .mku{animation:mk-up 1.5s ease-in-out infinite}
+        `}</style>
+        <g className="mku">
+          <circle cx="50" cy="55" r="10" fill="#8b5cf6"/>
+          <line x1="60" y1="55" x2="95" y2="70" stroke="#7c3aed" strokeWidth="5" strokeLinecap="round"/>
+          <line x1="72" y1="60" x2="68" y2="42" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="83" y1="65" x2="79" y2="47" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round"/>
+        </g>
+        <line x1="95" y1="70" x2="120" y2="90" stroke="#7c3aed" strokeWidth="5" strokeLinecap="round"/>
+        <line x1="120" y1="90" x2="145" y2="90" stroke="#7c3aed" strokeWidth="4" strokeLinecap="round"/>
+        <line x1="20" y1="92" x2="145" y2="92" stroke="#ede9fe" strokeWidth="3"/>
+        <text x="80" y="110" textAnchor="middle" fill="#6b7280" fontSize="9">MEKİK</text>
+      </svg>
+    ),
+    // KOŞU / SPRINT
+    "kos": () => (
+      <svg viewBox="0 0 160 120" width="160" height="120">
+        <style>{`
+          @keyframes run-body {0%,100%{transform:translateX(-10px)} 50%{transform:translateX(10px)}}
+          @keyframes run-leg1 {0%,100%{transform:rotate(-30deg);transform-origin:80px 70px} 50%{transform:rotate(30deg);transform-origin:80px 70px}}
+          @keyframes run-leg2 {0%,100%{transform:rotate(30deg);transform-origin:80px 70px} 50%{transform:rotate(-30deg);transform-origin:80px 70px}}
+          .rb{animation:run-body 0.5s ease-in-out infinite}
+          .rl1{animation:run-leg1 0.5s ease-in-out infinite}
+          .rl2{animation:run-leg2 0.5s ease-in-out infinite}
+        `}</style>
+        <g className="rb">
+          <circle cx="80" cy="22" r="10" fill="#ef4444"/>
+          <line x1="80" y1="32" x2="80" y2="68" stroke="#dc2626" strokeWidth="4" strokeLinecap="round"/>
+          <g className="rl1">
+            <line x1="80" y1="68" x2="60" y2="95" stroke="#dc2626" strokeWidth="4" strokeLinecap="round"/>
+          </g>
+          <g className="rl2">
+            <line x1="80" y1="68" x2="100" y2="95" stroke="#dc2626" strokeWidth="4" strokeLinecap="round"/>
+          </g>
+          <line x1="80" y1="45" x2="55" y2="58" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="80" y1="45" x2="105" y2="38" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+        </g>
+        <line x1="10" y1="100" x2="150" y2="100" stroke="#fee2e2" strokeWidth="3"/>
+        <text x="80" y="115" textAnchor="middle" fill="#6b7280" fontSize="9">KOŞU / KARDİYO</text>
+      </svg>
+    ),
+  };
+
+  // Egzersiz ID'ye göre animasyon seç
+  const idMap = {
+    "sıkıştırma":"sıkıştırma","şınav":"sıkıştırma","push":"sıkıştırma",
+    "squat":"squat","çömelme":"squat",
+    "barfix":"barfix","pullup":"barfix","barfiks":"barfix",
+    "curl":"dambil_curl","biceps":"dambil_curl","dambilCurl":"dambil_curl",
+    "plank":"plank",
+    "lunge":"lunge","akbasa":"lunge",
+    "omuzPress":"omuz_press","shoulderPress":"omuz_press","militar":"omuz_press",
+    "mekik":"mekik","situp":"mekik","crunch":"mekik",
+    "kos":"kos","kosi":"kos","sprint":"kos","kardi":"kos",
+  };
+
+  const tip = idMap[egzId] || Object.keys(idMap).find(k => egzId && egzId.toLowerCase().includes(k)) || null;
+  const AnimComp = tip ? animasyonlar[idMap[tip] || tip] : null;
+
+  return (
+    <div style={{
+      background:"linear-gradient(135deg,#f8fafc,#f1f5f9)",
+      borderRadius:16,
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center",
+      height:130,
+      overflow:"hidden",
+      marginBottom:12,
+      border:"1.5px solid #e2e8f0"
+    }}>
+      {AnimComp ? AnimComp() : (
+        <div style={{textAlign:"center",opacity:.7}}>
+          <div style={{fontSize:52}}>{ikon||"💪"}</div>
+          <div style={{fontSize:10,color:"#9ca3af",marginTop:4}}>Hareket görseli</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── ANA COMPONENT ───────────────────────────────────────────
 export default function App(){
   const profFotoRef = useRef(null);
@@ -12351,223 +12600,297 @@ SADECE JSON döndür (başka metin yok):
   if(onboard) return (
     <>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
-      <div style={{fontFamily:"'Nunito',sans-serif",background:"linear-gradient(160deg,#f0fdf4,#dcfce7)",minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden"}}>
-        {/* Dekoratif arka plan */}
-        <div style={{position:"absolute",top:-80,right:-80,width:250,height:250,borderRadius:"50%",background:"radial-gradient(#16a34a22,transparent 70%)",pointerEvents:"none"}}/>
-        <div style={{position:"absolute",bottom:-60,left:-60,width:200,height:200,borderRadius:"50%",background:"radial-gradient(#22c55e18,transparent 70%)",pointerEvents:"none"}}/>
+      <style>{`
+        @keyframes ob-slide-in  { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
+        @keyframes ob-slide-out { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-40px)} }
+        .ob-slide { animation: ob-slide-in 0.35s cubic-bezier(.34,1.2,.64,1) forwards; }
+        @keyframes ob-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        .ob-float { animation: ob-float 3s ease-in-out infinite; }
+        @keyframes ob-check { from{transform:scale(0)} to{transform:scale(1)} }
+        .ob-check { animation: ob-check 0.25s cubic-bezier(.34,1.6,.64,1) forwards; }
+      `}</style>
+      <div style={{fontFamily:"'Nunito',sans-serif",minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden",background:"#fff"}}>
 
-        <div style={{padding:"20px 20px 0",position:"relative",zIndex:1}}>
-          {/* Logo */}
-          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:20}}>
-            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:22,color:"#15803d"}}>Do<span style={{color:"#16a34a"}}>ya</span></div>
-          </div>
-          {/* İlerleme */}
-          <div style={{display:"flex",gap:5,marginBottom:6}}>
-            {[1,2,3,4,5].map(i=>(
-              <div key={i} style={{flex:1,height:4,borderRadius:4,background:obAdim>=i?"linear-gradient(90deg,#16a34a,#22c55e)":"#e5e7eb",transition:"background .3s"}}/>
-            ))}
-          </div>
-          <div style={{fontSize:11,color:"#6b7280",marginBottom:20}}>{obAdim} / 5</div>
-        </div>
-
-        <div style={{padding:"0 20px 40px",position:"relative",zIndex:1}}>
-
-          {/* ADIM 1: Fiziksel Bilgiler */}
-          {obAdim===1&&(
-            <div>
-              <div style={{marginBottom:22}}>
-                <div style={{fontSize:36,marginBottom:6}}>📏</div>
-                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Fiziksel Bilgilerin</div>
-                <div style={{fontSize:13,color:"#6b7280"}}>Kişisel kalori hedefini hesaplamak için</div>
-              </div>
-              <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 20px #00000010",marginBottom:12}}>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
-                  {[{l:"Mevcut Kilo (kg)",v:obK,s:setObK,ph:"75",ikon:"⚖️"},{l:"Boy (cm)",v:obB,s:setObB,ph:"175",ikon:"📐"},{l:"Yaş",v:obY,s:setObY,ph:"25",ikon:"🎂"},{l:"Hedef Kilo (kg)",v:obHK,s:setObHK,ph:"70",ikon:"🎯"}].map(f=>(
-                    <div key={f.l}>
-                      <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:4}}>{f.ikon} {f.l}</div>
-                      <input style={{...IS,padding:"10px 12px",fontSize:14,borderRadius:12}} placeholder={f.ph} type="number" value={f.v} onChange={e=>f.s(e.target.value)}/>
-                    </div>
-                  ))}
-                </div>
-                <div style={{marginBottom:14}}>
-                  <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:6}}>👤 Cinsiyet</div>
-                  <div style={{display:"flex",gap:8}}>
-                    {[{v:"erkek",l:"👨 Erkek"},{v:"kadin",l:"👩 Kadın"}].map(cc=>(
-                      <button key={cc.v} onClick={()=>setObC(cc.v)} style={{flex:1,padding:"11px",border:`2px solid ${obC===cc.v?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:obC===cc.v?"#f0fdf4":"#fff",color:obC===cc.v?"#16a34a":"#6b7280",transition:"all .15s"}}>{cc.l}</button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:6}}>⚡ Aktivite Seviyesi</div>
-                  {Object.entries(AKTIVITE_ETIKET).map(([k,v])=>(
-                    <button key={k} onClick={()=>setObA(k)} style={{display:"block",width:"100%",textAlign:"left",padding:"10px 14px",marginBottom:4,border:`2px solid ${obA===k?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:obA===k?700:500,fontSize:12,background:obA===k?"#f0fdf4":"#fff",color:obA===k?"#16a34a":"#374151",transition:"all .15s"}}>{v}</button>
-                  ))}
-                </div>
-              </div>
-              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>setObAdim(2)}>Devam → <span style={{opacity:.7}}>2/4</span></button>
-              <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>setObAdim(2)}>Atla</button>
-            </div>
-          )}
-
-          {/* ADIM 2: Hedef */}
-          {obAdim===2&&(
-            <div>
-              <div style={{marginBottom:22}}>
-                <div style={{fontSize:36,marginBottom:6}}>🎯</div>
-                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Hedefin Ne?</div>
-                <div style={{fontSize:13,color:"#6b7280"}}>Sana özel beslenme planı için seç</div>
-              </div>
-              <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:16}}>
-                {[
-                  {v:"kilo_ver",l:"⬇️ Kilo Vermek",alt:"Yağ yakmak, form tutmak"},
-                  {v:"kas_yap",l:"💪 Kas Yapmak",alt:"Hacim kazanmak, protein artırmak"},
-                  {v:"saglikli",l:"🥗 Sağlıklı Beslenmek",alt:"Dengeli ve sağlıklı yaşam"},
-                  {v:"dayaniklilik",l:"🏃 Dayanıklılık & Performans",alt:"Spor performansını artırmak"},
-                  {v:"kilo_al",l:"⬆️ Kilo Almak",alt:"Sağlıklı kilo kazanmak"},
-                  {v:"diyabet",l:"🩺 Şeker / Diyet Kontrol",alt:"Kan şekeri veya özel diyet"},
-                ].map(h=>(
-                  <button key={h.v} onClick={()=>setObHedef(h.v)} style={{
-                    padding:"14px 16px",border:`2px solid ${obHedef===h.v?"#16a34a":"#e5e7eb"}`,
-                    borderRadius:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif",
-                    background:obHedef===h.v?"#f0fdf4":"#fff",textAlign:"left",
-                    boxShadow:obHedef===h.v?"0 2px 12px #16a34a22":"none",transition:"all .15s"
-                  }}>
-                    <div style={{fontWeight:800,fontSize:14,color:obHedef===h.v?"#15803d":"#111"}}>{h.l}</div>
-                    <div style={{fontSize:11,color:"#6b7280",marginTop:2}}>{h.alt}</div>
-                  </button>
+        {/* ── ADIM 1: Fiziksel Bilgiler ── */}
+        {obAdim===1&&(
+          <div className="ob-slide" key="ob1" style={{minHeight:"100vh",background:"linear-gradient(160deg,#f0fdf4,#dcfce7)",display:"flex",flexDirection:"column"}}>
+            {/* İlerleme dots */}
+            <div style={{padding:"20px 24px 0",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div style={{fontFamily:"'DM Serif Display',serif",fontSize:20,color:"#15803d"}}>Doya</div>
+              <div style={{display:"flex",gap:6}}>
+                {[1,2,3,4,5].map(i=>(
+                  <div key={i} style={{width:i===obAdim?24:8,height:8,borderRadius:4,background:i<=obAdim?"#16a34a":"#d1fae5",transition:"all .3s"}}/>
                 ))}
               </div>
-              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>setObAdim(3)}>Devam → <span style={{opacity:.7}}>3/4</span></button>
-              <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>setObAdim(3)}>Atla</button>
             </div>
-          )}
-
-          {/* ADIM 3: Diyet tipi */}
-          {obAdim===3&&(
-            <div>
-              <div style={{marginBottom:22}}>
-                <div style={{fontSize:36,marginBottom:6}}>🍽️</div>
-                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Beslenme Tarzın</div>
-                <div style={{fontSize:13,color:"#6b7280"}}>Diyetin veya kısıtlaman var mı?</div>
-              </div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:16}}>
-                {[
-                  {v:"normal",l:"🍖 Normal",alt:"Her şey"},
-                  {v:"vejetaryen",l:"🥦 Vejetaryen",alt:"Et yok"},
-                  {v:"vegan",l:"🌱 Vegan",alt:"Hayvansal yok"},
-                  {v:"glutensiz",l:"🌾 Glutensiz",alt:"Gluten yok"},
-                  {v:"laktossuz",l:"🥛 Laktozsuz",alt:"Süt ürünü yok"},
-                  {v:"ketojenik",l:"🥑 Ketojenik",alt:"Düşük karb"},
-                  {v:"paleo",l:"🍗 Paleo",alt:"İşlenmemiş"},
-                  {v:"yok",l:"💬 Belirtmek İstemiyorum",alt:""},
-                ].map(d=>(
-                  <button key={d.v} onClick={()=>setObDiyet(d.v)} style={{
-                    padding:"12px 10px",border:`2px solid ${obDiyet===d.v?"#16a34a":"#e5e7eb"}`,
-                    borderRadius:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif",
-                    background:obDiyet===d.v?"#f0fdf4":"#fff",textAlign:"center",
-                    boxShadow:obDiyet===d.v?"0 2px 12px #16a34a22":"none",transition:"all .15s"
-                  }}>
-                    <div style={{fontWeight:800,fontSize:13,color:obDiyet===d.v?"#15803d":"#111"}}>{d.l}</div>
-                    {d.alt&&<div style={{fontSize:10,color:"#6b7280",marginTop:1}}>{d.alt}</div>}
-                  </button>
-                ))}
-              </div>
-              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>setObAdim(4)}>Devam → <span style={{opacity:.7}}>4/4</span></button>
-              <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>setObAdim(4)}>Atla</button>
-            </div>
-          )}
-
-          {/* ADIM 4: Sosyal */}
-          {obAdim===4&&(
-            <div>
-              <div style={{marginBottom:22}}>
-                <div style={{fontSize:36,marginBottom:6}}>👥</div>
-                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Neredeyse Bitti!</div>
-                <div style={{fontSize:13,color:"#6b7280"}}>Son bir şey — sosyal tercihlerini belirle</div>
-              </div>
-              <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 20px #00000010",marginBottom:12}}>
-                <div style={{background:"linear-gradient(135deg,#f0fdf4,#dcfce7)",border:"1.5px solid #86efac",borderRadius:14,padding:14,marginBottom:16,textAlign:"center"}}>
-                  <div style={{fontSize:10,fontWeight:700,color:"#16a34a",marginBottom:4}}>KULLANICI KODUN</div>
-                  <div style={{fontSize:22,fontWeight:900,letterSpacing:3,color:"#111"}}>{aktif?.uid}</div>
-                  <div style={{fontSize:10,color:"#6b7280",marginTop:4}}>Arkadaşların bu kodla seni bulabilir</div>
-                </div>
-                <div style={{marginBottom:14}}>
-                  <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>Sosyal özellikler aktif mi?</div>
-                  <div style={{display:"flex",gap:8}}>
-                    {[{v:true,l:"✅ Aktif"},{v:false,l:"🔒 Kapalı"}].map(o=>(
-                      <button key={String(o.v)} onClick={()=>setObSosyal(o.v)} style={{flex:1,padding:"11px",border:`2px solid ${obSosyal===o.v?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:obSosyal===o.v?"#f0fdf4":"#fff",color:obSosyal===o.v?"#16a34a":"#6b7280"}}>{o.l}</button>
+            <div style={{flex:1,padding:"24px 24px 32px",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+              <div>
+                <div className="ob-float" style={{fontSize:64,marginBottom:16,display:"inline-block"}}>📏</div>
+                <div style={{fontSize:26,fontWeight:900,color:"#111",marginBottom:6,lineHeight:1.2}}>Seni tanıyalım</div>
+                <div style={{fontSize:14,color:"#6b7280",marginBottom:28}}>Kişisel kalori hedefini hesaplamak için birkaç bilgiye ihtiyacımız var</div>
+                <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 24px #00000012",marginBottom:12}}>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
+                    {[
+                      {l:"Mevcut Kilo",u:"kg",v:obK,s:setObK,ph:"75",ikon:"⚖️"},
+                      {l:"Boy",u:"cm",v:obB,s:setObB,ph:"175",ikon:"📐"},
+                      {l:"Yaş",u:"yıl",v:obY,s:setObY,ph:"25",ikon:"🎂"},
+                      {l:"Hedef Kilo",u:"kg",v:obHK,s:setObHK,ph:"70",ikon:"🎯"}
+                    ].map(f=>(
+                      <div key={f.l}>
+                        <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:4}}>{f.ikon} {f.l}</div>
+                        <div style={{position:"relative"}}>
+                          <input style={{width:"100%",padding:"10px 28px 10px 12px",border:"2px solid #e5e7eb",borderRadius:12,fontSize:15,fontFamily:"'Nunito',sans-serif",boxSizing:"border-box",outline:"none",transition:"border .2s",background:"#f9fafb"}}
+                            placeholder={f.ph} type="number" value={f.v} onChange={e=>f.s(e.target.value)}
+                            onFocus={e=>e.target.style.borderColor="#16a34a"} onBlur={e=>e.target.style.borderColor="#e5e7eb"}/>
+                          <span style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",fontSize:10,color:"#9ca3af",fontWeight:700}}>{f.u}</span>
+                        </div>
+                      </div>
                     ))}
                   </div>
-                </div>
-                {obSosyal&&(
                   <div style={{marginBottom:14}}>
-                    <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>Hesap türü</div>
+                    <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:8}}>👤 Cinsiyet</div>
                     <div style={{display:"flex",gap:8}}>
-                      {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=>(
-                        <button key={String(o.v)} onClick={()=>setObAcik(o.v)} style={{flex:1,padding:"11px",border:`2px solid ${obAcik===o.v?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:obAcik===o.v?"#f0fdf4":"#fff",color:obAcik===o.v?"#16a34a":"#6b7280"}}>{o.l}</button>
+                      {[{v:"erkek",l:"👨 Erkek"},{v:"kadin",l:"👩 Kadın"}].map(cc=>(
+                        <button key={cc.v} onClick={()=>setObC(cc.v)} style={{flex:1,padding:"12px",border:`2px solid ${obC===cc.v?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:obC===cc.v?"#f0fdf4":"#fff",color:obC===cc.v?"#16a34a":"#6b7280",transition:"all .15s"}}>{cc.l}</button>
                       ))}
                     </div>
-                    <div style={{fontSize:11,color:"#6b7280",marginTop:6,padding:"8px 10px",background:"#f9fafb",borderRadius:8}}>{obAcik?"Açık: Arkadaşlık istekleri otomatik kabul edilir.":"Gizli: İstekleri kendin onaylarsın."}</div>
                   </div>
-                )}
+                  <div>
+                    <div style={{fontSize:11,color:"#6b7280",fontWeight:700,marginBottom:8}}>⚡ Aktivite Seviyesi</div>
+                    {Object.entries(AKTIVITE_ETIKET).map(([k,v])=>(
+                      <button key={k} onClick={()=>setObA(k)} style={{display:"block",width:"100%",textAlign:"left",padding:"11px 14px",marginBottom:4,border:`2px solid ${obA===k?"#16a34a":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:obA===k?700:500,fontSize:12,background:obA===k?"#f0fdf4":"#fff",color:obA===k?"#16a34a":"#374151",transition:"all .15s"}}>{v}</button>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}} onClick={()=>setObAdim(5)}>Devam Et →</button>
-              <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}} onClick={()=>onboardBitir(true)}>Atla</button>
+              <div>
+                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 4px 16px #16a34a44"}} onClick={()=>setObAdim(2)}>
+                  Devam Et →
+                </button>
+                <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",marginTop:10,fontFamily:"'Nunito',sans-serif",padding:"8px"}} onClick={()=>setObAdim(2)}>Şimdilik Atla</button>
+              </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* ── 5. ADIM: ALERJİ ────────────────────────────────── */}
-          {obAdim===5&&(
-            <div>
-              <div style={{marginBottom:22}}>
-                <div style={{fontSize:36,marginBottom:6}}>🌿</div>
-                <div style={{fontSize:24,fontWeight:900,color:"#111",marginBottom:4}}>Alerji & Hassasiyetler</div>
-                <div style={{fontSize:13,color:"#6b7280"}}>Hangi besinlere karşı alerjin veya hassasiyetin var?</div>
-              </div>
-              <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 20px #00000010",marginBottom:16}}>
-                {[
-                  {id:"gluten",  ad:"Gluten",         ikon:"🌾", acik:"Buğday, arpa, çavdar"},
-                  {id:"laktoz",  ad:"Laktoz / Süt",   ikon:"🥛", acik:"Süt ürünleri"},
-                  {id:"yumurta", ad:"Yumurta",         ikon:"🥚", acik:"Tüm yumurta ürünleri"},
-                  {id:"fistik",  ad:"Fıstık",          ikon:"🥜", acik:"Yerfıstığı ve ürünleri"},
-                  {id:"kuruyemis",ad:"Kuruyemiş",      ikon:"🌰", acik:"Ceviz, badem, fındık vb."},
-                  {id:"balik",   ad:"Balık / Deniz",   ikon:"🐟", acik:"Tüm su ürünleri"},
-                  {id:"soya",    ad:"Soya",             ikon:"🫘", acik:"Soya fasulyesi ve türevleri"},
-                  {id:"susam",   ad:"Susam",            ikon:"🌱", acik:"Susam tohumu ve yağı"},
-                  {id:"hardal",  ad:"Hardal",           ikon:"🌿", acik:"Hardal tohumu ve sosu"},
-                  {id:"kereviz", ad:"Kereviz",          ikon:"🥬", acik:"Kereviz sapı ve tohumu"},
-                ].map(a=>(
-                  <button key={a.id} onClick={()=>setObAlerji(p=>p.includes(a.id)?p.filter(x=>x!==a.id):[...p,a.id])}
-                    style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"11px 14px",
-                      borderRadius:12,border:`2px solid ${obAlerji.includes(a.id)?"#ef4444":"#e5e7eb"}`,
-                      background:obAlerji.includes(a.id)?"#fef2f2":"#f9fafb",
-                      marginBottom:8,cursor:"pointer",transition:"all .2s",textAlign:"left"}}>
-                    <span style={{fontSize:22}}>{a.ikon}</span>
-                    <div style={{flex:1}}>
-                      <div style={{fontSize:14,fontWeight:700,color:obAlerji.includes(a.id)?"#ef4444":"#111"}}>{a.ad}</div>
-                      <div style={{fontSize:11,color:"#9ca3af"}}>{a.acik}</div>
-                    </div>
-                    {obAlerji.includes(a.id)&&<span style={{fontSize:18,color:"#ef4444"}}>✓</span>}
-                  </button>
+        {/* ── ADIM 2: Hedef ── */}
+        {obAdim===2&&(
+          <div className="ob-slide" key="ob2" style={{minHeight:"100vh",background:"linear-gradient(160deg,#fff7ed,#fef3c7)",display:"flex",flexDirection:"column"}}>
+            <div style={{padding:"20px 24px 0",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <button onClick={()=>setObAdim(1)} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",color:"#6b7280"}}>←</button>
+              <div style={{display:"flex",gap:6}}>
+                {[1,2,3,4,5].map(i=>(
+                  <div key={i} style={{width:i===obAdim?24:8,height:8,borderRadius:4,background:i<=obAdim?"#f59e0b":"#fde68a",transition:"all .3s"}}/>
                 ))}
-                {obAlerji.length>0&&(
-                  <div style={{background:"#fef2f2",borderRadius:10,padding:"8px 12px",marginTop:4,fontSize:12,color:"#ef4444",fontWeight:600}}>
-                    ⚠️ {obAlerji.length} alerji seçildi — Tarifler otomatik işaretlenecek
-                  </div>
-                )}
               </div>
-              <button style={{...BTN(),width:"100%",padding:"14px 0",fontSize:15,borderRadius:16,marginBottom:8}}
-                onClick={()=>onboardBitir(false)}>Başlayalım! 🚀</button>
-              <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif"}}
-                onClick={()=>onboardBitir(true)}>Alerjisiz Devam Et</button>
             </div>
-          )}
-        </div>
+            <div style={{flex:1,padding:"24px 24px 32px",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+              <div>
+                <div className="ob-float" style={{fontSize:64,marginBottom:16,display:"inline-block"}}>🎯</div>
+                <div style={{fontSize:26,fontWeight:900,color:"#111",marginBottom:6,lineHeight:1.2}}>Hedefin ne?</div>
+                <div style={{fontSize:14,color:"#6b7280",marginBottom:24}}>Sana özel beslenme ve spor planı oluşturalım</div>
+                <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                  {[
+                    {v:"kilo_ver",l:"⬇️ Kilo Ver / Yağ Yak",alt:"Formu koru, kalori yak",renk:"#ef4444"},
+                    {v:"kas_yap",l:"💪 Kas Yap",alt:"Hacim kazanmak, güçlenmek",renk:"#8b5cf6"},
+                    {v:"saglikli",l:"🥗 Sağlıklı Beslen",alt:"Dengeli, enerjik yaşam",renk:"#16a34a"},
+                    {v:"dayaniklilik",l:"🏃 Dayanıklılık & Performans",alt:"Spor performansını artır",renk:"#0ea5e9"},
+                    {v:"kilo_al",l:"⬆️ Kilo Al",alt:"Sağlıklı kilo kazan",renk:"#f59e0b"},
+                    {v:"diyabet",l:"🩺 Diyet Kontrolü",alt:"Kan şekeri veya özel diyet",renk:"#10b981"},
+                  ].map(h=>(
+                    <button key={h.v} onClick={()=>setObHedef(h.v)} style={{
+                      padding:"14px 16px",border:`2.5px solid ${obHedef===h.v?h.renk:"#e5e7eb"}`,
+                      borderRadius:16,cursor:"pointer",fontFamily:"'Nunito',sans-serif",
+                      background:obHedef===h.v?h.renk+"18":"#fff",textAlign:"left",
+                      boxShadow:obHedef===h.v?`0 4px 16px ${h.renk}22`:"none",transition:"all .2s",
+                      display:"flex",alignItems:"center",gap:12
+                    }}>
+                      <div style={{flex:1}}>
+                        <div style={{fontWeight:800,fontSize:14,color:obHedef===h.v?h.renk:"#111"}}>{h.l}</div>
+                        <div style={{fontSize:11,color:"#9ca3af",marginTop:2}}>{h.alt}</div>
+                      </div>
+                      {obHedef===h.v&&<span className="ob-check" style={{display:"inline-block",color:h.renk,fontSize:20}}>✓</span>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{marginTop:20}}>
+                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#f59e0b,#d97706)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 4px 16px #f59e0b44"}} onClick={()=>setObAdim(3)}>
+                  Devam Et →
+                </button>
+                <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",marginTop:10,fontFamily:"'Nunito',sans-serif",padding:"8px"}} onClick={()=>setObAdim(3)}>Atla</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── ADIM 3: Beslenme Tarzı ── */}
+        {obAdim===3&&(
+          <div className="ob-slide" key="ob3" style={{minHeight:"100vh",background:"linear-gradient(160deg,#f0f9ff,#e0f2fe)",display:"flex",flexDirection:"column"}}>
+            <div style={{padding:"20px 24px 0",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <button onClick={()=>setObAdim(2)} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",color:"#6b7280"}}>←</button>
+              <div style={{display:"flex",gap:6}}>
+                {[1,2,3,4,5].map(i=>(
+                  <div key={i} style={{width:i===obAdim?24:8,height:8,borderRadius:4,background:i<=obAdim?"#0ea5e9":"#bae6fd",transition:"all .3s"}}/>
+                ))}
+              </div>
+            </div>
+            <div style={{flex:1,padding:"24px 24px 32px",display:"flex",flexDirection:"column",justifyContent:"space-between",overflowY:"auto"}}>
+              <div>
+                <div className="ob-float" style={{fontSize:64,marginBottom:16,display:"inline-block"}}>🍽️</div>
+                <div style={{fontSize:26,fontWeight:900,color:"#111",marginBottom:6,lineHeight:1.2}}>Beslenme tarzın?</div>
+                <div style={{fontSize:14,color:"#6b7280",marginBottom:24}}>Kısıtlaman veya diyetin var mı?</div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+                  {[
+                    {v:"normal",l:"🍖 Normal",alt:"Her şey"},
+                    {v:"vejetaryen",l:"🥦 Vejetaryen",alt:"Et yok"},
+                    {v:"vegan",l:"🌱 Vegan",alt:"Hayvansal yok"},
+                    {v:"glutensiz",l:"🌾 Glutensiz",alt:"Gluten yok"},
+                    {v:"laktossuz",l:"🥛 Laktozsuz",alt:"Süt yok"},
+                    {v:"ketojenik",l:"🥑 Ketojenik",alt:"Düşük karb"},
+                    {v:"paleo",l:"🍗 Paleo",alt:"İşlenmemiş"},
+                    {v:"intermittent",l:"⏰ Aralıklı Oruç",alt:"16/8 veya 5:2"},
+                  ].map(h=>(
+                    <button key={h.v} onClick={()=>setObDiyet(h.v)} style={{
+                      padding:"12px",border:`2.5px solid ${obDiyet===h.v?"#0ea5e9":"#e5e7eb"}`,
+                      borderRadius:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif",
+                      background:obDiyet===h.v?"#e0f2fe":"#fff",textAlign:"center",transition:"all .2s"
+                    }}>
+                      <div style={{fontSize:13,fontWeight:800,color:obDiyet===h.v?"#0284c7":"#111"}}>{h.l}</div>
+                      <div style={{fontSize:10,color:"#9ca3af",marginTop:2}}>{h.alt}</div>
+                      {obDiyet===h.v&&<div className="ob-check" style={{color:"#0ea5e9",fontSize:14,display:"block",marginTop:4}}>✓</div>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div style={{marginTop:20}}>
+                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#0ea5e9,#0284c7)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 4px 16px #0ea5e944"}} onClick={()=>setObAdim(4)}>
+                  Devam Et →
+                </button>
+                <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",marginTop:10,fontFamily:"'Nunito',sans-serif",padding:"8px"}} onClick={()=>setObAdim(4)}>Atla</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── ADIM 4: Sosyal Ayarlar ── */}
+        {obAdim===4&&(
+          <div className="ob-slide" key="ob4" style={{minHeight:"100vh",background:"linear-gradient(160deg,#fdf4ff,#fae8ff)",display:"flex",flexDirection:"column"}}>
+            <div style={{padding:"20px 24px 0",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <button onClick={()=>setObAdim(3)} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",color:"#6b7280"}}>←</button>
+              <div style={{display:"flex",gap:6}}>
+                {[1,2,3,4,5].map(i=>(
+                  <div key={i} style={{width:i===obAdim?24:8,height:8,borderRadius:4,background:i<=obAdim?"#a855f7":"#e9d5ff",transition:"all .3s"}}/>
+                ))}
+              </div>
+            </div>
+            <div style={{flex:1,padding:"24px 24px 32px",display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
+              <div>
+                <div className="ob-float" style={{fontSize:64,marginBottom:16,display:"inline-block"}}>👥</div>
+                <div style={{fontSize:26,fontWeight:900,color:"#111",marginBottom:6,lineHeight:1.2}}>Sosyal tercihler</div>
+                <div style={{fontSize:14,color:"#6b7280",marginBottom:24}}>Arkadaşlarınla paylaş veya gizli kal</div>
+                <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 24px #00000012",marginBottom:12}}>
+                  <div style={{background:"linear-gradient(135deg,#a855f718,#7c3aed18)",borderRadius:14,padding:"16px",marginBottom:16,textAlign:"center"}}>
+                    <div style={{fontSize:11,fontWeight:700,color:"#7c3aed",marginBottom:4}}>KULLANICI KODUN</div>
+                    <div style={{fontSize:24,fontWeight:900,letterSpacing:3,color:"#111"}}>{aktif?.uid}</div>
+                    <div style={{fontSize:10,color:"#9ca3af",marginTop:4}}>Arkadaşların bu kodla seni bulabilir</div>
+                  </div>
+                  <div style={{marginBottom:16}}>
+                    <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:10}}>Sosyal özellikler</div>
+                    <div style={{display:"flex",gap:8}}>
+                      {[{v:true,l:"✅ Aktif",a:"Arkadaş ekle, paylaş"},{v:false,l:"🔒 Kapalı",a:"Sadece benim için"}].map(o=>(
+                        <button key={String(o.v)} onClick={()=>setObSosyal(o.v)} style={{flex:1,padding:"12px 8px",border:`2.5px solid ${obSosyal===o.v?"#a855f7":"#e5e7eb"}`,borderRadius:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:obSosyal===o.v?"#fdf4ff":"#fff",color:obSosyal===o.v?"#a855f7":"#6b7280",textAlign:"center"}}>
+                          <div>{o.l}</div>
+                          <div style={{fontSize:10,fontWeight:400,color:"#9ca3af",marginTop:2}}>{o.a}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {obSosyal&&(
+                    <div>
+                      <div style={{fontSize:13,fontWeight:700,color:"#111",marginBottom:8}}>Hesap görünürlüğü</div>
+                      <div style={{display:"flex",gap:8}}>
+                        {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=>(
+                          <button key={String(o.v)} onClick={()=>setObAcik(o.v)} style={{flex:1,padding:"11px",border:`2px solid ${obAcik===o.v?"#a855f7":"#e5e7eb"}`,borderRadius:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,background:obAcik===o.v?"#fdf4ff":"#fff",color:obAcik===o.v?"#a855f7":"#6b7280"}}>{o.l}</button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
+                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#a855f7,#7c3aed)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 4px 16px #a855f744"}} onClick={()=>setObAdim(5)}>
+                  Devam Et →
+                </button>
+                <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",marginTop:10,fontFamily:"'Nunito',sans-serif",padding:"8px"}} onClick={()=>onboardBitir(true)}>Atla ve Bitir</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── ADIM 5: Alerji ── */}
+        {obAdim===5&&(
+          <div className="ob-slide" key="ob5" style={{minHeight:"100vh",background:"linear-gradient(160deg,#fef2f2,#fee2e2)",display:"flex",flexDirection:"column"}}>
+            <div style={{padding:"20px 24px 0",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <button onClick={()=>setObAdim(4)} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",color:"#6b7280"}}>←</button>
+              <div style={{display:"flex",gap:6}}>
+                {[1,2,3,4,5].map(i=>(
+                  <div key={i} style={{width:i===obAdim?24:8,height:8,borderRadius:4,background:i<=obAdim?"#ef4444":"#fecaca",transition:"all .3s"}}/>
+                ))}
+              </div>
+            </div>
+            <div style={{flex:1,padding:"24px 24px 32px",display:"flex",flexDirection:"column",justifyContent:"space-between",overflowY:"auto"}}>
+              <div>
+                <div className="ob-float" style={{fontSize:64,marginBottom:16,display:"inline-block"}}>🌿</div>
+                <div style={{fontSize:26,fontWeight:900,color:"#111",marginBottom:6,lineHeight:1.2}}>Alerji & Hassasiyetler</div>
+                <div style={{fontSize:14,color:"#6b7280",marginBottom:24}}>Seçtiklerini tariflerde otomatik işaretleyeceğiz</div>
+                <div style={{background:"#fff",borderRadius:20,padding:16,boxShadow:"0 4px 24px #00000012",marginBottom:12}}>
+                  {[
+                    {id:"gluten",  ad:"Gluten",         ikon:"🌾", acik:"Buğday, arpa, çavdar"},
+                    {id:"laktoz",  ad:"Laktoz / Süt",   ikon:"🥛", acik:"Tüm süt ürünleri"},
+                    {id:"yumurta", ad:"Yumurta",         ikon:"🥚", acik:"Tüm yumurta ürünleri"},
+                    {id:"fistik",  ad:"Fıstık",          ikon:"🥜", acik:"Yerfıstığı ve ürünleri"},
+                    {id:"kuruyemis",ad:"Kuruyemiş",      ikon:"🌰", acik:"Ceviz, badem, fındık"},
+                    {id:"balik",   ad:"Balık / Deniz",   ikon:"🐟", acik:"Tüm su ürünleri"},
+                    {id:"soya",    ad:"Soya",             ikon:"🫘", acik:"Soya fasulyesi"},
+                    {id:"susam",   ad:"Susam",            ikon:"🌱", acik:"Susam tohumu ve yağı"},
+                  ].map(a=>(
+                    <button key={a.id} onClick={()=>setObAlerji(p=>p.includes(a.id)?p.filter(x=>x!==a.id):[...p,a.id])}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"12px 14px",
+                        borderRadius:14,border:`2.5px solid ${obAlerji.includes(a.id)?"#ef4444":"#f3f4f6"}`,
+                        background:obAlerji.includes(a.id)?"#fef2f2":"#f9fafb",
+                        marginBottom:6,cursor:"pointer",transition:"all .2s",textAlign:"left"}}>
+                      <span style={{fontSize:24}}>{a.ikon}</span>
+                      <div style={{flex:1}}>
+                        <div style={{fontSize:13,fontWeight:700,color:obAlerji.includes(a.id)?"#ef4444":"#111"}}>{a.ad}</div>
+                        <div style={{fontSize:11,color:"#9ca3af"}}>{a.acik}</div>
+                      </div>
+                      {obAlerji.includes(a.id)&&<span className="ob-check" style={{display:"inline-block",color:"#ef4444",fontSize:18}}>✓</span>}
+                    </button>
+                  ))}
+                  {obAlerji.length>0&&(
+                    <div style={{background:"#fef2f2",borderRadius:10,padding:"10px 14px",marginTop:8,fontSize:12,color:"#ef4444",fontWeight:600}}>
+                      ⚠️ {obAlerji.length} alerji seçildi
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
+                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 4px 16px #16a34a44",marginBottom:10}} onClick={()=>onboardBitir(false)}>
+                  🚀 Doya'ya Başla!
+                </button>
+                <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif",padding:"8px"}} onClick={()=>onboardBitir(true)}>Alerjisiz Devam Et</button>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </>
   );
 
   // ─── ANA UYGULAMA ─────────────────────────────────────────────
+
   const secilenGV  = gunV(secTarih);
   const bugKatYemek= (kat)=>bugYemekler.filter(y=>y.kat===kat);
   const bugKatKal  = (kat)=>bugKatYemek(kat).reduce((t,y)=>t+(y.gramKal||0),0);
@@ -12810,6 +13133,8 @@ SADECE JSON döndür (başka metin yok):
                         <div style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{aktifEgz.kas} · {aktifEgz.set} set × {aktifEgz.rep}</div>
                       </div>
                     </div>
+                    {/* Hareket animasyonu */}
+                    <EgzersizAnim egzId={aktifEgz.id} ikon={aktifEgz.ikon}/>
                     <div style={{background:r.inp,borderRadius:10,padding:"10px 12px",marginBottom:10,fontSize:12,color:r.sub,lineHeight:1.6}}>
                       💡 {aktifEgz.acik}
                     </div>
@@ -17005,7 +17330,9 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-        {/* AI Diyetisyen modal satır 14452'de */}
+            </div>
+          </div>
+        )}
 
         {/* ════════════════ GÜNLÜK DİYET LİSTESİ MODAL ════════════════ */}
         {diyetListesiAcik&&(
