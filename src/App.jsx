@@ -17076,7 +17076,7 @@ SADECE JSON döndür (başka metin yok):
                     const yeniGecmis=[...diyMesajlar,{soru,cevap}].slice(-10);
                     setDiyMesajlar(yeniGecmis.map(m=>({rol:"kullanici",mesaj:m.soru,zaman:""})));
                     if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{diyMesajlar:yeniGecmis}).catch(console.error);
-                  }catch(e){setDiyYukleniyor(false);//erryin."}]);}
+                  }catch(e){setDiyYukleniyor(false);}
                   setDiyYukleniyor(false);
                 }} style={{width:44,height:44,borderRadius:12,border:"none",background:"#16a34a",color:"#fff",fontSize:20,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>➤</button>
               </div>
