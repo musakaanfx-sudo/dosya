@@ -2887,6 +2887,19 @@ export default function App(){
   const [gdprModal,setGdprModal]=useState(false);
   const [hesapSilOnay,setHesapSilOnay]=useState(false);
   const [hesapSilModal,setHesapSilModal]=useState(false);
+
+  // ── ORUÇ TAKİP STATE ──────────────────────────────────────────
+  const [orucSure,setOrucSure]=useState(()=>{
+    try{const s=localStorage.getItem("doya_oruc_sure");return s?parseInt(s):16;}catch{return 16;}
+  });
+  const [orucBaslangic,setOrucBaslangic]=useState(()=>{
+    try{const s=localStorage.getItem("doya_oruc_baslangic");return s?parseInt(s):null;}catch{return null;}
+  });
+  const [orucAlarmCalindi,setOrucAlarmCalindi]=useState(false);
+  const [orucBitti,setOrucBitti]=useState(false);
+  const [orucOzelSure,setOrucOzelSure]=useState(16);
+  const [orucSecilenPlan,setOrucSecilenPlan]=useState("16:8");
+  const [orucTick,setOrucTick]=useState(0);
   const [kullanicilar,setKullanicilar]=useState([]);
   const [aktif,setAktif]=useState(null);
   const [firebaseUID,setFirebaseUID]=useState(null);
@@ -3545,6 +3558,47 @@ export default function App(){
     }
   },[aktif,firebaseUID]);
 
+  // ── ORUÇ TIMER useEffect ──────────────────────────────────────
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      setOrucTick(t=>t+1);
+      if(orucBaslangic!==null){
+        const hedef = orucBaslangic + orucSure*3600000;
+        const kalan = hedef - Date.now();
+        if(kalan<=0 && !orucAlarmCalindi){
+          setOrucAlarmCalindi(true);
+          setOrucBitti(true);
+          // Web Audio ile alarm
+          try{
+            const ctx=new(window.AudioContext||window.webkitAudioContext)();
+            const beep=(freq,t,dur)=>{
+              const o=ctx.createOscillator(),g=ctx.createGain();
+              o.connect(g);g.connect(ctx.destination);
+              o.frequency.value=freq;o.type="sine";
+              g.gain.setValueAtTime(0,ctx.currentTime+t);
+              g.gain.linearRampToValueAtTime(0.45,ctx.currentTime+t+0.04);
+              g.gain.linearRampToValueAtTime(0,ctx.currentTime+t+dur);
+              o.start(ctx.currentTime+t);o.stop(ctx.currentTime+t+dur+0.1);
+            };
+            beep(880,0,0.25);beep(880,0.35,0.25);beep(1100,0.7,0.5);
+            beep(880,1.5,0.25);beep(880,1.85,0.25);beep(1100,2.2,0.7);
+            beep(1320,3.2,1.0);
+          }catch(e){}
+          // Tarayıcı bildirimi
+          try{
+            if(Notification.permission==="granted"){
+              new Notification("🎉 Oruç Tamamlandı!",{
+                body:`${orucSure} saatlik orucunu başarıyla bitirdin! Tebrikler! 💪`,
+                icon:"/favicon.ico"
+              });
+            }
+          }catch(e){}
+        }
+      }
+    },1000);
+    return()=>clearInterval(interval);
+  },[orucBaslangic,orucSure,orucAlarmCalindi]);
+
   // ─── ZAMAN FARKI YARDIMCISI ──────────────────────────────────
   function zamanFarki(tarih){
     const fark = Math.floor((Date.now()-tarih)/1000);
@@ -3948,7 +4002,6 @@ export default function App(){
               {/* Üst bar */}
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 22px",position:"relative",zIndex:2}}>
                 <div style={{fontFamily:"'DM Serif Display',serif",fontSize:24,color:"#f0fdf4"}}>Do<span style={{color:slide.vurgu||"#86efac"}}>ya</span></div>
-                <button onClick={welcomeBit} style={{background:"rgba(255,255,255,.15)",border:"none",borderRadius:20,padding:"5px 14px",color:"#f0fdf4",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{L.atla}</button>
               </div>
 
               {/* İlerleme çubukları */}
@@ -5019,6 +5072,7 @@ export default function App(){
                     <div style={{display:"flex",justifyContent:"space-between"}}>
                       <div>
                         <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` · ${b.marka}`:""}</div>
+                        <div style={{marginBottom:1}}><YildizGoster v={b.yildiz??3} boyut={12}/></div>
                         <div style={{fontSize:10,color:r.muted}}>{b.kat} · {b.por}g</div>
                         <div style={{fontSize:9,color:r.muted,marginTop:1,fontStyle:"italic"}}>*Tahmini değerlerdir. Bilgilendirme amaçlıdır, tıbbi tavsiye değildir.</div>
                       </div>
@@ -5467,6 +5521,227 @@ export default function App(){
             </div>
           </div>
         )}
+
+        {/* ──── ORUÇ TAKİP ──────────────────────────────────────── */}
+        {tab==="oruc"&&(()=>{
+          const POPULER = [
+            {ad:"14:10",sure:14,acik:"Başlangıç seviyesi"},
+            {ad:"16:8", sure:16,acik:"En popüler yöntem"},
+            {ad:"18:6", sure:18,acik:"Orta-ileri seviye"},
+            {ad:"20:4", sure:20,acik:"İleri seviye"},
+            {ad:"OMAD", sure:23,acik:"Günde 1 öğün"},
+            {ad:"Özel", sure:0, acik:"Kendi sürenizi girin"},
+          ];
+
+          const simdi = Date.now();
+          const aktifOruç = orucBaslangic !== null;
+          const hedefMs = aktifOruç ? orucBaslangic + orucSure*3600000 : 0;
+          const kalanMs = aktifOruç ? Math.max(0, hedefMs - simdi) : 0;
+          const gecenMs = aktifOruç ? simdi - orucBaslangic : 0;
+          const ilerleme = aktifOruç ? Math.min(100, (gecenMs / (orucSure*3600000))*100) : 0;
+
+          const fmt = (ms) => {
+            if(ms<=0) return "00:00:00";
+            const s=Math.floor(ms/1000)%60;
+            const m=Math.floor(ms/60000)%60;
+            const h=Math.floor(ms/3600000);
+            return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+          };
+
+          const fmtGecen = (ms) => {
+            const h=Math.floor(ms/3600000);
+            const m=Math.floor((ms%3600000)/60000);
+            return `${h} sa ${m} dk geçti`;
+          };
+
+          // Her saniye yeniden render için useEffect
+          // Timer orucTick state ile yukarıda yönetiliyor
+
+          const baslat = (sureH) => {
+            const now = Date.now();
+            setOrucBaslangic(now);
+            setOrucSure(sureH);
+            setOrucAlarmCalindi(false);
+            setOrucBitti(false);
+            try{
+              localStorage.setItem("doya_oruc_baslangic", String(now));
+              localStorage.setItem("doya_oruc_sure", String(sureH));
+            }catch(e){}
+            // Bildirim izni iste
+            if(Notification.permission==="default") Notification.requestPermission();
+          };
+
+          const durdur = () => {
+            setOrucBaslangic(null);
+            setOrucAlarmCalindi(false);
+            setOrucBitti(false);
+            try{
+              localStorage.removeItem("doya_oruc_baslangic");
+            }catch(e){}
+          };
+
+          
+
+          // Renk: yeşil (tamamlandı) → sarı (son %20) → mavi (devam)
+          const renkGradient = orucBitti
+            ? "linear-gradient(135deg,#16a34a,#15803d)"
+            : ilerleme>80
+            ? "linear-gradient(135deg,#f59e0b,#d97706)"
+            : "linear-gradient(135deg,#1e40af,#3b82f6)";
+
+          return(
+          <div style={{paddingBottom:80}}>
+
+            {/* HEADER */}
+            <div style={{background:renkGradient,padding:"24px 20px 32px",color:"#fff"}}>
+              <div style={{fontSize:13,fontWeight:700,opacity:.8,letterSpacing:2,marginBottom:4}}>ARALIKLI ORUÇ</div>
+
+              {!aktifOruç ? (
+                <div>
+                  <div style={{fontSize:32,fontWeight:900,marginBottom:4}}>Oruç Başlat ⏳</div>
+                  <div style={{fontSize:13,opacity:.8}}>Bir plan seçin veya özel süre girin</div>
+                </div>
+              ) : orucBitti ? (
+                <div style={{textAlign:"center",padding:"10px 0"}}>
+                  <div style={{fontSize:52}}>🎉</div>
+                  <div style={{fontSize:26,fontWeight:900,marginBottom:4}}>Tebrikler!</div>
+                  <div style={{fontSize:14,opacity:.9}}>{orucSure} saatlik orucunu tamamladın!</div>
+                </div>
+              ) : (
+                <div>
+                  <div style={{fontSize:13,opacity:.8,marginBottom:2}}>{orucSecilenPlan} · {orucSure} saat oruç</div>
+                  <div style={{fontSize:52,fontWeight:900,letterSpacing:2,marginBottom:4,fontFamily:"monospace"}}>
+                    {fmt(kalanMs)}
+                  </div>
+                  <div style={{fontSize:12,opacity:.75}}>{fmtGecen(gecenMs)} · %{Math.round(ilerleme)} tamamlandı</div>
+                  {/* İlerleme çubuğu */}
+                  <div style={{background:"rgba(255,255,255,.2)",borderRadius:99,height:8,marginTop:12,overflow:"hidden"}}>
+                    <div style={{background:"#fff",height:"100%",borderRadius:99,width:`${ilerleme}%`,transition:"width 1s linear"}}/>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div style={{padding:"0 16px",marginTop:-16}}>
+
+              {/* AKTİF ORUÇ KARTLARI */}
+              {aktifOruç&&(
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+                  {[
+                    {ikon:"⏱️",label:"Geçen Süre",val:fmtGecen(gecenMs)},
+                    {ikon:"🏁",label:"Bitiş Saati",val:new Date(hedefMs).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})},
+                    {ikon:"🔥",label:"Yağ Yakımı",val:ilerleme>50?"Aktif 🟢":"Bekleniyor"},
+                    {ikon:"💧",label:"Su İçmeyi",val:"Unutma!"},
+                  ].map(k=>(
+                    <div key={k.label} style={{background:d?"#1e293b":"#fff",borderRadius:14,padding:"12px 14px",boxShadow:"0 2px 8px #0001"}}>
+                      <div style={{fontSize:20,marginBottom:4}}>{k.ikon}</div>
+                      <div style={{fontSize:10,color:r.muted,fontWeight:600}}>{k.label}</div>
+                      <div style={{fontSize:13,fontWeight:800,color:r.text}}>{k.val}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* ORUÇ BİTTİ - YENİDEN BAŞLAT */}
+              {orucBitti&&(
+                <div style={{background:d?"#1e293b":"#fff",borderRadius:18,padding:20,marginBottom:14,boxShadow:"0 2px 12px #0001",textAlign:"center"}}>
+                  <div style={{fontSize:16,fontWeight:800,color:"#16a34a",marginBottom:8}}>✅ Oruç Tamamlandı!</div>
+                  <div style={{fontSize:13,color:r.sub,marginBottom:16}}>{orucSure} saat boyunca harika bir iş çıkardın! Şimdi sağlıklı bir şeyler ye 🥗</div>
+                  <div style={{display:"flex",gap:10}}>
+                    <button onClick={durdur} style={{...BTN("#16a34a"),flex:1,padding:"12px 0"}}>Yeni Oruç Başlat</button>
+                  </div>
+                </div>
+              )}
+
+              {/* AKTİF ORUÇ - DURDUR BUTONU */}
+              {aktifOruç&&!orucBitti&&(
+                <button onClick={durdur} style={{...BTN("#ef4444"),width:"100%",padding:"14px 0",borderRadius:14,marginBottom:14,fontSize:15,fontWeight:800}}>
+                  ⏹ Orucu Sonlandır
+                </button>
+              )}
+
+              {/* PLAN SEÇ - sadece aktif değilse */}
+              {!aktifOruç&&(
+                <>
+                  <div style={{background:d?"#1e293b":"#fff",borderRadius:18,padding:16,marginBottom:12,boxShadow:"0 2px 8px #0001"}}>
+                    <div style={{fontWeight:800,fontSize:14,color:r.text,marginBottom:12}}>⚡ Popüler Planlar</div>
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+                      {POPULER.filter(p=>p.sure>0).map(p=>(
+                        <button key={p.ad} onClick={()=>{setOrucSecilenPlan(p.ad);setOrucOzelSure(p.sure);}}
+                          style={{padding:"12px 8px",borderRadius:12,border:`2px solid ${orucSecilenPlan===p.ad?"#3b82f6":"transparent"}`,
+                            background:orucSecilenPlan===p.ad?(d?"#1e3a5f":"#eff6ff"):(d?"#0f172a":"#f8fafc"),
+                            cursor:"pointer",textAlign:"center",transition:"all .15s"}}>
+                          <div style={{fontSize:16,fontWeight:900,color:orucSecilenPlan===p.ad?"#3b82f6":r.text}}>{p.ad}</div>
+                          <div style={{fontSize:9,color:r.muted,marginTop:2,lineHeight:1.3}}>{p.acik}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ÖZEL SÜRE */}
+                  <div style={{background:d?"#1e293b":"#fff",borderRadius:18,padding:16,marginBottom:12,boxShadow:"0 2px 8px #0001"}}>
+                    <div style={{fontWeight:800,fontSize:14,color:r.text,marginBottom:12}}>⏱️ Süre Ayarla</div>
+                    <div style={{display:"flex",alignItems:"center",gap:12,justifyContent:"center",marginBottom:16}}>
+                      <button onClick={()=>setOrucOzelSure(v=>Math.max(1,v-1))}
+                        style={{width:44,height:44,borderRadius:12,border:"none",background:d?"#334155":"#f1f5f9",fontSize:22,cursor:"pointer",color:r.text,fontWeight:900}}>−</button>
+                      <div style={{textAlign:"center"}}>
+                        <div style={{fontSize:48,fontWeight:900,color:"#3b82f6",lineHeight:1}}>{orucOzelSure}</div>
+                        <div style={{fontSize:12,color:r.muted}}>saat</div>
+                      </div>
+                      <button onClick={()=>setOrucOzelSure(v=>Math.min(72,v+1))}
+                        style={{width:44,height:44,borderRadius:12,border:"none",background:d?"#334155":"#f1f5f9",fontSize:22,cursor:"pointer",color:r.text,fontWeight:900}}>+</button>
+                    </div>
+                    {/* Kaydırıcı */}
+                    <input type="range" min={1} max={72} value={orucOzelSure} onChange={e=>{setOrucOzelSure(Number(e.target.value));setOrucSecilenPlan("Özel");}}
+                      style={{width:"100%",accentColor:"#3b82f6",marginBottom:8}}/>
+                    <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:r.muted}}>
+                      <span>1 sa</span><span>24 sa</span><span>48 sa</span><span>72 sa</span>
+                    </div>
+                  </div>
+
+                  {/* BAŞLANGIÇ SAATİ BİLGİSİ */}
+                  <div style={{background:d?"#1e293b":"#fff",borderRadius:14,padding:"12px 16px",marginBottom:14,display:"flex",alignItems:"center",gap:12}}>
+                    <div style={{fontSize:28}}>🕐</div>
+                    <div>
+                      <div style={{fontSize:12,color:r.muted}}>Başladığınızda saat</div>
+                      <div style={{fontSize:15,fontWeight:800,color:r.text}}>{new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})}</div>
+                      <div style={{fontSize:11,color:r.muted}}>Bitiş: {new Date(Date.now()+ozelSure*3600000).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})}</div>
+                    </div>
+                  </div>
+
+                  {/* BAŞLAT BUTONU */}
+                  <button onClick={()=>baslat(orucOzelSure)}
+                    style={{width:"100%",padding:"16px 0",borderRadius:16,border:"none",
+                      background:"linear-gradient(135deg,#1e40af,#3b82f6)",color:"#fff",
+                      fontSize:17,fontWeight:900,cursor:"pointer",boxShadow:"0 4px 16px #3b82f640",
+                      fontFamily:"'Nunito',sans-serif",letterSpacing:.5}}>
+                    ⏳ {orucOzelSure} Saatlik Oruca Başla
+                  </button>
+                </>
+              )}
+
+              {/* BİLGİ KARTI */}
+              <div style={{background:d?"#1e293b":"#fff",borderRadius:14,padding:14,marginTop:14,boxShadow:"0 2px 8px #0001"}}>
+                <div style={{fontWeight:800,fontSize:13,color:r.text,marginBottom:10}}>💡 Aralıklı Oruç Hakkında</div>
+                {[
+                  {sa:"12",bilgi:"İnsulin düşmeye başlar"},
+                  {sa:"14",bilgi:"Yağ yakımı başlar"},
+                  {sa:"16",bilgi:"Otofaji (hücre temizliği) aktifleşir"},
+                  {sa:"18",bilgi:"Büyüme hormonu yükselir"},
+                  {sa:"24",bilgi:"Derin otofaji, belirgin yağ yakımı"},
+                ].map(b=>(
+                  <div key={b.sa} style={{display:"flex",alignItems:"center",gap:10,paddingBottom:8,borderBottom:`1px solid ${r.brd}`,marginBottom:8}}>
+                    <div style={{background:"#eff6ff",borderRadius:8,padding:"4px 8px",fontSize:12,fontWeight:900,color:"#3b82f6",minWidth:36,textAlign:"center"}}>{b.sa}s</div>
+                    <div style={{fontSize:12,color:r.sub}}>{b.bilgi}</div>
+                  </div>
+                ))}
+                <div style={{fontSize:10,color:r.muted,marginTop:4}}>⚠️ Bilgilendirme amaçlıdır. Sağlık durumunuza göre doktorunuza danışın.</div>
+              </div>
+
+            </div>
+          </div>
+          );
+        })()}
 
         {/* ──── PUAN ────────────────────────────────────────────── */}
         {tab==="puan"&&(
@@ -6610,6 +6885,7 @@ export default function App(){
               {id:"sosyal",    ikon:"📢",label:"Sosyal"},
               {id:"arkadaslar",ikon:"👥",label:"Arkadaş",badge:gelenIstekler.length},
             ]:[]),
+            {id:"oruc",   ikon:"⏳",label:"Oruç"},
             {id:"puan",   ikon:"🏅",label:"Puan"},
             {id:"profil", ikon:"👤",label:"Profil"},
           ].map(n=>(
@@ -7352,9 +7628,8 @@ export default function App(){
                             const file=e.target.files[0]; if(!file)return;
                             const reader=new FileReader();
                             reader.onload=ev=>{
-                              const dataUrl=ev.target.result;
-                              setAiImg(dataUrl);
-                              aiFotoAnalizEt(dataUrl.split(",")[1],file.type||"image/jpeg",aiNot);
+                              setAiImg(ev.target.result);
+                              setAiSonuc(null); setAiHata(null);
                             };
                             reader.readAsDataURL(file);
                           }}
@@ -7364,9 +7639,8 @@ export default function App(){
                             const file=e.target.files[0]; if(!file)return;
                             const reader=new FileReader();
                             reader.onload=ev=>{
-                              const dataUrl=ev.target.result;
-                              setAiImg(dataUrl);
-                              aiFotoAnalizEt(dataUrl.split(",")[1],file.type||"image/jpeg",aiNot);
+                              setAiImg(ev.target.result);
+                              setAiSonuc(null); setAiHata(null);
                             };
                             reader.readAsDataURL(file);
                           }}
@@ -7420,6 +7694,28 @@ export default function App(){
                         ×
                       </button>
                     </div>
+
+                    {/* Not + Gönder butonu — analiz başlamadıysa göster */}
+                    {!aiSonuc&&!aiYukleniyor&&(
+                      <div style={{marginBottom:12}}>
+                        <textarea
+                          value={aiNot}
+                          onChange={e=>setAiNot(e.target.value)}
+                          placeholder="Ek bilgi: 2 porsiyon, ev yapımı, tahin soslu... (isteğe bağlı)"
+                          style={{...IS,height:56,resize:"none",fontSize:12,lineHeight:1.5,marginBottom:10}}
+                        />
+                        <button
+                          onClick={()=>aiFotoAnalizEt(aiImg.split(",")[1],"image/jpeg",aiNot)}
+                          style={{width:"100%",padding:"15px 0",borderRadius:14,border:"none",
+                            background:"linear-gradient(135deg,#7c3aed,#6d28d9)",
+                            color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",
+                            fontFamily:"'Nunito',sans-serif",
+                            boxShadow:"0 4px 18px #7c3aed50",
+                            display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                          <span style={{fontSize:20}}>🔍</span> AI'ya Gönder — Analiz Et
+                        </button>
+                      </div>
+                    )}
 
                     {/* Yükleniyor */}
                     {aiYukleniyor&&(
