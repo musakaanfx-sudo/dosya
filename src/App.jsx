@@ -10465,251 +10465,388 @@ function YildizGoster({v=3,boyut=12}){
 
 // ─── EGZERSİZ ANİMASYON BİLEŞENİ ────────────────────────────
 function EgzersizAnim({egzId, ikon}) {
-  const s = (extra={}) => ({
-    position:"absolute", ...extra
-  });
+  const tip = (()=>{
+    const id = (egzId||"").toLowerCase();
+    if(id.includes("sinav")||id.includes("push")||id.includes("sikistirma")) return "sinav";
+    if(id.includes("squat")||id.includes("comelme")) return "squat";
+    if(id.includes("barfix")||id.includes("pullup")||id.includes("pull")) return "barfix";
+    if(id.includes("curl")||id.includes("biceps")||id.includes("dambil")) return "curl";
+    if(id.includes("plank")) return "plank";
+    if(id.includes("lunge")||id.includes("akbasa")) return "lunge";
+    if(id.includes("omuz")||id.includes("press")||id.includes("militar")||id.includes("shoulder")) return "press";
+    if(id.includes("mekik")||id.includes("situp")||id.includes("crunch")) return "mekik";
+    if(id.includes("kos")||id.includes("sprint")||id.includes("kardi")||id.includes("jump")) return "kos";
+    if(id.includes("dips")||id.includes("triceps")) return "dips";
+    return null;
+  })();
 
-  const animasyonlar = {
-    // ŞINAV
-    "sıkıştırma": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes sinav-govde {0%,100%{transform:translateY(0)} 50%{transform:translateY(18px)}}
-          @keyframes sinav-kol {0%,100%{transform:rotate(-30deg);transform-origin:20px 48px} 50%{transform:rotate(-70deg);transform-origin:20px 48px}}
-          .sg{animation:sinav-govde 1.4s ease-in-out infinite}
-          .sk{animation:sinav-kol 1.4s ease-in-out infinite}
-        `}</style>
-        <g className="sg">
-          <circle cx="80" cy="20" r="10" fill="#16a34a"/>
-          <line x1="80" y1="30" x2="80" y2="60" stroke="#15803d" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="60" x2="40" y2="80" stroke="#15803d" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="60" x2="120" y2="80" stroke="#15803d" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="40" y1="80" x2="30" y2="100" stroke="#15803d" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="120" y1="80" x2="130" y2="100" stroke="#15803d" strokeWidth="3" strokeLinecap="round"/>
+  const C = {
+    skin:"#FBBF99", skinD:"#F0A070", hair:"#4B3621",
+    shirt:"#3B82F6", shirtD:"#2563EB",
+    pants:"#1E293B", pantsD:"#0F172A",
+    shoe:"#374151", muscle:"#EF4444",
+    arrow:"#06B6D4", arrowD:"#0891B2",
+    floor:"#E2E8F0", shadow:"#CBD5E1"
+  };
+
+  const css = `
+    @keyframes ea-sinav-ud { 0%,100%{transform:translateY(0)} 50%{transform:translateY(14px)} }
+    @keyframes ea-squat-down { 0%,100%{transform:scaleY(1) translateY(0);transform-origin:bottom center} 50%{transform:scaleY(.78) translateY(8px);transform-origin:bottom center} }
+    @keyframes ea-pull-up { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-22px)} }
+    @keyframes ea-curl-arm { 0%,100%{transform:rotate(0deg);transform-origin:50% 30%} 50%{transform:rotate(-75deg);transform-origin:50% 30%} }
+    @keyframes ea-plank-pulse { 0%,100%{opacity:1;transform:scaleX(1)} 50%{opacity:.7;transform:scaleX(1.02)} }
+    @keyframes ea-lunge-step { 0%,100%{transform:translateX(0)} 50%{transform:translateX(12px)} }
+    @keyframes ea-press-up { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+    @keyframes ea-mekik-up { 0%,100%{transform:rotate(0deg);transform-origin:80% 90%} 50%{transform:rotate(-38deg);transform-origin:80% 90%} }
+    @keyframes ea-run { 0%,100%{transform:translateX(-4px)} 50%{transform:translateX(4px)} }
+    @keyframes ea-dips-ud { 0%,100%{transform:translateY(0)} 50%{transform:translateY(16px)} }
+    @keyframes ea-arrow-bounce { 0%,100%{opacity:.3;transform:translateY(0)} 50%{opacity:1;transform:translateY(-5px)} }
+    @keyframes ea-arrow-h { 0%,100%{opacity:.3;transform:translateX(0)} 50%{opacity:1;transform:translateX(5px)} }
+    .ea-sinav { animation: ea-sinav-ud 1.4s ease-in-out infinite }
+    .ea-squat { animation: ea-squat-down 1.6s ease-in-out infinite }
+    .ea-pullup { animation: ea-pull-up 1.6s ease-in-out infinite }
+    .ea-curl { animation: ea-curl-arm 1.3s ease-in-out infinite }
+    .ea-plank { animation: ea-plank-pulse 1.2s ease-in-out infinite }
+    .ea-lunge { animation: ea-lunge-step 1.4s ease-in-out infinite }
+    .ea-press { animation: ea-press-up 1.4s ease-in-out infinite }
+    .ea-mekik { animation: ea-mekik-up 1.5s ease-in-out infinite }
+    .ea-run { animation: ea-run .5s ease-in-out infinite }
+    .ea-dips { animation: ea-dips-ud 1.4s ease-in-out infinite }
+    .ea-arr-v { animation: ea-arrow-bounce 1s ease-in-out infinite }
+    .ea-arr-h { animation: ea-arrow-h 1s ease-in-out infinite }
+  `;
+
+  const svgs = {
+    sinav: (
+      <svg viewBox="0 0 200 130" width="100%" height="100%">
+        <style>{css}</style>
+        {/* Zemin */}
+        <ellipse cx="100" cy="122" rx="80" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="20" y1="118" x2="180" y2="118" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <g className="ea-sinav">
+          {/* Vücut gövde */}
+          <rect x="55" y="74" width="90" height="22" rx="10" fill={C.shirt}/>
+          <rect x="60" y="78" width="80" height="14" rx="7" fill={C.shirtD} opacity=".3"/>
+          {/* Baş */}
+          <circle cx="155" cy="64" r="14" fill={C.skin}/>
+          <circle cx="155" cy="61" r="9" fill={C.hair}/>
+          {/* Sol kol */}
+          <rect x="30" y="80" width="30" height="10" rx="5" fill={C.skin}/>
+          <circle cx="32" cy="85" r="7" fill={C.skin}/>
+          {/* Sağ kol (gövdede) */}
+          {/* Bacaklar */}
+          <rect x="55" y="93" width="18" height="26" rx="8" fill={C.pants}/>
+          <rect x="80" y="93" width="18" height="26" rx="8" fill={C.pants}/>
+          {/* Ayakkabılar */}
+          <ellipse cx="64" cy="117" rx="12" ry="5" fill={C.shoe}/>
+          <ellipse cx="89" cy="117" rx="12" ry="5" fill={C.shoe}/>
+          {/* Kas vurgu */}
+          <ellipse cx="65" cy="83" rx="8" ry="5" fill={C.muscle} opacity=".35"/>
         </g>
-        <g className="sk">
-          <line x1="80" y1="42" x2="50" y2="55" stroke="#22c55e" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="42" x2="110" y2="55" stroke="#22c55e" strokeWidth="4" strokeLinecap="round"/>
+        {/* Hareket oku */}
+        <g className="ea-arr-v" style={{transformOrigin:"100px 95px"}}>
+          <path d="M88 102 L88 92 L84 96 M88 92 L92 96" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
         </g>
-        <line x1="20" y1="105" x2="140" y2="105" stroke="#d1fae5" strokeWidth="3"/>
-        <text x="80" y="118" textAnchor="middle" fill="#6b7280" fontSize="9">ŞINAV</text>
+        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">ŞINAV</text>
       </svg>
     ),
-    // SQUAT
-    "squat": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes sq-body {0%,100%{transform:translateY(0) scaleY(1);transform-origin:80px 30px} 50%{transform:translateY(28px) scaleY(0.85);transform-origin:80px 30px}}
-          @keyframes sq-leg {0%,100%{transform:rotate(0deg);transform-origin:80px 70px} 50%{transform:rotate(30deg);transform-origin:80px 70px}}
-          .sqb{animation:sq-body 1.5s ease-in-out infinite}
-        `}</style>
-        <g className="sqb">
-          <circle cx="80" cy="22" r="10" fill="#7c3aed"/>
-          <line x1="80" y1="32" x2="80" y2="65" stroke="#6d28d9" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="42" x2="55" y2="52" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="80" y1="42" x2="105" y2="52" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
+    squat: (
+      <svg viewBox="0 0 200 140" width="100%" height="100%">
+        <style>{css}</style>
+        <ellipse cx="100" cy="133" rx="50" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="40" y1="130" x2="160" y2="130" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <g className="ea-squat">
+          {/* Baş */}
+          <circle cx="100" cy="28" r="14" fill={C.skin}/>
+          <circle cx="100" cy="24" r="9" fill={C.hair}/>
+          {/* Torso */}
+          <rect x="82" y="42" width="36" height="38" rx="10" fill={C.shirt}/>
+          <rect x="85" y="46" width="30" height="28" rx="7" fill={C.shirtD} opacity=".3"/>
+          {/* Kollar */}
+          <rect x="58" y="50" width="26" height="10" rx="5" fill={C.skin}/>
+          <rect x="116" y="50" width="26" height="10" rx="5" fill={C.skin}/>
+          {/* Bacaklar */}
+          <path d="M85 78 Q72 100 68 125" stroke={C.pants} strokeWidth="16" strokeLinecap="round" fill="none"/>
+          <path d="M115 78 Q128 100 132 125" stroke={C.pants} strokeWidth="16" strokeLinecap="round" fill="none"/>
+          {/* Ayak */}
+          <ellipse cx="68" cy="126" rx="13" ry="5" fill={C.shoe}/>
+          <ellipse cx="132" cy="126" rx="13" ry="5" fill={C.shoe}/>
         </g>
-        <g>
-          <line x1="80" y1="65" x2="55" y2="95" stroke="#7c3aed" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="65" x2="105" y2="95" stroke="#7c3aed" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="55" y1="95" x2="45" y2="108" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="105" y1="95" x2="115" y2="108" stroke="#6d28d9" strokeWidth="3" strokeLinecap="round"/>
+        <g className="ea-arr-v">
+          <path d="M100 110 L100 96 L96 100 M100 96 L104 100" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
         </g>
-        <line x1="20" y1="110" x2="140" y2="110" stroke="#ede9fe" strokeWidth="3"/>
-        <text x="80" y="119" textAnchor="middle" fill="#6b7280" fontSize="9">SQUAT</text>
+        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">SQUAT</text>
       </svg>
     ),
-    // BARFİKS / PULL-UP
-    "barfix": () => (
-      <svg viewBox="0 0 160 130" width="160" height="130">
-        <style>{`
-          @keyframes bf-body {0%,100%{transform:translateY(0)} 50%{transform:translateY(-22px)}}
-          .bfb{animation:bf-body 1.6s ease-in-out infinite}
-        `}</style>
-        <line x1="20" y1="15" x2="140" y2="15" stroke="#374151" strokeWidth="5" strokeLinecap="round"/>
-        <line x1="55" y1="15" x2="55" y2="25" stroke="#374151" strokeWidth="3"/>
-        <line x1="105" y1="15" x2="105" y2="25" stroke="#374151" strokeWidth="3"/>
-        <g className="bfb">
-          <circle cx="80" cy="45" r="10" fill="#1d4ed8"/>
-          <line x1="80" y1="55" x2="80" y2="85" stroke="#1e40af" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="65" x2="58" y2="75" stroke="#1e40af" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="80" y1="65" x2="102" y2="75" stroke="#1e40af" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="80" y1="85" x2="65" y2="110" stroke="#1e40af" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="85" x2="95" y2="110" stroke="#1e40af" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="55" y1="25" x2="62" y2="38" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="105" y1="25" x2="98" y2="38" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round"/>
+    barfix: (
+      <svg viewBox="0 0 200 150" width="100%" height="100%">
+        <style>{css}</style>
+        {/* Bar */}
+        <rect x="20" y="20" width="160" height="8" rx="4" fill="#374151"/>
+        <rect x="55" y="20" width="6" height="14" rx="3" fill="#4B5563"/>
+        <rect x="139" y="20" width="6" height="14" rx="3" fill="#4B5563"/>
+        <g className="ea-pullup">
+          {/* Kollar */}
+          <path d="M72 34 Q68 52 80 62" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+          <path d="M128 34 Q132 52 120 62" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+          {/* Torso */}
+          <rect x="82" y="58" width="36" height="44" rx="10" fill={C.shirt}/>
+          <rect x="85" y="62" width="30" height="34" rx="7" fill={C.shirtD} opacity=".3"/>
+          {/* Baş */}
+          <circle cx="100" cy="50" r="14" fill={C.skin}/>
+          <circle cx="100" cy="46" r="9" fill={C.hair}/>
+          {/* Bacaklar */}
+          <rect x="85" y="100" width="14" height="36" rx="7" fill={C.pants}/>
+          <rect x="101" y="100" width="14" height="36" rx="7" fill={C.pants}/>
+          <ellipse cx="92" cy="135" rx="10" ry="4" fill={C.shoe}/>
+          <ellipse cx="108" cy="135" rx="10" ry="4" fill={C.shoe}/>
+          {/* Kas vurgu */}
+          <ellipse cx="78" cy="52" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
+          <ellipse cx="122" cy="52" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
         </g>
-        <text x="80" y="126" textAnchor="middle" fill="#6b7280" fontSize="9">BARFİKS</text>
+        <g className="ea-arr-v">
+          <path d="M100 90 L100 76 L96 80 M100 76 L104 80" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </g>
+        <text x="100" y="146" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">BARFİKS</text>
       </svg>
     ),
-    // DAMBIL CURL
-    "dambil_curl": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes dc-arm {0%,100%{transform:rotate(0deg);transform-origin:80px 55px} 50%{transform:rotate(-75deg);transform-origin:80px 55px}}
-          .dca{animation:dc-arm 1.3s ease-in-out infinite}
-        `}</style>
-        <circle cx="80" cy="20" r="10" fill="#f59e0b"/>
-        <line x1="80" y1="30" x2="80" y2="65" stroke="#d97706" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="80" y1="65" x2="55" y2="85" stroke="#d97706" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="80" y1="65" x2="105" y2="85" stroke="#d97706" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="55" y1="85" x2="42" y2="108" stroke="#d97706" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="105" y1="85" x2="118" y2="108" stroke="#d97706" strokeWidth="3" strokeLinecap="round"/>
-        <g className="dca">
-          <line x1="80" y1="45" x2="108" y2="60" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round"/>
-          <rect x="108" y="55" width="16" height="8" rx="4" fill="#92400e"/>
+    curl: (
+      <svg viewBox="0 0 200 150" width="100%" height="100%">
+        <style>{css}</style>
+        <ellipse cx="100" cy="143" rx="45" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="40" y1="140" x2="160" y2="140" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        {/* Baş */}
+        <circle cx="100" cy="25" r="14" fill={C.skin}/>
+        <circle cx="100" cy="21" r="9" fill={C.hair}/>
+        {/* Torso */}
+        <rect x="82" y="39" width="36" height="48" rx="10" fill={C.shirt}/>
+        {/* Sağ kol sabit */}
+        <path d="M118 52 Q130 65 128 82" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+        {/* Dambıl sağ */}
+        <rect x="120" y="78" width="22" height="8" rx="4" fill="#6B7280"/>
+        {/* Sol kol hareketli */}
+        <g className="ea-curl">
+          <path d="M82 52 Q62 62 58 78" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+          <rect x="40" y="74" width="24" height="8" rx="4" fill="#6B7280"/>
+          <ellipse cx="66" cy="64" rx="7" ry="4" fill={C.muscle} opacity=".5"/>
         </g>
-        <line x1="20" y1="110" x2="140" y2="110" stroke="#fef3c7" strokeWidth="3"/>
-        <text x="80" y="119" textAnchor="middle" fill="#6b7280" fontSize="9">DAMBİL CURL</text>
+        {/* Bacaklar */}
+        <rect x="85" y="85" width="14" height="40" rx="7" fill={C.pants}/>
+        <rect x="101" y="85" width="14" height="40" rx="7" fill={C.pants}/>
+        <ellipse cx="92" cy="124" rx="12" ry="5" fill={C.shoe}/>
+        <ellipse cx="108" cy="124" rx="12" ry="5" fill={C.shoe}/>
+        <g className="ea-arr-v">
+          <path d="M55 60 L55 46 L51 50 M55 46 L59 50" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </g>
+        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">BİSEPS CURL</text>
       </svg>
     ),
-    // PLANK
-    "plank": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes plank-pulse {0%,100%{opacity:1} 50%{opacity:.5}}
-          .pp{animation:plank-pulse 1.2s ease-in-out infinite}
-        `}</style>
-        <circle cx="35" cy="52" r="10" fill="#10b981"/>
-        <line x1="45" y1="52" x2="130" y2="58" stroke="#059669" strokeWidth="6" strokeLinecap="round"/>
-        <line x1="45" y1="52" x2="55" y2="75" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="65" y1="54" x2="68" y2="78" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="110" y1="57" x2="115" y2="80" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="125" y1="57" x2="128" y2="80" stroke="#059669" strokeWidth="4" strokeLinecap="round"/>
-        <g className="pp">
-          <rect x="30" y="78" width="100" height="4" rx="2" fill="#d1fae5"/>
-          <text x="80" y="90" textAnchor="middle" fill="#10b981" fontSize="10" fontWeight="bold">KASIL!</text>
+    plank: (
+      <svg viewBox="0 0 220 110" width="100%" height="100%">
+        <style>{css}</style>
+        <ellipse cx="110" cy="103" rx="85" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="25" y1="100" x2="195" y2="100" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <g className="ea-plank">
+          {/* Tüm vücut yatay */}
+          {/* Baş */}
+          <circle cx="172" cy="70" r="12" fill={C.skin}/>
+          <circle cx="172" cy="66" r="8" fill={C.hair}/>
+          {/* Torso */}
+          <rect x="80" y="72" width="88" height="20" rx="9" fill={C.shirt}/>
+          <rect x="84" y="76" width="78" height="10" rx="5" fill={C.shirtD} opacity=".3"/>
+          {/* Bacaklar */}
+          <rect x="40" y="74" width="46" height="16" rx="8" fill={C.pants}/>
+          {/* Ön kol */}
+          <rect x="148" y="88" width="12" height="14" rx="5" fill={C.skin}/>
+          <rect x="110" y="88" width="12" height="14" rx="5" fill={C.skin}/>
+          {/* Parmaklar */}
+          <ellipse cx="154" cy="100" rx="9" ry="3" fill={C.shoe}/>
+          <ellipse cx="116" cy="100" rx="9" ry="3" fill={C.shoe}/>
+          {/* Ayak */}
+          <ellipse cx="42" cy="91" rx="8" ry="4" fill={C.shoe}/>
+          {/* Çekirdek vurgu */}
+          <ellipse cx="118" cy="81" rx="14" ry="5" fill={C.muscle} opacity=".3"/>
         </g>
-        <text x="80" y="110" textAnchor="middle" fill="#6b7280" fontSize="9">PLANK</text>
+        <text x="110" y="14" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">PLANK — SABİT TUT</text>
+        {/* Güç göstergesi */}
+        <text x="110" y="30" textAnchor="middle" fill={C.arrow} fontSize="10" fontFamily="system-ui" className="ea-arr-v">● ÇEKİRDEK KASIL</text>
       </svg>
     ),
-    // LUNGE
-    "lunge": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes lg-step {0%,100%{transform:translateX(0)} 50%{transform:translateX(15px)}}
-          .lgs{animation:lg-step 1.4s ease-in-out infinite}
-        `}</style>
-        <circle cx="75" cy="18" r="10" fill="#ec4899"/>
-        <line x1="75" y1="28" x2="75" y2="58" stroke="#db2777" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="75" y1="38" x2="50" y2="50" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="75" y1="38" x2="100" y2="50" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="75" y1="58" x2="50" y2="90" stroke="#db2777" strokeWidth="4" strokeLinecap="round"/>
-        <g className="lgs">
-          <line x1="75" y1="58" x2="110" y2="78" stroke="#ec4899" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="110" y1="78" x2="115" y2="108" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
+    lunge: (
+      <svg viewBox="0 0 200 150" width="100%" height="100%">
+        <style>{css}</style>
+        <ellipse cx="100" cy="143" rx="55" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="30" y1="140" x2="170" y2="140" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        {/* Baş */}
+        <circle cx="95" cy="22" r="13" fill={C.skin}/>
+        <circle cx="95" cy="18" r="8" fill={C.hair}/>
+        {/* Torso */}
+        <rect x="78" y="35" width="34" height="42" rx="9" fill={C.shirt}/>
+        {/* Kollar */}
+        <path d="M78 48 Q64 55 62 68" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+        <path d="M112 48 Q126 55 128 68" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+        {/* Sol bacak ileri */}
+        <g className="ea-lunge">
+          <path d="M84 75 Q72 100 62 138" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
+          <ellipse cx="62" cy="138" rx="14" ry="5" fill={C.shoe}/>
         </g>
-        <line x1="50" y1="90" x2="45" y2="108" stroke="#db2777" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="20" y1="108" x2="140" y2="108" stroke="#fce7f3" strokeWidth="3"/>
-        <text x="80" y="118" textAnchor="middle" fill="#6b7280" fontSize="9">LUNGE</text>
+        {/* Sağ bacak geri */}
+        <path d="M106 75 Q120 98 138 130" stroke={C.pantsD} strokeWidth="14" strokeLinecap="round" fill="none"/>
+        <ellipse cx="138" cy="130" rx="11" ry="4" fill={C.shoe}/>
+        {/* Diz */}
+        <circle cx="138" cy="130" r="6" fill={C.pantsD} opacity=".5"/>
+        <g className="ea-arr-v">
+          <path d="M78 112 L78 98 L74 102 M78 98 L82 102" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </g>
+        <text x="100" y="14" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">LUNGE</text>
       </svg>
     ),
-    // OMUZ PRESS
-    "omuz_press": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes op-arms {0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)}}
-          .opa{animation:op-arms 1.4s ease-in-out infinite}
-        `}</style>
-        <circle cx="80" cy="22" r="10" fill="#0ea5e9"/>
-        <line x1="80" y1="32" x2="80" y2="70" stroke="#0284c7" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="80" y1="70" x2="58" y2="95" stroke="#0284c7" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="80" y1="70" x2="102" y2="95" stroke="#0284c7" strokeWidth="4" strokeLinecap="round"/>
-        <g className="opa">
-          <line x1="80" y1="45" x2="50" y2="35" stroke="#0ea5e9" strokeWidth="4" strokeLinecap="round"/>
-          <line x1="80" y1="45" x2="110" y2="35" stroke="#0ea5e9" strokeWidth="4" strokeLinecap="round"/>
-          <rect x="32" y="28" width="18" height="8" rx="4" fill="#075985"/>
-          <rect x="110" y="28" width="18" height="8" rx="4" fill="#075985"/>
+    press: (
+      <svg viewBox="0 0 200 155" width="100%" height="100%">
+        <style>{css}</style>
+        <ellipse cx="100" cy="148" rx="50" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="40" y1="145" x2="160" y2="145" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        {/* Baş */}
+        <circle cx="100" cy="26" r="14" fill={C.skin}/>
+        <circle cx="100" cy="22" r="9" fill={C.hair}/>
+        {/* Torso */}
+        <rect x="82" y="40" width="36" height="50" rx="10" fill={C.shirt}/>
+        {/* Kollar yukarıda */}
+        <g className="ea-press">
+          <path d="M82 52 Q60 40 52 22" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+          <path d="M118 52 Q140 40 148 22" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+          {/* Dambıllar */}
+          <rect x="34" y="16" width="24" height="8" rx="4" fill="#4B5563"/>
+          <rect x="142" y="16" width="24" height="8" rx="4" fill="#4B5563"/>
+          {/* Kas */}
+          <ellipse cx="62" cy="34" rx="8" ry="4" fill={C.muscle} opacity=".4"/>
+          <ellipse cx="138" cy="34" rx="8" ry="4" fill={C.muscle} opacity=".4"/>
         </g>
-        <line x1="20" y1="108" x2="140" y2="108" stroke="#e0f2fe" strokeWidth="3"/>
-        <text x="80" y="118" textAnchor="middle" fill="#6b7280" fontSize="9">OMUZ PRESS</text>
+        {/* Bacaklar */}
+        <rect x="85" y="88" width="13" height="44" rx="6" fill={C.pants}/>
+        <rect x="102" y="88" width="13" height="44" rx="6" fill={C.pants}/>
+        <ellipse cx="91" cy="131" rx="11" ry="4" fill={C.shoe}/>
+        <ellipse cx="108" cy="131" rx="11" ry="4" fill={C.shoe}/>
+        <g className="ea-arr-v">
+          <path d="M100 44 L100 30 L96 34 M100 30 L104 34" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </g>
+        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">OMUZ PRESS</text>
       </svg>
     ),
-    // MEKIK (SİT-UP)
-    "mekik": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes mk-up {0%,100%{transform:rotate(0deg);transform-origin:100px 85px} 50%{transform:rotate(-45deg);transform-origin:100px 85px}}
-          .mku{animation:mk-up 1.5s ease-in-out infinite}
-        `}</style>
-        <g className="mku">
-          <circle cx="50" cy="55" r="10" fill="#8b5cf6"/>
-          <line x1="60" y1="55" x2="95" y2="70" stroke="#7c3aed" strokeWidth="5" strokeLinecap="round"/>
-          <line x1="72" y1="60" x2="68" y2="42" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="83" y1="65" x2="79" y2="47" stroke="#7c3aed" strokeWidth="3" strokeLinecap="round"/>
+    mekik: (
+      <svg viewBox="0 0 220 130" width="100%" height="100%">
+        <style>{css}</style>
+        <ellipse cx="110" cy="123" rx="80" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="28" y1="120" x2="192" y2="120" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        {/* Bacaklar yerde sabit */}
+        <path d="M115 95 Q140 108 162 118" stroke={C.pants} strokeWidth="16" strokeLinecap="round" fill="none"/>
+        <path d="M110 92 Q130 108 150 118" stroke={C.pantsD} strokeWidth="14" strokeLinecap="round" fill="none"/>
+        <ellipse cx="162" cy="118" rx="14" ry="5" fill={C.shoe}/>
+        {/* Üst vücut hareketli */}
+        <g className="ea-mekik">
+          {/* Torso */}
+          <path d="M112 92 Q90 80 58 75" stroke={C.shirt} strokeWidth="22" strokeLinecap="round" fill="none"/>
+          {/* Kollar */}
+          <path d="M80 80 Q70 68 68 58" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+          <path d="M95 76 Q88 64 87 54" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+          {/* Baş */}
+          <circle cx="50" cy="68" r="13" fill={C.skin}/>
+          <circle cx="50" cy="64" r="8" fill={C.hair}/>
+          {/* Çekirdek vurgu */}
+          <ellipse cx="88" cy="82" rx="14" ry="6" fill={C.muscle} opacity=".35"/>
         </g>
-        <line x1="95" y1="70" x2="120" y2="90" stroke="#7c3aed" strokeWidth="5" strokeLinecap="round"/>
-        <line x1="120" y1="90" x2="145" y2="90" stroke="#7c3aed" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="20" y1="92" x2="145" y2="92" stroke="#ede9fe" strokeWidth="3"/>
-        <text x="80" y="110" textAnchor="middle" fill="#6b7280" fontSize="9">MEKİK</text>
+        <g className="ea-arr-v">
+          <path d="M80 64 L80 50 L76 54 M80 50 L84 54" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </g>
+        <text x="110" y="14" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">MEKİK</text>
       </svg>
     ),
-    // KOŞU / SPRINT
-    "kos": () => (
-      <svg viewBox="0 0 160 120" width="160" height="120">
-        <style>{`
-          @keyframes run-body {0%,100%{transform:translateX(-10px)} 50%{transform:translateX(10px)}}
-          @keyframes run-leg1 {0%,100%{transform:rotate(-30deg);transform-origin:80px 70px} 50%{transform:rotate(30deg);transform-origin:80px 70px}}
-          @keyframes run-leg2 {0%,100%{transform:rotate(30deg);transform-origin:80px 70px} 50%{transform:rotate(-30deg);transform-origin:80px 70px}}
-          .rb{animation:run-body 0.5s ease-in-out infinite}
-          .rl1{animation:run-leg1 0.5s ease-in-out infinite}
-          .rl2{animation:run-leg2 0.5s ease-in-out infinite}
-        `}</style>
-        <g className="rb">
-          <circle cx="80" cy="22" r="10" fill="#ef4444"/>
-          <line x1="80" y1="32" x2="80" y2="68" stroke="#dc2626" strokeWidth="4" strokeLinecap="round"/>
-          <g className="rl1">
-            <line x1="80" y1="68" x2="60" y2="95" stroke="#dc2626" strokeWidth="4" strokeLinecap="round"/>
-          </g>
-          <g className="rl2">
-            <line x1="80" y1="68" x2="100" y2="95" stroke="#dc2626" strokeWidth="4" strokeLinecap="round"/>
-          </g>
-          <line x1="80" y1="45" x2="55" y2="58" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
-          <line x1="80" y1="45" x2="105" y2="38" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+    kos: (
+      <svg viewBox="0 0 200 145" width="100%" height="100%">
+        <style>{css}</style>
+        <ellipse cx="100" cy="138" rx="55" ry="5" fill={C.shadow} opacity=".4"/>
+        <line x1="20" y1="134" x2="180" y2="134" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <g className="ea-run">
+          {/* Baş */}
+          <circle cx="128" cy="28" r="13" fill={C.skin}/>
+          <circle cx="128" cy="24" r="8" fill={C.hair}/>
+          {/* Torso eğik */}
+          <path d="M124 40 Q112 62 108 80" stroke={C.shirt} strokeWidth="22" strokeLinecap="round" fill="none"/>
+          {/* Kol ileri */}
+          <path d="M118 52 Q102 48 90 42" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+          {/* Kol geri */}
+          <path d="M126 55 Q140 52 148 48" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+          {/* Bacak ileri */}
+          <path d="M108 80 Q92 100 80 130" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
+          {/* Bacak geri */}
+          <path d="M112 82 Q130 104 138 128" stroke={C.pantsD} strokeWidth="13" strokeLinecap="round" fill="none"/>
+          <ellipse cx="80" cy="131" rx="13" ry="4" fill={C.shoe}/>
+          <ellipse cx="138" cy="129" rx="11" ry="4" fill={C.shoe}/>
         </g>
-        <line x1="10" y1="100" x2="150" y2="100" stroke="#fee2e2" strokeWidth="3"/>
-        <text x="80" y="115" textAnchor="middle" fill="#6b7280" fontSize="9">KOŞU / KARDİYO</text>
+        {/* Hareket çizgileri */}
+        {[0,1,2].map(i=>(
+          <line key={i} x1={50-i*10} y1={50+i*12} x2={36-i*10} y2={50+i*12} stroke={C.arrow} strokeWidth="2" strokeLinecap="round" opacity={1-i*0.3} className="ea-arr-h"/>
+        ))}
+        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">KARDİYO / KOŞU</text>
+      </svg>
+    ),
+    dips: (
+      <svg viewBox="0 0 200 150" width="100%" height="100%">
+        <style>{css}</style>
+        {/* Paralel bars */}
+        <rect x="30" y="55" width="8" height="75" rx="4" fill="#374151"/>
+        <rect x="162" y="55" width="8" height="75" rx="4" fill="#374151"/>
+        <rect x="30" y="55" width="8" height="6" rx="3" fill="#6B7280"/>
+        <rect x="162" y="55" width="8" height="6" rx="3" fill="#6B7280"/>
+        <g className="ea-dips">
+          {/* Kollar */}
+          <path d="M38 58 Q55 65 72 72" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+          <path d="M162 58 Q145 65 128 72" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
+          {/* Torso */}
+          <rect x="74" y="68" width="52" height="44" rx="11" fill={C.shirt}/>
+          <rect x="78" y="72" width="44" height="34" rx="8" fill={C.shirtD} opacity=".3"/>
+          {/* Baş */}
+          <circle cx="100" cy="54" r="14" fill={C.skin}/>
+          <circle cx="100" cy="50" r="9" fill={C.hair}/>
+          {/* Bacaklar sarkan */}
+          <path d="M82 110 Q80 130 82 145" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
+          <path d="M118 110 Q120 130 118 145" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
+          <ellipse cx="82" cy="144" rx="10" ry="4" fill={C.shoe}/>
+          <ellipse cx="118" cy="144" rx="10" ry="4" fill={C.shoe}/>
+          <ellipse cx="56" cy="68" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
+          <ellipse cx="144" cy="68" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
+        </g>
+        <g className="ea-arr-v">
+          <path d="M100 86 L100 72 L96 76 M100 72 L104 76" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        </g>
+        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">DİPS</text>
       </svg>
     ),
   };
-
-  // Egzersiz ID'ye göre animasyon seç
-  const idMap = {
-    "sıkıştırma":"sıkıştırma","şınav":"sıkıştırma","push":"sıkıştırma",
-    "squat":"squat","çömelme":"squat",
-    "barfix":"barfix","pullup":"barfix","barfiks":"barfix",
-    "curl":"dambil_curl","biceps":"dambil_curl","dambilCurl":"dambil_curl",
-    "plank":"plank",
-    "lunge":"lunge","akbasa":"lunge",
-    "omuzPress":"omuz_press","shoulderPress":"omuz_press","militar":"omuz_press",
-    "mekik":"mekik","situp":"mekik","crunch":"mekik",
-    "kos":"kos","kosi":"kos","sprint":"kos","kardi":"kos",
-  };
-
-  const tip = idMap[egzId] || Object.keys(idMap).find(k => egzId && egzId.toLowerCase().includes(k)) || null;
-  const AnimComp = tip ? animasyonlar[idMap[tip] || tip] : null;
 
   return (
     <div style={{
-      background:"linear-gradient(135deg,#f8fafc,#f1f5f9)",
+      background:"linear-gradient(180deg,#F8FAFC 0%,#EFF6FF 100%)",
       borderRadius:16,
       display:"flex",
       alignItems:"center",
       justifyContent:"center",
-      height:130,
+      height:148,
       overflow:"hidden",
       marginBottom:12,
-      border:"1.5px solid #e2e8f0"
+      border:"1.5px solid #E2E8F0",
+      position:"relative"
     }}>
-      {AnimComp ? AnimComp() : (
-        <div style={{textAlign:"center",opacity:.7}}>
-          <div style={{fontSize:52}}>{ikon||"💪"}</div>
-          <div style={{fontSize:10,color:"#9ca3af",marginTop:4}}>Hareket görseli</div>
+      {tip && svgs[tip] ? svgs[tip] : (
+        <div style={{textAlign:"center",opacity:.6}}>
+          <div style={{fontSize:56}}>{ikon||"💪"}</div>
+          <div style={{fontSize:10,color:"#94A3B8",marginTop:4,fontWeight:600}}>Hazır ol!</div>
         </div>
       )}
     </div>
   );
 }
+
 
 // ─── ANA COMPONENT ───────────────────────────────────────────
 export default function App(){
@@ -11234,21 +11371,35 @@ export default function App(){
 
   // ─── TEMA ────────────────────────────────────────────────────
   const r = {
-    bg   : d?"#0f172a":"#f0fdf4", card : d?"#1e293b":"#ffffff",
-    brd  : d?"#334155":"#e5e7eb", text : d?"#f1f5f9":"#111827",
-    sub  : d?"#94a3b8":"#6b7280", muted: d?"#64748b":"#9ca3af",
-    inp  : d?"#0f172a":"#ffffff", inpB : d?"#334155":"#e5e7eb",
-    nav  : d?"#1e293b":"#ffffff", rowB : d?"#334155":"#f3f4f6",
-    pg   : d?"#334155":"#e5e7eb",
+    bg   : d?"#080f0a":"#f6faf7",
+    card : d?"#111a14":"#ffffff",
+    brd  : d?"#1e3024":"#e8f0e9",
+    text : d?"#e8f5e9":"#0d1f0f",
+    sub  : d?"#7aad82":"#4a7c59",
+    muted: d?"#4a7c59":"#8aab92",
+    inp  : d?"#0d1a10":"#f0f7f1",
+    inpB : d?"#1e3024":"#d4e8d6",
+    nav  : d?"#0d1a10":"#ffffff",
+    rowB : d?"#111a14":"#f0f7f1",
+    pg   : d?"#1e3024":"#dceede",
+    accent:"#15803d", accentL:"#22c55e", accentD:"#052e16",
+    gold:"#d97706", goldL:"#fbbf24",
   };
-  const CS   = { background:r.card,border:`1px solid ${r.brd}`,borderRadius:16,padding:16,margin:"10px 16px",boxShadow:d?"0 2px 10px #0006":"0 2px 10px #00000012" };
-  const CT   = { fontSize:10,fontWeight:700,color:r.sub,textTransform:"uppercase",letterSpacing:1,marginBottom:10 };
-  const PB   = { height:8,background:r.pg,borderRadius:8,overflow:"hidden",marginTop:6 };
-  const PF   = (pct,c)=>({ height:"100%",width:Math.min(100,Math.max(0,pct))+"%",background:c||"#16a34a",borderRadius:8,transition:"width .4s" });
-  const IS   = { width:"100%",padding:"11px 14px",border:`2px solid ${r.inpB}`,borderRadius:12,fontSize:14,outline:"none",boxSizing:"border-box",fontFamily:"'Nunito',sans-serif",background:r.inp,color:r.text };
-  const BTN  = (c,s)=>({ background:c||"#16a34a",color:"#fff",border:"none",borderRadius:12,padding:s||"12px 20px",fontSize:14,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif" });
-  const BAD  = (c)=>({ background:c+"22",color:c,padding:"2px 9px",borderRadius:20,fontSize:10,fontWeight:700,display:"inline-block" });
-  const NB   = (a)=>({ flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"7px 2px",cursor:"pointer",color:a?"#16a34a":r.muted,fontSize:9,fontWeight:a?700:500,gap:2,background:"none",border:"none",minWidth:44 });
+  const CS   = {
+    background:r.card,
+    border:`1px solid ${r.brd}`,
+    borderRadius:20,
+    padding:"16px 18px",
+    margin:"10px 14px",
+    boxShadow:d?"0 4px 24px #00000040,0 1px 0 #1e302460":"0 4px 24px #0d1f0f0a,0 1px 0 #e8f0e9"
+  };
+  const CT   = { fontSize:10,fontWeight:800,color:r.sub,textTransform:"uppercase",letterSpacing:1.5,marginBottom:10 };
+  const PB   = { height:6,background:r.pg,borderRadius:8,overflow:"hidden",marginTop:6 };
+  const PF   = (pct,c)=>({ height:"100%",width:Math.min(100,Math.max(0,pct))+"%",background:c||"linear-gradient(90deg,#16a34a,#22c55e)",borderRadius:8,transition:"width .4s" });
+  const IS   = { width:"100%",padding:"12px 16px",border:`1.5px solid ${r.inpB}`,borderRadius:14,fontSize:14,outline:"none",boxSizing:"border-box",fontFamily:"'Nunito',sans-serif",background:r.inp,color:r.text,transition:"border .2s" };
+  const BTN  = (c,s)=>({ background:c||"linear-gradient(135deg,#16a34a,#15803d)",color:"#fff",border:"none",borderRadius:14,padding:s||"12px 22px",fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.3 });
+  const BAD  = (c)=>({ background:c+"18",color:c,padding:"3px 10px",borderRadius:20,fontSize:10,fontWeight:800,display:"inline-block",letterSpacing:.3 });
+  const NB   = (a)=>({ flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"9px 4px 7px",cursor:"pointer",color:a?"#16a34a":r.muted,fontSize:9,fontWeight:a?800:500,gap:2.5,background:"none",border:"none",minWidth:44,letterSpacing:.3,position:"relative" });
 
   // ─── FİREBASE: AUTH STATE & VERİ YÜKLEME ────────────────────
   useEffect(()=>{
@@ -11529,7 +11680,7 @@ export default function App(){
       setAcikHesap(obAcik); setSosyalAktif(obSosyal);
       // Firestore'a kaydet (hedef ve diyet tipi dahil)
       await kullaniciyiGuncelle(uid, {
-        kilo:obK, boy:obB, yas:obY, cinsiyet:obC, aktivite:obA, hedef:obHK,
+        kilo:obK, boy:obB, yas:obY, cinsiyet:obC, aktivite:obA, hedef:obHK, onboardTamamlandi:true,
         acik:obAcik, sosyal:obSosyal,
         hedefTip:obHedef, diyetTip:obDiyet, alerji:obAlerji
       }).catch(console.error);
@@ -12409,120 +12560,126 @@ SADECE JSON döndür (başka metin yok):
   if(!aktif) return (
     <>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
-      <div style={{fontFamily:"'Nunito',sans-serif",background:"#f0fdf4",minHeight:"100vh",maxWidth:430,margin:"0 auto"}}>
-        <div style={{background:"linear-gradient(150deg,#052e16 0%,#15803d 55%,#16a34a 100%)",padding:"52px 32px 52px",textAlign:"center",color:"#fff",position:"relative",overflow:"hidden"}}>
-          {/* dot pattern */}
-          <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle,#ffffff08 1px,transparent 1px)",backgroundSize:"28px 28px",pointerEvents:"none"}}/>
-          {/* glow */}
-          <div style={{position:"absolute",top:"-40px",left:"50%",transform:"translateX(-50%)",width:220,height:220,background:"radial-gradient(#4ade8018,transparent 70%)",pointerEvents:"none"}}/>
-          {/* icon */}
-          <div style={{position:"relative",display:"inline-flex",alignItems:"center",justifyContent:"center",width:88,height:88,background:"linear-gradient(145deg,#22c55e,#052e16 90%)",borderRadius:22,marginBottom:18,boxShadow:"0 8px 32px #22c55e28,inset 0 1px 0 #4ade8030"}}>
-            <svg width="52" height="52" viewBox="0 0 120 120" fill="none">
-              <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#b1)"/>
-              <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#r1)"/>
-              <path d="M44 40 Q46 34 44 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".8"/>
+      <style>{`
+        @keyframes giris-float { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(2deg)} }
+        @keyframes giris-glow  { 0%,100%{opacity:.4} 50%{opacity:.8} }
+        @keyframes giris-slide { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+        .g1{animation:giris-slide .6s .1s both}
+        .g2{animation:giris-slide .6s .25s both}
+        .g3{animation:giris-slide .6s .4s both}
+        input:focus{border-color:#16a34a!important;box-shadow:0 0 0 3px #16a34a18!important;outline:none!important}
+        button:active{transform:scale(.97)!important}
+      `}</style>
+      <div style={{fontFamily:"'Nunito',sans-serif",background:"#050f07",minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden"}}>
+
+        {/* Arka plan gradient katmanları */}
+        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 120% 60% at 50% 0%,#14532d 0%,transparent 65%)",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 80% 40% at 80% 100%,#052e1680 0%,transparent 60%)",pointerEvents:"none"}}/>
+        {/* Noise texture */}
+        <div style={{position:"absolute",inset:0,backgroundImage:"url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E")",opacity:.6,pointerEvents:"none"}}/>
+
+        {/* Üst hero bölümü */}
+        <div style={{position:"relative",paddingTop:72,paddingBottom:52,textAlign:"center",zIndex:1}}>
+          {/* Glow halkası */}
+          <div style={{position:"absolute",top:40,left:"50%",transform:"translateX(-50%)",width:280,height:280,borderRadius:"50%",background:"radial-gradient(#22c55e18,transparent 70%)",animation:"giris-glow 3s ease-in-out infinite",pointerEvents:"none"}}/>
+
+          {/* Logo */}
+          <div className="g1" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:96,height:96,background:"linear-gradient(145deg,#1a5c2a,#052e16)",borderRadius:28,marginBottom:24,boxShadow:"0 0 0 1px rgba(34,197,94,.2),0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(74,222,128,.15)",position:"relative",animation:"giris-float 4s ease-in-out infinite"}}>
+            <div style={{position:"absolute",inset:2,borderRadius:26,background:"linear-gradient(145deg,rgba(74,222,128,.08),transparent)",pointerEvents:"none"}}/>
+            <svg width="56" height="56" viewBox="0 0 120 120" fill="none">
+              <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#gL)"/>
+              <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#gR)"/>
+              <path d="M44 40 Q46 34 44 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".7"/>
               <path d="M60 38 Q62 30 60 22" stroke="#4ade80" strokeWidth="3" strokeLinecap="round"/>
-              <path d="M76 40 Q78 34 76 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".8"/>
+              <path d="M76 40 Q78 34 76 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".7"/>
               <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
-              <path d="M62 60 Q60 68 56 72" stroke="#d97706" strokeWidth="1.5" strokeLinecap="round"/>
               <defs>
-                <linearGradient id="b1" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#16a34a"/><stop offset="100%" stopColor="#052e16"/>
-                </linearGradient>
-                <linearGradient id="r1" x1="26" y1="44" x2="94" y2="60" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#4ade80"/><stop offset="100%" stopColor="#15803d"/>
-                </linearGradient>
+                <linearGradient id="gL" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#22c55e"/><stop offset="100%" stopColor="#052e16"/></linearGradient>
+                <linearGradient id="gR" x1="26" y1="44" x2="94" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#4ade80"/><stop offset="100%" stopColor="#15803d"/></linearGradient>
               </defs>
             </svg>
           </div>
-          <div style={{fontFamily:"'DM Serif Display',serif",fontSize:44,lineHeight:1,marginBottom:8,position:"relative"}}>
-            Do<span style={{color:"#4ade80"}}>ya</span>
+
+          <div className="g1" style={{fontFamily:"'DM Serif Display',serif",fontSize:56,color:"#f0fdf4",lineHeight:.95,letterSpacing:-2,marginBottom:10}}>
+            Do<span style={{color:"#4ade80",textShadow:"0 0 40px #4ade8060"}}>ya</span>
           </div>
-          <div style={{fontSize:12,opacity:.65,letterSpacing:"3px",textTransform:"uppercase",fontWeight:400,marginTop:4}}>Beslen · Takip Et · Doyur</div>
+          <div className="g2" style={{fontSize:11,color:"rgba(187,247,208,.5)",letterSpacing:5,textTransform:"uppercase",marginBottom:4}}>
+            Beslen · Takip Et · Doyur
+          </div>
+          {/* Feature pills */}
+          <div className="g3" style={{display:"flex",justifyContent:"center",gap:8,marginTop:20,flexWrap:"wrap",padding:"0 20px"}}>
+            {["🤖 AI Destekli","🌿 10K+ Besin","📊 Kişisel Plan"].map(t=>(
+              <span key={t} style={{background:"rgba(34,197,94,.1)",border:"1px solid rgba(34,197,94,.2)",color:"rgba(187,247,208,.8)",padding:"5px 12px",borderRadius:20,fontSize:10,fontWeight:700,letterSpacing:.5}}>{t}</span>
+            ))}
+          </div>
         </div>
-        <div style={{padding:"0 20px",marginTop:-22}}>
-          <div style={{background:"#fff",borderRadius:22,padding:24,boxShadow:"0 8px 32px #00000018"}}>
-            <div style={{textAlign:"center",marginBottom:20}}>
-              <div style={{fontSize:15,fontWeight:900,color:"#111",marginBottom:4}}>Hoşgeldin 👋</div>
-              <div style={{fontSize:12,color:"#6b7280"}}>Devam etmek için Google hesabınla giriş yap</div>
+
+        {/* Kart */}
+        <div style={{position:"relative",zIndex:1,padding:"0 16px 40px"}}>
+          <div style={{background:"rgba(255,255,255,.04)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,.08)",borderRadius:28,padding:"28px 24px",boxShadow:"0 32px 80px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08)"}}>
+
+            <div style={{textAlign:"center",marginBottom:24}}>
+              <div style={{fontSize:17,fontWeight:900,color:"#f0fdf4",marginBottom:6,letterSpacing:-.3}}>Hoşgeldin 👋</div>
+              <div style={{fontSize:12,color:"rgba(187,247,208,.5)",lineHeight:1.6}}>Google hesabınla saniyeler içinde başla</div>
             </div>
 
-            {/* ── YASAL ONAYLAR ── */}
-            <div style={{background:"#f8fafc",borderRadius:12,padding:"12px 14px",marginBottom:14,border:"1px solid #e2e8f0"}}>
-              <div style={{fontSize:11,fontWeight:800,color:"#374151",marginBottom:10}}>Devam etmek için onaylayın</div>
-
-              {/* KVKK */}
-              <label style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:8,cursor:"pointer"}}>
-                <input type="checkbox" checked={kvkkOnay} onChange={e=>setKvkkOnay(e.target.checked)}
-                  style={{marginTop:2,width:15,height:15,accentColor:"#16a34a",flexShrink:0}}/>
-                <span style={{fontSize:11,color:"#374151",lineHeight:1.5}}>
-                  <button onClick={e=>{e.preventDefault();setKvkkModal(true);}} style={{background:"none",border:"none",padding:0,color:"#16a34a",fontWeight:700,fontSize:11,cursor:"pointer",textDecoration:"underline"}}>KVKK Aydınlatma Metni</button>'ni ve{" "}
-                  <button onClick={e=>{e.preventDefault();setKvkkModal(true);}} style={{background:"none",border:"none",padding:0,color:"#16a34a",fontWeight:700,fontSize:11,cursor:"pointer",textDecoration:"underline"}}>Kullanım Koşulları</button>'nı okudum, kabul ediyorum. <span style={{color:"#ef4444"}}>*</span>
-                </span>
-              </label>
-
-              {/* GDPR */}
-              <label style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:8,cursor:"pointer"}}>
-                <input type="checkbox" checked={gdprOnay} onChange={e=>setGdprOnay(e.target.checked)}
-                  style={{marginTop:2,width:15,height:15,accentColor:"#16a34a",flexShrink:0}}/>
-                <span style={{fontSize:11,color:"#374151",lineHeight:1.5}}>
-                  <button onClick={e=>{e.preventDefault();setGdprModal(true);}} style={{background:"none",border:"none",padding:0,color:"#16a34a",fontWeight:700,fontSize:11,cursor:"pointer",textDecoration:"underline"}}>Gizlilik Politikası</button>'nı (GDPR/DSGVO) okudum, kişisel verilerimin işlenmesine izin veriyorum. <span style={{color:"#ef4444"}}>*</span>
-                </span>
-              </label>
-
-              {/* Pazarlama - opsiyonel */}
-              <label style={{display:"flex",alignItems:"flex-start",gap:8,cursor:"pointer"}}>
-                <input type="checkbox" checked={pazarlamaOnay} onChange={e=>setPazarlamaOnay(e.target.checked)}
-                  style={{marginTop:2,width:15,height:15,accentColor:"#16a34a",flexShrink:0}}/>
-                <span style={{fontSize:11,color:"#6b7280",lineHeight:1.5}}>
-                  Uygulama güncellemeleri ve öneriler hakkında bildirim almak istiyorum. (İsteğe bağlı)
-                </span>
-              </label>
-
-              <div style={{fontSize:10,color:"#9ca3af",marginTop:8}}>* Zorunlu alanlar. Bu onaylar olmadan uygulamayı kullanamazsınız.</div>
+            {/* KVKK onaylar */}
+            <div style={{background:"rgba(34,197,94,.06)",border:"1px solid rgba(34,197,94,.12)",borderRadius:16,padding:"14px 16px",marginBottom:20}}>
+              <div style={{fontSize:10,fontWeight:800,color:"rgba(134,239,172,.7)",marginBottom:12,letterSpacing:1,textTransform:"uppercase"}}>Onay Gerekiyor</div>
+              {[
+                {s:kvkkOnay,set:setKvkkOnay,label:"KVKK & Kullanım Koşulları",link:()=>setKvkkModal(true),zorunlu:true},
+                {s:gdprOnay,set:setGdprOnay,label:"Gizlilik Politikası (GDPR)",link:()=>setGdprModal(true),zorunlu:true},
+                {s:pazarlamaOnay,set:setPazarlamaOnay,label:"Güncelleme bildirimleri (isteğe bağlı)",link:null,zorunlu:false},
+              ].map((f,i)=>(
+                <label key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:i<2?10:0,cursor:"pointer"}}>
+                  <div onClick={()=>f.set(!f.s)} style={{width:20,height:20,borderRadius:6,border:`1.5px solid ${f.s?"#22c55e":"rgba(255,255,255,.2)"}`,background:f.s?"#16a34a":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .15s"}}>
+                    {f.s&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
+                  </div>
+                  <span style={{fontSize:11,color:"rgba(187,247,208,.7)",lineHeight:1.5,flex:1}}>
+                    {f.link?<button onClick={e=>{e.preventDefault();f.link();}} style={{background:"none",border:"none",padding:0,color:"#4ade80",fontWeight:700,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{f.label}</button>:f.label}
+                    {f.zorunlu&&<span style={{color:"#f87171",marginLeft:2}}>*</span>}
+                  </span>
+                </label>
+              ))}
             </div>
 
-            {gHata&&<div style={{background:"#fef2f2",color:"#ef4444",padding:"9px 13px",borderRadius:10,fontSize:13,marginBottom:13}}>{gHata}</div>}
+            {gHata&&<div style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#fca5a5",padding:"10px 14px",borderRadius:12,fontSize:12,marginBottom:16,textAlign:"center"}}>{gHata}</div>}
 
-            <button style={{width:"100%",padding:"14px 0",borderRadius:14,border:"1.5px solid #e5e7eb",background:(kvkkOnay&&gdprOnay)?"#fff":"#f3f4f6",cursor:(kvkkOnay&&gdprOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:15,color:(kvkkOnay&&gdprOnay)?"#374151":"#9ca3af",display:"flex",alignItems:"center",justifyContent:"center",gap:12,boxShadow:"0 2px 8px #0001",opacity:(kvkkOnay&&gdprOnay)?1:0.6}} onClick={async()=>{
-              if(!kvkkOnay||!gdprOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
-              try{
-                const kul = await fbGoogleGiris();
-                // Consent'i Firebase'e kaydet
+            {/* Google butonu */}
+            <button style={{width:"100%",padding:"15px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay)?"rgba(255,255,255,.15)":"rgba(255,255,255,.06)"}`,background:(kvkkOnay&&gdprOnay)?"rgba(255,255,255,.06)":"rgba(255,255,255,.02)",cursor:(kvkkOnay&&gdprOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay)?"#f0fdf4":"rgba(255,255,255,.25)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .2s",backdropFilter:"blur(8px)"}}
+              onClick={async()=>{
+                if(!kvkkOnay||!gdprOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
                 try{
-                  const {doc,setDoc,serverTimestamp}=await import("firebase/firestore");
-                                    await setDoc(doc(db,"users",kul.firebaseUID),{
-                    kvkkOnay:true, gdprOnay:true, pazarlamaOnay,
-                    onayTarihi:new Date().toISOString(),
-                  },{merge:true});
-                }catch(e2){}
-                setAktif(kul); setFirebaseUID(kul.firebaseUID);
-                // Yeni kullanıcı ise onboard göster
-                if(!kul.kilo && !kul.boy){
-                  setOnboard(true);
-                }
-              }catch(e){setGHata(e.message);}
-            }}>
+                  const kul = await fbGoogleGiris();
+                  try{
+                    const {doc,setDoc}=await import("firebase/firestore");
+                    await setDoc(doc(db,"users",kul.firebaseUID),{kvkkOnay:true,gdprOnay:true,pazarlamaOnay,onayTarihi:new Date().toISOString()},{merge:true});
+                  }catch(e2){}
+                  setAktif(kul); setFirebaseUID(kul.firebaseUID);
+                  if(!kul.kilo && !kul.boy){ setOnboard(true); }
+                }catch(e){setGHata(e.message);}
+              }}>
               <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.1 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-9 20-20 0-1.3-.1-2.7-.4-4z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5l-6.2-5.2C29.5 35.6 26.9 36.5 24 36.5c-5.2 0-9.7-3-11.3-7.2L6 33.6C9.4 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.3 4.2-4.3 5.5l6.2 5.2C41 35.7 44 30.3 44 24c0-1.3-.1-2.7-.4-4z"/></svg>
-              Google ile Giriş Yap
+              Google ile Devam Et
             </button>
 
-            <div style={{display:"flex",alignItems:"center",gap:8,margin:"14px 0"}}>
-              <div style={{flex:1,height:1,background:"#e5e7eb"}}/>
-              <span style={{fontSize:11,color:"#9ca3af"}}>yakında</span>
-              <div style={{flex:1,height:1,background:"#e5e7eb"}}/>
+            <div style={{display:"flex",alignItems:"center",gap:8,margin:"16px 0"}}>
+              <div style={{flex:1,height:1,background:"rgba(255,255,255,.08)"}}/>
+              <span style={{fontSize:10,color:"rgba(255,255,255,.25)",letterSpacing:1}}>YAKINDA</span>
+              <div style={{flex:1,height:1,background:"rgba(255,255,255,.08)"}}/>
             </div>
 
-            <button disabled style={{width:"100%",padding:"14px 0",borderRadius:14,border:"1.5px solid #e5e7eb",background:"#f9fafb",cursor:"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:15,color:"#9ca3af",display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#9ca3af"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <button disabled style={{width:"100%",padding:"14px 0",borderRadius:16,border:"1px solid rgba(255,255,255,.06)",background:"transparent",cursor:"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:14,color:"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(255,255,255,.2)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
               Apple ile Giriş Yap
             </button>
 
-            <div style={{marginTop:16,textAlign:"center"}}>
-              <a href={"mailto:"+DESTEK_MAIL} style={{fontSize:12,color:"#16a34a",textDecoration:"none"}}>✉️ {DESTEK_MAIL}</a>
+            <div style={{marginTop:20,textAlign:"center"}}>
+              <a href={"mailto:"+DESTEK_MAIL} style={{fontSize:11,color:"rgba(134,239,172,.4)",textDecoration:"none",letterSpacing:.3}}>✉️ {DESTEK_MAIL}</a>
             </div>
           </div>
         </div>
+
       </div>
 
       {/* KVKK MODAL */}
@@ -12624,7 +12781,7 @@ SADECE JSON döndür (başka metin yok):
 
         {/* ── ADIM 1: Fiziksel Bilgiler ── */}
         {obAdim===1&&(
-          <div className="ob-slide" key="ob1" style={{minHeight:"100vh",background:"linear-gradient(160deg,#f0fdf4,#dcfce7)",display:"flex",flexDirection:"column"}}>
+          <div className="ob-slide" key="ob1" style={{minHeight:"100vh",background:d?"linear-gradient(160deg,#050f07,#0a1f0c)":"linear-gradient(160deg,#f0fdf4,#dcfce7)",display:"flex",flexDirection:"column"}}>
             {/* İlerleme dots */}
             <div style={{padding:"20px 24px 0",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <div style={{fontFamily:"'DM Serif Display',serif",fontSize:20,color:"#15803d"}}>Doya</div>
@@ -12639,7 +12796,7 @@ SADECE JSON döndür (başka metin yok):
                 <div className="ob-float" style={{fontSize:64,marginBottom:16,display:"inline-block"}}>📏</div>
                 <div style={{fontSize:26,fontWeight:900,color:"#111",marginBottom:6,lineHeight:1.2}}>Seni tanıyalım</div>
                 <div style={{fontSize:14,color:"#6b7280",marginBottom:28}}>Kişisel kalori hedefini hesaplamak için birkaç bilgiye ihtiyacımız var</div>
-                <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 24px #00000012",marginBottom:12}}>
+                <div style={{background:d?"rgba(255,255,255,.04)":"#fff",borderRadius:20,padding:20,boxShadow:d?"0 4px 24px #00000040,0 1px 0 rgba(255,255,255,.06)":"0 8px 32px #0d1f0f0a",marginBottom:12,border:d?"1px solid rgba(255,255,255,.06)":"1px solid #e8f0e9"}}>
                   <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
                     {[
                       {l:"Mevcut Kilo",u:"kg",v:obK,s:setObK,ph:"75",ikon:"⚖️"},
@@ -12675,7 +12832,7 @@ SADECE JSON döndür (başka metin yok):
                 </div>
               </div>
               <div>
-                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 4px 16px #16a34a44"}} onClick={()=>setObAdim(2)}>
+                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 8px 32px #16a34a40,inset 0 1px 0 rgba(255,255,255,.15)",letterSpacing:.3}} onClick={()=>setObAdim(2)}>
                   Devam Et →
                 </button>
                 <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",marginTop:10,fontFamily:"'Nunito',sans-serif",padding:"8px"}} onClick={()=>setObAdim(2)}>Şimdilik Atla</button>
@@ -12800,7 +12957,7 @@ SADECE JSON döndür (başka metin yok):
                 <div className="ob-float" style={{fontSize:64,marginBottom:16,display:"inline-block"}}>👥</div>
                 <div style={{fontSize:26,fontWeight:900,color:"#111",marginBottom:6,lineHeight:1.2}}>Sosyal tercihler</div>
                 <div style={{fontSize:14,color:"#6b7280",marginBottom:24}}>Arkadaşlarınla paylaş veya gizli kal</div>
-                <div style={{background:"#fff",borderRadius:20,padding:20,boxShadow:"0 4px 24px #00000012",marginBottom:12}}>
+                <div style={{background:d?"rgba(255,255,255,.04)":"#fff",borderRadius:20,padding:20,boxShadow:d?"0 4px 24px #00000040,0 1px 0 rgba(255,255,255,.06)":"0 8px 32px #0d1f0f0a",marginBottom:12,border:d?"1px solid rgba(255,255,255,.06)":"1px solid #e8f0e9"}}>
                   <div style={{background:"linear-gradient(135deg,#a855f718,#7c3aed18)",borderRadius:14,padding:"16px",marginBottom:16,textAlign:"center"}}>
                     <div style={{fontSize:11,fontWeight:700,color:"#7c3aed",marginBottom:4}}>KULLANICI KODUN</div>
                     <div style={{fontSize:24,fontWeight:900,letterSpacing:3,color:"#111"}}>{aktif?.uid}</div>
@@ -12887,7 +13044,7 @@ SADECE JSON döndür (başka metin yok):
                 </div>
               </div>
               <div>
-                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 4px 16px #16a34a44",marginBottom:10}} onClick={()=>onboardBitir(false)}>
+                <button style={{width:"100%",padding:"16px 0",background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:16,color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 8px 32px #16a34a40,inset 0 1px 0 rgba(255,255,255,.15)",letterSpacing:.3,marginBottom:10}} onClick={()=>onboardBitir(false)}>
                   🚀 Doya'ya Başla!
                 </button>
                 <button style={{background:"none",border:"none",color:"#9ca3af",fontSize:12,cursor:"pointer",width:"100%",fontFamily:"'Nunito',sans-serif",padding:"8px"}} onClick={()=>onboardBitir(true)}>Alerjisiz Devam Et</button>
@@ -12909,20 +13066,28 @@ SADECE JSON döndür (başka metin yok):
   return (
     <>
       <style>{`
-        @keyframes tabEnter { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes tabExit  { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-8px)} }
-        .tab-enter { animation: tabEnter 0.18s ease-out forwards; }
-        .tab-exit  { animation: tabExit 0.12s ease-in forwards; }
-        @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        * { -webkit-tap-highlight-color: transparent; }
+        @keyframes tabEnter { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes tabExit  { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-6px)} }
+        .tab-enter { animation: tabEnter 0.22s cubic-bezier(.34,1.2,.64,1) forwards; }
+        .tab-exit  { animation: tabExit 0.14s ease-in forwards; }
+        @keyframes slideUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
         @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
-        .modal-enter { animation: slideUp 0.25s cubic-bezier(.34,1.56,.64,1) forwards; }
+        .modal-enter { animation: slideUp 0.3s cubic-bezier(.34,1.4,.64,1) forwards; }
         @keyframes spin { to{transform:rotate(360deg)} }
-        .spin { animation: spin 1s linear infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .spin { animation: spin 0.8s linear infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
         .pulse { animation: pulse 1.5s ease-in-out infinite; }
+        @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+        @keyframes glow { 0%,100%{box-shadow:0 0 20px #16a34a22} 50%{box-shadow:0 0 36px #16a34a44} }
+        .card-hover:active { transform:scale(.98); transition:transform .12s; }
+        input:focus { border-color:#16a34a !important; box-shadow:0 0 0 3px #16a34a18 !important; }
+        ::-webkit-scrollbar { width:0; }
+        button { transition: opacity .15s, transform .12s; }
+        button:active { opacity:.85; transform:scale(.97); }
       `}</style>
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
-      <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:88,transition:"background .3s"}}>
+      <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:88,transition:"background .4s ease"}}>
 
         {/* ══ SPOR UYGULAMASI MODAL ══════════════════════════════════ */}
         {sporAppAcik&&(
@@ -13259,20 +13424,28 @@ SADECE JSON döndür (başka metin yok):
         })()}
 
         {/* HEADER */}
-        <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",padding:"14px 18px 18px",color:"#fff"}}>
+        <div style={{background:d?"linear-gradient(160deg,#0a1a0c 0%,#0d2211 50%,#0f2d15 100%)":"linear-gradient(160deg,#052e16 0%,#14532d 45%,#166534 100%)",padding:"0 0 0",color:"#fff",position:"relative",overflow:"hidden",boxShadow:"0 4px 32px #00000030"}}>
+          {/* Arka plan desen */}
+          <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle at 80% 20%,#22c55e14 0%,transparent 60%),radial-gradient(circle at 10% 80%,#15803d18 0%,transparent 50%)",pointerEvents:"none"}}/>
+          <div style={{position:"absolute",inset:0,backgroundImage:"repeating-linear-gradient(45deg,transparent,transparent 28px,rgba(255,255,255,.012) 28px,rgba(255,255,255,.012) 29px)",pointerEvents:"none"}}/>
+          {/* Ana içerik */}
+          <div style={{padding:"14px 16px 16px",position:"relative",zIndex:1}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             <div style={{display:"flex",alignItems:"center",gap:10}}>
-              <button onClick={()=>setHamMenu(true)} style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 8px",cursor:"pointer",display:"flex",flexDirection:"column",gap:3}}>
-                <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
-                <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
-                <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
+              {/* Hamburger */}
+              <button onClick={()=>setHamMenu(true)} style={{background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)",borderRadius:12,padding:"8px 9px",cursor:"pointer",display:"flex",flexDirection:"column",gap:3.5,flexShrink:0}}>
+                <span style={{display:"block",width:17,height:1.5,background:"#fff",borderRadius:2}}/>
+                <span style={{display:"block",width:12,height:1.5,background:"rgba(255,255,255,.7)",borderRadius:2}}/>
+                <span style={{display:"block",width:17,height:1.5,background:"#fff",borderRadius:2}}/>
               </button>
-
-              <button onClick={()=>{setAiModal(true);setAiSonuc(null);setAiHata(null);setAiImg(null);setAiNot("");setAiOgun("Kahvaltı");}} title="Fotoğrafla Kalori Tara" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 9px",cursor:"pointer",fontSize:16,lineHeight:1}}>📷</button>
+              {/* Kamera */}
+              <button onClick={()=>{setAiModal(true);setAiSonuc(null);setAiHata(null);setAiImg(null);setAiNot("");setAiOgun("Kahvaltı");}}
+                style={{background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)",borderRadius:12,padding:"8px 9px",cursor:"pointer",fontSize:17,lineHeight:1,flexShrink:0}}>📷</button>
+              {/* Logo + isim */}
               <div>
-                <div style={{display:"flex",alignItems:"center",gap:7}}>
-                  <div style={{width:28,height:28,background:"linear-gradient(145deg,#22c55e,#052e16 90%)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                    <svg width="17" height="17" viewBox="0 0 120 120" fill="none">
+                <div style={{display:"flex",alignItems:"center",gap:8}}>
+                  <div style={{width:32,height:32,background:"linear-gradient(145deg,#22c55e,#052e16 90%)",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,boxShadow:"0 2px 12px #22c55e30"}}>
+                    <svg width="20" height="20" viewBox="0 0 120 120" fill="none">
                       <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#bHH)"/>
                       <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#rHH)"/>
                       <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
@@ -13282,22 +13455,30 @@ SADECE JSON döndür (başka metin yok):
                       </defs>
                     </svg>
                   </div>
-                  <div style={{fontFamily:"'DM Serif Display',serif",fontSize:22,lineHeight:1}}>Do<span style={{color:"#86efac"}}>ya</span></div>
-                </div>
-                <div style={{display:"flex",gap:5,alignItems:"center",marginTop:2,flexWrap:"wrap"}}>
-                  <div style={{fontSize:11,opacity:.9}}>Merhaba, {aktif.isim}</div>
-                  {isAdmin&&<span style={{background:"#fbbf24",color:"#78350f",fontSize:9,fontWeight:800,padding:"2px 7px",borderRadius:20}}>ADMIN</span>}
-                  {isOrtak&&<span style={{background:"rgba(255,255,255,.25)",fontSize:9,fontWeight:800,padding:"2px 7px",borderRadius:20}}>{aktif.refTip==="influencer"?"🎯 INFLUENCER":"🏢 İŞLETME"}</span>}
-                  {premiumPlus&&<span style={{background:"linear-gradient(90deg,#7c3aed,#6d28d9)",fontSize:9,fontWeight:800,padding:"2px 7px",borderRadius:20}}>🤖 PLUS</span>}
-                  {premium&&!premiumPlus&&<span style={{background:"rgba(255,255,255,.2)",fontSize:9,fontWeight:800,padding:"2px 7px",borderRadius:20}}>⭐ PREMIUM</span>}
+                  <div>
+                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:24,lineHeight:1,letterSpacing:-.5}}>Do<span style={{color:"#4ade80"}}>ya</span></div>
+                    <div style={{fontSize:10,opacity:.65,letterSpacing:.5,marginTop:1}}>
+                      {aktif.isim?.split(" ")[0]}
+                      {isAdmin&&<span style={{background:"#fbbf24",color:"#78350f",fontSize:8,fontWeight:800,padding:"1px 5px",borderRadius:10,marginLeft:5}}>ADMIN</span>}
+                      {isOrtak&&<span style={{background:"rgba(255,255,255,.2)",fontSize:8,fontWeight:800,padding:"1px 5px",borderRadius:10,marginLeft:5}}>{aktif.refTip==="influencer"?"INFLUENCER":"İŞLETME"}</span>}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div style={{display:"flex",gap:5,alignItems:"center"}}>
-              <button onClick={()=>setHpModal(true)} title="Haftalık Özet" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"5px 8px",fontSize:16,cursor:"pointer",lineHeight:1}}>📊</button>
-              <div style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 9px",fontSize:11,fontWeight:700}}>{puan} puan</div>
-              <button onClick={()=>setDark(!d)} style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"5px 8px",fontSize:14,cursor:"pointer"}}>{d?"☀️":"🌙"}</button>
+            {/* Sağ aksiyonlar */}
+            <div style={{display:"flex",gap:6,alignItems:"center"}}>
+              <button onClick={()=>setHpModal(true)} style={{background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)",borderRadius:12,padding:"7px 9px",fontSize:16,cursor:"pointer",lineHeight:1}}>📊</button>
+              <button onClick={()=>setDark(!d)} style={{background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)",borderRadius:12,padding:"7px 9px",fontSize:14,cursor:"pointer",lineHeight:1}}>{d?"☀️":"🌙"}</button>
+              {/* Puan pill */}
+              <div style={{background:"linear-gradient(135deg,rgba(251,191,36,.2),rgba(217,119,6,.15))",border:"1px solid rgba(251,191,36,.3)",borderRadius:12,padding:"6px 11px",display:"flex",alignItems:"center",gap:5}}>
+                <span style={{fontSize:13}}>⭐</span>
+                <span style={{fontSize:12,fontWeight:800,color:"#fbbf24"}}>{puan}</span>
+              </div>
+              {premiumPlus&&<span style={{background:"linear-gradient(135deg,#7c3aed,#6d28d9)",fontSize:9,fontWeight:800,padding:"4px 8px",borderRadius:10,letterSpacing:.5}}>PLUS</span>}
+              {premium&&!premiumPlus&&<span style={{background:"linear-gradient(135deg,rgba(251,191,36,.25),rgba(217,119,6,.2))",border:"1px solid rgba(251,191,36,.3)",fontSize:9,fontWeight:800,padding:"4px 8px",borderRadius:10,color:"#fbbf24",letterSpacing:.5}}>PRO</span>}
             </div>
+          </div>
           </div>
         </div>
 
@@ -13313,7 +13494,7 @@ SADECE JSON döndür (başka metin yok):
 
             {/* BMI */}
             {bmi&&bmiD&&(
-              <div style={{...CS,background:`linear-gradient(135deg,${bmiD.renk}18,${bmiD.renk}08)`,border:`1.5px solid ${bmiD.renk}33`}}>
+              <div style={{...CS,background:`linear-gradient(135deg,${bmiD.renk}12,${bmiD.renk}05)`,border:`1px solid ${bmiD.renk}28`,boxShadow:d?`0 8px 32px ${bmiD.renk}18,0 1px 0 ${bmiD.renk}20`:`0 8px 32px ${bmiD.renk}0e`}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <div>
                     <div style={{fontSize:10,color:r.sub,fontWeight:700}}>BMI</div>
@@ -14448,35 +14629,6 @@ SADECE JSON döndür (başka metin yok):
         )}
 
         {/* ──── YARIŞ ──────────────────────────────────────────── */}
-        {tab==="yaris"&&(
-          <div style={{padding:16}}>
-            <div style={{background:"linear-gradient(135deg,#f59e0b,#d97706)",borderRadius:16,padding:18,color:"#fff",marginBottom:10}}>
-              <div style={{fontSize:11,fontWeight:700}}>ARKADAŞLARLA YARIŞ</div>
-              <div style={{fontSize:13,opacity:.8,marginTop:2}}>En çok puan toplayan birinci!</div>
-            </div>
-            {yarisData[0]?.uid===aktif.uid&&(
-              <div style={{...CS,textAlign:"center",background:d?"#1c1a10":"linear-gradient(135deg,#fef3c7,#fde68a)",border:"2px solid #f59e0b"}}>
-                <div style={{fontSize:52,marginBottom:4}}>🏆</div>
-                <div style={{fontSize:18,fontWeight:900,color:"#92400e"}}>1. Sıradasın!</div>
-                <div style={{fontSize:13,color:"#78350f",marginTop:4}}>Tebrikler, lider sensin! 🎉</div>
-              </div>
-            )}
-            <div style={CS}>
-              <div style={CT}>Lider Tablosu</div>
-              {yarisData.map((u,i)=>(
-                <div key={u.uid} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 0",borderBottom:`1px solid ${r.rowB}`,background:u.uid===aktif.uid?d?"#1a2e1a":"#f0fdf4":"transparent",borderRadius:8,paddingLeft:8,marginBottom:2}}>
-                  <div style={{fontSize:i===0?28:18,minWidth:34,textAlign:"center"}}>{i===0?"🥇":i===1?"🥈":i===2?"🥉":`${i+1}.`}</div>
-                  <div style={{flex:1}}>
-                    <div style={{fontSize:13,fontWeight:u.uid===aktif.uid?900:700,color:r.text}}>{u.isim}{u.uid===aktif.uid?" (Sen)":""}</div>
-                    <div style={{fontSize:10,color:r.muted}}>Bugün: {u.kalBug} kcal · Spor: {u.sporBug} kcal</div>
-                  </div>
-                  <div style={{fontWeight:900,color:"#f59e0b",fontSize:16}}>{u.puan}</div>
-                </div>
-              ))}
-              {arkadaslar.length===0&&<div style={{textAlign:"center",color:r.muted,padding:"14px 0",fontSize:12}}>Arkadaş ekleyerek yarışa katıl!</div>}
-            </div>
-          </div>
-        )}
 
         {/* ──── ORUÇ TAKİP ──────────────────────────────────────── */}
         {tab==="oruc"&&(()=>{
@@ -14735,7 +14887,7 @@ SADECE JSON döndür (başka metin yok):
                   </div>
                   <button style={{...BTN("#f59e0b"),width:"100%",padding:"11px 0",fontSize:13}} onClick={async()=>{
                     setPremium(true); setReklam(false);
-                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premium:true}).catch(console.error);
+                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premium:true,onboardTamamlandi:true}).catch(console.error);
                     setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,premium:true}:u));
                   }}>
                     {yillikPlan?`Satın Al — ${PREMIUM_YILLIK}₺/yıl (${Math.round(PREMIUM_YILLIK/12)}₺/ay)`:`Satın Al — ${PREMIUM_FIYAT}₺/ay`}
@@ -14754,7 +14906,7 @@ SADECE JSON döndür (başka metin yok):
                   </div>
                   <button style={{...BTN("#7c3aed"),width:"100%",padding:"11px 0",fontSize:13}} onClick={async()=>{
                     setPremiumPlus(true); setPremium(true); setReklam(false);
-                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premium:true,premiumPlus:true}).catch(console.error);
+                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premium:true,premiumPlus:true,onboardTamamlandi:true}).catch(console.error);
                     setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,premium:true,premiumPlus:true}:u));
                   }}>
                     {yillikPlan?`Satın Al — ${PREMIUM_PLUS_YILLIK}₺/yıl (${Math.round(PREMIUM_PLUS_YILLIK/12)}₺/ay)`:`Satın Al — ${PREMIUM_PLUS_FIYAT}₺/ay`}
@@ -15964,13 +16116,12 @@ SADECE JSON döndür (başka metin yok):
         )}
 
         {/* NAV */}
-        <nav style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:430,background:r.nav,display:"flex",borderTop:`1px solid ${r.brd}`,zIndex:100}}>
+        <nav style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:430,background:d?"rgba(10,20,12,.95)":"rgba(255,255,255,.96)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",display:"flex",borderTop:`1px solid ${d?"#1a2e1e":"#e8f0e9"}`,zIndex:100,boxShadow:d?"0 -4px 32px #00000060":"0 -4px 32px #0d1f0f0e",paddingBottom:"env(safe-area-inset-bottom,0)"}}>
           {[
             {id:"anasayfa",ikon:"🏠",label:"Ana"},
             {id:"gozat",   ikon:"🗂",label:"Gözat"},
             ...(sosyalAktif?[
               {id:"sosyal",    ikon:"📢",label:"Sosyal"},
-              {id:"arkadaslar",ikon:"👥",label:"Arkadaş",badge:gelenIstekler.length},
             ]:[]),
             {id:"oruc",   ikon:"⏳",label:"Oruç"},
             {id:"puan",   ikon:"🏅",label:"Puan"},
@@ -16054,9 +16205,9 @@ SADECE JSON döndür (başka metin yok):
         {hamMenu&&(
           <div style={{position:"fixed",inset:0,zIndex:300,display:"flex"}} onClick={()=>setHamMenu(false)}>
             {/* drawer */}
-            <div style={{width:240,background:r.card,height:"100%",padding:"0 0 24px",overflowY:"auto",boxShadow:"4px 0 24px rgba(0,0,0,.18)"}} onClick={e=>e.stopPropagation()}>
+            <div style={{width:248,background:d?"rgba(8,15,10,.97)":"rgba(255,255,255,.97)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",height:"100%",padding:"0 0 24px",overflowY:"auto",boxShadow:d?"6px 0 48px rgba(0,0,0,.7)":"6px 0 48px rgba(13,31,15,.12)",borderRight:d?"1px solid rgba(255,255,255,.06)":"1px solid #e8f0e9"}} onClick={e=>e.stopPropagation()}>
               {/* drawer header */}
-              <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",padding:"20px 18px 16px",color:"#fff",marginBottom:8}}>
+              <div style={{background:d?"linear-gradient(160deg,#0a1f0c,#0d2e12)":"linear-gradient(160deg,#052e16,#14532d)",padding:"24px 18px 18px",color:"#fff",marginBottom:8,borderBottom:d?"1px solid rgba(255,255,255,.06)":"none",position:"relative",overflow:"hidden"}}><div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle at 80% 50%,rgba(34,197,94,.15),transparent 60%)",pointerEvents:"none"}}/>
                 <div style={{fontSize:15,fontWeight:900,marginBottom:4}}>🥗 Doya</div>
                 <div style={{fontSize:11,opacity:.85}}>{aktif?.isim}</div>
                 <div style={{fontSize:10,opacity:.65,marginTop:1}}>{aktif?.uid}</div>
@@ -16067,6 +16218,9 @@ SADECE JSON döndür (başka metin yok):
                   {id:"su",    ikon:"💧",label:"Su Takibi"},
                   {id:"takvim",ikon:"📅",label:"Takvim"},
                 ]},
+                ...(sosyalAktif?[{ grup:"Sosyal", items:[
+                  {id:"arkadaslar",ikon:"👥",label:"Arkadaşlar",badge:gelenIstekler.length},
+                ]}]:[]),
                 { grup:"Spor", items:[
                   {id:"__sporapp__",ikon:"🏋️",label:"Spor Uygulaması"},
                 ]},
@@ -16076,9 +16230,7 @@ SADECE JSON döndür (başka metin yok):
                   {id:"__alerji__",ikon:"🚨",label:"Alerji Yönetimi"},
                   {id:"__kilotakip__",ikon:"📈",label:"Kilo Takibi"},
                 ]},
-                ...(sosyalAktif?[{ grup:"Sosyal", items:[
-                  {id:"yaris", ikon:"🏆",label:"Yarış"},
-                ]}]:[]),
+
                 { grup:"Kazanç", items:[
                   ...(isOrtak?[{id:"para",ikon:"💰",label:"Para Paneli"}]:[]),
                   {id:"puan",  ikon:"🏅",label:"Puan & Ödüller"},
@@ -17283,7 +17435,7 @@ SADECE JSON döndür (başka metin yok):
 
         {/* ════════════════ KİLO TAKİP MODAL ════════════════ */}
         {kiloGirModal&&(
-          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setKiloTakipModal(false)}>
+          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setKiloGirModal(false)}>
             <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34}} onClick={e=>e.stopPropagation()}>
               <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 18px"}}/>
               <div style={{fontSize:17,fontWeight:900,color:r.text,marginBottom:16}}>⚖️ Kilo Kaydet</div>
@@ -17314,7 +17466,7 @@ SADECE JSON döndür (başka metin yok):
                       // Profil kilosunu da güncelle
                       setProfil(p=>({...p,kilo:String(yeniKilo)}));
                       if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{kiloKayitlar:yeni,kilo:String(yeniKilo)}).catch(console.error);
-                      setKiloTakipModal(false);
+                      setKiloGirModal(false);
                     }} style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",background:"#16a34a",color:"#fff",fontWeight:800,fontSize:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
                       ✅ Kaydet
                     </button>
