@@ -4479,8 +4479,6 @@ export default function App(){
                     Filtreleri Temizle
                   </button>
                 </div>
-
-                </div>
                 )}
                 {!besinArama&&<><div style={{fontSize:12,color:r.sub,padding:"0 4px",marginBottom:6}}>{filtreBesinler.length} besin bulundu</div>
                 {filtreBesinler.slice(0,gozatLimit).map(b=>(
