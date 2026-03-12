@@ -5656,7 +5656,7 @@ export default function App(){
                     <div>
                       <div style={{fontSize:12,color:r.muted}}>Başladığınızda saat</div>
                       <div style={{fontSize:15,fontWeight:800,color:r.text}}>{new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})}</div>
-                      <div style={{fontSize:11,color:r.muted}}>Bitiş: {new Date(Date.now()+ozelSure*3600000).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})}</div>
+                      <div style={{fontSize:11,color:r.muted}}>Bitiş: {new Date(Date.now()+orucOzelSure*3600000).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})}</div>
                     </div>
                   </div>
 
