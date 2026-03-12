@@ -17330,10 +17330,6 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-            </div>
-          </div>
-        )}
-
         {/* ════════════════ GÜNLÜK DİYET LİSTESİ MODAL ════════════════ */}
         {diyetListesiAcik&&(
           <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setDiyetListesiAcik(false)}>
