@@ -12575,8 +12575,8 @@ SADECE JSON döndür (başka metin yok):
         {/* Arka plan gradient katmanları */}
         <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 120% 60% at 50% 0%,#14532d 0%,transparent 65%)",pointerEvents:"none"}}/>
         <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 80% 40% at 80% 100%,#052e1680 0%,transparent 60%)",pointerEvents:"none"}}/>
-        {/* Noise texture */}
-        <div style={{position:"absolute",inset:0,backgroundImage:"url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E")",opacity:.6,pointerEvents:"none"}}/>
+        {/* Doku katmanı */}
+        <div style={{position:"absolute",inset:0,backgroundImage:"repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.012) 2px,rgba(255,255,255,.012) 4px)",opacity:.8,pointerEvents:"none"}}/>
 
         {/* Üst hero bölümü */}
         <div style={{position:"relative",paddingTop:72,paddingBottom:52,textAlign:"center",zIndex:1}}>
