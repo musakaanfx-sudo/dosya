@@ -17007,7 +17007,7 @@ SADECE JSON döndür (başka metin yok):
 
         {/* ════════════════ AI DİYETİSYEN MODAL ════════════════ */}
         {diyetisyenAcik&&(
-          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setDiyetisyenModal(false)}>
+          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setDiyetisyenAcik(false)}>
             <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34,maxHeight:"90vh",display:"flex",flexDirection:"column"}} onClick={e=>e.stopPropagation()}>
               <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 14px"}}/>
               <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
@@ -17064,21 +17064,21 @@ SADECE JSON döndür (başka metin yok):
                   setDiyYukleniyor(true);
                   try{
                     const profKontext=`Kullanıcı profili: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas} yaş, ${profil.cinsiyet}, aktivite:${profil.aktivite}, hedef:${profil.hedef}kg. BMI:${bmi||"?"}, TDEE:${tdee||"?"} kcal. Alerjiler:${alerjiListesi.join(",")||"yok"}. Bugün ${bugToplamKal}kcal tüketildi.`;
-                    const resp=await fetch("https://api.anthropic.com/v1/messages",{
+                    const gecmisMessages=diyMesajlar.map(m=>([{role:"user",content:m.soru},{role:"assistant",content:m.cevap}])).flat();
+                    const resp=await fetch("/.netlify/functions/ai-proxy",{
                       method:"POST",headers:{"Content-Type":"application/json"},
                       body:JSON.stringify({
                         model:"claude-haiku-4-5-20251001",max_tokens:600,
                         system:`Sen Doya beslenme uygulamasının yapay zeka diyetisyenisin. Türkçe cevap ver. Kısa ve pratik ol (max 150 kelime). ${profKontext}. Alerjileri mutlaka göz önünde bulundur.`,
-                        messages:[...diyMesajlar.map(m=>([{role:"user",content:m.soru},{role:"assistant",content:m.cevap}])).flat(),{role:"user",content:soru}]
+                        messages:[...gecmisMessages,{role:"user",content:soru}]
                       })
                     });
                     const data=await resp.json();
                     const cevap=data.content?.[0]?.text||"Üzgünüm, cevap alınamadı.";
                     const yeniGecmis=[...diyMesajlar,{soru,cevap}].slice(-10);
-                    setDiyMesajlar(yeniGecmis.map(m=>({rol:"kullanici",mesaj:m.soru,zaman:""})));
+                    setDiyMesajlar(yeniGecmis);
                     if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{diyMesajlar:yeniGecmis}).catch(console.error);
-                  }catch(e){setDiyYukleniyor(false);}
-                  setDiyYukleniyor(false);
+                  }catch(e){console.error(e);}finally{setDiyYukleniyor(false);}
                 }} style={{width:44,height:44,borderRadius:12,border:"none",background:"#16a34a",color:"#fff",fontSize:20,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>➤</button>
               </div>
               {diyMesajlar.length>0&&(
@@ -17102,7 +17102,7 @@ SADECE JSON döndür (başka metin yok):
                   setDiyetListesiYukleniyor(true);
                   try{
                     const hedefAcik=profil.hedef&&+profil.hedef<+profil.kilo?"kilo vermek":"kilo korumak";
-                    const resp=await fetch("https://api.anthropic.com/v1/messages",{
+                    const resp=await fetch("/.netlify/functions/ai-proxy",{
                       method:"POST",headers:{"Content-Type":"application/json"},
                       body:JSON.stringify({
                         model:"claude-haiku-4-5-20251001",max_tokens:800,
@@ -17134,7 +17134,7 @@ SADECE JSON döndür (başka metin yok):
                     setDiyetListesiYukleniyor(true);
                     try{
                       const hedefAcik=profil.hedef&&+profil.hedef<+profil.kilo?"kilo vermek":"kilo korumak";
-                      const resp=await fetch("https://api.anthropic.com/v1/messages",{
+                      const resp=await fetch("/.netlify/functions/ai-proxy",{
                         method:"POST",headers:{"Content-Type":"application/json"},
                         body:JSON.stringify({
                           model:"claude-haiku-4-5-20251001",max_tokens:800,
