@@ -11568,14 +11568,23 @@ Türkçe, kısa, samimi ve profesyonel cevap ver. Medikal tanı koyma, doktora y
   };
 
   // ─── GÜNLÜK DİYET LİSTESİ ÜRET ──────────────────────────────
-  const diyetListesiUret=async()=>{
+  const diyetListesiUret=async(zorla=false)=>{
+    // Günlük cache — bugün zaten yapıldıysa tekrar yapma
+    const cacheKey="doya_diyet_"+bugunKey();
+    if(!zorla){
+      try{const c=localStorage.getItem(cacheKey);if(c){setDiyetListesi(JSON.parse(c));return;}}catch(e){}
+    }
     setDiyetListesiYuk(true);
     setDiyetListesi(null);
+    const alerjiStr=alerjiListesi.length>0?alerjiListesi.join(", "):"Yok";
+    const diyetTip=aktif?.diyetTip||"Normal";
+    const hedefStr=aktif?.hedefTip==="kilo_ver"?"Kilo vermek":aktif?.hedefTip==="kilo_al"?"Kilo almak":"Sağlıklı beslenmek";
     const sistem2=`Sen Doya uygulamasının diyetisyenisin. Kullanıcı için GÜNLÜK diyet planı oluştur.
 Kullanıcı: ${profil.kilo||70}kg, ${profil.boy||170}cm, ${profil.yas||25} yaş, ${profil.cinsiyet==="erkek"?"Erkek":"Kadın"}
-Kalori hedefi: ${tdee} kcal/gün. Alerjiler: ${alerjiListesi.join(", ")||"Yok"}
-Hedef: ${aktif?.hedefTip==="kilo_ver"?"Kilo vermek":aktif?.hedefTip==="kilo_al"?"Kilo almak":"Sağlıklı beslenmek"}
-Diyet: ${aktif?.diyetTip||"Normal"}
+Kalori hedefi: ${tdee} kcal/gün.
+Alerjiler: ${alerjiStr} — Bu alerjilere sahip besinleri KESİNLİKLE önerme.
+Beslenme tarzı: ${diyetTip} — Buna uygun yiyecekler öner (örn. vegan ise hayvansal ürün olmasın).
+Hedef: ${hedefStr}
 
 SADECE JSON döndür (başka metin yok):
 {"kahvalti":{"yemekler":["..."],"kalori":0,"tokluk":"uzun/orta/kısa"},"ogle":{"yemekler":["..."],"kalori":0,"tokluk":"uzun/orta/kısa"},"aksam":{"yemekler":["..."],"kalori":0,"tokluk":"uzun/orta/kısa"},"atistirma":["...","..."],"toplam_kalori":0,"su_tavsiye":"...","ipucu":"..."}`;
@@ -11584,7 +11593,9 @@ SADECE JSON döndür (başka metin yok):
         body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:800,messages:[{role:"user",content:sistem2}]})});
       const data=await res.json();
       const txt=(data.content?.[0]?.text||"{}").replace(/```json|```/g,"").trim();
-      setDiyetListesi(JSON.parse(txt));
+      const plan=JSON.parse(txt);
+      setDiyetListesi(plan);
+      try{localStorage.setItem(cacheKey,JSON.stringify(plan));}catch(e){}
     }catch(e){setDiyetListesi({hata:"Plan oluşturulamadı, tekrar deneyin."});}
     setDiyetListesiYuk(false);
   };
@@ -13256,14 +13267,7 @@ SADECE JSON döndür (başka metin yok):
                 <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
                 <span style={{display:"block",width:16,height:2,background:"#fff",borderRadius:2}}/>
               </button>
-              <button onClick={()=>setDiyetisyenAcik(true)} style={{background:"linear-gradient(135deg,#7c3aed,#4f46e5)",border:"none",borderRadius:12,padding:"8px 12px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,minWidth:56}}>
-                <span style={{fontSize:18}}>🧑‍⚕️</span>
-                <span style={{fontSize:9,color:"#fff",fontWeight:700}}>Diyetisyen</span>
-              </button>
-              <button onClick={()=>setDiyetListesiAcik(true)} style={{background:"linear-gradient(135deg,#0ea5e9,#0284c7)",border:"none",borderRadius:12,padding:"8px 12px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,minWidth:56}}>
-                <span style={{fontSize:18}}>📋</span>
-                <span style={{fontSize:9,color:"#fff",fontWeight:700}}>Diyet Plan</span>
-              </button>
+
               <button onClick={()=>{setAiModal(true);setAiSonuc(null);setAiHata(null);setAiImg(null);setAiNot("");setAiOgun("Kahvaltı");}} title="Fotoğrafla Kalori Tara" style={{background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,padding:"6px 9px",cursor:"pointer",fontSize:16,lineHeight:1}}>📷</button>
               <div>
                 <div style={{display:"flex",alignItems:"center",gap:7}}>
@@ -13405,9 +13409,9 @@ SADECE JSON döndür (başka metin yok):
                   <div style={CT}>🥗 AI Diyet Listesi</div>
                   <div style={{fontSize:11,color:r.sub}}>Sana özel günlük beslenme planı</div>
                 </div>
-                <button onClick={diyetListesiUret} disabled={diyetListesiYuk}
+                <button onClick={()=>diyetListesiUret(true)} disabled={diyetListesiYuk}
                   style={{...BTN("#7c3aed","6px 12px"),fontSize:11,opacity:diyetListesiYuk?.6:1}}>
-                  {diyetListesiYuk?"⏳ Hazırlanıyor...":"✨ Plan Oluştur"}</button>
+                  {diyetListesiYuk?"⏳ Hazırlanıyor...":"🔄 Yenile"}</button>
               </div>
               {diyetListesi&&!diyetListesi.hata&&(()=>{
                 const tl=c=>({fontWeight:800,fontSize:12,color:r.text,marginBottom:4});
@@ -14772,58 +14776,6 @@ SADECE JSON döndür (başka metin yok):
               </div>
             </div>
 
-            {/* AI DİYETİSYEN MODAL */}
-            {diyetisyenAcik&&(
-              <div style={{position:"fixed",inset:0,background:"#00000080",zIndex:9999,display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
-                <div style={{background:r.card,borderRadius:"24px 24px 0 0",maxHeight:"85vh",animation:"slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1) both",display:"flex",flexDirection:"column"}}>
-                  {/* Header */}
-                  <div style={{padding:"16px 20px",borderBottom:`1px solid ${r.inpB}`,display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
-                    <div>
-                      <div style={{fontSize:16,fontWeight:900,color:r.text}}>🧑‍⚕️ AI Diyetisyen</div>
-                      <div style={{fontSize:11,color:"#16a34a"}}>● Çevrimiçi</div>
-                    </div>
-                    <button onClick={()=>setDiyetisyenAcik(false)} style={{background:"transparent",border:"none",fontSize:22,cursor:"pointer",color:r.sub}}>✕</button>
-                  </div>
-                  {/* Mesajlar */}
-                  <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
-                    {diyMesajlar.map((m,i)=>(
-                      <div key={i} style={{display:"flex",justifyContent:m.rol==="kullanici"?"flex-end":"flex-start",marginBottom:10}}>
-                        {m.rol==="ai"&&<div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#16a34a,#052e16)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,marginRight:8,flexShrink:0}}>🌿</div>}
-                        <div style={{maxWidth:"75%",background:m.rol==="kullanici"?"linear-gradient(135deg,#16a34a,#059669)":"#f0fdf4",color:m.rol==="kullanici"?"#fff":r.text,borderRadius:m.rol==="kullanici"?"18px 18px 4px 18px":"18px 18px 18px 4px",padding:"10px 14px",fontSize:13,lineHeight:1.5}}>
-                          {m.mesaj}
-                          <div style={{fontSize:9,opacity:.6,marginTop:4,textAlign:m.rol==="kullanici"?"right":"left"}}>{m.zaman}</div>
-                        </div>
-                      </div>
-                    ))}
-                    {diyYukleniyor&&(
-                      <div style={{display:"flex",justifyContent:"flex-start",marginBottom:10}}>
-                        <div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#16a34a,#052e16)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,marginRight:8}}>🌿</div>
-                        <div style={{background:"#f0fdf4",borderRadius:"18px 18px 18px 4px",padding:"12px 16px"}}>
-                          <div style={{display:"flex",gap:4}}>
-                            {[0,1,2].map(i=><div key={i} style={{width:6,height:6,borderRadius:"50%",background:"#16a34a",animation:`dotPulse 1.2s ${i*0.2}s infinite`}}/>)}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  {/* Hızlı sorular */}
-                  <div style={{padding:"4px 12px",display:"flex",gap:6,overflowX:"auto"}}>
-                    {["💪 Protein önerileri","🥗 Diyet planı","⚖️ Kilo verme","🍽️ Tarif öner","💊 Vitamin eksikliği"].map(s=>(
-                      <button key={s} onClick={()=>{setDiyYazi(s.slice(3));}} style={{whiteSpace:"nowrap",padding:"5px 11px",borderRadius:20,border:`1.5px solid ${r.inpB}`,background:r.inp,color:r.sub,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{s}</button>
-                    ))}
-                  </div>
-                  {/* Input */}
-                  <div style={{padding:"8px 16px 20px",display:"flex",gap:8,flexShrink:0}}>
-                    <input value={diyYazi} onChange={e=>setDiyYazi(e.target.value)}
-                      onKeyDown={e=>e.key==="Enter"&&diyYaziGonder()}
-                      placeholder="Diyetisyene sor..." style={{...IS,flex:1,padding:"11px 14px",fontSize:13,borderRadius:24}}/>
-                    <button onClick={diyYaziGonder} disabled={!diyYazi.trim()||diyYukleniyor}
-                      style={{...BTN("#16a34a","11px 16px"),borderRadius:24,fontSize:13,opacity:!diyYazi.trim()||diyYukleniyor?.5:1}}>
-                      ➤</button>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* Aktif plan gösterimi */}
             {premiumPlus&&(
@@ -16045,7 +15997,61 @@ SADECE JSON döndür (başka metin yok):
         </nav>
 
         {/* HAMBURGER DRAWER */}
-        {hamMenu&&(
+
+        {/* AI DİYETİSYEN MODAL - ana seviyede */}
+            {diyetisyenAcik&&(
+              <div style={{position:"fixed",inset:0,background:"#00000080",zIndex:9999,display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
+                <div style={{background:r.card,borderRadius:"24px 24px 0 0",maxHeight:"85vh",animation:"slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1) both",display:"flex",flexDirection:"column"}}>
+                  {/* Header */}
+                  <div style={{padding:"16px 20px",borderBottom:`1px solid ${r.inpB}`,display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
+                    <div>
+                      <div style={{fontSize:16,fontWeight:900,color:r.text}}>🧑‍⚕️ AI Diyetisyen</div>
+                      <div style={{fontSize:11,color:"#16a34a"}}>● Çevrimiçi</div>
+                    </div>
+                    <button onClick={()=>setDiyetisyenAcik(false)} style={{background:"transparent",border:"none",fontSize:22,cursor:"pointer",color:r.sub}}>✕</button>
+                  </div>
+                  {/* Mesajlar */}
+                  <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
+                    {diyMesajlar.map((m,i)=>(
+                      <div key={i} style={{display:"flex",justifyContent:m.rol==="kullanici"?"flex-end":"flex-start",marginBottom:10}}>
+                        {m.rol==="ai"&&<div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#16a34a,#052e16)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,marginRight:8,flexShrink:0}}>🌿</div>}
+                        <div style={{maxWidth:"75%",background:m.rol==="kullanici"?"linear-gradient(135deg,#16a34a,#059669)":"#f0fdf4",color:m.rol==="kullanici"?"#fff":r.text,borderRadius:m.rol==="kullanici"?"18px 18px 4px 18px":"18px 18px 18px 4px",padding:"10px 14px",fontSize:13,lineHeight:1.5}}>
+                          {m.mesaj}
+                          <div style={{fontSize:9,opacity:.6,marginTop:4,textAlign:m.rol==="kullanici"?"right":"left"}}>{m.zaman}</div>
+                        </div>
+                      </div>
+                    ))}
+                    {diyYukleniyor&&(
+                      <div style={{display:"flex",justifyContent:"flex-start",marginBottom:10}}>
+                        <div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#16a34a,#052e16)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,marginRight:8}}>🌿</div>
+                        <div style={{background:"#f0fdf4",borderRadius:"18px 18px 18px 4px",padding:"12px 16px"}}>
+                          <div style={{display:"flex",gap:4}}>
+                            {[0,1,2].map(i=><div key={i} style={{width:6,height:6,borderRadius:"50%",background:"#16a34a",animation:`dotPulse 1.2s ${i*0.2}s infinite`}}/>)}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {/* Hızlı sorular */}
+                  <div style={{padding:"4px 12px",display:"flex",gap:6,overflowX:"auto"}}>
+                    {["💪 Protein önerileri","🥗 Diyet planı","⚖️ Kilo verme","🍽️ Tarif öner","💊 Vitamin eksikliği"].map(s=>(
+                      <button key={s} onClick={()=>{setDiyYazi(s.slice(3));}} style={{whiteSpace:"nowrap",padding:"5px 11px",borderRadius:20,border:`1.5px solid ${r.inpB}`,background:r.inp,color:r.sub,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{s}</button>
+                    ))}
+                  </div>
+                  {/* Input */}
+                  <div style={{padding:"8px 16px 20px",display:"flex",gap:8,flexShrink:0}}>
+                    <input value={diyYazi} onChange={e=>setDiyYazi(e.target.value)}
+                      onKeyDown={e=>e.key==="Enter"&&diyYaziGonder()}
+                      placeholder="Diyetisyene sor..." style={{...IS,flex:1,padding:"11px 14px",fontSize:13,borderRadius:24}}/>
+                    <button onClick={diyYaziGonder} disabled={!diyYazi.trim()||diyYukleniyor}
+                      style={{...BTN("#16a34a","11px 16px"),borderRadius:24,fontSize:13,opacity:!diyYazi.trim()||diyYukleniyor?.5:1}}>
+                      ➤</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+        {hamMenu&&((
           <div style={{position:"fixed",inset:0,zIndex:300,display:"flex"}} onClick={()=>setHamMenu(false)}>
             {/* drawer */}
             <div style={{width:240,background:r.card,height:"100%",padding:"0 0 24px",overflowY:"auto",boxShadow:"4px 0 24px rgba(0,0,0,.18)"}} onClick={e=>e.stopPropagation()}>
@@ -16087,7 +16093,7 @@ SADECE JSON döndür (başka metin yok):
                     <button key={n.id} onClick={()=>{
                       if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporProgram(null);setAntBitmis(false);}
                        else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
-                      else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);}
+                      else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);diyetListesiUret();}
                       else if(n.id==="__alerji__"){setAlerjiModal(true);}
                       else if(n.id==="__kilotakip__"){setKiloGirModal(true);}
                       else setTab(n.id);
