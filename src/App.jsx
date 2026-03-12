@@ -10797,6 +10797,7 @@ export default function App(){
   const [hpDonem,setHpDonem]=useState("hafta"); // hafta | ay | yil
   const [hpSecGun,setHpSecGun]=useState(null);  // seçilen gün key'i
   const [hpModal,setHpModal]=useState(false);   // haftalık özet modal
+  const [alerjiModal,setAlerjiModal]=useState(false); // alerji modal
 
   // ── ADMIN ──
   const [adminUid,setAdminUid]=useState(""); const [adminTip,setAdminTip]=useState("influencer");
