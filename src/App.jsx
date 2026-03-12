@@ -16051,7 +16051,7 @@ SADECE JSON döndür (başka metin yok):
               </div>
             )}
 
-        {hamMenu&&((
+        {hamMenu&&(
           <div style={{position:"fixed",inset:0,zIndex:300,display:"flex"}} onClick={()=>setHamMenu(false)}>
             {/* drawer */}
             <div style={{width:240,background:r.card,height:"100%",padding:"0 0 24px",overflowY:"auto",boxShadow:"4px 0 24px rgba(0,0,0,.18)"}} onClick={e=>e.stopPropagation()}>
