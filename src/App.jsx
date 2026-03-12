@@ -282,8 +282,6 @@ const PREMIUM_FIYAT = 100;        // aylık ₺ (reklamsız)
 const PREMIUM_YILLIK = 900;       // yıllık ₺ (2 ay bedava)
 const PREMIUM_PLUS_YILLIK = 990;  // yıllık ₺ premium plus
 const PREMIUM_PLUS_FIYAT = 110;   // aylık ₺ (AI + reklamsız)
-const PREMIUM_YILLIK = 900;       // yıllık ₺ (%25 indirim)
-const PREMIUM_PLUS_YILLIK = 990;  // yıllık ₺ (%25 indirim)
 const AI_GUNLUK_LIMIT = 10;
 const GUNLUK_MAX_PUAN = 750; // Günlük kazanılabilir max puan (manipülasyon önleme) // premium plus günlük fotoğraf hakkı
 const AYLAR  = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
@@ -11056,7 +11054,7 @@ export default function App(){
             // Ekstra AI hak
             setEkstraAiHak(tam.ekstraAiHak||0); // her zaman firebase'den yükle
             if(tam.alerji) setAlerjiListesi(tam.alerji||[]);
-            if(tam.kiloKayitlar) setKiloKayitlar(tam.kiloKayitlar||[]); (0 dahil)
+            if(tam.kiloKayitlar) setKiloKayitlar(tam.kiloKayitlar||[]); // 0 dahil
             // Alerjileri yükle
             if(tam.alerjiListesi) setAlerjiListesi(tam.alerjiListesi||[]);
             // Kilo geçmişini yükle
