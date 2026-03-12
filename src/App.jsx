@@ -10828,19 +10828,6 @@ export default function App(){
   const [isimDuzenle,setIsimDuzenle]=useState(false);
   const [yeniIsim,setYeniIsim]=useState("");
   const [profilSekme,setProfilSekme]=useState("genel"); // "genel" | "gonderiler" | "performans"
-  // ─── ALERJİ & DİYETİSYEN & YENİ ÖZELLİKLER ────────────────
-  const [alerjiler,setAlerjiler]=useState([]); // ["gluten","laktoz","yumurta","fındık","soya","kabuklu","balık","susam"]
-  const [alerjiModal,setAlerjiModal]=useState(false);
-  
-  const [diyetisyenMesaj,setDiyetisyenMesaj]=useState("");
-  const [diyetisyenCevap,setDiyetisyenCevap]=useState(null);
-  const [diyetisyenYukleniyor,setDiyetisyenYukleniyor]=useState(false);
-  const [diyetisyenGecmis,setDiyetisyenGecmis]=useState([]);
-  
-  const [diyetListesi,setDiyetListesi]=useState(null);
-  const [diyetListesiYukleniyor,setDiyetListesiYukleniyor]=useState(false);
-  const [kiloGirModal,setKiloTakipModal]=useState(false);
-  const [kiloGecmis,setKiloGecmis]=useState([]); // [{tarih,kilo}]
   const [yillikPlan,setYillikPlan]=useState(false); // aylık mı yıllık mı
   const [tabAnimClass,setTabAnimClass]=useState(""); // geçiş animasyonu
   const [perfDonem,setPerfDonem]=useState("hafta"); // "hafta" | "ay" | "yil"
@@ -11071,11 +11058,11 @@ export default function App(){
             if(tam.alerji) setAlerjiListesi(tam.alerji||[]);
             if(tam.kiloKayitlar) setKiloKayitlar(tam.kiloKayitlar||[]); (0 dahil)
             // Alerjileri yükle
-            if(tam.alerjiler) setAlerjiler(tam.alerjiler||[]);
+            if(tam.alerjiListesi) setAlerjiListesi(tam.alerjiListesi||[]);
             // Kilo geçmişini yükle
-            if(tam.kiloGecmis) setKiloGecmis(tam.kiloGecmis||[]);
+            if(tam.kiloKayitlar) setKiloGecmis(tam.kiloKayitlar||[]);
             // Diyetisyen geçmişini yükle
-            if(tam.diyetisyenGecmis) setDiyetisyenGecmis(tam.diyetisyenGecmis||[]);
+            if(tam.diyMesajlar) setDiyMesajlar(tam.diyMesajlar||[]);
             // Günlük reklam izleme sayısı
             if(tam.gunlukReklam){
               const bugunR=bugunKey();
@@ -11307,7 +11294,7 @@ export default function App(){
   };
 
   // ─── AI DİYETİSYEN SOHBET ───────────────────────────────────
-  const diyetisyenMesajGonder=async()=>{
+  const diyYaziGonder=async()=>{
     if(!diyYazi.trim()||diyYukleniyor) return;
     const kulMesaj={rol:"kullanici",mesaj:diyYazi.trim(),zaman:new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})};
     const yeniMesajlar=[...diyMesajlar,kulMesaj];
@@ -14504,9 +14491,9 @@ SADECE JSON döndür (başka metin yok):
                   {/* Input */}
                   <div style={{padding:"8px 16px 20px",display:"flex",gap:8,flexShrink:0}}>
                     <input value={diyYazi} onChange={e=>setDiyYazi(e.target.value)}
-                      onKeyDown={e=>e.key==="Enter"&&diyetisyenMesajGonder()}
+                      onKeyDown={e=>e.key==="Enter"&&diyYaziGonder()}
                       placeholder="Diyetisyene sor..." style={{...IS,flex:1,padding:"11px 14px",fontSize:13,borderRadius:24}}/>
-                    <button onClick={diyetisyenMesajGonder} disabled={!diyYazi.trim()||diyYukleniyor}
+                    <button onClick={diyYaziGonder} disabled={!diyYazi.trim()||diyYukleniyor}
                       style={{...BTN("#16a34a","11px 16px"),borderRadius:24,fontSize:13,opacity:!diyYazi.trim()||diyYukleniyor?.5:1}}>
                       ➤</button>
                   </div>
@@ -15030,13 +15017,13 @@ SADECE JSON döndür (başka metin yok):
                     <div style={CT}>📈 Kilo Takibi</div>
                     <button onClick={()=>setKiloGirModal(true)} style={{...BTN("transparent","4px 10px"),color:r.sub,fontSize:11,border:`1px solid ${r.brd}`}}>+ Kaydet</button>
                   </div>
-                  {kiloGecmis.length===0?(
+                  {kiloKayitlar.length===0?(
                     <div style={{textAlign:"center",padding:"16px 0",color:r.muted,fontSize:12}}>
                       <div style={{fontSize:28,marginBottom:6}}>⚖️</div>
                       Henüz kilo kaydı yok.<br/>Düzenli kayıt yaparak ilerlemeyi gör!
                     </div>
                   ):(()=>{
-                    const son30=kiloGecmis.slice(-30);
+                    const son30=kiloKayitlar.slice(-30);
                     const minK=Math.min(...son30.map(k=>+k.kilo))-2;
                     const maxK=Math.max(...son30.map(k=>+k.kilo))+2;
                     const hedefK=+profil.hedef||null;
@@ -16923,7 +16910,7 @@ SADECE JSON döndür (başka metin yok):
             <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34,maxHeight:"80vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
               <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 18px"}}/>
               <div style={{fontSize:17,fontWeight:900,color:r.text,marginBottom:4}}>🚨 Alerji & Diyet Kısıtları</div>
-              <div style={{fontSize:12,color:r.sub,marginBottom:18}}>Seçtiğin alerjiler tariflerde işaretlenecek.</div>
+              <div style={{fontSize:12,color:r.sub,marginBottom:18}}>Seçtiğin alerjiListesi tariflerde işaretlenecek.</div>
               {[
                 {k:"gluten",    l:"🌾 Gluten",      a:"Buğday, arpa, çavdar içerikli besinler"},
                 {k:"laktoz",    l:"🥛 Laktoz",      a:"Süt ve süt ürünleri"},
@@ -16981,30 +16968,30 @@ SADECE JSON döndür (başka metin yok):
                     <div style={{fontSize:12,fontWeight:700,color:r.sub,marginBottom:6}}>Not (opsiyonel)</div>
                     <input value={not} onChange={e=>setNot(e.target.value)} placeholder="Sabah aç karnına ölçtüm..."
                       style={{width:"100%",padding:"10px 12px",borderRadius:10,border:`1.5px solid ${r.inpB}`,background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",boxSizing:"border-box",marginBottom:16}}/>
-                    {kiloGecmis.length>0&&(
+                    {kiloKayitlar.length>0&&(
                       <div style={{fontSize:11,color:r.sub,marginBottom:12}}>
-                        Son kayıt: <b>{kiloGecmis[kiloGecmis.length-1].kilo} kg</b> — {kiloGecmis[kiloGecmis.length-1].tarih}
-                        {" · "}Değişim: <b style={{color:(+yeniKilo||0)<(+kiloGecmis[kiloGecmis.length-1].kilo)?"#16a34a":"#ef4444"}}>
-                          {yeniKilo?((+yeniKilo)-(+kiloGecmis[kiloGecmis.length-1].kilo)>0?"+":"")+((+yeniKilo)-(+kiloGecmis[kiloGecmis.length-1].kilo)).toFixed(1)+" kg":"—"}
+                        Son kayıt: <b>{kiloKayitlar[kiloKayitlar.length-1].kilo} kg</b> — {kiloKayitlar[kiloKayitlar.length-1].tarih}
+                        {" · "}Değişim: <b style={{color:(+yeniKilo||0)<(+kiloKayitlar[kiloKayitlar.length-1].kilo)?"#16a34a":"#ef4444"}}>
+                          {yeniKilo?((+yeniKilo)-(+kiloKayitlar[kiloKayitlar.length-1].kilo)>0?"+":"")+((+yeniKilo)-(+kiloKayitlar[kiloKayitlar.length-1].kilo)).toFixed(1)+" kg":"—"}
                         </b>
                       </div>
                     )}
                     <button onClick={async()=>{
                       if(!yeniKilo||isNaN(+yeniKilo)) return;
                       const kayit={tarih:new Date().toLocaleDateString("tr-TR"),kilo:+yeniKilo,not};
-                      const yeni=[...kiloGecmis,kayit].slice(-90); // son 90 kayıt
+                      const yeni=[...kiloKayitlar,kayit].slice(-90); // son 90 kayıt
                       setKiloGecmis(yeni);
                       // Profil kilosunu da güncelle
                       setProfil(p=>({...p,kilo:String(yeniKilo)}));
-                      if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{kiloGecmis:yeni,kilo:String(yeniKilo)}).catch(console.error);
+                      if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{kiloKayitlar:yeni,kilo:String(yeniKilo)}).catch(console.error);
                       setKiloTakipModal(false);
                     }} style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",background:"#16a34a",color:"#fff",fontWeight:800,fontSize:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
                       ✅ Kaydet
                     </button>
-                    {kiloGecmis.length>0&&(
+                    {kiloKayitlar.length>0&&(
                       <div style={{marginTop:12,maxHeight:140,overflowY:"auto"}}>
                         <div style={{fontSize:11,fontWeight:700,color:r.sub,marginBottom:6}}>Son 10 Kayıt</div>
-                        {[...kiloGecmis].reverse().slice(0,10).map((k,i)=>(
+                        {[...kiloKayitlar].reverse().slice(0,10).map((k,i)=>(
                           <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${r.brd}`,fontSize:12}}>
                             <span style={{color:r.sub}}>{k.tarih}</span>
                             <span style={{fontWeight:700,color:r.text}}>{k.kilo} kg</span>
@@ -17034,19 +17021,19 @@ SADECE JSON döndür (başka metin yok):
 
               {/* Sohbet geçmişi */}
               <div style={{flex:1,overflowY:"auto",marginBottom:12,maxHeight:280}}>
-                {diyetisyenGecmis.length===0&&!diyetisyenCevap&&(
+                {diyMesajlar.length===0&&(
                   <div style={{textAlign:"center",padding:"20px 0",color:r.muted}}>
                     <div style={{fontSize:32,marginBottom:8}}>💬</div>
                     <div style={{fontSize:13,fontWeight:700}}>Merhaba! Ben Doya'nın AI diyetisyeniyim.</div>
                     <div style={{fontSize:11,marginTop:4,color:r.sub}}>Beslenme hedeflerine göre kişiselleştirilmiş öneriler veririm.</div>
                     <div style={{display:"flex",flexWrap:"wrap",gap:6,marginTop:14,justifyContent:"center"}}>
                       {["Kilo vermem için ne yemeli?","Protein ihtiyacım ne kadar?","Günlük kalori hedefim?","Hangi besinler tok tutar?"].map(s=>(
-                        <button key={s} onClick={()=>setDiyetisyenMesaj(s)} style={{padding:"6px 12px",borderRadius:20,border:`1px solid ${r.brd}`,background:"transparent",color:r.text,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{s}</button>
+                        <button key={s} onClick={()=>setDiyYazi(s)} style={{padding:"6px 12px",borderRadius:20,border:`1px solid ${r.brd}`,background:"transparent",color:r.text,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{s}</button>
                       ))}
                     </div>
                   </div>
                 )}
-                {diyetisyenGecmis.map((m,i)=>(
+                {diyMesajlar.map((m,i)=>(
                   <div key={i} style={{marginBottom:12}}>
                     <div style={{textAlign:"right",marginBottom:6}}>
                       <span style={{background:"#16a34a",color:"#fff",borderRadius:"14px 14px 4px 14px",padding:"8px 12px",fontSize:12,display:"inline-block",maxWidth:"80%",textAlign:"left"}}>{m.soru}</span>
@@ -17056,7 +17043,7 @@ SADECE JSON döndür (başka metin yok):
                     </div>
                   </div>
                 ))}
-                {diyetisyenYukleniyor&&(
+                {diyYukleniyor&&(
                   <div style={{textAlign:"left",marginBottom:8}}>
                     <span style={{background:d?"#1e293b":"#f1f5f9",borderRadius:"14px 14px 14px 4px",padding:"10px 16px",display:"inline-flex",gap:4}}>
                       {[0,1,2].map(i=><span key={i} className="pulse" style={{width:8,height:8,background:"#9ca3af",borderRadius:"50%",animationDelay:i*0.2+"s"}}/>)}
@@ -17067,36 +17054,36 @@ SADECE JSON döndür (başka metin yok):
 
               {/* Mesaj girişi */}
               <div style={{display:"flex",gap:8}}>
-                <input value={diyetisyenMesaj} onChange={e=>setDiyetisyenMesaj(e.target.value)}
-                  onKeyDown={async e=>{if(e.key==="Enter"&&diyetisyenMesaj.trim())await sorDiyetisyen();}}
+                <input value={diyYazi} onChange={e=>setDiyYazi(e.target.value)}
+                  onKeyDown={async e=>{if(e.key==="Enter"&&diyYazi.trim())diyetisyenMesajGonder();}}
                   placeholder="Beslenme sorunuzu yazın..."
                   style={{flex:1,padding:"11px 14px",borderRadius:12,border:`1.5px solid ${r.inpB}`,background:r.inp,color:r.text,fontSize:13,fontFamily:"'Nunito',sans-serif"}}/>
                 <button onClick={async()=>{
-                  if(!diyetisyenMesaj.trim()||diyetisyenYukleniyor) return;
-                  const soru=diyetisyenMesaj;
-                  setDiyetisyenMesaj("");
-                  setDiyetisyenYukleniyor(true);
+                  if(!diyYazi.trim()||diyYukleniyor) return;
+                  const soru=diyYazi;
+                  setDiyYazi("");
+                  setDiyYukleniyor(true);
                   try{
-                    const profKontext=`Kullanıcı profili: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas} yaş, ${profil.cinsiyet}, aktivite:${profil.aktivite}, hedef:${profil.hedef}kg. BMI:${bmi||"?"}, TDEE:${tdee||"?"} kcal. Alerjiler:${alerjiler.join(",")||"yok"}. Bugün ${bugToplamKal}kcal tüketildi.`;
+                    const profKontext=`Kullanıcı profili: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas} yaş, ${profil.cinsiyet}, aktivite:${profil.aktivite}, hedef:${profil.hedef}kg. BMI:${bmi||"?"}, TDEE:${tdee||"?"} kcal. Alerjiler:${alerjiListesi.join(",")||"yok"}. Bugün ${bugToplamKal}kcal tüketildi.`;
                     const resp=await fetch("https://api.anthropic.com/v1/messages",{
                       method:"POST",headers:{"Content-Type":"application/json"},
                       body:JSON.stringify({
                         model:"claude-haiku-4-5-20251001",max_tokens:600,
                         system:`Sen Doya beslenme uygulamasının yapay zeka diyetisyenisin. Türkçe cevap ver. Kısa ve pratik ol (max 150 kelime). ${profKontext}. Alerjileri mutlaka göz önünde bulundur.`,
-                        messages:[...diyetisyenGecmis.map(m=>([{role:"user",content:m.soru},{role:"assistant",content:m.cevap}])).flat(),{role:"user",content:soru}]
+                        messages:[...diyMesajlar.map(m=>([{role:"user",content:m.soru},{role:"assistant",content:m.cevap}])).flat(),{role:"user",content:soru}]
                       })
                     });
                     const data=await resp.json();
                     const cevap=data.content?.[0]?.text||"Üzgünüm, cevap alınamadı.";
-                    const yeniGecmis=[...diyetisyenGecmis,{soru,cevap}].slice(-10);
-                    setDiyetisyenGecmis(yeniGecmis);
-                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{diyetisyenGecmis:yeniGecmis}).catch(console.error);
-                  }catch(e){setDiyetisyenGecmis(p=>[...p,{soru,cevap:"Bağlantı hatası, tekrar deneyin."}]);}
-                  setDiyetisyenYukleniyor(false);
+                    const yeniGecmis=[...diyMesajlar,{soru,cevap}].slice(-10);
+                    setDiyMesajlar(yeniGecmis.map(m=>({rol:"kullanici",mesaj:m.soru,zaman:""})));
+                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{diyMesajlar:yeniGecmis}).catch(console.error);
+                  }catch(e){setDiyYukleniyor(false);//erryin."}]);}
+                  setDiyYukleniyor(false);
                 }} style={{width:44,height:44,borderRadius:12,border:"none",background:"#16a34a",color:"#fff",fontSize:20,cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>➤</button>
               </div>
-              {diyetisyenGecmis.length>0&&(
-                <button onClick={async()=>{setDiyetisyenGecmis([]);if(firebaseUID)await kullaniciyiGuncelle(firebaseUID,{diyetisyenGecmis:[]}).catch(console.error);}} style={{marginTop:8,background:"none",border:"none",color:r.muted,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>🗑️ Geçmişi temizle</button>
+              {diyMesajlar.length>0&&(
+                <button onClick={async()=>{setDiyMesajlar([]);if(firebaseUID)await kullaniciyiGuncelle(firebaseUID,{diyMesajlar:[]}).catch(console.error);}} style={{marginTop:8,background:"none",border:"none",color:r.muted,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>🗑️ Geçmişi temizle</button>
               )}
             </div>
           </div>
@@ -17121,7 +17108,7 @@ SADECE JSON döndür (başka metin yok):
                       body:JSON.stringify({
                         model:"claude-haiku-4-5-20251001",max_tokens:800,
                         system:"Sen Doya beslenme uygulamasının yapay zeka diyetisyenisin. Türkçe JSON ile cevap ver. Sadece JSON, başka hiçbir şey yazma.",
-                        messages:[{role:"user",content:`Profil: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas}y, ${profil.cinsiyet}, hedef:${hedefAcik}, TDEE:${tdee||2000}kcal, alerjiler:${alerjiler.join(",")||"yok"}. Günlük diyet planı oluştur. Format: {"kaloriHedef":number,"ogünler":[{"ogun":"Kahvaltı","ikon":"🌅","yiyecekler":[{"ad":"...","miktar":"...","kal":number,"tok":number}],"toplamKal":number}],"ipuclari":["...","...","..."]} - tok: 1-5 arası tokluk değeri`}]
+                        messages:[{role:"user",content:`Profil: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas}y, ${profil.cinsiyet}, hedef:${hedefAcik}, TDEE:${tdee||2000}kcal, alerjiListesi:${alerjiListesi.join(",")||"yok"}. Günlük diyet planı oluştur. Format: {"kaloriHedef":number,"ogünler":[{"ogun":"Kahvaltı","ikon":"🌅","yiyecekler":[{"ad":"...","miktar":"...","kal":number,"tok":number}],"toplamKal":number}],"ipuclari":["...","...","..."]} - tok: 1-5 arası tokluk değeri`}]
                       })
                     });
                     const data=await resp.json();
@@ -17133,13 +17120,13 @@ SADECE JSON döndür (başka metin yok):
                 }} style={{...BTN("#7c3aed","8px 14px"),fontSize:11}}>🔄 Yenile</button>
               </div>
 
-              {diyetListesiYukleniyor&&(
+              {diyetListesiYuk&&(
                 <div style={{textAlign:"center",padding:"40px 0",color:r.sub}}>
                   <div className="spin" style={{fontSize:32,display:"inline-block",marginBottom:12}}>⚙️</div>
                   <div style={{fontSize:13}}>AI planı hazırlıyor...</div>
                 </div>
               )}
-              {!diyetListesi&&!diyetListesiYukleniyor&&(
+              {!diyetListesi&&!diyetListesiYuk&&(
                 <div style={{textAlign:"center",padding:"30px 0",color:r.muted}}>
                   <div style={{fontSize:40,marginBottom:10}}>🥗</div>
                   <div style={{fontSize:13,fontWeight:700,marginBottom:6}}>Kişiselleştirilmiş plan hazır değil</div>
@@ -17153,7 +17140,7 @@ SADECE JSON döndür (başka metin yok):
                         body:JSON.stringify({
                           model:"claude-haiku-4-5-20251001",max_tokens:800,
                           system:"Sen Doya beslenme uygulamasının yapay zeka diyetisyenisin. Türkçe JSON ile cevap ver. Sadece JSON, başka hiçbir şey yazma.",
-                          messages:[{role:"user",content:`Profil: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas}y, ${profil.cinsiyet}, hedef:${hedefAcik}, TDEE:${tdee||2000}kcal, alerjiler:${alerjiler.join(",")||"yok"}. Günlük diyet planı oluştur. Format: {"kaloriHedef":number,"ogünler":[{"ogun":"Kahvaltı","ikon":"🌅","yiyecekler":[{"ad":"...","miktar":"...","kal":number,"tok":number}],"toplamKal":number}],"ipuclari":["...","...","..."]} - tok: 1-5 arası tokluk değeri`}]
+                          messages:[{role:"user",content:`Profil: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas}y, ${profil.cinsiyet}, hedef:${hedefAcik}, TDEE:${tdee||2000}kcal, alerjiListesi:${alerjiListesi.join(",")||"yok"}. Günlük diyet planı oluştur. Format: {"kaloriHedef":number,"ogünler":[{"ogun":"Kahvaltı","ikon":"🌅","yiyecekler":[{"ad":"...","miktar":"...","kal":number,"tok":number}],"toplamKal":number}],"ipuclari":["...","...","..."]} - tok: 1-5 arası tokluk değeri`}]
                         })
                       });
                       const data=await resp.json();
@@ -17165,7 +17152,7 @@ SADECE JSON döndür (başka metin yok):
                   }} style={{...BTN("#16a34a","10px 24px"),fontSize:13}}>🤖 Plan Oluştur</button>
                 </div>
               )}
-              {diyetListesi&&!diyetListesiYukleniyor&&(
+              {diyetListesi&&!diyetListesiYuk&&(
                 <div>
                   <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",borderRadius:14,padding:"12px 16px",color:"#fff",marginBottom:14,display:"flex",justifyContent:"space-between"}}>
                     <div>
@@ -17185,7 +17172,7 @@ SADECE JSON döndür (başka metin yok):
                         <span style={{background:"#f0fdf4",color:"#16a34a",borderRadius:20,padding:"2px 8px",fontSize:11,fontWeight:700}}>{og.toplamKal} kcal</span>
                       </div>
                       {(og.yiyecekler||[]).map((y,yi)=>{
-                        const alerjiVar=alerjiler.some(a=>{
+                        const alerjiVar=alerjiListesi.some(a=>{
                           const aMap={"gluten":["un","ekmek","makarna","buğday"],"laktoz":["süt","peynir","yoğurt"],"yumurta":["yumurta"],"fındık":["fındık","fıstık","ceviz"],"soya":["soya","tofu"],"balık":["balık","somon","ton"],"susam":["susam","tahin"]};
                           return (aMap[a]||[]).some(k=>y.ad.toLowerCase().includes(k));
                         });
