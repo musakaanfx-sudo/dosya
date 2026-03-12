@@ -125,6 +125,202 @@ const LANG = {
       },
     ],
   },
+  de: {
+    dilSec: "Sprache wählen",
+    hosgeldin: "Willkommen!",
+    basla: "Los geht's →",
+    atla: "Überspringen",
+    devam: "Weiter →",
+    slides: [
+      {
+        ikon: "🥗",
+        baslik: "Gesund essen mit Doya",
+        acik: "Tracke alles was du isst in Sekunden. Kalorien, Protein, Kohlenhydrate und Vitamine — mit über 2.100 Lebensmitteln aus türkischen und deutschen Marken.",
+        renk: "linear-gradient(145deg,#052e16,#15803d)",
+        vurgu: "#4ade80",
+        detaylar: ["🍔 2.100+ Lebensmittel", "📊 Makro-Tracking", "💊 Vitaminanalyse"],
+      },
+      {
+        ikon: "📷",
+        baslik: "KI-Fotoanalyse",
+        acik: "Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen. Premium Plus Mitglieder erhalten 10 Scans pro Tag.",
+        renk: "linear-gradient(145deg,#1e1b4b,#4338ca)",
+        vurgu: "#a5b4fc",
+        detaylar: ["🤖 KI-gestützt", "📸 Foto-Scan", "⚡ Sofortergebnis"],
+      },
+      {
+        ikon: "🏆",
+        baslik: "Punkte sammeln & gewinnen",
+        acik: "Sammle Punkte bei jeder Mahlzeit, messe dich mit Freunden. Das Streak-System stärkt deine Gewohnheiten!",
+        renk: "linear-gradient(145deg,#78350f,#d97706)",
+        vurgu: "#fde68a",
+        detaylar: ["🔥 Tägliche Streaks", "👥 Freunde-Challenge", "🥇 Rangliste"],
+      },
+      {
+        ikon: "🍳",
+        baslik: "Sportler-Rezepte",
+        acik: "Entdecke 140+ gesunde Rezepte. Makrowerte inklusive — mit einem Klick zur Mahlzeit hinzufügen.",
+        renk: "linear-gradient(145deg,#064e3b,#059669)",
+        vurgu: "#6ee7b7",
+        detaylar: ["💪 140+ Rezepte", "⭐ Bewertet", "🍽️ Zur Mahlzeit"],
+      },
+      {
+        ikon: "💰",
+        baslik: "Verdiene & wachse",
+        acik: "Teile deinen Code — normale Codes geben +150 Punkte, Influencer-Codes +300! Werde Partner und verdiene 1€/aktiver Nutzer.",
+        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
+        vurgu: "#93c5fd",
+        detaylar: ["🎯 Influencer: +300 Pkt.", "💳 50% Netto-Provision", "👤 1€/aktiver Nutzer"],
+      },
+    ],
+  },
+  it: {
+    dilSec: "Seleziona lingua",
+    hosgeldin: "Benvenuto!",
+    basla: "Iniziamo →",
+    atla: "Salta",
+    devam: "Avanti →",
+    slides: [
+      {
+        ikon: "🥗",
+        baslik: "Mangia sano con Doya",
+        acik: "Registra tutto ciò che mangi in pochi secondi. Traccia calorie, proteine e vitamine con oltre 2.100 alimenti.",
+        renk: "linear-gradient(145deg,#052e16,#15803d)",
+        vurgu: "#4ade80",
+        detaylar: ["🍔 2.100+ alimenti", "📊 Macro tracking", "💊 Analisi vitamine"],
+      },
+      {
+        ikon: "📷",
+        baslik: "Scanner AI per foto",
+        acik: "Scatta una foto del tuo pasto e lascia che l'IA calcoli immediatamente calorie e macros.",
+        renk: "linear-gradient(145deg,#1e1b4b,#4338ca)",
+        vurgu: "#a5b4fc",
+        detaylar: ["🤖 Alimentato da IA", "📸 Scansione foto", "⚡ Risultato immediato"],
+      },
+      {
+        ikon: "🏆",
+        baslik: "Guadagna punti",
+        acik: "Guadagna punti ad ogni pasto, sfida gli amici. Il sistema streak rafforza le tue abitudini!",
+        renk: "linear-gradient(145deg,#78350f,#d97706)",
+        vurgu: "#fde68a",
+        detaylar: ["🔥 Streak giornaliero", "👥 Sfida amici", "🥇 Classifica"],
+      },
+      {
+        ikon: "🍳",
+        baslik: "Ricette per sportivi",
+        acik: "Scopri 140+ ricette sane. Valori macro inclusi — aggiungili al pasto con un clic.",
+        renk: "linear-gradient(145deg,#064e3b,#059669)",
+        vurgu: "#6ee7b7",
+        detaylar: ["💪 140+ ricette", "⭐ Valutate", "🍽️ Aggiungi al pasto"],
+      },
+      {
+        ikon: "💰",
+        baslik: "Guadagna & cresci",
+        acik: "Condividi il tuo codice — ottieni 1€/utente attivo + 50% di commissione sugli acquisti!",
+        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
+        vurgu: "#93c5fd",
+        detaylar: ["🎯 Influencer: +300 pti", "💳 50% netto commissione", "👤 1€/utente attivo"],
+      },
+    ],
+  },
+  fr: {
+    dilSec: "Choisir la langue",
+    hosgeldin: "Bienvenue !",
+    basla: "Commençons →",
+    atla: "Passer",
+    devam: "Suivant →",
+    slides: [
+      {
+        ikon: "🥗",
+        baslik: "Mangez sainement avec Doya",
+        acik: "Enregistrez tout ce que vous mangez en quelques secondes. Suivez calories, protéines et vitamines avec plus de 2 100 aliments.",
+        renk: "linear-gradient(145deg,#052e16,#15803d)",
+        vurgu: "#4ade80",
+        detaylar: ["🍔 2 100+ aliments", "📊 Suivi macros", "💊 Analyse vitamines"],
+      },
+      {
+        ikon: "📷",
+        baslik: "Scanner IA par photo",
+        acik: "Photographiez votre repas et laissez l'IA calculer instantanément les calories et les macros.",
+        renk: "linear-gradient(145deg,#1e1b4b,#4338ca)",
+        vurgu: "#a5b4fc",
+        detaylar: ["🤖 Propulsé par IA", "📸 Scan photo", "⚡ Résultat immédiat"],
+      },
+      {
+        ikon: "🏆",
+        baslik: "Gagnez des points",
+        acik: "Gagnez des points à chaque repas, défiez vos amis. Le système de séries renforce vos habitudes !",
+        renk: "linear-gradient(145deg,#78350f,#d97706)",
+        vurgu: "#fde68a",
+        detaylar: ["🔥 Séries quotidiennes", "👥 Défi amis", "🥇 Classement"],
+      },
+      {
+        ikon: "🍳",
+        baslik: "Recettes sportives",
+        acik: "Découvrez 140+ recettes saines. Valeurs macro incluses — ajoutez-les au repas en un clic.",
+        renk: "linear-gradient(145deg,#064e3b,#059669)",
+        vurgu: "#6ee7b7",
+        detaylar: ["💪 140+ recettes", "⭐ Notées", "🍽️ Ajouter au repas"],
+      },
+      {
+        ikon: "💰",
+        baslik: "Gagnez & grandissez",
+        acik: "Partagez votre code — gagnez 1€/utilisateur actif + 50% de commission sur les achats !",
+        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
+        vurgu: "#93c5fd",
+        detaylar: ["🎯 Influenceur : +300 pts", "💳 50% commission nette", "👤 1€/utilisateur actif"],
+      },
+    ],
+  },
+  es: {
+    dilSec: "Seleccionar idioma",
+    hosgeldin: "¡Bienvenido!",
+    basla: "Empecemos →",
+    atla: "Saltar",
+    devam: "Siguiente →",
+    slides: [
+      {
+        ikon: "🥗",
+        baslik: "Come sano con Doya",
+        acik: "Registra todo lo que comes en segundos. Rastrea calorías, proteínas y vitaminas con más de 2.100 alimentos.",
+        renk: "linear-gradient(145deg,#052e16,#15803d)",
+        vurgu: "#4ade80",
+        detaylar: ["🍔 2.100+ alimentos", "📊 Seguimiento macros", "💊 Análisis vitaminas"],
+      },
+      {
+        ikon: "📷",
+        baslik: "Escáner IA por foto",
+        acik: "Fotografía tu comida y deja que la IA calcule al instante las calorías y macros.",
+        renk: "linear-gradient(145deg,#1e1b4b,#4338ca)",
+        vurgu: "#a5b4fc",
+        detaylar: ["🤖 Impulsado por IA", "📸 Escaneo foto", "⚡ Resultado inmediato"],
+      },
+      {
+        ikon: "🏆",
+        baslik: "Gana puntos y compite",
+        acik: "Gana puntos en cada comida, compite con amigos. ¡El sistema de rachas fortalece tus hábitos!",
+        renk: "linear-gradient(145deg,#78350f,#d97706)",
+        vurgu: "#fde68a",
+        detaylar: ["🔥 Racha diaria", "👥 Desafío amigos", "🥇 Clasificación"],
+      },
+      {
+        ikon: "🍳",
+        baslik: "Recetas deportivas",
+        acik: "Descubre 140+ recetas saludables. Valores macro incluidos — añádelas a tu comida con un clic.",
+        renk: "linear-gradient(145deg,#064e3b,#059669)",
+        vurgu: "#6ee7b7",
+        detaylar: ["💪 140+ recetas", "⭐ Valoradas", "🍽️ Añadir a comida"],
+      },
+      {
+        ikon: "💰",
+        baslik: "Gana y crece",
+        acik: "Comparte tu código — ¡gana 1€/usuario activo + 50% de comisión en las compras!",
+        renk: "linear-gradient(145deg,#1e3a5f,#2563eb)",
+        vurgu: "#93c5fd",
+        detaylar: ["🎯 Influencer: +300 ptos", "💳 50% comisión neta", "👤 1€/usuario activo"],
+      },
+    ],
+  },
 };
 
 // ─── SABİTLER ────────────────────────────────────────────────
@@ -2388,7 +2584,242 @@ const BESIN_DB = [
   { id:2098, ad:"Ülker Cafe Crown Sütlü Kahve", marka:"Ülker", kal:130, pro:2, karb:18, yag:5.5, lif:0, sod:65, demir:0.2, kals:65, vitC:0, vitD:0, vitB12:0.1, acik:22, por:25, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2 },
   { id:2099, ad:"Züber Kuru Dut", marka:"Züber", kal:280, pro:3, karb:68, yag:0.8, lif:10, sod:10, demir:2.5, kals:50, vitC:3, vitD:0, vitB12:0, acik:45, por:50, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
   { id:2100, ad:"Eti Cinnis Tarçınlı Bisküvi", marka:"Eti", kal:448, pro:6.5, karb:68, yag:16, lif:2, sod:330, demir:1.5, kals:48, vitC:0, vitD:0, vitB12:0, acik:50, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+
+  // ─── ALMAN ÜRÜNLERİ (ID 2101-2200) ──────────────────────────
+  // Ekmek & Unlu Mamüller
+  { id:2101, ad:"Pumpernickel (Westfälisch)", marka:"Mestemacher", kal:185, pro:6.5, karb:34, yag:1.5, lif:7.5, sod:310, demir:2.8, kals:28, vitC:0, vitD:0, vitB12:0, acik:58, por:65, aclik:"2 saat", onay:true, kat:"Ekmek", yildiz:4.5 },
+  { id:2102, ad:"Vollkornbrot (Tam Çavdar Ekmeği)", marka:"", kal:200, pro:7, karb:38, yag:1.8, lif:8, sod:360, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:60, por:70, aclik:"2 saat", onay:true, kat:"Ekmek", yildiz:4.5 },
+  { id:2103, ad:"Brezel (Soft Pretzel)", marka:"", kal:340, pro:9, karb:68, yag:2.5, lif:2.5, sod:1200, demir:2.5, kals:25, vitC:0, vitD:0, vitB12:0, acik:48, por:100, aclik:"1.5 saat", onay:true, kat:"Ekmek", yildiz:2.5 },
+  { id:2104, ad:"Laugenbrötchen (Alkalin Rulo)", marka:"", kal:285, pro:8.5, karb:55, yag:2.5, lif:2, sod:950, demir:2, kals:22, vitC:0, vitD:0, vitB12:0, acik:44, por:80, aclik:"1.5 saat", onay:true, kat:"Ekmek", yildiz:2.5 },
+  { id:2105, ad:"Roggenbrot (Çavdar Ekmeği)", marka:"", kal:215, pro:6.5, karb:42, yag:1.2, lif:6, sod:420, demir:2.2, kals:24, vitC:0, vitD:0, vitB12:0, acik:55, por:70, aclik:"2 saat", onay:true, kat:"Ekmek", yildiz:4 },
+  { id:2106, ad:"Knäckebrot (İsveç Tipi Cracker)", marka:"Wasa", kal:330, pro:9, karb:64, yag:2, lif:16, sod:460, demir:3, kals:35, vitC:0, vitD:0, vitB12:0, acik:60, por:40, aclik:"1.5 saat", onay:true, kat:"Ekmek", yildiz:4.5 },
+  { id:2107, ad:"Brötchen (Alman Simit)", marka:"", kal:270, pro:8.5, karb:52, yag:2, lif:2, sod:380, demir:1.8, kals:20, vitC:0, vitD:0, vitB12:0, acik:40, por:75, aclik:"1 saat", onay:true, kat:"Ekmek", yildiz:2.5 },
+
+  // Et & Sosis Ürünleri
+  { id:2108, ad:"Bratwurst (Alman Sos)", marka:"", kal:290, pro:14, karb:2, yag:25, lif:0, sod:680, demir:1.2, kals:15, vitC:0, vitD:0.2, vitB12:0.8, acik:48, por:100, aclik:"1.5 saat", onay:true, kat:"Et Ürünü", yildiz:2 },
+  { id:2109, ad:"Weisswurst (Beyaz Sosis)", marka:"", kal:265, pro:13, karb:3, yag:23, lif:0, sod:590, demir:0.8, kals:18, vitC:0, vitD:0.3, vitB12:0.6, acik:45, por:90, aclik:"1.5 saat", onay:true, kat:"Et Ürünü", yildiz:2 },
+  { id:2110, ad:"Frankfurter Würstchen", marka:"", kal:310, pro:12, karb:2, yag:28, lif:0, sod:850, demir:1, kals:12, vitC:0, vitD:0, vitB12:0.5, acik:44, por:80, aclik:"1 saat", onay:true, kat:"Et Ürünü", yildiz:2 },
+  { id:2111, ad:"Leberwurst (Ciğer Ezmesi)", marka:"", kal:320, pro:14, karb:3, yag:28, lif:0, sod:720, demir:8.5, kals:20, vitC:2, vitD:0.5, vitB12:5, acik:38, por:50, aclik:"1 saat", onay:true, kat:"Et Ürünü", yildiz:2.5 },
+  { id:2112, ad:"Schwarzwälder Schinken (Jambon)", marka:"", kal:220, pro:24, karb:0, yag:14, lif:0, sod:1500, demir:1.5, kals:12, vitC:0, vitD:0, vitB12:0.8, acik:50, por:60, aclik:"1.5 saat", onay:true, kat:"Et Ürünü", yildiz:2.5 },
+  { id:2113, ad:"Mettwurst (Çiğ Köfte Sosis)", marka:"", kal:380, pro:15, karb:1, yag:35, lif:0, sod:900, demir:2, kals:15, vitC:0, vitD:0, vitB12:1.2, acik:38, por:50, aclik:"1 saat", onay:true, kat:"Et Ürünü", yildiz:1.5 },
+  { id:2114, ad:"Bockwurst", marka:"", kal:295, pro:13, karb:2, yag:26, lif:0, sod:780, demir:1, kals:15, vitC:0, vitD:0.2, vitB12:0.5, acik:44, por:90, aclik:"1 saat", onay:true, kat:"Et Ürünü", yildiz:2 },
+
+  // Süt Ürünleri
+  { id:2115, ad:"Quark (Az Yağlı)", marka:"", kal:66, pro:12, karb:4, yag:0.2, lif:0, sod:45, demir:0.1, kals:95, vitC:0, vitD:0, vitB12:0.8, acik:50, por:150, aclik:"2 saat", onay:true, kat:"Süt Ürünü", yildiz:4.5 },
+  { id:2116, ad:"Quark (Tam Yağlı)", marka:"", kal:130, pro:11, karb:3.5, yag:8, lif:0, sod:40, demir:0.1, kals:90, vitC:0, vitD:0, vitB12:0.7, acik:48, por:150, aclik:"2 saat", onay:true, kat:"Süt Ürünü", yildiz:4 },
+  { id:2117, ad:"Buttermilch (Yayık Ayranı) 200ml", marka:"", kal:36, pro:3.3, karb:4.5, yag:0.5, lif:0, sod:50, demir:0.1, kals:115, vitC:1, vitD:0, vitB12:0.4, acik:30, por:200, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:4 },
+  { id:2118, ad:"Emmentaler Peyniri %45", marka:"", kal:385, pro:29, karb:0, yag:29, lif:0, sod:260, demir:0.2, kals:1010, vitC:0, vitD:0.5, vitB12:1.6, acik:55, por:40, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:3.5 },
+  { id:2119, ad:"Gouda Peyniri %45", marka:"", kal:356, pro:25, karb:0.5, yag:27, lif:0, sod:820, demir:0.3, kals:740, vitC:0, vitD:0.5, vitB12:1.5, acik:52, por:40, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:3.5 },
+  { id:2120, ad:"Frischkäse (Krem Peynir) %13 yağ", marka:"Philadelphia", kal:150, pro:6, karb:3, yag:12, lif:0, sod:330, demir:0.1, kals:90, vitC:0, vitD:0, vitB12:0.3, acik:35, por:30, aclik:"45 dk", onay:true, kat:"Süt Ürünü", yildiz:3 },
+  { id:2121, ad:"Saure Sahne (Ekşi Krema) %10", marka:"", kal:110, pro:3, karb:3.5, yag:10, lif:0, sod:40, demir:0.1, kals:90, vitC:1, vitD:0, vitB12:0.3, acik:30, por:100, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:3 },
+
+  // Alman Kahvaltısı & Sürme
+  { id:2122, ad:"Nutella 15g (1 porsiyon)", marka:"Ferrero", kal:80, pro:1, karb:9, yag:4.5, lif:0.5, sod:14, demir:0.5, kals:20, vitC:0, vitD:0, vitB12:0, acik:20, por:15, aclik:"20 dk", onay:true, kat:"Kahvaltılık", yildiz:1.5 },
+  { id:2123, ad:"Honig (Alman Balı) 1 yem.k.", marka:"", kal:65, pro:0.1, karb:17, yag:0, lif:0, sod:1, demir:0.1, kals:2, vitC:0.5, vitD:0, vitB12:0, acik:20, por:20, aclik:"30 dk", onay:true, kat:"Kahvaltılık", yildiz:3 },
+  { id:2124, ad:"Marmelade (Alman Reçel) 1 yem.k.", marka:"Schwartau", kal:50, pro:0.1, karb:13, yag:0, lif:0.3, sod:5, demir:0.1, kals:5, vitC:3, vitD:0, vitB12:0, acik:15, por:20, aclik:"20 dk", onay:true, kat:"Kahvaltılık", yildiz:2 },
+  { id:2125, ad:"Rübenkraut (Pancar Şurubu) 1 yem.k.", marka:"Grafschafter", kal:55, pro:0.3, karb:14, yag:0, lif:0, sod:8, demir:2, kals:35, vitC:0, vitD:0, vitB12:0, acik:20, por:20, aclik:"30 dk", onay:true, kat:"Kahvaltılık", yildiz:3 },
+
+  // Hazır & Konserve
+  { id:2126, ad:"Sauerkraut (Lahana Turşusu) 100g", marka:"", kal:18, pro:1, karb:2.5, yag:0.2, lif:2.5, sod:700, demir:1.5, kals:30, vitC:14, vitD:0, vitB12:0, acik:28, por:100, aclik:"1 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:2127, ad:"Rotkohl (Kırmızı Lahana) Konserve", marka:"Hengstenberg", kal:45, pro:1.5, karb:8, yag:0.5, lif:3, sod:380, demir:1, kals:45, vitC:20, vitD:0, vitB12:0, acik:35, por:200, aclik:"1 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:2128, ad:"Erbsensuppe (Bezelye Çorbası) Konserve", marka:"Hak", kal:85, pro:5, karb:13, yag:1, lif:4, sod:420, demir:1.5, kals:25, vitC:5, vitD:0, vitB12:0, acik:48, por:300, aclik:"1.5 saat", onay:true, kat:"Çorba", yildiz:3.5 },
+  { id:2129, ad:"Linseneintopf (Mercimek Güveç) Konserve", marka:"Hak", kal:80, pro:5, karb:12, yag:1, lif:4.5, sod:400, demir:2.5, kals:20, vitC:3, vitD:0, vitB12:0, acik:50, por:300, aclik:"1.5 saat", onay:true, kat:"Çorba", yildiz:4 },
+  { id:2130, ad:"Kartoffelsuppe (Patates Çorbası)", marka:"Maggi", kal:60, pro:2, karb:10, yag:1.5, lif:1, sod:550, demir:0.5, kals:30, vitC:8, vitD:0, vitB12:0, acik:38, por:250, aclik:"1 saat", onay:true, kat:"Çorba", yildiz:2.5 },
+
+  // Alman Tatlıları & Atıştırmalıkları
+  { id:2131, ad:"Lebkuchen (Alman Zencefil Keki)", marka:"Lambertz", kal:365, pro:5.5, karb:68, yag:8, lif:2.5, sod:200, demir:2, kals:35, vitC:0, vitD:0, vitB12:0, acik:40, por:50, aclik:"1 saat", onay:true, kat:"Tatlı", yildiz:2.5 },
+  { id:2132, ad:"Stollen (Alman Noel Keki) 1 dilim", marka:"", kal:395, pro:6, karb:55, yag:17, lif:2, sod:200, demir:1.5, kals:40, vitC:2, vitD:0, vitB12:0, acik:38, por:80, aclik:"1 saat", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2133, ad:"Bienenstich (Bal Arısı Pastası) 1 dilim", marka:"", kal:340, pro:6, karb:42, yag:16, lif:1, sod:150, demir:0.8, kals:80, vitC:0, vitD:0.2, vitB12:0.2, acik:35, por:90, aclik:"1 saat", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2134, ad:"Schwarzwälder Kirschtorte 1 dilim", marka:"", kal:380, pro:4.5, karb:44, yag:20, lif:1.5, sod:120, demir:1, kals:60, vitC:2, vitD:0.3, vitB12:0.1, acik:32, por:120, aclik:"1 saat", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2135, ad:"Baumkuchen (Ağaç Keki)", marka:"", kal:415, pro:6, karb:54, yag:19, lif:0.8, sod:130, demir:0.8, kals:45, vitC:0, vitD:0.5, vitB12:0.3, acik:35, por:60, aclik:"1 saat", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2136, ad:"Printen (Herzogenrath Kurabiyesi)", marka:"", kal:355, pro:5, karb:70, yag:6, lif:2, sod:180, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:42, por:60, aclik:"1 saat", onay:true, kat:"Tatlı", yildiz:2.5 },
+  { id:2137, ad:"Dominosteine (Çikolatalı Baharatlı)", marka:"", kal:375, pro:4, karb:68, yag:9, lif:2, sod:120, demir:1.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:38, por:50, aclik:"1 saat", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2138, ad:"Haribo Gold-Bären (Ayı Şekeri)", marka:"Haribo", kal:340, pro:6.5, karb:77, yag:0.5, lif:0, sod:35, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:20, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2139, ad:"Haribo Happy Cola", marka:"Haribo", kal:342, pro:6, karb:78, yag:0.2, lif:0, sod:30, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:18, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2140, ad:"Haribo Maoam Stripes", marka:"Haribo", kal:400, pro:1, karb:88, yag:4, lif:0, sod:40, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:18, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+
+  // Alman Çikolatası
+  { id:2141, ad:"Ritter Sport Vollmilch 100g", marka:"Ritter Sport", kal:533, pro:7.5, karb:57, yag:30, lif:1.5, sod:65, demir:1.5, kals:210, vitC:0, vitD:0, vitB12:0.3, acik:42, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2142, ad:"Ritter Sport Bitter 74% 100g", marka:"Ritter Sport", kal:545, pro:6.5, karb:45, yag:36, lif:6, sod:10, demir:6, kals:50, vitC:0, vitD:0, vitB12:0, acik:48, por:50, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2143, ad:"Ritter Sport Nuss (Fındıklı) 100g", marka:"Ritter Sport", kal:555, pro:8.5, karb:52, yag:34, lif:2.5, sod:40, demir:1.5, kals:125, vitC:0, vitD:0, vitB12:0.2, acik:44, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2144, ad:"Milka Alpenmilch 100g", marka:"Milka", kal:535, pro:7.5, karb:57, yag:30, lif:1, sod:90, demir:1.5, kals:220, vitC:0, vitD:0, vitB12:0.3, acik:40, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2145, ad:"Milka Oreo 100g", marka:"Milka", kal:505, pro:6.5, karb:60, yag:26, lif:2, sod:210, demir:2, kals:155, vitC:0, vitD:0, vitB12:0.2, acik:38, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2146, ad:"Kinder Schokolade 12.5g bar", marka:"Ferrero", kal:66, pro:1.4, karb:7, yag:3.8, lif:0, sod:15, demir:0.1, kals:35, vitC:0, vitD:0, vitB12:0.1, acik:18, por:12.5, aclik:"20 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2147, ad:"Kinder Bueno 2'li (43g)", marka:"Ferrero", kal:228, pro:3.5, karb:23, yag:13.5, lif:1, sod:55, demir:0.5, kals:65, vitC:0, vitD:0, vitB12:0.1, acik:28, por:43, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2148, ad:"Mon Chéri (1 adet)", marka:"Ferrero", kal:55, pro:0.5, karb:7, yag:2.8, lif:0, sod:5, demir:0.2, kals:10, vitC:0, vitD:0, vitB12:0, acik:12, por:15, aclik:"15 dk", onay:true, kat:"Atıştırmalık", yildiz:1.5 },
+  { id:2149, ad:"After Eight (1 dilim)", marka:"Nestlé", kal:40, pro:0.3, karb:7, yag:1.2, lif:0.3, sod:5, demir:0.2, kals:5, vitC:0, vitD:0, vitB12:0, acik:10, por:9, aclik:"10 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2150, ad:"Merci Nussbeißer 40g", marka:"Storck", kal:220, pro:3, karb:22, yag:13, lif:1, sod:30, demir:1, kals:65, vitC:0, vitD:0, vitB12:0.1, acik:28, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+
+  // Alman Krakerler & Cipsler
+  { id:2151, ad:"Lorenz Salzstangen (Çubuk Kraker)", marka:"Lorenz", kal:395, pro:9.5, karb:72, yag:5, lif:2.5, sod:1800, demir:2, kals:30, vitC:0, vitD:0, vitB12:0, acik:48, por:40, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2152, ad:"Lorenz Erdnuss-Locken (Yer Fıstığı)", marka:"Lorenz", kal:520, pro:12, karb:45, yag:32, lif:3, sod:650, demir:1.5, kals:35, vitC:0, vitD:0, vitB12:0, acik:52, por:35, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2153, ad:"Funny-Frisch Chips Paprika", marka:"Funny-Frisch", kal:500, pro:6, karb:55, yag:28, lif:4, sod:750, demir:1.5, kals:25, vitC:10, vitD:0, vitB12:0, acik:48, por:35, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2154, ad:"Pringles Original (Almanya)", marka:"Pringles", kal:530, pro:5.5, karb:55, yag:31, lif:3, sod:550, demir:1, kals:25, vitC:12, vitD:0, vitB12:0, acik:48, por:30, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2155, ad:"Chio Chips Ungarisch", marka:"Chio", kal:490, pro:6.5, karb:57, yag:26, lif:4, sod:700, demir:1.5, kals:25, vitC:8, vitD:0, vitB12:0, acik:48, por:30, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+
+  // Alman İçecekleri
+  { id:2156, ad:"Apfelschorle (Elma Gazoz) 330ml", marka:"", kal:55, pro:0.2, karb:13, yag:0, lif:0, sod:10, demir:0.1, kals:8, vitC:12, vitD:0, vitB12:0, acik:20, por:330, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2.5 },
+  { id:2157, ad:"Bionade (Organik Soda) 330ml", marka:"Bionade", kal:48, pro:0, karb:12, yag:0, lif:0, sod:20, demir:0, kals:5, vitC:0, vitD:0, vitB12:0, acik:15, por:330, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2 },
+  { id:2158, ad:"Kräutertee (Bitki Çayı) demleme", marka:"Teekanne", kal:2, pro:0, karb:0.3, yag:0, lif:0, sod:2, demir:0.2, kals:5, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"10 dk", onay:true, kat:"İçecek", yildiz:4 },
+  { id:2159, ad:"Ovomaltine Pulver 1 k.k.", marka:"Ovomaltine", kal:55, pro:2, karb:9, yag:1.5, lif:0.5, sod:50, demir:1.5, kals:60, vitC:5, vitD:0.5, vitB12:0.3, acik:18, por:12, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:3 },
+  { id:2160, ad:"Hohes C Orange 200ml", marka:"Hohes C", kal:88, pro:1, karb:20, yag:0.1, lif:0.5, sod:8, demir:0.2, kals:15, vitC:80, vitD:0, vitB12:0, acik:20, por:200, aclik:"30 dk", onay:true, kat:"İçecek", yildiz:3 },
+
+  // Alman Kahvaltı Gevrekleri & Müsli
+  { id:2161, ad:"Bircher Müsli (Sütlü) 100g", marka:"", kal:160, pro:5, karb:28, yag:3.5, lif:4, sod:50, demir:2.5, kals:120, vitC:5, vitD:0, vitB12:0.3, acik:55, por:100, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:2162, ad:"Kölln Haferflocken (Yulaf) 40g", marka:"Kölln", kal:148, pro:5.5, karb:25, yag:2.8, lif:4, sod:4, demir:2, kals:18, vitC:0, vitD:0, vitB12:0, acik:55, por:40, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:4.5 },
+  { id:2163, ad:"Dr. Oetker Creme Fraîche %30", marka:"Dr. Oetker", kal:285, pro:2.5, karb:3, yag:29, lif:0, sod:40, demir:0.1, kals:75, vitC:0.5, vitD:0, vitB12:0.3, acik:25, por:30, aclik:"45 dk", onay:true, kat:"Süt Ürünü", yildiz:2 },
+
+  // Alman Hazır Yemek & Dondurulmuş
+  { id:2164, ad:"Döner Kebap (Alman Usulü, Ekmekte)", marka:"", kal:480, pro:26, karb:52, yag:18, lif:3, sod:820, demir:2.5, kals:120, vitC:8, vitD:0, vitB12:0.8, acik:62, por:300, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:2165, ad:"Currywurst + Pommes (Alman Fast Food)", marka:"", kal:620, pro:22, karb:62, yag:32, lif:4, sod:980, demir:2.5, kals:35, vitC:15, vitD:0, vitB12:0.6, acik:60, por:350, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:2166, ad:"Schnitzel (Wiener, 150g)", marka:"", kal:380, pro:28, karb:18, yag:22, lif:0.8, sod:420, demir:2, kals:30, vitC:2, vitD:0.2, vitB12:0.8, acik:55, por:150, aclik:"2 saat", onay:true, kat:"Et Ürünü", yildiz:3 },
+  { id:2167, ad:"Sauerbraten (Ekşi Etli Güveç) 200g", marka:"", kal:280, pro:26, karb:12, yag:14, lif:1, sod:520, demir:3, kals:30, vitC:5, vitD:0, vitB12:1.5, acik:60, por:200, aclik:"2 saat", onay:true, kat:"Et Ürünü", yildiz:3.5 },
+  { id:2168, ad:"Kasseler (Tütsülenmiş Domuz) 100g", marka:"", kal:185, pro:23, karb:0, yag:10, lif:0, sod:1200, demir:1, kals:15, vitC:0, vitD:0.3, vitB12:0.7, acik:48, por:100, aclik:"1.5 saat", onay:true, kat:"Et Ürünü", yildiz:2 },
+  { id:2169, ad:"Kartoffelpuffer (Patates Köftesi) 2 adet", marka:"", kal:230, pro:4, karb:30, yag:10, lif:2.5, sod:380, demir:1, kals:25, vitC:12, vitD:0, vitB12:0, acik:42, por:120, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:2170, ad:"Spätzle (Haşlanmış, 150g)", marka:"", kal:240, pro:8, karb:46, yag:2.5, lif:1.5, sod:8, demir:1.5, kals:25, vitC:0, vitD:0.2, vitB12:0.2, acik:45, por:150, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+
+  // Müsli & Granola Barlar
+  { id:2171, ad:"Corny Big Müsli Bar Çikolatalı", marka:"Schwartau", kal:395, pro:5.5, karb:60, yag:14, lif:3.5, sod:100, demir:2, kals:55, vitC:0, vitD:0, vitB12:0, acik:45, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2172, ad:"Granola Bar Nuss (DM Bio)", marka:"dmBio", kal:410, pro:7, karb:55, yag:17, lif:4, sod:80, demir:2.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:48, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2173, ad:"Riegel Vollkorn-Müsli (Sante)", marka:"Sante", kal:375, pro:7, karb:62, yag:10, lif:5, sod:75, demir:3, kals:65, vitC:0, vitD:0, vitB12:0, acik:50, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+
+  // Alman Süpermarket Markaları
+  { id:2174, ad:"Ja! Joghurt Natur 3.5% 200g", marka:"Ja!", kal:130, pro:7, karb:10, yag:7, lif:0, sod:85, demir:0.1, kals:220, vitC:1, vitD:0, vitB12:0.7, acik:48, por:200, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:4 },
+  { id:2175, ad:"Aldi Haselnuss-Creme 30g", marka:"Aldi", kal:170, pro:2, karb:19, yag:9.5, lif:0.8, sod:22, demir:0.5, kals:50, vitC:0, vitD:0, vitB12:0, acik:22, por:30, aclik:"30 dk", onay:true, kat:"Kahvaltılık", yildiz:2 },
+  { id:2176, ad:"Edeka Bio Apfelsaft 200ml", marka:"Edeka Bio", kal:90, pro:0.2, karb:22, yag:0, lif:0.5, sod:10, demir:0.2, kals:10, vitC:8, vitD:0, vitB12:0, acik:18, por:200, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2.5 },
+  { id:2177, ad:"Rewe Bio Feldsalat 80g", marka:"Rewe Bio", kal:18, pro:2, karb:1.5, yag:0.5, lif:1.5, sod:80, demir:2, kals:40, vitC:35, vitD:0, vitB12:0, acik:30, por:80, aclik:"30 dk", onay:true, kat:"Sebze", yildiz:5 },
+  { id:2178, ad:"Lidl Crunchips Sour Cream", marka:"Crunchips", kal:495, pro:6, karb:57, yag:27, lif:3.5, sod:680, demir:1, kals:25, vitC:9, vitD:0, vitB12:0, acik:46, por:30, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2179, ad:"Nordsee Matjes Hering (Ringa Balığı) 100g", marka:"Nordsee", kal:195, pro:17, karb:0, yag:14, lif:0, sod:700, demir:1.2, kals:50, vitC:0, vitD:14, vitB12:6, acik:55, por:100, aclik:"1.5 saat", onay:true, kat:"Deniz Ürünü", yildiz:4.5 },
+  { id:2180, ad:"Thüringer Rostbratwurst 100g", marka:"", kal:315, pro:15, karb:1.5, yag:27, lif:0, sod:750, demir:1.5, kals:18, vitC:0, vitD:0.2, vitB12:0.8, acik:46, por:100, aclik:"1.5 saat", onay:true, kat:"Et Ürünü", yildiz:2 },
+
+  // Organik & Sağlıklı Alman Ürünleri
+  { id:2181, ad:"Alnatura Dinkelvollkorn (Kılçık Buğdayı Ekmeği)", marka:"Alnatura", kal:230, pro:9, karb:40, yag:2.5, lif:6.5, sod:340, demir:3, kals:40, vitC:0, vitD:0, vitB12:0, acik:60, por:70, aclik:"2 saat", onay:true, kat:"Ekmek", yildiz:4.5 },
+  { id:2182, ad:"Alnatura Mandeln Natur (Badem) 30g", marka:"Alnatura", kal:174, pro:6.3, karb:2.5, yag:15, lif:2.4, sod:1, demir:0.9, kals:80, vitC:0, vitD:0, vitB12:0, acik:52, por:30, aclik:"1.5 saat", onay:true, kat:"Atıştırmalık", yildiz:5 },
+  { id:2183, ad:"dmBio Quinoa 100g (pişmiş)", marka:"dmBio", kal:120, pro:4.5, karb:20, yag:2, lif:2.5, sod:5, demir:1.5, kals:25, vitC:0, vitD:0, vitB12:0, acik:55, por:100, aclik:"2 saat", onay:true, kat:"Tahıl", yildiz:4.5 },
+  { id:2184, ad:"Natumi Haferdrink (Yulaf Sütü) 200ml", marka:"Natumi", kal:44, pro:0.9, karb:7.5, yag:1, lif:0.8, sod:60, demir:0.2, kals:120, vitC:0, vitD:1.5, vitB12:0.4, acik:28, por:200, aclik:"45 dk", onay:true, kat:"İçecek", yildiz:4 },
+  { id:2185, ad:"Alpro Soja-Joghurt Natur 150g", marka:"Alpro", kal:56, pro:3.8, karb:5.5, yag:1.8, lif:0.5, sod:48, demir:0.4, kals:120, vitC:0, vitD:0.8, vitB12:0.4, acik:38, por:150, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:4 },
+  { id:2186, ad:"Nuss-Müsli (Fındıklı Müsli) 50g", marka:"Seitenbacher", kal:195, pro:6, karb:28, yag:7, lif:4, sod:10, demir:2, kals:50, vitC:0, vitD:0, vitB12:0, acik:52, por:50, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:2187, ad:"Bahlsen Leibniz Butterkeks", marka:"Bahlsen", kal:460, pro:7.5, karb:67, yag:17, lif:1.5, sod:260, demir:1.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:48, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2188, ad:"Bahlsen Choco Leibniz", marka:"Bahlsen", kal:480, pro:6.5, karb:64, yag:22, lif:2, sod:180, demir:1.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:44, por:45, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2189, ad:"Storck Werther's Original (1 adet)", marka:"Storck", kal:25, pro:0.2, karb:5, yag:0.8, lif:0, sod:15, demir:0, kals:15, vitC:0, vitD:0, vitB12:0, acik:8, por:7, aclik:"10 dk", onay:true, kat:"Atıştırmalık", yildiz:1.5 },
+  { id:2190, ad:"Katjes Fruchtgummi (Meyve Şekeri)", marka:"Katjes", kal:325, pro:5.5, karb:72, yag:0.5, lif:0, sod:28, demir:0, kals:4, vitC:0, vitD:0, vitB12:0, acik:18, por:40, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+
+  // Alman Geleneksel Yemekleri
+  { id:2191, ad:"Eintopf (Karışık Güveç) 300g", marka:"", kal:165, pro:9, karb:22, yag:4, lif:4.5, sod:580, demir:2, kals:45, vitC:15, vitD:0, vitB12:0.4, acik:55, por:300, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
+  { id:2192, ad:"Rouladen (Sığır Rulo Et) 150g", marka:"", kal:265, pro:24, karb:5, yag:16, lif:0.5, sod:480, demir:3, kals:25, vitC:5, vitD:0, vitB12:1.8, acik:58, por:150, aclik:"2 saat", onay:true, kat:"Et Ürünü", yildiz:3.5 },
+  { id:2193, ad:"Himmel und Erde (Elma-Patates Püresi)", marka:"", kal:190, pro:3, karb:38, yag:3, lif:4, sod:250, demir:1, kals:20, vitC:18, vitD:0, vitB12:0, acik:42, por:200, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+  { id:2194, ad:"Grünkohl mit Pinkel (Lahana+Sosis)", marka:"", kal:220, pro:14, karb:8, yag:15, lif:6, sod:650, demir:2.5, kals:120, vitC:55, vitD:0.2, vitB12:0.5, acik:55, por:250, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:3.5 },
+  { id:2195, ad:"Maultaschen (Alman Mantısı) 150g", marka:"", kal:270, pro:13, karb:30, yag:10, lif:1.5, sod:480, demir:2, kals:60, vitC:2, vitD:0.2, vitB12:0.5, acik:50, por:150, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:3 },
+
+  // Alman Peynir Çeşitleri
+  { id:2196, ad:"Limburger Peyniri %20", marka:"", kal:220, pro:20, karb:0.5, yag:15, lif:0, sod:600, demir:0.2, kals:320, vitC:0, vitD:0.3, vitB12:1.2, acik:45, por:40, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:3 },
+  { id:2197, ad:"Harzer Käse (Az Yağlı Taze Peynir)", marka:"", kal:125, pro:28, karb:0, yag:0.8, lif:0, sod:620, demir:0.2, kals:90, vitC:0, vitD:0, vitB12:1.5, acik:58, por:45, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:4.5 },
+  { id:2198, ad:"Obatzda (Bavyera Peynir Ezmesi)", marka:"", kal:290, pro:14, karb:2, yag:25, lif:0, sod:550, demir:0.3, kals:180, vitC:0, vitD:0.2, vitB12:0.8, acik:40, por:60, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:2.5 },
+  { id:2199, ad:"Allgäuer Bergkäse %45 (Dağ Peyniri)", marka:"", kal:400, pro:28, karb:0, yag:31, lif:0, sod:480, demir:0.2, kals:1050, vitC:0, vitD:0.5, vitB12:1.8, acik:58, por:40, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:3.5 },
+  { id:2200, ad:"Speisequark mit Früchten (Meyveli Quark)", marka:"Müller", kal:105, pro:7.5, karb:13, yag:2.5, lif:0.5, sod:55, demir:0.2, kals:130, vitC:5, vitD:0, vitB12:0.5, acik:42, por:150, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:3.5 },
+  // ─── ALMAN ÜRÜNLERİ (ID 2101-2200) ─────────────────────────
+  { id:2101, ad:"Haribo Goldbären 50g", marka:"Haribo", kal:343, pro:6.5, karb:77, yag:0.5, lif:0, sod:65, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:20, por:50, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2102, ad:"Haribo Happy Cola 50g", marka:"Haribo", kal:345, pro:6.2, karb:78, yag:0.3, lif:0, sod:70, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2103, ad:"Haribo Starmix 50g", marka:"Haribo", kal:340, pro:6, karb:77, yag:0.4, lif:0, sod:60, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2104, ad:"Milka Alpenmilch 100g", marka:"Milka", kal:534, pro:7.5, karb:57, yag:30, lif:1.5, sod:100, demir:1.5, kals:210, vitC:0, vitD:0, vitB12:0.3, acik:42, por:100, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2105, ad:"Milka Oreo 100g", marka:"Milka", kal:516, pro:6.5, karb:61, yag:27, lif:1.5, sod:210, demir:2, kals:150, vitC:0, vitD:0, vitB12:0.2, acik:38, por:100, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2106, ad:"Milka Haselnuss 100g", marka:"Milka", kal:549, pro:7, karb:55, yag:33, lif:2, sod:80, demir:1.5, kals:190, vitC:0, vitD:0, vitB12:0.2, acik:42, por:100, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2107, ad:"Ritter Sport Vollmilch 100g", marka:"Ritter Sport", kal:549, pro:7.5, karb:56, yag:32, lif:1.5, sod:75, demir:1.5, kals:225, vitC:0, vitD:0, vitB12:0.3, acik:42, por:100, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2108, ad:"Ritter Sport Marzipan 100g", marka:"Ritter Sport", kal:504, pro:7, karb:57, yag:27, lif:2.5, sod:30, demir:1.5, kals:90, vitC:0, vitD:0, vitB12:0.1, acik:40, por:100, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2109, ad:"Ritter Sport Voll-Nuss 100g", marka:"Ritter Sport", kal:571, pro:8.5, karb:51, yag:36, lif:2, sod:50, demir:1.5, kals:180, vitC:0, vitD:0, vitB12:0.2, acik:43, por:100, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2110, ad:"Ritter Sport Dunkle Voll-Nuss 100g", marka:"Ritter Sport", kal:565, pro:9, karb:47, yag:38, lif:3.5, sod:30, demir:3.5, kals:80, vitC:0, vitD:0, vitB12:0, acik:45, por:100, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2111, ad:"Kinder Bueno 43g", marka:"Kinder", kal:556, pro:8.5, karb:52, yag:34, lif:1.5, sod:110, demir:1.5, kals:130, vitC:0, vitD:0.5, vitB12:0.2, acik:38, por:43, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2112, ad:"Kinder Schokolade 4 Riegel 50g", marka:"Kinder", kal:549, pro:9, karb:56, yag:31, lif:0.5, sod:100, demir:0.5, kals:275, vitC:0, vitD:0.5, vitB12:0.5, acik:40, por:50, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2113, ad:"Kinder Riegel 21g", marka:"Kinder", kal:536, pro:8, karb:59, yag:29, lif:0.5, sod:95, demir:0.5, kals:240, vitC:0, vitD:0.5, vitB12:0.4, acik:38, por:21, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2114, ad:"Dr. Oetker Pizza Margherita 350g", marka:"Dr. Oetker", kal:237, pro:10, karb:33, yag:7.5, lif:2, sod:560, demir:1.5, kals:160, vitC:4, vitD:0, vitB12:0.3, acik:48, por:350, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:2115, ad:"Dr. Oetker Ristorante Pizza 355g", marka:"Dr. Oetker", kal:248, pro:11, karb:31, yag:9, lif:2, sod:580, demir:1.5, kals:180, vitC:3, vitD:0, vitB12:0.4, acik:50, por:355, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:2116, ad:"Knorr Erbsensuppe 250ml", marka:"Knorr", kal:55, pro:3.5, karb:8, yag:1, lif:2, sod:680, demir:0.8, kals:20, vitC:2, vitD:0, vitB12:0, acik:30, por:250, aclik:"1 saat", onay:true, kat:"Çorba", yildiz:2.5 },
+  { id:2117, ad:"Knorr Tomatensuppe 250ml", marka:"Knorr", kal:48, pro:1.5, karb:9, yag:0.8, lif:1, sod:580, demir:0.5, kals:15, vitC:5, vitD:0, vitB12:0, acik:22, por:250, aclik:"30 dk", onay:true, kat:"Çorba", yildiz:2 },
+  { id:2118, ad:"Maggi Hühnersuppe 250ml", marka:"Maggi", kal:35, pro:2, karb:5, yag:0.8, lif:0.5, sod:850, demir:0.3, kals:15, vitC:1, vitD:0, vitB12:0, acik:20, por:250, aclik:"30 dk", onay:true, kat:"Çorba", yildiz:2 },
+  { id:2119, ad:"Hohes C Orange 200ml", marka:"Hohes C", kal:90, pro:0.8, karb:20, yag:0.2, lif:0.3, sod:8, demir:0.2, kals:12, vitC:100, vitD:0, vitB12:0, acik:18, por:200, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:3 },
+  { id:2120, ad:"Capri-Sun Multivitamin 200ml", marka:"Capri-Sun", kal:84, pro:0.2, karb:20, yag:0, lif:0, sod:10, demir:0.2, kals:8, vitC:20, vitD:0, vitB12:0, acik:16, por:200, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:1.5 },
+  { id:2121, ad:"Gerolsteiner Mineralwasser 500ml", marka:"Gerolsteiner", kal:0, pro:0, karb:0, yag:0, lif:0, sod:40, demir:0, kals:348, vitC:0, vitD:0, vitB12:0, acik:5, por:500, aclik:"5 dk", onay:true, kat:"İçecek", yildiz:5 },
+  { id:2122, ad:"Erdinger Weißbier 500ml", marka:"Erdinger", kal:215, pro:2, karb:18, yag:0, lif:0, sod:25, demir:0.1, kals:12, vitC:0, vitD:0, vitB12:0, acik:15, por:500, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:1 },
+  { id:2123, ad:"Erdinger Alkoholfrei 500ml", marka:"Erdinger", kal:125, pro:1, karb:25, yag:0, lif:0, sod:20, demir:0, kals:10, vitC:0, vitD:0, vitB12:0.5, acik:18, por:500, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2 },
+  { id:2124, ad:"Beck's Bier 330ml", marka:"Beck's", kal:133, pro:1, karb:10, yag:0, lif:0, sod:15, demir:0, kals:8, vitC:0, vitD:0, vitB12:0, acik:12, por:330, aclik:"15 dk", onay:true, kat:"İçecek", yildiz:1 },
+  { id:2125, ad:"Kellogg's Cornflakes 30g", marka:"Kellogg's", kal:357, pro:7.5, karb:77, yag:1, lif:3, sod:450, demir:8, kals:5, vitC:17, vitD:1.8, vitB12:0.8, acik:52, por:30, aclik:"1 saat", onay:true, kat:"Kahvaltılık", yildiz:3 },
+  { id:2126, ad:"Kellogg's Frosties 30g", marka:"Kellogg's", kal:374, pro:5, karb:87, yag:0.3, lif:1, sod:360, demir:6.7, kals:4, vitC:14, vitD:1.5, vitB12:0.6, acik:45, por:30, aclik:"45 dk", onay:true, kat:"Kahvaltılık", yildiz:2 },
+  { id:2127, ad:"Müller Milch Schoko 400ml", marka:"Müller", kal:93, pro:3.5, karb:14, yag:2.5, lif:0.3, sod:55, demir:0.3, kals:120, vitC:0, vitD:0.5, vitB12:0.5, acik:40, por:400, aclik:"1 saat", onay:true, kat:"İçecek", yildiz:2.5 },
+  { id:2128, ad:"Alpro Hafermilch 250ml", marka:"Alpro", kal:50, pro:1, karb:8.5, yag:1.5, lif:0.5, sod:85, demir:0.2, kals:120, vitC:0, vitD:0.75, vitB12:0.38, acik:25, por:250, aclik:"30 dk", onay:true, kat:"İçecek", yildiz:3.5 },
+  { id:2129, ad:"Alpro Mandelmilch 250ml", marka:"Alpro", kal:30, pro:0.5, karb:3, yag:1.5, lif:0.3, sod:80, demir:0, kals:120, vitC:0, vitD:0.75, vitB12:0.38, acik:18, por:250, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:3.5 },
+  { id:2130, ad:"Wasa Knäckebrot 30g", marka:"Wasa", kal:330, pro:9, karb:64, yag:1.5, lif:10, sod:380, demir:2.5, kals:25, vitC:0, vitD:0, vitB12:0, acik:62, por:30, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:2131, ad:"Bahlsen Leibniz Keks 50g", marka:"Bahlsen", kal:453, pro:7.5, karb:70, yag:15, lif:1.5, sod:320, demir:2, kals:55, vitC:0, vitD:0, vitB12:0, acik:50, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2132, ad:"Bahlsen Choco Leibniz 50g", marka:"Bahlsen", kal:488, pro:6.5, karb:65, yag:22, lif:2, sod:200, demir:2.5, kals:60, vitC:0, vitD:0, vitB12:0, acik:45, por:50, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:2.5 },
+  { id:2133, ad:"Werther's Original 42g", marka:"Storck", kal:430, pro:1.5, karb:72, yag:13, lif:0, sod:180, demir:0, kals:50, vitC:0, vitD:0, vitB12:0, acik:18, por:42, aclik:"20 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2134, ad:"Toffifee 125g", marka:"Storck", kal:498, pro:5, karb:61, yag:26, lif:1.5, sod:60, demir:1, kals:55, vitC:0, vitD:0, vitB12:0, acik:35, por:125, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2135, ad:"Knoppers 25g", marka:"Knoppers", kal:552, pro:7, karb:55, yag:33, lif:1.5, sod:140, demir:1.5, kals:80, vitC:0, vitD:0, vitB12:0.1, acik:35, por:25, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2136, ad:"Ültje Erdnüsse gesalzen 50g", marka:"Ültje", kal:587, pro:26, karb:12, yag:50, lif:7, sod:480, demir:2.5, kals:55, vitC:0, vitD:0, vitB12:0, acik:62, por:50, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2137, ad:"Ültje Cashews 50g", marka:"Ültje", kal:576, pro:17, karb:28, yag:46, lif:3, sod:15, demir:4, kals:35, vitC:0, vitD:0, vitB12:0, acik:60, por:50, aclik:"2 saat", onay:true, kat:"Atıştırmalık", yildiz:4 },
+  { id:2138, ad:"Iglo Fischstäbchen 125g", marka:"Iglo", kal:195, pro:12, karb:18, yag:7, lif:1, sod:480, demir:0.5, kals:25, vitC:0, vitD:2.5, vitB12:1.5, acik:48, por:125, aclik:"1.5 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:2139, ad:"Iglo Rahmspinat 300g", marka:"Iglo", kal:65, pro:3, karb:4, yag:4, lif:2.5, sod:280, demir:2.5, kals:90, vitC:10, vitD:0, vitB12:0, acik:35, por:300, aclik:"1 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:2140, ad:"Vollkornbrot 100g", marka:"", kal:217, pro:8, karb:41, yag:1.5, lif:7, sod:420, demir:2.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:62, por:100, aclik:"2 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:2141, ad:"Roggenbrot 100g", marka:"", kal:210, pro:7, karb:43, yag:1, lif:6, sod:480, demir:2, kals:20, vitC:0, vitD:0, vitB12:0, acik:60, por:100, aclik:"2 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:2142, ad:"Laugenbrezel 90g", marka:"", kal:286, pro:9, karb:56, yag:2, lif:2.5, sod:1800, demir:2, kals:20, vitC:0, vitD:0, vitB12:0, acik:50, por:90, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:2143, ad:"Pumpernickel 100g", marka:"", kal:182, pro:6, karb:37, yag:1, lif:7, sod:390, demir:2, kals:25, vitC:0, vitD:0, vitB12:0, acik:60, por:100, aclik:"2 saat", onay:true, kat:"Tahıl", yildiz:4 },
+  { id:2144, ad:"Bratwurst Izgara 100g", marka:"", kal:290, pro:15, karb:2, yag:25, lif:0, sod:760, demir:1.5, kals:20, vitC:0, vitD:0.5, vitB12:1.5, acik:42, por:100, aclik:"1 saat", onay:true, kat:"Protein", yildiz:2 },
+  { id:2145, ad:"Weißwurst 100g", marka:"", kal:262, pro:13, karb:4, yag:22, lif:0, sod:820, demir:1, kals:25, vitC:0, vitD:0, vitB12:1, acik:40, por:100, aclik:"1 saat", onay:true, kat:"Protein", yildiz:1.5 },
+  { id:2146, ad:"Sauerkraut 100g", marka:"", kal:19, pro:1, karb:3, yag:0.2, lif:3, sod:450, demir:1, kals:30, vitC:15, vitD:0, vitB12:0, acik:20, por:100, aclik:"30 dk", onay:true, kat:"Sebze", yildiz:4 },
+  { id:2147, ad:"Kartoffelsalat 150g", marka:"", kal:130, pro:2, karb:17, yag:6, lif:2, sod:380, demir:0.8, kals:20, vitC:12, vitD:0, vitB12:0, acik:35, por:150, aclik:"1 saat", onay:true, kat:"Sebze", yildiz:2.5 },
+  { id:2148, ad:"Hähnchenschnitzel 150g", marka:"", kal:290, pro:28, karb:12, yag:14, lif:0.5, sod:480, demir:1.5, kals:25, vitC:0, vitD:0, vitB12:0.5, acik:58, por:150, aclik:"2 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:2149, ad:"Leberkäse 100g", marka:"", kal:280, pro:14, karb:4, yag:23, lif:0, sod:1100, demir:2, kals:30, vitC:0, vitD:0, vitB12:2.5, acik:38, por:100, aclik:"1 saat", onay:true, kat:"Protein", yildiz:2 },
+  { id:2150, ad:"Sauerbraten 200g", marka:"", kal:215, pro:25, karb:8, yag:9, lif:0.5, sod:580, demir:3, kals:30, vitC:1, vitD:0, vitB12:2, acik:55, por:200, aclik:"2 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:2151, ad:"Käsespätzle 300g", marka:"", kal:320, pro:14, karb:38, yag:12, lif:2, sod:580, demir:1.5, kals:250, vitC:1, vitD:0.3, vitB12:0.6, acik:52, por:300, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:2152, ad:"Kartoffelknödel 200g", marka:"", kal:145, pro:3.5, karb:30, yag:1, lif:2.5, sod:350, demir:1, kals:15, vitC:10, vitD:0, vitB12:0, acik:45, por:200, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:3 },
+  { id:2153, ad:"Rotkohl 100g", marka:"", kal:45, pro:1.5, karb:9, yag:0.2, lif:2.5, sod:15, demir:0.8, kals:50, vitC:35, vitD:0, vitB12:0, acik:30, por:100, aclik:"45 dk", onay:true, kat:"Sebze", yildiz:4.5 },
+  { id:2154, ad:"Apfelstrudel 100g", marka:"", kal:270, pro:4, karb:38, yag:12, lif:2, sod:150, demir:1, kals:30, vitC:3, vitD:0, vitB12:0, acik:30, por:100, aclik:"45 dk", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2155, ad:"Schwarzwälder Kirschtorte 120g", marka:"", kal:310, pro:4, karb:40, yag:15, lif:1, sod:120, demir:1, kals:60, vitC:2, vitD:0, vitB12:0, acik:28, por:120, aclik:"45 dk", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2156, ad:"Berliner Pfannkuchen 75g", marka:"", kal:340, pro:5.5, karb:50, yag:14, lif:1, sod:240, demir:1.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:30, por:75, aclik:"45 dk", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2157, ad:"Emmentaler Peyniri 30g", marka:"", kal:380, pro:29, karb:0, yag:29, lif:0, sod:450, demir:0.3, kals:1010, vitC:0, vitD:0.5, vitB12:1.5, acik:50, por:30, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:3.5 },
+  { id:2158, ad:"Gouda Peyniri 30g", marka:"", kal:356, pro:25, karb:0.5, yag:28, lif:0, sod:700, demir:0.3, kals:700, vitC:0, vitD:0.5, vitB12:1.5, acik:48, por:30, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:3.5 },
+  { id:2159, ad:"Quark Magerquark 100g", marka:"", kal:64, pro:12, karb:3.5, yag:0.2, lif:0, sod:40, demir:0.1, kals:85, vitC:0, vitD:0, vitB12:0.8, acik:50, por:100, aclik:"1.5 saat", onay:true, kat:"Süt Ürünü", yildiz:4.5 },
+  { id:2160, ad:"Schwarzwälder Schinken 50g", marka:"", kal:185, pro:26, karb:0, yag:9, lif:0, sod:1800, demir:1.5, kals:15, vitC:0, vitD:0.5, vitB12:1.8, acik:50, por:50, aclik:"1.5 saat", onay:true, kat:"Protein", yildiz:2.5 },
+  { id:2161, ad:"Rügenwalder Teewurst 100g", marka:"Rügenwalder", kal:360, pro:12, karb:2, yag:33, lif:0, sod:1400, demir:1.5, kals:20, vitC:0, vitD:0, vitB12:1.5, acik:38, por:100, aclik:"1 saat", onay:true, kat:"Protein", yildiz:1.5 },
+  { id:2162, ad:"Rügenwalder Veggie 100g", marka:"Rügenwalder", kal:195, pro:18, karb:8, yag:10, lif:3, sod:750, demir:2.5, kals:80, vitC:0, vitD:0, vitB12:0, acik:52, por:100, aclik:"1.5 saat", onay:true, kat:"Protein", yildiz:3.5 },
+  { id:2163, ad:"Erbsensuppe mit Speck 300ml", marka:"", kal:95, pro:6, karb:11, yag:3, lif:4, sod:650, demir:1.5, kals:25, vitC:5, vitD:0, vitB12:0.3, acik:40, por:300, aclik:"1.5 saat", onay:true, kat:"Çorba", yildiz:3 },
+  { id:2164, ad:"Flammkuchen 300g", marka:"", kal:248, pro:8, karb:32, yag:10, lif:1.5, sod:620, demir:1, kals:90, vitC:1, vitD:0, vitB12:0.2, acik:48, por:300, aclik:"1.5 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:2165, ad:"Zwiebelrostbraten 200g", marka:"", kal:280, pro:26, karb:8, yag:16, lif:1, sod:520, demir:3, kals:25, vitC:5, vitD:0, vitB12:2, acik:55, por:200, aclik:"2 saat", onay:true, kat:"Protein", yildiz:3 },
+  { id:2166, ad:"Semmelknödel 100g", marka:"", kal:195, pro:7, karb:36, yag:2.5, lif:2, sod:480, demir:1.5, kals:60, vitC:0, vitD:0, vitB12:0.1, acik:45, por:100, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:2.5 },
+  { id:2167, ad:"Grünkohl mit Pinkel 300g", marka:"", kal:145, pro:8, karb:6, yag:9, lif:5, sod:680, demir:2.5, kals:130, vitC:55, vitD:0, vitB12:0.5, acik:45, por:300, aclik:"1.5 saat", onay:true, kat:"Sebze", yildiz:4 },
+  { id:2168, ad:"Currywurst mit Sauce 200g", marka:"", kal:280, pro:14, karb:15, yag:18, lif:1.5, sod:850, demir:2, kals:25, vitC:8, vitD:0, vitB12:1, acik:42, por:200, aclik:"1 saat", onay:true, kat:"Hazır Yemek", yildiz:2 },
+  { id:2169, ad:"Döner Kebab (Almanya Tarzı) 300g", marka:"", kal:465, pro:28, karb:40, yag:20, lif:3, sod:1200, demir:3.5, kals:120, vitC:15, vitD:0, vitB12:1.5, acik:58, por:300, aclik:"2 saat", onay:true, kat:"Hazır Yemek", yildiz:2.5 },
+  { id:2170, ad:"Tchibo Filterkaffee 200ml", marka:"Tchibo", kal:4, pro:0.3, karb:0.5, yag:0, lif:0, sod:3, demir:0.1, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:200, aclik:"5 dk", onay:true, kat:"İçecek", yildiz:3.5 },
+  { id:2171, ad:"Jacobs Krönung 2g", marka:"Jacobs", kal:8, pro:0.5, karb:1.2, yag:0.2, lif:0, sod:3, demir:0.2, kals:4, vitC:0, vitD:0, vitB12:0, acik:5, por:2, aclik:"5 dk", onay:true, kat:"İçecek", yildiz:3 },
+  { id:2172, ad:"Fritz Kola 330ml", marka:"Fritz", kal:140, pro:0, karb:35, yag:0, lif:0, sod:25, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:14, por:330, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:1 },
+  { id:2173, ad:"Club Mate 500ml", marka:"", kal:100, pro:0, karb:25, yag:0, lif:0, sod:20, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:15, por:500, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:1.5 },
+  { id:2174, ad:"Demeter Bio Dinkelmehl 100g", marka:"Demeter", kal:329, pro:11, karb:60, yag:2, lif:9, sod:5, demir:3.5, kals:30, vitC:0, vitD:0, vitB12:0, acik:62, por:100, aclik:"2 saat", onay:true, kat:"Tahıl", yildiz:4.5 },
+  { id:2175, ad:"Gut & Günstig Nudeln 100g", marka:"Gut & Günstig", kal:354, pro:12, karb:70, yag:1.5, lif:3.5, sod:3, demir:2, kals:20, vitC:0, vitD:0, vitB12:0, acik:55, por:100, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:3 },
+  { id:2176, ad:"Warsteiner Pilsener 330ml", marka:"Warsteiner", kal:134, pro:1, karb:10, yag:0, lif:0, sod:12, demir:0, kals:8, vitC:0, vitD:0, vitB12:0, acik:12, por:330, aclik:"15 dk", onay:true, kat:"İçecek", yildiz:1 },
+  { id:2177, ad:"Paulaner Helles 500ml", marka:"Paulaner", kal:210, pro:1.5, karb:17, yag:0, lif:0, sod:20, demir:0, kals:10, vitC:0, vitD:0, vitB12:0, acik:14, por:500, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:1 },
+  { id:2178, ad:"Frosta Lachsfilet mit Gemüse 400g", marka:"Frosta", kal:120, pro:14, karb:6, yag:4.5, lif:2, sod:380, demir:0.8, kals:30, vitC:15, vitD:5, vitB12:3, acik:55, por:400, aclik:"2 saat", onay:true, kat:"Protein", yildiz:4.5 },
+  { id:2179, ad:"Dextro Energy Traubenzucker 46g", marka:"Dextro", kal:381, pro:0, karb:95, yag:0, lif:0, sod:2, demir:0, kals:3, vitC:0, vitD:0, vitB12:0, acik:10, por:46, aclik:"15 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2180, ad:"HiPP Bio Apfelmus 190g", marka:"HiPP", kal:55, pro:0.3, karb:13, yag:0.1, lif:1.5, sod:5, demir:0.3, kals:5, vitC:10, vitD:0, vitB12:0, acik:18, por:190, aclik:"30 dk", onay:true, kat:"Meyve", yildiz:3.5 },
+  { id:2181, ad:"Freilandhaltung Ei L 63g", marka:"", kal:155, pro:13, karb:1, yag:11, lif:0, sod:140, demir:2, kals:55, vitC:0, vitD:2, vitB12:2, acik:52, por:63, aclik:"1.5 saat", onay:true, kat:"Protein", yildiz:4 },
+  { id:2182, ad:"Kinder Pingui 30g", marka:"Kinder", kal:420, pro:6, karb:52, yag:21, lif:1, sod:150, demir:0.5, kals:120, vitC:0, vitD:0.3, vitB12:0.3, acik:32, por:30, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2183, ad:"Merci Edel-Bitter 40g", marka:"Storck", kal:520, pro:5, karb:58, yag:29, lif:4, sod:20, demir:4, kals:30, vitC:0, vitD:0, vitB12:0, acik:42, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:3 },
+  { id:2184, ad:"Volvic Stilles Wasser 500ml", marka:"Volvic", kal:0, pro:0, karb:0, yag:0, lif:0, sod:12, demir:0, kals:10, vitC:0, vitD:0, vitB12:0, acik:5, por:500, aclik:"5 dk", onay:true, kat:"İçecek", yildiz:5 },
+  { id:2185, ad:"Milka Tender 37g", marka:"Milka", kal:435, pro:5, karb:58, yag:21, lif:1, sod:220, demir:1, kals:80, vitC:0, vitD:0, vitB12:0, acik:32, por:37, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2186, ad:"Isostar Lemon Pulver 500ml", marka:"Isostar", kal:134, pro:0.7, karb:32, yag:0.1, lif:0, sod:480, demir:0, kals:60, vitC:30, vitD:0, vitB12:0, acik:20, por:500, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:2.5 },
+  { id:2187, ad:"Hohes C Multivitamin 200ml", marka:"Hohes C", kal:88, pro:0.5, karb:20, yag:0.1, lif:0, sod:5, demir:1.4, kals:10, vitC:80, vitD:0, vitB12:0, acik:18, por:200, aclik:"20 dk", onay:true, kat:"İçecek", yildiz:3 },
+  { id:2188, ad:"Bresso Kräuter Frischkäse 30g", marka:"Bresso", kal:244, pro:6, karb:3, yag:23, lif:0, sod:490, demir:0.2, kals:90, vitC:0.5, vitD:0, vitB12:0.3, acik:35, por:30, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:2.5 },
+  { id:2189, ad:"Alnavit Bio Müsli 60g", marka:"Alnavit", kal:345, pro:8, karb:62, yag:6, lif:8, sod:15, demir:2.5, kals:40, vitC:2, vitD:0, vitB12:0, acik:58, por:60, aclik:"1.5 saat", onay:true, kat:"Kahvaltılık", yildiz:4 },
+  { id:2190, ad:"Müller Joghurt Vanille 150g", marka:"Müller", kal:100, pro:4.5, karb:14, yag:2.5, lif:0, sod:55, demir:0, kals:140, vitC:0, vitD:0, vitB12:0.5, acik:38, por:150, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:3 },
+  { id:2191, ad:"Kellogg's Special K 30g", marka:"Kellogg's", kal:363, pro:14, karb:68, yag:2, lif:2, sod:430, demir:14, kals:40, vitC:20, vitD:2.5, vitB12:1, acik:55, por:30, aclik:"1 saat", onay:true, kat:"Kahvaltılık", yildiz:3.5 },
+  { id:2192, ad:"Bahlsen Messino 40g", marka:"Bahlsen", kal:472, pro:6, karb:66, yag:20, lif:1.5, sod:180, demir:1.5, kals:40, vitC:0, vitD:0, vitB12:0, acik:42, por:40, aclik:"45 dk", onay:true, kat:"Atıştırmalık", yildiz:2 },
+  { id:2193, ad:"Mövenpick Macadamia Eis 100ml", marka:"Mövenpick", kal:242, pro:2.5, karb:22, yag:16, lif:0.5, sod:55, demir:0.3, kals:80, vitC:0, vitD:0, vitB12:0.2, acik:22, por:100, aclik:"30 dk", onay:true, kat:"Tatlı", yildiz:2 },
+  { id:2194, ad:"Maggi Fix Bolognese 40g", marka:"Maggi", kal:310, pro:12, karb:56, yag:4, lif:5, sod:3500, demir:3, kals:60, vitC:8, vitD:0, vitB12:0, acik:45, por:40, aclik:"1 saat", onay:true, kat:"Diğer", yildiz:2 },
+  { id:2195, ad:"Wasa Sesam Crispbread 35g", marka:"Wasa", kal:357, pro:10, karb:62, yag:6, lif:7, sod:450, demir:3, kals:40, vitC:0, vitD:0, vitB12:0, acik:60, por:35, aclik:"1.5 saat", onay:true, kat:"Tahıl", yildiz:3.5 },
+  { id:2196, ad:"Haribo Phantasia 50g", marka:"Haribo", kal:342, pro:6.3, karb:77, yag:0.3, lif:0, sod:55, demir:0, kals:0, vitC:0, vitD:0, vitB12:0, acik:18, por:50, aclik:"30 dk", onay:true, kat:"Atıştırmalık", yildiz:1 },
+  { id:2197, ad:"Eisbein 200g", marka:"", kal:290, pro:22, karb:0, yag:22, lif:0, sod:950, demir:1.5, kals:30, vitC:0, vitD:0.5, vitB12:2, acik:45, por:200, aclik:"1.5 saat", onay:true, kat:"Protein", yildiz:2 },
+  { id:2198, ad:"Dr. Oetker Wackelpudding 100g", marka:"Dr. Oetker", kal:68, pro:1.5, karb:15, yag:0.1, lif:0, sod:20, demir:0, kals:40, vitC:0, vitD:0, vitB12:0, acik:15, por:100, aclik:"30 dk", onay:true, kat:"Tatlı", yildiz:1.5 },
+  { id:2199, ad:"Ritter Sport Dunkle 50% 100g", marka:"Ritter Sport", kal:527, pro:6, karb:53, yag:32, lif:3, sod:15, demir:4, kals:45, vitC:0, vitD:0, vitB12:0, acik:44, por:100, aclik:"1 saat", onay:true, kat:"Atıştırmalık", yildiz:3.5 },
+  { id:2200, ad:"Limburger Peyniri 30g", marka:"", kal:290, pro:23, karb:0, yag:22, lif:0, sod:800, demir:0.3, kals:500, vitC:0, vitD:0.5, vitB12:1.5, acik:42, por:30, aclik:"1 saat", onay:true, kat:"Süt Ürünü", yildiz:3 },
 ];
+
 
 // ─── DEMO VERİLER ───────────────────────────────────────────────
 
@@ -2450,6 +2881,12 @@ export default function App(){
   const [ekran,setEkran]=useState("giris");
   const [gHata,setGHata]=useState("");
   const [kvkkModal,setKvkkModal]=useState(false);
+  const [kvkkOnay,setKvkkOnay]=useState(false);
+  const [gdprOnay,setGdprOnay]=useState(false);
+  const [pazarlamaOnay,setPazarlamaOnay]=useState(false);
+  const [gdprModal,setGdprModal]=useState(false);
+  const [hesapSilOnay,setHesapSilOnay]=useState(false);
+  const [hesapSilModal,setHesapSilModal]=useState(false);
   const [kullanicilar,setKullanicilar]=useState([]);
   const [aktif,setAktif]=useState(null);
   const [firebaseUID,setFirebaseUID]=useState(null);
@@ -3465,7 +3902,7 @@ export default function App(){
               <div style={{fontSize:13,color:"#86efac",marginBottom:36,textAlign:"center",opacity:.85}}>Select Language / Dil Seçin</div>
 
               <div style={{display:"flex",flexDirection:"column",gap:12,width:"100%",maxWidth:280}}>
-                {[{k:"tr",ad:"🇹🇷  Türkçe",alt:"Turkish"},{k:"en",ad:"🇬🇧  English",alt:"İngilizce"}].map(l=>(
+                {[{k:"tr",ad:"🇹🇷 Türkçe"},{k:"en",ad:"🇬🇧 English"},{k:"de",ad:"🇩🇪 Deutsch"},{k:"it",ad:"🇮🇹 Italiano"},{k:"fr",ad:"🇫🇷 Français"},{k:"es",ad:"🇪🇸 Español"}].map(l=>(
                   <button key={l.k} onClick={()=>setDil(l.k)} style={{
                     padding:"16px 20px",
                     borderRadius:16,
@@ -3641,11 +4078,56 @@ export default function App(){
               <div style={{fontSize:12,color:"#6b7280"}}>Devam etmek için Google hesabınla giriş yap</div>
             </div>
 
+            {/* ── YASAL ONAYLAR ── */}
+            <div style={{background:"#f8fafc",borderRadius:12,padding:"12px 14px",marginBottom:14,border:"1px solid #e2e8f0"}}>
+              <div style={{fontSize:11,fontWeight:800,color:"#374151",marginBottom:10}}>Devam etmek için onaylayın</div>
+
+              {/* KVKK */}
+              <label style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:8,cursor:"pointer"}}>
+                <input type="checkbox" checked={kvkkOnay} onChange={e=>setKvkkOnay(e.target.checked)}
+                  style={{marginTop:2,width:15,height:15,accentColor:"#16a34a",flexShrink:0}}/>
+                <span style={{fontSize:11,color:"#374151",lineHeight:1.5}}>
+                  <button onClick={e=>{e.preventDefault();setKvkkModal(true);}} style={{background:"none",border:"none",padding:0,color:"#16a34a",fontWeight:700,fontSize:11,cursor:"pointer",textDecoration:"underline"}}>KVKK Aydınlatma Metni</button>'ni ve{" "}
+                  <button onClick={e=>{e.preventDefault();setKvkkModal(true);}} style={{background:"none",border:"none",padding:0,color:"#16a34a",fontWeight:700,fontSize:11,cursor:"pointer",textDecoration:"underline"}}>Kullanım Koşulları</button>'nı okudum, kabul ediyorum. <span style={{color:"#ef4444"}}>*</span>
+                </span>
+              </label>
+
+              {/* GDPR */}
+              <label style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:8,cursor:"pointer"}}>
+                <input type="checkbox" checked={gdprOnay} onChange={e=>setGdprOnay(e.target.checked)}
+                  style={{marginTop:2,width:15,height:15,accentColor:"#16a34a",flexShrink:0}}/>
+                <span style={{fontSize:11,color:"#374151",lineHeight:1.5}}>
+                  <button onClick={e=>{e.preventDefault();setGdprModal(true);}} style={{background:"none",border:"none",padding:0,color:"#16a34a",fontWeight:700,fontSize:11,cursor:"pointer",textDecoration:"underline"}}>Gizlilik Politikası</button>'nı (GDPR/DSGVO) okudum, kişisel verilerimin işlenmesine izin veriyorum. <span style={{color:"#ef4444"}}>*</span>
+                </span>
+              </label>
+
+              {/* Pazarlama - opsiyonel */}
+              <label style={{display:"flex",alignItems:"flex-start",gap:8,cursor:"pointer"}}>
+                <input type="checkbox" checked={pazarlamaOnay} onChange={e=>setPazarlamaOnay(e.target.checked)}
+                  style={{marginTop:2,width:15,height:15,accentColor:"#16a34a",flexShrink:0}}/>
+                <span style={{fontSize:11,color:"#6b7280",lineHeight:1.5}}>
+                  Uygulama güncellemeleri ve öneriler hakkında bildirim almak istiyorum. (İsteğe bağlı)
+                </span>
+              </label>
+
+              <div style={{fontSize:10,color:"#9ca3af",marginTop:8}}>* Zorunlu alanlar. Bu onaylar olmadan uygulamayı kullanamazsınız.</div>
+            </div>
+
             {gHata&&<div style={{background:"#fef2f2",color:"#ef4444",padding:"9px 13px",borderRadius:10,fontSize:13,marginBottom:13}}>{gHata}</div>}
 
-            <button style={{width:"100%",padding:"14px 0",borderRadius:14,border:"1.5px solid #e5e7eb",background:"#fff",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:15,color:"#374151",display:"flex",alignItems:"center",justifyContent:"center",gap:12,boxShadow:"0 2px 8px #0001"}} onClick={async()=>{
+            <button style={{width:"100%",padding:"14px 0",borderRadius:14,border:"1.5px solid #e5e7eb",background:(kvkkOnay&&gdprOnay)?"#fff":"#f3f4f6",cursor:(kvkkOnay&&gdprOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:15,color:(kvkkOnay&&gdprOnay)?"#374151":"#9ca3af",display:"flex",alignItems:"center",justifyContent:"center",gap:12,boxShadow:"0 2px 8px #0001",opacity:(kvkkOnay&&gdprOnay)?1:0.6}} onClick={async()=>{
+              if(!kvkkOnay||!gdprOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
               try{
                 const kul = await fbGoogleGiris();
+                // Consent'i Firebase'e kaydet
+                try{
+                  const {doc,setDoc,serverTimestamp}=await import("firebase/firestore");
+                  const {db}=await import("./firebase.js");
+                  await setDoc(doc(db,"users",kul.firebaseUID),{
+                    kvkkOnay:true, gdprOnay:true, pazarlamaOnay,
+                    onayTarihi:new Date().toISOString(),
+                  },{merge:true});
+                }catch(e2){}
                 setAktif(kul); setFirebaseUID(kul.firebaseUID);
                 // Yeni kullanıcı ise onboard göster
                 if(!kul.kilo && !kul.boy){
@@ -3679,28 +4161,78 @@ export default function App(){
       {kvkkModal&&(
         <div style={{position:"fixed",inset:0,background:"#000a",zIndex:500,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
           <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"82vh",overflowY:"auto"}}>
-            <div style={{fontWeight:900,fontSize:17,marginBottom:14,color:"#111"}}>KVKK Aydınlatma Metni</div>
+            <div style={{fontWeight:900,fontSize:17,marginBottom:14,color:"#111"}}>📋 KVKK Aydınlatma Metni & Kullanım Koşulları</div>
             <div style={{fontSize:12,color:"#374151",lineHeight:1.9}}>
-              <b>Doya</b> uygulaması olarak 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında kişisel verilerinizin işlenmesine ilişkin bilgilendirme yapılmaktadır.<br/><br/>
-              <b>İşlenen Kişisel Veriler:</b><br/>
-              • Ad, soyad, e-posta adresi<br/>
+              <b>1. Veri Sorumlusu</b><br/>
+              <b>Doya</b> uygulaması, 6698 sayılı KVKK kapsamında veri sorumlusudur. İletişim: {DESTEK_MAIL}<br/><br/>
+              <b>2. İşlenen Kişisel Veriler</b><br/>
+              • Ad, e-posta adresi (Google hesabından)<br/>
               • Yaş, cinsiyet, kilo, boy bilgileri<br/>
-              • Günlük beslenme ve aktivite verileri<br/>
-              • Uygulama kullanım verileri<br/><br/>
-              <b>İşleme Amaçları:</b><br/>
-              • Kişiselleştirilmiş sağlık takibi sağlamak<br/>
-              • Uygulama hizmetlerinin yürütülmesi<br/>
-              • Kullanıcı deneyiminin iyileştirilmesi<br/><br/>
-              <b>Veri Güvenliği:</b><br/>
-              Verileriniz şifreli olarak güvenli sunucularda saklanır. 3. kişilerle paylaşılmaz.<br/><br/>
-              <b>Haklarınız:</b><br/>
-              Verilerinize erişim, düzeltme, silme ve taşıma haklarına sahipsiniz.<br/><br/>
-              <b>Kullanım Koşulları:</b><br/>
-              Uygulama yalnızca kişisel kullanım içindir. Sağlık kararları için mutlaka bir doktora danışınız. Doya sağlık kararlarınızın sorumluluğunu kabul etmez.<br/><br/>
+              • Günlük beslenme, su ve aktivite kayıtları<br/>
+              • Uygulama kullanım istatistikleri<br/><br/>
+              <b>3. İşleme Amaçları ve Hukuki Dayanak</b><br/>
+              • Beslenme takip hizmetinin sunulması (sözleşme)<br/>
+              • Kişiselleştirilmiş içerik (açık rıza)<br/>
+              • Yasal yükümlülüklerin yerine getirilmesi<br/><br/>
+              <b>4. Veri Güvenliği ve Aktarım</b><br/>
+              Verileriniz, Firebase (Google Cloud, Europe-West3/Frankfurt sunucuları) üzerinde şifreli olarak saklanır. Üçüncü taraflarla pazarlama amacıyla paylaşılmaz. Firebase ile GDPR uyumlu Veri İşleme Sözleşmesi (DPA) imzalanmıştır.<br/><br/>
+              <b>5. Saklama Süresi</b><br/>
+              Hesap aktif olduğu sürece + hesap silme talebinden itibaren 30 gün. Yasal zorunluluk halinde bu süre uzayabilir.<br/><br/>
+              <b>6. KVKK Haklarınız</b><br/>
+              • Verilerinize erişim ve kopyasını isteme<br/>
+              • Yanlış verilerin düzeltilmesini talep etme<br/>
+              • Verilerinizin silinmesini talep etme<br/>
+              • Veri işlemeye itiraz etme<br/>
+              • Verilerinizi taşınabilir formatta alma<br/><br/>
+              <b>7. Kullanım Koşulları</b><br/>
+              Uygulama yalnızca kişisel kullanım içindir. Sunulan besin bilgileri ve sağlık puanları <b>bilgilendirme amaçlıdır</b>, tıbbi tavsiye niteliği taşımaz. Sağlıkla ilgili kararlarınız için mutlaka bir doktor veya diyetisyene danışınız. Doya, beslenme verilerinin doğruluğunu garanti etmez.<br/><br/>
               <b>İletişim:</b> {DESTEK_MAIL}
             </div>
-            <button style={{...BTN(),width:"100%",marginTop:16,padding:"12px 0"}} onClick={()=>{setKvkkOnay(true);setKvkkModal(false);}}>Okudum ve Onaylıyorum</button>
+            <button style={{...BTN(),width:"100%",marginTop:16,padding:"12px 0"}} onClick={()=>{setKvkkOnay(true);setKvkkModal(false);}}>Okudum ve Kabul Ediyorum</button>
             <button style={{...BTN("#6b7280"),width:"100%",marginTop:8,padding:"12px 0"}} onClick={()=>setKvkkModal(false)}>Kapat</button>
+          </div>
+        </div>
+      )}
+
+      {/* GDPR / GİZLİLİK POLİTİKASI MODAL */}
+      {gdprModal&&(
+        <div style={{position:"fixed",inset:0,background:"#000a",zIndex:500,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
+          <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"82vh",overflowY:"auto"}}>
+            <div style={{fontWeight:900,fontSize:17,marginBottom:14,color:"#111"}}>🔒 Gizlilik Politikası (GDPR/DSGVO)</div>
+            <div style={{fontSize:12,color:"#374151",lineHeight:1.9}}>
+              <b>Geçerlilik Tarihi:</b> {new Date().toLocaleDateString("tr-TR")}<br/><br/>
+              <b>1. Veri Sorumlusu (Controller)</b><br/>
+              Doya Uygulaması — {DESTEK_MAIL}<br/><br/>
+              <b>2. Hangi Verileri Topluyoruz?</b><br/>
+              • <b>Hesap bilgileri:</b> Ad, e-posta (Google OAuth)<br/>
+              • <b>Sağlık verileri:</b> Kilo, boy, yaş, BMI hesaplamaları<br/>
+              • <b>Beslenme verileri:</b> Günlük yemek, kalori, makro kayıtları<br/>
+              • <b>Teknik veriler:</b> IP adresi, tarayıcı, kullanım saatleri<br/><br/>
+              <b>3. Hukuki Dayanak (GDPR Madde 6)</b><br/>
+              • Sözleşme ifası (Art. 6(1)(b))<br/>
+              • Açık rıza — özel kategori sağlık verileri (Art. 9(2)(a))<br/>
+              • Meşru menfaat — güvenlik ve kötüye kullanım önleme (Art. 6(1)(f))<br/><br/>
+              <b>4. Veri İşleyenler (Processors)</b><br/>
+              • <b>Google Firebase</b> (EU-West3, Frankfurt) — veritabanı ve kimlik doğrulama. Google ile GDPR DPA imzalanmıştır.<br/>
+              • <b>Netlify</b> (CDN, ABD) — web hosting. Netlify ile DPA imzalanmıştır.<br/>
+              • <b>Anthropic Claude API</b> — yalnızca AI fotoğraf analizi özelliği kullanıldığında, görüntü işleme için.<br/><br/>
+              <b>5. Veri Aktarımı (AB Dışı)</b><br/>
+              Netlify ve Anthropic ABD merkezlidir; aktarımlar Standart Sözleşme Maddeleri (SCCs) kapsamında gerçekleştirilmektedir.<br/><br/>
+              <b>6. GDPR Haklarınız</b><br/>
+              • <b>Erişim hakkı</b> (Art. 15) — Verilerinizi indirin<br/>
+              • <b>Düzeltme hakkı</b> (Art. 16) — Profil bölümünden güncelleyin<br/>
+              • <b>Silme hakkı</b> (Art. 17) — "Hesabımı Sil" butonu<br/>
+              • <b>İşlemeyi kısıtlama</b> (Art. 18) — {DESTEK_MAIL}'e yazın<br/>
+              • <b>Taşınabilirlik</b> (Art. 20) — Verilerinizi JSON formatında indirin<br/>
+              • <b>İtiraz hakkı</b> (Art. 21) — {DESTEK_MAIL}'e yazın<br/>
+              • <b>Denetim kurumuna şikayet:</b> Türkiye için KVK Kurumu, Almanya için Bundesbeauftragter für den Datenschutz (BfDI)<br/><br/>
+              <b>7. Çerezler (Cookies)</b><br/>
+              Yalnızca teknik zorunlu çerezler kullanılmaktadır. Analitik veya pazarlama çerezi kullanılmamaktadır.<br/><br/>
+              <b>8. İletişim</b><br/>
+              {DESTEK_MAIL}
+            </div>
+            <button style={{...BTN(),width:"100%",marginTop:16,padding:"12px 0"}} onClick={()=>{setGdprOnay(true);setGdprModal(false);}}>Okudum ve Kabul Ediyorum</button>
+            <button style={{...BTN("#6b7280"),width:"100%",marginTop:8,padding:"12px 0"}} onClick={()=>setGdprModal(false)}>Kapat</button>
           </div>
         </div>
       )}
@@ -4444,9 +4976,10 @@ export default function App(){
                           <div>⭐⭐⭐ <b>3.0</b> — Orta (süt ürünleri, kepekli)</div>
                           <div>⭐⭐ <b>2.0</b> — Az sağlıklı (beyaz ekmek, pilav)</div>
                           <div>⭐ <b>1.0</b> — Düşük (işlenmiş et, tatlı)</div>
-                          <div>☆☆☆☆☆ <b>0.0</b> — Sağlıksız (kola, cips, sucuk)</div>
+                          <div>☆☆☆☆☆ <b>0.0</b> — Çok işlenmiş (kola, cips, sucuk)</div>
                         </div>
                         <div style={{fontSize:10,color:r.muted,marginTop:4}}>Protein, lif, vitamin ve sodyum/yağ dengesi baz alınarak hesaplanmıştır.</div>
+                        <div style={{fontSize:10,color:"#f59e0b",marginTop:4,fontWeight:700}}>⚠️ Bu puanlar yalnızca genel bilgi amaçlıdır, tıbbi veya diyetisyen tavsiyesi niteliği taşımaz. Bireysel sağlık koşullarınız için doktor veya diyetisyene danışınız.</div>
                       </div>
                     )}
                     <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
@@ -4487,7 +5020,7 @@ export default function App(){
                       <div>
                         <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` · ${b.marka}`:""}</div>
                         <div style={{fontSize:10,color:r.muted}}>{b.kat} · {b.por}g</div>
-                        <div style={{fontSize:9,color:r.muted,marginTop:1,fontStyle:"italic"}}>*Tahmini değerlerdir</div>
+                        <div style={{fontSize:9,color:r.muted,marginTop:1,fontStyle:"italic"}}>*Tahmini değerlerdir. Bilgilendirme amaçlıdır, tıbbi tavsiye değildir.</div>
                       </div>
                       <div style={{textAlign:"right"}}>
                         <div style={{fontWeight:900,color:"#16a34a",fontSize:15}}>{b.kal} kcal</div>
@@ -6137,6 +6670,27 @@ export default function App(){
                 style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"11px 18px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:600,fontSize:14,color:"#ef4444"}}>
                 <span style={{fontSize:18}}>🚪</span> Çıkış Yap
               </button>
+
+              <div style={{borderTop:`1px solid ${r.brd}`,margin:"4px 0"}}/>
+
+              <button onClick={async()=>{
+                try{
+                  const {doc,getDoc}=await import("firebase/firestore");
+                  const {db}=await import("./firebase.js");
+                  const snap=await getDoc(doc(db,"users",firebaseUID));
+                  const blob=new Blob([JSON.stringify({profil:{isim:aktif?.isim,email:aktif?.email,kilo:aktif?.kilo,boy:aktif?.boy},tarih:new Date().toISOString(),...(snap.data()||{})},null,2)],{type:"application/json"});
+                  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+                  a.download=`doya-verilerim-${new Date().toISOString().split("T")[0]}.json`;a.click();
+                }catch(e){alert("Veri indirilemedi.");}
+                setHamMenu(false);
+              }} style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"11px 18px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:600,fontSize:14,color:"#3b82f6"}}>
+                <span style={{fontSize:18}}>📥</span> Verilerimi İndir (GDPR/KVKK)
+              </button>
+
+              <button onClick={()=>{setHesapSilModal(true);setHamMenu(false);}}
+                style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"11px 18px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:600,fontSize:14,color:"#dc2626"}}>
+                <span style={{fontSize:18}}>🗑️</span> Hesabımı Kalıcı Olarak Sil
+              </button>
             </div>
             {/* overlay - sağda */}
             <div style={{flex:1,background:"rgba(0,0,0,.45)"}}/>
@@ -6146,6 +6700,50 @@ export default function App(){
         {/* ══════════════════════════════════════════════════════
             MODALLER
         ══════════════════════════════════════════════════════ */}
+
+        {/* HESAP SİL MODAL */}
+        {hesapSilModal&&(
+          <div style={{position:"fixed",inset:0,background:"#000b",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
+            <div style={{background:r.card,borderRadius:18,padding:24,maxWidth:380,width:"100%"}}>
+              <div style={{fontSize:24,textAlign:"center",marginBottom:8}}>🗑️</div>
+              <div style={{fontWeight:900,fontSize:17,textAlign:"center",marginBottom:8,color:"#dc2626"}}>Hesabı Kalıcı Olarak Sil</div>
+              <div style={{fontSize:12,color:r.sub,lineHeight:1.7,marginBottom:16,textAlign:"center"}}>
+                Bu işlem <b>geri alınamaz.</b><br/>
+                Tüm beslenme geçmişiniz, puanlarınız, arkadaşlıklarınız ve kişisel verileriniz kalıcı olarak silinecektir.<br/><br/>
+                GDPR/KVKK kapsamında verilerinizin silinmesi 30 gün içinde tamamlanır.
+              </div>
+              <label style={{display:"flex",alignItems:"flex-start",gap:8,marginBottom:16,cursor:"pointer",background:"#fef2f2",borderRadius:10,padding:10}}>
+                <input type="checkbox" checked={hesapSilOnay} onChange={e=>setHesapSilOnay(e.target.checked)}
+                  style={{marginTop:2,width:16,height:16,accentColor:"#dc2626",flexShrink:0}}/>
+                <span style={{fontSize:12,color:"#374151",lineHeight:1.5}}>Hesabımı ve tüm verilerimi kalıcı olarak silmek istediğimi anlıyor ve onaylıyorum.</span>
+              </label>
+              <button
+                disabled={!hesapSilOnay}
+                onClick={async()=>{
+                  if(!hesapSilOnay) return;
+                  try{
+                    const {doc,deleteDoc,collection,getDocs,writeBatch}=await import("firebase/firestore");
+                    const {db,auth}=await import("./firebase.js");
+                    const {deleteUser}=await import("firebase/auth");
+                    // Firestore verilerini sil
+                    const batch=writeBatch(db);
+                    batch.delete(doc(db,"users",firebaseUID));
+                    await batch.commit();
+                    // Auth hesabını sil
+                    if(auth.currentUser) await deleteUser(auth.currentUser);
+                    alert("Hesabınız başarıyla silindi. Güle güle! 👋");
+                    setAktif(null);setFirebaseUID(null);setHesapSilModal(false);
+                  }catch(e){
+                    alert("Hata: "+e.message+"\n\nLütfen önce çıkış yapıp tekrar giriş yapın, sonra tekrar deneyin.");
+                  }
+                }}
+                style={{...BTN(hesapSilOnay?"#dc2626":"#d1d5db"),width:"100%",padding:"12px 0",marginBottom:8,opacity:hesapSilOnay?1:0.5}}>
+                Hesabımı Kalıcı Olarak Sil
+              </button>
+              <button style={{...BTN("#6b7280"),width:"100%",padding:"12px 0"}} onClick={()=>{setHesapSilModal(false);setHesapSilOnay(false);}}>Vazgeç</button>
+            </div>
+          </div>
+        )}
 
         {/* SPOR MODAL */}
         {sporModal&&(
@@ -7068,8 +7666,12 @@ export default function App(){
                 <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
                 Bu sözleşmeden doğan uyuşmazlıklarda öncelikle taraflar arabuluculuk yoluna başvurur. Arabuluculukta uzlaşı sağlanamaması halinde <b>Adana mahkemeleri ve icra daireleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
 
-                <b>13. YÜRÜRLÜK</b><br/>
-                Bu sözleşme, Ortak'ın başvurusunun Doya tarafından onaylandığı tarihte yürürlüğe girer ve her iki tarafça feshedilene kadar geçerliliğini korur.<br/><br/>
+                <b>13. ORTAKLIK SÜRESİ VE YÜRÜRLÜK</b><br/>
+                <u>a) Başlangıç ve Süre:</u> Bu sözleşme, Ortak'ın başvurusunun Doya tarafından onaylandığı tarihte yürürlüğe girer. Ortaklık süresi başlangıç tarihinden itibaren <b>3 (üç) ay</b>dır.<br/><br/>
+                <u>b) Süre Uzatımı:</u> Ortaklık süresi sona ermeden en geç <b>7 gün</b> önce her iki taraf da itirazını yazılı olarak bildirmezse, sözleşme aynı koşullarla otomatik olarak <b>birer aylık dönemler</b> halinde uzar. Uzatım sınırsız kez tekrarlanabilir.<br/><br/>
+                <u>c) Karşılıklı Uzatma:</u> Her iki tarafın da yazılı onay vermesi halinde sözleşme, belirlenen yeni koşullar ve/veya süreyle uzatılabilir. Uzatım teklifi Doya tarafından e-posta ile iletilir; Ortak'ın <b>5 iş günü</b> içinde yanıt vermemesi, teklifi reddettiği anlamına gelir.<br/><br/>
+                <u>d) Süre Sonu:</u> Ortaklık süresi sona erdiğinde referans kodu otomatik olarak devre dışı bırakılır. Süre sonuna kadar kazanılmış ve henüz ödenmemiş komisyon tutarları, normal ödeme takviminde Ortak'a eksiksiz aktarılır.<br/><br/>
+                <u>e) Performans Değerlendirmesi:</u> Doya, 3 aylık dönem sonunda ortağın performansını değerlendirme hakkını saklı tutar. İlk 3 ayda <b>en az 10 aktif kullanıcı</b> getirilememesi halinde Doya, uzatım teklifinde bulunmama hakkına sahiptir; bu durum hukuki bir yükümlülük doğurmaz.<br/><br/>
 
                 <div style={{background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,padding:"8px 12px",fontSize:10.5,color:"#166534"}}>
                   📌 <b>Önemli:</b> Bu sözleşme {new Date().toLocaleDateString("tr-TR")} tarihi itibarıyla geçerlidir.<br/>
