@@ -842,6 +842,7 @@ export default function App(){
   const [sonYemekler,setSonYemekler]=useState([]);
   const [aramaOdak,setAramaOdak]=useState(false);
   const [aiModal,setAiModal]=useState(false);
+  const [model3D,setModel3D]=useState(null); // {exerciseId, ad}
   const [aiNot,setAiNot]=useState("");
   const [aiOgun,setAiOgun]=useState("Kahvaltı");
   const [aiYukleniyor,setAiYukleniyor]=useState(false);
@@ -1032,6 +1033,16 @@ export default function App(){
 
   // ─── ADIM SAYAR ──────────────────────────────────────────────
   // Otomatik başlat: izin daha önce verilmişse hemen başlat
+  // Three.js CDN yükle
+  useEffect(()=>{
+    if(!window.THREE){
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.async=true;
+      document.head.appendChild(s);
+    }
+  },[]);
+
   useEffect(()=>{
     const bugunKey2=tarihKey(new Date());
     // Gün değiştiyse sıfırla
@@ -3669,6 +3680,25 @@ SADECE JSON döndür (başka metin yok):
         {/* Arka plan doku */}
         {d&&<div style={{position:"fixed",inset:0,maxWidth:430,left:"50%",transform:"translateX(-50%)",background:"radial-gradient(ellipse 60% 40% at 50% 0%,rgba(16,185,129,.04) 0%,transparent 70%)",pointerEvents:"none",zIndex:0}}/>}
 
+
+        {/* 3D EGZERSİZ MODAL */}
+        {model3D&&(
+          <div style={{position:"fixed",inset:0,zIndex:10000,background:"rgba(0,0,0,.85)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}} onClick={()=>setModel3D(null)}>
+            <div style={{position:"relative",borderRadius:20,overflow:"hidden",boxShadow:"0 20px 60px rgba(220,38,38,.4)",border:"2px solid rgba(220,38,38,.3)"}} onClick={e=>e.stopPropagation()}>
+              <div style={{position:"absolute",top:0,left:0,right:0,padding:"12px 16px",background:"linear-gradient(135deg,#7f1d1d,#dc2626)",display:"flex",justifyContent:"space-between",alignItems:"center",zIndex:1}}>
+                <div style={{color:"#fff",fontWeight:900,fontSize:14}}>{model3D.ad}</div>
+                <button onClick={()=>setModel3D(null)} style={{background:"rgba(0,0,0,.3)",border:"none",color:"#fff",borderRadius:8,width:28,height:28,cursor:"pointer",fontSize:16,display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
+              </div>
+              <div style={{paddingTop:44}}>
+                <ExerciseModel3D exerciseId={model3D.exerciseId} width={320} height={320}/>
+              </div>
+              <div style={{background:"#1a0000",padding:"10px 16px",textAlign:"center",fontSize:11,color:"rgba(252,165,165,.6)"}}>
+                Kamera otomatik döner · Animasyon loop
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* ══ SPOR UYGULAMASI MODAL ══════════════════════════════════ */}
         {sporAppAcik&&(
           <div style={{position:"fixed",inset:0,background:d?"#0a0000":r.bg,zIndex:9990,display:"flex",flexDirection:"column",overflowY:"auto"}}>
@@ -4042,6 +4072,10 @@ SADECE JSON döndür (başka metin yok):
                           <div style={{fontSize:11,fontWeight:700,color:"#dc2626"}}>{e.set} set × {e.rep}</div>
                           <div style={{fontSize:10,color:r.sub}}>~{Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60)} kcal</div>
                         </div>
+                        <button onClick={()=>setModel3D({exerciseId:e.id,ad:e.ad})}
+                          style={{background:"rgba(220,38,38,.12)",border:"1px solid rgba(220,38,38,.25)",borderRadius:8,padding:"5px 8px",color:"#dc2626",cursor:"pointer",fontSize:10,fontWeight:700,flexShrink:0,display:"flex",alignItems:"center",gap:3}}>
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 6l11 6-11 6V6z"/><path d="M17 6l6 3.5-6 3.5"/></svg>3D
+                        </button>
                       </div>
                     ))}
                     <div style={{marginTop:8,padding:"7px 12px",background:"rgba(220,38,38,.08)",border:"1px solid rgba(220,38,38,.15)",borderRadius:10,fontSize:11,color:"#dc2626",fontWeight:700,textAlign:"center",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
@@ -8010,3 +8044,292 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
     </>
   );
 }
+
+// ─── 3D EGZERSİZ MODELİ ──────────────────────────────────────────────────────
+const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) => {
+  const mountRef = useRef(null);
+  useEffect(() => {
+    if (!window.THREE) return;
+    const THREE = window.THREE;
+    let animationFrameId;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#1a0000');
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+    camera.position.set(0, 4, 15);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(width, height);
+    renderer.shadowMap.enabled = true;
+    if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(5, 10, 5);
+    dirLight.castShadow = true;
+    scene.add(dirLight);
+    const pointLight = new THREE.PointLight(0xff4444, 0.8, 20);
+    pointLight.position.set(-5, 5, -5);
+    scene.add(pointLight);
+    const skinMaterial = new THREE.MeshStandardMaterial({ color: 0xe8b89a, roughness: 0.6, metalness: 0.1 });
+    const createLimb = (w, h, d, mat, yOffset) => {
+      const group = new THREE.Group();
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+      mesh.position.y = yOffset;
+      mesh.castShadow = true;
+      group.add(mesh);
+      return { group, mesh };
+    };
+    const character = new THREE.Group();
+    scene.add(character);
+    const pelvis = createLimb(1.2, 0.8, 0.8, skinMaterial, 0).group;
+    pelvis.position.y = 5;
+    character.add(pelvis);
+    const torso = createLimb(1.4, 2.0, 0.9, skinMaterial, 1.0).group;
+    torso.position.y = 0.4;
+    pelvis.add(torso);
+    const neck = createLimb(0.4, 0.5, 0.4, skinMaterial, 0.25).group;
+    neck.position.y = 2.0;
+    torso.add(neck);
+    const headGroup = new THREE.Group();
+    const headMesh = new THREE.Mesh(new THREE.SphereGeometry(0.6, 32, 32), skinMaterial);
+    headMesh.position.y = 0.6;
+    headGroup.add(headMesh);
+    neck.add(headGroup);
+    const createArm = (isLeft) => {
+      const sign = isLeft ? 1 : -1;
+      const shoulder = new THREE.Group();
+      shoulder.position.set(sign * 0.9, 1.8, 0);
+      torso.add(shoulder);
+      const upperArm = createLimb(0.4, 1.2, 0.4, skinMaterial, -0.6).group;
+      shoulder.add(upperArm);
+      const lowerArm = createLimb(0.35, 1.0, 0.35, skinMaterial, -0.5).group;
+      lowerArm.position.y = -1.2;
+      upperArm.add(lowerArm);
+      const hand = createLimb(0.2, 0.4, 0.3, skinMaterial, -0.2).group;
+      hand.position.y = -1.0;
+      lowerArm.add(hand);
+      return { shoulder, upperArm, lowerArm, hand };
+    };
+    const armL = createArm(true);
+    const armR = createArm(false);
+    const createLeg = (isLeft) => {
+      const sign = isLeft ? 1 : -1;
+      const upperLeg = createLimb(0.5, 1.5, 0.5, skinMaterial, -0.75).group;
+      upperLeg.position.set(sign * 0.4, -0.4, 0);
+      pelvis.add(upperLeg);
+      const lowerLeg = createLimb(0.4, 1.4, 0.4, skinMaterial, -0.7).group;
+      lowerLeg.position.y = -1.5;
+      upperLeg.add(lowerLeg);
+      const foot = createLimb(0.4, 0.2, 0.8, skinMaterial, -0.1).group;
+      foot.position.set(0, -1.4, 0.2);
+      lowerLeg.add(foot);
+      return { upperLeg, lowerLeg, foot };
+    };
+    const legL = createLeg(true);
+    const legR = createLeg(false);
+    armL.shoulder.rotation.z = 0.3;
+    armR.shoulder.rotation.z = -0.3;
+    const clock = new THREE.Clock();
+    const resetPose = () => {
+      character.rotation.x = 0; character.position.y = 0;
+      pelvis.position.y = 5; torso.rotation.set(0,0,0); neck.rotation.set(0,0,0);
+      [legL,legR].forEach(l=>{l.upperLeg.rotation.set(0,0,0);l.lowerLeg.rotation.set(0,0,0);l.foot.rotation.set(0,0,0);});
+      armL.shoulder.rotation.set(0,0,0.3); armR.shoulder.rotation.set(0,0,-0.3);
+      armL.lowerArm.rotation.set(0,0,0); armR.lowerArm.rotation.set(0,0,0);
+    };
+    const animate = () => {
+      animationFrameId = requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+      camera.position.x = Math.sin(t * 0.3) * 15;
+      camera.position.z = Math.cos(t * 0.3) * 15;
+      camera.lookAt(0, 4, 0);
+      resetPose();
+      switch (exerciseId) {
+        case 'sinav': {
+          character.rotation.x = Math.PI / 2; character.position.y = -3;
+          const p = (Math.sin(t*3)+1)/2;
+          pelvis.position.y = 5 + p*1.5;
+          armL.shoulder.rotation.z=0.5; armR.shoulder.rotation.z=-0.5;
+          armL.shoulder.rotation.x=-Math.PI/2+p*0.5; armR.shoulder.rotation.x=-Math.PI/2+p*0.5;
+          armL.lowerArm.rotation.x=-Math.PI/2+p*Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2+p*Math.PI/2;
+          break;
+        }
+        case 'squat': {
+          const d = (Math.sin(t*2.5)+1)/2;
+          pelvis.position.y = 5-d*1.8;
+          legL.upperLeg.rotation.x=-d*1.5; legR.upperLeg.rotation.x=-d*1.5;
+          legL.lowerLeg.rotation.x=d*1.5; legR.lowerLeg.rotation.x=d*1.5;
+          torso.rotation.x=d*0.5;
+          armL.shoulder.rotation.x=-d*1.0; armR.shoulder.rotation.x=-d*1.0;
+          break;
+        }
+        case 'lunge': {
+          const d = (Math.sin(t*2)+1)/2;
+          pelvis.position.y = 5-d*1.2;
+          legL.upperLeg.rotation.x=-d*1.2; legR.upperLeg.rotation.x=d*0.8;
+          legL.lowerLeg.rotation.x=d*1.2; legR.lowerLeg.rotation.x=-d*0.5;
+          legR.upperLeg.rotation.z=-0.3;
+          armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
+          break;
+        }
+        case 'dambil_curl': {
+          const d = (Math.sin(t*2.5)+1)/2;
+          armL.lowerArm.rotation.x=-d*2.0; armR.lowerArm.rotation.x=-d*2.0;
+          armL.shoulder.rotation.z=0.2; armR.shoulder.rotation.z=-0.2;
+          break;
+        }
+        case 'lateral_raise': {
+          const d = (Math.sin(t*2)+1)/2;
+          armL.shoulder.rotation.z=0.3+d*1.3; armR.shoulder.rotation.z=-0.3-d*1.3;
+          break;
+        }
+        case 'dambil_press_omuz': {
+          const d = (Math.sin(t*2)+1)/2;
+          armL.shoulder.rotation.z=0.3+d*0.5; armR.shoulder.rotation.z=-0.3-d*0.5;
+          armL.shoulder.rotation.x=-d*1.8; armR.shoulder.rotation.x=-d*1.8;
+          armL.lowerArm.rotation.x=d*1.5; armR.lowerArm.rotation.x=d*1.5;
+          break;
+        }
+        case 'dambil_press': {
+          character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5;
+          const d=(Math.sin(t*2.5)+1)/2;
+          armL.shoulder.rotation.z=1.2-d*0.8; armR.shoulder.rotation.z=-1.2+d*0.8;
+          armL.shoulder.rotation.x=d*0.5; armR.shoulder.rotation.x=d*0.5;
+          armL.lowerArm.rotation.x=-d*1.2; armR.lowerArm.rotation.x=-d*1.2;
+          break;
+        }
+        case 'dambil_flye': {
+          character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5;
+          const d=(Math.sin(t*2)+1)/2;
+          armL.shoulder.rotation.z=0.3+d*1.0; armR.shoulder.rotation.z=-0.3-d*1.0;
+          armL.lowerArm.rotation.x=-0.5; armR.lowerArm.rotation.x=-0.5;
+          break;
+        }
+        case 'pullup': {
+          const d=(Math.sin(t*1.5)+1)/2;
+          pelvis.position.y=5+d*2;
+          armL.shoulder.rotation.x=-2.0+d*0.8; armR.shoulder.rotation.x=-2.0+d*0.8;
+          armL.shoulder.rotation.z=0.5; armR.shoulder.rotation.z=-0.5;
+          armL.lowerArm.rotation.x=d*1.5; armR.lowerArm.rotation.x=d*1.5;
+          break;
+        }
+        case 'dambil_row': {
+          torso.rotation.x=-0.7;
+          const d=(Math.sin(t*2.5)+1)/2;
+          armL.shoulder.rotation.x=-0.3-d*1.2;
+          armL.lowerArm.rotation.x=d*1.2;
+          armR.shoulder.rotation.z=-0.2;
+          break;
+        }
+        case 'superman': {
+          character.rotation.x=Math.PI/2; character.position.y=-4; pelvis.position.y=5;
+          const d=(Math.sin(t*1.8)+1)/2;
+          armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=-d*0.8;
+          pelvis.position.y=5+d*0.3;
+          legL.upperLeg.rotation.x=d*0.8; legR.upperLeg.rotation.x=d*0.8;
+          break;
+        }
+        case 'hip_thrust': {
+          character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5;
+          const d=(Math.sin(t*2)+1)/2;
+          pelvis.position.y=5+d*1.5;
+          legL.upperLeg.rotation.x=-0.8+d*0.8; legR.upperLeg.rotation.x=-0.8+d*0.8;
+          legL.lowerLeg.rotation.x=1.2-d*0.8; legR.lowerLeg.rotation.x=1.2-d*0.8;
+          break;
+        }
+        case 'calf_raise': {
+          const d=(Math.sin(t*2.5)+1)/2;
+          pelvis.position.y=5+d*0.5;
+          legL.foot.rotation.x=-d*0.6; legR.foot.rotation.x=-d*0.6;
+          armL.shoulder.rotation.z=0.15; armR.shoulder.rotation.z=-0.15;
+          break;
+        }
+        case 'crunch': {
+          character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5;
+          const d=(Math.sin(t*2)+1)/2;
+          torso.rotation.x=-d*1.0; neck.rotation.x=-d*0.5;
+          legL.upperLeg.rotation.x=-0.5; legR.upperLeg.rotation.x=-0.5;
+          legL.lowerLeg.rotation.x=0.8; legR.lowerLeg.rotation.x=0.8;
+          break;
+        }
+        case 'plank': {
+          character.rotation.x=Math.PI/2; character.position.y=-3.5; pelvis.position.y=5;
+          armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
+          armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
+          neck.rotation.x=-0.3;
+          break;
+        }
+        case 'mountain_climber': {
+          character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5;
+          armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
+          armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
+          const d=Math.sin(t*4);
+          legL.upperLeg.rotation.x=d*1.2; legR.upperLeg.rotation.x=-d*1.2;
+          legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
+          break;
+        }
+        case 'leg_raise': {
+          character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5;
+          const d=(Math.sin(t*1.8)+1)/2;
+          legL.upperLeg.rotation.x=d*1.5; legR.upperLeg.rotation.x=d*1.5;
+          armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
+          break;
+        }
+        case 'jumping_jack': {
+          pelvis.position.y=5+Math.abs(Math.sin(t*5))*0.5;
+          const d=Math.sin(t*5);
+          legL.upperLeg.rotation.z=Math.abs(d)*0.4; legR.upperLeg.rotation.z=-Math.abs(d)*0.4;
+          armL.shoulder.rotation.z=Math.abs(d)*2.5; armR.shoulder.rotation.z=-Math.abs(d)*2.5;
+          break;
+        }
+        case 'burpee': {
+          const phase=(t*1.2)%4;
+          if(phase<1){// ayakta
+            pelvis.position.y=5;
+          }else if(phase<2){// çök
+            const d=(phase-1);
+            pelvis.position.y=5-d*1.8;
+            legL.upperLeg.rotation.x=-d*1.5; legR.upperLeg.rotation.x=-d*1.5;
+            legL.lowerLeg.rotation.x=d*1.5; legR.lowerLeg.rotation.x=d*1.5;
+          }else if(phase<3){// şınav
+            character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5;
+            const d2=(Math.sin(phase*Math.PI*2)+1)/2;
+            pelvis.position.y=5+d2*1.2;
+          }else{// zıpla
+            character.rotation.x=0; character.position.y=0;
+            pelvis.position.y=5+Math.abs(Math.sin((phase-3)*Math.PI))*1.5;
+            armL.shoulder.rotation.x=-1.5; armR.shoulder.rotation.x=-1.5;
+          }
+          break;
+        }
+        case 'high_knees': {
+          const d=Math.sin(t*4);
+          pelvis.position.y=5+Math.abs(Math.sin(t*4))*0.2;
+          legL.upperLeg.rotation.x=d>0?-d*1.5:0; legR.upperLeg.rotation.x=d<0?d*1.5:0;
+          legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
+          armL.shoulder.rotation.x=d*0.6; armR.shoulder.rotation.x=-d*0.6;
+          break;
+        }
+        case 'triceps_dips': {
+          const d=(Math.sin(t*2.5)+1)/2;
+          pelvis.position.y=5-d*1.2;
+          armL.shoulder.rotation.z=0.8; armR.shoulder.rotation.z=-0.8;
+          armL.shoulder.rotation.x=0.5; armR.shoulder.rotation.x=0.5;
+          armL.lowerArm.rotation.x=-d*1.8; armR.lowerArm.rotation.x=-d*1.8;
+          legL.upperLeg.rotation.x=-0.5; legR.upperLeg.rotation.x=-0.5;
+          break;
+        }
+        default: break;
+      }
+      renderer.render(scene, camera);
+    };
+    animate();
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      if(mountRef.current && renderer.domElement.parentNode===mountRef.current)
+        mountRef.current.removeChild(renderer.domElement);
+      skinMaterial.dispose();
+      renderer.dispose();
+    };
+  }, [exerciseId, width, height]);
+  return <div ref={mountRef} style={{width:`${width}px`,height:`${height}px`,borderRadius:16,overflow:"hidden"}} />;
+};
