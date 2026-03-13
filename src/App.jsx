@@ -4070,7 +4070,7 @@ SADECE JSON döndür (başka metin yok):
                 <span style={{fontSize:13,fontWeight:800,color:"#f0c14b",letterSpacing:.3}}>{puan}</span>
               </div>
               {premiumPlus&&<span style={{background:"linear-gradient(135deg,#7c3aed,#6d28d9)",fontSize:9,fontWeight:800,padding:"5px 9px",borderRadius:10,color:"#fff",letterSpacing:.8,flexShrink:0,border:"1px solid rgba(196,181,253,.15)"}}>PLUS</span>}
-              {premium&&!premiumPlus&&<span style={{background:"rgba(200,146,42,.12)",border:"1px solid rgba(240,193,75,.2)",fontSize:9,fontWeight:800,padding:"5px 9px",borderRadius:10,color:"#f0c14b",letterSpacing:.8,flexShrink:0}}>PRO</span>}
+              {false&&premium&&<span style={{background:"rgba(200,146,42,.12)",border:"1px solid rgba(240,193,75,.2)",fontSize:9,fontWeight:800,padding:"5px 9px",borderRadius:10,color:"#f0c14b",letterSpacing:.8,flexShrink:0}}>PRO</span>}
             </div>
           </div>
           </div>
@@ -4081,7 +4081,7 @@ SADECE JSON döndür (başka metin yok):
           <div className={tabAnimClass} style={{paddingBottom:16}}>
 
             {/* ── Reklam banner ── */}
-            {reklam&&!premium&&!premiumPlus&&(
+            {reklam&&!false&&premium&&(
               <div style={{display:"flex",alignItems:"center",gap:10,margin:"10px 14px 0",padding:"11px 14px",background:d?"rgba(200,146,42,.06)":"rgba(200,146,42,.05)",border:"1px solid rgba(200,146,42,.12)",borderRadius:16}}>
                 <div style={{width:28,height:28,borderRadius:9,background:"rgba(200,146,42,.1)",border:"1px solid rgba(240,193,75,.15)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -4599,7 +4599,7 @@ SADECE JSON döndür (başka metin yok):
 
             {/* SEKMELER */}
             <div style={{display:"flex",gap:0,marginBottom:14,borderBottom:`2px solid ${r.inpB}`}}>
-              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
+              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"},{k:"yemeklerim",ikon:"🍽️",l:"Yemeklerim"}].map(s=>(
                 <button key={s.k} onClick={()=>{setYemekEkleSekme(s.k);setBesinArama("");setHizliSonuc(null);}}
                   style={{flex:1,padding:"10px 4px",border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
                     background:"transparent",
@@ -4832,6 +4832,52 @@ SADECE JSON döndür (başka metin yok):
                   </div>
                 )}
                 {hizliSonuc?.hata&&<div style={{color:"#ef4444",textAlign:"center",fontSize:12,padding:8}}>{hizliSonuc.hata}</div>}
+              </div>
+            )}
+
+            {yemekEkleSekme==="yemeklerim"&&(
+              <div>
+                <div style={{fontSize:12,fontWeight:700,color:r.sub,marginBottom:10}}>Bugün Yediklerim</div>
+                {bugYemekler.length===0&&sonYemekler.length===0&&(
+                  <div style={{textAlign:"center",color:r.muted,padding:"32px 0",fontSize:13}}>Henüz yemek eklemedin.</div>
+                )}
+                {bugYemekler.length>0&&(
+                  <div style={{marginBottom:14}}>
+                    <div style={{fontSize:10,fontWeight:700,color:"rgba(16,185,129,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Bugün</div>
+                    {bugYemekler.map((y,i)=>(
+                      <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:10,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",border:`1px solid ${r.brd}`,marginBottom:6}}>
+                        <div>
+                          <div style={{fontSize:13,fontWeight:700,color:r.text}}>{y.ad}</div>
+                          <div style={{fontSize:11,color:r.sub}}>{y.gram}g · {y.gramKal} kcal</div>
+                        </div>
+                        <button onClick={()=>{
+                          const bg=bugunKey();
+                          setYemekEkleOgun(y.kat||"Kahvaltı");
+                          const yeniler=[...gunV(bg).yemekler,{...y}];
+                          gunSet(bg,"yemekler",yeniler);
+                        }} style={{background:"rgba(16,185,129,.1)",border:"1px solid rgba(16,185,129,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,color:"#10b981",cursor:"pointer"}}>+ Tekrar</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {sonYemekler.filter(y=>!bugYemekler.find(b=>b.ad===y.ad)).length>0&&(
+                  <div>
+                    <div style={{fontSize:10,fontWeight:700,color:"rgba(167,139,250,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Son Eklenenler</div>
+                    {sonYemekler.filter(y=>!bugYemekler.find(b=>b.ad===y.ad)).slice(0,10).map((y,i)=>(
+                      <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:10,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",border:`1px solid ${r.brd}`,marginBottom:6}}>
+                        <div>
+                          <div style={{fontSize:13,fontWeight:700,color:r.text}}>{y.ad}</div>
+                          <div style={{fontSize:11,color:r.sub}}>{y.gram}g · {y.gramKal} kcal</div>
+                        </div>
+                        <button onClick={()=>{
+                          const bg=bugunKey();
+                          const yeniler=[...gunV(bg).yemekler,{...y}];
+                          gunSet(bg,"yemekler",yeniler);
+                        }} style={{background:"rgba(167,139,250,.1)",border:"1px solid rgba(167,139,250,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,color:"#a78bfa",cursor:"pointer"}}>+ Ekle</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
@@ -5165,7 +5211,7 @@ SADECE JSON döndür (başka metin yok):
             </div>
 
             {/* Premium planlar */}
-            {!premium&&!premiumPlus&&(
+            {!false&&premium&&(
               <div style={{display:"flex",flexDirection:"column",gap:8}}>
                 {/* Aylık/Yıllık toggle */}
                 <div style={{display:"flex",background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.04)",borderRadius:14,padding:4,gap:4,margin:"0 14px"}}>
@@ -5221,26 +5267,14 @@ SADECE JSON döndür (başka metin yok):
 
 
             {/* Aktif plan gösterimi */}
-            {premiumPlus&&(
-              <div style={{...CS,background:d?"linear-gradient(145deg,#0a0818,#0d0a22)":"linear-gradient(145deg,#faf5ff,#f8f3ff)",border:"1px solid rgba(139,92,246,.15)"}}>
-                <div style={{fontSize:9,fontWeight:700,color:"rgba(167,139,250,.45)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:10}}>Premium Plus Aktif</div>
-                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#a78bfa",marginBottom:10}}>Reklamsız deneyim · AI analizi aktif</div>
+            {(premium||premiumPlus)&&(
+              <div style={{...CS,background:d?"linear-gradient(145deg,#040d06,#071209)":"linear-gradient(145deg,#f0fdf4,#f5fffa)",border:"1px solid rgba(16,185,129,.25)"}}>
+                <div style={{fontSize:9,fontWeight:700,color:"rgba(16,185,129,.5)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:10}}>✅ Premium Aktif</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981",marginBottom:10}}>Sınırsız AI · Reklamsız deneyim</div>
                 <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.04)",border:"1px solid rgba(16,185,129,.1)",borderRadius:12,padding:"10px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <span style={{fontSize:10,color:r.muted,letterSpacing:.3}}>AI hakkı</span>
                   <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981"}}>∞ Sınırsız</span>
                 </div>
-              </div>
-            )}
-            {premium&&!premiumPlus&&(
-              <div style={{...CS,background:d?"linear-gradient(145deg,#090800,#110e00)":"linear-gradient(145deg,#fefce8,#fffdf5)",border:"1px solid rgba(200,146,42,.15)"}}>
-                <div style={{fontSize:9,fontWeight:700,color:"rgba(240,193,75,.45)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:10}}>Premium Aktif</div>
-                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#f0c14b",marginBottom:12}}>Reklamsız deneyim etkin</div>
-                <button style={{width:"100%",padding:"12px 0",borderRadius:14,border:"1px solid rgba(167,139,250,.2)",background:d?"rgba(139,92,246,.08)":"rgba(139,92,246,.06)",color:"#a78bfa",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer"}} onClick={async()=>{
-                  setPremiumPlus(true);
-                  if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premiumPlus:true}).catch(console.error);
-                }}>
-                  Plus'a Yükselt — {PREMIUM_PLUS_FIYAT}₺/ay
-                </button>
               </div>
             )}
 
@@ -6533,7 +6567,6 @@ SADECE JSON döndür (başka metin yok):
                       <button key={n.id} onClick={()=>{
                         if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporSoruAdim(0);setSporProgram(null);setAntBitmis(false);setSporHedefSA("");setSporBolge([]);setSporSeviye("");}
                         else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
-                        else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);diyetListesiUret();}
                         else if(n.id==="__alerji__"){setAlerjiModal(true);}
                         else if(n.id==="__kilotakip__"){setKiloGirModal(true);setKiloInput(profil.kilo||"");setKiloNot("");}
                         else setTab(n.id);
@@ -7417,19 +7450,9 @@ SADECE JSON döndür (başka metin yok):
                 {/* Fotoğraf yükleme alanı */}
                 {!aiImg&&(
                   <div>
-                    {/* Premium değilse */}
-                    {!premiumPlus&&(
-                      <div style={{background:d?"#1e1b4b":"#f5f3ff",border:"2px solid #7c3aed",borderRadius:14,padding:"14px",marginBottom:12,textAlign:"center"}}>
-                        <div style={{fontSize:24,marginBottom:6}}>🤖</div>
-                        <div style={{fontSize:13,fontWeight:900,color:"#7c3aed",marginBottom:4}}>AI Fotoğraf Analizi</div>
-                        <div style={{fontSize:11,color:r.sub,marginBottom:10}}>Bu özellik sadece <b>Premium Plus</b> üyelerine açıktır.<br/>Günde 20 fotoğraf analizi hakkı.</div>
-                        <button onClick={()=>{setAiModal(false);setTab("profil");}} style={{...BTN("#7c3aed"),width:"100%",padding:"10px 0",fontSize:12}}>
-                          🤖 Plus'a Geç — {PREMIUM_PLUS_FIYAT}₺/ay
-                        </button>
-                      </div>
-                    )}
+
                     {/* Limit doldu */}
-                    {aiGunlukKullanim>=(premiumPlus?9999:AI_GUNLUK_LIMIT+ekstraAiHak)&&(
+                    {aiGunlukKullanim>=((premium||premiumPlus)?9999:AI_GUNLUK_LIMIT+ekstraAiHak)&&(
                       <div style={{background:d?"#1c1a10":"#fef2f2",border:"1.5px solid #fca5a5",borderRadius:14,padding:"14px",marginBottom:12,textAlign:"center"}}>
                         <div style={{fontSize:24,marginBottom:6}}>⏰</div>
                         <div style={{fontSize:13,fontWeight:900,color:"#ef4444",marginBottom:4}}>Günlük limit doldu</div>
@@ -7438,13 +7461,9 @@ SADECE JSON döndür (başka metin yok):
                       </div>
                     )}
                     {/* Plus ya da ekstra hak var + kullanılabilir */}
-                    {aiGunlukKullanim<(premiumPlus?9999:AI_GUNLUK_LIMIT+ekstraAiHak)&&(
+                    {aiGunlukKullanim<((premium||premiumPlus)?9999:AI_GUNLUK_LIMIT+ekstraAiHak)&&(
                       <div>
-                        {/* Kalan hak */}
-                        <div style={{background:d?"#1e293b":"#f0fdf4",borderRadius:12,padding:"8px 12px",marginBottom:10,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                          <div style={{fontSize:11,color:r.sub}}>Bugünkü hak</div>
-                          <div style={{fontSize:13,fontWeight:900,color:"#16a34a"}}>{premiumPlus?"∞ Sınırsız":`${Math.max(0,AI_GUNLUK_LIMIT+ekstraAiHak-aiGunlukKullanim)} / ${AI_GUNLUK_LIMIT+ekstraAiHak} kaldı`}</div>
-                        </div>
+
                         {/* Gizli input'lar */}
                         <input type="file" accept="image/*" capture="environment" id="aiCameraInput" style={{display:"none"}}
                           onChange={e=>{
