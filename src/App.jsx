@@ -4288,107 +4288,191 @@ SADECE JSON döndür (başka metin yok):
                 {/* ══ KEŞFETsekmesi ══ */}
                 {sporSekme==="kesfet"&&(
                   <div>
-                    {/* Vücut bölgesi chips */}
+                    {/* Vücut bölgesi - görsel butonlar */}
                     <div style={{fontSize:11,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>Vücut Odağı</div>
-                    <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:20}}>
+                    <div style={{display:"flex",gap:8,overflowX:"auto",paddingBottom:8,marginBottom:20,scrollbarWidth:"none"}}>
                       {[
-                        {k:"karin",l:"Karın Kasları"},
-                        {k:"kol",l:"Kol"},
-                        {k:"gogus",l:"Göğüs"},
-                        {k:"sirt",l:"Sırt"},
-                        {k:"bacak",l:"Bacak"},
-                        {k:"omuz",l:"Omuz"},
-                        {k:"tum",l:"Tüm Vücut"},
+                        {k:"karin", l:"Karın",  emoji:"🔥", bg:"linear-gradient(135deg,#7f1d1d,#dc2626)", desc:"Core & Abs"},
+                        {k:"kol",   l:"Kol",    emoji:"💪", bg:"linear-gradient(135deg,#1e3a5f,#2563eb)", desc:"Biceps & Triceps"},
+                        {k:"gogus", l:"Göğüs",  emoji:"🏋️", bg:"linear-gradient(135deg,#14532d,#16a34a)", desc:"Pektoral"},
+                        {k:"sirt",  l:"Sırt",   emoji:"🦅", bg:"linear-gradient(135deg,#4c1d95,#7c3aed)", desc:"Lat & Rhomboid"},
+                        {k:"bacak", l:"Bacak",  emoji:"🦵", bg:"linear-gradient(135deg,#92400e,#d97706)", desc:"Quad & Hamstring"},
+                        {k:"omuz",  l:"Omuz",   emoji:"⚡", bg:"linear-gradient(135deg,#164e63,#0891b2)", desc:"Deltoid"},
+                        {k:"tum",   l:"Tüm Vücut",emoji:"🌟",bg:"linear-gradient(135deg,#3f0000,#dc2626)", desc:"Full Body"},
                       ].map(b=>(
                         <button key={b.k} onClick={()=>setSporKesfetBolge(b.k)}
-                          style={{padding:"8px 16px",borderRadius:20,border:`1.5px solid ${sporKesfetBolge===b.k?"#dc2626":"rgba(220,38,38,.2)"}`,
-                            background:sporKesfetBolge===b.k?"#dc2626":"transparent",
-                            color:sporKesfetBolge===b.k?"#fff":"rgba(220,38,38,.7)",
-                            fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,cursor:"pointer",transition:"all .15s"}}>
-                          {b.l}
+                          style={{flexShrink:0,width:90,borderRadius:16,overflow:"hidden",
+                            border:`2px solid ${sporKesfetBolge===b.k?"#dc2626":"transparent"}`,
+                            cursor:"pointer",padding:0,background:"transparent",
+                            boxShadow:sporKesfetBolge===b.k?"0 0 0 2px #dc2626, 0 4px 16px rgba(220,38,38,.3)":"none",
+                            transition:"all .2s"}}>
+                          <div style={{background:b.bg,padding:"18px 8px 10px",display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
+                            <div style={{fontSize:28}}>{b.emoji}</div>
+                            <div style={{fontSize:12,fontWeight:900,color:"#fff"}}>{b.l}</div>
+                            <div style={{fontSize:9,color:"rgba(255,255,255,.7)",fontWeight:600}}>{b.desc}</div>
+                          </div>
+                          {sporKesfetBolge===b.k&&<div style={{height:3,background:"#dc2626"}}/>}
                         </button>
                       ))}
                     </div>
 
-                    {/* Seçili bölgeye göre program kartları */}
+                    {/* Program kartları */}
                     {(()=>{
-                      const programlar = {
-                        karin:[
-                          {ad:"Karın Kasları Başlangıç",sure:15,egz:8,zorluk:1,acik:"Core temelleri, plank ve crunch",egzler:["crunch","plank","leg_raise"]},
-                          {ad:"Karın Kasları Orta",sure:20,egz:12,zorluk:2,acik:"Bicycle crunch ve mountain climber",egzler:["crunch","mountain_climber","bicycle_crunch","leg_raise"]},
-                          {ad:"Karın Kasları İleri",sure:30,egz:16,zorluk:3,acik:"Yüksek yoğunluklu core antrenmanı",egzler:["plank","mountain_climber","bicycle_crunch","leg_raise","crunch"]},
-                        ],
-                        kol:[
-                          {ad:"Kol Başlangıç",sure:15,egz:6,zorluk:1,acik:"Temel biceps ve triceps",egzler:["dambil_curl","triceps_dips"]},
-                          {ad:"Kol Orta",sure:20,egz:10,zorluk:2,acik:"Curl, dips ve hammer curl",egzler:["dambil_curl","hammer_curl","triceps_dips"]},
-                          {ad:"Kol İleri",sure:30,egz:14,zorluk:3,acik:"Yüksek hacim kol antrenmanı",egzler:["dambil_curl","hammer_curl","triceps_dips","skull_crusher"]},
-                        ],
-                        gogus:[
-                          {ad:"Göğüs Başlangıç",sure:15,egz:6,zorluk:1,acik:"Şınav temelleri",egzler:["sinav"]},
-                          {ad:"Göğüs Orta",sure:20,egz:10,zorluk:2,acik:"Şınav varyasyonları",egzler:["sinav","genis_sinav","dambil_press"]},
-                          {ad:"Göğüs İleri",sure:30,egz:14,zorluk:3,acik:"Üst göğüs ve flye",egzler:["sinav","genis_sinav","dambil_press","dambil_flye"]},
-                        ],
-                        sirt:[
-                          {ad:"Sırt Başlangıç",sure:15,egz:6,zorluk:1,acik:"Superman ve temel sırt",egzler:["superman","dambil_row"]},
-                          {ad:"Sırt Orta",sure:20,egz:10,zorluk:2,acik:"Pull-up ve row",egzler:["pullup","dambil_row","superman"]},
-                          {ad:"Sırt İleri",sure:30,egz:14,zorluk:3,acik:"Tam sırt gelişimi",egzler:["pullup","dambil_row","superman","lateral_raise"]},
-                        ],
-                        bacak:[
-                          {ad:"Bacak Başlangıç",sure:15,egz:6,zorluk:1,acik:"Squat ve temel bacak",egzler:["squat","calf_raise"]},
-                          {ad:"Bacak Orta",sure:20,egz:10,zorluk:2,acik:"Lunge ve hip thrust",egzler:["squat","lunge","hip_thrust","calf_raise"]},
-                          {ad:"Bacak İleri",sure:30,egz:14,zorluk:3,acik:"Tam bacak antrenmanı",egzler:["squat","lunge","dambil_squat","hip_thrust","glut_bridge","calf_raise"]},
-                        ],
-                        omuz:[
-                          {ad:"Omuz Başlangıç",sure:15,egz:6,zorluk:1,acik:"Lateral raise ve temel omuz",egzler:["lateral_raise","dambil_press_omuz"]},
-                          {ad:"Omuz Orta",sure:20,egz:10,zorluk:2,acik:"Omuz press ve pike",egzler:["lateral_raise","dambil_press_omuz","pike_push"]},
-                          {ad:"Omuz İleri",sure:30,egz:14,zorluk:3,acik:"Tam omuz gelişimi",egzler:["lateral_raise","dambil_press_omuz","pike_push"]},
-                        ],
-                        tum:[
-                          {ad:"Tüm Vücut Başlangıç",sure:20,egz:8,zorluk:1,acik:"Temel tam vücut",egzler:["squat","sinav","crunch","jumping_jack"]},
-                          {ad:"Tüm Vücut Orta",sure:30,egz:14,zorluk:2,acik:"Kardiyo ağırlıklı",egzler:["burpee","squat","sinav","mountain_climber","jumping_jack"]},
-                          {ad:"Tüm Vücut İleri",sure:40,egz:18,zorluk:3,acik:"Yüksek yoğunluklu HIIT",egzler:["burpee","squat","sinav","mountain_climber","high_knees","jumping_jack"]},
-                        ],
+                      const hareketler = {
+                        karin:  ["crunch","plank","mountain_climber","leg_raise","bicycle_crunch"],
+                        kol:    ["dambil_curl","hammer_curl","triceps_dips","skull_crusher"],
+                        gogus:  ["sinav","genis_sinav","dambil_press","dambil_flye","pike_push"],
+                        sirt:   ["pullup","dambil_row","superman"],
+                        bacak:  ["squat","lunge","hip_thrust","calf_raise","glut_bridge","dambil_squat"],
+                        omuz:   ["lateral_raise","dambil_press_omuz","pike_push"],
+                        tum:    ["squat","sinav","crunch","jumping_jack","burpee","high_knees","mountain_climber"],
                       };
-                      const liste = programlar[sporKesfetBolge]||[];
-                      return liste.map((prog,pi)=>(
-                        <div key={pi} style={{background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.05)"}`,borderRadius:16,marginBottom:12,overflow:"hidden"}}>
-                          {/* Üst kısım - renkli bant */}
-                          <div style={{background:`linear-gradient(135deg,${pi===0?"#16a34a":pi===1?"#dc7626":"#dc2626"},${pi===0?"#15803d":pi===1?"#b95a1c":"#991b1b"})`,padding:"14px 16px"}}>
-                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                      const bolgeAd = {karin:"Karın Kasları",kol:"Kol",gogus:"Göğüs",sirt:"Sırt",bacak:"Bacak",omuz:"Omuz",tum:"Tüm Vücut"};
+                      const bolgeEmoji = {karin:"🔥",kol:"💪",gogus:"🏋️",sirt:"🦅",bacak:"🦵",omuz:"⚡",tum:"🌟"};
+                      const egzler = hareketler[sporKesfetBolge]||[];
+
+                      const programlar = [
+                        {
+                          zorluk:1, ad:`${bolgeAd[sporKesfetBolge]} — Başlangıç`,
+                          sure:15, gunSayisi:28,
+                          renk:"#16a34a", renk2:"#15803d",
+                          acik:"Haftada 4 gün, 15 dk — temel hareketler",
+                          haftalik: [
+                            {gunler:[1,2,4,5], setler:2, rep:"10-12"},
+                            {gunler:[1,2,4,5], setler:2, rep:"12-15"},
+                            {gunler:[1,2,4,5], setler:3, rep:"12-15"},
+                            {gunler:[1,2,4,5], setler:3, rep:"15"},
+                          ]
+                        },
+                        {
+                          zorluk:2, ad:`${bolgeAd[sporKesfetBolge]} — Orta`,
+                          sure:25, gunSayisi:28,
+                          renk:"#d97706", renk2:"#b45309",
+                          acik:"Haftada 4 gün, 25 dk — artan yoğunluk",
+                          haftalik: [
+                            {gunler:[1,2,4,5], setler:3, rep:"12"},
+                            {gunler:[1,2,4,5], setler:3, rep:"15"},
+                            {gunler:[1,2,4,6], setler:4, rep:"12"},
+                            {gunler:[1,2,4,6], setler:4, rep:"15"},
+                          ]
+                        },
+                        {
+                          zorluk:3, ad:`${bolgeAd[sporKesfetBolge]} — İleri`,
+                          sure:40, gunSayisi:28,
+                          renk:"#dc2626", renk2:"#991b1b",
+                          acik:"Haftada 5 gün, 40 dk — yüksek yoğunluk",
+                          haftalik: [
+                            {gunler:[1,2,3,5,6], setler:4, rep:"12"},
+                            {gunler:[1,2,3,5,6], setler:4, rep:"15"},
+                            {gunler:[1,2,3,4,6], setler:5, rep:"12"},
+                            {gunler:[1,2,3,4,6], setler:5, rep:"15"},
+                          ]
+                        },
+                      ];
+
+                      return programlar.map((prog,pi)=>(
+                        <div key={pi} style={{borderRadius:18,overflow:"hidden",marginBottom:16,boxShadow:"0 4px 16px rgba(0,0,0,.1)"}}>
+                          {/* Header görsel */}
+                          <div style={{background:`linear-gradient(160deg,${prog.renk2},${prog.renk})`,padding:"20px 18px 16px",position:"relative",overflow:"hidden"}}>
+                            <div style={{position:"absolute",top:-20,right:-20,fontSize:80,opacity:.12}}>
+                              {bolgeEmoji[sporKesfetBolge]}
+                            </div>
+                            <div style={{position:"absolute",bottom:-30,right:20,fontSize:120,opacity:.06}}>
+                              {bolgeEmoji[sporKesfetBolge]}
+                            </div>
+                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",position:"relative"}}>
                               <div>
-                                <div style={{fontSize:14,fontWeight:900,color:"#fff",marginBottom:4}}>{prog.ad}</div>
+                                <div style={{display:"flex",gap:3,marginBottom:8}}>
+                                  {[1,2,3].map(z=>(
+                                    <div key={z} style={{width:20,height:20,borderRadius:"50%",
+                                      background:z<=prog.zorluk?"rgba(255,255,255,.9)":"rgba(255,255,255,.2)",
+                                      display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                      <svg width="10" height="10" viewBox="0 0 24 24" fill={z<=prog.zorluk?"currentColor":"none"} stroke="white" strokeWidth="2">
+                                        <path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/>
+                                      </svg>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:4,lineHeight:1.2}}>{prog.ad}</div>
                                 <div style={{fontSize:11,color:"rgba(255,255,255,.75)"}}>{prog.acik}</div>
                               </div>
-                              <div style={{display:"flex",gap:2}}>
-                                {[1,2,3].map(z=>(
-                                  <svg key={z} width="14" height="14" viewBox="0 0 24 24" fill={z<=prog.zorluk?"#fff":"rgba(255,255,255,.3)"} stroke="none">
-                                    <path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/>
-                                  </svg>
-                                ))}
+                              <div style={{background:"rgba(255,255,255,.15)",borderRadius:12,padding:"8px 12px",textAlign:"center",flexShrink:0}}>
+                                <div style={{fontSize:20,fontWeight:900,color:"#fff",lineHeight:1}}>28</div>
+                                <div style={{fontSize:9,color:"rgba(255,255,255,.75)",fontWeight:700}}>GÜN</div>
                               </div>
                             </div>
+                            {/* Meta */}
+                            <div style={{display:"flex",gap:12,marginTop:12}}>
+                              {[
+                                {ikon:"⏱",v:`${prog.sure} dk/seans`},
+                                {ikon:"📅",v:`${prog.zorluk===3?"Haftada 5":"Haftada 4"} gün`},
+                                {ikon:"💪",v:`${prog.zorluk===1?"2-3":"3-5"} set`},
+                              ].map((m,mi)=>(
+                                <div key={mi} style={{display:"flex",alignItems:"center",gap:4,fontSize:10,color:"rgba(255,255,255,.8)",fontWeight:600}}>
+                                  <span>{m.ikon}</span><span>{m.v}</span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                          {/* Alt kısım - meta + buton */}
-                          <div style={{padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-                            <div style={{display:"flex",gap:14}}>
-                              <span style={{fontSize:11,color:r.sub,display:"flex",alignItems:"center",gap:4}}>
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                {prog.sure} dk
-                              </span>
-                              <span style={{fontSize:11,color:r.sub,display:"flex",alignItems:"center",gap:4}}>
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>
-                                {prog.egz} egzersiz
-                              </span>
+
+                          {/* Alt kısım */}
+                          <div style={{background:r.card,border:`1px solid ${prog.renk}22`,padding:"14px 16px"}}>
+                            {/* Hafta akışı */}
+                            <div style={{fontSize:10,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>4 Haftalık Plan</div>
+                            <div style={{display:"flex",gap:6,marginBottom:14}}>
+                              {prog.haftalik.map((h,hi)=>(
+                                <div key={hi} style={{flex:1,background:d?"rgba(255,255,255,.04)":"rgba(0,0,0,.03)",borderRadius:10,padding:"8px 6px",textAlign:"center",border:`1px solid ${d?"rgba(255,255,255,.06)":"rgba(0,0,0,.05)"}`}}>
+                                  <div style={{fontSize:9,fontWeight:800,color:r.muted,marginBottom:4}}>{hi+1}.HAFTA</div>
+                                  <div style={{fontSize:11,fontWeight:700,color:r.text}}>{h.setler}×{h.rep}</div>
+                                </div>
+                              ))}
+                            </div>
+                            {/* Egzersizler */}
+                            <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
+                              {egzler.slice(0,4).map((e,ei)=>{
+                                const egzDB = Object.values(typeof EGZERSIZ_DB!=="undefined"?EGZERSIZ_DB:{}).find?.(x=>x.id===e)||{ad:e,ikon:"💪"};
+                                return(
+                                  <span key={ei} style={{background:`${prog.renk}12`,border:`1px solid ${prog.renk}25`,
+                                    color:prog.renk,borderRadius:20,padding:"4px 10px",fontSize:10,fontWeight:700}}>
+                                    {egzDB.ikon||"💪"} {egzDB.ad||e}
+                                  </span>
+                                );
+                              })}
+                              {egzler.length>4&&<span style={{color:r.muted,fontSize:10,alignSelf:"center"}}>+{egzler.length-4} daha</span>}
                             </div>
                             <button onClick={()=>{
-                              // Bu programı başlat - sporProgramUret ile uyumlu obje oluştur
                               const hedefMap={karin:"saglik",kol:"kas",gogus:"kas",sirt:"kas",bacak:"form",omuz:"kas",tum:"form"};
-                              const prg=sporProgramUret(hedefMap[sporKesfetBolge]||"saglik","baslangic",[],prog.sure,3,[sporKesfetBolge]);
-                              setSporProgram({...prg,ad:prog.ad});
+                              // 28 günlük program oluştur - her hafta set/rep artar
+                              const gunler = [];
+                              const aktifGunler = prog.zorluk===3?[0,1,2,4,5]:[0,1,3,4];
+                              for(let hafta=0;hafta<4;hafta++){
+                                const haftaConfig = prog.haftalik[hafta];
+                                for(let gi=0;gi<aktifGunler.length;gi++){
+                                  const egzListesi = egzler.map(eid=>{
+                                    const e = Object.values(typeof EGZERSIZ_DB!=="undefined"?EGZERSIZ_DB:{}).find?.(x=>x.id===eid);
+                                    return e ? {...e, set:haftaConfig.setler, rep:haftaConfig.rep} : null;
+                                  }).filter(Boolean);
+                                  gunler.push({
+                                    baslik:`${hafta+1}.Hafta Gün ${gi+1} — ${bolgeAd[sporKesfetBolge]}`,
+                                    egzersizler: egzListesi,
+                                  });
+                                }
+                              }
+                              setSporProgram({
+                                ad:prog.ad,
+                                renk:prog.renk,
+                                gunler,
+                                topEgz:gunler.length*egzler.length,
+                              });
                               setSporTamGunler([]);
                               setSporSeciliGun(0);
-                            }} style={{background:"linear-gradient(135deg,#dc2626,#b91c1c)",border:"none",borderRadius:12,padding:"9px 18px",color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer",boxShadow:"0 3px 10px rgba(220,38,38,.25)"}}>
-                              Başla
+                              setSporSekme("plan");
+                            }} style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
+                              background:`linear-gradient(135deg,${prog.renk},${prog.renk2})`,
+                              color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
+                              boxShadow:`0 4px 16px ${prog.renk}40`,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                              28 Günlük Programa Başla
                             </button>
                           </div>
                         </div>
