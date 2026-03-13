@@ -10862,7 +10862,7 @@ export default function App(){
   const L=LANG[dil]||LANG.tr;
 
   // ── DARK MODE ──
-  const [dark,setDark]=useState(false);
+  const [dark,setDark]=useState(()=>{try{const t=localStorage.getItem("doya_tema");if(t==="light")return false;return true;}catch(e){return true;}});
   const d=dark;
 
   // ── AUTH ──
@@ -11421,7 +11421,7 @@ export default function App(){
   };
   const PB  = { height:4,background:d?"rgba(255,255,255,.06)":"rgba(0,0,0,.06)",borderRadius:99,overflow:"hidden",marginTop:6 };
   const PF  = (pct,c)=>({ height:"100%",width:Math.min(100,Math.max(0,pct))+"%",background:c||"linear-gradient(90deg,#10b981,#34d399)",borderRadius:99,transition:"width .6s cubic-bezier(.34,1.2,.64,1)" });
-  const IS  = { width:"100%",padding:"14px 16px",border:`1.5px solid ${r.inpB}`,borderRadius:16,fontSize:14,outline:"none",boxSizing:"border-box",fontFamily:"'Nunito',sans-serif",background:r.inp,color:r.text,transition:"all .2s",className:"lux-input" };
+  const IS  = { width:"100%",padding:"11px 14px",border:`1px solid ${d?"rgba(255,255,255,.08)":"rgba(0,0,0,.08)"}`,borderRadius:13,fontSize:14,outline:"none",boxSizing:"border-box",fontFamily:"'Nunito',sans-serif",background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.03)",color:r.text,transition:"all .15s",WebkitAppearance:"none" };
   const BTN = (c,s)=>({ background:c||"linear-gradient(135deg,#10b981,#059669)",color:"#fff",border:"none",borderRadius:14,padding:s||"13px 22px",fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.4,boxShadow:c?"none":"0 4px 16px rgba(16,185,129,.3)" });
   const BAD = (c)=>({ background:c+"15",color:c,padding:"3px 10px",borderRadius:20,fontSize:10,fontWeight:800,display:"inline-block",letterSpacing:.3,border:`1px solid ${c}25` });
   const NB  = (a)=>({ flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"10px 4px 8px",cursor:"pointer",color:a?"#10b981":r.muted,fontSize:9,fontWeight:a?800:600,gap:3,background:"none",border:"none",minWidth:44,letterSpacing:.5,position:"relative",transition:"color .2s" });
@@ -11554,7 +11554,7 @@ export default function App(){
       puan:yeniPuan,
       sonGiris:bugun
     }).catch(console.error);
-  },[firebaseUID,aktif?.uid]); // aktif.uid değişince (yeni oturum) tetikle
+  },[firebaseUID,aktif?.uid]); // aktif?.uid değişince (yeni oturum) tetikle
 
   // ─── FİREBASE: GERÇEK ZAMANLI POST DİNLEYİCİ ────────────────
   useEffect(()=>{
@@ -12132,7 +12132,7 @@ SADECE JSON döndür (başka metin yok):
         try {
           const fbMod = await import("firebase/firestore");
           await fbMod.addDoc(fbMod.collection(db,"users",h.firebaseUID,"istekler"),{
-            uid:aktif.uid, isim:aktif.isim, firebaseUID, zaman: new Date().toISOString()
+            uid:aktif?.uid, isim:aktif.isim, firebaseUID, zaman: new Date().toISOString()
           });
         } catch(e){ console.error("İstek gönderilemedi:",e); }
       }
@@ -12200,7 +12200,7 @@ SADECE JSON döndür (başka metin yok):
     // Kendi kodunu giremez
     if(kod===aktif.refKod){setGirRefMesaj({tip:"hata",mesaj:"Kendi referans kodunu kullanamazsın."});return;}
     // Kodu bul
-    const sahip=kullanicilar.find(u=>u.refKod===kod&&u.uid!==aktif.uid);
+    const sahip=kullanicilar.find(u=>u.refKod===kod&&u.uid!==aktif?.uid);
     if(!sahip){setGirRefMesaj({tip:"hata",mesaj:"Geçersiz referans kodu. Tekrar kontrol et."});return;}
     // Influencer/işletme → sadece davet sayısı artar, puan kazanmaz (komisyon alır)
     // Normal kullanıcı → ikisine +150 puan
@@ -12212,7 +12212,7 @@ SADECE JSON döndür (başka metin yok):
     setPuan(yeniPuanGiren);
     setAktif(p=>({...p,puan:yeniPuanGiren,refKodKullandi:kod}));
     setKullanicilar(p=>p.map(u=>{
-      if(u.uid===aktif.uid) return{...u,puan:yeniPuanGiren,refKodKullandi:kod};
+      if(u.uid===aktif?.uid) return{...u,puan:yeniPuanGiren,refKodKullandi:kod};
       if(u.uid===sahip.uid) return{...u,puan:yeniPuanSahip,davet:(u.davet||0)+1};
       return u;
     }));
@@ -12364,14 +12364,14 @@ SADECE JSON döndür (başka metin yok):
 
           {/* SLAYT EKRANLARI */}
           {welcomeSlide > 0 && slide && (()=>{
-            const C = slide.vurgu||"#10b981";
+            const C = slide.vurgu||slide.renk||"#10b981";
             const ikonSVG = {
               kalori: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="${C}" stroke-width="1" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/><line x1="12" y1="10" x2="12" y2="16"/><line x1="9" y1="13" x2="15" y2="13"/></svg>`,
               ai: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="${C}" stroke-width="1" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="3"/><path d="M8 21h8M12 17v4"/><circle cx="8.5" cy="10" r="1.5" fill="${C}"/><circle cx="15.5" cy="10" r="1.5" fill="${C}"/><path d="M9.5 13.5c.83.83 4.17.83 5 0"/></svg>`,
               diyetisyen: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="${C}" stroke-width="1" stroke-linecap="round"><path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 8-3-3-5-5-5-8a5 5 0 0 1 5-5z"/><circle cx="12" cy="7" r="2"/><path d="M6 21v-1a6 6 0 0 1 12 0v1"/></svg>`,
               saglik: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="${C}" stroke-width="1" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
             };
-            const svgStr = ikonSVG[slide.ikon] || `<span style="font-size:52px">${slide.ikon}</span>`;
+            const svgStr = slide.svgIkon || ikonSVG[slide.ikon] || `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="${C}" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="12" r="10"/></svg>`;
             return (
             <div key={welcomeSlide} style={{flex:1,display:"flex",flexDirection:"column",minHeight:"100vh",position:"relative",background:"#030604"}}>
               {/* Glow */}
@@ -13206,6 +13206,21 @@ SADECE JSON döndür (başka metin yok):
           border-color: rgba(16,185,129,.6) !important;
           box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;
         }
+        .ob-inp {
+          background: rgba(255,255,255,.04) !important;
+          border: 1px solid rgba(255,255,255,.08) !important;
+          border-radius: 14px !important;
+          color: #e8f5ec !important;
+          font-family: 'Nunito', sans-serif !important;
+          font-size: 14px !important;
+          transition: border .15s, box-shadow .15s !important;
+        }
+        .ob-inp:focus {
+          border-color: rgba(52,211,153,.3) !important;
+          box-shadow: 0 0 0 3px rgba(16,185,129,.06) !important;
+          outline: none !important;
+        }
+        .ob-inp::placeholder { color: rgba(255,255,255,.2) !important; }
 
         /* ── Shimmer efekti ── */
         .shimmer-line::after {
@@ -13595,7 +13610,7 @@ SADECE JSON döndür (başka metin yok):
                 style={{background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
               </button>
-              <button onClick={()=>setDark(!d)}
+              <button onClick={()=>{const nd=!d;setDark(nd);try{localStorage.setItem("doya_tema",nd?"dark":"light");}catch(e){}}}
                 style={{background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
                 {d
                   ?<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -13777,7 +13792,7 @@ SADECE JSON döndür (başka metin yok):
                   <div style={{fontSize:11,color:"rgba(167,139,250,.4)",letterSpacing:.5}}>Planın hazırlanıyor...</div>
                 </div>
               )}
-              {!diyetYukleniyor&&diyetListesi&&!diyetListesi.hata&&(()=>{
+              {!diyetYukleniyor&&diyetListesi&&!diyetListesi?.hata&&(()=>{
                 const katMeta={
                   "Kahvaltı":{c:"#f59e0b"},
                   "Öğle Yemeği":{c:"#3b82f6"},
@@ -13785,10 +13800,10 @@ SADECE JSON döndür (başka metin yok):
                   "Atıştırmalık":{c:"#10b981"},
                 };
                 const ogunler=[
-                  {k:"Kahvaltı",v:diyetListesi.kahvalti},
-                  {k:"Öğle Yemeği",v:diyetListesi.ogle},
-                  {k:"Akşam Yemeği",v:diyetListesi.aksam},
-                  {k:"Atıştırmalık",v:diyetListesi.atistirmalik},
+                  {k:"Kahvaltı",v:diyetListesi?.kahvalti},
+                  {k:"Öğle Yemeği",v:diyetListesi?.ogle},
+                  {k:"Akşam Yemeği",v:diyetListesi?.aksam},
+                  {k:"Atıştırmalık",v:diyetListesi?.atistirmalik},
                 ].filter(o=>o.v?.length>0);
                 return(
                   <div style={{display:"flex",flexDirection:"column",gap:10}}>
@@ -13806,15 +13821,15 @@ SADECE JSON döndür (başka metin yok):
                         </div>
                       );
                     })}
-                    {diyetListesi.su_tavsiye&&(
+                    {diyetListesi?.su_tavsiye&&(
                       <div style={{background:d?"rgba(59,130,246,.06)":"rgba(59,130,246,.05)",borderRadius:14,border:"1px solid rgba(59,130,246,.12)",padding:"11px 14px",display:"flex",alignItems:"center",gap:10}}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-                        <span style={{fontSize:11,color:d?"rgba(147,197,253,.6)":"rgba(29,78,216,.6)",lineHeight:1.5,flex:1}}>{diyetListesi.su_tavsiye}</span>
+                        <span style={{fontSize:11,color:d?"rgba(147,197,253,.6)":"rgba(29,78,216,.6)",lineHeight:1.5,flex:1}}>{diyetListesi?.su_tavsiye}</span>
                       </div>
                     )}
-                    {diyetListesi.toplam_kalori&&(
+                    {diyetListesi?.toplam_kalori&&(
                       <div style={{display:"flex",justifyContent:"flex-end",paddingTop:4}}>
-                        <span style={{fontSize:10,color:"rgba(167,139,250,.5)",fontWeight:700,letterSpacing:1}}>Toplam: {diyetListesi.toplam_kalori} kcal</span>
+                        <span style={{fontSize:10,color:"rgba(167,139,250,.5)",fontWeight:700,letterSpacing:1}}>Toplam: {diyetListesi?.toplam_kalori} kcal</span>
                       </div>
                     )}
                   </div>
@@ -13825,7 +13840,7 @@ SADECE JSON döndür (başka metin yok):
                   <button onClick={diyetUret} style={{background:"rgba(139,92,246,.1)",border:"1px solid rgba(167,139,250,.15)",borderRadius:14,padding:"12px 24px",fontSize:12,fontWeight:700,color:"#a78bfa",cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.5}}>Diyet Planı Oluştur</button>
                 </div>
               )}
-              {diyetListesi?.hata&&<div style={{color:"#f87171",fontSize:12,textAlign:"center",padding:"12px 0"}}>{diyetListesi.hata}</div>}
+              {diyetListesi?.hata&&<div style={{color:"#f87171",fontSize:12,textAlign:"center",padding:"12px 0"}}>{diyetListesi?.hata}</div>}
             </div>
 
             {/* ── TDEE ── */}
@@ -14583,7 +14598,7 @@ SADECE JSON döndür (başka metin yok):
                       if(!yeniPS.trim())return;
                       try {
                         await postPaylas({
-                          uid: aktif.uid,
+                          uid: aktif?.uid,
                           isim: aktif.isim,
                           foto: profFoto||null,
                           icerik: yeniPS,
@@ -14596,7 +14611,7 @@ SADECE JSON döndür (başka metin yok):
                   </div>
                   <input ref={postFotoRef} type="file" accept="image/*" style={{display:"none"}} onChange={e=>{
                     const f=e.target.files[0]; if(!f)return;
-                    // Firebase: storage.ref(`posts/${aktif.uid}/${Date.now()}`).put(f) → getDownloadURL()
+                    // Firebase: storage.ref(`posts/${aktif?.uid}/${Date.now()}`).put(f) → getDownloadURL()
                     const reader=new FileReader();
                     reader.onload=ev=>setPostFoto(ev.target.result);
                     reader.readAsDataURL(f);
@@ -14787,7 +14802,7 @@ SADECE JSON döndür (başka metin yok):
             )}
             {sosyalSekme!=="tarifler"&&paylasimlar.filter(ps=>{
               if(engelliler.includes(ps.uid)) return false;
-              if(sosyalSekme==="arkadaslar") return arkadaslar.some(a=>a.uid===ps.uid)||ps.uid===aktif.uid;
+              if(sosyalSekme==="arkadaslar") return arkadaslar.some(a=>a.uid===ps.uid)||ps.uid===aktif?.uid;
               return true;
             }).map(ps=>(
               <div key={ps.id} style={CS}>
@@ -14801,7 +14816,7 @@ SADECE JSON döndür (başka metin yok):
                       <div style={{fontSize:10,color:r.muted}}>{ps.zaman}</div>
                     </div>
                   </div>
-                  {ps.uid===aktif.uid&&(
+                  {ps.uid===aktif?.uid&&(
                     <span style={{fontSize:10,color:r.muted,fontStyle:"italic"}}>senin paylaşımın</span>
                   )}
                 </div>
@@ -14809,7 +14824,7 @@ SADECE JSON döndür (başka metin yok):
                 {ps.postFoto&&(
                   <div style={{position:"relative",borderRadius:12,overflow:"hidden",marginBottom:8}}>
                     <img src={ps.postFoto} style={{width:"100%",maxHeight:220,objectFit:"cover",display:"block"}} alt="post foto"/>
-                    {ps.uid!==aktif.uid&&(
+                    {ps.uid!==aktif?.uid&&(
                       <button
                         onClick={()=>setSikayet({hedef:ps.uid,sebep:"",modal:true,tip:"foto",postId:ps.id,postFotoUrl:ps.postFoto})}
                         style={{position:"absolute",top:7,right:7,background:"rgba(0,0,0,.55)",border:"none",borderRadius:8,padding:"4px 8px",color:"#fff",fontSize:11,fontWeight:700,cursor:"pointer"}}>
@@ -14825,10 +14840,10 @@ SADECE JSON döndür (başka metin yok):
                 )}
                 <div style={{display:"flex",gap:6,marginBottom:8}}>
                   <button onClick={async()=>{
-                    const yeniB2=ps.begeniler.includes(aktif.uid)?ps.begeniler.filter(u=>u!==aktif.uid):[...ps.begeniler,aktif.uid];
+                    const yeniB2=ps.begeniler.includes(aktif?.uid)?ps.begeniler.filter(u=>u!==aktif?.uid):[...ps.begeniler,aktif?.uid];
                     await postGuncelle(ps.id,{begeniler:yeniB2}).catch(console.error);
-                  }} style={{...BTN(ps.begeniler.includes(aktif.uid)?"#16a34a":"#f3f4f6","6px 12px"),color:ps.begeniler.includes(aktif.uid)?"#fff":"#374151",fontSize:12}}>❤️ {ps.begeniler.length}</button>
-                  {ps.uid===aktif.uid?(
+                  }} style={{...BTN(ps.begeniler.includes(aktif?.uid)?"#16a34a":"#f3f4f6","6px 12px"),color:ps.begeniler.includes(aktif?.uid)?"#fff":"#374151",fontSize:12}}>❤️ {ps.begeniler.length}</button>
+                  {ps.uid===aktif?.uid?(
                     <button onClick={async()=>{ await postSil(ps.id).catch(console.error); }} style={{...BTN("#ef4444","6px 10px"),fontSize:12}}>🗑 Sil</button>
                   ):(
                     <>
@@ -14840,12 +14855,12 @@ SADECE JSON döndür (başka metin yok):
                 {ps.yorumlar.map((y,i)=>(
                   <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"5px 9px",background:d?"#0f172a":"#f9fafb",borderRadius:8,marginBottom:4}}>
                     <div><span style={{fontWeight:700,fontSize:12,color:r.text}}>{y.isim}: </span><span style={{fontSize:12,color:r.sub}}>{y.yorum}</span></div>
-                    {(y.uid===aktif.uid||ps.uid===aktif.uid)&&<button onClick={()=>setPaylasimlar(prev=>prev.map(p2=>p2.id===ps.id?{...p2,yorumlar:p2.yorumlar.filter((_,ii)=>ii!==i)}:p2))} style={{background:"none",border:"none",cursor:"pointer",color:"#ef4444",fontSize:12}}>×</button>}
+                    {(y.uid===aktif?.uid||ps.uid===aktif?.uid)&&<button onClick={()=>setPaylasimlar(prev=>prev.map(p2=>p2.id===ps.id?{...p2,yorumlar:p2.yorumlar.filter((_,ii)=>ii!==i)}:p2))} style={{background:"none",border:"none",cursor:"pointer",color:"#ef4444",fontSize:12}}>×</button>}
                   </div>
                 ))}
                 <div style={{display:"flex",gap:6,marginTop:6}}>
-                  <input style={{...IS,flex:1,padding:"7px 10px",fontSize:12}} placeholder="Yorum yaz..." value={yorumMet[ps.id]||""} onChange={e=>setYorumMet(p=>({...p,[ps.id]:e.target.value}))} onKeyDown={async e=>{if(e.key==="Enter"&&yorumMet[ps.id]?.trim()){const yYorum=[...ps.yorumlar,{uid:aktif.uid,isim:aktif.isim,yorum:yorumMet[ps.id],zaman:"Az önce"}];await postGuncelle(ps.id,{yorumlar:yYorum}).catch(console.error);setYorumMet(p=>({...p,[ps.id]:""}));}}}/>
-                  <button onClick={async()=>{if(!yorumMet[ps.id]?.trim())return;const yYorum=[...ps.yorumlar,{uid:aktif.uid,isim:aktif.isim,yorum:yorumMet[ps.id],zaman:"Az önce"}];await postGuncelle(ps.id,{yorumlar:yYorum}).catch(console.error);setYorumMet(p=>({...p,[ps.id]:""}));}} style={{...BTN("#3b82f6","7px 12px"),fontSize:12}}>↑</button>
+                  <input style={{...IS,flex:1,padding:"7px 10px",fontSize:12}} placeholder="Yorum yaz..." value={yorumMet[ps.id]||""} onChange={e=>setYorumMet(p=>({...p,[ps.id]:e.target.value}))} onKeyDown={async e=>{if(e.key==="Enter"&&yorumMet[ps.id]?.trim()){const yYorum=[...ps.yorumlar,{uid:aktif?.uid,isim:aktif.isim,yorum:yorumMet[ps.id],zaman:"Az önce"}];await postGuncelle(ps.id,{yorumlar:yYorum}).catch(console.error);setYorumMet(p=>({...p,[ps.id]:""}));}}}/>
+                  <button onClick={async()=>{if(!yorumMet[ps.id]?.trim())return;const yYorum=[...ps.yorumlar,{uid:aktif?.uid,isim:aktif.isim,yorum:yorumMet[ps.id],zaman:"Az önce"}];await postGuncelle(ps.id,{yorumlar:yYorum}).catch(console.error);setYorumMet(p=>({...p,[ps.id]:""}));}} style={{...BTN("#3b82f6","7px 12px"),fontSize:12}}>↑</button>
                 </div>
               </div>
             ))}
@@ -14857,7 +14872,7 @@ SADECE JSON döndür (başka metin yok):
           <div style={{padding:16}}>
             <div style={{background:"linear-gradient(135deg,#16a34a,#0d9488)",borderRadius:16,padding:18,color:"#fff",marginBottom:10}}>
               <div style={{fontSize:10,fontWeight:700,opacity:.85}}>KULLANICI KODUN</div>
-              <div style={{fontSize:22,fontWeight:900,letterSpacing:2,margin:"4px 0"}}>{aktif.uid}</div>
+              <div style={{fontSize:22,fontWeight:900,letterSpacing:2,margin:"4px 0"}}>{aktif?.uid}</div>
               <div style={{display:"flex",gap:8,marginTop:8}}>
                 <span style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 10px",fontSize:11,fontWeight:700}}>{acikHesap?"🔓 Açık":"🔒 Gizli"}</span>
                 <span style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 10px",fontSize:11,fontWeight:700}}>{arkadaslar.length} Arkadaş</span>
@@ -15260,7 +15275,7 @@ SADECE JSON döndür (başka metin yok):
                   <button style={{...BTN("#f59e0b"),width:"100%",padding:"11px 0",fontSize:13}} onClick={async()=>{
                     setPremium(true); setReklam(false);
                     if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premium:true,onboardTamamlandi:true}).catch(console.error);
-                    setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,premium:true}:u));
+                    setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,premium:true}:u));
                   }}>
                     {yillikPlan?`Satın Al — ${PREMIUM_YILLIK}₺/yıl (${Math.round(PREMIUM_YILLIK/12)}₺/ay)`:`Satın Al — ${PREMIUM_FIYAT}₺/ay`}
                   </button>
@@ -15279,7 +15294,7 @@ SADECE JSON döndür (başka metin yok):
                   <button style={{...BTN("#7c3aed"),width:"100%",padding:"11px 0",fontSize:13}} onClick={async()=>{
                     setPremiumPlus(true); setPremium(true); setReklam(false);
                     if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premium:true,premiumPlus:true,onboardTamamlandi:true}).catch(console.error);
-                    setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,premium:true,premiumPlus:true}:u));
+                    setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,premium:true,premiumPlus:true}:u));
                   }}>
                     {yillikPlan?`Satın Al — ${PREMIUM_PLUS_YILLIK}₺/yıl (${Math.round(PREMIUM_PLUS_YILLIK/12)}₺/ay)`:`Satın Al — ${PREMIUM_PLUS_FIYAT}₺/ay`}
                   </button>
@@ -15667,7 +15682,7 @@ SADECE JSON döndür (başka metin yok):
               {[{l:"IBAN",ph:"TR00 0000 0000 0000 0000 0000 00",k:"iban"},{l:"Hesap Sahibi",ph:"Ad Soyad",k:"ibanAd"}].map(f=>(
                 <div key={f.k} style={{marginBottom:10}}>
                   <div style={{fontSize:12,color:r.sub,fontWeight:700,marginBottom:4}}>{f.l}</div>
-                  <input style={{...IS}} placeholder={f.ph} value={aktif?.[f.k]||""} onChange={e=>setKullanicilar(prev=>prev.map(u=>u.uid===aktif.uid?{...u,[f.k]:e.target.value}:u))}/>
+                  <input style={{...IS}} placeholder={f.ph} value={aktif?.[f.k]||""} onChange={e=>setKullanicilar(prev=>prev.map(u=>u.uid===aktif?.uid?{...u,[f.k]:e.target.value}:u))}/>
                 </div>
               ))}
               <button style={{...BTN(),width:"100%",padding:"11px 0"}} onClick={()=>{setAdminMsg("IBAN kaydedildi!");setTimeout(()=>setAdminMsg(""),2000);}}>Kaydet</button>
@@ -15694,7 +15709,7 @@ SADECE JSON döndür (başka metin yok):
                     <div onClick={()=>profFotoRef.current.click()}
                       style={{width:72,height:72,borderRadius:"50%",background:"linear-gradient(145deg,rgba(16,185,129,.2),rgba(16,185,129,.06))",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",overflow:"hidden",border:`3px solid ${d?"#080e09":"#fff"}`,boxShadow:"0 8px 24px rgba(0,0,0,.3)",flexShrink:0}}>
                       {profFoto?<img src={profFoto} style={{width:"100%",height:"100%",objectFit:"cover"}} alt="profil"/>
-                        :<span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:300,color:"#34d399"}}>{aktif.isim[0]}</span>}
+                        :<span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:300,color:"#34d399"}}>{aktif.isim?.[0]||"D"}</span>}
                     </div>
                     <button onClick={()=>profFotoRef.current.click()}
                       style={{position:"absolute",bottom:0,right:0,width:22,height:22,borderRadius:"50%",background:"rgba(16,185,129,.15)",border:`2px solid ${d?"#080e09":"#fff"}`,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
@@ -15714,7 +15729,7 @@ SADECE JSON döndür (başka metin yok):
                       <input className="ob-inp" style={{flex:1,padding:"11px 14px",fontSize:14,color:d?"#e8f5ec":"#0a1f0c",boxSizing:"border-box"}}
                         value={yeniIsim} onChange={e=>setYeniIsim(e.target.value)} placeholder={aktif.isim} autoFocus maxLength={30}/>
                       <button style={{background:"linear-gradient(135deg,#10b981,#059669)",border:"none",borderRadius:12,padding:"0 14px",color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:13,cursor:"pointer"}}
-                        onClick={async()=>{const t=yeniIsim.trim();if(!t||t===aktif.isim){setIsimDuzenle(false);return;}setAktif(p=>({...p,isim:t}));setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,isim:t}:u));if(firebaseUID)await kullaniciyiGuncelle(firebaseUID,{isim:t}).catch(console.error);setIsimDuzenle(false);}}>✓</button>
+                        onClick={async()=>{const t=yeniIsim.trim();if(!t||t===aktif.isim){setIsimDuzenle(false);return;}setAktif(p=>({...p,isim:t}));setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,isim:t}:u));if(firebaseUID)await kullaniciyiGuncelle(firebaseUID,{isim:t}).catch(console.error);setIsimDuzenle(false);}}>✓</button>
                       <button style={{background:"transparent",border:`1px solid ${d?"rgba(255,255,255,.07)":"rgba(0,0,0,.07)"}`,borderRadius:12,padding:"0 12px",color:r.muted,fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,cursor:"pointer"}} onClick={()=>setIsimDuzenle(false)}>✕</button>
                     </div>
                     <div style={{fontSize:9,color:r.muted,marginTop:5,letterSpacing:.5}}>{yeniIsim.length}/30</div>
@@ -15732,7 +15747,7 @@ SADECE JSON döndür (başka metin yok):
 
                 <div style={{display:"flex",gap:8}}>
                   {[
-                    {l:"Gönderi",v:paylasimlar.filter(p=>p.uid===aktif.uid).length,c:"#10b981"},
+                    {l:"Gönderi",v:paylasimlar.filter(p=>p.uid===aktif?.uid).length,c:"#10b981"},
                     {l:"Puan",v:puan,c:"#f0c14b"},
                     {l:"Arkadaş",v:arkadaslar.length,c:"#60a5fa"},
                   ].map(s=>(
@@ -15743,12 +15758,12 @@ SADECE JSON döndür (başka metin yok):
                   ))}
                 </div>
               </div>
-              <input ref={profFotoRef} type="file" accept="image/*" style={{display:"none"}} onChange={e=>{const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=ev=>{setProfFoto(ev.target.result);setKullanicilar(prev=>prev.map(u=>u.uid===aktif.uid?{...u,foto:ev.target.result}:u));if(firebaseUID)kullaniciyiGuncelle(firebaseUID,{foto:ev.target.result}).catch(console.error);};reader.readAsDataURL(f);}}/>
+              <input ref={profFotoRef} type="file" accept="image/*" style={{display:"none"}} onChange={e=>{const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=ev=>{setProfFoto(ev.target.result);setKullanicilar(prev=>prev.map(u=>u.uid===aktif?.uid?{...u,foto:ev.target.result}:u));if(firebaseUID)kullaniciyiGuncelle(firebaseUID,{foto:ev.target.result}).catch(console.error);};reader.readAsDataURL(f);}}/>
             </div>
 
             {/* SEKME */}
             <div style={{display:"flex",background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.04)",borderRadius:14,padding:3,margin:"0 14px 8px",gap:3}}>
-              {[{v:"genel",l:"Genel"},{v:"gonderiler",l:`Gönderiler (${paylasimlar.filter(p=>p.uid===aktif.uid).length})`},{v:"performans",l:"Performans"}].map(s=>(
+              {[{v:"genel",l:"Genel"},{v:"gonderiler",l:`Gönderiler (${paylasimlar.filter(p=>p.uid===aktif?.uid).length})`},{v:"performans",l:"Performans"}].map(s=>(
                 <button key={s.v} onClick={()=>setProfilSekme(s.v)} style={{flex:1,padding:"9px 4px",borderRadius:11,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:10,letterSpacing:.5,background:profilSekme===s.v?(d?"rgba(16,185,129,.12)":"rgba(16,185,129,.08)"):"transparent",color:profilSekme===s.v?"#10b981":r.muted,transition:"all .15s",boxShadow:profilSekme===s.v?"0 2px 8px rgba(16,185,129,.12)":"none"}}>{s.l}</button>
               ))}
             </div>
@@ -15923,13 +15938,13 @@ SADECE JSON döndür (başka metin yok):
                   <div style={{marginBottom:10}}>
                     <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Sosyal Özellikler</div>
                     <div style={{display:"flex",gap:8}}>
-                      {[{v:true,l:"Aktif"},{v:false,l:"Kapalı"}].map(o=><button key={String(o.v)} onClick={()=>{setSosyalAktif(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,sosyal:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${sosyalAktif===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:sosyalAktif===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:sosyalAktif===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
+                      {[{v:true,l:"Aktif"},{v:false,l:"Kapalı"}].map(o=><button key={String(o.v)} onClick={()=>{setSosyalAktif(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,sosyal:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${sosyalAktif===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:sosyalAktif===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:sosyalAktif===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
                     </div>
                   </div>
                   {sosyalAktif&&<div>
                     <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Hesap Türü</div>
                     <div style={{display:"flex",gap:8}}>
-                      {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=><button key={String(o.v)} onClick={()=>{setAcikHesap(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,acik:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${acikHesap===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:acikHesap===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:acikHesap===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
+                      {[{v:true,l:"🔓 Açık"},{v:false,l:"🔒 Gizli"}].map(o=><button key={String(o.v)} onClick={()=>{setAcikHesap(o.v);setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,acik:o.v}:u));}} style={{flex:1,padding:"9px",border:`2px solid ${acikHesap===o.v?"#16a34a":r.inpB}`,borderRadius:10,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:acikHesap===o.v?d?"#0f2a1a":"#f0fdf4":r.inp,color:acikHesap===o.v?"#16a34a":r.sub}}>{o.l}</button>)}
                     </div>
                   </div>}
                 </div>
@@ -15944,7 +15959,7 @@ SADECE JSON döndür (başka metin yok):
 
             {/* ── GÖNDERİLER SEKME ── */}
             {profilSekme==="gonderiler"&&(()=>{
-              const benimGonderiler=paylasimlar.filter(ps=>ps.uid===aktif.uid);
+              const benimGonderiler=paylasimlar.filter(ps=>ps.uid===aktif?.uid);
               if(benimGonderiler.length===0) return(
                 <div style={{...CS,textAlign:"center",padding:"32px 16px"}}>
                   <div style={{fontSize:44,marginBottom:10}}>📭</div>
@@ -16921,7 +16936,7 @@ SADECE JSON döndür (başka metin yok):
                   if(sikayet.sebep.trim()){
                     const bildirilenPost = paylasimlar.find(p=>p.id===sikayet.postId);
                     await sikayetGonder({
-                      eden:aktif.uid, hedef:sikayet.hedef,
+                      eden:aktif?.uid, hedef:sikayet.hedef,
                       sebep:sikayet.sebep, tip:sikayet.tip,
                       postId:sikayet.postId||null,
                       postFotoUrl:sikayet.postFotoUrl||null,
@@ -17743,9 +17758,9 @@ SADECE JSON döndür (başka metin yok):
               ):(
                 <button style={{...BTN(sozlesmeOnay&&basAd?"#f59e0b":"#d1d5db"),width:"100%",padding:"12px 0"}} onClick={async()=>{
                   if(!sozlesmeOnay||!basAd)return;
-                  const basvuru={id:Date.now(),uid:aktif.uid,isim:aktif.isim,tip:basTip,platform:basPlatform.join(", "),acik:basAd+" | "+basAcik,onay:"bekliyor",firebaseUID};
+                  const basvuru={id:Date.now(),uid:aktif?.uid,isim:aktif.isim,tip:basTip,platform:basPlatform.join(", "),acik:basAd+" | "+basAcik,onay:"bekliyor",firebaseUID};
                   setRefBasvurular(p=>[...p,basvuru]);
-                  setKullanicilar(p=>p.map(u=>u.uid===aktif.uid?{...u,refTip:basTip,refOnay:false}:u));
+                  setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,refTip:basTip,refOnay:false}:u));
                   // Firebase'e kaydet
                   try {
                     const fbMod = await import("firebase/firestore");
@@ -17987,10 +18002,10 @@ SADECE JSON döndür (başka metin yok):
                       })}
                     </div>
                   ))}
-                  {diyetListesi.ipuclari&&(
+                  {diyetListesi?.ipuclari&&(
                     <div style={{...CS,background:d?"#1e293b":"#fffbeb",border:"1px solid #fcd34d"}}>
                       <div style={{fontSize:13,fontWeight:800,color:"#d97706",marginBottom:8}}>💡 AI İpuçları</div>
-                      {diyetListesi.ipuclari.map((ip,i)=>(
+                      {(diyetListesi?.ipuclari||[]).map((ip,i)=>(
                         <div key={i} style={{fontSize:12,color:r.sub,marginBottom:6,display:"flex",gap:6}}>
                           <span style={{color:"#f59e0b"}}>•</span>{ip}
                         </div>
