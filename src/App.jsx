@@ -13779,7 +13779,7 @@ SADECE JSON döndür (başka metin yok):
                     <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:13,color:d?"rgba(255,255,255,.3)":"rgba(0,0,0,.3)",fontWeight:300,marginTop:2}}>Bugüne özel</div>
                   </div>
                 </div>
-                <button onClick={()=>{localStorage.removeItem("doya_diyet_"+bugunKey());setDiyetListesi(null);diyetUret();}}
+                <button onClick={()=>{localStorage.removeItem("doya_diyet_"+bugunKey());setDiyetListesi(null);diyetListesiUret();}}
                   style={{background:"rgba(139,92,246,.08)",border:"1px solid rgba(167,139,250,.12)",borderRadius:11,width:34,height:34,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#a78bfa"}}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={diyetListesiYuk?"spin":""}>
                     <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
@@ -13837,7 +13837,7 @@ SADECE JSON döndür (başka metin yok):
               })()}
               {!diyetListesiYuk&&!diyetListesi&&(
                 <div style={{textAlign:"center",padding:"20px 0"}}>
-                  <button onClick={diyetUret} style={{background:"rgba(139,92,246,.1)",border:"1px solid rgba(167,139,250,.15)",borderRadius:14,padding:"12px 24px",fontSize:12,fontWeight:700,color:"#a78bfa",cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.5}}>Diyet Planı Oluştur</button>
+                  <button onClick={diyetListesiUret} style={{background:"rgba(139,92,246,.1)",border:"1px solid rgba(167,139,250,.15)",borderRadius:14,padding:"12px 24px",fontSize:12,fontWeight:700,color:"#a78bfa",cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.5}}>Diyet Planı Oluştur</button>
                 </div>
               )}
               {diyetListesi?.hata&&<div style={{color:"#f87171",fontSize:12,textAlign:"center",padding:"12px 0"}}>{diyetListesi?.hata}</div>}
