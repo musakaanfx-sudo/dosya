@@ -13781,18 +13781,18 @@ SADECE JSON döndür (başka metin yok):
                 </div>
                 <button onClick={()=>{localStorage.removeItem("doya_diyet_"+bugunKey());setDiyetListesi(null);diyetUret();}}
                   style={{background:"rgba(139,92,246,.08)",border:"1px solid rgba(167,139,250,.12)",borderRadius:11,width:34,height:34,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#a78bfa"}}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={diyetYukleniyor?"spin":""}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={diyetListesiYuk?"spin":""}>
                     <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
                   </svg>
                 </button>
               </div>
-              {diyetYukleniyor&&(
+              {diyetListesiYuk&&(
                 <div style={{textAlign:"center",padding:"24px 0"}}>
                   <div style={{width:40,height:40,borderRadius:"50%",border:"2px solid rgba(167,139,250,.1)",borderTop:"2px solid #a78bfa",margin:"0 auto 12px",animation:"spin .8s linear infinite"}}/>
                   <div style={{fontSize:11,color:"rgba(167,139,250,.4)",letterSpacing:.5}}>Planın hazırlanıyor...</div>
                 </div>
               )}
-              {!diyetYukleniyor&&diyetListesi&&!diyetListesi?.hata&&(()=>{
+              {!diyetListesiYuk&&diyetListesi&&!diyetListesi?.hata&&(()=>{
                 const katMeta={
                   "Kahvaltı":{c:"#f59e0b"},
                   "Öğle Yemeği":{c:"#3b82f6"},
@@ -13835,7 +13835,7 @@ SADECE JSON döndür (başka metin yok):
                   </div>
                 );
               })()}
-              {!diyetYukleniyor&&!diyetListesi&&(
+              {!diyetListesiYuk&&!diyetListesi&&(
                 <div style={{textAlign:"center",padding:"20px 0"}}>
                   <button onClick={diyetUret} style={{background:"rgba(139,92,246,.1)",border:"1px solid rgba(167,139,250,.15)",borderRadius:14,padding:"12px 24px",fontSize:12,fontWeight:700,color:"#a78bfa",cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.5}}>Diyet Planı Oluştur</button>
                 </div>
