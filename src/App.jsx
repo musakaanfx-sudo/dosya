@@ -875,10 +875,17 @@ export default function App(){
   const [antSaniye,setAntSaniye]=useState(0); // antrenman süresi
   const [antInterval,setAntInterval]=useState(null);
   const [antAdim,setAntAdim]=useState(0); // kaçıncı egzersizde
-  const [antSetTamamla,setAntSetTamamla]=useState({}); // tamamlanan setler
+  const [antSetTamamla,setAntSetTamamla]=useState({});
+  const [antFaz,setAntFaz]=useState("hazir"); // hazir | set | dinlenme | bitti
+  const [antSetSayac,setAntSetSayac]=useState(0); // set geri sayım (saniye)
+  const [antDinlenmeSayac,setAntDinlenmeSayac]=useState(0); // dinlenme geri sayım
+  const [antAktifSet,setAntAktifSet]=useState(0); // şu an kaçıncı set (0-indexed)
+  const SET_SURE = 30; // set süresi saniye
+  const DINLENME_SURE = 45; // dinlenme süresi saniye
   const [antBitmis,setAntBitmis]=useState(false);
   const [sporTamGunler,setSporTamGunler]=useState([]);
-  const [sporSekme,setSporSekme]=useState("plan"); // plan | kesfet | ilerleme
+  const [sporSekme,setSporSekme]=useState("plan");
+  const [sporKesfetBolge,setSporKesfetBolge]=useState("karin"); // keşfet seçili bölge // plan | kesfet | ilerleme
   const [sporGecmis,setSporGecmis]=useState([]); // [{tarih,program,sure,kcal,gunBaslik}] // tamamlanan gün indexleri
   const [sporSeciliGun,setSporSeciliGun]=useState(0);  // şu an görüntülenen gün
   const [sporSec,setSporSec]=useState(SPOR_LISTESI[0]);
@@ -1716,6 +1723,7 @@ SADECE JSON döndür (başka metin yok):
     if(antInterval) clearInterval(antInterval);
     setAktifAntrenman({...gun,gunIdx});
     setAntSaniye(0); setAntAdim(0); setAntSetTamamla({}); setAntBitmis(false);
+    setAntFaz("hazir"); setAntSetSayac(0); setAntDinlenmeSayac(0); setAntAktifSet(0);
     const iv=setInterval(()=>setAntSaniye(s=>s+1),1000);
     setAntInterval(iv);
     setSporAppAdim(2);
@@ -3516,7 +3524,7 @@ SADECE JSON döndür (başka metin yok):
     );
   };
 
-  // Aktif antrenman render helper (IIFE yerine)
+  // Aktif antrenman render helper
   const renderAktifAntrenman = () => {
     if(!(sporAppAdim===2&&aktifAntrenman&&!antBitmis)) return null;
     const egz=aktifAntrenman.egzersizler;
@@ -3524,91 +3532,207 @@ SADECE JSON döndür (başka metin yok):
     const tamamlananSet=Object.entries(antSetTamamla).filter(([k])=>k.startsWith(antAdim+"-")).length;
     const mm=String(Math.floor(antSaniye/60)).padStart(2,"0");
     const ss=String(antSaniye%60).padStart(2,"0");
+
+    // Set geri sayım başlat
+    const setBaslat = (setIdx) => {
+      setAntAktifSet(setIdx);
+      setAntFaz("set");
+      setAntSetSayac(SET_SURE);
+    };
+    // Seti tamamla → dinlenmeye geç
+    const setTamamla = () => {
+      const key=`${antAdim}-${antAktifSet}`;
+      setAntSetTamamla(p=>({...p,[key]:aktifEgz.id}));
+      if(antAktifSet < aktifEgz.set-1) {
+        setAntFaz("dinlenme");
+        setAntDinlenmeSayac(DINLENME_SURE);
+      } else {
+        setAntFaz("bitti");
+      }
+    };
+    // Dinlenmeyi atla
+    const dinlenmeAtla = () => {
+      setAntFaz("hazir");
+      setAntAktifSet(p=>p+1);
+    };
+
     return (
       <div>
-        {/* Süre sayacı */}
-        <div style={{background:"linear-gradient(135deg,#1e293b,#0f172a)",borderRadius:20,padding:"20px",marginBottom:14,textAlign:"center",color:"#fff"}}>
-          <div style={{fontSize:48,fontWeight:900,fontFamily:"monospace"}}>{mm}:{ss}</div>
-          <div style={{fontSize:12,opacity:.7}}>{aktifAntrenman.baslik}</div>
-          <div style={{display:"flex",justifyContent:"center",gap:8,marginTop:8}}>
-            {egz.map((_,i)=>(
-              <div key={i} style={{width:24,height:4,borderRadius:4,
-                background:i<antAdim?"#22c55e":i===antAdim?"#f59e0b":"#374151"}}/>
-            ))}
+        {/* ── ÜSTTE: Toplam süre + ilerleme çubuğu ── */}
+        <div style={{background:"linear-gradient(135deg,#7f1d1d,#dc2626)",borderRadius:20,padding:"16px 20px",marginBottom:14,color:"#fff"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+            <div>
+              <div style={{fontSize:11,opacity:.7,marginBottom:2}}>{aktifAntrenman.baslik}</div>
+              <div style={{fontSize:36,fontWeight:900,fontFamily:"monospace",letterSpacing:-1}}>{mm}:{ss}</div>
+            </div>
+            <div style={{textAlign:"right"}}>
+              <div style={{fontSize:11,opacity:.7,marginBottom:4}}>Egzersiz {antAdim+1}/{egz.length}</div>
+              <div style={{display:"flex",gap:5}}>
+                {egz.map((_,i)=>(
+                  <div key={i} style={{width:20,height:4,borderRadius:2,
+                    background:i<antAdim?"rgba(255,255,255,.9)":i===antAdim?"rgba(255,255,255,.5)":"rgba(255,255,255,.15)"}}/>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Aktif egzersiz */}
-        <div style={{...CS,marginBottom:12,border:"2px solid #f59e0b"}}>
+        {/* ── DİNLENME EKRANI ── */}
+        {antFaz==="dinlenme"&&(
+          <div style={{...CS,marginBottom:14,textAlign:"center",border:"2px solid rgba(59,130,246,.3)",background:d?"rgba(59,130,246,.06)":"rgba(239,246,255,1)"}}>
+            <div style={{fontSize:13,fontWeight:800,color:"#3b82f6",marginBottom:6}}>💤 Dinlenme</div>
+            <div style={{fontFamily:"monospace",fontSize:64,fontWeight:900,color:"#3b82f6",lineHeight:1,marginBottom:8}}>
+              {antDinlenmeSayac}
+            </div>
+            <div style={{fontSize:12,color:r.sub,marginBottom:14}}>
+              {antAktifSet+1}. Set bitti → {antAktifSet+2}. Set başlıyor
+            </div>
+            {/* Progress ring */}
+            <div style={{height:6,background:"rgba(59,130,246,.15)",borderRadius:3,marginBottom:14}}>
+              <div style={{height:"100%",width:`${(1-antDinlenmeSayac/DINLENME_SURE)*100}%`,background:"#3b82f6",borderRadius:3,transition:"width 1s linear"}}/>
+            </div>
+            <button onClick={dinlenmeAtla}
+              style={{...BTN("rgba(59,130,246,.15)","10px 24px"),color:"#3b82f6",border:"1px solid rgba(59,130,246,.3)",fontSize:12,fontWeight:700}}>
+              Atla →
+            </button>
+            {/* Timer */}
+            <DinlenmeSayacTimer sayac={antDinlenmeSayac} setSayac={setAntDinlenmeSayac} onBit={()=>{setAntFaz("hazir");setAntAktifSet(p=>p+1);}}/>
+          </div>
+        )}
+
+        {/* ── AKTİF EGZERSİZ KARTI ── */}
+        {antFaz!=="dinlenme"&&(
+        <div style={{...CS,marginBottom:12,border:`2px solid ${antFaz==="set"?"#dc2626":antFaz==="bitti"?"#16a34a":"rgba(220,38,38,.2)"}`}}>
+          {/* Egzersiz başlığı */}
           <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
-            <span style={{fontSize:36}}>{aktifEgz.ikon}</span>
-            <div>
+            <div style={{width:48,height:48,borderRadius:14,background:"rgba(220,38,38,.1)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>{aktifEgz.ikon}</div>
+            <div style={{flex:1}}>
               <div style={{fontSize:17,fontWeight:900,color:r.text}}>{aktifEgz.ad}</div>
-              <div style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{aktifEgz.kas} · {aktifEgz.set} set × {aktifEgz.rep}</div>
+              <div style={{fontSize:11,color:"#dc2626",fontWeight:700}}>{aktifEgz.kas} · {aktifEgz.set} set × {aktifEgz.rep}</div>
             </div>
           </div>
-          {/* Hareket animasyonu */}
-          <div style={{borderRadius:16,overflow:"hidden",marginBottom:10}}><ExerciseModel3D exerciseId={aktifEgz.id} width={Math.min(window.innerWidth-64,366)} height={220}/></div>
-          <div style={{background:r.inp,borderRadius:10,padding:"10px 12px",marginBottom:10,fontSize:12,color:r.sub,lineHeight:1.6}}>
+
+          {/* 3D Animasyon */}
+          <div style={{borderRadius:16,overflow:"hidden",marginBottom:10}}>
+            <ExerciseModel3D exerciseId={aktifEgz.id} width={Math.min(window.innerWidth-64,366)} height={200}/>
+          </div>
+
+          {/* Açıklama */}
+          <div style={{background:r.inp,borderRadius:10,padding:"9px 12px",marginBottom:14,fontSize:12,color:r.sub,lineHeight:1.6}}>
             💡 {aktifEgz.acik}
           </div>
-          {/* Set tamamlama */}
-          <div style={{marginBottom:10}}>
-            <div style={{fontSize:12,fontWeight:700,color:r.sub,marginBottom:6}}>Set Takibi</div>
-            <div style={{display:"flex",gap:6}}>
-              {Array(aktifEgz.set).fill(0).map((_,si)=>{
-                const key=`${antAdim}-${si}`;
-                const tam=!!antSetTamamla[key];
-                return(
-                  <button key={si} onClick={()=>setAntSetTamamla(p=>tam?Object.fromEntries(Object.entries(p).filter(([k])=>k!==key)):{...p,[key]:aktifEgz.id})}
-                    style={{flex:1,padding:"10px 0",borderRadius:10,border:`2px solid ${tam?"#16a34a":"#e5e7eb"}`,
-                      background:tam?"#16a34a":r.inp,color:tam?"#fff":r.sub,
-                      cursor:"pointer",fontSize:12,fontWeight:700,transition:"all .15s"}}>
-                    {tam?"✓":si+1}. Set
-                  </button>
-                );
-              })}
+
+          {/* ── SET SİSTEMİ ── */}
+          {antFaz==="bitti"?(
+            // Egzersiz tamamlandı
+            <div style={{background:"rgba(22,163,74,.08)",border:"1px solid rgba(22,163,74,.2)",borderRadius:12,padding:"14px",textAlign:"center",marginBottom:10}}>
+              <div style={{fontSize:22,marginBottom:4}}>✅</div>
+              <div style={{fontSize:14,fontWeight:900,color:"#16a34a"}}>{aktifEgz.ad} tamamlandı!</div>
+              <div style={{fontSize:11,color:r.sub,marginTop:4}}>Tüm {aktifEgz.set} set bitti</div>
             </div>
-          </div>
-          {tamamlananSet===aktifEgz.set&&(
-            <div style={{background:"#f0fdf4",borderRadius:10,padding:"8px 12px",fontSize:12,color:"#16a34a",fontWeight:700,textAlign:"center",marginBottom:8}}>
-              ✅ {aktifEgz.ad} tamamlandı!
+          ):antFaz==="set"?(
+            // Set sayacı aktif
+            <div style={{textAlign:"center",marginBottom:14}}>
+              <div style={{fontSize:11,fontWeight:800,color:"#dc2626",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>
+                {antAktifSet+1}. Set · {aktifEgz.rep}
+              </div>
+              <div style={{fontFamily:"monospace",fontSize:72,fontWeight:900,color:"#dc2626",lineHeight:1,marginBottom:8}}>
+                {String(Math.floor(antSetSayac/60)).padStart(2,"0")}:{String(antSetSayac%60).padStart(2,"0")}
+              </div>
+              <div style={{height:6,background:"rgba(220,38,38,.1)",borderRadius:3,marginBottom:14}}>
+                <div style={{height:"100%",width:`${(1-antSetSayac/SET_SURE)*100}%`,background:"#dc2626",borderRadius:3,transition:"width 1s linear"}}/>
+              </div>
+              <div style={{display:"flex",gap:8}}>
+                <button onClick={()=>setAntFaz("hazir")}
+                  style={{...BTN("transparent","11px 0"),flex:1,border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:12}}>
+                  Duraklat
+                </button>
+                <button onClick={setTamamla}
+                  style={{...BTN("#dc2626","11px 0"),flex:2,fontSize:13,fontWeight:900,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>
+                  ✓ Set Bitti!
+                </button>
+              </div>
+              <SetSayacTimer sayac={antSetSayac} setSayac={setAntSetSayac} onBit={setTamamla}/>
+            </div>
+          ):(
+            // Hazır ekranı - setleri göster
+            <div style={{marginBottom:10}}>
+              <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1,textTransform:"uppercase",marginBottom:10}}>Set Takibi</div>
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {Array(aktifEgz.set).fill(0).map((_,si)=>{
+                  const key=`${antAdim}-${si}`;
+                  const tam=!!antSetTamamla[key];
+                  const aktif=antAktifSet===si&&antFaz==="hazir";
+                  return(
+                    <div key={si} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",borderRadius:12,
+                      background:tam?"rgba(22,163,74,.06)":aktif?"rgba(220,38,38,.06)":d?"rgba(255,255,255,.02)":"rgba(0,0,0,.02)",
+                      border:`1.5px solid ${tam?"rgba(22,163,74,.25)":aktif?"#dc2626":"transparent"}`}}>
+                      <div style={{width:32,height:32,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,
+                        background:tam?"#16a34a":aktif?"#dc2626":"rgba(220,38,38,.1)",
+                        border:`2px solid ${tam?"#16a34a":aktif?"#dc2626":"rgba(220,38,38,.2)"}`}}>
+                        {tam
+                          ?<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                          :<span style={{fontSize:12,fontWeight:900,color:aktif?"#fff":"rgba(220,38,38,.6)"}}>{si+1}</span>
+                        }
+                      </div>
+                      <div style={{flex:1}}>
+                        <div style={{fontSize:13,fontWeight:800,color:tam?"#16a34a":aktif?"#dc2626":r.text}}>{si+1}. Set</div>
+                        <div style={{fontSize:10,color:r.sub}}>{aktifEgz.rep} · ~{SET_SURE}sn</div>
+                      </div>
+                      {!tam&&(
+                        <button onClick={()=>setBaslat(si)}
+                          style={{background:aktif?"linear-gradient(135deg,#dc2626,#b91c1c)":"rgba(220,38,38,.1)",
+                            border:aktif?"none":"1px solid rgba(220,38,38,.2)",
+                            borderRadius:10,padding:"8px 16px",color:aktif?"#fff":"#dc2626",
+                            fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer",
+                            boxShadow:aktif?"0 3px 10px rgba(220,38,38,.3)":"none"}}>
+                          {aktif?"▶ Başlat":"Başlat"}
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
+        )}
 
         {/* Navigasyon */}
         <div style={{display:"flex",gap:8,marginBottom:10}}>
           {antAdim>0&&(
-            <button onClick={()=>setAntAdim(p=>p-1)}
+            <button onClick={()=>{setAntAdim(p=>p-1);setAntFaz("hazir");setAntAktifSet(0);}}
               style={{...BTN("transparent","11px 0"),flex:1,border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
-              ← Önceki</button>
+              ← Önceki
+            </button>
           )}
           {antAdim<egz.length-1?(
-            <button onClick={()=>setAntAdim(p=>p+1)}
-              style={{...BTN("#1d4ed8","11px 0"),flex:2,fontSize:13}}>
-              Sonraki Egzersiz →</button>
+            <button onClick={()=>{setAntAdim(p=>p+1);setAntFaz("hazir");setAntAktifSet(0);}}
+              style={{...BTN("#dc2626","11px 0"),flex:2,fontSize:13,fontWeight:900,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>
+              Sonraki Egzersiz →
+            </button>
           ):(
             <button onClick={()=>antrenmanBitir(sporProgram)}
               style={{...BTN("#16a34a","11px 0"),flex:2,fontSize:13,fontWeight:900}}>
-              🏆 Antrenmanı Bitir!</button>
+              🏆 Antrenmanı Bitir!
+            </button>
           )}
         </div>
 
-        {/* Tüm egzersizler mini listesi */}
+        {/* Mini egzersiz listesi */}
         <div style={{...CS}}>
           <div style={{fontSize:11,fontWeight:700,color:r.sub,marginBottom:6}}>Egzersizler</div>
           {egz.map((e,i)=>(
-            <button key={i} onClick={()=>setAntAdim(i)}
+            <button key={i} onClick={()=>{setAntAdim(i);setAntFaz("hazir");setAntAktifSet(0);}}
               style={{width:"100%",display:"flex",alignItems:"center",gap:8,padding:"7px 8px",
-                borderRadius:8,border:"none",background:i===antAdim?"#eff6ff":i<antAdim?"#f0fdf4":"transparent",
+                borderRadius:8,border:"none",background:i===antAdim?"rgba(220,38,38,.06)":i<antAdim?"rgba(22,163,74,.04)":"transparent",
                 cursor:"pointer",marginBottom:2}}>
               <span style={{fontSize:14}}>{e.ikon}</span>
               <span style={{flex:1,textAlign:"left",fontSize:12,fontWeight:i===antAdim?700:400,
-                color:i===antAdim?"#1d4ed8":i<antAdim?"#16a34a":r.sub}}>{e.ad}</span>
+                color:i===antAdim?"#dc2626":i<antAdim?"#16a34a":r.sub}}>{e.ad}</span>
               <span style={{fontSize:10,color:r.sub}}>{e.set}×{e.rep}</span>
               {i<antAdim&&<span style={{color:"#16a34a",fontSize:12}}>✓</span>}
-              {i===antAdim&&<span style={{color:"#f59e0b",fontSize:10,fontWeight:700}}>● şimdi</span>}
+              {i===antAdim&&<span style={{color:"#dc2626",fontSize:10,fontWeight:700}}>● şimdi</span>}
             </button>
           ))}
         </div>
@@ -4164,80 +4288,166 @@ SADECE JSON döndür (başka metin yok):
                 {/* ══ KEŞFETsekmesi ══ */}
                 {sporSekme==="kesfet"&&(
                   <div>
-                    <div style={{fontSize:11,fontWeight:700,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:14}}>Egzersiz Kategorileri</div>
-                    {[
-                      {baslik:"Karın & Core",renk:"#dc2626",icon:"💪",egzler:["Plank","Crunch","Mountain Climber","Leg Raise","Bicycle Crunch"]},
-                      {baslik:"Bacak & Kalça",renk:"#b91c1c",icon:"🦵",egzler:["Squat","Lunge","Hip Thrust","Calf Raise","Glut Bridge"]},
-                      {baslik:"Göğüs & Sırt",renk:"#991b1b",icon:"🏋️",egzler:["Şınav","Pull-Up","Dambıl Press","Dambıl Row","Superman"]},
-                      {baslik:"Omuz & Kol",renk:"#7f1d1d",icon:"💪",egzler:["Lateral Raise","Omuz Press","Biceps Curl","Triceps Dips","Hammer Curl"]},
-                      {baslik:"Kardiyo",renk:"#dc2626",icon:"🔥",egzler:["Jumping Jack","High Knees","Burpee","Squat Jump","Mountain Climber"]},
-                    ].map((kat,ki)=>(
-                      <div key={ki} style={{background:r.card,border:`1px solid ${kat.renk}22`,borderRadius:16,padding:"14px",marginBottom:10}}>
-                        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
-                          <div style={{width:38,height:38,borderRadius:11,background:`${kat.renk}18`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>{kat.icon}</div>
-                          <div style={{fontSize:14,fontWeight:900,color:r.text}}>{kat.baslik}</div>
+                    {/* Vücut bölgesi chips */}
+                    <div style={{fontSize:11,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>Vücut Odağı</div>
+                    <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:20}}>
+                      {[
+                        {k:"karin",l:"Karın Kasları"},
+                        {k:"kol",l:"Kol"},
+                        {k:"gogus",l:"Göğüs"},
+                        {k:"sirt",l:"Sırt"},
+                        {k:"bacak",l:"Bacak"},
+                        {k:"omuz",l:"Omuz"},
+                        {k:"tum",l:"Tüm Vücut"},
+                      ].map(b=>(
+                        <button key={b.k} onClick={()=>setSporKesfetBolge(b.k)}
+                          style={{padding:"8px 16px",borderRadius:20,border:`1.5px solid ${sporKesfetBolge===b.k?"#dc2626":"rgba(220,38,38,.2)"}`,
+                            background:sporKesfetBolge===b.k?"#dc2626":"transparent",
+                            color:sporKesfetBolge===b.k?"#fff":"rgba(220,38,38,.7)",
+                            fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:12,cursor:"pointer",transition:"all .15s"}}>
+                          {b.l}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Seçili bölgeye göre program kartları */}
+                    {(()=>{
+                      const programlar = {
+                        karin:[
+                          {ad:"Karın Kasları Başlangıç",sure:15,egz:8,zorluk:1,acik:"Core temelleri, plank ve crunch",egzler:["crunch","plank","leg_raise"]},
+                          {ad:"Karın Kasları Orta",sure:20,egz:12,zorluk:2,acik:"Bicycle crunch ve mountain climber",egzler:["crunch","mountain_climber","bicycle_crunch","leg_raise"]},
+                          {ad:"Karın Kasları İleri",sure:30,egz:16,zorluk:3,acik:"Yüksek yoğunluklu core antrenmanı",egzler:["plank","mountain_climber","bicycle_crunch","leg_raise","crunch"]},
+                        ],
+                        kol:[
+                          {ad:"Kol Başlangıç",sure:15,egz:6,zorluk:1,acik:"Temel biceps ve triceps",egzler:["dambil_curl","triceps_dips"]},
+                          {ad:"Kol Orta",sure:20,egz:10,zorluk:2,acik:"Curl, dips ve hammer curl",egzler:["dambil_curl","hammer_curl","triceps_dips"]},
+                          {ad:"Kol İleri",sure:30,egz:14,zorluk:3,acik:"Yüksek hacim kol antrenmanı",egzler:["dambil_curl","hammer_curl","triceps_dips","skull_crusher"]},
+                        ],
+                        gogus:[
+                          {ad:"Göğüs Başlangıç",sure:15,egz:6,zorluk:1,acik:"Şınav temelleri",egzler:["sinav"]},
+                          {ad:"Göğüs Orta",sure:20,egz:10,zorluk:2,acik:"Şınav varyasyonları",egzler:["sinav","genis_sinav","dambil_press"]},
+                          {ad:"Göğüs İleri",sure:30,egz:14,zorluk:3,acik:"Üst göğüs ve flye",egzler:["sinav","genis_sinav","dambil_press","dambil_flye"]},
+                        ],
+                        sirt:[
+                          {ad:"Sırt Başlangıç",sure:15,egz:6,zorluk:1,acik:"Superman ve temel sırt",egzler:["superman","dambil_row"]},
+                          {ad:"Sırt Orta",sure:20,egz:10,zorluk:2,acik:"Pull-up ve row",egzler:["pullup","dambil_row","superman"]},
+                          {ad:"Sırt İleri",sure:30,egz:14,zorluk:3,acik:"Tam sırt gelişimi",egzler:["pullup","dambil_row","superman","lateral_raise"]},
+                        ],
+                        bacak:[
+                          {ad:"Bacak Başlangıç",sure:15,egz:6,zorluk:1,acik:"Squat ve temel bacak",egzler:["squat","calf_raise"]},
+                          {ad:"Bacak Orta",sure:20,egz:10,zorluk:2,acik:"Lunge ve hip thrust",egzler:["squat","lunge","hip_thrust","calf_raise"]},
+                          {ad:"Bacak İleri",sure:30,egz:14,zorluk:3,acik:"Tam bacak antrenmanı",egzler:["squat","lunge","dambil_squat","hip_thrust","glut_bridge","calf_raise"]},
+                        ],
+                        omuz:[
+                          {ad:"Omuz Başlangıç",sure:15,egz:6,zorluk:1,acik:"Lateral raise ve temel omuz",egzler:["lateral_raise","dambil_press_omuz"]},
+                          {ad:"Omuz Orta",sure:20,egz:10,zorluk:2,acik:"Omuz press ve pike",egzler:["lateral_raise","dambil_press_omuz","pike_push"]},
+                          {ad:"Omuz İleri",sure:30,egz:14,zorluk:3,acik:"Tam omuz gelişimi",egzler:["lateral_raise","dambil_press_omuz","pike_push"]},
+                        ],
+                        tum:[
+                          {ad:"Tüm Vücut Başlangıç",sure:20,egz:8,zorluk:1,acik:"Temel tam vücut",egzler:["squat","sinav","crunch","jumping_jack"]},
+                          {ad:"Tüm Vücut Orta",sure:30,egz:14,zorluk:2,acik:"Kardiyo ağırlıklı",egzler:["burpee","squat","sinav","mountain_climber","jumping_jack"]},
+                          {ad:"Tüm Vücut İleri",sure:40,egz:18,zorluk:3,acik:"Yüksek yoğunluklu HIIT",egzler:["burpee","squat","sinav","mountain_climber","high_knees","jumping_jack"]},
+                        ],
+                      };
+                      const liste = programlar[sporKesfetBolge]||[];
+                      return liste.map((prog,pi)=>(
+                        <div key={pi} style={{background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.05)"}`,borderRadius:16,marginBottom:12,overflow:"hidden"}}>
+                          {/* Üst kısım - renkli bant */}
+                          <div style={{background:`linear-gradient(135deg,${pi===0?"#16a34a":pi===1?"#dc7626":"#dc2626"},${pi===0?"#15803d":pi===1?"#b95a1c":"#991b1b"})`,padding:"14px 16px"}}>
+                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                              <div>
+                                <div style={{fontSize:14,fontWeight:900,color:"#fff",marginBottom:4}}>{prog.ad}</div>
+                                <div style={{fontSize:11,color:"rgba(255,255,255,.75)"}}>{prog.acik}</div>
+                              </div>
+                              <div style={{display:"flex",gap:2}}>
+                                {[1,2,3].map(z=>(
+                                  <svg key={z} width="14" height="14" viewBox="0 0 24 24" fill={z<=prog.zorluk?"#fff":"rgba(255,255,255,.3)"} stroke="none">
+                                    <path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/>
+                                  </svg>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                          {/* Alt kısım - meta + buton */}
+                          <div style={{padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                            <div style={{display:"flex",gap:14}}>
+                              <span style={{fontSize:11,color:r.sub,display:"flex",alignItems:"center",gap:4}}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                {prog.sure} dk
+                              </span>
+                              <span style={{fontSize:11,color:r.sub,display:"flex",alignItems:"center",gap:4}}>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>
+                                {prog.egz} egzersiz
+                              </span>
+                            </div>
+                            <button onClick={()=>{
+                              // Bu programı başlat - sporProgramUret ile uyumlu obje oluştur
+                              const hedefMap={karin:"saglik",kol:"kas",gogus:"kas",sirt:"kas",bacak:"form",omuz:"kas",tum:"form"};
+                              const prg=sporProgramUret(hedefMap[sporKesfetBolge]||"saglik","baslangic",[],prog.sure,3,[sporKesfetBolge]);
+                              setSporProgram({...prg,ad:prog.ad});
+                              setSporTamGunler([]);
+                              setSporSeciliGun(0);
+                            }} style={{background:"linear-gradient(135deg,#dc2626,#b91c1c)",border:"none",borderRadius:12,padding:"9px 18px",color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer",boxShadow:"0 3px 10px rgba(220,38,38,.25)"}}>
+                              Başla
+                            </button>
+                          </div>
                         </div>
-                        <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                          {kat.egzler.map((e,ei)=>(
-                            <span key={ei} style={{background:`${kat.renk}12`,border:`1px solid ${kat.renk}25`,color:kat.renk,borderRadius:20,padding:"4px 12px",fontSize:11,fontWeight:700}}>{e}</span>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                      ));
+                    })()}
                   </div>
                 )}
 
                 {/* ══ İLERLEME sekmesi ══ */}
                 {sporSekme==="ilerleme"&&(
                   <div>
-                    {/* Özet kartlar */}
+                    {/* Mevcut program kartı */}
+                    {sporProgram&&(
+                      <div style={{background:`linear-gradient(135deg,#3f0000,#7f1d1d,#dc2626)`,borderRadius:16,padding:"16px",marginBottom:14,position:"relative",overflow:"hidden"}}>
+                        <div style={{position:"absolute",top:-20,right:-20,width:100,height:100,borderRadius:"50%",background:"rgba(255,255,255,.05)"}}/>
+                        <div style={{fontSize:10,fontWeight:800,color:"rgba(255,255,255,.6)",letterSpacing:2,textTransform:"uppercase",marginBottom:6}}>Önerilen Plan</div>
+                        <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:8}}>{sporProgram.ad}</div>
+                        {/* Progress bar */}
+                        <div style={{height:4,background:"rgba(255,255,255,.15)",borderRadius:2,marginBottom:6}}>
+                          <div style={{height:"100%",width:`${Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%`,background:"#fff",borderRadius:2,transition:"width .5s"}}/>
+                        </div>
+                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                          <span style={{fontSize:11,color:"rgba(255,255,255,.65)"}}>
+                            {sporTamGunler.length}/{sporProgram.gunler.length} gün · %{Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)} tamamlandı
+                          </span>
+                          <button onClick={()=>setSporSekme("plan")}
+                            style={{background:"rgba(255,255,255,.15)",border:"1px solid rgba(255,255,255,.25)",borderRadius:10,padding:"7px 16px",color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer"}}>
+                            Devam Et →
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Özet istatistik kartlar */}
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
                       {[
-                        {l:"Tamamlanan Gün",v:sporTamGunler.length,ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>},
-                        {l:"Toplam Antrenman",v:sporGecmis.length,ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>},
-                        {l:"Toplam Süre",v:sporGecmis.reduce((t,g)=>t+Math.floor(g.sure/60),0)+" dk",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>},
-                        {l:"Yakılan Kalori",v:sporGecmis.reduce((t,g)=>t+g.kcal,0)+" kcal",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>},
+                        {l:"Tamamlanan Gün",v:sporTamGunler.length,c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>},
+                        {l:"Toplam Antrenman",v:sporGecmis.length,c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>},
+                        {l:"Toplam Süre",v:(sporGecmis.reduce((t,g)=>t+Math.floor(g.sure/60),0))+" dk",c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>},
+                        {l:"Yakılan Kalori",v:(sporGecmis.reduce((t,g)=>t+g.kcal,0))+" kcal",c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>},
                       ].map((s,i)=>(
-                        <div key={i} style={{background:r.card,border:"1px solid rgba(220,38,38,.12)",borderRadius:14,padding:"14px 12px"}}>
+                        <div key={i} style={{background:r.card,border:"1px solid rgba(220,38,38,.1)",borderRadius:14,padding:"14px 12px"}}>
                           <div style={{marginBottom:6}}>{s.ikon}</div>
-                          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:700,color:"#dc2626",lineHeight:1}}>{s.v}</div>
+                          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:700,color:s.c,lineHeight:1}}>{s.v||0}</div>
                           <div style={{fontSize:10,color:r.sub,marginTop:4,fontWeight:700}}>{s.l}</div>
                         </div>
                       ))}
                     </div>
 
-                    {/* Program ilerlemesi */}
-                    {sporProgram&&(
-                      <div style={{background:r.card,border:"1px solid rgba(220,38,38,.12)",borderRadius:16,padding:"14px",marginBottom:14}}>
-                        <div style={{fontSize:12,fontWeight:800,color:r.text,marginBottom:4}}>{sporProgram.ad}</div>
-                        <div style={{fontSize:10,color:r.sub,marginBottom:10}}>{sporTamGunler.length} / {sporProgram.gunler.length} gün tamamlandı</div>
-                        <div style={{height:8,background:d?"rgba(255,255,255,.06)":"rgba(220,38,38,.08)",borderRadius:4,overflow:"hidden"}}>
-                          <div style={{height:"100%",width:`${Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%`,background:"linear-gradient(90deg,#dc2626,#ef4444)",borderRadius:4,transition:"width .5s"}}/>
-                        </div>
-                        <div style={{display:"flex",gap:6,marginTop:10,flexWrap:"wrap"}}>
-                          {sporProgram.gunler.map((_,gi)=>(
-                            <div key={gi} style={{width:28,height:28,borderRadius:"50%",background:sporTamGunler.includes(gi)?"#dc2626":d?"rgba(255,255,255,.06)":"rgba(220,38,38,.06)",border:`1px solid ${sporTamGunler.includes(gi)?"#dc2626":"rgba(220,38,38,.15)"}`,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                              {sporTamGunler.includes(gi)
-                                ?<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-                                :<span style={{fontSize:10,fontWeight:700,color:"rgba(220,38,38,.4)"}}>{gi+1}</span>
-                              }
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     {/* Geçmiş antrenmanlar */}
                     <div style={{fontSize:11,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Geçmiş Antrenmanlar</div>
-                    {sporGecmis.length===0&&(
-                      <div style={{textAlign:"center",color:r.muted,padding:"32px 0",fontSize:13}}>
-                        <div style={{fontSize:32,marginBottom:8}}>🏋️</div>
-                        Henüz antrenman yapmadın.<br/>İlk antrenmandan sonra burada görünecek.
+                    {sporGecmis.length===0?(
+                      <div style={{textAlign:"center",color:r.muted,padding:"28px 0",fontSize:13}}>
+                        <div style={{fontSize:36,marginBottom:8}}>🏋️</div>
+                        Henüz antrenman yapmadın.
                       </div>
-                    )}
-                    {sporGecmis.map((g,i)=>(
-                      <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.04)"}`,marginBottom:8}}>
-                        <div style={{width:40,height:40,borderRadius:12,background:"rgba(220,38,38,.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                    ):sporGecmis.map((g,i)=>(
+                      <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.04)":"rgba(0,0,0,.04)"}`,marginBottom:8}}>
+                        <div style={{width:40,height:40,borderRadius:12,background:"rgba(220,38,38,.1)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><path d="M6.5 6.5h11M4 12h16"/></svg>
                         </div>
                         <div style={{flex:1,minWidth:0}}>
@@ -4256,7 +4466,7 @@ SADECE JSON döndür (başka metin yok):
               </div>
             )}
 
-            {/* ── ADIM 2: AKTİF ANTRENMAN ─────────────────────── */}
+                        {/* ── ADIM 2: AKTİF ANTRENMAN ─────────────────────── */}
             {renderAktifAntrenman()}
 
             {/* ── ANTRENMAN BİTİŞ ─────────────────────────────── */}
@@ -8217,7 +8427,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
   );
 }
 
-// ─── 3D EGZERSİZ MODELİ (Gemini v2) ─────────────────────────────────────────
+// ─── 3D EGZERSİZ MODELİ (Gemini v3) ─────────────────────────────────────────
 const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) => {
   const mountRef = useRef(null);
 
@@ -8227,7 +8437,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     let animationFrameId;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#1a0000');
+    scene.background = new THREE.Color('#ffffff');
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     camera.position.set(0, 4, 15);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -8235,30 +8445,30 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     renderer.shadowMap.enabled = true;
     if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    dirLight.position.set(5, 10, 5); dirLight.castShadow = true;
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    dirLight.position.set(5, 10, 5);
     scene.add(dirLight);
-    const pointLight = new THREE.PointLight(0xff4444, 0.8, 20);
-    pointLight.position.set(-5, 5, -5);
-    scene.add(pointLight);
 
-    const skinMaterial = new THREE.MeshStandardMaterial({ color: 0xe8b89a, roughness: 0.6, metalness: 0.1 });
+    const baseSkinColor  = 0xe8b89a;
+    const baseClothColor = 0x3366ff;
+    const highlightColor = 0xff5555;
 
-    const createLimb = (geometryType, w, h, d, mat, yOffset) => {
+    const materials = {
+      head:  new THREE.MeshStandardMaterial({ color: baseSkinColor }),
+      torso: new THREE.MeshStandardMaterial({ color: baseClothColor }),
+      arms:  new THREE.MeshStandardMaterial({ color: baseSkinColor }),
+      legs:  new THREE.MeshStandardMaterial({ color: baseSkinColor }),
+      core:  new THREE.MeshStandardMaterial({ color: baseClothColor }),
+    };
+
+    const createLimb = (type, w, h, d, mat, yOffset) => {
       const group = new THREE.Group();
-      let geometry;
-      if (geometryType === 'capsule') {
-        // CapsuleGeometry r128'de yok, CylinderGeometry kullan
-        geometry = new THREE.CylinderGeometry(w, w * 0.85, h, 16);
-      } else if (geometryType === 'sphere') {
-        geometry = new THREE.SphereGeometry(w, 32, 32);
-      } else {
-        geometry = new THREE.BoxGeometry(w, h, d);
-      }
-      const mesh = new THREE.Mesh(geometry, mat);
+      const geo = type === 'cylinder'
+        ? new THREE.CylinderGeometry(w, w, h, 32)
+        : new THREE.BoxGeometry(w, h, d);
+      const mesh = new THREE.Mesh(geo, mat);
       mesh.position.y = yOffset;
-      mesh.castShadow = true;
       group.add(mesh);
       return { group, mesh };
     };
@@ -8266,134 +8476,129 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     const character = new THREE.Group();
     scene.add(character);
 
-    const pelvis = createLimb('box', 1.2, 0.8, 0.8, skinMaterial, 0).group;
+    const pelvis = createLimb('box', 1.2, 0.8, 0.8, materials.core, 0).group;
     pelvis.position.y = 5;
     character.add(pelvis);
 
-    const torso = createLimb('box', 1.4, 2.0, 0.9, skinMaterial, 1.0).group;
+    const torso = createLimb('box', 1.4, 2.0, 0.9, materials.torso, 1.0).group;
     torso.position.y = 0.4;
     pelvis.add(torso);
 
-    const neck = createLimb('box', 0.4, 0.5, 0.4, skinMaterial, 0.25).group;
+    const neck = createLimb('box', 0.4, 0.5, 0.4, materials.head, 0.25).group;
     neck.position.y = 2.0;
     torso.add(neck);
+    const head = createLimb('cylinder', 0.6, 1.2, 0.6, materials.head, 0.6).group;
+    neck.add(head);
 
-    const headGroup = new THREE.Group();
-    const headGeo = new THREE.SphereGeometry(0.6, 32, 32);
-    headGeo.scale(1, 1.2, 1);
-    const headMesh = new THREE.Mesh(headGeo, skinMaterial);
-    headMesh.position.y = 0.6;
-    headGroup.add(headMesh);
-    // Burun
-    const noseMesh = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.2, 0.15), skinMaterial);
-    noseMesh.position.set(0, 0.55, 0.52);
-    headGroup.add(noseMesh);
-    neck.add(headGroup);
-
-    const createArm = (isLeft) => {
-      const sign = isLeft ? 1 : -1;
+    const createArm = (sign) => {
       const shoulder = new THREE.Group();
       shoulder.position.set(sign * 0.9, 1.8, 0);
       torso.add(shoulder);
-      const upperArm = createLimb('capsule', 0.25, 1.2, 0.4, skinMaterial, -0.6).group;
-      shoulder.add(upperArm);
-      const lowerArm = createLimb('capsule', 0.2, 1.0, 0.35, skinMaterial, -0.5).group;
-      lowerArm.position.y = -1.2;
-      upperArm.add(lowerArm);
-      const hand = createLimb('box', 0.22, 0.38, 0.28, skinMaterial, -0.19).group;
-      hand.position.y = -1.0;
-      lowerArm.add(hand);
-      return { shoulder, upperArm, lowerArm, hand };
+      const upper = createLimb('cylinder', 0.25, 1.2, 0.4, materials.arms, -0.6).group;
+      shoulder.add(upper);
+      const lower = createLimb('cylinder', 0.2, 1.0, 0.35, materials.arms, -0.5).group;
+      lower.position.y = -1.2;
+      upper.add(lower);
+      return { shoulder, upper, lower };
     };
+    const armL = createArm(1);
+    const armR = createArm(-1);
 
-    const armL = createArm(true);
-    const armR = createArm(false);
-
-    const createLeg = (isLeft) => {
-      const sign = isLeft ? 1 : -1;
-      const upperLeg = createLimb('capsule', 0.35, 1.5, 0.5, skinMaterial, -0.75).group;
-      upperLeg.position.set(sign * 0.4, -0.4, 0);
-      pelvis.add(upperLeg);
-      const lowerLeg = createLimb('capsule', 0.28, 1.4, 0.4, skinMaterial, -0.7).group;
-      lowerLeg.position.y = -1.5;
-      upperLeg.add(lowerLeg);
-      const foot = createLimb('box', 0.4, 0.2, 0.8, skinMaterial, -0.1).group;
-      foot.position.set(0, -1.4, 0.2);
-      lowerLeg.add(foot);
-      return { upperLeg, lowerLeg, foot };
+    const createLeg = (sign) => {
+      const upper = createLimb('cylinder', 0.35, 1.5, 0.5, materials.legs, -0.75).group;
+      upper.position.set(sign * 0.4, -0.4, 0);
+      pelvis.add(upper);
+      const lower = createLimb('cylinder', 0.3, 1.4, 0.4, materials.legs, -0.7).group;
+      lower.position.y = -1.5;
+      upper.add(lower);
+      return { upper, lower };
     };
+    const legL = createLeg(1);
+    const legR = createLeg(-1);
 
-    const legL = createLeg(true);
-    const legR = createLeg(false);
-
-    armL.shoulder.rotation.z = 0.3;
-    armR.shoulder.rotation.z = -0.3;
+    // Kas vurgulama
+    materials.head.color.setHex(baseSkinColor);
+    materials.torso.color.setHex(baseClothColor);
+    materials.arms.color.setHex(baseSkinColor);
+    materials.legs.color.setHex(baseSkinColor);
+    materials.core.color.setHex(baseClothColor);
+    if(['squat','lunge','dambil_squat','hip_thrust','glut_bridge','calf_raise','box_jump'].includes(exerciseId)){
+      materials.legs.color.setHex(highlightColor); materials.core.color.setHex(highlightColor);
+    } else if(['sinav','genis_sinav','dambil_press','dambil_flye','pike_push'].includes(exerciseId)){
+      materials.arms.color.setHex(highlightColor); materials.torso.color.setHex(highlightColor);
+    } else if(['plank','crunch','mountain_climber','leg_raise','bicycle_crunch'].includes(exerciseId)){
+      materials.core.color.setHex(highlightColor); materials.arms.color.setHex(highlightColor);
+    } else if(['dambil_curl','hammer_curl','triceps_dips','skull_crusher'].includes(exerciseId)){
+      materials.arms.color.setHex(highlightColor);
+    } else if(['pullup','dambil_row','superman'].includes(exerciseId)){
+      materials.torso.color.setHex(highlightColor); materials.arms.color.setHex(highlightColor);
+    } else if(['lateral_raise','dambil_press_omuz'].includes(exerciseId)){
+      materials.arms.color.setHex(highlightColor);
+    } else if(['jumping_jack','burpee','high_knees'].includes(exerciseId)){
+      materials.legs.color.setHex(highlightColor); materials.arms.color.setHex(highlightColor);
+    }
 
     const clock = new THREE.Clock();
-
     const resetPose = () => {
-      character.rotation.x = 0; character.position.y = 0;
-      pelvis.position.y = 5;
+      character.rotation.x=0; character.position.y=0; pelvis.position.y=5;
       torso.rotation.set(0,0,0); neck.rotation.set(0,0,0);
-      legL.upperLeg.rotation.set(0,0,0); legR.upperLeg.rotation.set(0,0,0);
-      legL.lowerLeg.rotation.set(0,0,0); legR.lowerLeg.rotation.set(0,0,0);
-      legL.foot.rotation.set(0,0,0); legR.foot.rotation.set(0,0,0);
+      legL.upper.rotation.set(0,0,0); legR.upper.rotation.set(0,0,0);
+      legL.lower.rotation.set(0,0,0); legR.lower.rotation.set(0,0,0);
       armL.shoulder.rotation.set(0,0,0.3); armR.shoulder.rotation.set(0,0,-0.3);
-      armL.lowerArm.rotation.set(0,0,0); armR.lowerArm.rotation.set(0,0,0);
+      armL.lower.rotation.set(0,0,0); armR.lower.rotation.set(0,0,0);
     };
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
-      camera.position.x = Math.sin(t*0.3)*15;
-      camera.position.z = Math.cos(t*0.3)*15;
+      camera.position.x = Math.sin(t*0.5)*15;
+      camera.position.z = Math.cos(t*0.5)*15;
       camera.lookAt(0, 4, 0);
       resetPose();
 
       switch(exerciseId) {
-        case 'sinav': case 'genis_sinav': {
-          character.rotation.x=Math.PI/2; character.position.y=-3;
-          const p=(Math.sin(t*3)+1)/2;
-          pelvis.position.y=5+p*1.5;
-          armL.shoulder.rotation.z=0.5; armR.shoulder.rotation.z=-0.5;
-          armL.shoulder.rotation.x=-Math.PI/2+p*0.5; armR.shoulder.rotation.x=-Math.PI/2+p*0.5;
-          armL.lowerArm.rotation.x=-Math.PI/2+p*(Math.PI/2); armR.lowerArm.rotation.x=-Math.PI/2+p*(Math.PI/2);
-          break;
-        }
         case 'squat': case 'dambil_squat': {
-          const d=(Math.sin(t*2.5)+1)/2;
+          const d=(Math.sin(t*3)+1)/2;
           pelvis.position.y=5-d*1.8;
-          legL.upperLeg.rotation.x=-d*1.5; legR.upperLeg.rotation.x=-d*1.5;
-          legL.lowerLeg.rotation.x=d*1.5; legR.lowerLeg.rotation.x=d*1.5;
+          legL.upper.rotation.x=-d*1.5; legR.upper.rotation.x=-d*1.5;
+          legL.lower.rotation.x=d*1.5;  legR.lower.rotation.x=d*1.5;
           torso.rotation.x=d*0.5;
           armL.shoulder.rotation.x=-d*1.0; armR.shoulder.rotation.x=-d*1.0;
           break;
         }
-        case 'jumping_jack': {
-          pelvis.position.y=5+Math.abs(Math.sin(t*5))*0.5;
-          const jd=Math.sin(t*5);
-          legL.upperLeg.rotation.z=Math.abs(jd)*0.4; legR.upperLeg.rotation.z=-Math.abs(jd)*0.4;
-          armL.shoulder.rotation.z=Math.abs(jd)*2.5; armR.shoulder.rotation.z=-Math.abs(jd)*2.5;
+        case 'sinav': case 'genis_sinav': {
+          character.rotation.x=Math.PI/2; character.position.y=-3;
+          const p=(Math.sin(t*4)+1)/2;
+          pelvis.position.y=5+p*1.5;
+          armL.shoulder.rotation.z=0.5;  armR.shoulder.rotation.z=-0.5;
+          armL.shoulder.rotation.x=-Math.PI/2+p*0.5; armR.shoulder.rotation.x=-Math.PI/2+p*0.5;
+          armL.lower.rotation.x=-Math.PI/2+p*(Math.PI/2); armR.lower.rotation.x=-Math.PI/2+p*(Math.PI/2);
           break;
         }
         case 'plank': {
           character.rotation.x=Math.PI/2; character.position.y=-3.5; pelvis.position.y=5;
           armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
-          armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
-          neck.rotation.x=-0.3;
+          armL.lower.rotation.x=-Math.PI/2; armR.lower.rotation.x=-Math.PI/2;
+          break;
+        }
+        case 'jumping_jack': {
+          pelvis.position.y=5+Math.abs(Math.sin(t*5))*0.5;
+          const jd=Math.sin(t*5);
+          legL.upper.rotation.z=Math.abs(jd)*0.4; legR.upper.rotation.z=-Math.abs(jd)*0.4;
+          armL.shoulder.rotation.z=0.3+Math.abs(jd)*2.2; armR.shoulder.rotation.z=-0.3-Math.abs(jd)*2.2;
           break;
         }
         case 'lunge': {
-          const d=(Math.sin(t*2)+1)/2;
+          const d=(Math.sin(t*2.5)+1)/2;
           pelvis.position.y=5-d*1.2;
-          legL.upperLeg.rotation.x=-d*1.2; legR.upperLeg.rotation.x=d*0.8;
-          legL.lowerLeg.rotation.x=d*1.2; legR.lowerLeg.rotation.x=-d*0.5;
-          legR.upperLeg.rotation.z=-0.3;
+          legL.upper.rotation.x=-d*1.2; legR.upper.rotation.x=d*0.8;
+          legL.lower.rotation.x=d*1.2;  legR.lower.rotation.x=-d*0.5;
+          legR.upper.rotation.z=-0.3;
           break;
         }
         case 'dambil_curl': case 'hammer_curl': {
           const d=(Math.sin(t*2.5)+1)/2;
-          armL.lowerArm.rotation.x=-d*2.0; armR.lowerArm.rotation.x=-d*2.0;
+          armL.lower.rotation.x=-d*2.0; armR.lower.rotation.x=-d*2.0;
           armL.shoulder.rotation.z=0.2; armR.shoulder.rotation.z=-0.2;
           break;
         }
@@ -8406,21 +8611,21 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           const d=(Math.sin(t*2)+1)/2;
           armL.shoulder.rotation.z=0.3+d*0.5; armR.shoulder.rotation.z=-0.3-d*0.5;
           armL.shoulder.rotation.x=-d*1.8; armR.shoulder.rotation.x=-d*1.8;
-          armL.lowerArm.rotation.x=d*1.5; armR.lowerArm.rotation.x=d*1.5;
+          armL.lower.rotation.x=d*1.5; armR.lower.rotation.x=d*1.5;
           break;
         }
         case 'dambil_press': {
           character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5;
           const d=(Math.sin(t*2.5)+1)/2;
           armL.shoulder.rotation.z=1.2-d*0.8; armR.shoulder.rotation.z=-1.2+d*0.8;
-          armL.lowerArm.rotation.x=-d*1.2; armR.lowerArm.rotation.x=-d*1.2;
+          armL.lower.rotation.x=-d*1.2; armR.lower.rotation.x=-d*1.2;
           break;
         }
         case 'dambil_flye': {
           character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5;
           const d=(Math.sin(t*2)+1)/2;
           armL.shoulder.rotation.z=0.3+d*1.0; armR.shoulder.rotation.z=-0.3-d*1.0;
-          armL.lowerArm.rotation.x=-0.5; armR.lowerArm.rotation.x=-0.5;
+          armL.lower.rotation.x=-0.5; armR.lower.rotation.x=-0.5;
           break;
         }
         case 'pullup': {
@@ -8428,13 +8633,13 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           pelvis.position.y=5+d*2;
           armL.shoulder.rotation.x=-2.0+d*0.8; armR.shoulder.rotation.x=-2.0+d*0.8;
           armL.shoulder.rotation.z=0.5; armR.shoulder.rotation.z=-0.5;
-          armL.lowerArm.rotation.x=d*1.5; armR.lowerArm.rotation.x=d*1.5;
+          armL.lower.rotation.x=d*1.5; armR.lower.rotation.x=d*1.5;
           break;
         }
         case 'dambil_row': {
           torso.rotation.x=-0.7;
           const d=(Math.sin(t*2.5)+1)/2;
-          armL.shoulder.rotation.x=-0.3-d*1.2; armL.lowerArm.rotation.x=d*1.2;
+          armL.shoulder.rotation.x=-0.3-d*1.2; armL.lower.rotation.x=d*1.2;
           armR.shoulder.rotation.z=-0.2;
           break;
         }
@@ -8442,68 +8647,67 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           character.rotation.x=Math.PI/2; character.position.y=-4; pelvis.position.y=5;
           const d=(Math.sin(t*1.8)+1)/2;
           armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=-d*0.8;
-          legL.upperLeg.rotation.x=d*0.8; legR.upperLeg.rotation.x=d*0.8;
+          legL.upper.rotation.x=d*0.8; legR.upper.rotation.x=d*0.8;
           break;
         }
         case 'hip_thrust': case 'glut_bridge': {
           character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5;
           const d=(Math.sin(t*2)+1)/2;
           pelvis.position.y=5+d*1.5;
-          legL.upperLeg.rotation.x=-0.8+d*0.8; legR.upperLeg.rotation.x=-0.8+d*0.8;
-          legL.lowerLeg.rotation.x=1.2-d*0.8; legR.lowerLeg.rotation.x=1.2-d*0.8;
+          legL.upper.rotation.x=-0.8+d*0.8; legR.upper.rotation.x=-0.8+d*0.8;
+          legL.lower.rotation.x=1.2-d*0.8;  legR.lower.rotation.x=1.2-d*0.8;
           break;
         }
         case 'calf_raise': {
           const d=(Math.sin(t*2.5)+1)/2;
           pelvis.position.y=5+d*0.5;
-          legL.foot.rotation.x=-d*0.6; legR.foot.rotation.x=-d*0.6;
           break;
         }
         case 'crunch': {
           character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5;
           const d=(Math.sin(t*2)+1)/2;
           torso.rotation.x=-d*1.0; neck.rotation.x=-d*0.5;
-          legL.upperLeg.rotation.x=-0.5; legR.upperLeg.rotation.x=-0.5;
-          legL.lowerLeg.rotation.x=0.8; legR.lowerLeg.rotation.x=0.8;
+          legL.upper.rotation.x=-0.5; legR.upper.rotation.x=-0.5;
+          legL.lower.rotation.x=0.8; legR.lower.rotation.x=0.8;
           break;
         }
         case 'mountain_climber': {
           character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5;
           armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
-          armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
+          armL.lower.rotation.x=-Math.PI/2; armR.lower.rotation.x=-Math.PI/2;
           const d=Math.sin(t*4);
-          legL.upperLeg.rotation.x=d*1.2; legR.upperLeg.rotation.x=-d*1.2;
-          legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
+          legL.upper.rotation.x=d*1.2; legR.upper.rotation.x=-d*1.2;
+          legL.lower.rotation.x=d>0?d*1.0:0; legR.lower.rotation.x=d<0?-d*1.0:0;
           break;
         }
         case 'leg_raise': {
           character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5;
           const d=(Math.sin(t*1.8)+1)/2;
-          legL.upperLeg.rotation.x=d*1.5; legR.upperLeg.rotation.x=d*1.5;
+          legL.upper.rotation.x=d*1.5; legR.upper.rotation.x=d*1.5;
           break;
         }
         case 'bicycle_crunch': {
           character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5;
           const d=Math.sin(t*3);
-          legL.upperLeg.rotation.x=d*1.2; legR.upperLeg.rotation.x=-d*1.2;
+          legL.upper.rotation.x=d*1.2; legR.upper.rotation.x=-d*1.2;
           torso.rotation.z=d*0.3;
           armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=d*0.8;
-          legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
+          legL.lower.rotation.x=d>0?d*1.0:0; legR.lower.rotation.x=d<0?-d*1.0:0;
           break;
         }
         case 'burpee': {
-          const phase=(t*1.2)%4;
-          if(phase<1){ pelvis.position.y=5; }
-          else if(phase<2){ const d=phase-1; pelvis.position.y=5-d*1.8; legL.upperLeg.rotation.x=-d*1.5; legR.upperLeg.rotation.x=-d*1.5; legL.lowerLeg.rotation.x=d*1.5; legR.lowerLeg.rotation.x=d*1.5; }
-          else if(phase<3){ character.rotation.x=Math.PI/2; character.position.y=-3; const d2=(Math.sin((phase-2)*Math.PI*2)+1)/2; pelvis.position.y=5+d2*1.2; armL.shoulder.rotation.x=-Math.PI/2+d2*0.5; armR.shoulder.rotation.x=-Math.PI/2+d2*0.5; }
-          else { pelvis.position.y=5+Math.abs(Math.sin((phase-3)*Math.PI))*1.5; armL.shoulder.rotation.x=-1.5; armR.shoulder.rotation.x=-1.5; }
+          const ph=(t*1.2)%4;
+          if(ph<1){ pelvis.position.y=5; }
+          else if(ph<2){ const d=ph-1; pelvis.position.y=5-d*1.8; legL.upper.rotation.x=-d*1.5; legR.upper.rotation.x=-d*1.5; legL.lower.rotation.x=d*1.5; legR.lower.rotation.x=d*1.5; }
+          else if(ph<3){ character.rotation.x=Math.PI/2; character.position.y=-3; const d2=(Math.sin((ph-2)*Math.PI*2)+1)/2; pelvis.position.y=5+d2*1.2; armL.shoulder.rotation.x=-Math.PI/2+d2*0.5; armR.shoulder.rotation.x=-Math.PI/2+d2*0.5; }
+          else { pelvis.position.y=5+Math.abs(Math.sin((ph-3)*Math.PI))*1.5; armL.shoulder.rotation.x=-1.5; armR.shoulder.rotation.x=-1.5; }
           break;
         }
         case 'high_knees': {
           const d=Math.sin(t*4);
           pelvis.position.y=5+Math.abs(Math.sin(t*4))*0.2;
-          legL.upperLeg.rotation.x=d>0?-d*1.5:0; legR.upperLeg.rotation.x=d<0?d*1.5:0;
-          legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
+          legL.upper.rotation.x=d>0?-d*1.5:0; legR.upper.rotation.x=d<0?d*1.5:0;
+          legL.lower.rotation.x=d>0?d*1.0:0;  legR.lower.rotation.x=d<0?-d*1.0:0;
           armL.shoulder.rotation.x=d*0.6; armR.shoulder.rotation.x=-d*0.6;
           break;
         }
@@ -8512,8 +8716,8 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           pelvis.position.y=5-d*1.2;
           armL.shoulder.rotation.z=0.8; armR.shoulder.rotation.z=-0.8;
           armL.shoulder.rotation.x=0.5; armR.shoulder.rotation.x=0.5;
-          armL.lowerArm.rotation.x=-d*1.8; armR.lowerArm.rotation.x=-d*1.8;
-          legL.upperLeg.rotation.x=-0.5; legR.upperLeg.rotation.x=-0.5;
+          armL.lower.rotation.x=-d*1.8; armR.lower.rotation.x=-d*1.8;
+          legL.upper.rotation.x=-0.5; legR.upper.rotation.x=-0.5;
           break;
         }
         case 'skull_crusher': {
@@ -8521,20 +8725,20 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           armL.shoulder.rotation.x=-1.8; armR.shoulder.rotation.x=-1.8;
           armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
           const d=(Math.sin(t*2.5)+1)/2;
-          armL.lowerArm.rotation.x=-d*1.8; armR.lowerArm.rotation.x=-d*1.8;
+          armL.lower.rotation.x=-d*1.8; armR.lower.rotation.x=-d*1.8;
           break;
         }
         case 'pike_push': {
           character.rotation.x=Math.PI/4; character.position.y=-2; pelvis.position.y=5; torso.rotation.x=-0.5;
           const d=(Math.sin(t*2.5)+1)/2;
           armL.shoulder.rotation.x=-Math.PI/2+d*0.5; armR.shoulder.rotation.x=-Math.PI/2+d*0.5;
-          armL.lowerArm.rotation.x=-Math.PI/2+d*Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2+d*Math.PI/2;
+          armL.lower.rotation.x=-Math.PI/2+d*Math.PI/2; armR.lower.rotation.x=-Math.PI/2+d*Math.PI/2;
           break;
         }
         case 'box_jump': {
-          const ph=(t*2)%2;
-          if(ph<1){ const d=Math.sin(ph*Math.PI); pelvis.position.y=5-d*0.8; legL.upperLeg.rotation.x=-d*0.8; legR.upperLeg.rotation.x=-d*0.8; legL.lowerLeg.rotation.x=d*0.8; legR.lowerLeg.rotation.x=d*0.8; }
-          else { const d=Math.sin((ph-1)*Math.PI); pelvis.position.y=5+d*2.0; armL.shoulder.rotation.x=-d*1.5; armR.shoulder.rotation.x=-d*1.5; }
+          const ph2=(t*2)%2;
+          if(ph2<1){ const d=Math.sin(ph2*Math.PI); pelvis.position.y=5-d*0.8; legL.upper.rotation.x=-d*0.8; legR.upper.rotation.x=-d*0.8; legL.lower.rotation.x=d*0.8; legR.lower.rotation.x=d*0.8; }
+          else { const d=Math.sin((ph2-1)*Math.PI); pelvis.position.y=5+d*2.0; armL.shoulder.rotation.x=-d*1.5; armR.shoulder.rotation.x=-d*1.5; }
           break;
         }
         default: break;
@@ -8548,10 +8752,29 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
       cancelAnimationFrame(animationFrameId);
       if(mountRef.current && renderer.domElement.parentNode===mountRef.current)
         mountRef.current.removeChild(renderer.domElement);
-      skinMaterial.dispose();
+      Object.values(materials).forEach(m=>m.dispose());
       renderer.dispose();
     };
   }, [exerciseId, width, height]);
 
   return <div ref={mountRef} style={{width:`${width}px`,height:`${height}px`,borderRadius:16,overflow:'hidden'}}/>;
+};
+// Set geri sayım timer
+const SetSayacTimer = ({ sayac, setSayac, onBit }) => {
+  useEffect(() => {
+    if (sayac <= 0) { onBit && onBit(); return; }
+    const t = setTimeout(() => setSayac(s => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [sayac]);
+  return null;
+};
+
+// Dinlenme geri sayım timer
+const DinlenmeSayacTimer = ({ sayac, setSayac, onBit }) => {
+  useEffect(() => {
+    if (sayac <= 0) { onBit && onBit(); return; }
+    const t = setTimeout(() => setSayac(s => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [sayac]);
+  return null;
 };
