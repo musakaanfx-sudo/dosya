@@ -4596,96 +4596,285 @@ SADECE JSON döndür (başka metin yok):
         {/* ──── GÖZAT ─────────────────────────────────────────────── */}
         {tab==="gozat"&&(
           <div style={{padding:"8px 0 16px"}}>
-            {/* BAŞLIK */}
-            <div style={{padding:"0 4px 14px"}}>
-              <div style={{fontSize:18,fontWeight:900,color:r.text}}>Yiyecek Ara</div>
-              <div style={{fontSize:12,color:r.sub}}>Veritabanında besin ara, filtrele</div>
+
+            {/* SEKMELER */}
+            <div style={{display:"flex",gap:0,marginBottom:14,borderBottom:`2px solid ${r.inpB}`}}>
+              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"},{k:"yemeklerim",ikon:"🍽️",l:"Yemeklerim"}].map(s=>(
+                <button key={s.k} onClick={()=>{setYemekEkleSekme(s.k);setBesinArama("");setHizliSonuc(null);}}
+                  style={{flex:1,padding:"10px 4px",border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
+                    background:"transparent",
+                    color:yemekEkleSekme===s.k?"#16a34a":r.muted,
+                    borderBottom:yemekEkleSekme===s.k?"2px solid #16a34a":"2px solid transparent",
+                    marginBottom:-2,
+                    transition:"all .15s"}}>
+                  <div style={{fontSize:18,marginBottom:2}}>{s.ikon}</div>
+                  <div>{s.l}</div>
+                </button>
+              ))}
             </div>
 
-            {/* ARAMA KUTUSU */}
-            <div style={{position:"relative",marginBottom:12}}>
-              <input
-                style={{...IS,paddingLeft:38,fontSize:14}}
-                placeholder="Besin veya marka ara..."
-                value={besinArama}
-                onChange={e=>{setBesinArama(e.target.value);setAramaOdak(true);}}
-                onFocus={()=>setAramaOdak(true)}
-                onBlur={()=>setTimeout(()=>setAramaOdak(false),200)}
-              />
-              <span style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",fontSize:16,pointerEvents:"none"}}>🔍</span>
-              {besinArama&&<button onClick={()=>setBesinArama("")} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:18,color:r.muted,lineHeight:1}}>×</button>}
-            </div>
-
-            {/* Önceki aramalar */}
-            {!besinArama&&aramaOdak&&oncekiAramalar.length>0&&(
-              <div style={{background:d?"#1e293b":"#f8fafc",borderRadius:14,padding:"10px 14px",marginBottom:10,border:`1px solid ${d?"#334155":"#e2e8f0"}`}}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-                  <div style={{fontSize:11,fontWeight:800,color:r.sub}}>🕐 Son Aramalar</div>
-                  <button onClick={()=>{setOncekiAramalar([]);localStorage.setItem("doya_ara_gecmis",JSON.stringify([]));}} style={{background:"none",border:"none",cursor:"pointer",fontSize:10,color:r.muted,fontFamily:"'Nunito',sans-serif",fontWeight:700}}>Temizle</button>
-                </div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                  {oncekiAramalar.map((ara,i)=>(
-                    <button key={i} onClick={()=>{setBesinArama(ara);setAramaOdak(true);}} style={{background:d?"#0f172a":"#fff",border:`1.5px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:20,padding:"5px 12px",fontSize:12,fontWeight:700,cursor:"pointer",color:r.sub,fontFamily:"'Nunito',sans-serif"}}>🔍 {ara}</button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Arama sonuçları */}
-            {besinArama&&(
+            {/* ARA sekmesi */}
+            {yemekEkleSekme==="ara"&&(
               <div>
-                {aramaBesinler.length===0&&<div style={{textAlign:"center",padding:"24px",color:r.muted,fontSize:13}}>Sonuç bulunamadı.</div>}
-                {aramaBesinler.slice(0,30).map(b=>(
-                  <div key={b.id} style={{...CS,margin:"7px 0",padding:12}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",cursor:"pointer"}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
-                      <div>
-                        <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
-                        <div style={{marginBottom:1}}><YildizGoster v={b.yildiz??3} boyut={12}/></div>
-                        <div style={{fontSize:11,color:r.muted}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g</div>
-                      </div>
-                      <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}} style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>+</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {!besinArama&&(
-            <div style={CS}>
-              <div style={CT}>Filtreler</div>
-              <div style={{marginBottom:12}}>
-                <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:5}}>Kategori</div>
-                <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                  {["","Tahıl","Protein","Meyve","Sebze","Süt Ürünü","Atıştırmalık","Hazır Yemek","İçecek","Çorba"].map(k=>(
-                    <button key={k} onClick={()=>setBesinFil(p=>({...p,kat:k}))} style={{padding:"4px 10px",border:`1.5px solid ${besinFil.kat===k?"#16a34a":r.inpB}`,borderRadius:20,fontSize:11,fontWeight:700,cursor:"pointer",background:besinFil.kat===k?"#16a34a":r.inp,color:besinFil.kat===k?"#fff":r.sub,fontFamily:"'Nunito',sans-serif"}}>{k||"Tümü"}</button>
-                  ))}
+                <div style={{position:"relative",marginBottom:12}}>
+                  <input
+                    style={{...IS,paddingLeft:38,fontSize:14}}
+                    placeholder="Bir yiyecek ara..."
+                    value={besinArama}
+                    onChange={e=>{setBesinArama(e.target.value);setAramaOdak(true);}}
+                    onFocus={()=>setAramaOdak(true)}
+                    onBlur={()=>setTimeout(()=>setAramaOdak(false),200)}
+                  />
+                  <span style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",fontSize:16,pointerEvents:"none"}}>🔍</span>
+                  {besinArama&&<button onClick={()=>setBesinArama("")} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:18,color:r.muted}}>×</button>}
                 </div>
-              </div>
-            </div>
-            )}
 
-            {!besinArama&&filtreBesinler.length>0&&(
-              <>
-                <div style={{fontSize:12,color:r.sub,padding:"0 4px",marginBottom:6}}>{filtreBesinler.length} besin bulundu</div>
-                {filtreBesinler.slice(0,gozatLimit).map(b=>(
-                  <div key={b.id} style={{...CS,margin:"6px 0",cursor:"pointer",padding:12}} onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                      <div style={{flex:1}}>
-                        <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
-                        <YildizGoster v={b.yildiz??3} boyut={11}/>
-                        <div style={{fontSize:11,color:r.muted,marginTop:2}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g</div>
-                        <div style={{fontSize:10,color:r.sub}}>{b.kat}</div>
-                      </div>
-                      <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}}
-                        style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginLeft:8}}>+</button>
+                {/* Önceki aramalar */}
+                {!besinArama&&aramaOdak&&oncekiAramalar.length>0&&(
+                  <div style={{background:d?"#1e293b":"#f8fafc",borderRadius:14,padding:"10px 14px",marginBottom:10,border:`1px solid ${d?"#334155":"#e2e8f0"}`}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub}}>🕐 Son Aramalar</div>
+                      <button onClick={()=>{setOncekiAramalar([]);localStorage.setItem("doya_ara_gecmis",JSON.stringify([]));}} style={{background:"none",border:"none",cursor:"pointer",fontSize:10,color:r.muted,fontFamily:"'Nunito',sans-serif",fontWeight:700}}>Temizle</button>
+                    </div>
+                    <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                      {oncekiAramalar.map((ara,i)=>(
+                        <button key={i} onClick={()=>{setBesinArama(ara);setAramaOdak(true);}} style={{background:d?"#0f172a":"#fff",border:`1.5px solid ${d?"#334155":"#e2e8f0"}`,borderRadius:20,padding:"5px 12px",fontSize:12,fontWeight:700,cursor:"pointer",color:r.sub,fontFamily:"'Nunito',sans-serif"}}>🔍 {ara}</button>
+                      ))}
                     </div>
                   </div>
-                ))}
-                {filtreBesinler.length>gozatLimit&&(
-                  <button onClick={()=>setGozatLimit(l=>l+30)} style={{...BTN("transparent","10px 0"),width:"100%",border:`1px solid ${r.inpB}`,color:r.sub,fontSize:12}}>Daha Fazla Göster</button>
                 )}
-              </>
+
+                {!besinArama&&!aramaOdak&&(
+                  <>
+                    <div style={{...CS,marginBottom:10}}>
+                      <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:8}}>Kategori</div>
+                      <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
+                        {["","Tahıl","Protein","Meyve","Sebze","Süt Ürünü","Atıştırmalık","İçecek"].map(k=>(
+                          <button key={k} onClick={()=>setBesinFil(p=>({...p,kat:k}))} style={{padding:"5px 12px",border:`1.5px solid ${besinFil.kat===k?"#16a34a":r.inpB}`,borderRadius:20,fontSize:11,fontWeight:700,cursor:"pointer",background:besinFil.kat===k?"#16a34a":r.inp,color:besinFil.kat===k?"#fff":r.sub,fontFamily:"'Nunito',sans-serif"}}>{k||"Tümü"}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{fontSize:12,color:r.sub,padding:"0 4px",marginBottom:6}}>{filtreBesinler.length} besin</div>
+                    {filtreBesinler.slice(0,gozatLimit).map(b=>(
+                      <div key={b.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 14px",borderRadius:14,border:`1px solid ${r.inpB}`,marginBottom:8,background:r.inp,cursor:"pointer"}}
+                        onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
+                        <div style={{flex:1}}>
+                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
+                          <div style={{fontSize:11,color:r.muted,marginTop:2}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g · {b.kat}</div>
+                        </div>
+                        <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}}
+                          style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginLeft:8}}>+</button>
+                      </div>
+                    ))}
+                    {filtreBesinler.length>gozatLimit&&(
+                      <button onClick={()=>setGozatLimit(l=>l+30)} style={{...BTN("transparent","10px 0"),width:"100%",border:`1px solid ${r.inpB}`,color:r.sub,fontSize:12}}>Daha Fazla Göster</button>
+                    )}
+                  </>
+                )}
+
+                {besinArama&&(
+                  <div>
+                    {aramaBesinler.length===0&&<div style={{textAlign:"center",padding:"24px",color:r.muted,fontSize:13}}>Sonuç bulunamadı. Hızlı Ekle ile AI'ya sor!</div>}
+                    {aramaBesinler.slice(0,30).map(b=>(
+                      <div key={b.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 14px",borderRadius:14,border:`1px solid ${r.inpB}`,marginBottom:8,background:r.inp,cursor:"pointer"}}
+                        onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
+                        <div style={{flex:1}}>
+                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
+                          <div style={{fontSize:11,color:r.muted}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g</div>
+                        </div>
+                        <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}}
+                          style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>+</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
+
+            {/* FOTOĞRAF sekmesi */}
+            {yemekEkleSekme==="foto"&&(
+              <div style={{textAlign:"center",paddingTop:20}}>
+                <div style={{fontSize:56,marginBottom:14}}>📸</div>
+                <div style={{fontSize:15,fontWeight:800,color:r.text,marginBottom:8}}>Yemeğini Fotoğrafla</div>
+                <div style={{fontSize:12,color:r.sub,marginBottom:24}}>AI yiyeceği tanıyacak ve kalorilerini hesaplayacak</div>
+                <label style={{display:"inline-block",background:"linear-gradient(135deg,#10b981,#059669)",color:"#fff",borderRadius:16,padding:"14px 28px",fontSize:14,fontWeight:800,cursor:"pointer"}}>
+                  📷 Fotoğraf Çek / Seç
+                  <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={async e=>{
+                    const file=e.target.files?.[0];
+                    if(!file)return;
+                    setHizliEkleYuk(true);setHizliSonuc(null);
+                    try{
+                      const reader=new FileReader();
+                      reader.onload=async(ev)=>{
+                        const b64=ev.target.result.split(",")[1];
+                        const resp=await fetch("/.netlify/functions/ai-proxy",{
+                          method:"POST",headers:{"Content-Type":"application/json"},
+                          body:JSON.stringify({
+                            model:"claude-haiku-4-5-20251001",max_tokens:600,
+                            messages:[{role:"user",content:[
+                              {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
+                              {type:"text",text:'Bu yemeği tanı. JSON ile cevap ver: {"ad":"...","kal":number,"pro":number,"karb":number,"yag":number,"por":100,"acik":"kısa açıklama"}'}
+                            ]}]
+                          })
+                        });
+                        const data=await resp.json();
+                        const text=data.content?.[0]?.text||"{}";
+                        setHizliSonuc(JSON.parse(text.replace(/```json|```/g,"").trim()));
+                        setHizliEkleYuk(false);
+                      };
+                      reader.readAsDataURL(file);
+                    }catch(err){setHizliEkleYuk(false);}
+                  }}/>
+                </label>
+                {hizliEkleYuk&&<div style={{marginTop:20,color:r.sub,fontSize:13}}>🤖 AI analiz ediyor...</div>}
+                {hizliSonuc&&!hizliEkleYuk&&(
+                  <div style={{...CS,marginTop:16,textAlign:"left"}}>
+                    <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{hizliSonuc.ad}</div>
+                    <div style={{fontSize:12,color:r.sub,marginBottom:10}}>{hizliSonuc.acik}</div>
+                    <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
+                      {[{l:"Kalori",v:hizliSonuc.kal,b:"kcal",c:"#16a34a"},{l:"Protein",v:hizliSonuc.pro,b:"g",c:"#3b82f6"},{l:"Karb",v:hizliSonuc.karb,b:"g",c:"#f59e0b"},{l:"Yağ",v:hizliSonuc.yag,b:"g",c:"#ef4444"}].map(m=>(
+                        <div key={m.l} style={{flex:"1 1 40%",background:r.inp,borderRadius:10,padding:"8px 10px",textAlign:"center"}}>
+                          <div style={{fontSize:16,fontWeight:900,color:m.c}}>{m.v}<span style={{fontSize:10}}>{m.b}</span></div>
+                          <div style={{fontSize:10,color:r.sub}}>{m.l}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{marginBottom:10}}>
+                      <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:6}}>Hangi öğüne ekleyelim?</div>
+                      <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                        {["Kahvaltı","Öğle Yemeği","Akşam Yemeği","Atıştırmalık"].map(og=>(
+                          <button key={og} onClick={()=>setYemekEkleOgun(og)}
+                            style={{padding:"5px 12px",borderRadius:20,border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
+                              background:yemekEkleOgun===og?"#16a34a":d?"#1e293b":"#f1f5f9",
+                              color:yemekEkleOgun===og?"#fff":r.sub}}>{og}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <button onClick={async()=>{
+                      const kayit={...hizliSonuc,kat:yemekEkleOgun,gram:hizliSonuc.por||100,
+                        gramKal:hizliSonuc.kal,gramPro:hizliSonuc.pro||0,gramKarb:hizliSonuc.karb||0,gramYag:hizliSonuc.yag||0,
+                        saat:new Date().toTimeString().slice(0,5)};
+                      const bg=bugunKey();
+                      await gunSet(bg,"yemekler",[...gunV(bg).yemekler,kayit]);
+                      setSonYemekler(p=>[kayit,...p.slice(0,9)]);
+                      setHizliSonuc(null);
+                    }} style={{...BTN(),width:"100%",padding:"13px 0",fontSize:14}}>✅ {yemekEkleOgun} Öğününe Ekle</button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* HIZLI EKLE sekmesi */}
+            {yemekEkleSekme==="hizli"&&(
+              <div>
+                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:6}}>Ne yedin? AI kalorini hesaplasın ✨</div>
+                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Doğal dille yaz — "2 yumurta, 1 dilim ekmek ve bir bardak süt"</div>
+                <textarea
+                  style={{...IS,resize:"none",height:90,fontSize:13,paddingTop:12,marginBottom:12}}
+                  placeholder="Örn: Kahvaltıda 2 yumurta, 1 dilim peynir, 1 çay bardağı süt içtim"
+                  value={hizliEkleMetin}
+                  onChange={e=>setHizliEkleMetin(e.target.value)}
+                />
+                <button disabled={!hizliEkleMetin.trim()||hizliEkleYuk}
+                  onClick={async()=>{
+                    if(!hizliEkleMetin.trim())return;
+                    setHizliEkleYuk(true);setHizliSonuc(null);
+                    try{
+                      const resp=await fetch("/.netlify/functions/ai-proxy",{
+                        method:"POST",headers:{"Content-Type":"application/json"},
+                        body:JSON.stringify({
+                          model:"claude-haiku-4-5-20251001",max_tokens:600,
+                          system:"Sen bir beslenme uzmanısın. Sadece JSON ile cevap ver, başka hiçbir şey yazma.",
+                          messages:[{role:"user",content:`Şu yiyeceklerin besin değerlerini hesapla: "${hizliEkleMetin}". Format: {"ad":"...","kal":number,"pro":number,"karb":number,"yag":number,"por":100,"acik":"kısa açıklama"}`}]
+                        })
+                      });
+                      const data=await resp.json();
+                      const text=data.content?.[0]?.text||"{}";
+                      setHizliSonuc(JSON.parse(text.replace(/```json|```/g,"").trim()));
+                    }catch(err){setHizliSonuc({hata:"Hesaplanamadı, tekrar dene"});}
+                    setHizliEkleYuk(false);
+                  }}
+                  style={{...BTN(hizliEkleMetin.trim()&&!hizliEkleYuk?"#7c3aed":"#9ca3af"),width:"100%",padding:"12px 0",fontSize:14,marginBottom:14}}>
+                  {hizliEkleYuk?"🤖 Hesaplanıyor...":"✨ AI ile Hesapla"}
+                </button>
+                {hizliSonuc&&!hizliSonuc.hata&&!hizliEkleYuk&&(
+                  <div style={{...CS}}>
+                    <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{hizliSonuc.ad}</div>
+                    <div style={{fontSize:12,color:r.sub,marginBottom:12}}>{hizliSonuc.acik}</div>
+                    <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
+                      {[{l:"Kalori",v:hizliSonuc.kal,b:"kcal",c:"#16a34a"},{l:"Protein",v:hizliSonuc.pro,b:"g",c:"#3b82f6"},{l:"Karb",v:hizliSonuc.karb,b:"g",c:"#f59e0b"},{l:"Yağ",v:hizliSonuc.yag,b:"g",c:"#ef4444"}].map(m=>(
+                        <div key={m.l} style={{flex:"1 1 40%",background:r.inp,borderRadius:10,padding:"8px 10px",textAlign:"center"}}>
+                          <div style={{fontSize:16,fontWeight:900,color:m.c}}>{m.v}<span style={{fontSize:10}}>{m.b}</span></div>
+                          <div style={{fontSize:10,color:r.sub}}>{m.l}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{marginBottom:10}}>
+                      <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:6}}>Hangi öğüne ekleyelim?</div>
+                      <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                        {["Kahvaltı","Öğle Yemeği","Akşam Yemeği","Atıştırmalık"].map(og=>(
+                          <button key={og} onClick={()=>setYemekEkleOgun(og)}
+                            style={{padding:"5px 12px",borderRadius:20,border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
+                              background:yemekEkleOgun===og?"#16a34a":d?"#1e293b":"#f1f5f9",
+                              color:yemekEkleOgun===og?"#fff":r.sub}}>{og}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <button onClick={async()=>{
+                      const kayit={...hizliSonuc,kat:yemekEkleOgun,gram:hizliSonuc.por||100,
+                        gramKal:hizliSonuc.kal,gramPro:hizliSonuc.pro||0,gramKarb:hizliSonuc.karb||0,gramYag:hizliSonuc.yag||0,
+                        saat:new Date().toTimeString().slice(0,5)};
+                      const bg=bugunKey();
+                      await gunSet(bg,"yemekler",[...gunV(bg).yemekler,kayit]);
+                      setSonYemekler(p=>[kayit,...p.slice(0,9)]);
+                      setHizliSonuc(null);setHizliEkleMetin("");
+                    }} style={{...BTN(),width:"100%",padding:"13px 0",fontSize:14}}>✅ {yemekEkleOgun} Öğününe Ekle</button>
+                  </div>
+                )}
+                {hizliSonuc?.hata&&<div style={{color:"#ef4444",textAlign:"center",fontSize:12,padding:8}}>{hizliSonuc.hata}</div>}
+              </div>
+            )}
+
+            {/* YEMEKLERİM sekmesi */}
+            {yemekEkleSekme==="yemeklerim"&&(
+              <div>
+                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:12}}>Son Eklenen Yemekler</div>
+                {[...new Map([...sonYemekler,...bugYemekler].map(y=>[y.ad,y])).values()].length===0?(
+                  <div style={{textAlign:"center",paddingTop:30}}>
+                    <div style={{fontSize:48,marginBottom:12}}>🍽️</div>
+                    <div style={{fontSize:13,color:r.sub}}>Henüz yemek eklemedin.<br/>Ara veya Hızlı Ekle ile başla!</div>
+                  </div>
+                ):(
+                  [...new Map([...sonYemekler,...bugYemekler].map(y=>[y.ad,y])).values()].slice(0,15).map((y,i)=>(
+                    <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 14px",borderRadius:14,border:`1px solid ${r.inpB}`,marginBottom:8,background:r.inp}}>
+                      <div style={{flex:1}}>
+                        <div style={{fontWeight:800,fontSize:13,color:r.text}}>{y.ad}</div>
+                        <div style={{fontSize:11,color:r.muted}}>{y.gramKal||y.kal} kcal · {y.kat||""}</div>
+                      </div>
+                      <button onClick={async()=>{
+                        const kayit={...y,kat:yemekEkleOgun,saat:new Date().toTimeString().slice(0,5)};
+                        const bg=bugunKey();
+                        await gunSet(bg,"yemekler",[...gunV(bg).yemekler,kayit]);
+                      }} style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:20,cursor:"pointer",flexShrink:0}}>+</button>
+                    </div>
+                  ))
+                )}
+                {[...new Map([...sonYemekler,...bugYemekler].map(y=>[y.ad,y])).values()].length>0&&(
+                  <div style={{marginTop:12}}>
+                    <div style={{fontSize:11,color:r.sub,fontWeight:700,marginBottom:6}}>Hangi öğüne ekleyelim?</div>
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                      {["Kahvaltı","Öğle Yemeği","Akşam Yemeği","Atıştırmalık"].map(og=>(
+                        <button key={og} onClick={()=>setYemekEkleOgun(og)}
+                          style={{padding:"5px 12px",borderRadius:20,border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
+                            background:yemekEkleOgun===og?"#16a34a":d?"#1e293b":"#f1f5f9",
+                            color:yemekEkleOgun===og?"#fff":r.sub}}>{og}</button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
           </div>
         )}
 
