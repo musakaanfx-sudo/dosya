@@ -1035,16 +1035,6 @@ export default function App(){
 
   // ─── ADIM SAYAR ──────────────────────────────────────────────
   // Otomatik başlat: izin daha önce verilmişse hemen başlat
-  // Three.js CDN yükle
-  useEffect(()=>{
-    if(!window.THREE){
-      const s=document.createElement('script');
-      s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-      s.async=true;
-      document.head.appendChild(s);
-    }
-  },[]);
-
   useEffect(()=>{
     const bugunKey2=tarihKey(new Date());
     // Gün değiştiyse sıfırla
@@ -3696,7 +3686,7 @@ SADECE JSON döndür (başka metin yok):
                 <ExerciseModel3D exerciseId={model3D.exerciseId} width={320} height={320}/>
               </div>
               <div style={{background:"#1a0000",padding:"10px 16px",textAlign:"center",fontSize:11,color:"rgba(252,165,165,.6)"}}>
-                Kamera otomatik döner · Animasyon loop
+                Hareket animasyonu · Gerçek zamanlı
               </div>
             </div>
           </div>
@@ -8101,476 +8091,435 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
   );
 }
 
-// ─── 3D EGZERSİZ MODELİ (Gemini) ─────────────────────────────────────────────
+// ─── EGZERSİZ ANİMASYON (Canvas Stick Figure) ──────────────────────────────
 const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) => {
-  const mountRef = useRef(null);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (!window.THREE) {
-      console.error("Three.js bulunamadı!");
-      return;
-    }
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let raf;
+    let t = 0;
 
-    const THREE = window.THREE;
-    let animationFrameId;
+    // Renk paleti
+    const COL = { body:'#10b981', joint:'#34d399', line:'#059669', bg:'#0a0000', label:'rgba(52,211,153,.5)' };
 
-    // --- SAHNE, KAMERA VE RENDERER ---
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#1a0000');
+    // Eklem koordinatları hesapla (egzersiz + t'ye göre)
+    const getPose = (id, t) => {
+      const s = Math.sin(t);
+      const c2 = Math.cos(t);
+      const p = (s + 1) / 2; // 0-1 arası
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 4, 15);
+      // Temel pozlar: {baş, boyun, omuzL, dirsekL, elL, omuzR, dirsekR, elR, kalça, dizL, ayakL, dizR, ayakR}
+      const cx = width / 2;
+      const by = height * 0.18; // baş y
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(width, height);
-    renderer.shadowMap.enabled = true;
-    if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
+      // Yardımcı: açıdan nokta hesapla
+      const pt = (ox, oy, angle, len) => ({
+        x: ox + Math.cos(angle) * len,
+        y: oy + Math.sin(angle) * len
+      });
 
-    // --- IŞIKLANDIRMA ---
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
-
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    dirLight.position.set(5, 10, 5);
-    dirLight.castShadow = true;
-    scene.add(dirLight);
-
-    const pointLight = new THREE.PointLight(0xff4444, 0.8, 20);
-    pointLight.position.set(-5, 5, -5);
-    scene.add(pointLight);
-
-    // --- MALZEMELER ---
-    const skinMaterial = new THREE.MeshStandardMaterial({
-      color: 0xe8b89a,
-      roughness: 0.6,
-      metalness: 0.1,
-    });
-
-    // --- İSKELET OLUŞTURUCU ---
-    const createLimb = (w, h, d, mat, yOffset) => {
-      const group = new THREE.Group();
-      const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
-      mesh.position.y = yOffset;
-      mesh.castShadow = true;
-      group.add(mesh);
-      return { group, mesh };
-    };
-
-    // --- MODEL HİYERARŞİSİ ---
-    const character = new THREE.Group();
-    scene.add(character);
-
-    const pelvis = createLimb(1.2, 0.8, 0.8, skinMaterial, 0).group;
-    pelvis.position.y = 5;
-    character.add(pelvis);
-
-    const torso = createLimb(1.4, 2.0, 0.9, skinMaterial, 1.0).group;
-    torso.position.y = 0.4;
-    pelvis.add(torso);
-
-    const neck = createLimb(0.4, 0.5, 0.4, skinMaterial, 0.25).group;
-    neck.position.y = 2.0;
-    torso.add(neck);
-
-    const headGroup = new THREE.Group();
-    const headMesh = new THREE.Mesh(new THREE.SphereGeometry(0.6, 32, 32), skinMaterial);
-    headMesh.position.y = 0.6;
-    headGroup.add(headMesh);
-    neck.add(headGroup);
-
-    const createArm = (isLeft) => {
-      const sign = isLeft ? 1 : -1;
-      const shoulder = new THREE.Group();
-      shoulder.position.set(sign * 0.9, 1.8, 0);
-      torso.add(shoulder);
-      const upperArm = createLimb(0.4, 1.2, 0.4, skinMaterial, -0.6).group;
-      shoulder.add(upperArm);
-      const lowerArm = createLimb(0.35, 1.0, 0.35, skinMaterial, -0.5).group;
-      lowerArm.position.y = -1.2;
-      upperArm.add(lowerArm);
-      const hand = createLimb(0.2, 0.4, 0.3, skinMaterial, -0.2).group;
-      hand.position.y = -1.0;
-      lowerArm.add(hand);
-      return { shoulder, upperArm, lowerArm, hand };
-    };
-
-    const armL = createArm(true);
-    const armR = createArm(false);
-
-    const createLeg = (isLeft) => {
-      const sign = isLeft ? 1 : -1;
-      const upperLeg = createLimb(0.5, 1.5, 0.5, skinMaterial, -0.75).group;
-      upperLeg.position.set(sign * 0.4, -0.4, 0);
-      pelvis.add(upperLeg);
-      const lowerLeg = createLimb(0.4, 1.4, 0.4, skinMaterial, -0.7).group;
-      lowerLeg.position.y = -1.5;
-      upperLeg.add(lowerLeg);
-      const foot = createLimb(0.4, 0.2, 0.8, skinMaterial, -0.1).group;
-      foot.position.set(0, -1.4, 0.2);
-      lowerLeg.add(foot);
-      return { upperLeg, lowerLeg, foot };
-    };
-
-    const legL = createLeg(true);
-    const legR = createLeg(false);
-
-    // Başlangıç duruşu
-    armL.shoulder.rotation.z = 0.3;
-    armR.shoulder.rotation.z = -0.3;
-
-    // --- ANİMASYON ---
-    const clock = new THREE.Clock();
-
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-      const t = clock.getElapsedTime();
-
-      // Kamera yavaşça döner
-      camera.position.x = Math.sin(t * 0.3) * 15;
-      camera.position.z = Math.cos(t * 0.3) * 15;
-      camera.lookAt(0, 4, 0);
-
-      switch (exerciseId) {
-        case 'sinav': {
-          character.rotation.x = Math.PI / 2;
-          character.position.y = -3;
-          const p = (Math.sin(t * 3) + 1) / 2;
-          pelvis.position.y = 5 + p * 1.5;
-          armL.shoulder.rotation.z = 0.5;
-          armR.shoulder.rotation.z = -0.5;
-          armL.shoulder.rotation.x = -Math.PI / 2 + p * 0.5;
-          armR.shoulder.rotation.x = -Math.PI / 2 + p * 0.5;
-          armL.lowerArm.rotation.x = -Math.PI / 2 + p * (Math.PI / 2);
-          armR.lowerArm.rotation.x = -Math.PI / 2 + p * (Math.PI / 2);
-          break;
-        }
-        case 'squat': {
-          character.rotation.x = 0;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          pelvis.position.y = 5 - d * 1.8;
-          legL.upperLeg.rotation.x = -d * 1.5;
-          legR.upperLeg.rotation.x = -d * 1.5;
-          legL.lowerLeg.rotation.x = d * 1.5;
-          legR.lowerLeg.rotation.x = d * 1.5;
-          torso.rotation.x = d * 0.5;
-          armL.shoulder.rotation.x = -d * 1.0;
-          armR.shoulder.rotation.x = -d * 1.0;
-          break;
+      switch(id) {
+        case 'squat':
+        case 'dambil_squat': {
+          const bend = p * 0.8;
+          const drop = p * 50;
+          const bas = {x:cx, y:by};
+          const boyun = {x:cx, y:by+28};
+          const kalça = {x:cx, y:by+95+drop};
+          const govde_angle = Math.PI/2 + bend*0.2;
+          const torsoL = pt(boyun.x, boyun.y, Math.PI/2, 60+drop*0.6);
+          const omuzL = {x:boyun.x-28, y:boyun.y+18};
+          const omuzR = {x:boyun.x+28, y:boyun.y+18};
+          const kolAciL = Math.PI/2 + p*0.8;
+          const kolAciR = Math.PI/2 - p*0.8;
+          const dirsekL = pt(omuzL.x, omuzL.y, kolAciL, 32);
+          const elL = pt(dirsekL.x, dirsekL.y, kolAciL+0.3, 28);
+          const dirsekR = pt(omuzR.x, omuzR.y, kolAciR, 32);
+          const elR = pt(dirsekR.x, dirsekR.y, kolAciR-0.3, 28);
+          const dizAci = Math.PI/2 + 0.3 + bend*0.9;
+          const dizL = pt(kalça.x-18, kalça.y, dizAci, 44);
+          const ayakL = {x:dizL.x-p*8, y:dizL.y+32+p*5};
+          const dizR = pt(kalça.x+18, kalça.y, Math.PI-dizAci+Math.PI, 44);
+          const ayakR = {x:dizR.x+p*8, y:dizR.y+32+p*5};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'BACAK / KALÇA'};
         }
         case 'jumping_jack': {
-          character.rotation.x = 0;
-          pelvis.position.y = 5 + Math.abs(Math.sin(t * 5)) * 0.5;
-          const jd = Math.sin(t * 5);
-          legL.upperLeg.rotation.z = Math.abs(jd) * 0.4;
-          legR.upperLeg.rotation.z = -Math.abs(jd) * 0.4;
-          armL.shoulder.rotation.z = Math.abs(jd) * 2.5;
-          armR.shoulder.rotation.z = -Math.abs(jd) * 2.5;
-          armL.shoulder.rotation.x = 0;
-          armR.shoulder.rotation.x = 0;
-          break;
+          const kol_aci = p * 1.4;
+          const bacak_aci = p * 0.5;
+          const zıp = Math.abs(s) * 8;
+          const bas = {x:cx, y:by-zıp};
+          const boyun = {x:cx, y:by+28-zıp};
+          const kalça = {x:cx, y:by+95-zıp};
+          const omuzL = {x:boyun.x-26, y:boyun.y+16};
+          const omuzR = {x:boyun.x+26, y:boyun.y+16};
+          const dirsekL = pt(omuzL.x, omuzL.y, -Math.PI/6 - kol_aci, 34);
+          const elL = pt(dirsekL.x, dirsekL.y, -Math.PI/4 - kol_aci*0.5, 28);
+          const dirsekR = pt(omuzR.x, omuzR.y, -Math.PI*5/6 + kol_aci, 34);
+          const elR = pt(dirsekR.x, dirsekR.y, -Math.PI*3/4 + kol_aci*0.5, 28);
+          const dizL = {x:kalça.x-20-bacak_aci*30, y:kalça.y+42};
+          const ayakL = {x:dizL.x-bacak_aci*20, y:dizL.y+38};
+          const dizR = {x:kalça.x+20+bacak_aci*30, y:kalça.y+42};
+          const ayakR = {x:dizR.x+bacak_aci*20, y:dizR.y+38};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'KARDİYO / KOŞU'};
+        }
+        case 'sinav':
+        case 'genis_sinav': {
+          // Yüzüstü pozisyon - yandan görünüş
+          const up = p * 40;
+          const bas = {x:cx+90, y:height*0.55-up*0.3};
+          const boyun = {x:cx+62, y:height*0.52-up*0.2};
+          const kalça = {x:cx-40, y:height*0.52-up*0.1};
+          const omuzL = {x:cx+55, y:height*0.48-up*0.3};
+          const omuzR = {x:cx+55, y:height*0.56};
+          const dirsekL = {x:cx+30, y:height*0.48-up*0.5};
+          const elL = {x:cx+14, y:height*0.52-up*0.4};
+          const dirsekR = {x:cx+30, y:height*0.56};
+          const elR = {x:cx+14, y:height*0.58+up*0.1};
+          const dizL = {x:cx-65, y:height*0.51};
+          const ayakL = {x:cx-95, y:height*0.51};
+          const dizR = {x:cx-65, y:height*0.54};
+          const ayakR = {x:cx-95, y:height*0.54};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'GÖĞÜS / TRİSEPS'};
         }
         case 'plank': {
-          character.rotation.x = Math.PI / 2;
-          character.position.y = -3.5;
-          pelvis.position.y = 5;
-          armL.shoulder.rotation.x = -Math.PI / 2;
-          armR.shoulder.rotation.x = -Math.PI / 2;
-          armL.lowerArm.rotation.x = -Math.PI / 2;
-          armR.lowerArm.rotation.x = -Math.PI / 2;
-          neck.rotation.x = -0.3;
-          break;
+          const bas = {x:cx+90, y:height*0.5};
+          const boyun = {x:cx+65, y:height*0.5};
+          const kalça = {x:cx-30, y:height*0.5};
+          const omuzL = {x:cx+58, y:height*0.46};
+          const omuzR = {x:cx+58, y:height*0.54};
+          const dirsekL = {x:cx+28, y:height*0.46};
+          const elL = {x:cx+10, y:height*0.5};
+          const dirsekR = {x:cx+28, y:height*0.54};
+          const elR = {x:cx+10, y:height*0.54};
+          const dizL = {x:cx-62, y:height*0.49};
+          const ayakL = {x:cx-92, y:height*0.49};
+          const dizR = {x:cx-62, y:height*0.51};
+          const ayakR = {x:cx-92, y:height*0.51};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'KARIN / CORE'};
+        }
+        case 'mountain_climber': {
+          const a = Math.sin(t*1.8);
+          const bas = {x:cx+85, y:height*0.48};
+          const boyun = {x:cx+60, y:height*0.48};
+          const kalça = {x:cx-25, y:height*0.48};
+          const omuzL = {x:cx+52, y:height*0.44};
+          const dirsekL = {x:cx+22, y:height*0.44};
+          const elL = {x:cx+4, y:height*0.48};
+          const omuzR = omuzL; const dirsekR = dirsekL; const elR = elL;
+          const dizL = {x:cx-20+a*30, y:height*0.48-a*30};
+          const ayakL = {x:cx-50+a*20, y:height*0.48};
+          const dizR = {x:cx-55-a*20, y:height*0.5};
+          const ayakR = {x:cx-85-a*15, y:height*0.5};
+          return {bas,boyun,kalça,omuzL,omuzR:omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'CORE / KARDİYO'};
         }
         case 'lunge': {
-          character.rotation.x = 0; character.position.y = 0;
-          const d = (Math.sin(t * 2) + 1) / 2;
-          pelvis.position.y = 5 - d * 1.2;
-          legL.upperLeg.rotation.x = -d * 1.2;
-          legR.upperLeg.rotation.x = d * 0.8;
-          legL.lowerLeg.rotation.x = d * 1.2;
-          legR.lowerLeg.rotation.x = -d * 0.5;
-          legR.upperLeg.rotation.z = -0.3;
-          armL.shoulder.rotation.z = 0.3; armR.shoulder.rotation.z = -0.3;
-          break;
+          const d = p;
+          const bas = {x:cx, y:by};
+          const boyun = {x:cx, y:by+28};
+          const kalça = {x:cx-d*10, y:by+90+d*20};
+          const omuzL = {x:boyun.x-26, y:boyun.y+16};
+          const omuzR = {x:boyun.x+26, y:boyun.y+16};
+          const dirsekL = {x:omuzL.x-8, y:omuzL.y+32};
+          const elL = {x:dirsekL.x-6, y:dirsekL.y+26};
+          const dirsekR = {x:omuzR.x+8, y:omuzR.y+32};
+          const elR = {x:dirsekR.x+6, y:dirsekR.y+26};
+          const dizL = {x:kalça.x-28, y:kalça.y+40+d*15};
+          const ayakL = {x:dizL.x-8, y:dizL.y+32};
+          const dizR = {x:kalça.x+30, y:kalça.y+20};
+          const ayakR = {x:dizR.x+35, y:dizR.y+25};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'BACAK / QUADRİSEPS'};
         }
         case 'dambil_curl':
         case 'hammer_curl': {
-          character.rotation.x = 0; character.position.y = 0;
-          pelvis.position.y = 5;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          armL.lowerArm.rotation.x = -d * 2.0;
-          armR.lowerArm.rotation.x = -d * 2.0;
-          armL.shoulder.rotation.z = 0.2; armR.shoulder.rotation.z = -0.2;
-          break;
+          const d = p;
+          const bas = {x:cx, y:by};
+          const boyun = {x:cx, y:by+28};
+          const kalça = {x:cx, y:by+95};
+          const omuzL = {x:boyun.x-28, y:boyun.y+18};
+          const omuzR = {x:boyun.x+28, y:boyun.y+18};
+          const dirsekL = {x:omuzL.x-4, y:omuzL.y+36};
+          const elL = {x:dirsekL.x-d*28, y:dirsekL.y+(1-d)*26};
+          const dirsekR = {x:omuzR.x+4, y:omuzR.y+36};
+          const elR = {x:dirsekR.x+d*28, y:dirsekR.y+(1-d)*26};
+          const dizL = {x:kalça.x-18, y:kalça.y+44};
+          const ayakL = {x:dizL.x-4, y:dizL.y+36};
+          const dizR = {x:kalça.x+18, y:kalça.y+44};
+          const ayakR = {x:dizR.x+4, y:dizR.y+36};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'BİCEPS'};
         }
         case 'lateral_raise': {
-          character.rotation.x = 0; character.position.y = 0; pelvis.position.y = 5;
-          const d = (Math.sin(t * 2) + 1) / 2;
-          armL.shoulder.rotation.z = 0.3 + d * 1.3;
-          armR.shoulder.rotation.z = -0.3 - d * 1.3;
-          break;
-        }
-        case 'dambil_press_omuz': {
-          character.rotation.x = 0; character.position.y = 0; pelvis.position.y = 5;
-          const d = (Math.sin(t * 2) + 1) / 2;
-          armL.shoulder.rotation.z = 0.3 + d * 0.5;
-          armR.shoulder.rotation.z = -0.3 - d * 0.5;
-          armL.shoulder.rotation.x = -d * 1.8;
-          armR.shoulder.rotation.x = -d * 1.8;
-          armL.lowerArm.rotation.x = d * 1.5;
-          armR.lowerArm.rotation.x = d * 1.5;
-          break;
-        }
-        case 'dambil_press': {
-          character.rotation.x = Math.PI / 2; character.position.y = -3; pelvis.position.y = 5;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          armL.shoulder.rotation.z = 1.2 - d * 0.8;
-          armR.shoulder.rotation.z = -1.2 + d * 0.8;
-          armL.shoulder.rotation.x = d * 0.5;
-          armR.shoulder.rotation.x = d * 0.5;
-          armL.lowerArm.rotation.x = -d * 1.2;
-          armR.lowerArm.rotation.x = -d * 1.2;
-          break;
-        }
-        case 'dambil_flye': {
-          character.rotation.x = Math.PI / 2; character.position.y = -3; pelvis.position.y = 5;
-          const d = (Math.sin(t * 2) + 1) / 2;
-          armL.shoulder.rotation.z = 0.3 + d * 1.0;
-          armR.shoulder.rotation.z = -0.3 - d * 1.0;
-          armL.lowerArm.rotation.x = -0.5;
-          armR.lowerArm.rotation.x = -0.5;
-          break;
-        }
-        case 'pullup': {
-          character.rotation.x = 0; character.position.y = 0;
-          const d = (Math.sin(t * 1.5) + 1) / 2;
-          pelvis.position.y = 5 + d * 2;
-          armL.shoulder.rotation.x = -2.0 + d * 0.8;
-          armR.shoulder.rotation.x = -2.0 + d * 0.8;
-          armL.shoulder.rotation.z = 0.5; armR.shoulder.rotation.z = -0.5;
-          armL.lowerArm.rotation.x = d * 1.5;
-          armR.lowerArm.rotation.x = d * 1.5;
-          break;
-        }
-        case 'dambil_row': {
-          character.rotation.x = 0; character.position.y = 0; pelvis.position.y = 5;
-          torso.rotation.x = -0.7;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          armL.shoulder.rotation.x = -0.3 - d * 1.2;
-          armL.lowerArm.rotation.x = d * 1.2;
-          armR.shoulder.rotation.z = -0.2;
-          break;
-        }
-        case 'superman': {
-          character.rotation.x = Math.PI / 2; character.position.y = -4; pelvis.position.y = 5;
-          const d = (Math.sin(t * 1.8) + 1) / 2;
-          armL.shoulder.rotation.x = -d * 0.8;
-          armR.shoulder.rotation.x = -d * 0.8;
-          pelvis.position.y = 5 + d * 0.3;
-          legL.upperLeg.rotation.x = d * 0.8;
-          legR.upperLeg.rotation.x = d * 0.8;
-          break;
-        }
-        case 'hip_thrust': {
-          character.rotation.x = Math.PI / 2; character.position.y = -2; pelvis.position.y = 5;
-          const d = (Math.sin(t * 2) + 1) / 2;
-          pelvis.position.y = 5 + d * 1.5;
-          legL.upperLeg.rotation.x = -0.8 + d * 0.8;
-          legR.upperLeg.rotation.x = -0.8 + d * 0.8;
-          legL.lowerLeg.rotation.x = 1.2 - d * 0.8;
-          legR.lowerLeg.rotation.x = 1.2 - d * 0.8;
-          break;
-        }
-        case 'calf_raise': {
-          character.rotation.x = 0; character.position.y = 0;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          pelvis.position.y = 5 + d * 0.5;
-          legL.foot.rotation.x = -d * 0.6;
-          legR.foot.rotation.x = -d * 0.6;
-          armL.shoulder.rotation.z = 0.15; armR.shoulder.rotation.z = -0.15;
-          break;
-        }
-        case 'glut_bridge': {
-          character.rotation.x = Math.PI / 2; character.position.y = -2; pelvis.position.y = 5;
-          const d = (Math.sin(t * 2) + 1) / 2;
-          pelvis.position.y = 5 + d * 1.2;
-          legL.upperLeg.rotation.x = -0.5 + d * 0.5;
-          legR.upperLeg.rotation.x = -0.5 + d * 0.5;
-          legL.lowerLeg.rotation.x = 1.0 - d * 0.5;
-          legR.lowerLeg.rotation.x = 1.0 - d * 0.5;
-          break;
-        }
-        case 'crunch': {
-          character.rotation.x = Math.PI / 2; character.position.y = -2; pelvis.position.y = 5;
-          const d = (Math.sin(t * 2) + 1) / 2;
-          torso.rotation.x = -d * 1.0;
-          neck.rotation.x = -d * 0.5;
-          legL.upperLeg.rotation.x = -0.5; legR.upperLeg.rotation.x = -0.5;
-          legL.lowerLeg.rotation.x = 0.8; legR.lowerLeg.rotation.x = 0.8;
-          break;
-        }
-        case 'mountain_climber': {
-          character.rotation.x = Math.PI / 2; character.position.y = -3; pelvis.position.y = 5;
-          armL.shoulder.rotation.x = -Math.PI / 2;
-          armR.shoulder.rotation.x = -Math.PI / 2;
-          armL.lowerArm.rotation.x = -Math.PI / 2;
-          armR.lowerArm.rotation.x = -Math.PI / 2;
-          const d = Math.sin(t * 4);
-          legL.upperLeg.rotation.x = d * 1.2;
-          legR.upperLeg.rotation.x = -d * 1.2;
-          legL.lowerLeg.rotation.x = d > 0 ? d * 1.0 : 0;
-          legR.lowerLeg.rotation.x = d < 0 ? -d * 1.0 : 0;
-          break;
-        }
-        case 'leg_raise': {
-          character.rotation.x = Math.PI / 2; character.position.y = -2; pelvis.position.y = 5;
-          const d = (Math.sin(t * 1.8) + 1) / 2;
-          legL.upperLeg.rotation.x = d * 1.5;
-          legR.upperLeg.rotation.x = d * 1.5;
-          armL.shoulder.rotation.z = 0.3; armR.shoulder.rotation.z = -0.3;
-          break;
-        }
-        case 'bicycle_crunch': {
-          character.rotation.x = Math.PI / 2; character.position.y = -2; pelvis.position.y = 5;
-          const d = Math.sin(t * 3);
-          legL.upperLeg.rotation.x = d * 1.2;
-          legR.upperLeg.rotation.x = -d * 1.2;
-          torso.rotation.z = d * 0.3;
-          armL.shoulder.rotation.x = -d * 0.8;
-          armR.shoulder.rotation.x = d * 0.8;
-          legL.lowerLeg.rotation.x = d > 0 ? d * 1.0 : 0;
-          legR.lowerLeg.rotation.x = d < 0 ? -d * 1.0 : 0;
-          break;
-        }
-        case 'burpee': {
-          character.rotation.x = 0; character.position.y = 0;
-          const phase = (t * 1.2) % 4;
-          if (phase < 1) {
-            pelvis.position.y = 5;
-          } else if (phase < 2) {
-            const d = phase - 1;
-            pelvis.position.y = 5 - d * 1.8;
-            legL.upperLeg.rotation.x = -d * 1.5; legR.upperLeg.rotation.x = -d * 1.5;
-            legL.lowerLeg.rotation.x = d * 1.5; legR.lowerLeg.rotation.x = d * 1.5;
-          } else if (phase < 3) {
-            character.rotation.x = Math.PI / 2; character.position.y = -3;
-            pelvis.position.y = 5;
-            const d2 = (Math.sin((phase - 2) * Math.PI * 2) + 1) / 2;
-            pelvis.position.y = 5 + d2 * 1.2;
-            armL.shoulder.rotation.x = -Math.PI / 2 + d2 * 0.5;
-            armR.shoulder.rotation.x = -Math.PI / 2 + d2 * 0.5;
-          } else {
-            character.rotation.x = 0; character.position.y = 0;
-            pelvis.position.y = 5 + Math.abs(Math.sin((phase - 3) * Math.PI)) * 1.5;
-            armL.shoulder.rotation.x = -1.5; armR.shoulder.rotation.x = -1.5;
-          }
-          break;
+          const d = p;
+          const bas = {x:cx, y:by};
+          const boyun = {x:cx, y:by+28};
+          const kalça = {x:cx, y:by+95};
+          const omuzL = {x:boyun.x-28, y:boyun.y+18};
+          const omuzR = {x:boyun.x+28, y:boyun.y+18};
+          const dirsekL = {x:omuzL.x-30-d*30, y:omuzL.y+4-d*28};
+          const elL = {x:dirsekL.x-22-d*18, y:dirsekL.y+6-d*20};
+          const dirsekR = {x:omuzR.x+30+d*30, y:omuzR.y+4-d*28};
+          const elR = {x:dirsekR.x+22+d*18, y:dirsekR.y+6-d*20};
+          const dizL = {x:kalça.x-18, y:kalça.y+44};
+          const ayakL = {x:dizL.x-4, y:dizL.y+36};
+          const dizR = {x:kalça.x+18, y:kalça.y+44};
+          const ayakR = {x:dizR.x+4, y:dizR.y+36};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'OMUZ / DELTOİD'};
         }
         case 'high_knees': {
-          character.rotation.x = 0; character.position.y = 0;
-          const d = Math.sin(t * 4);
-          pelvis.position.y = 5 + Math.abs(Math.sin(t * 4)) * 0.2;
-          legL.upperLeg.rotation.x = d > 0 ? -d * 1.5 : 0;
-          legR.upperLeg.rotation.x = d < 0 ? d * 1.5 : 0;
-          legL.lowerLeg.rotation.x = d > 0 ? d * 1.0 : 0;
-          legR.lowerLeg.rotation.x = d < 0 ? -d * 1.0 : 0;
-          armL.shoulder.rotation.x = d * 0.6;
-          armR.shoulder.rotation.x = -d * 0.6;
-          break;
+          const a = s;
+          const zıp = Math.abs(s)*6;
+          const bas = {x:cx, y:by-zıp};
+          const boyun = {x:cx, y:by+28-zıp};
+          const kalça = {x:cx, y:by+95-zıp};
+          const omuzL = {x:boyun.x-26, y:boyun.y+16};
+          const omuzR = {x:boyun.x+26, y:boyun.y+16};
+          const dirsekL = {x:omuzL.x+a*18, y:omuzL.y+32};
+          const elL = {x:dirsekL.x+a*12, y:dirsekL.y+24};
+          const dirsekR = {x:omuzR.x-a*18, y:omuzR.y+32};
+          const elR = {x:dirsekR.x-a*12, y:dirsekR.y+24};
+          const dizL = {x:kalça.x-16, y:a>0 ? kalça.y+18 : kalça.y+44};
+          const ayakL = {x:dizL.x-4, y:a>0 ? dizL.y+18 : dizL.y+36};
+          const dizR = {x:kalça.x+16, y:a<0 ? kalça.y+18 : kalça.y+44};
+          const ayakR = {x:dizR.x+4, y:a<0 ? dizR.y+18 : dizR.y+36};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'KARDİYO / KOŞU'};
         }
-        case 'triceps_dips': {
-          character.rotation.x = 0; character.position.y = 0;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          pelvis.position.y = 5 - d * 1.2;
-          armL.shoulder.rotation.z = 0.8; armR.shoulder.rotation.z = -0.8;
-          armL.shoulder.rotation.x = 0.5; armR.shoulder.rotation.x = 0.5;
-          armL.lowerArm.rotation.x = -d * 1.8;
-          armR.lowerArm.rotation.x = -d * 1.8;
-          legL.upperLeg.rotation.x = -0.5; legR.upperLeg.rotation.x = -0.5;
-          break;
+        case 'pullup': {
+          const d = p;
+          const lift = d * 45;
+          const bas = {x:cx, y:by+20-lift};
+          const boyun = {x:cx, y:by+48-lift};
+          const kalça = {x:cx, y:by+140-lift};
+          const omuzL = {x:boyun.x-26, y:boyun.y+14};
+          const omuzR = {x:boyun.x+26, y:boyun.y+14};
+          const dirsekL = {x:omuzL.x-10+d*18, y:omuzL.y-22+d*10};
+          const elL = {x:dirsekL.x-6+d*10, y:dirsekL.y-24+d*8};
+          const dirsekR = {x:omuzR.x+10-d*18, y:omuzR.y-22+d*10};
+          const elR = {x:dirsekR.x+6-d*10, y:dirsekR.y-24+d*8};
+          const dizL = {x:kalça.x-16, y:kalça.y+38};
+          const ayakL = {x:dizL.x-4, y:dizL.y+32};
+          const dizR = {x:kalça.x+16, y:kalça.y+38};
+          const ayakR = {x:dizR.x+4, y:dizR.y+32};
+          // Barfiks çubuğu
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'SIRT / BARFİKS', bar:true, barY: by+24-lift-38};
         }
-        case 'skull_crusher': {
-          character.rotation.x = Math.PI / 2; character.position.y = -3; pelvis.position.y = 5;
-          armL.shoulder.rotation.x = -1.8; armR.shoulder.rotation.x = -1.8;
-          armL.shoulder.rotation.z = 0.3; armR.shoulder.rotation.z = -0.3;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          armL.lowerArm.rotation.x = -d * 1.8;
-          armR.lowerArm.rotation.x = -d * 1.8;
-          break;
+        case 'crunch':
+        case 'leg_raise':
+        case 'bicycle_crunch': {
+          // Yatık pozisyon
+          const d = id==='leg_raise' ? p : (id==='bicycle_crunch' ? s : p);
+          const bas = {x:cx-80, y:height*0.52};
+          const boyun = {x:cx-55, y:height*0.5};
+          const kalça = {x:cx+30, y:height*0.52};
+          const omuzL = {x:cx-48, y:height*0.46};
+          const omuzR = {x:cx-48, y:height*0.58};
+          const dirsekL = {x:cx-20+d*10, y:height*0.44-d*20};
+          const elL = {x:cx+2+d*8, y:height*0.42-d*16};
+          const dirsekR = {x:cx-20-d*10, y:height*0.58+d*10};
+          const elR = {x:cx+2-d*8, y:height*0.6+d*8};
+          const dizL = id==='leg_raise'
+            ? {x:cx+50, y:height*0.52-d*55}
+            : {x:cx+50+d*20, y:height*0.52-d*30};
+          const ayakL = id==='leg_raise'
+            ? {x:dizL.x+12, y:dizL.y-d*35}
+            : {x:dizL.x+16, y:dizL.y+20};
+          const dizR = {x:cx+75, y:height*0.52};
+          const ayakR = {x:cx+105, y:height*0.52};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'KARIN / CORE'};
         }
-        case 'pike_push': {
-          character.rotation.x = Math.PI / 4; character.position.y = -2; pelvis.position.y = 5;
-          torso.rotation.x = -0.5;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          armL.shoulder.rotation.x = -Math.PI / 2 + d * 0.5;
-          armR.shoulder.rotation.x = -Math.PI / 2 + d * 0.5;
-          armL.lowerArm.rotation.x = -Math.PI / 2 + d * Math.PI / 2;
-          armR.lowerArm.rotation.x = -Math.PI / 2 + d * Math.PI / 2;
-          break;
+        case 'hip_thrust':
+        case 'glut_bridge': {
+          const d = p;
+          const lift = d * 50;
+          const bas = {x:cx-90, y:height*0.55};
+          const boyun = {x:cx-65, y:height*0.52};
+          const kalça = {x:cx+10, y:height*0.58-lift};
+          const omuzL = {x:cx-58, y:height*0.48};
+          const omuzR = {x:cx-58, y:height*0.58};
+          const dirsekL = {x:cx-30, y:height*0.46};
+          const elL = {x:cx-10, y:height*0.5};
+          const dirsekR = {x:cx-30, y:height*0.6};
+          const elR = {x:cx-10, y:height*0.6};
+          const dizL = {x:cx+40, y:height*0.55-lift*0.3};
+          const ayakL = {x:cx+72, y:height*0.55};
+          const dizR = {x:cx+40, y:height*0.6-lift*0.3};
+          const ayakR = {x:cx+72, y:height*0.6};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'KALÇA / GLUT'};
         }
-        case 'genis_sinav': {
-          character.rotation.x = Math.PI / 2; character.position.y = -3;
-          const d = (Math.sin(t * 3) + 1) / 2;
-          pelvis.position.y = 5 + d * 1.5;
-          armL.shoulder.rotation.z = 1.0; armR.shoulder.rotation.z = -1.0;
-          armL.shoulder.rotation.x = -Math.PI / 2 + d * 0.5;
-          armR.shoulder.rotation.x = -Math.PI / 2 + d * 0.5;
-          armL.lowerArm.rotation.x = -Math.PI / 2 + d * Math.PI / 2;
-          armR.lowerArm.rotation.x = -Math.PI / 2 + d * Math.PI / 2;
-          break;
-        }
-        case 'dambil_squat': {
-          character.rotation.x = 0; character.position.y = 0;
-          const d = (Math.sin(t * 2.5) + 1) / 2;
-          pelvis.position.y = 5 - d * 1.6;
-          legL.upperLeg.rotation.x = -d * 1.4; legR.upperLeg.rotation.x = -d * 1.4;
-          legL.lowerLeg.rotation.x = d * 1.4; legR.lowerLeg.rotation.x = d * 1.4;
-          torso.rotation.x = d * 0.3;
-          armL.shoulder.rotation.z = 0.2; armR.shoulder.rotation.z = -0.2;
-          armL.lowerArm.rotation.x = -0.3; armR.lowerArm.rotation.x = -0.3;
-          break;
-        }
-        case 'box_jump': {
-          character.rotation.x = 0; character.position.y = 0;
-          const phase2 = (t * 2) % 2;
-          if (phase2 < 1) {
-            const d = Math.sin(phase2 * Math.PI);
-            pelvis.position.y = 5 - d * 0.8;
-            legL.upperLeg.rotation.x = -d * 0.8; legR.upperLeg.rotation.x = -d * 0.8;
-            legL.lowerLeg.rotation.x = d * 0.8; legR.lowerLeg.rotation.x = d * 0.8;
+        case 'burpee': {
+          const phase = (t * 0.5) % 4;
+          if (phase < 1) {
+            // Ayakta
+            const bas = {x:cx, y:by};
+            const boyun = {x:cx, y:by+28};
+            const kalça = {x:cx, y:by+95};
+            const omuzL = {x:boyun.x-26, y:boyun.y+16};
+            const omuzR = {x:boyun.x+26, y:boyun.y+16};
+            const dirsekL = {x:omuzL.x-8, y:omuzL.y+32};
+            const elL = {x:dirsekL.x-6, y:dirsekL.y+28};
+            const dirsekR = {x:omuzR.x+8, y:omuzR.y+32};
+            const elR = {x:dirsekR.x+6, y:dirsekR.y+28};
+            const dizL = {x:kalça.x-18, y:kalça.y+44};
+            const ayakL = {x:dizL.x-4, y:dizL.y+36};
+            const dizR = {x:kalça.x+18, y:kalça.y+44};
+            const ayakR = {x:dizR.x+4, y:dizR.y+36};
+            return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'BURPEE'};
           } else {
-            const d = Math.sin((phase2 - 1) * Math.PI);
-            pelvis.position.y = 5 + d * 2.0;
-            armL.shoulder.rotation.x = -d * 1.5; armR.shoulder.rotation.x = -d * 1.5;
+            // Şınav pozisyonu
+            const dd = phase < 2 ? (phase-1) : (phase < 3 ? (2-phase+1)*0.5 : 0);
+            const lift2 = dd * 35;
+            const bas2 = {x:cx+90, y:height*0.52-lift2*0.2};
+            const boyun2 = {x:cx+62, y:height*0.5-lift2*0.15};
+            const kalça2 = {x:cx-35, y:height*0.5};
+            const omuzL2 = {x:cx+55, y:height*0.46-lift2*0.3};
+            const dirsekL2 = {x:cx+28, y:height*0.46-lift2*0.5};
+            const elL2 = {x:cx+10, y:height*0.5-lift2*0.4};
+            const dizL2 = {x:cx-60, y:height*0.5};
+            const ayakL2 = {x:cx-90, y:height*0.5};
+            return {bas:bas2,boyun:boyun2,kalça:kalça2,omuzL:omuzL2,omuzR:{x:cx+55,y:height*0.54},dirsekL:dirsekL2,elL:elL2,dirsekR:{x:cx+28,y:height*0.54},elR:{x:cx+10,y:height*0.54+lift2*0.1},dizL:dizL2,ayakL:ayakL2,dizR:{x:cx-60,y:height*0.53},ayakR:{x:cx-90,y:height*0.53},label:'BURPEE'};
           }
-          break;
+        }
+        case 'dambil_press':
+        case 'dambil_flye': {
+          const d = p;
+          const spread = id==='dambil_flye' ? d*55 : d*20;
+          const bas = {x:cx-85, y:height*0.5};
+          const boyun = {x:cx-58, y:height*0.5};
+          const kalça = {x:cx+35, y:height*0.5};
+          const omuzL = {x:cx-50, y:height*0.44};
+          const omuzR = {x:cx-50, y:height*0.56};
+          const dirsekL = {x:cx-18-spread*0.3, y:height*0.42-d*18};
+          const elL = {x:cx+10-spread*0.4, y:height*0.4-d*22};
+          const dirsekR = {x:cx-18-spread*0.3, y:height*0.58+d*10};
+          const elR = {x:cx+10-spread*0.4, y:height*0.6+d*14};
+          const dizL = {x:cx+62, y:height*0.47};
+          const ayakL = {x:cx+90, y:height*0.47};
+          const dizR = {x:cx+62, y:height*0.53};
+          const ayakR = {x:cx+90, y:height*0.53};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'GÖĞÜS'};
         }
         default: {
-          // T-Pose / reset
-          character.rotation.x = 0; character.position.y = 0;
-          pelvis.position.y = 5;
-          torso.rotation.set(0, 0, 0); neck.rotation.set(0, 0, 0);
-          legL.upperLeg.rotation.set(0, 0, 0); legR.upperLeg.rotation.set(0, 0, 0);
-          legL.lowerLeg.rotation.set(0, 0, 0); legR.lowerLeg.rotation.set(0, 0, 0);
-          armL.shoulder.rotation.set(0, 0, 0.3); armR.shoulder.rotation.set(0, 0, -0.3);
-          armL.lowerArm.rotation.set(0, 0, 0); armR.lowerArm.rotation.set(0, 0, 0);
-          break;
+          // Ayakta duruş
+          const bas = {x:cx, y:by};
+          const boyun = {x:cx, y:by+28};
+          const kalça = {x:cx, y:by+95};
+          const omuzL = {x:boyun.x-26, y:boyun.y+16};
+          const omuzR = {x:boyun.x+26, y:boyun.y+16};
+          const dirsekL = {x:omuzL.x-10, y:omuzL.y+34};
+          const elL = {x:dirsekL.x-6, y:dirsekL.y+28};
+          const dirsekR = {x:omuzR.x+10, y:omuzR.y+34};
+          const elR = {x:dirsekR.x+6, y:dirsekR.y+28};
+          const dizL = {x:kalça.x-16, y:kalça.y+44};
+          const ayakL = {x:dizL.x-6, y:dizL.y+36};
+          const dizR = {x:kalça.x+16, y:kalça.y+44};
+          const ayakR = {x:dizR.x+6, y:dizR.y+36};
+          return {bas,boyun,kalça,omuzL,omuzR,dirsekL,elL,dirsekR,elR,dizL,ayakL,dizR,ayakR,label:'EGZERSİZ'};
         }
       }
-
-      renderer.render(scene, camera);
     };
 
-    animate();
+    const drawLine = (a, b, w=3) => {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.lineWidth = w;
+      ctx.stroke();
+    };
 
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      if (mountRef.current && renderer.domElement.parentNode === mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
+    const drawCircle = (p, r=7) => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI*2);
+      ctx.fill();
+    };
+
+    const draw = () => {
+      t += 0.035;
+      ctx.clearRect(0, 0, width, height);
+
+      // Arka plan
+      ctx.fillStyle = COL.bg;
+      ctx.fillRect(0, 0, width, height);
+
+      // Alt zemin çizgisi
+      ctx.strokeStyle = 'rgba(16,185,129,.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(20, height*0.88);
+      ctx.lineTo(width-20, height*0.88);
+      ctx.stroke();
+
+      const pose = getPose(exerciseId, t);
+
+      // Barfiks çubuğu
+      if (pose.bar) {
+        ctx.strokeStyle = '#6366f1';
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(pose.elL.x-15, pose.barY);
+        ctx.lineTo(pose.elR.x+15, pose.barY);
+        ctx.stroke();
       }
-      skinMaterial.dispose();
-      renderer.dispose();
+
+      ctx.strokeStyle = COL.body;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+
+      // Gövde bağlantıları
+      drawLine(pose.boyun, pose.kalça, 4);
+      drawLine(pose.boyun, pose.omuzL, 3);
+      drawLine(pose.boyun, pose.omuzR, 3);
+      drawLine(pose.omuzL, pose.dirsekL, 3);
+      drawLine(pose.dirsekL, pose.elL, 3);
+      drawLine(pose.omuzR, pose.dirsekR, 3);
+      drawLine(pose.dirsekR, pose.elR, 3);
+      drawLine(pose.kalça, pose.dizL, 4);
+      drawLine(pose.dizL, pose.ayakL, 4);
+      drawLine(pose.kalça, pose.dizR, 4);
+      drawLine(pose.dizR, pose.ayakR, 4);
+
+      // Eklem noktaları
+      ctx.fillStyle = COL.joint;
+      drawCircle(pose.boyun, 5);
+      drawCircle(pose.kalça, 5);
+      drawCircle(pose.omuzL, 4);
+      drawCircle(pose.omuzR, 4);
+      drawCircle(pose.dirsekL, 3.5);
+      drawCircle(pose.dirsekR, 3.5);
+      drawCircle(pose.elL, 3);
+      drawCircle(pose.elR, 3);
+      drawCircle(pose.dizL, 4);
+      drawCircle(pose.dizR, 4);
+
+      // Baş
+      ctx.strokeStyle = COL.body;
+      ctx.fillStyle = COL.bg;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(pose.bas.x, pose.bas.y, 14, 0, Math.PI*2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Label
+      ctx.fillStyle = COL.label;
+      ctx.font = 'bold 10px Nunito, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '2px';
+      ctx.fillText(pose.label || '', width/2, height*0.94);
+
+      raf = requestAnimationFrame(draw);
     };
+
+    draw();
+    return () => cancelAnimationFrame(raf);
   }, [exerciseId, width, height]);
 
-  return <div ref={mountRef} style={{ width: `${width}px`, height: `${height}px`, borderRadius: 16, overflow: 'hidden' }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height}
+      style={{borderRadius:16, display:'block'}}
+    />
+  );
 };
