@@ -855,8 +855,10 @@ export default function App(){
   // ─── SPOR UYGULAMASI ─────────────────────────────────────────
   const [sporAppAcik,setSporAppAcik]=useState(false);
   const [sporAppAdim,setSporAppAdim]=useState(0); // 0=sorular, 1=program sec, 2=antrenman aktif
+  const [sporSoruAdim,setSporSoruAdim]=useState(0); // setup içi soru adımı 0-4
   const [sporEkipman,setSporEkipman]=useState([]); // dambil, barfix, bench, mat
   const [sporHedef,setSporHedefSA]=useState(""); // kilo_ver, kilo_al, kas, form, saglik
+  const [sporBolge,setSporBolge]=useState([]); // karin, omuz, gogus, sirt, bacak, kol
   const [sporSeviye,setSporSeviye]=useState(""); // baslangic, orta, ileri
   const [sporSure2,setSporSure2]=useState(30); // dk
   const [sporGun,setSporGun]=useState(3); // haftada kaç gün
@@ -1624,7 +1626,7 @@ SADECE JSON döndür (başka metin yok):
   };
 
   // PROGRAM ÜRETICI
-  const sporProgramUret=(hedef,seviye,ekipmanlar,sure,gun)=>{
+  const sporProgramUret=(hedef,seviye,ekipmanlar,sure,gun,bolgeler=[])=>{
     const ekip=(e)=>ekipmanlar.includes(e);
     const hepsiVar=(e)=>!e||ekip(e)||e==="yok";
     const egz=Object.values(EGZERSIZ_DB).filter(e=>hepsiVar(e.ekipman));
@@ -3683,116 +3685,229 @@ SADECE JSON döndür (başka metin yok):
             {/* ── ADIM 0: KURULUM SORULARI ─────────────────────── */}
             {sporAppAdim===0&&(
               <div>
-                {/* Hedef */}
-                <div style={{...CS,marginBottom:12}}>
-                  <div style={{fontSize:14,fontWeight:900,color:r.text,marginBottom:12}}>🎯 Hedefin ne?</div>
-                  {[
-                    {v:"kilo_ver",ikon:"🔥",l:"Yağ Yak / Kilo Ver",a:"Kalori yak, formu iyileştir"},
-                    {v:"kas",     ikon:"💪",l:"Kas Geliştir",       a:"Hacim ve güç kazan"},
-                    {v:"kilo_al", ikon:"📈",l:"Kilo Al / Hacim",    a:"Sağlıklı kilo kazan"},
-                    {v:"form",    ikon:"🎯",l:"Formu Koru",         a:"Kondisyonu geliştir"},
-                    {v:"saglik",  ikon:"🌿",l:"Sağlıklı Yaşa",      a:"Genel sağlık ve enerji"},
-                  ].map(o=>(
-                    <button key={o.v} onClick={()=>setSporHedefSA(o.v)}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"11px 14px",
-                        borderRadius:12,border:`2px solid ${sporHedef===o.v?"#1d4ed8":"#e5e7eb"}`,
-                        background:sporHedef===o.v?"#eff6ff":r.inp,marginBottom:8,cursor:"pointer",transition:"all .15s",textAlign:"left"}}>
-                      <span style={{fontSize:22}}>{o.ikon}</span>
-                      <div style={{flex:1}}>
-                        <div style={{fontSize:13,fontWeight:700,color:sporHedef===o.v?"#1d4ed8":r.text}}>{o.l}</div>
-                        <div style={{fontSize:11,color:r.sub}}>{o.a}</div>
-                      </div>
-                      {sporHedef===o.v&&<span style={{color:"#1d4ed8",fontSize:18}}>✓</span>}
-                    </button>
+                {/* Progress bar */}
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:20}}>
+                  {[0,1,2,3,4].map(i=>(
+                    <div key={i} style={{flex:1,height:4,borderRadius:2,
+                      background:i<sporSoruAdim?"#1d4ed8":i===sporSoruAdim?"#1d4ed8":r.inpB,
+                      opacity:i===sporSoruAdim?1:i<sporSoruAdim?0.9:0.3,
+                      transition:"all .3s"}}/>
                   ))}
+                  <span style={{fontSize:11,color:r.sub,whiteSpace:"nowrap"}}>{sporSoruAdim+1}/5</span>
                 </div>
 
-                {/* Seviye */}
-                <div style={{...CS,marginBottom:12}}>
-                  <div style={{fontSize:14,fontWeight:900,color:r.text,marginBottom:10}}>📊 Spor seviyeniz?</div>
-                  <div style={{display:"flex",gap:8}}>
+                {/* Soru 0: Hedef */}
+                {sporSoruAdim===0&&(
+                  <div style={{animation:"ob-rise .4s both"}}>
+                    <div style={{textAlign:"center",marginBottom:20}}>
+                      <div style={{fontSize:36,marginBottom:8}}>🎯</div>
+                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Hedefin ne?</div>
+                      <div style={{fontSize:12,color:r.sub}}>Sana özel bir program hazırlayalım</div>
+                    </div>
                     {[
-                      {v:"baslangic",ikon:"🌱",l:"Başlangıç",a:"Yeni başlıyorum"},
-                      {v:"orta",     ikon:"⚡",l:"Orta",    a:"Düzenli spor yapıyorum"},
-                      {v:"ileri",    ikon:"🔥",l:"İleri",   a:"Yoğun antrenman yapıyorum"},
+                      {v:"kilo_ver",ikon:"🔥",l:"Yağ Yak / Kilo Ver",a:"Kalori yak, formu iyileştir"},
+                      {v:"kas",     ikon:"💪",l:"Kas Geliştir",       a:"Hacim ve güç kazan"},
+                      {v:"kilo_al", ikon:"📈",l:"Kilo Al / Hacim",    a:"Sağlıklı kilo kazan"},
+                      {v:"form",    ikon:"🎯",l:"Formu Koru",         a:"Kondisyonu geliştir"},
+                      {v:"saglik",  ikon:"🌿",l:"Sağlıklı Yaşa",      a:"Genel sağlık ve enerji"},
                     ].map(o=>(
-                      <button key={o.v} onClick={()=>setSporSeviye(o.v)}
-                        style={{flex:1,padding:"10px 6px",borderRadius:12,border:`2px solid ${sporSeviye===o.v?"#7c3aed":"#e5e7eb"}`,
-                          background:sporSeviye===o.v?"#f5f3ff":r.inp,cursor:"pointer",textAlign:"center",transition:"all .15s"}}>
-                        <div style={{fontSize:20}}>{o.ikon}</div>
-                        <div style={{fontSize:12,fontWeight:700,color:sporSeviye===o.v?"#7c3aed":r.text}}>{o.l}</div>
-                        <div style={{fontSize:10,color:r.sub}}>{o.a}</div>
+                      <button key={o.v} onClick={()=>{setSporHedefSA(o.v);setSporSoruAdim(1);}}
+                        style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"14px 16px",
+                          borderRadius:14,border:`2px solid ${sporHedef===o.v?"#1d4ed8":r.inpB}`,
+                          background:sporHedef===o.v?"#eff6ff":r.inp,marginBottom:10,cursor:"pointer",
+                          transition:"all .15s",textAlign:"left"}}>
+                        <span style={{fontSize:26}}>{o.ikon}</span>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:14,fontWeight:700,color:sporHedef===o.v?"#1d4ed8":r.text}}>{o.l}</div>
+                          <div style={{fontSize:11,color:r.sub}}>{o.a}</div>
+                        </div>
+                        {sporHedef===o.v&&<span style={{color:"#1d4ed8",fontSize:20}}>✓</span>}
                       </button>
                     ))}
                   </div>
-                </div>
+                )}
 
-                {/* Ekipman */}
-                <div style={{...CS,marginBottom:12}}>
-                  <div style={{fontSize:14,fontWeight:900,color:r.text,marginBottom:10}}>🏠 Elindeki ekipman?</div>
-                  <div style={{fontSize:11,color:r.sub,marginBottom:10}}>Hiç seçmesen de olur — sadece vücut ağırlığıyla program oluşur</div>
-                  {[
-                    {v:"dambil",  ikon:"🏋️",l:"Dambıl",      a:"1 çift yeter"},
-                    {v:"barfix",  ikon:"🏗️",l:"Barfiks Demiri",a:"Pull-up bar"},
-                    {v:"bench",   ikon:"🪑",l:"Bank / Sedir",  a:"Düz bench"},
-                    {v:"mat",     ikon:"🧘",l:"Egzersiz Matı", a:"Zemin hareketleri için"},
-                    {v:"ip",      ikon:"🪢",l:"Atlama İpi",    a:"Kardiyo için"},
-                    {v:"direnç",  ikon:"🟡",l:"Direnç Bandı",  a:"Kasları aktive et"},
-                  ].map(o=>(
-                    <button key={o.v} onClick={()=>setSporEkipman(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
-                      style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"10px 12px",
-                        borderRadius:10,border:`1.5px solid ${sporEkipman.includes(o.v)?"#16a34a":"#e5e7eb"}`,
-                        background:sporEkipman.includes(o.v)?"#f0fdf4":r.inp,marginBottom:6,cursor:"pointer",transition:"all .15s",textAlign:"left"}}>
-                      <span style={{fontSize:18}}>{o.ikon}</span>
-                      <div style={{flex:1}}>
-                        <div style={{fontSize:13,fontWeight:600,color:sporEkipman.includes(o.v)?"#15803d":r.text}}>{o.l}</div>
-                        <div style={{fontSize:10,color:r.sub}}>{o.a}</div>
+                {/* Soru 1: Bölge */}
+                {sporSoruAdim===1&&(
+                  <div style={{animation:"ob-rise .4s both"}}>
+                    <div style={{textAlign:"center",marginBottom:20}}>
+                      <div style={{fontSize:36,marginBottom:8}}>🎯</div>
+                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Hangi bölgeye odaklanmak istersin?</div>
+                      <div style={{fontSize:12,color:r.sub}}>Birden fazla seçebilirsin</div>
+                    </div>
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:20}}>
+                      {[
+                        {v:"karin",  ikon:"⚡",l:"Karın",      a:"Core & abs"},
+                        {v:"omuz",   ikon:"🏔️",l:"Omuz",       a:"Deltoid & trapez"},
+                        {v:"gogus",  ikon:"🦁",l:"Göğüs",      a:"Pektoral kaslar"},
+                        {v:"sirt",   ikon:"🦅",l:"Sırt",        a:"Lat & rhomboid"},
+                        {v:"bacak",  ikon:"🦵",l:"Bacak",       a:"Quad, hamstring, kalça"},
+                        {v:"kol",    ikon:"💪",l:"Kol",         a:"Biceps & triceps"},
+                      ].map(o=>(
+                        <button key={o.v}
+                          onClick={()=>setSporBolge(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
+                          style={{padding:"14px 10px",borderRadius:14,
+                            border:`2px solid ${sporBolge.includes(o.v)?"#7c3aed":r.inpB}`,
+                            background:sporBolge.includes(o.v)?"#f5f3ff":r.inp,
+                            cursor:"pointer",textAlign:"center",transition:"all .15s"}}>
+                          <div style={{fontSize:28,marginBottom:4}}>{o.ikon}</div>
+                          <div style={{fontSize:13,fontWeight:800,color:sporBolge.includes(o.v)?"#7c3aed":r.text}}>{o.l}</div>
+                          <div style={{fontSize:10,color:r.sub}}>{o.a}</div>
+                          {sporBolge.includes(o.v)&&<div style={{fontSize:10,color:"#7c3aed",fontWeight:700,marginTop:4}}>✓ Seçildi</div>}
+                        </button>
+                      ))}
+                    </div>
+                    <div style={{display:"flex",gap:8}}>
+                      <button onClick={()=>setSporSoruAdim(0)}
+                        style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
+                        ← Geri</button>
+                      <button onClick={()=>setSporSoruAdim(2)}
+                        style={{...BTN("#7c3aed","13px 0"),flex:1,fontSize:14,fontWeight:800}}>
+                        Devam Et →</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Soru 2: Seviye */}
+                {sporSoruAdim===2&&(
+                  <div style={{animation:"ob-rise .4s both"}}>
+                    <div style={{textAlign:"center",marginBottom:20}}>
+                      <div style={{fontSize:36,marginBottom:8}}>📊</div>
+                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Spor seviyeniz nedir?</div>
+                      <div style={{fontSize:12,color:r.sub}}>Dürüst ol — en iyi sonucu bu verir 😊</div>
+                    </div>
+                    {[
+                      {v:"baslangic",ikon:"🌱",l:"Başlangıç",a:"Düzenli spor yapmıyorum veya yeni başlıyorum",renk:"#10b981"},
+                      {v:"orta",     ikon:"⚡",l:"Orta",     a:"Haftada birkaç kez düzenli spor yapıyorum",renk:"#f59e0b"},
+                      {v:"ileri",    ikon:"🔥",l:"İleri",    a:"Yoğun antrenman yapıyorum, formum iyi",renk:"#ef4444"},
+                    ].map(o=>(
+                      <button key={o.v} onClick={()=>{setSporSeviye(o.v);setSporSoruAdim(3);}}
+                        style={{width:"100%",display:"flex",alignItems:"center",gap:14,padding:"16px",
+                          borderRadius:14,border:`2px solid ${sporSeviye===o.v?o.renk:r.inpB}`,
+                          background:sporSeviye===o.v?o.renk+"18":r.inp,marginBottom:10,cursor:"pointer",
+                          transition:"all .15s",textAlign:"left"}}>
+                        <span style={{fontSize:30}}>{o.ikon}</span>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:15,fontWeight:800,color:sporSeviye===o.v?o.renk:r.text}}>{o.l}</div>
+                          <div style={{fontSize:11,color:r.sub,marginTop:2}}>{o.a}</div>
+                        </div>
+                        {sporSeviye===o.v&&<span style={{color:o.renk,fontSize:20}}>✓</span>}
+                      </button>
+                    ))}
+                    <button onClick={()=>setSporSoruAdim(1)}
+                      style={{...BTN("transparent","10px 0"),width:"100%",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
+                      ← Geri</button>
+                  </div>
+                )}
+
+                {/* Soru 3: Ekipman */}
+                {sporSoruAdim===3&&(
+                  <div style={{animation:"ob-rise .4s both"}}>
+                    <div style={{textAlign:"center",marginBottom:20}}>
+                      <div style={{fontSize:36,marginBottom:8}}>🏠</div>
+                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Elindeki ekipman?</div>
+                      <div style={{fontSize:12,color:r.sub}}>Hiç seçmesen de olur — vücut ağırlığıyla da harika program çıkar</div>
+                    </div>
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:20}}>
+                      {[
+                        {v:"dambil",  ikon:"🏋️",l:"Dambıl",         a:"1 çift yeter"},
+                        {v:"barfix",  ikon:"🏗️",l:"Barfiks",         a:"Pull-up bar"},
+                        {v:"bench",   ikon:"🪑",l:"Bank / Sedir",    a:"Düz bench"},
+                        {v:"mat",     ikon:"🧘",l:"Egzersiz Matı",   a:"Zemin hareketleri"},
+                        {v:"ip",      ikon:"🪢",l:"Atlama İpi",      a:"Kardiyo"},
+                        {v:"direnc",  ikon:"🟡",l:"Direnç Bandı",    a:"Kasları aktive et"},
+                      ].map(o=>(
+                        <button key={o.v}
+                          onClick={()=>setSporEkipman(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
+                          style={{padding:"12px 10px",borderRadius:12,
+                            border:`2px solid ${sporEkipman.includes(o.v)?"#16a34a":r.inpB}`,
+                            background:sporEkipman.includes(o.v)?"#f0fdf4":r.inp,
+                            cursor:"pointer",textAlign:"center",transition:"all .15s"}}>
+                          <div style={{fontSize:24,marginBottom:4}}>{o.ikon}</div>
+                          <div style={{fontSize:12,fontWeight:700,color:sporEkipman.includes(o.v)?"#15803d":r.text}}>{o.l}</div>
+                          <div style={{fontSize:10,color:r.sub}}>{o.a}</div>
+                          {sporEkipman.includes(o.v)&&<div style={{fontSize:10,color:"#16a34a",fontWeight:700,marginTop:2}}>✓</div>}
+                        </button>
+                      ))}
+                    </div>
+                    <div style={{display:"flex",gap:8}}>
+                      <button onClick={()=>setSporSoruAdim(2)}
+                        style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
+                        ← Geri</button>
+                      <button onClick={()=>setSporSoruAdim(4)}
+                        style={{...BTN("#16a34a","13px 0"),flex:1,fontSize:14,fontWeight:800}}>
+                        Devam Et →</button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Soru 4: Süre & Gün */}
+                {sporSoruAdim===4&&(
+                  <div style={{animation:"ob-rise .4s both"}}>
+                    <div style={{textAlign:"center",marginBottom:20}}>
+                      <div style={{fontSize:36,marginBottom:8}}>⏱️</div>
+                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Ne kadar zamanın var?</div>
+                      <div style={{fontSize:12,color:r.sub}}>Programa göre süre ve gün ayarlıyoruz</div>
+                    </div>
+
+                    <div style={{...CS,marginBottom:12}}>
+                      <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:12}}>🕐 Antrenman süresi</div>
+                      <div style={{display:"flex",gap:8}}>
+                        {[20,30,45,60].map(dk=>(
+                          <button key={dk} onClick={()=>setSporSure2(dk)}
+                            style={{flex:1,padding:"12px 0",borderRadius:12,
+                              border:`2px solid ${sporSure2===dk?"#1d4ed8":r.inpB}`,
+                              background:sporSure2===dk?"#eff6ff":r.inp,cursor:"pointer",
+                              fontSize:13,fontWeight:800,color:sporSure2===dk?"#1d4ed8":r.sub,
+                              transition:"all .15s"}}>
+                            {dk}<br/><span style={{fontSize:9,fontWeight:600}}>dk</span>
+                          </button>
+                        ))}
                       </div>
-                      {sporEkipman.includes(o.v)&&<span style={{color:"#16a34a"}}>✓</span>}
-                    </button>
-                  ))}
-                </div>
+                    </div>
 
-                {/* Süre ve Gün */}
-                <div style={{...CS,marginBottom:12}}>
-                  <div style={{fontSize:14,fontWeight:900,color:r.text,marginBottom:10}}>⏱️ Antrenman detayları</div>
-                  <div style={{marginBottom:10}}>
-                    <div style={{fontSize:12,fontWeight:700,color:r.sub,marginBottom:6}}>Antrenman süresi</div>
+                    <div style={{...CS,marginBottom:16}}>
+                      <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:12}}>📅 Haftada kaç gün?</div>
+                      <div style={{display:"flex",gap:8}}>
+                        {[2,3,4,5,6].map(g=>(
+                          <button key={g} onClick={()=>setSporGun(g)}
+                            style={{flex:1,padding:"12px 0",borderRadius:12,
+                              border:`2px solid ${sporGun===g?"#1d4ed8":r.inpB}`,
+                              background:sporGun===g?"#eff6ff":r.inp,cursor:"pointer",
+                              fontSize:15,fontWeight:800,color:sporGun===g?"#1d4ed8":r.sub,
+                              transition:"all .15s"}}>
+                            {g}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Özet */}
+                    <div style={{background:"linear-gradient(135deg,#1d4ed818,#7c3aed12)",border:`1px solid ${r.inpB}`,borderRadius:14,padding:"12px 14px",marginBottom:16}}>
+                      <div style={{fontSize:12,fontWeight:800,color:r.text,marginBottom:8}}>📋 Seçimlerinin özeti</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                        {sporHedef&&<span style={{background:"#eff6ff",color:"#1d4ed8",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporHedef.replace("kilo_ver","🔥 Yağ Yak").replace("kas","💪 Kas").replace("kilo_al","📈 Kilo Al").replace("form","🎯 Form").replace("saglik","🌿 Sağlık")}</span>}
+                        {sporBolge.length>0&&sporBolge.map(b=><span key={b} style={{background:"#f5f3ff",color:"#7c3aed",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{b==="karin"?"⚡ Karın":b==="omuz"?"🏔️ Omuz":b==="gogus"?"🦁 Göğüs":b==="sirt"?"🦅 Sırt":b==="bacak"?"🦵 Bacak":"💪 Kol"}</span>)}
+                        {sporSeviye&&<span style={{background:"#f0fdf4",color:"#16a34a",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSeviye==="baslangic"?"🌱 Başlangıç":sporSeviye==="orta"?"⚡ Orta":"🔥 İleri"}</span>}
+                      </div>
+                    </div>
+
                     <div style={{display:"flex",gap:8}}>
-                      {[20,30,45,60].map(dk=>(
-                        <button key={dk} onClick={()=>setSporSure2(dk)}
-                          style={{flex:1,padding:"9px 0",borderRadius:10,border:`1.5px solid ${sporSure2===dk?"#1d4ed8":"#e5e7eb"}`,
-                            background:sporSure2===dk?"#eff6ff":r.inp,cursor:"pointer",
-                            fontSize:12,fontWeight:700,color:sporSure2===dk?"#1d4ed8":r.sub}}>
-                          {dk} dk
-                        </button>
-                      ))}
+                      <button onClick={()=>setSporSoruAdim(3)}
+                        style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
+                        ← Geri</button>
+                      <button onClick={()=>{
+                        if(!sporHedef){setSporSoruAdim(0);return;}
+                        if(!sporSeviye){setSporSoruAdim(2);return;}
+                        const prg=sporProgramUret(sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge);
+                        setSporProgram(prg);
+                        setSporAppAdim(1);
+                      }} style={{...BTN("linear-gradient(135deg,#1d4ed8,#7c3aed)","13px 0"),flex:1,fontSize:14,fontWeight:900}}>
+                        💪 Programımı Oluştur →</button>
                     </div>
                   </div>
-                  <div>
-                    <div style={{fontSize:12,fontWeight:700,color:r.sub,marginBottom:6}}>Haftada kaç gün?</div>
-                    <div style={{display:"flex",gap:8}}>
-                      {[2,3,4,5,6].map(g=>(
-                        <button key={g} onClick={()=>setSporGun(g)}
-                          style={{flex:1,padding:"9px 0",borderRadius:10,border:`1.5px solid ${sporGun===g?"#1d4ed8":"#e5e7eb"}`,
-                            background:sporGun===g?"#eff6ff":r.inp,cursor:"pointer",
-                            fontSize:12,fontWeight:700,color:sporGun===g?"#1d4ed8":r.sub}}>
-                          {g}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                )}
 
-                <button onClick={()=>{
-                  if(!sporHedef){alert("Lütfen hedef seç");return;}
-                  if(!sporSeviye){alert("Lütfen seviye seç");return;}
-                  const prg=sporProgramUret(sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun);
-                  setSporProgram(prg);
-                  setSporAppAdim(1);
-                }} style={{...BTN("#1d4ed8"),width:"100%",padding:"15px 0",fontSize:15,borderRadius:16,fontWeight:900}}>
-                  💪 Programımı Oluştur →
-                </button>
               </div>
             )}
 
@@ -6437,7 +6552,7 @@ SADECE JSON döndür (başka metin yok):
                       const akt=tab===n.id;
                       return(
                       <button key={n.id} onClick={()=>{
-                        if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporProgram(null);setAntBitmis(false);}
+                        if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporSoruAdim(0);setSporProgram(null);setAntBitmis(false);setSporHedefSA("");setSporBolge([]);setSporSeviye("");}
                         else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
                         else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);diyetListesiUret();}
                         else if(n.id==="__alerji__"){setAlerjiModal(true);}
