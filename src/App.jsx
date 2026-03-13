@@ -11454,10 +11454,10 @@ export default function App(){
             }
             // Ekstra AI hak
             setEkstraAiHak(tam.ekstraAiHak||0); // her zaman firebase'den yükle
-            if(tam.alerji) setAlerjiListesi(tam.alerji||[]);
+            // Alerjileri yükle (alerji veya alerjiListesi key'i, her ikisini de dene)
+            const yuklenenAlerji = tam.alerji||tam.alerjiListesi||[];
+            if(yuklenenAlerji.length>0) setAlerjiListesi(yuklenenAlerji);
             if(tam.kiloKayitlar) setKiloKayitlar(tam.kiloKayitlar||[]); // 0 dahil
-            // Alerjileri yükle
-            if(tam.alerjiListesi) setAlerjiListesi(tam.alerjiListesi||[]);
             // Kilo geçmişini yükle
             if(tam.kiloKayitlar) setKiloGecmis(tam.kiloKayitlar||[]);
             // Diyetisyen geçmişini yükle
@@ -11682,7 +11682,7 @@ export default function App(){
       await kullaniciyiGuncelle(uid, {
         kilo:obK, boy:obB, yas:obY, cinsiyet:obC, aktivite:obA, hedef:obHK, onboardTamamlandi:true,
         acik:obAcik, sosyal:obSosyal,
-        hedefTip:obHedef, diyetTip:obDiyet, alerji:obAlerji
+        hedefTip:obHedef, diyetTip:obDiyet, alerji:obAlerji, alerjiListesi:obAlerji
       }).catch(console.error);
       // Aktif kullanıcı nesnesini de güncelle
       setAktif(p=>p?{...p,kilo:obK,boy:obB,yas:obY,cinsiyet:obC,aktivite:obA,hedef:obHK,alerji:obAlerji}:p);
@@ -13067,6 +13067,11 @@ SADECE JSON döndür (başka metin yok):
     <>
       <style>{`
         * { -webkit-tap-highlight-color: transparent; }
+        .ic{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+        .card-glass{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+        @keyframes pulse-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.5);opacity:0}}
+        @keyframes water-fill{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .badge-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.4px}
         @keyframes tabEnter { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
         @keyframes tabExit  { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-6px)} }
         .tab-enter { animation: tabEnter 0.22s cubic-bezier(.34,1.2,.64,1) forwards; }
@@ -13497,7 +13502,10 @@ SADECE JSON döndür (başka metin yok):
               <div style={{...CS,background:`linear-gradient(135deg,${bmiD.renk}12,${bmiD.renk}05)`,border:`1px solid ${bmiD.renk}28`,boxShadow:d?`0 8px 32px ${bmiD.renk}18,0 1px 0 ${bmiD.renk}20`:`0 8px 32px ${bmiD.renk}0e`}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <div>
-                    <div style={{fontSize:10,color:r.sub,fontWeight:700}}>BMI</div>
+                    <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:2}}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={r.sub} strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                      <div style={{fontSize:10,color:r.sub,fontWeight:800,letterSpacing:1}}>BMI</div>
+                    </div>
                     <div style={{fontSize:30,fontWeight:900,color:bmiD.renk}}>{bmi}</div>
                     <div style={{fontSize:13,fontWeight:800,color:bmiD.renk}}>{bmiD.etiket}</div>
                     <div style={{fontSize:11,color:r.sub}}>{bmiD.acik}</div>
@@ -13516,7 +13524,7 @@ SADECE JSON döndür (başka metin yok):
               <div style={{...CS,marginBottom:10}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                   <div>
-                    <div style={CT}>📈 Kilo Takibi</div>
+                    <div style={{...CT,display:"flex",alignItems:"center",gap:6}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Kilo Takibi</div>
                     {profil.hedef&&<div style={{fontSize:11,color:r.sub}}>Hedef: {profil.hedef} kg</div>}
                   </div>
                   <button onClick={()=>setKiloGirModal(true)}
@@ -13636,7 +13644,7 @@ SADECE JSON döndür (başka metin yok):
 
             {/* TDEE + Spor */}
             {tdee&&<div style={{background:"linear-gradient(135deg,#6d28d9,#4f46e5)",borderRadius:20,padding:"14px 18px",margin:"10px 14px",color:"#fff",boxShadow:"0 8px 32px rgba(109,40,217,.25)",border:"1px solid rgba(167,139,250,.15)"}}>
-              <div style={{fontSize:10,opacity:.7,fontWeight:800,letterSpacing:1.5,textTransform:"uppercase"}}>GÜNLÜK YAKIM + SPOR</div>
+              <div style={{display:"flex",alignItems:"center",gap:6,fontSize:10,opacity:.7,fontWeight:800,letterSpacing:1.5,textTransform:"uppercase",marginBottom:2}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>GÜNLÜK YAKIM + SPOR</div>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:4}}>
                 <div>
                   <div style={{fontSize:30,fontWeight:900}}>{HEDEF} <span style={{fontSize:13}}>kcal</span></div>
@@ -13735,7 +13743,7 @@ SADECE JSON döndür (başka metin yok):
 
             {/* SERİ KARTLARI */}
             {(yemekSeri>0||adimSeri>0)&&(
-              <div style={{display:"flex",gap:8,marginBottom:0}}>
+              <div style={{display:"flex",gap:8,marginBottom:0,margin:"0 14px 10px"}}>
                 {yemekSeri>0&&(
                   <div style={{flex:1,background:d?"linear-gradient(145deg,#1c1109,#221408)":"linear-gradient(145deg,#fff7ed,#fef3c7)",border:`1px solid ${yemekSeri>=7?"#f59e0b44":"#fed7aa"}`,borderRadius:16,padding:"14px",boxShadow:"0 4px 16px rgba(234,88,12,.1)"}}>
                     <div style={{fontSize:26,marginBottom:4}}>🍽️</div>
@@ -13807,7 +13815,7 @@ SADECE JSON döndür (başka metin yok):
             {/* SPOR */}
             <div style={CS}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
-                <div style={CT}>Bugünün Sporu</div>
+                <div style={{...CT,display:"flex",alignItems:"center",gap:6}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 5v14M18 5v14M6 12h12M3 7h3M18 7h3M3 17h3M18 17h3"/></svg>Bugünün Sporu</div>
                 <button onClick={()=>setSporModal(true)} style={{background:d?"rgba(16,185,129,.15)":"#ecfdf5",border:"none",borderRadius:12,padding:"7px 14px",fontSize:12,fontWeight:800,color:"#10b981",cursor:"pointer",display:"flex",alignItems:"center",gap:5}}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Spor Ekle
                 </button>
@@ -13848,7 +13856,7 @@ SADECE JSON döndür (başka metin yok):
             {/* SU */}
             <div style={{...CS,cursor:"pointer"}} onClick={()=>setTab("su")}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                <div style={CT}>Su Takibi</div>
+                <div style={{...CT,display:"flex",alignItems:"center",gap:6}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Su Takibi</div>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={r.muted} strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
               </div>
               <div style={{display:"flex",alignItems:"center",gap:16}}>
@@ -15563,7 +15571,7 @@ SADECE JSON döndür (başka metin yok):
                 {/* ─── KİLO TAKİP GRAFİĞİ ─────────────────── */}
                 <div style={CS}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-                    <div style={CT}>📈 Kilo Takibi</div>
+                    <div style={{...CT,display:"flex",alignItems:"center",gap:6}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>Kilo Takibi</div>
                     <button onClick={()=>setKiloGirModal(true)} style={{...BTN("transparent","4px 10px"),color:r.sub,fontSize:11,border:`1px solid ${r.brd}`}}>+ Kaydet</button>
                   </div>
                   {kiloKayitlar.length===0?(
@@ -16319,7 +16327,7 @@ SADECE JSON döndür (başka metin yok):
                       placeholder="Diyetisyene sor..." style={{...IS,flex:1,padding:"11px 14px",fontSize:13,borderRadius:24}}/>
                     <button onClick={diyYaziGonder} disabled={!diyYazi.trim()||diyYukleniyor}
                       style={{...BTN("#16a34a","11px 16px"),borderRadius:24,fontSize:13,opacity:!diyYazi.trim()||diyYukleniyor?.5:1}}>
-                      ➤</button>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
                   </div>
                 </div>
               </div>
@@ -16331,82 +16339,111 @@ SADECE JSON döndür (başka metin yok):
             <div style={{width:248,background:d?"rgba(8,15,10,.97)":"rgba(255,255,255,.97)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",height:"100%",padding:"0 0 24px",overflowY:"auto",boxShadow:d?"6px 0 48px rgba(0,0,0,.7)":"6px 0 48px rgba(13,31,15,.12)",borderRight:d?"1px solid rgba(255,255,255,.06)":"1px solid #e8f0e9"}} onClick={e=>e.stopPropagation()}>
               {/* drawer header */}
               <div style={{background:d?"linear-gradient(160deg,#0a1f0c,#0d2e12)":"linear-gradient(160deg,#052e16,#14532d)",padding:"24px 18px 18px",color:"#fff",marginBottom:8,borderBottom:d?"1px solid rgba(255,255,255,.06)":"none",position:"relative",overflow:"hidden"}}><div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle at 80% 50%,rgba(34,197,94,.15),transparent 60%)",pointerEvents:"none"}}/>
-                <div style={{fontSize:15,fontWeight:900,marginBottom:4}}>🥗 Doya</div>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                  <div style={{width:28,height:28,background:"linear-gradient(145deg,#22c55e,#052e16 90%)",borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 8px #22c55e30"}}>
+                    <svg width="16" height="16" viewBox="0 0 120 120" fill="none"><path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="#dcfce7"/><ellipse cx="60" cy="52" rx="34" ry="8" fill="#bbf7d0"/><path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/></svg>
+                  </div>
+                  <div style={{fontSize:16,fontWeight:900,fontFamily:"'DM Serif Display',serif",letterSpacing:-.3}}>Do<span style={{color:"#4ade80"}}>ya</span></div>
+                </div>
                 <div style={{fontSize:11,opacity:.85}}>{aktif?.isim}</div>
                 <div style={{fontSize:10,opacity:.65,marginTop:1}}>{aktif?.uid}</div>
               </div>
 
-              {[
-                { grup:"Takip", items:[
-                  {id:"su",    ikon:"💧",label:"Su Takibi"},
-                  {id:"takvim",ikon:"📅",label:"Takvim"},
-                ]},
-                ...(sosyalAktif?[{ grup:"Sosyal", items:[
-                  {id:"arkadaslar",ikon:"👥",label:"Arkadaşlar",badge:gelenIstekler.length},
-                ]}]:[]),
-                { grup:"Spor", items:[
-                  {id:"__sporapp__",ikon:"🏋️",label:"Spor Uygulaması"},
-                ]},
-                { grup:"Sağlık AI", items:[
-                  {id:"__diyetisyen__",ikon:"🧑‍⚕️",label:"AI Diyetisyen"},
-                  {id:"__diyetlistesi__",ikon:"📋",label:"Günlük Diyet Listesi"},
-                  {id:"__alerji__",ikon:"🚨",label:"Alerji Yönetimi"},
-                  {id:"__kilotakip__",ikon:"📈",label:"Kilo Takibi"},
-                ]},
+              {(()=>{
+                const HAM_IC={
+                  su:     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>,
+                  takvim: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+                  arkadaslar:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+                  spor:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 5v14M18 5v14M6 12h12M3 7h3M18 7h3M3 17h3M18 17h3"/></svg>,
+                  diyetisyen:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
+                  diyet:  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>,
+                  alerji: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
+                  kilo:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+                  puan:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+                  para:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+                  admin:  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+                };
+                const HAM_C={su:"#3b82f6",takvim:"#8b5cf6",arkadaslar:"#f59e0b",spor:"#10b981",diyetisyen:"#22c55e",diyet:"#16a34a",alerji:"#ef4444",kilo:"#6366f1",puan:"#f59e0b",para:"#059669",admin:"#dc2626"};
+                const groups=[
+                  { grup:"Takip", items:[
+                    {id:"su",    ic:HAM_IC.su,    c:HAM_C.su,    label:"Su Takibi"},
+                    {id:"takvim",ic:HAM_IC.takvim,c:HAM_C.takvim,label:"Takvim"},
+                  ]},
+                  ...(sosyalAktif?[{ grup:"Sosyal", items:[
+                    {id:"arkadaslar",ic:HAM_IC.arkadaslar,c:HAM_C.arkadaslar,label:"Arkadaşlar",badge:gelenIstekler.length},
+                  ]}]:[]),
+                  { grup:"Spor", items:[
+                    {id:"__sporapp__",ic:HAM_IC.spor,c:HAM_C.spor,label:"Spor Uygulaması"},
+                  ]},
+                  { grup:"Sağlık AI", items:[
+                    {id:"__diyetisyen__",ic:HAM_IC.diyetisyen,c:HAM_C.diyetisyen,label:"AI Diyetisyen"},
+                    {id:"__diyetlistesi__",ic:HAM_IC.diyet,c:HAM_C.diyet,label:"Günlük Diyet Listesi"},
+                    {id:"__alerji__",ic:HAM_IC.alerji,c:HAM_C.alerji,label:"Alerji Yönetimi"},
+                    {id:"__kilotakip__",ic:HAM_IC.kilo,c:HAM_C.kilo,label:"Kilo Takibi"},
+                  ]},
+                  { grup:"Kazanç", items:[
+                    ...(isOrtak?[{id:"para",ic:HAM_IC.para,c:HAM_C.para,label:"Para Paneli"}]:[]),
+                    {id:"puan",ic:HAM_IC.puan,c:HAM_C.puan,label:"Puan & Ödüller"},
+                  ]},
+                  ...(isAdmin?[{ grup:"Yönetim", items:[
+                    {id:"admin",ic:HAM_IC.admin,c:HAM_C.admin,label:"Admin Paneli",badge:bekBesin.length+sikayetler.filter(s=>!s.islem).length},
+                  ]}]:[]),
+                ];
+                return groups.map(grp=>(
+                  <div key={grp.grup} style={{marginBottom:4}}>
+                    <div style={{fontSize:9,fontWeight:800,color:r.muted,padding:"12px 18px 5px",textTransform:"uppercase",letterSpacing:2}}>{grp.grup}</div>
+                    {grp.items.map(n=>{
+                      const akt=tab===n.id;
+                      return(
+                      <button key={n.id} onClick={()=>{
+                        if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporProgram(null);setAntBitmis(false);}
+                        else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
+                        else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);diyetListesiUret();}
+                        else if(n.id==="__alerji__"){setAlerjiModal(true);}
+                        else if(n.id==="__kilotakip__"){setKiloGirModal(true);}
+                        else setTab(n.id);
+                        setHamMenu(false);
+                      }} style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"10px 14px 10px 16px",border:"none",background:akt?(d?`${n.c}15`:`${n.c}0a`):"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:akt?800:600,fontSize:13,color:akt?n.c:r.text,borderLeft:`2px solid ${akt?n.c:"transparent"}`,transition:"all .15s"}}>
+                        <div style={{width:32,height:32,borderRadius:10,background:akt?`${n.c}20`:(d?"rgba(255,255,255,.05)":"#f4f4f5"),display:"flex",alignItems:"center",justifyContent:"center",color:akt?n.c:r.sub,flexShrink:0,transition:"all .15s"}}>{n.ic}</div>
+                        <span style={{flex:1,textAlign:"left"}}>{n.label}</span>
+                        {(n.badge||0)>0&&<span style={{background:"#ef4444",color:"#fff",fontSize:9,fontWeight:800,padding:"2px 6px",borderRadius:10,minWidth:16,textAlign:"center"}}>{n.badge}</span>}
+                      </button>
+                    );})}
+                  </div>
+                ));
+              })()}
 
-                { grup:"Kazanç", items:[
-                  ...(isOrtak?[{id:"para",ikon:"💰",label:"Para Paneli"}]:[]),
-                  {id:"puan",  ikon:"🏅",label:"Puan & Ödüller"},
-                ]},
-                ...(isAdmin?[{ grup:"Yönetim", items:[
-                  {id:"admin", ikon:"🔐",label:"Admin Paneli",badge:bekBesin.length+sikayetler.filter(s=>!s.islem).length},
-                ]}]:[]),
-              ].map(grp=>(
-                <div key={grp.grup} style={{marginBottom:4}}>
-                  <div style={{fontSize:10,fontWeight:700,color:r.muted,padding:"10px 18px 4px",textTransform:"uppercase",letterSpacing:1}}>{grp.grup}</div>
-                  {grp.items.map(n=>(
-                    <button key={n.id} onClick={()=>{
-                      if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporProgram(null);setAntBitmis(false);}
-                       else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
-                      else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);diyetListesiUret();}
-                      else if(n.id==="__alerji__"){setAlerjiModal(true);}
-                      else if(n.id==="__kilotakip__"){setKiloGirModal(true);}
-                      else setTab(n.id);
-                      setHamMenu(false);
-                    }}
-                      style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"11px 18px",border:"none",background:tab===n.id?(d?"#1e3a1e":"#f0fdf4"):"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:tab===n.id?800:600,fontSize:14,color:tab===n.id?"#16a34a":r.text,borderLeft:tab===n.id?"3px solid #16a34a":"3px solid transparent"}}>
-                      <span style={{fontSize:18,minWidth:24}}>{n.ikon}</span>
-                      <span style={{flex:1,textAlign:"left"}}>{n.label}</span>
-                      {(n.badge||0)>0&&<span style={{background:"#ef4444",color:"#fff",fontSize:10,fontWeight:800,padding:"1px 6px",borderRadius:10,minWidth:18,textAlign:"center"}}>{n.badge}</span>}
-                    </button>
-                  ))}
-                </div>
-              ))}
-
-              <div style={{borderTop:`1px solid ${r.brd}`,margin:"8px 0"}}/>
+              <div style={{height:1,background:r.brd,margin:"10px 0"}}/>
               <button onClick={()=>{cikis();setHamMenu(false);}}
-                style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"11px 18px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:600,fontSize:14,color:"#ef4444"}}>
-                <span style={{fontSize:18}}>🚪</span> Çıkış Yap
+                style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"10px 16px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,color:"#ef4444"}}>
+                <div style={{width:32,height:32,borderRadius:10,background:"rgba(239,68,68,.1)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </div>
+                Çıkış Yap
               </button>
-
-              <div style={{borderTop:`1px solid ${r.brd}`,margin:"4px 0"}}/>
 
               <button onClick={async()=>{
                 try{
                   const {doc,getDoc}=await import("firebase/firestore");
-                                    const snap=await getDoc(doc(db,"users",firebaseUID));
+                  const snap=await getDoc(doc(db,"users",firebaseUID));
                   const blob=new Blob([JSON.stringify({profil:{isim:aktif?.isim,email:aktif?.email,kilo:aktif?.kilo,boy:aktif?.boy},tarih:new Date().toISOString(),...(snap.data()||{})},null,2)],{type:"application/json"});
                   const a=document.createElement("a");a.href=URL.createObjectURL(blob);
                   a.download=`doya-verilerim-${new Date().toISOString().split("T")[0]}.json`;a.click();
                 }catch(e){alert("Veri indirilemedi.");}
                 setHamMenu(false);
-              }} style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"11px 18px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:600,fontSize:14,color:"#3b82f6"}}>
-                <span style={{fontSize:18}}>📥</span> Verilerimi İndir (GDPR/KVKK)
+              }} style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"10px 16px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,color:"#3b82f6"}}>
+                <div style={{width:32,height:32,borderRadius:10,background:"rgba(59,130,246,.1)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </div>
+                Verilerimi İndir (GDPR/KVKK)
               </button>
 
               <button onClick={()=>{setHesapSilModal(true);setHamMenu(false);}}
-                style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"11px 18px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:600,fontSize:14,color:"#dc2626"}}>
-                <span style={{fontSize:18}}>🗑️</span> Hesabımı Kalıcı Olarak Sil
+                style={{display:"flex",alignItems:"center",gap:12,width:"100%",padding:"10px 16px",border:"none",background:"transparent",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,color:"#dc2626"}}>
+                <div style={{width:32,height:32,borderRadius:10,background:"rgba(220,38,38,.1)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                </div>
+                Hesabımı Kalıcı Olarak Sil
               </button>
             </div>
             {/* overlay - sağda */}
@@ -17511,47 +17548,64 @@ SADECE JSON döndür (başka metin yok):
       </div>
         {/* ════════════════ ALERJİ MODAL ════════════════ */}
         {alerjiModal&&(
-          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setAlerjiModal(false)}>
-            <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34,maxHeight:"80vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-              <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 18px"}}/>
-              <div style={{fontSize:17,fontWeight:900,color:r.text,marginBottom:4}}>🚨 Alerji & Diyet Kısıtları</div>
-              <div style={{fontSize:12,color:r.sub,marginBottom:18}}>Seçtiğin alerjiListesi tariflerde işaretlenecek.</div>
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.72)",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center",backdropFilter:"blur(4px)"}} onClick={()=>setAlerjiModal(false)}>
+            <div className="modal-enter" style={{background:d?"#0e1a10":"#ffffff",width:"100%",maxWidth:430,borderRadius:"28px 28px 0 0",paddingBottom:40,maxHeight:"88vh",overflowY:"auto",boxShadow:"0 -20px 60px rgba(0,0,0,.4)",border:d?"1px solid rgba(255,255,255,.06)":"none"}} onClick={e=>e.stopPropagation()}>
+              {/* Handle */}
+              <div style={{width:36,height:4,background:d?"rgba(255,255,255,.15)":"#e5e7eb",borderRadius:99,margin:"14px auto 20px"}}/>
+              {/* Header */}
+              <div style={{padding:"0 22px 18px",borderBottom:`1px solid ${r.brd}`}}>
+                <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:4}}>
+                  <div style={{width:40,height:40,borderRadius:14,background:"linear-gradient(135deg,#ef444420,#dc262620)",border:"1px solid #ef444430",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  </div>
+                  <div>
+                    <div style={{fontSize:18,fontWeight:900,color:r.text,letterSpacing:-.3}}>Alerji & Kısıtlar</div>
+                    <div style={{fontSize:11,color:r.sub,marginTop:1}}>Seçimler AI önerilerini ve tarifleri etkiler</div>
+                  </div>
+                </div>
+              </div>
+              {/* Liste */}
+              <div style={{padding:"16px 16px 0"}}>
               {[
-                {k:"gluten",    l:"🌾 Gluten",      a:"Buğday, arpa, çavdar içerikli besinler"},
-                {k:"laktoz",    l:"🥛 Laktoz",      a:"Süt ve süt ürünleri"},
-                {k:"yumurta",   l:"🥚 Yumurta",     a:"Yumurta içeren tüm ürünler"},
-                {k:"fındık",    l:"🥜 Kuruyemiş",   a:"Fındık, badem, ceviz, kaju, fıstık"},
-                {k:"soya",      l:"🫘 Soya",         a:"Soya fasulyesi, tofu, tempeh"},
-                {k:"kabuklu",   l:"🦐 Kabuklu Deniz",a:"Karides, midye, yengeç, ıstakoz"},
-                {k:"balık",     l:"🐟 Balık",        a:"Her türlü balık ürünü"},
-                {k:"susam",     l:"🌰 Susam",        a:"Susam ve tahin içeren ürünler"},
-                {k:"vejeteryan",l:"🥗 Vejeteryan",   a:"Et içermeyen beslenme"},
-                {k:"vegan",     l:"🌱 Vegan",        a:"Hiçbir hayvansal ürün yok"},
-                {k:"diyabet",   l:"💉 Diyabet",      a:"Şeker oranı yüksek besinleri işaretle"},
+                {k:"gluten",    l:"Gluten",        a:"Buğday, arpa, çavdar",  ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12c0-2.76 1.12-5.26 2.93-7.07"/><path d="M12 6v6l4 2"/></svg>, c:"#f59e0b"},
+                {k:"laktoz",    l:"Laktoz",        a:"Süt ve süt ürünleri",   ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 2h8l2 4H6L8 2z"/><path d="M6 6v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"/><path d="M10 11h4"/></svg>, c:"#3b82f6"},
+                {k:"yumurta",   l:"Yumurta",       a:"Tüm yumurta içerikli",  ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><ellipse cx="12" cy="13" rx="7" ry="9"/></svg>, c:"#f59e0b"},
+                {k:"kuruyemis", l:"Kuruyemiş",     a:"Fındık, badem, ceviz",  ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8 2 5 6 5 11c0 4 3 7 7 8v1h4v-1c4-1 7-4 7-8 0-5-3-9-7-9z"/></svg>, c:"#92400e"},
+                {k:"soya",      l:"Soya",           a:"Tofu, tempeh, soya sütü",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>, c:"#16a34a"},
+                {k:"kabuklu",   l:"Kabuklu Deniz", a:"Karides, midye, yengeç",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2"/><path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4c.1.17.2.35.28.53"/><path d="m12 6 3.13 5.73C15.66 12.7 16.6 13 17.6 13c.74 0 1.47-.23 2.07-.65"/></svg>, c:"#0284c7"},
+                {k:"balık",     l:"Balık",          a:"Her türlü balık ürünü", ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 3.09 7 6-.94 2.91-3.44 6-7 6s-7.56-3.54-8.5-6z"/><circle cx="17" cy="12" r="1"/><path d="M5 8c-2.05 2-3 3.5-3 4s.95 2 3 4M3.5 18c.5-1.5 2-2 2-4s-1.5-2.5-2-4"/></svg>, c:"#0891b2"},
+                {k:"susam",     l:"Susam",          a:"Susam ve tahin",        ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="2"/><circle cx="6" cy="8" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="18" cy="16" r="2"/></svg>, c:"#d97706"},
+                {k:"vejeteryan",l:"Vejeteryan",    a:"Et ürünleri yok",       ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>, c:"#16a34a"},
+                {k:"vegan",     l:"Vegan",          a:"Hiçbir hayvansal ürün", ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, c:"#059669"},
+                {k:"diyabet",   l:"Diyabet",        a:"Yüksek şekeri işaretle",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>, c:"#e11d48"},
               ].map(item=>{
                 const secili=alerjiListesi.includes(item.k);
                 return(
                   <div key={item.k} onClick={async()=>{
                     const yeni=secili?alerjiListesi.filter(a=>a!==item.k):[...alerjiListesi,item.k];
                     setAlerjiListesi(yeni);
-                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{alerji:yeni}).catch(console.error);
-                  }} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:14,marginBottom:8,cursor:"pointer",
-                    background:secili?(d?"#1a2e1a":"#f0fdf4"):(d?"#1e293b":"#f9fafb"),
-                    border:`1.5px solid ${secili?"#16a34a":r.brd}`,transition:"all .2s"}}>
-                    <div style={{width:22,height:22,borderRadius:"50%",border:`2px solid ${secili?"#16a34a":"#d1d5db"}`,
-                      background:secili?"#16a34a":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                      {secili&&<span style={{color:"#fff",fontSize:12}}>✓</span>}
+                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{alerji:yeni,alerjiListesi:yeni}).catch(console.error);
+                  }} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:16,marginBottom:8,cursor:"pointer",
+                    background:secili?(d?`${item.c}18`:`${item.c}0e`):(d?"rgba(255,255,255,.03)":"#fafafa"),
+                    border:`1.5px solid ${secili?item.c+"55":r.brd}`,transition:"all .2s"}}>
+                    <div style={{width:36,height:36,borderRadius:12,background:secili?`${item.c}20`:(d?"rgba(255,255,255,.05)":"#f4f4f5"),display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:secili?item.c:r.muted,transition:"all .2s"}}>{item.ic}</div>
+                    <div style={{flex:1}}>
+                      <div style={{fontSize:13,fontWeight:800,color:secili?item.c:r.text,letterSpacing:.1}}>{item.l}</div>
+                      <div style={{fontSize:11,color:r.muted,marginTop:1}}>{item.a}</div>
                     </div>
-                    <div>
-                      <div style={{fontSize:13,fontWeight:700,color:r.text}}>{item.l}</div>
-                      <div style={{fontSize:11,color:r.sub}}>{item.a}</div>
+                    <div style={{width:22,height:22,borderRadius:8,border:`2px solid ${secili?item.c:r.brd}`,background:secili?item.c:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}}>
+                      {secili&&<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                     </div>
                   </div>
                 );
               })}
-              <button onClick={()=>setAlerjiModal(false)} style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",background:"#16a34a",color:"#fff",fontWeight:800,fontSize:14,cursor:"pointer",fontFamily:"'Nunito',sans-serif",marginTop:8}}>
-                ✅ Kaydet & Kapat
-              </button>
+              </div>
+              <div style={{padding:"16px 16px 0"}}>
+                <button onClick={()=>setAlerjiModal(false)} style={{width:"100%",padding:"15px 0",borderRadius:16,border:"none",background:"linear-gradient(135deg,#16a34a,#15803d)",color:"#fff",fontWeight:800,fontSize:15,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 8px 24px rgba(22,163,74,.35)",display:"flex",alignItems:"center",justifyContent:"center",gap:8,letterSpacing:.3}}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Kaydet & Kapat
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -17561,7 +17615,7 @@ SADECE JSON döndür (başka metin yok):
           <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setKiloGirModal(false)}>
             <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34}} onClick={e=>e.stopPropagation()}>
               <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 18px"}}/>
-              <div style={{fontSize:17,fontWeight:900,color:r.text,marginBottom:16}}>⚖️ Kilo Kaydet</div>
+              <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}><div style={{width:40,height:40,borderRadius:14,background:"linear-gradient(135deg,#6366f120,#4f46e520)",border:"1px solid #6366f130",display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div style={{fontSize:17,fontWeight:900,color:r.text,letterSpacing:-.3}}>Kilo Kaydet</div></div>
               {(()=>{
                 const [yeniKilo,setYeniKilo]=React.useState(profil.kilo||"");
                 const [not,setNot]=React.useState("");
