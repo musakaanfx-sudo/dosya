@@ -877,7 +877,9 @@ export default function App(){
   const [antAdim,setAntAdim]=useState(0); // kaçıncı egzersizde
   const [antSetTamamla,setAntSetTamamla]=useState({}); // tamamlanan setler
   const [antBitmis,setAntBitmis]=useState(false);
-  const [sporTamGunler,setSporTamGunler]=useState([]); // tamamlanan gün indexleri
+  const [sporTamGunler,setSporTamGunler]=useState([]);
+  const [sporSekme,setSporSekme]=useState("plan"); // plan | kesfet | ilerleme
+  const [sporGecmis,setSporGecmis]=useState([]); // [{tarih,program,sure,kcal,gunBaslik}] // tamamlanan gün indexleri
   const [sporSeciliGun,setSporSeciliGun]=useState(0);  // şu an görüntülenen gün
   const [sporSec,setSporSec]=useState(SPOR_LISTESI[0]);
   const [sporSure,setSporSure]=useState("30");
@@ -1702,7 +1704,7 @@ SADECE JSON döndür (başka metin yok):
   };
 
   // ANTRENMAN BAŞLAT
-  const antrenmanBaslat=(gun,gunIdx=0)=>{
+    const antrenmanBaslat=(gun,gunIdx=0)=>{
     if(antInterval) clearInterval(antInterval);
     setAktifAntrenman({...gun,gunIdx});
     setAntSaniye(0); setAntAdim(0); setAntSetTamamla({}); setAntBitmis(false);
@@ -1730,6 +1732,15 @@ SADECE JSON döndür (başka metin yok):
     if(firebaseUID) await gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
     setAntBitmis(true);
     setSporTamGunler(p=>p.includes(aktifAntrenman?.gunIdx||0)?p:[...p,aktifAntrenman?.gunIdx||0]);
+    setSporGecmis(p=>[{
+      tarih:new Date().toLocaleDateString("tr-TR"),
+      saat:new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}),
+      program:sporProgram?.ad||"Antrenman",
+      gunBaslik:aktifAntrenman?.baslik||"",
+      sure:antSaniye,
+      kcal:Math.round(antSaniye/60*6),
+      egzSayi:aktifAntrenman?.egzersizler?.length||0,
+    },...p].slice(0,30));
     setAktifAntrenman(null);
     setAntInterval(null);
   };
@@ -3529,7 +3540,7 @@ SADECE JSON döndür (başka metin yok):
             </div>
           </div>
           {/* Hareket animasyonu */}
-          <EgzersizAnim egzId={aktifEgz.id} ikon={aktifEgz.ikon}/>
+          <div style={{borderRadius:16,overflow:"hidden",marginBottom:10}}><ExerciseModel3D exerciseId={aktifEgz.id} width={Math.min(window.innerWidth-64,366)} height={220}/></div>
           <div style={{background:r.inp,borderRadius:10,padding:"10px 12px",marginBottom:10,fontSize:12,color:r.sub,lineHeight:1.6}}>
             💡 {aktifEgz.acik}
           </div>
@@ -3672,6 +3683,8 @@ SADECE JSON döndür (başka metin yok):
       <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:92,transition:"background .5s ease",position:"relative"}}>
         {/* Arka plan doku */}
         {d&&<div style={{position:"fixed",inset:0,maxWidth:430,left:"50%",transform:"translateX(-50%)",background:"radial-gradient(ellipse 60% 40% at 50% 0%,rgba(16,185,129,.04) 0%,transparent 70%)",pointerEvents:"none",zIndex:0}}/>}
+
+
 
 
         {/* 3D EGZERSİZ MODAL */}
@@ -4023,116 +4036,215 @@ SADECE JSON döndür (başka metin yok):
               </div>
             )}
 
-            {/* ── ADIM 1: PROGRAM ──────────────────────────────── */}
-            {sporAppAdim===1&&sporProgram&&(
-              <div style={{paddingBottom:16}}>
+                        {/* ── ADIM 1: PROGRAM + ALT SEKMELİ EKRAN ── */}
+            {sporAppAdim===1&&(
+              <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
 
-                {/* ── HERO BANNER ── */}
-                <div style={{margin:"-16px -16px 0",background:"linear-gradient(160deg,#3f0000 0%,#7f1d1d 50%,#dc2626 100%)",padding:"24px 20px 20px",position:"relative",overflow:"hidden",marginBottom:0}}>
-                  {/* Dekoratif daireler */}
-                  <div style={{position:"absolute",top:-40,right:-40,width:160,height:160,borderRadius:"50%",background:"rgba(255,255,255,.04)",pointerEvents:"none"}}/>
-                  <div style={{position:"absolute",bottom:-30,left:-20,width:120,height:120,borderRadius:"50%",background:"rgba(255,255,255,.03)",pointerEvents:"none"}}/>
-                  {/* Seviye badge */}
-                  <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(255,255,255,.12)",borderRadius:20,padding:"4px 12px",marginBottom:12,fontSize:10,fontWeight:800,color:"rgba(255,255,255,.9)",letterSpacing:1.5,textTransform:"uppercase"}}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-                    {sporSeviye==="baslangic"?"Başlangıç Düzeyi":sporSeviye==="orta"?"Orta Düzey":"İleri Düzey"}
-                  </div>
-                  {/* Program adı */}
-                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:700,color:"#fff",lineHeight:1.1,marginBottom:6,letterSpacing:-.5}}>{sporProgram.ad}</div>
-                  {/* Meta bilgiler */}
-                  <div style={{display:"flex",gap:16,fontSize:12,color:"rgba(255,255,255,.75)",marginBottom:16}}>
-                    <span>{sporProgram.gunler.length} günlük döngü</span>
-                    <span>·</span>
-                    <span>{sporProgram.topEgz} egzersiz</span>
-                    <span>·</span>
-                    <span>~{sporSure2} dk/seans</span>
-                  </div>
-                  {/* Progress bar */}
-                  <div style={{marginBottom:8}}>
-                    <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:"rgba(255,255,255,.6)",marginBottom:6}}>
+                {/* ── ALT NAVİGASYON ── */}
+                <div style={{display:"flex",background:d?"rgba(220,38,38,.08)":"rgba(220,38,38,.05)",borderRadius:16,padding:4,gap:4,marginBottom:16}}>
+                  {[
+                    {k:"plan", l:"Önerilen Plan", ikon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>},
+                    {k:"kesfet", l:"Keşfet", ikon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>},
+                    {k:"ilerleme", l:"İlerleme", ikon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>},
+                  ].map(s=>(
+                    <button key={s.k} onClick={()=>setSporSekme(s.k)}
+                      style={{flex:1,padding:"9px 4px",borderRadius:12,border:"none",cursor:"pointer",
+                        background:sporSekme===s.k?"linear-gradient(135deg,#dc2626,#b91c1c)":"transparent",
+                        color:sporSekme===s.k?"#fff":"rgba(220,38,38,.6)",
+                        fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:11,
+                        display:"flex",alignItems:"center",justifyContent:"center",gap:5,
+                        transition:"all .2s",boxShadow:sporSekme===s.k?"0 2px 8px rgba(220,38,38,.3)":"none"}}>
+                      {s.ikon}{s.l}
+                    </button>
+                  ))}
+                </div>
+
+                {/* ══ ÖNERILEN PLAN sekmesi ══ */}
+                {sporSekme==="plan"&&sporProgram&&(<>
+
+                  {/* Hero banner */}
+                  <div style={{margin:"-0px -0px 0",background:"linear-gradient(160deg,#3f0000,#7f1d1d 50%,#dc2626)",padding:"20px",borderRadius:16,position:"relative",overflow:"hidden",marginBottom:14}}>
+                    <div style={{position:"absolute",top:-40,right:-40,width:160,height:160,borderRadius:"50%",background:"rgba(255,255,255,.04)",pointerEvents:"none"}}/>
+                    <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(255,255,255,.12)",borderRadius:20,padding:"4px 12px",marginBottom:10,fontSize:10,fontWeight:800,color:"rgba(255,255,255,.9)",letterSpacing:1.5,textTransform:"uppercase"}}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                      {sporSeviye==="baslangic"?"Başlangıç":sporSeviye==="orta"?"Orta":"İleri"} Düzey
+                    </div>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:700,color:"#fff",lineHeight:1.1,marginBottom:6}}>{sporProgram.ad}</div>
+                    <div style={{display:"flex",gap:12,fontSize:11,color:"rgba(255,255,255,.7)",marginBottom:12}}>
+                      <span>{sporProgram.gunler.length} günlük döngü</span>
+                      <span>·</span><span>{sporProgram.topEgz} egzersiz</span>
+                      <span>·</span><span>~{sporSure2} dk/seans</span>
+                    </div>
+                    <div style={{height:3,background:"rgba(255,255,255,.15)",borderRadius:2}}>
+                      <div style={{height:"100%",width:`${Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%`,background:"#fff",borderRadius:2,transition:"width .5s"}}/>
+                    </div>
+                    <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"rgba(255,255,255,.5)",marginTop:4}}>
                       <span>{sporTamGunler.length} gün tamamlandı</span>
                       <span>{Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%</span>
                     </div>
-                    <div style={{height:4,background:"rgba(255,255,255,.15)",borderRadius:2}}>
-                      <div style={{height:"100%",width:`${Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%`,background:"#fff",borderRadius:2,transition:"width .5s"}}/>
+                  </div>
+
+                  {/* Gün daireleri */}
+                  <div style={{background:d?"rgba(220,38,38,.04)":"rgba(220,38,38,.03)",border:"1px solid rgba(220,38,38,.1)",borderRadius:14,padding:"14px 16px",marginBottom:14}}>
+                    <div style={{fontSize:10,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>Günler</div>
+                    <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+                      {sporProgram.gunler.map((gun,gi)=>{
+                        const tam=sporTamGunler.includes(gi);
+                        const secili=sporSeciliGun===gi;
+                        return(
+                        <button key={gi} onClick={()=>setSporSeciliGun(gi)}
+                          style={{width:44,height:44,borderRadius:"50%",
+                            border:`2px solid ${secili?"#dc2626":tam?"#dc2626":"rgba(220,38,38,.2)"}`,
+                            background:tam?"#dc2626":secili?"rgba(220,38,38,.12)":"transparent",
+                            cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
+                          {tam
+                            ?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                            :<span style={{fontSize:13,fontWeight:900,color:secili?"#dc2626":"rgba(220,38,38,.5)"}}>{gi+1}</span>
+                          }
+                        </button>
+                      );})}
                     </div>
                   </div>
-                </div>
 
-                {/* ── GÜN SEÇİCİ (daire butonlar) ── */}
-                <div style={{background:d?"#0d0000":"#fff0f0",padding:"16px 20px",marginBottom:14,borderBottom:`1px solid rgba(220,38,38,.1)`}}>
-                  <div style={{fontSize:10,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>Günler</div>
-                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                    {sporProgram.gunler.map((gun,gi)=>{
-                      const tam=sporTamGunler.includes(gi);
-                      const secili=sporSeciliGun===gi;
-                      return(
-                      <button key={gi} onClick={()=>setSporSeciliGun(gi)}
-                        style={{width:44,height:44,borderRadius:"50%",border:`2px solid ${secili?"#dc2626":tam?"#dc2626":"rgba(220,38,38,.2)"}`,
-                          background:tam?"#dc2626":secili?"rgba(220,38,38,.12)":"transparent",
-                          cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",transition:"all .2s",position:"relative"}}>
-                        {tam
-                          ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-                          : <span style={{fontSize:13,fontWeight:900,color:secili?"#dc2626":"rgba(220,38,38,.5)"}}>{gi+1}</span>
-                        }
-                      </button>
-                    );})}
-                  </div>
-                </div>
-
-                {/* ── SEÇİLİ GÜNÜN EGZERSİZLERİ ── */}
-                {sporProgram.gunler[sporSeciliGun]&&(()=>{
-                  const gun=sporProgram.gunler[sporSeciliGun];
-                  const tam=sporTamGunler.includes(sporSeciliGun);
-                  return(
-                  <div style={{padding:"0 0 16px"}}>
-                    {/* Gün başlığı + Başlat */}
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,padding:"0 4px"}}>
-                      <div>
-                        <div style={{fontSize:16,fontWeight:900,color:r.text}}>{gun.baslik}</div>
-                        <div style={{fontSize:11,color:r.sub,marginTop:2}}>{gun.egzersizler.length} egzersiz · ~{sporSure2} dk</div>
-                      </div>
-                      <button onClick={()=>antrenmanBaslat(gun,sporSeciliGun)}
-                        style={{background:tam?"rgba(220,38,38,.12)":"linear-gradient(135deg,#dc2626,#b91c1c)",border:tam?"1.5px solid rgba(220,38,38,.3)":"none",borderRadius:14,padding:"11px 22px",color:tam?"#dc2626":"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",gap:8,boxShadow:tam?"none":"0 4px 16px rgba(220,38,38,.35)"}}>
-                        {tam
-                          ? <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>Tekrar Yap</>
-                          : <><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Başlat</>
-                        }
-                      </button>
-                    </div>
-
-                    {/* Egzersiz listesi */}
-                    {gun.egzersizler.map((e,ei)=>(
-                      <div key={ei} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.05)"}`,marginBottom:8,boxShadow:"0 1px 4px rgba(0,0,0,.06)"}}>
-                        <div style={{width:40,height:40,borderRadius:12,background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:20}}>{e.ikon}</div>
-                        <div style={{flex:1,minWidth:0}}>
-                          <div style={{fontSize:13,fontWeight:800,color:r.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{e.ad}</div>
-                          <div style={{fontSize:10,color:r.sub,marginTop:1}}>{e.kas}</div>
+                  {/* Seçili gün */}
+                  {sporProgram.gunler[sporSeciliGun]&&(()=>{
+                    const gun=sporProgram.gunler[sporSeciliGun];
+                    const tam=sporTamGunler.includes(sporSeciliGun);
+                    return(
+                    <div>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+                        <div>
+                          <div style={{fontSize:15,fontWeight:900,color:r.text}}>{gun.baslik}</div>
+                          <div style={{fontSize:11,color:r.sub}}>{gun.egzersizler.length} egzersiz · ~{sporSure2} dk</div>
                         </div>
-                        <div style={{textAlign:"right",flexShrink:0}}>
-                          <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{e.set} × {e.rep}</div>
-                          <div style={{fontSize:10,color:r.sub,marginTop:1}}>~{Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60)} kcal</div>
-                        </div>
-                        <button onClick={()=>setModel3D({exerciseId:e.id,ad:e.ad})}
-                          style={{background:"rgba(220,38,38,.1)",border:"1px solid rgba(220,38,38,.2)",borderRadius:10,padding:"7px 9px",color:"#dc2626",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",gap:3,fontSize:10,fontWeight:800}}>
-                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>3D
+                        <button onClick={()=>antrenmanBaslat(gun,sporSeciliGun)}
+                          style={{background:tam?"rgba(220,38,38,.1)":"linear-gradient(135deg,#dc2626,#b91c1c)",border:tam?"1.5px solid rgba(220,38,38,.3)":"none",borderRadius:14,padding:"11px 22px",color:tam?"#dc2626":"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",gap:8,boxShadow:tam?"none":"0 4px 16px rgba(220,38,38,.35)"}}>
+                          {tam?<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>Tekrar</>:<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Başlat</>}
                         </button>
                       </div>
-                    ))}
-
-                    {/* Toplam kalori */}
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"12px",background:"rgba(220,38,38,.06)",border:"1px solid rgba(220,38,38,.12)",borderRadius:14,marginTop:4}}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>
-                      <span style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>Tahmini yakım: ~{gun.egzersizler.reduce((t,e)=>t+Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60),0)} kcal</span>
+                      {gun.egzersizler.map((e,ei)=>(
+                        <div key={ei} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.04)"}`,marginBottom:8}}>
+                          <div style={{width:40,height:40,borderRadius:12,background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:20}}>{e.ikon}</div>
+                          <div style={{flex:1}}>
+                            <div style={{fontSize:13,fontWeight:800,color:r.text}}>{e.ad}</div>
+                            <div style={{fontSize:10,color:r.sub}}>{e.kas}</div>
+                          </div>
+                          <div style={{textAlign:"right",flexShrink:0}}>
+                            <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{e.set} × {e.rep}</div>
+                            <div style={{fontSize:10,color:r.sub}}>~{Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60)} kcal</div>
+                          </div>
+                          <button onClick={()=>setModel3D({exerciseId:e.id,ad:e.ad})}
+                            style={{background:"rgba(220,38,38,.1)",border:"1px solid rgba(220,38,38,.2)",borderRadius:10,padding:"7px 9px",color:"#dc2626",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",gap:3,fontSize:10,fontWeight:800}}>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>3D
+                          </button>
+                        </div>
+                      ))}
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"11px",background:"rgba(220,38,38,.06)",border:"1px solid rgba(220,38,38,.12)",borderRadius:14,marginTop:4}}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>
+                        <span style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>~{gun.egzersizler.reduce((t,e)=>t+Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60),0)} kcal yakım</span>
+                      </div>
                     </div>
-                  </div>
-                );})()}
+                  );})()}
 
-                <button onClick={()=>{setSporAppAdim(0);setSporSoruAdim(-1);setSporTamGunler([]);setSporSeciliGun(0);}}
-                  style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,width:"100%",padding:"11px 0",borderRadius:14,border:"1.5px solid rgba(220,38,38,.2)",background:"transparent",color:"rgba(220,38,38,.7)",fontSize:13,fontWeight:700,cursor:"pointer",marginTop:8}}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
-                  Yeniden Oluştur
-                </button>
+                  <button onClick={()=>{setSporAppAdim(0);setSporSoruAdim(-1);setSporTamGunler([]);setSporSeciliGun(0);}}
+                    style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,width:"100%",padding:"11px 0",borderRadius:14,border:"1.5px solid rgba(220,38,38,.2)",background:"transparent",color:"rgba(220,38,38,.7)",fontSize:13,fontWeight:700,cursor:"pointer",marginTop:12}}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+                    Yeniden Oluştur
+                  </button>
+                </>)}
+
+                {/* ══ KEŞFETsekmesi ══ */}
+                {sporSekme==="kesfet"&&(
+                  <div>
+                    <div style={{fontSize:11,fontWeight:700,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:14}}>Egzersiz Kategorileri</div>
+                    {[
+                      {baslik:"Karın & Core",renk:"#dc2626",icon:"💪",egzler:["Plank","Crunch","Mountain Climber","Leg Raise","Bicycle Crunch"]},
+                      {baslik:"Bacak & Kalça",renk:"#b91c1c",icon:"🦵",egzler:["Squat","Lunge","Hip Thrust","Calf Raise","Glut Bridge"]},
+                      {baslik:"Göğüs & Sırt",renk:"#991b1b",icon:"🏋️",egzler:["Şınav","Pull-Up","Dambıl Press","Dambıl Row","Superman"]},
+                      {baslik:"Omuz & Kol",renk:"#7f1d1d",icon:"💪",egzler:["Lateral Raise","Omuz Press","Biceps Curl","Triceps Dips","Hammer Curl"]},
+                      {baslik:"Kardiyo",renk:"#dc2626",icon:"🔥",egzler:["Jumping Jack","High Knees","Burpee","Squat Jump","Mountain Climber"]},
+                    ].map((kat,ki)=>(
+                      <div key={ki} style={{background:r.card,border:`1px solid ${kat.renk}22`,borderRadius:16,padding:"14px",marginBottom:10}}>
+                        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10}}>
+                          <div style={{width:38,height:38,borderRadius:11,background:`${kat.renk}18`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>{kat.icon}</div>
+                          <div style={{fontSize:14,fontWeight:900,color:r.text}}>{kat.baslik}</div>
+                        </div>
+                        <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                          {kat.egzler.map((e,ei)=>(
+                            <span key={ei} style={{background:`${kat.renk}12`,border:`1px solid ${kat.renk}25`,color:kat.renk,borderRadius:20,padding:"4px 12px",fontSize:11,fontWeight:700}}>{e}</span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* ══ İLERLEME sekmesi ══ */}
+                {sporSekme==="ilerleme"&&(
+                  <div>
+                    {/* Özet kartlar */}
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
+                      {[
+                        {l:"Tamamlanan Gün",v:sporTamGunler.length,ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>},
+                        {l:"Toplam Antrenman",v:sporGecmis.length,ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>},
+                        {l:"Toplam Süre",v:sporGecmis.reduce((t,g)=>t+Math.floor(g.sure/60),0)+" dk",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>},
+                        {l:"Yakılan Kalori",v:sporGecmis.reduce((t,g)=>t+g.kcal,0)+" kcal",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>},
+                      ].map((s,i)=>(
+                        <div key={i} style={{background:r.card,border:"1px solid rgba(220,38,38,.12)",borderRadius:14,padding:"14px 12px"}}>
+                          <div style={{marginBottom:6}}>{s.ikon}</div>
+                          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:700,color:"#dc2626",lineHeight:1}}>{s.v}</div>
+                          <div style={{fontSize:10,color:r.sub,marginTop:4,fontWeight:700}}>{s.l}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Program ilerlemesi */}
+                    {sporProgram&&(
+                      <div style={{background:r.card,border:"1px solid rgba(220,38,38,.12)",borderRadius:16,padding:"14px",marginBottom:14}}>
+                        <div style={{fontSize:12,fontWeight:800,color:r.text,marginBottom:4}}>{sporProgram.ad}</div>
+                        <div style={{fontSize:10,color:r.sub,marginBottom:10}}>{sporTamGunler.length} / {sporProgram.gunler.length} gün tamamlandı</div>
+                        <div style={{height:8,background:d?"rgba(255,255,255,.06)":"rgba(220,38,38,.08)",borderRadius:4,overflow:"hidden"}}>
+                          <div style={{height:"100%",width:`${Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%`,background:"linear-gradient(90deg,#dc2626,#ef4444)",borderRadius:4,transition:"width .5s"}}/>
+                        </div>
+                        <div style={{display:"flex",gap:6,marginTop:10,flexWrap:"wrap"}}>
+                          {sporProgram.gunler.map((_,gi)=>(
+                            <div key={gi} style={{width:28,height:28,borderRadius:"50%",background:sporTamGunler.includes(gi)?"#dc2626":d?"rgba(255,255,255,.06)":"rgba(220,38,38,.06)",border:`1px solid ${sporTamGunler.includes(gi)?"#dc2626":"rgba(220,38,38,.15)"}`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                              {sporTamGunler.includes(gi)
+                                ?<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                                :<span style={{fontSize:10,fontWeight:700,color:"rgba(220,38,38,.4)"}}>{gi+1}</span>
+                              }
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Geçmiş antrenmanlar */}
+                    <div style={{fontSize:11,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Geçmiş Antrenmanlar</div>
+                    {sporGecmis.length===0&&(
+                      <div style={{textAlign:"center",color:r.muted,padding:"32px 0",fontSize:13}}>
+                        <div style={{fontSize:32,marginBottom:8}}>🏋️</div>
+                        Henüz antrenman yapmadın.<br/>İlk antrenmandan sonra burada görünecek.
+                      </div>
+                    )}
+                    {sporGecmis.map((g,i)=>(
+                      <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.04)"}`,marginBottom:8}}>
+                        <div style={{width:40,height:40,borderRadius:12,background:"rgba(220,38,38,.12)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><path d="M6.5 6.5h11M4 12h16"/></svg>
+                        </div>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontSize:13,fontWeight:800,color:r.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{g.gunBaslik||g.program}</div>
+                          <div style={{fontSize:10,color:r.sub,marginTop:2}}>{g.tarih} · {g.saat}</div>
+                        </div>
+                        <div style={{textAlign:"right",flexShrink:0}}>
+                          <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{g.kcal} kcal</div>
+                          <div style={{fontSize:10,color:r.sub}}>{Math.floor(g.sure/60)} dk</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
               </div>
             )}
 
@@ -4883,8 +4995,9 @@ SADECE JSON döndür (başka metin yok):
                       <div style={{fontSize:32}}>📷</div>
                       <div style={{fontSize:12,fontWeight:800,color:"#10b981"}}>Fotoğraf Çek</div>
                       <div style={{fontSize:10,color:r.muted}}>Kamera ile çek</div>
-                      <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={async e=>{
+                      <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={e=>{
                         const file=e.target.files?.[0]; if(!file)return;
+                        const doAI=async()=>{
                         setHizliEkleYuk(true);setHizliSonuc(null);
                         const yeni=aiGunlukKullanim+1;setAiGunlukKullanim(yeni);
                         try{
@@ -4913,14 +5026,17 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                           };
                           reader.readAsDataURL(file);
                         }catch(err){setHizliEkleYuk(false);}
-                      }}/>
+                        };
+                        interstitialGoster(doAI);
+                        }}/>
                     </label>
                     <label style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,padding:"18px 10px",borderRadius:16,border:`2px dashed rgba(99,102,241,.35)`,background:d?"rgba(99,102,241,.04)":"rgba(99,102,241,.03)",cursor:"pointer"}}>
                       <div style={{fontSize:32}}>🖼️</div>
                       <div style={{fontSize:12,fontWeight:800,color:"#6366f1"}}>Galeriden Seç</div>
                       <div style={{fontSize:10,color:r.muted}}>Kayıtlı fotoğraf</div>
-                      <input type="file" accept="image/*" style={{display:"none"}} onChange={async e=>{
+                      <input type="file" accept="image/*" style={{display:"none"}} onChange={e=>{
                         const file=e.target.files?.[0]; if(!file)return;
+                        const doAI=async()=>{
                         setHizliEkleYuk(true);setHizliSonuc(null);
                         const yeni=aiGunlukKullanim+1;setAiGunlukKullanim(yeni);
                         try{
@@ -4949,7 +5065,9 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                           };
                           reader.readAsDataURL(file);
                         }catch(err){setHizliEkleYuk(false);}
-                      }}/>
+                        };
+                        interstitialGoster(doAI);
+                        }}/>
                     </label>
                   </div>
                   {!premium&&!premiumPlus&&(
@@ -8523,3 +8641,4 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     />
   );
 };
+
