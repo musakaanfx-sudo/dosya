@@ -3801,7 +3801,7 @@ SADECE JSON döndür (başka metin yok):
                       {v:"saglik",   l:"Sağlıklı Yaşa",       a:"Genel sağlık ve enerji",
                         ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>},
                     ].map(o=>{
-                      const sel=sporHedefSA===o.v||sporHedef===o.v;
+                      const sel=sporHedef===o.v||sporHedef===o.v;
                       return(
                       <button key={o.v} onClick={()=>{setSporHedefSA(o.v);setSporSoruAdim(1);}}
                         style={{width:"100%",display:"flex",alignItems:"center",gap:14,padding:"14px 16px",
@@ -4001,7 +4001,7 @@ SADECE JSON döndür (başka metin yok):
                         <div style={{fontSize:12,fontWeight:800,color:d?"#fca5a5":"#7f1d1d"}}>Seçimlerinin özeti</div>
                       </div>
                       <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                        {sporHedefSA&&<span style={{background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporHedefSA.replace("kilo_ver","Yağ Yak").replace("kas","Kas").replace("kilo_al","Kilo Al").replace("form","Form").replace("saglik","Sağlık")}</span>}
+                        {sporHedef&&<span style={{background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporHedef.replace("kilo_ver","Yağ Yak").replace("kas","Kas").replace("kilo_al","Kilo Al").replace("form","Form").replace("saglik","Sağlık")}</span>}
                         {sporBolge.map(b=><span key={b} style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{b==="karin"?"Karın":b==="omuz"?"Omuz":b==="gogus"?"Göğüs":b==="sirt"?"Sırt":b==="bacak"?"Bacak":"Kol"}</span>)}
                         {sporSeviye&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSeviye==="baslangic"?"Başlangıç":sporSeviye==="orta"?"Orta":"İleri"}</span>}
                         {sporSure2&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSure2} dk</span>}
@@ -4012,9 +4012,9 @@ SADECE JSON döndür (başka metin yok):
                     <div style={{display:"flex",gap:8}}>
                       <button onClick={()=>setSporSoruAdim(3)} style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
                       <button onClick={()=>{
-                        if(!sporHedefSA&&!sporHedef){setSporSoruAdim(0);return;}
+                        if(!sporHedef&&!sporHedef){setSporSoruAdim(0);return;}
                         if(!sporSeviye){setSporSoruAdim(2);return;}
-                        const prg=sporProgramUret(sporHedefSA||sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge);
+                        const prg=sporProgramUret(sporHedef||sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge);
                         setSporProgram(prg);setSporAppAdim(1);
                       }} style={{flex:1,padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
                         background:"linear-gradient(135deg,#dc2626,#b91c1c)",color:"#fff",
