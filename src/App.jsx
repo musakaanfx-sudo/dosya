@@ -35,36 +35,36 @@ const LANG = {
     devam: "Devam →",
     slides: [
       {
-        ikon: "🥗",
-        baslik: "Doya ile Sağlıklı Beslen",
-        acik: "1.900+ besin içeren dev veritabanıyla her yediğini saniyeler içinde kaydet. Kalori, protein, karbonhidrat ve vitamin takibini kolaylaştır.",
-        renk: "linear-gradient(145deg,#052e16,#15803d)",
-        vurgu: "#4ade80",
-        detaylar: ["🍔 1.900+ besin", "📊 Makro takibi", "💊 Vitamin analizi"],
+        baslik: "10.000+ Besin",
+        alt: "Kalori & Makro Takibi",
+        acik: "Dev veritabanından saniyeler içinde ara, ekle. Protein, karbonhidrat, yağ ve vitamin değerlerini günlük olarak takip et.",
+        renk: "#10b981",
+        ic: ["Kalori & makro takibi","Öğün bazlı gruplama","Su & kilo takibi"],
+        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="2" fill="#34d399" stroke="none" opacity=".6"/></svg>`,
       },
       {
-        ikon: "📷",
-        baslik: "Fotoğrafla Kalori Tara",
-        acik: "Yapay zeka destekli kamera ile yemeğini fotoğrafla — anında kalori ve besin değerlerini öğren. Premium Plus üyelerine günde 10 analiz hakkı.",
-        renk: "linear-gradient(145deg,#1e1b4b,#4338ca)",
-        vurgu: "#a5b4fc",
-        detaylar: ["🤖 AI analiz", "📸 Fotoğrafla tara", "⚡ Anında sonuç"],
+        baslik: "AI ile Analiz",
+        alt: "Fotoğrafla Kalori Tara",
+        acik: "Yemeğini fotoğrafla, yapay zeka tüm besin değerlerini anında hesaplasın. Öğünü tek tıkla günlüğüne ekle.",
+        renk: "#6366f1",
+        ic: ["Fotoğrafla besin tanıma","Anında kalori tahmini","Otomatik öğüne ekle"],
+        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" strokeWidth="1" strokeLinecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/><circle cx="12" cy="13" r="1.5" fill="#a5b4fc" stroke="none" opacity=".6"/></svg>`,
       },
       {
-        ikon: "🏆",
-        baslik: "Puan Kazan & Yarış",
-        acik: "Her kayıtta puan kazan, arkadaşlarınla beslenme yarışması yap. Seri sistemiyle alışkanlıklarını güçlendir, liderlik tablosuna çık!",
-        renk: "linear-gradient(145deg,#78350f,#d97706)",
-        vurgu: "#fde68a",
-        detaylar: ["🔥 Günlük seri", "👥 Arkadaş yarışı", "🥇 Liderlik tablosu"],
+        baslik: "AI Diyet Planı",
+        alt: "Kişiselleştirilmiş Günlük Plan",
+        acik: "Hedefine, alerjen ve beslenme tarzına göre her gün taze bir diyet planı oluşturulsun. Sabah kahvaltısından gece atıştırmalığına kadar.",
+        renk: "#c8922a",
+        ic: ["Günlük kişisel plan","Alerji & diyet uyumu","AI beslenme danışmanı"],
+        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" strokeWidth="1" strokeLinecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
       },
       {
-        ikon: "🍳",
-        baslik: "Sporcu Tarifleri",
-        acik: "40+ sağlıklı ve sporcu tarifi keşfet. Makro değerleri hazır, tek tıkla öğününe ekle. Protein, karbonhidrat ve yağ dengeni kolayca kur.",
-        renk: "linear-gradient(145deg,#064e3b,#059669)",
-        vurgu: "#6ee7b7",
-        detaylar: ["💪 40+ tarif", "⭐ Yıldızlı öneriler", "🍽️ Öğüne ekle"],
+        baslik: "Sağlık Takibi",
+        alt: "Kilo · BMI · TDEE · Su",
+        acik: "Kilo değişimini grafikle izle, BMI ve günlük kalori hedefini öğren. Su tüketiminizi kaydet, oruç saatlerini takip et.",
+        renk: "#0891b2",
+        ic: ["Kilo grafiği & BMI","TDEE hesaplama","Aralıklı oruç takibi"],
+        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1" strokeLinecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
       },
     ],
   },
@@ -92,20 +92,20 @@ const LANG = {
         detaylar: ["🤖 AI powered", "📸 Photo scan", "⚡ Instant results"],
       },
       {
-        ikon: "🏆",
-        baslik: "Earn Points & Compete",
-        acik: "Earn points with every log, compete with friends and climb the leaderboard. Build streaks and make healthy eating a habit!",
-        renk: "linear-gradient(145deg,#78350f,#d97706)",
-        vurgu: "#fde68a",
-        detaylar: ["🔥 Daily streaks", "👥 Friend battles", "🥇 Leaderboard"],
+        ikon: "diyetisyen",
+        baslik: "Your Personal AI Dietitian",
+        acik: "Chat with your 24/7 AI dietitian anytime. Get personalized meal plans tailored to your goal, allergies, and diet style.",
+        renk: "#030604",
+        vurgu: "#34d399",
+        detaylar: ["24/7 access", "Personal plans", "Allergy-aware"],
       },
       {
-        ikon: "🍳",
-        baslik: "Athlete Recipes",
-        acik: "Explore 40+ healthy and athlete-focused recipes. Macros ready, add to your meal with one tap. Balance your protein and carbs easily.",
-        renk: "linear-gradient(145deg,#064e3b,#059669)",
-        vurgu: "#6ee7b7",
-        detaylar: ["💪 40+ recipes", "⭐ Star rated", "🍽️ Add to meal"],
+        ikon: "saglik",
+        baslik: "Full Health Tracking",
+        acik: "Track your weight with charts, monitor water intake, and practice intermittent fasting. Reach your goals.",
+        renk: "#030604",
+        vurgu: "#60a5fa",
+        detaylar: ["Weight charts", "Water tracking", "Fasting mode"],
       },
     ],
   },
@@ -12283,124 +12283,158 @@ SADECE JSON döndür (başka metin yok):
     return (
       <>
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-        <div style={{fontFamily:"'Nunito',sans-serif",minHeight:"100vh",maxWidth:430,margin:"0 auto",background:"linear-gradient(160deg,#052e16 0%,#15803d 50%,#16a34a 100%)",display:"flex",flexDirection:"column",position:"relative",overflow:"hidden"}}>
-
-          {/* Dekoratif nokta desen */}
-          <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle,#ffffff0a 1px,transparent 1px)",backgroundSize:"30px 30px",pointerEvents:"none"}}/>
-          {/* Glow efekti */}
-          <div style={{position:"absolute",top:-80,right:-80,width:300,height:300,background:"radial-gradient(#4ade8022,transparent 70%)",pointerEvents:"none"}}/>
-          <div style={{position:"absolute",bottom:-60,left:-60,width:250,height:250,background:"radial-gradient(#22c55e18,transparent 70%)",pointerEvents:"none"}}/>
+        <style>{`
+          @keyframes w-rise { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+          @keyframes w-glow { 0%,100%{opacity:.2} 50%{opacity:.45} }
+          @keyframes w-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+          @keyframes w-check { from{transform:scale(0) rotate(-15deg);opacity:0} to{transform:scale(1) rotate(0);opacity:1} }
+          .w1{animation:w-rise .6s .05s both cubic-bezier(.34,1.1,.64,1)}
+          .w2{animation:w-rise .6s .15s both cubic-bezier(.34,1.1,.64,1)}
+          .w3{animation:w-rise .6s .25s both cubic-bezier(.34,1.1,.64,1)}
+          .w4{animation:w-rise .6s .35s both cubic-bezier(.34,1.1,.64,1)}
+          .w5{animation:w-rise .6s .45s both cubic-bezier(.34,1.1,.64,1)}
+          .w-float{animation:w-float 4s ease-in-out infinite}
+          button:active{transform:scale(.96)!important}
+          ::-webkit-scrollbar{width:0}
+        `}</style>
+        <div style={{fontFamily:"'Nunito',sans-serif",minHeight:"100vh",maxWidth:430,margin:"0 auto",background:"#030604",display:"flex",flexDirection:"column",position:"relative",overflow:"hidden"}}>
 
           {/* Üst bar */}
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 20px",position:"relative",zIndex:2}}>
-            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:26,color:"#f0fdf4",lineHeight:1}}>Do<span style={{color:"#86efac"}}>ya</span></div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"18px 22px",position:"relative",zIndex:2}}>
+            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:24,color:"#e8f5ec",lineHeight:1,fontWeight:300,letterSpacing:.5}}>Doya</div>
             {welcomeSlide > 0 && (
-              <button onClick={welcomeBit} style={{background:"rgba(255,255,255,.15)",border:"none",borderRadius:20,padding:"5px 14px",color:"#f0fdf4",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
-                {L.atla}
+              <button onClick={welcomeBit} style={{background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.07)",borderRadius:99,padding:"5px 16px",color:"rgba(255,255,255,.35)",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.5}}>
+                Atla
               </button>
             )}
           </div>
 
           {/* DİL SEÇİM EKRANI */}
           {welcomeSlide===0&&(
-            <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"0 28px 40px",position:"relative",zIndex:2}}>
-              <div style={{fontSize:64,marginBottom:16,filter:"drop-shadow(0 4px 12px #0004)"}}>🌍</div>
-              <div style={{fontSize:24,fontWeight:900,color:"#f0fdf4",marginBottom:6,textAlign:"center"}}>{L.dilSec}</div>
-              <div style={{fontSize:13,color:"#86efac",marginBottom:36,textAlign:"center",opacity:.85}}>Select Language / Dil Seçin</div>
+            <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"0 28px 48px",position:"relative",zIndex:2}}>
+              {/* Glow */}
+              <div style={{position:"absolute",top:"20%",left:"50%",transform:"translateX(-50%)",width:280,height:200,background:"radial-gradient(ellipse,rgba(16,185,129,.06) 0%,transparent 70%)",animation:"w-glow 5s ease-in-out infinite",pointerEvents:"none"}}/>
 
-              <div style={{display:"flex",flexDirection:"column",gap:12,width:"100%",maxWidth:280}}>
-                {[{k:"tr",ad:"🇹🇷 Türkçe"},{k:"en",ad:"🇬🇧 English"},{k:"de",ad:"🇩🇪 Deutsch"},{k:"it",ad:"🇮🇹 Italiano"},{k:"fr",ad:"🇫🇷 Français"},{k:"es",ad:"🇪🇸 Español"}].map(l=>(
+              <div className="w1 w-float" style={{marginBottom:28}}>
+                <div style={{width:80,height:80,borderRadius:28,background:"linear-gradient(145deg,rgba(16,185,129,.12),rgba(16,185,129,.02))",border:"1px solid rgba(16,185,129,.15)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+              </div>
+              <div className="w2" style={{textAlign:"center",marginBottom:36}}>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,color:"#f0fdf4",fontWeight:300,letterSpacing:-.5,marginBottom:8}}>Dil Seçin</div>
+                <div style={{fontSize:10,color:"rgba(52,211,153,.35)",letterSpacing:3,textTransform:"uppercase"}}>Select Language</div>
+              </div>
+
+              <div className="w3" style={{display:"flex",flexDirection:"column",gap:8,width:"100%",maxWidth:300}}>
+                {[{k:"tr",ad:"Türkçe",fl:"🇹🇷"},{k:"en",ad:"English",fl:"🇬🇧"},{k:"de",ad:"Deutsch",fl:"🇩🇪"},{k:"it",ad:"Italiano",fl:"🇮🇹"},{k:"fr",ad:"Français",fl:"🇫🇷"},{k:"es",ad:"Español",fl:"🇪🇸"}].map(l=>(
                   <button key={l.k} onClick={()=>setDil(l.k)} style={{
-                    padding:"16px 20px",
-                    borderRadius:16,
-                    border:`2.5px solid ${dil===l.k?"#4ade80":"rgba(255,255,255,.2)"}`,
-                    background:dil===l.k?"rgba(74,222,128,.15)":"rgba(255,255,255,.08)",
+                    padding:"13px 18px",
+                    borderRadius:14,
+                    border:`1px solid ${dil===l.k?"rgba(16,185,129,.4)":"rgba(255,255,255,.06)"}`,
+                    background:dil===l.k?"rgba(16,185,129,.07)":"rgba(255,255,255,.02)",
                     cursor:"pointer",
                     fontFamily:"'Nunito',sans-serif",
                     display:"flex",alignItems:"center",justifyContent:"space-between",
                     transition:"all .2s",
                   }}>
-                    <div style={{textAlign:"left"}}>
-                      <div style={{fontSize:16,fontWeight:800,color:"#f0fdf4"}}>{l.ad}</div>
-                      <div style={{fontSize:11,color:"#86efac",opacity:.8,marginTop:2}}>{l.alt}</div>
-                    </div>
-                    {dil===l.k&&<div style={{width:22,height:22,borderRadius:"50%",background:"#4ade80",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:900,color:"#052e16",flexShrink:0}}>✓</div>}
+                    <span style={{fontSize:15,fontWeight:700,color:dil===l.k?"#d1fae5":"rgba(255,255,255,.4)"}}>{l.fl} {l.ad}</span>
+                    {dil===l.k&&<div className="w-check" style={{width:18,height:18,borderRadius:6,background:"rgba(16,185,129,.2)",border:"1px solid rgba(16,185,129,.4)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <svg width="9" height="8" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </div>}
                   </button>
                 ))}
               </div>
 
-              <button onClick={ileri} style={{
-                marginTop:36,
-                background:"linear-gradient(135deg,#22c55e,#16a34a)",
-                border:"none",
-                borderRadius:16,
-                padding:"15px 48px",
-                fontSize:16,
-                fontWeight:900,
-                color:"#fff",
-                cursor:"pointer",
-                fontFamily:"'Nunito',sans-serif",
-                boxShadow:"0 6px 24px #22c55e40",
-              }}>{L.devam}</button>
+              <div className="w4" style={{marginTop:32,width:"100%",maxWidth:300}}>
+                <button onClick={ileri} style={{
+                  width:"100%",padding:"16px 0",borderRadius:16,
+                  background:"linear-gradient(135deg,#10b981,#059669 70%)",
+                  border:"1px solid rgba(52,211,153,.2)",
+                  color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",
+                  fontFamily:"'Nunito',sans-serif",letterSpacing:.5,
+                  boxShadow:"0 16px 48px rgba(16,185,129,.25), 0 4px 12px rgba(0,0,0,.4)",
+                  display:"flex",alignItems:"center",justifyContent:"center",gap:8,
+                }}>
+                  Devam Et
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+              </div>
             </div>
           )}
 
           {/* SLAYT EKRANLARI */}
           {welcomeSlide > 0 && slide && (
-            <div style={{flex:1,display:"flex",flexDirection:"column",position:"relative",zIndex:2,background:slide.renk||"linear-gradient(145deg,#052e16,#15803d)",transition:"background .5s",minHeight:"100vh"}}>
-              {/* Dekoratif daireler */}
-              <div style={{position:"absolute",top:-60,right:-60,width:220,height:220,borderRadius:"50%",background:"rgba(255,255,255,.05)",pointerEvents:"none"}}/>
-              <div style={{position:"absolute",bottom:120,left:-40,width:160,height:160,borderRadius:"50%",background:"rgba(255,255,255,.04)",pointerEvents:"none"}}/>
+            <div key={welcomeSlide} style={{flex:1,display:"flex",flexDirection:"column",minHeight:"100vh",position:"relative"}}>
+              {/* Renk glow arka planı */}
+              <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:350,height:350,background:`radial-gradient(ellipse,${slide.renk}12 0%,transparent 65%)`,animation:"w-glow 4s ease-in-out infinite",pointerEvents:"none"}}/>
+              <div style={{position:"absolute",top:0,left:0,right:0,height:1,background:`linear-gradient(90deg,transparent,${slide.renk}40,transparent)`}}/>
 
-              {/* İlerleme çubukları */}
-              <div style={{display:"flex",gap:5,padding:"0 22px 0"}}>
+              {/* Progress */}
+              <div style={{display:"flex",gap:4,padding:"6px 22px 0",position:"relative",zIndex:2}}>
                 {L.slides.map((_,i)=>(
-                  <div key={i} style={{flex:1,height:3,borderRadius:3,background:i<welcomeSlide?(slide.vurgu||"#4ade80"):"rgba(255,255,255,.2)",transition:"background .3s"}}/>
+                  <div key={i} style={{flex:1,height:2,borderRadius:99,background:i<welcomeSlide?slide.renk:"rgba(255,255,255,.1)",transition:"background .4s",boxShadow:i===slideIdx-1?`0 0 6px ${slide.renk}80`:"none"}}/>
                 ))}
               </div>
 
-              {/* İkon */}
-              <div style={{textAlign:"center",padding:"32px 0 8px",fontSize:100,filter:"drop-shadow(0 8px 32px #0008)",lineHeight:1,position:"relative",zIndex:2}}>
-                {slide.ikon}
-              </div>
+              {/* İçerik */}
+              <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",padding:"32px 28px",position:"relative",zIndex:2}}>
 
-              {/* Metin kartı */}
-              <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",padding:"16px 24px",position:"relative",zIndex:2}}>
-                <div style={{fontSize:28,fontWeight:900,color:"#f0fdf4",lineHeight:1.2,marginBottom:12,textAlign:"center"}}>
+                {/* SVG ikon kutusu */}
+                <div className="w1 w-float" style={{marginBottom:36}}>
+                  <div style={{width:88,height:88,borderRadius:28,background:`linear-gradient(145deg,${slide.renk}15,${slide.renk}03)`,border:`1px solid ${slide.renk}25`,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:`0 0 0 12px ${slide.renk}05, 0 24px 64px rgba(0,0,0,.5)`}}
+                    dangerouslySetInnerHTML={{__html:slide.svgIkon}}/>
+                </div>
+
+                {/* Alt başlık */}
+                <div className="w2" style={{fontSize:9,fontWeight:700,color:`${slide.renk}80`,letterSpacing:3.5,textTransform:"uppercase",marginBottom:12}}>
+                  {String(slideIdx+1).padStart(2,"0")} — {slide.alt}
+                </div>
+
+                {/* Ana başlık */}
+                <div className="w3" style={{fontFamily:"'Cormorant Garamond',serif",fontSize:46,color:"#f0fdf4",lineHeight:1,fontWeight:300,letterSpacing:-1.5,marginBottom:18}}>
                   {slide.baslik}
                 </div>
-                <div style={{fontSize:14,color:"rgba(255,255,255,.8)",lineHeight:1.8,textAlign:"center",marginBottom:20}}>
+
+                {/* Açıklama */}
+                <div className="w4" style={{fontSize:14,color:"rgba(255,255,255,.4)",lineHeight:1.8,marginBottom:32,maxWidth:340,fontWeight:400}}>
                   {slide.acik}
                 </div>
-                {/* Detay chips */}
-                {slide.detaylar&&(
-                  <div style={{display:"flex",justifyContent:"center",gap:8,flexWrap:"wrap"}}>
-                    {slide.detaylar.map((d,i)=>(
-                      <div key={i} style={{background:"rgba(255,255,255,.15)",backdropFilter:"blur(8px)",borderRadius:20,padding:"6px 14px",fontSize:12,fontWeight:700,color:"#f0fdf4",border:"1px solid rgba(255,255,255,.2)"}}>
-                        {d}
+
+                {/* Feature listesi */}
+                <div className="w5" style={{display:"flex",flexDirection:"column",gap:10}}>
+                  {(slide.ic||[]).map((item,i)=>(
+                    <div key={i} style={{display:"flex",alignItems:"center",gap:12}}>
+                      <div style={{width:24,height:24,borderRadius:8,background:`${slide.renk}12`,border:`1px solid ${slide.renk}20`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                        <svg width="10" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke={slide.renk} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <span style={{fontSize:13,color:"rgba(255,255,255,.55)",fontWeight:600}}>{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* Alt buton ve dots */}
-              <div style={{padding:"0 22px 48px",display:"flex",flexDirection:"column",gap:12,alignItems:"center",position:"relative",zIndex:2}}>
+              {/* Alt buton */}
+              <div style={{padding:"0 24px 52px",position:"relative",zIndex:2,display:"flex",flexDirection:"column",gap:14,alignItems:"center"}}>
                 <button onClick={ileri} style={{
-                  width:"100%",maxWidth:360,padding:"16px 0",
-                  background:"rgba(255,255,255,.95)",
-                  border:"none",borderRadius:18,fontSize:16,fontWeight:900,
-                  color:"#052e16",cursor:"pointer",fontFamily:"'Nunito',sans-serif",
-                  boxShadow:"0 8px 30px rgba(0,0,0,.25)",
+                  width:"100%",maxWidth:380,padding:"17px 0",
+                  background:`linear-gradient(135deg,${slide.renk},${slide.renk}cc)`,
+                  border:`1px solid ${slide.renk}30`,
+                  borderRadius:18,fontSize:15,fontWeight:800,
+                  color:"#fff",cursor:"pointer",fontFamily:"'Nunito',sans-serif",
+                  boxShadow:`0 16px 48px ${slide.renk}30, 0 4px 12px rgba(0,0,0,.4)`,
+                  letterSpacing:.5,display:"flex",alignItems:"center",justifyContent:"center",gap:8,
                 }}>
-                  {welcomeSlide===toplamSlide ? L.basla : L.devam}
+                  {welcomeSlide===toplamSlide ? "Başlayalım" : "Devam Et"}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </button>
-                <div style={{display:"flex",gap:8}}>
+                {/* Dots */}
+                <div style={{display:"flex",gap:7}}>
                   {L.slides.map((_,i)=>(
                     <div key={i} onClick={()=>setWelcomeSlide(i+1)} style={{
-                      width:i===slideIdx?24:8,height:8,borderRadius:4,
-                      background:i===slideIdx?(slide.vurgu||"#4ade80"):"rgba(255,255,255,.3)",
-                      cursor:"pointer",transition:"all .3s",
+                      width:i===slideIdx?20:6,height:6,borderRadius:3,
+                      background:i===slideIdx?slide.renk:"rgba(255,255,255,.15)",
+                      cursor:"pointer",transition:"all .35s cubic-bezier(.34,1.2,.64,1)",
+                      boxShadow:i===slideIdx?`0 0 8px ${slide.renk}60`:"none",
                     }}/>
                   ))}
                 </div>
