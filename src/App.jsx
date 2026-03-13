@@ -10480,367 +10480,343 @@ function EgzersizAnim({egzId, ikon}) {
     return null;
   })();
 
-  const C = {
-    skin:"#FBBF99", skinD:"#F0A070", hair:"#4B3621",
-    shirt:"#3B82F6", shirtD:"#2563EB",
-    pants:"#1E293B", pantsD:"#0F172A",
-    shoe:"#374151", muscle:"#EF4444",
-    arrow:"#06B6D4", arrowD:"#0891B2",
-    floor:"#E2E8F0", shadow:"#CBD5E1"
-  };
+  // Renk paleti - temiz minimal
+  const SK = "#f0d0b0";   // ten
+  const LN = "#34d399";   // emerald - çizgi rengi (dark theme)
+  const AC = "#10b981";   // accent
+  const GD = "#1a2e1e";   // zemin
 
   const css = `
-    @keyframes ea-sinav-ud { 0%,100%{transform:translateY(0)} 50%{transform:translateY(14px)} }
-    @keyframes ea-squat-down { 0%,100%{transform:scaleY(1) translateY(0);transform-origin:bottom center} 50%{transform:scaleY(.78) translateY(8px);transform-origin:bottom center} }
-    @keyframes ea-pull-up { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-22px)} }
-    @keyframes ea-curl-arm { 0%,100%{transform:rotate(0deg);transform-origin:50% 30%} 50%{transform:rotate(-75deg);transform-origin:50% 30%} }
-    @keyframes ea-plank-pulse { 0%,100%{opacity:1;transform:scaleX(1)} 50%{opacity:.7;transform:scaleX(1.02)} }
-    @keyframes ea-lunge-step { 0%,100%{transform:translateX(0)} 50%{transform:translateX(12px)} }
-    @keyframes ea-press-up { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
-    @keyframes ea-mekik-up { 0%,100%{transform:rotate(0deg);transform-origin:80% 90%} 50%{transform:rotate(-38deg);transform-origin:80% 90%} }
-    @keyframes ea-run { 0%,100%{transform:translateX(-4px)} 50%{transform:translateX(4px)} }
-    @keyframes ea-dips-ud { 0%,100%{transform:translateY(0)} 50%{transform:translateY(16px)} }
-    @keyframes ea-arrow-bounce { 0%,100%{opacity:.3;transform:translateY(0)} 50%{opacity:1;transform:translateY(-5px)} }
-    @keyframes ea-arrow-h { 0%,100%{opacity:.3;transform:translateX(0)} 50%{opacity:1;transform:translateX(5px)} }
-    .ea-sinav { animation: ea-sinav-ud 1.4s ease-in-out infinite }
-    .ea-squat { animation: ea-squat-down 1.6s ease-in-out infinite }
-    .ea-pullup { animation: ea-pull-up 1.6s ease-in-out infinite }
-    .ea-curl { animation: ea-curl-arm 1.3s ease-in-out infinite }
-    .ea-plank { animation: ea-plank-pulse 1.2s ease-in-out infinite }
-    .ea-lunge { animation: ea-lunge-step 1.4s ease-in-out infinite }
-    .ea-press { animation: ea-press-up 1.4s ease-in-out infinite }
-    .ea-mekik { animation: ea-mekik-up 1.5s ease-in-out infinite }
-    .ea-run { animation: ea-run .5s ease-in-out infinite }
-    .ea-dips { animation: ea-dips-ud 1.4s ease-in-out infinite }
-    .ea-arr-v { animation: ea-arrow-bounce 1s ease-in-out infinite }
-    .ea-arr-h { animation: ea-arrow-h 1s ease-in-out infinite }
+    @keyframes ea-pushup   { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(13px)} }
+    @keyframes ea-squat    { 0%,100%{transform:translateY(0) scaleY(1)} 45%,55%{transform:translateY(10px) scaleY(0.82)} }
+    @keyframes ea-pullup   { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(-20px)} }
+    @keyframes ea-arm-up   { 0%,100%{transform:rotate(0deg)} 45%,55%{transform:rotate(-80deg)} }
+    @keyframes ea-press-a  { 0%,100%{transform:rotate(50deg)} 45%,55%{transform:rotate(10deg)} }
+    @keyframes ea-torso    { 0%,100%{transform:rotate(0deg)} 45%,55%{transform:rotate(-40deg)} }
+    @keyframes ea-leg-f    { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(30deg)} }
+    @keyframes ea-leg-b    { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-30deg)} }
+    @keyframes ea-arm-f    { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-40deg)} }
+    @keyframes ea-arm-bk   { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(40deg)} }
+    @keyframes ea-run-x    { 0%,100%{transform:translateX(-3px)} 50%{transform:translateX(3px)} }
+    @keyframes ea-dips-y   { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(18px)} }
+    @keyframes ea-lunge-y  { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(9px)} }
+    @keyframes ea-dot      { 0%,100%{opacity:.2} 50%{opacity:.9} }
+    .p-ud  { animation: ea-pushup 1.6s cubic-bezier(.45,0,.55,1) infinite }
+    .p-sq  { animation: ea-squat 1.8s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 100% }
+    .p-pu  { animation: ea-pullup 1.6s cubic-bezier(.45,0,.55,1) infinite }
+    .p-au  { animation: ea-arm-up 1.4s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
+    .p-pa  { animation: ea-press-a 1.4s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
+    .p-tor { animation: ea-torso 1.5s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 100% }
+    .p-lf  { animation: ea-leg-f .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
+    .p-lb  { animation: ea-leg-b .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
+    .p-af  { animation: ea-arm-f .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
+    .p-ab  { animation: ea-arm-bk .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
+    .p-rx  { animation: ea-run-x .7s ease-in-out infinite }
+    .p-di  { animation: ea-dips-y 1.5s cubic-bezier(.45,0,.55,1) infinite }
+    .p-lu  { animation: ea-lunge-y 1.6s cubic-bezier(.45,0,.55,1) infinite; transform-origin:50% 0% }
+    .p-dot { animation: ea-dot 1.6s ease-in-out infinite }
   `;
 
+  // ── Yardımcı: stick figure parçaları ──
+  // Çizgi kalınlığı, yuvarlak uçlar
+  const sw = 5;    // stroke-width gövde
+  const sw2 = 4;   // uzuvlar
+  const sw3 = 3;   // ince
+
   const svgs = {
+
+    // ── ŞINAV ──────────────────────────────────────
     sinav: (
-      <svg viewBox="0 0 200 130" width="100%" height="100%">
+      <svg viewBox="0 0 200 120" width="100%" height="100%">
         <style>{css}</style>
         {/* Zemin */}
-        <ellipse cx="100" cy="122" rx="80" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="20" y1="118" x2="180" y2="118" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
-        <g className="ea-sinav">
-          {/* Vücut gövde */}
-          <rect x="55" y="74" width="90" height="22" rx="10" fill={C.shirt}/>
-          <rect x="60" y="78" width="80" height="14" rx="7" fill={C.shirtD} opacity=".3"/>
+        <line x1="10" y1="108" x2="190" y2="108" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
+        <g className="p-ud">
+          {/* Kollar */}
+          <line x1="40" y1="108" x2="60" y2="78" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="148" y1="108" x2="128" y2="78" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Gövde */}
+          <line x1="60" y1="78" x2="128" y2="78" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
           {/* Baş */}
-          <circle cx="155" cy="64" r="14" fill={C.skin}/>
-          <circle cx="155" cy="61" r="9" fill={C.hair}/>
-          {/* Sol kol */}
-          <rect x="30" y="80" width="30" height="10" rx="5" fill={C.skin}/>
-          <circle cx="32" cy="85" r="7" fill={C.skin}/>
-          {/* Sağ kol (gövdede) */}
+          <circle cx="140" cy="66" r="12" fill="none" stroke={SK} strokeWidth={sw2}/>
           {/* Bacaklar */}
-          <rect x="55" y="93" width="18" height="26" rx="8" fill={C.pants}/>
-          <rect x="80" y="93" width="18" height="26" rx="8" fill={C.pants}/>
-          {/* Ayakkabılar */}
-          <ellipse cx="64" cy="117" rx="12" ry="5" fill={C.shoe}/>
-          <ellipse cx="89" cy="117" rx="12" ry="5" fill={C.shoe}/>
-          {/* Kas vurgu */}
-          <ellipse cx="65" cy="83" rx="8" ry="5" fill={C.muscle} opacity=".35"/>
+          <line x1="80" y1="78" x2="75" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="105" y1="78" x2="108" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
         </g>
-        {/* Hareket oku */}
-        <g className="ea-arr-v" style={{transformOrigin:"100px 95px"}}>
-          <path d="M88 102 L88 92 L84 96 M88 92 L92 96" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        {/* Etiket */}
+        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">ŞINAV</text>
+        {/* Yön oku */}
+        <g className="p-dot" style={{transformOrigin:"100px 90px"}}>
+          <path d="M96 96 L96 86 L93 90 M96 86 L99 90" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
         </g>
-        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">ŞINAV</text>
       </svg>
     ),
+
+    // ── SQUAT ──────────────────────────────────────
     squat: (
       <svg viewBox="0 0 200 140" width="100%" height="100%">
         <style>{css}</style>
-        <ellipse cx="100" cy="133" rx="50" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="40" y1="130" x2="160" y2="130" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
-        <g className="ea-squat">
-          {/* Baş */}
-          <circle cx="100" cy="28" r="14" fill={C.skin}/>
-          <circle cx="100" cy="24" r="9" fill={C.hair}/>
-          {/* Torso */}
-          <rect x="82" y="42" width="36" height="38" rx="10" fill={C.shirt}/>
-          <rect x="85" y="46" width="30" height="28" rx="7" fill={C.shirtD} opacity=".3"/>
+        <line x1="30" y1="128" x2="170" y2="128" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
+        {/* Baş her zaman sabit */}
+        <circle cx="100" cy="22" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
+        <g className="p-sq">
+          {/* Gövde */}
+          <line x1="100" y1="35" x2="100" y2="68" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
           {/* Kollar */}
-          <rect x="58" y="50" width="26" height="10" rx="5" fill={C.skin}/>
-          <rect x="116" y="50" width="26" height="10" rx="5" fill={C.skin}/>
-          {/* Bacaklar */}
-          <path d="M85 78 Q72 100 68 125" stroke={C.pants} strokeWidth="16" strokeLinecap="round" fill="none"/>
-          <path d="M115 78 Q128 100 132 125" stroke={C.pants} strokeWidth="16" strokeLinecap="round" fill="none"/>
-          {/* Ayak */}
-          <ellipse cx="68" cy="126" rx="13" ry="5" fill={C.shoe}/>
-          <ellipse cx="132" cy="126" rx="13" ry="5" fill={C.shoe}/>
+          <line x1="100" y1="45" x2="68" y2="55" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="100" y1="45" x2="132" y2="55" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Bacaklar - kalça ekleminden */}
+          <line x1="100" y1="68" x2="72" y2="100" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="72" y1="100" x2="65" y2="128" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="100" y1="68" x2="128" y2="100" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="128" y1="100" x2="135" y2="128" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
         </g>
-        <g className="ea-arr-v">
-          <path d="M100 110 L100 96 L96 100 M100 96 L104 100" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">SQUAT</text>
+        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">SQUAT</text>
+        <g className="p-dot"><path d="M100 118 L100 108 L97 112 M100 108 L103 112" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
       </svg>
     ),
+
+    // ── BARFİKS ────────────────────────────────────
     barfix: (
       <svg viewBox="0 0 200 150" width="100%" height="100%">
         <style>{css}</style>
         {/* Bar */}
-        <rect x="20" y="20" width="160" height="8" rx="4" fill="#374151"/>
-        <rect x="55" y="20" width="6" height="14" rx="3" fill="#4B5563"/>
-        <rect x="139" y="20" width="6" height="14" rx="3" fill="#4B5563"/>
-        <g className="ea-pullup">
-          {/* Kollar */}
-          <path d="M72 34 Q68 52 80 62" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-          <path d="M128 34 Q132 52 120 62" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-          {/* Torso */}
-          <rect x="82" y="58" width="36" height="44" rx="10" fill={C.shirt}/>
-          <rect x="85" y="62" width="30" height="34" rx="7" fill={C.shirtD} opacity=".3"/>
+        <line x1="20" y1="22" x2="180" y2="22" stroke={LN} strokeWidth="8" strokeLinecap="round" opacity=".6"/>
+        <g className="p-pu">
           {/* Baş */}
-          <circle cx="100" cy="50" r="14" fill={C.skin}/>
-          <circle cx="100" cy="46" r="9" fill={C.hair}/>
-          {/* Bacaklar */}
-          <rect x="85" y="100" width="14" height="36" rx="7" fill={C.pants}/>
-          <rect x="101" y="100" width="14" height="36" rx="7" fill={C.pants}/>
-          <ellipse cx="92" cy="135" rx="10" ry="4" fill={C.shoe}/>
-          <ellipse cx="108" cy="135" rx="10" ry="4" fill={C.shoe}/>
-          {/* Kas vurgu */}
-          <ellipse cx="78" cy="52" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
-          <ellipse cx="122" cy="52" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
+          <circle cx="100" cy="44" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
+          {/* Kollar */}
+          <line x1="100" y1="35" x2="72" y2="22" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="100" y1="35" x2="128" y2="22" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Gövde */}
+          <line x1="100" y1="57" x2="100" y2="95" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
+          {/* Bacaklar sarkan */}
+          <line x1="100" y1="95" x2="88" y2="130" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="88" y1="130" x2="92" y2="146" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="100" y1="95" x2="112" y2="130" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="112" y1="130" x2="108" y2="146" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
         </g>
-        <g className="ea-arr-v">
-          <path d="M100 90 L100 76 L96 80 M100 76 L104 80" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-        <text x="100" y="146" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">BARFİKS</text>
+        <text x="100" y="138" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">BARFİKS</text>
+        <g className="p-dot"><path d="M100 80 L100 70 L97 74 M100 70 L103 74" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
       </svg>
     ),
+
+    // ── BİSEPS CURL ────────────────────────────────
     curl: (
       <svg viewBox="0 0 200 150" width="100%" height="100%">
         <style>{css}</style>
-        <ellipse cx="100" cy="143" rx="45" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="40" y1="140" x2="160" y2="140" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <line x1="30" y1="138" x2="170" y2="138" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
         {/* Baş */}
-        <circle cx="100" cy="25" r="14" fill={C.skin}/>
-        <circle cx="100" cy="21" r="9" fill={C.hair}/>
-        {/* Torso */}
-        <rect x="82" y="39" width="36" height="48" rx="10" fill={C.shirt}/>
-        {/* Sağ kol sabit */}
-        <path d="M118 52 Q130 65 128 82" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-        {/* Dambıl sağ */}
-        <rect x="120" y="78" width="22" height="8" rx="4" fill="#6B7280"/>
-        {/* Sol kol hareketli */}
-        <g className="ea-curl">
-          <path d="M82 52 Q62 62 58 78" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-          <rect x="40" y="74" width="24" height="8" rx="4" fill="#6B7280"/>
-          <ellipse cx="66" cy="64" rx="7" ry="4" fill={C.muscle} opacity=".5"/>
+        <circle cx="100" cy="22" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
+        {/* Gövde */}
+        <line x1="100" y1="35" x2="100" y2="85" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
+        {/* Sol kol sabit */}
+        <line x1="100" y1="50" x2="130" y2="68" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="130" y1="68" x2="138" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        {/* Dambıl sağ sabit */}
+        <rect x="130" y="86" width="18" height="7" rx="3.5" fill={LN} opacity=".5"/>
+        {/* Sağ kol hareketli */}
+        <g className="p-au" style={{transformOrigin:"70px 50px"}}>
+          <line x1="100" y1="50" x2="70" y2="68" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="70" y1="68" x2="58" y2="46" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Dambıl sol */}
+          <rect x="48" y="40" width="18" height="7" rx="3.5" fill={LN} opacity=".7"/>
         </g>
         {/* Bacaklar */}
-        <rect x="85" y="85" width="14" height="40" rx="7" fill={C.pants}/>
-        <rect x="101" y="85" width="14" height="40" rx="7" fill={C.pants}/>
-        <ellipse cx="92" cy="124" rx="12" ry="5" fill={C.shoe}/>
-        <ellipse cx="108" cy="124" rx="12" ry="5" fill={C.shoe}/>
-        <g className="ea-arr-v">
-          <path d="M55 60 L55 46 L51 50 M55 46 L59 50" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">BİSEPS CURL</text>
+        <line x1="100" y1="85" x2="88" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="88" y1="120" x2="84" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="100" y1="85" x2="112" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="112" y1="120" x2="116" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">BİSEPS CURL</text>
+        <g className="p-dot"><path d="M56 52 L56 42 L53 46 M56 42 L59 46" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
       </svg>
     ),
+
+    // ── PLANK ──────────────────────────────────────
     plank: (
-      <svg viewBox="0 0 220 110" width="100%" height="100%">
+      <svg viewBox="0 0 220 100" width="100%" height="100%">
         <style>{css}</style>
-        <ellipse cx="110" cy="103" rx="85" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="25" y1="100" x2="195" y2="100" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
-        <g className="ea-plank">
-          {/* Tüm vücut yatay */}
-          {/* Baş */}
-          <circle cx="172" cy="70" r="12" fill={C.skin}/>
-          <circle cx="172" cy="66" r="8" fill={C.hair}/>
-          {/* Torso */}
-          <rect x="80" y="72" width="88" height="20" rx="9" fill={C.shirt}/>
-          <rect x="84" y="76" width="78" height="10" rx="5" fill={C.shirtD} opacity=".3"/>
-          {/* Bacaklar */}
-          <rect x="40" y="74" width="46" height="16" rx="8" fill={C.pants}/>
-          {/* Ön kol */}
-          <rect x="148" y="88" width="12" height="14" rx="5" fill={C.skin}/>
-          <rect x="110" y="88" width="12" height="14" rx="5" fill={C.skin}/>
-          {/* Parmaklar */}
-          <ellipse cx="154" cy="100" rx="9" ry="3" fill={C.shoe}/>
-          <ellipse cx="116" cy="100" rx="9" ry="3" fill={C.shoe}/>
-          {/* Ayak */}
-          <ellipse cx="42" cy="91" rx="8" ry="4" fill={C.shoe}/>
-          {/* Çekirdek vurgu */}
-          <ellipse cx="118" cy="81" rx="14" ry="5" fill={C.muscle} opacity=".3"/>
+        <line x1="10" y1="90" x2="210" y2="90" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
+        {/* Gövde düz */}
+        <line x1="52" y1="72" x2="162" y2="68" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
+        {/* Baş */}
+        <circle cx="174" cy="60" r="12" fill="none" stroke={SK} strokeWidth={sw2}/>
+        {/* Ön kollar */}
+        <line x1="130" y1="70" x2="128" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="156" y1="69" x2="154" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        {/* Bacaklar */}
+        <line x1="52" y1="72" x2="44" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        {/* Nefes animasyonu */}
+        <g className="p-dot">
+          <circle cx="110" cy="68" r="4" fill={AC} opacity=".6"/>
         </g>
-        <text x="110" y="14" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">PLANK — SABİT TUT</text>
-        {/* Güç göstergesi */}
-        <text x="110" y="30" textAnchor="middle" fill={C.arrow} fontSize="10" fontFamily="system-ui" className="ea-arr-v">● ÇEKİRDEK KASIL</text>
+        <text x="110" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">PLANK — SABİT TUT</text>
+        {/* Çekirdek oku */}
+        <line x1="90" y1="58" x2="140" y2="56" stroke={AC} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="4 3" opacity=".4" className="p-dot"/>
       </svg>
     ),
+
+    // ── LUNGE ──────────────────────────────────────
     lunge: (
       <svg viewBox="0 0 200 150" width="100%" height="100%">
         <style>{css}</style>
-        <ellipse cx="100" cy="143" rx="55" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="30" y1="140" x2="170" y2="140" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <line x1="20" y1="138" x2="180" y2="138" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
         {/* Baş */}
-        <circle cx="95" cy="22" r="13" fill={C.skin}/>
-        <circle cx="95" cy="18" r="8" fill={C.hair}/>
-        {/* Torso */}
-        <rect x="78" y="35" width="34" height="42" rx="9" fill={C.shirt}/>
-        {/* Kollar */}
-        <path d="M78 48 Q64 55 62 68" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
-        <path d="M112 48 Q126 55 128 68" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
-        {/* Sol bacak ileri */}
-        <g className="ea-lunge">
-          <path d="M84 75 Q72 100 62 138" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
-          <ellipse cx="62" cy="138" rx="14" ry="5" fill={C.shoe}/>
+        <circle cx="100" cy="22" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
+        <g className="p-lu" style={{transformOrigin:"100px 36px"}}>
+          {/* Gövde */}
+          <line x1="100" y1="35" x2="100" y2="80" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
+          {/* Kollar */}
+          <line x1="100" y1="50" x2="72" y2="62" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="100" y1="50" x2="128" y2="62" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Bacak ileri */}
+          <line x1="100" y1="80" x2="68" y2="110" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="68" y1="110" x2="58" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Bacak geri */}
+          <line x1="100" y1="80" x2="128" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="128" y1="108" x2="138" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
         </g>
-        {/* Sağ bacak geri */}
-        <path d="M106 75 Q120 98 138 130" stroke={C.pantsD} strokeWidth="14" strokeLinecap="round" fill="none"/>
-        <ellipse cx="138" cy="130" rx="11" ry="4" fill={C.shoe}/>
-        {/* Diz */}
-        <circle cx="138" cy="130" r="6" fill={C.pantsD} opacity=".5"/>
-        <g className="ea-arr-v">
-          <path d="M78 112 L78 98 L74 102 M78 98 L82 102" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-        <text x="100" y="14" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">LUNGE</text>
+        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">LUNGE</text>
+        <g className="p-dot"><path d="M100 120 L100 110 L97 114 M100 110 L103 114" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
       </svg>
     ),
+
+    // ── OMUZ PRESS ─────────────────────────────────
     press: (
       <svg viewBox="0 0 200 155" width="100%" height="100%">
         <style>{css}</style>
-        <ellipse cx="100" cy="148" rx="50" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="40" y1="145" x2="160" y2="145" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <line x1="30" y1="144" x2="170" y2="144" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
         {/* Baş */}
-        <circle cx="100" cy="26" r="14" fill={C.skin}/>
-        <circle cx="100" cy="22" r="9" fill={C.hair}/>
-        {/* Torso */}
-        <rect x="82" y="40" width="36" height="50" rx="10" fill={C.shirt}/>
-        {/* Kollar yukarıda */}
-        <g className="ea-press">
-          <path d="M82 52 Q60 40 52 22" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-          <path d="M118 52 Q140 40 148 22" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-          {/* Dambıllar */}
-          <rect x="34" y="16" width="24" height="8" rx="4" fill="#4B5563"/>
-          <rect x="142" y="16" width="24" height="8" rx="4" fill="#4B5563"/>
-          {/* Kas */}
-          <ellipse cx="62" cy="34" rx="8" ry="4" fill={C.muscle} opacity=".4"/>
-          <ellipse cx="138" cy="34" rx="8" ry="4" fill={C.muscle} opacity=".4"/>
+        <circle cx="100" cy="32" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
+        {/* Gövde */}
+        <line x1="100" y1="45" x2="100" y2="95" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
+        {/* Sol kol hareketli */}
+        <g className="p-pa" style={{transformOrigin:"100px 55px"}}>
+          <line x1="100" y1="55" x2="64" y2="72" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="64" y1="72" x2="48" y2="44" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Dambıl sol */}
+          <rect x="36" y="36" width="18" height="7" rx="3.5" fill={LN} opacity=".7"/>
+        </g>
+        {/* Sağ kol hareketli (ters delay) */}
+        <g className="p-pa" style={{transformOrigin:"100px 55px",animationDelay:"0s",transform:"scaleX(-1)",transformOrigin:"100px 55px"}}>
+          <line x1="100" y1="55" x2="136" y2="72" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="136" y1="72" x2="152" y2="44" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <rect x="146" y="36" width="18" height="7" rx="3.5" fill={LN} opacity=".7"/>
         </g>
         {/* Bacaklar */}
-        <rect x="85" y="88" width="13" height="44" rx="6" fill={C.pants}/>
-        <rect x="102" y="88" width="13" height="44" rx="6" fill={C.pants}/>
-        <ellipse cx="91" cy="131" rx="11" ry="4" fill={C.shoe}/>
-        <ellipse cx="108" cy="131" rx="11" ry="4" fill={C.shoe}/>
-        <g className="ea-arr-v">
-          <path d="M100 44 L100 30 L96 34 M100 30 L104 34" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">OMUZ PRESS</text>
+        <line x1="100" y1="95" x2="86" y2="126" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="86" y1="126" x2="82" y2="144" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="100" y1="95" x2="114" y2="126" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="114" y1="126" x2="118" y2="144" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <text x="100" y="20" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">OMUZ PRESS</text>
+        <g className="p-dot"><path d="M100 50 L100 40 L97 44 M100 40 L103 44" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
       </svg>
     ),
+
+    // ── MEKİK ──────────────────────────────────────
     mekik: (
-      <svg viewBox="0 0 220 130" width="100%" height="100%">
+      <svg viewBox="0 0 200 130" width="100%" height="100%">
         <style>{css}</style>
-        <ellipse cx="110" cy="123" rx="80" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="28" y1="120" x2="192" y2="120" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
+        <line x1="20" y1="120" x2="180" y2="120" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
         {/* Bacaklar yerde sabit */}
-        <path d="M115 95 Q140 108 162 118" stroke={C.pants} strokeWidth="16" strokeLinecap="round" fill="none"/>
-        <path d="M110 92 Q130 108 150 118" stroke={C.pantsD} strokeWidth="14" strokeLinecap="round" fill="none"/>
-        <ellipse cx="162" cy="118" rx="14" ry="5" fill={C.shoe}/>
+        <line x1="115" y1="100" x2="162" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+        <line x1="110" y1="104" x2="155" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
         {/* Üst vücut hareketli */}
-        <g className="ea-mekik">
-          {/* Torso */}
-          <path d="M112 92 Q90 80 58 75" stroke={C.shirt} strokeWidth="22" strokeLinecap="round" fill="none"/>
-          {/* Kollar */}
-          <path d="M80 80 Q70 68 68 58" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
-          <path d="M95 76 Q88 64 87 54" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+        <g className="p-tor" style={{transformOrigin:"113px 100px"}}>
+          {/* Gövde */}
+          <line x1="113" y1="100" x2="72" y2="82" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
           {/* Baş */}
-          <circle cx="50" cy="68" r="13" fill={C.skin}/>
-          <circle cx="50" cy="64" r="8" fill={C.hair}/>
-          {/* Çekirdek vurgu */}
-          <ellipse cx="88" cy="82" rx="14" ry="6" fill={C.muscle} opacity=".35"/>
+          <circle cx="62" cy="74" r="12" fill="none" stroke={SK} strokeWidth={sw2}/>
+          {/* Kollar */}
+          <line x1="88" y1="88" x2="72" y2="68" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="96" y1="85" x2="82" y2="64" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
         </g>
-        <g className="ea-arr-v">
-          <path d="M80 64 L80 50 L76 54 M80 50 L84 54" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-        <text x="110" y="14" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">MEKİK</text>
+        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">MEKİK</text>
+        <g className="p-dot"><path d="M76 68 L76 58 L73 62 M76 58 L79 62" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
       </svg>
     ),
+
+    // ── KOŞU / KARDİYO ─────────────────────────────
     kos: (
       <svg viewBox="0 0 200 145" width="100%" height="100%">
         <style>{css}</style>
-        <ellipse cx="100" cy="138" rx="55" ry="5" fill={C.shadow} opacity=".4"/>
-        <line x1="20" y1="134" x2="180" y2="134" stroke={C.floor} strokeWidth="3" strokeLinecap="round"/>
-        <g className="ea-run">
+        <line x1="10" y1="132" x2="190" y2="132" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
+        <g className="p-rx">
           {/* Baş */}
-          <circle cx="128" cy="28" r="13" fill={C.skin}/>
-          <circle cx="128" cy="24" r="8" fill={C.hair}/>
-          {/* Torso eğik */}
-          <path d="M124 40 Q112 62 108 80" stroke={C.shirt} strokeWidth="22" strokeLinecap="round" fill="none"/>
+          <circle cx="116" cy="28" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
+          {/* Gövde eğik */}
+          <line x1="112" y1="41" x2="100" y2="80" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
           {/* Kol ileri */}
-          <path d="M118 52 Q102 48 90 42" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+          <g className="p-af" style={{transformOrigin:"108px 52px"}}>
+            <line x1="108" y1="52" x2="78" y2="42" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          </g>
           {/* Kol geri */}
-          <path d="M126 55 Q140 52 148 48" stroke={C.skin} strokeWidth="10" strokeLinecap="round" fill="none"/>
+          <g className="p-ab" style={{transformOrigin:"108px 52px"}}>
+            <line x1="108" y1="52" x2="136" y2="46" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          </g>
           {/* Bacak ileri */}
-          <path d="M108 80 Q92 100 80 130" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
+          <g className="p-lf" style={{transformOrigin:"100px 80px"}}>
+            <line x1="100" y1="80" x2="78" y2="112" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+            <line x1="78" y1="112" x2="62" y2="132" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          </g>
           {/* Bacak geri */}
-          <path d="M112 82 Q130 104 138 128" stroke={C.pantsD} strokeWidth="13" strokeLinecap="round" fill="none"/>
-          <ellipse cx="80" cy="131" rx="13" ry="4" fill={C.shoe}/>
-          <ellipse cx="138" cy="129" rx="11" ry="4" fill={C.shoe}/>
+          <g className="p-lb" style={{transformOrigin:"100px 80px"}}>
+            <line x1="100" y1="80" x2="122" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+            <line x1="122" y1="108" x2="138" y2="128" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          </g>
         </g>
         {/* Hareket çizgileri */}
         {[0,1,2].map(i=>(
-          <line key={i} x1={50-i*10} y1={50+i*12} x2={36-i*10} y2={50+i*12} stroke={C.arrow} strokeWidth="2" strokeLinecap="round" opacity={1-i*0.3} className="ea-arr-h"/>
+          <line key={i} className="p-dot" x1={55-i*12} y1={52+i*14} x2={40-i*12} y2={52+i*14} stroke={AC} strokeWidth="2" strokeLinecap="round" style={{animationDelay:`${i*0.2}s`}}/>
         ))}
-        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">KARDİYO / KOŞU</text>
+        <text x="100" y="16" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">KARDİYO / KOŞU</text>
       </svg>
     ),
+
+    // ── DİPS ───────────────────────────────────────
     dips: (
       <svg viewBox="0 0 200 150" width="100%" height="100%">
         <style>{css}</style>
-        {/* Paralel bars */}
-        <rect x="30" y="55" width="8" height="75" rx="4" fill="#374151"/>
-        <rect x="162" y="55" width="8" height="75" rx="4" fill="#374151"/>
-        <rect x="30" y="55" width="8" height="6" rx="3" fill="#6B7280"/>
-        <rect x="162" y="55" width="8" height="6" rx="3" fill="#6B7280"/>
-        <g className="ea-dips">
-          {/* Kollar */}
-          <path d="M38 58 Q55 65 72 72" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-          <path d="M162 58 Q145 65 128 72" stroke={C.skin} strokeWidth="12" strokeLinecap="round" fill="none"/>
-          {/* Torso */}
-          <rect x="74" y="68" width="52" height="44" rx="11" fill={C.shirt}/>
-          <rect x="78" y="72" width="44" height="34" rx="8" fill={C.shirtD} opacity=".3"/>
+        {/* Paralel barlar */}
+        <line x1="38" y1="50" x2="38" y2="110" stroke={LN} strokeWidth="7" strokeLinecap="round" opacity=".5"/>
+        <line x1="162" y1="50" x2="162" y2="110" stroke={LN} strokeWidth="7" strokeLinecap="round" opacity=".5"/>
+        <g className="p-di">
           {/* Baş */}
-          <circle cx="100" cy="54" r="14" fill={C.skin}/>
-          <circle cx="100" cy="50" r="9" fill={C.hair}/>
+          <circle cx="100" cy="42" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
+          {/* Kollar */}
+          <line x1="100" y1="55" x2="62" y2="50" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="100" y1="55" x2="138" y2="50" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          {/* Gövde */}
+          <line x1="100" y1="55" x2="100" y2="100" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
           {/* Bacaklar sarkan */}
-          <path d="M82 110 Q80 130 82 145" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
-          <path d="M118 110 Q120 130 118 145" stroke={C.pants} strokeWidth="14" strokeLinecap="round" fill="none"/>
-          <ellipse cx="82" cy="144" rx="10" ry="4" fill={C.shoe}/>
-          <ellipse cx="118" cy="144" rx="10" ry="4" fill={C.shoe}/>
-          <ellipse cx="56" cy="68" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
-          <ellipse cx="144" cy="68" rx="7" ry="4" fill={C.muscle} opacity=".4"/>
+          <line x1="100" y1="100" x2="88" y2="132" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="88" y1="132" x2="84" y2="148" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="100" y1="100" x2="112" y2="132" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
+          <line x1="112" y1="132" x2="116" y2="148" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
         </g>
-        <g className="ea-arr-v">
-          <path d="M100 86 L100 72 L96 76 M100 72 L104 76" stroke={C.arrow} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-        <text x="100" y="15" textAnchor="middle" fill="#64748B" fontSize="11" fontWeight="700" fontFamily="system-ui">DİPS</text>
+        <text x="100" y="16" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">DİPS</text>
+        <g className="p-dot"><path d="M100 78 L100 68 L97 72 M100 68 L103 72" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
       </svg>
     ),
   };
 
   return (
     <div style={{
-      background:"linear-gradient(180deg,#F8FAFC 0%,#EFF6FF 100%)",
-      borderRadius:16,
+      background:"linear-gradient(160deg,rgba(16,185,129,.06) 0%,transparent 60%), #080e09",
+      borderRadius:18,
       display:"flex",
       alignItems:"center",
       justifyContent:"center",
       height:148,
       overflow:"hidden",
       marginBottom:12,
-      border:"1.5px solid #E2E8F0",
+      border:"1px solid rgba(52,211,153,.1)",
       position:"relative"
     }}>
       {tip && svgs[tip] ? svgs[tip] : (
-        <div style={{textAlign:"center",opacity:.6}}>
-          <div style={{fontSize:56}}>{ikon||"💪"}</div>
-          <div style={{fontSize:10,color:"#94A3B8",marginTop:4,fontWeight:600}}>Hazır ol!</div>
+        <div style={{textAlign:"center",opacity:.5}}>
+          <div style={{fontSize:52}}>{ikon||"💪"}</div>
+          <div style={{fontSize:9,color:"#34d399",marginTop:6,fontWeight:700,letterSpacing:2,textTransform:"uppercase"}}>Hazır ol</div>
         </div>
       )}
     </div>
