@@ -4599,7 +4599,7 @@ SADECE JSON döndür (başka metin yok):
 
             {/* SEKMELER */}
             <div style={{display:"flex",gap:0,marginBottom:14,borderBottom:`2px solid ${r.inpB}`}}>
-              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"},{k:"yemeklerim",ikon:"🍽️",l:"Yemeklerim"}].map(s=>(
+              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
                 <button key={s.k} onClick={()=>{setYemekEkleSekme(s.k);setBesinArama("");setHizliSonuc(null);}}
                   style={{flex:1,padding:"10px 4px",border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
                     background:"transparent",
@@ -4761,6 +4761,31 @@ SADECE JSON döndür (başka metin yok):
                     }} style={{...BTN(),width:"100%",padding:"13px 0",fontSize:14}}>✅ {yemekEkleOgun} Öğününe Ekle</button>
                   </div>
                 )}
+              {/* Yemeklerim - foto altında */}
+                <div style={{marginTop:20}}>
+                  <div style={{fontSize:11,fontWeight:700,color:"rgba(16,185,129,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Bugün Yediklerim</div>
+                  {bugYemekler.length===0&&sonYemekler.length===0&&(
+                    <div style={{textAlign:"center",color:r.muted,padding:"16px 0",fontSize:13}}>Henüz yemek eklemedin.</div>
+                  )}
+                  {bugYemekler.map((y,i)=>(
+                    <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:10,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",border:`1px solid ${r.brd}`,marginBottom:6}}>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:700,color:r.text}}>{y.ad}</div>
+                        <div style={{fontSize:11,color:r.sub}}>{y.gram}g · {y.gramKal} kcal</div>
+                      </div>
+                      <button onClick={()=>{const bg=bugunKey();gunSet(bg,"yemekler",[...gunV(bg).yemekler,{...y}]);}} style={{background:"rgba(16,185,129,.1)",border:"1px solid rgba(16,185,129,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,color:"#10b981",cursor:"pointer"}}>+ Tekrar</button>
+                    </div>
+                  ))}
+                  {sonYemekler.filter(y=>!bugYemekler.find(b=>b.ad===y.ad)).slice(0,8).map((y,i)=>(
+                    <div key={"s"+i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:10,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",border:`1px solid ${r.brd}`,marginBottom:6}}>
+                      <div>
+                        <div style={{fontSize:13,fontWeight:700,color:r.text}}>{y.ad}</div>
+                        <div style={{fontSize:11,color:r.sub}}>{y.gram}g · {y.gramKal} kcal</div>
+                      </div>
+                      <button onClick={()=>{const bg=bugunKey();gunSet(bg,"yemekler",[...gunV(bg).yemekler,{...y}]);}} style={{background:"rgba(167,139,250,.1)",border:"1px solid rgba(167,139,250,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,color:"#a78bfa",cursor:"pointer"}}>+ Ekle</button>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -4835,51 +4860,6 @@ SADECE JSON döndür (başka metin yok):
               </div>
             )}
 
-            {yemekEkleSekme==="yemeklerim"&&(
-              <div>
-                <div style={{fontSize:12,fontWeight:700,color:r.sub,marginBottom:10}}>Bugün Yediklerim</div>
-                {bugYemekler.length===0&&sonYemekler.length===0&&(
-                  <div style={{textAlign:"center",color:r.muted,padding:"32px 0",fontSize:13}}>Henüz yemek eklemedin.</div>
-                )}
-                {bugYemekler.length>0&&(
-                  <div style={{marginBottom:14}}>
-                    <div style={{fontSize:10,fontWeight:700,color:"rgba(16,185,129,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Bugün</div>
-                    {bugYemekler.map((y,i)=>(
-                      <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:10,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",border:`1px solid ${r.brd}`,marginBottom:6}}>
-                        <div>
-                          <div style={{fontSize:13,fontWeight:700,color:r.text}}>{y.ad}</div>
-                          <div style={{fontSize:11,color:r.sub}}>{y.gram}g · {y.gramKal} kcal</div>
-                        </div>
-                        <button onClick={()=>{
-                          const bg=bugunKey();
-                          setYemekEkleOgun(y.kat||"Kahvaltı");
-                          const yeniler=[...gunV(bg).yemekler,{...y}];
-                          gunSet(bg,"yemekler",yeniler);
-                        }} style={{background:"rgba(16,185,129,.1)",border:"1px solid rgba(16,185,129,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,color:"#10b981",cursor:"pointer"}}>+ Tekrar</button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {sonYemekler.filter(y=>!bugYemekler.find(b=>b.ad===y.ad)).length>0&&(
-                  <div>
-                    <div style={{fontSize:10,fontWeight:700,color:"rgba(167,139,250,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Son Eklenenler</div>
-                    {sonYemekler.filter(y=>!bugYemekler.find(b=>b.ad===y.ad)).slice(0,10).map((y,i)=>(
-                      <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 12px",borderRadius:10,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",border:`1px solid ${r.brd}`,marginBottom:6}}>
-                        <div>
-                          <div style={{fontSize:13,fontWeight:700,color:r.text}}>{y.ad}</div>
-                          <div style={{fontSize:11,color:r.sub}}>{y.gram}g · {y.gramKal} kcal</div>
-                        </div>
-                        <button onClick={()=>{
-                          const bg=bugunKey();
-                          const yeniler=[...gunV(bg).yemekler,{...y}];
-                          gunSet(bg,"yemekler",yeniler);
-                        }} style={{background:"rgba(167,139,250,.1)",border:"1px solid rgba(167,139,250,.2)",borderRadius:8,padding:"5px 10px",fontSize:11,fontWeight:700,color:"#a78bfa",cursor:"pointer"}}>+ Ekle</button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
 
           </div>
         )}
