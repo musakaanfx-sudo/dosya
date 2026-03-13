@@ -11377,35 +11377,54 @@ export default function App(){
 
   // ─── TEMA ────────────────────────────────────────────────────
   const r = {
-    bg   : d?"#080f0a":"#f6faf7",
-    card : d?"#111a14":"#ffffff",
-    brd  : d?"#1e3024":"#e8f0e9",
-    text : d?"#e8f5e9":"#0d1f0f",
-    sub  : d?"#7aad82":"#4a7c59",
-    muted: d?"#4a7c59":"#8aab92",
-    inp  : d?"#0d1a10":"#f0f7f1",
-    inpB : d?"#1e3024":"#d4e8d6",
-    nav  : d?"#0d1a10":"#ffffff",
-    rowB : d?"#111a14":"#f0f7f1",
-    pg   : d?"#1e3024":"#dceede",
-    accent:"#15803d", accentL:"#22c55e", accentD:"#052e16",
-    gold:"#d97706", goldL:"#fbbf24",
+    // ── Koyu tema (obsidian) ──
+    bg   : d?"#040907":"#f2f7f3",
+    card : d?"#080e09":"#ffffff",
+    brd  : d?"rgba(16,185,129,.1)":"rgba(16,185,129,.12)",
+    text : d?"#e8f5ec":"#0a1f0c",
+    sub  : d?"#6ee7b7":"#047857",
+    muted: d?"#2d5a3d":"#7aab8a",
+    inp  : d?"#060c07":"#f8fbf9",
+    inpB : d?"rgba(16,185,129,.15)":"rgba(16,185,129,.2)",
+    nav  : d?"#050a06":"#ffffff",
+    rowB : d?"rgba(255,255,255,.04)":"rgba(0,0,0,.04)",
+    pg   : d?"rgba(16,185,129,.1)":"rgba(16,185,129,.12)",
+    accent:"#10b981", accentL:"#34d399", accentD:"#065f46",
+    gold:"#c8922a", goldL:"#f0c14b",
+    // Renk sistemi
+    emerald:"#10b981", teal:"#14b8a6", jade:"#059669",
   };
-  const CS   = {
-    background:r.card,
-    border:`1px solid ${r.brd}`,
-    borderRadius:20,
-    padding:"16px 18px",
-    margin:"10px 14px",
-    boxShadow:d?"0 4px 24px #00000040,0 1px 0 #1e302460":"0 4px 24px #0d1f0f0a,0 1px 0 #e8f0e9"
+  const CS = {
+    background: d
+      ? "linear-gradient(160deg,#090e0a 0%,#06100800 100%),#0a0f0b"
+      : "linear-gradient(160deg,#ffffff 0%,#f8fdf9 100%)",
+    border: `1px solid ${r.brd}`,
+    borderRadius: 22,
+    padding: "20px 20px",
+    margin: "8px 14px",
+    boxShadow: d
+      ? "0 1px 0 rgba(16,185,129,.08) inset, 0 20px 60px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.03)"
+      : "0 1px 0 rgba(16,185,129,.15) inset, 0 8px 32px rgba(10,31,12,.06), 0 1px 3px rgba(0,0,0,.05)",
+    position: "relative",
+    overflow: "hidden",
   };
-  const CT   = { fontSize:10,fontWeight:800,color:r.sub,textTransform:"uppercase",letterSpacing:1.5,marginBottom:10 };
-  const PB   = { height:6,background:r.pg,borderRadius:8,overflow:"hidden",marginTop:6 };
-  const PF   = (pct,c)=>({ height:"100%",width:Math.min(100,Math.max(0,pct))+"%",background:c||"linear-gradient(90deg,#16a34a,#22c55e)",borderRadius:8,transition:"width .4s" });
-  const IS   = { width:"100%",padding:"12px 16px",border:`1.5px solid ${r.inpB}`,borderRadius:14,fontSize:14,outline:"none",boxSizing:"border-box",fontFamily:"'Nunito',sans-serif",background:r.inp,color:r.text,transition:"border .2s" };
-  const BTN  = (c,s)=>({ background:c||"linear-gradient(135deg,#16a34a,#15803d)",color:"#fff",border:"none",borderRadius:14,padding:s||"12px 22px",fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.3 });
-  const BAD  = (c)=>({ background:c+"18",color:c,padding:"3px 10px",borderRadius:20,fontSize:10,fontWeight:800,display:"inline-block",letterSpacing:.3 });
-  const NB   = (a)=>({ flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"9px 4px 7px",cursor:"pointer",color:a?"#16a34a":r.muted,fontSize:9,fontWeight:a?800:500,gap:2.5,background:"none",border:"none",minWidth:44,letterSpacing:.3,position:"relative" });
+  const CT = {
+    fontSize: 9,
+    fontWeight: 800,
+    color: r.sub,
+    textTransform: "uppercase",
+    letterSpacing: 2.5,
+    marginBottom: 14,
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+  };
+  const PB  = { height:4,background:d?"rgba(255,255,255,.06)":"rgba(0,0,0,.06)",borderRadius:99,overflow:"hidden",marginTop:6 };
+  const PF  = (pct,c)=>({ height:"100%",width:Math.min(100,Math.max(0,pct))+"%",background:c||"linear-gradient(90deg,#10b981,#34d399)",borderRadius:99,transition:"width .6s cubic-bezier(.34,1.2,.64,1)" });
+  const IS  = { width:"100%",padding:"14px 16px",border:`1.5px solid ${r.inpB}`,borderRadius:16,fontSize:14,outline:"none",boxSizing:"border-box",fontFamily:"'Nunito',sans-serif",background:r.inp,color:r.text,transition:"all .2s",className:"lux-input" };
+  const BTN = (c,s)=>({ background:c||"linear-gradient(135deg,#10b981,#059669)",color:"#fff",border:"none",borderRadius:14,padding:s||"13px 22px",fontSize:14,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",letterSpacing:.4,boxShadow:c?"none":"0 4px 16px rgba(16,185,129,.3)" });
+  const BAD = (c)=>({ background:c+"15",color:c,padding:"3px 10px",borderRadius:20,fontSize:10,fontWeight:800,display:"inline-block",letterSpacing:.3,border:`1px solid ${c}25` });
+  const NB  = (a)=>({ flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"10px 4px 8px",cursor:"pointer",color:a?"#10b981":r.muted,fontSize:9,fontWeight:a?800:600,gap:3,background:"none",border:"none",minWidth:44,letterSpacing:.5,position:"relative",transition:"color .2s" });
 
   // ─── FİREBASE: AUTH STATE & VERİ YÜKLEME ────────────────────
   useEffect(()=>{
@@ -12263,7 +12282,7 @@ SADECE JSON döndür (başka metin yok):
 
     return (
       <>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
         <div style={{fontFamily:"'Nunito',sans-serif",minHeight:"100vh",maxWidth:430,margin:"0 auto",background:"linear-gradient(160deg,#052e16 0%,#15803d 50%,#16a34a 100%)",display:"flex",flexDirection:"column",position:"relative",overflow:"hidden"}}>
 
           {/* Dekoratif nokta desen */}
@@ -12565,80 +12584,71 @@ SADECE JSON döndür (başka metin yok):
     // ─── GİRİŞ EKRANI ────────────────────────────────────────────
   if(!aktif) return (
     <>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
       <style>{`
-        @keyframes giris-float { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(2deg)} }
-        @keyframes giris-glow  { 0%,100%{opacity:.4} 50%{opacity:.8} }
-        @keyframes giris-slide { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-        .g1{animation:giris-slide .6s .1s both}
-        .g2{animation:giris-slide .6s .25s both}
-        .g3{animation:giris-slide .6s .4s both}
-        input:focus{border-color:#16a34a!important;box-shadow:0 0 0 3px #16a34a18!important;outline:none!important}
-        button:active{transform:scale(.97)!important}
+        @keyframes g-rise  { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes g-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        @keyframes g-glow  { 0%,100%{opacity:.2} 50%{opacity:.45} }
+        .g1{animation:g-rise .7s .1s both cubic-bezier(.34,1.1,.64,1)}
+        .g2{animation:g-rise .7s .22s both cubic-bezier(.34,1.1,.64,1)}
+        .g3{animation:g-rise .7s .34s both cubic-bezier(.34,1.1,.64,1)}
+        .g4{animation:g-rise .7s .46s both cubic-bezier(.34,1.1,.64,1)}
+        input:focus{border-color:rgba(16,185,129,.5)!important;box-shadow:0 0 0 3px rgba(16,185,129,.08)!important;outline:none!important}
+        button:active{transform:scale(.96)!important}
+        ::-webkit-scrollbar{width:0}
       `}</style>
-      <div style={{fontFamily:"'Nunito',sans-serif",background:"#050f07",minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden"}}>
+      <div style={{fontFamily:"'Nunito',sans-serif",background:"#030604",minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden"}}>
 
-        {/* Arka plan gradient katmanları */}
-        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 120% 60% at 50% 0%,#14532d 0%,transparent 65%)",pointerEvents:"none"}}/>
-        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 80% 40% at 80% 100%,#052e1680 0%,transparent 60%)",pointerEvents:"none"}}/>
-        {/* Doku katmanı */}
-        <div style={{position:"absolute",inset:0,backgroundImage:"repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.012) 2px,rgba(255,255,255,.012) 4px)",opacity:.8,pointerEvents:"none"}}/>
+        {/* Arka plan */}
+        <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",width:320,height:320,background:"radial-gradient(circle,rgba(16,185,129,.07) 0%,transparent 65%)",animation:"g-glow 5s ease-in-out infinite",pointerEvents:"none"}}/>
+        <div style={{position:"absolute",top:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,rgba(52,211,153,.2),transparent)"}}/>
 
-        {/* Üst hero bölümü */}
-        <div style={{position:"relative",paddingTop:72,paddingBottom:52,textAlign:"center",zIndex:1}}>
-          {/* Glow halkası */}
-          <div style={{position:"absolute",top:40,left:"50%",transform:"translateX(-50%)",width:280,height:280,borderRadius:"50%",background:"radial-gradient(#22c55e18,transparent 70%)",animation:"giris-glow 3s ease-in-out infinite",pointerEvents:"none"}}/>
-
+        {/* Hero */}
+        <div style={{position:"relative",paddingTop:88,paddingBottom:48,textAlign:"center",zIndex:1}}>
           {/* Logo */}
-          <div className="g1" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:96,height:96,background:"linear-gradient(145deg,#1a5c2a,#052e16)",borderRadius:28,marginBottom:24,boxShadow:"0 0 0 1px rgba(34,197,94,.2),0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(74,222,128,.15)",position:"relative",animation:"giris-float 4s ease-in-out infinite"}}>
-            <div style={{position:"absolute",inset:2,borderRadius:26,background:"linear-gradient(145deg,rgba(74,222,128,.08),transparent)",pointerEvents:"none"}}/>
-            <svg width="56" height="56" viewBox="0 0 120 120" fill="none">
-              <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#gL)"/>
-              <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#gR)"/>
-              <path d="M44 40 Q46 34 44 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".7"/>
-              <path d="M60 38 Q62 30 60 22" stroke="#4ade80" strokeWidth="3" strokeLinecap="round"/>
-              <path d="M76 40 Q78 34 76 28" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" opacity=".7"/>
-              <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
-              <defs>
-                <linearGradient id="gL" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#22c55e"/><stop offset="100%" stopColor="#052e16"/></linearGradient>
-                <linearGradient id="gR" x1="26" y1="44" x2="94" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#4ade80"/><stop offset="100%" stopColor="#15803d"/></linearGradient>
-              </defs>
+          <div className="g1" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:100,height:100,background:"linear-gradient(145deg,rgba(16,185,129,.15),rgba(16,185,129,.03))",borderRadius:32,marginBottom:28,boxShadow:"0 0 0 1px rgba(16,185,129,.12), 0 0 0 8px rgba(16,185,129,.03), 0 32px 80px rgba(0,0,0,.5)",animation:"g-float 5s ease-in-out infinite",border:"1px solid rgba(16,185,129,.15)"}}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round">
+              <path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 8-3-3-5-5-5-8a5 5 0 0 1 5-5z"/>
+              <circle cx="12" cy="7" r="2" fill="#34d399" stroke="none" opacity=".8"/>
+              <path d="M7 18c0-2 2-3 5-3s5 1 5 3" opacity=".5"/>
             </svg>
           </div>
 
-          <div className="g1" style={{fontFamily:"'DM Serif Display',serif",fontSize:56,color:"#f0fdf4",lineHeight:.95,letterSpacing:-2,marginBottom:10}}>
-            Do<span style={{color:"#4ade80",textShadow:"0 0 40px #4ade8060"}}>ya</span>
+          <div className="g1">
+            <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:62,color:"#f0fdf4",lineHeight:.9,letterSpacing:-2,fontWeight:300}}>
+              Do<span style={{color:"#34d399"}}>ya</span>
+            </div>
           </div>
-          <div className="g2" style={{fontSize:11,color:"rgba(187,247,208,.5)",letterSpacing:5,textTransform:"uppercase",marginBottom:4}}>
-            Beslen · Takip Et · Doyur
+          <div className="g2" style={{fontSize:10,color:"rgba(52,211,153,.35)",letterSpacing:5,textTransform:"uppercase",marginTop:12,marginBottom:4}}>
+            Beslen &nbsp;·&nbsp; Takip Et &nbsp;·&nbsp; Doyur
           </div>
-          {/* Feature pills */}
-          <div className="g3" style={{display:"flex",justifyContent:"center",gap:8,marginTop:20,flexWrap:"wrap",padding:"0 20px"}}>
-            {["🤖 AI Destekli","🌿 10K+ Besin","📊 Kişisel Plan"].map(t=>(
-              <span key={t} style={{background:"rgba(34,197,94,.1)",border:"1px solid rgba(34,197,94,.2)",color:"rgba(187,247,208,.8)",padding:"5px 12px",borderRadius:20,fontSize:10,fontWeight:700,letterSpacing:.5}}>{t}</span>
+          {/* Pills */}
+          <div className="g3" style={{display:"flex",justifyContent:"center",gap:6,marginTop:20,flexWrap:"wrap",padding:"0 24px"}}>
+            {["AI Destekli","10K+ Besin","Kişisel Plan"].map(t=>(
+              <span key={t} style={{background:"rgba(16,185,129,.06)",border:"1px solid rgba(16,185,129,.12)",color:"rgba(52,211,153,.6)",padding:"4px 12px",borderRadius:99,fontSize:9,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase"}}>{t}</span>
             ))}
           </div>
         </div>
 
         {/* Kart */}
         <div style={{position:"relative",zIndex:1,padding:"0 16px 40px"}}>
-          <div style={{background:"rgba(255,255,255,.04)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,.08)",borderRadius:28,padding:"28px 24px",boxShadow:"0 32px 80px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08)"}}>
+          <div style={{background:"rgba(255,255,255,.025)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(255,255,255,.06)",borderRadius:28,padding:"28px 24px",boxShadow:"0 1px 0 rgba(255,255,255,.04) inset, 0 40px 100px rgba(0,0,0,.5)"}}>
 
             <div style={{textAlign:"center",marginBottom:24}}>
-              <div style={{fontSize:17,fontWeight:900,color:"#f0fdf4",marginBottom:6,letterSpacing:-.3}}>Hoşgeldin 👋</div>
-              <div style={{fontSize:12,color:"rgba(187,247,208,.5)",lineHeight:1.6}}>Google hesabınla saniyeler içinde başla</div>
+              <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,color:"#e8f5ec",lineHeight:1.1,fontWeight:300,marginBottom:6}}>Hoşgeldiniz</div>
+              <div style={{fontSize:11,color:"rgba(255,255,255,.3)",lineHeight:1.6,letterSpacing:.3}}>Google hesabınızla saniyeler içinde başlayın</div>
             </div>
 
             {/* KVKK onaylar */}
-            <div style={{background:"rgba(34,197,94,.06)",border:"1px solid rgba(34,197,94,.12)",borderRadius:16,padding:"14px 16px",marginBottom:20}}>
-              <div style={{fontSize:10,fontWeight:800,color:"rgba(134,239,172,.7)",marginBottom:12,letterSpacing:1,textTransform:"uppercase"}}>Onay Gerekiyor</div>
+            <div style={{background:"rgba(16,185,129,.04)",border:"1px solid rgba(16,185,129,.1)",borderRadius:16,padding:"14px 16px",marginBottom:20}}>
+              <div style={{fontSize:9,fontWeight:700,color:"rgba(52,211,153,.4)",marginBottom:12,letterSpacing:2,textTransform:"uppercase"}}>Onay Gerekiyor</div>
               {[
                 {s:kvkkOnay,set:setKvkkOnay,label:"KVKK & Kullanım Koşulları",link:()=>setKvkkModal(true),zorunlu:true},
                 {s:gdprOnay,set:setGdprOnay,label:"Gizlilik Politikası (GDPR)",link:()=>setGdprModal(true),zorunlu:true},
                 {s:pazarlamaOnay,set:setPazarlamaOnay,label:"Güncelleme bildirimleri (isteğe bağlı)",link:null,zorunlu:false},
               ].map((f,i)=>(
                 <label key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:i<2?10:0,cursor:"pointer"}}>
-                  <div onClick={()=>f.set(!f.s)} style={{width:20,height:20,borderRadius:6,border:`1.5px solid ${f.s?"#22c55e":"rgba(255,255,255,.2)"}`,background:f.s?"#16a34a":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .15s"}}>
+                  <div onClick={()=>f.set(!f.s)} style={{width:20,height:20,borderRadius:7,border:`1.5px solid ${f.s?"rgba(16,185,129,.6)":"rgba(255,255,255,.12)"}`,background:f.s?"rgba(16,185,129,.15)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}}>
                     {f.s&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
                   </div>
                   <span style={{fontSize:11,color:"rgba(187,247,208,.7)",lineHeight:1.5,flex:1}}>
@@ -12652,7 +12662,7 @@ SADECE JSON döndür (başka metin yok):
             {gHata&&<div style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#fca5a5",padding:"10px 14px",borderRadius:12,fontSize:12,marginBottom:16,textAlign:"center"}}>{gHata}</div>}
 
             {/* Google butonu */}
-            <button style={{width:"100%",padding:"15px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay)?"rgba(255,255,255,.15)":"rgba(255,255,255,.06)"}`,background:(kvkkOnay&&gdprOnay)?"rgba(255,255,255,.06)":"rgba(255,255,255,.02)",cursor:(kvkkOnay&&gdprOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay)?"#f0fdf4":"rgba(255,255,255,.25)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .2s",backdropFilter:"blur(8px)"}}
+            <button style={{width:"100%",padding:"16px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay)?"rgba(16,185,129,.2)":"rgba(255,255,255,.05)"}`,background:(kvkkOnay&&gdprOnay)?"linear-gradient(145deg,rgba(16,185,129,.1),rgba(16,185,129,.05))":"rgba(255,255,255,.01)",cursor:(kvkkOnay&&gdprOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay)?"#d1fae5":"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .25s",boxShadow:(kvkkOnay&&gdprOnay)?"0 8px 24px rgba(16,185,129,.15)":"none"}}
               onClick={async()=>{
                 if(!kvkkOnay||!gdprOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
                 try{
@@ -12669,19 +12679,19 @@ SADECE JSON döndür (başka metin yok):
               Google ile Devam Et
             </button>
 
-            <div style={{display:"flex",alignItems:"center",gap:8,margin:"16px 0"}}>
-              <div style={{flex:1,height:1,background:"rgba(255,255,255,.08)"}}/>
-              <span style={{fontSize:10,color:"rgba(255,255,255,.25)",letterSpacing:1}}>YAKINDA</span>
-              <div style={{flex:1,height:1,background:"rgba(255,255,255,.08)"}}/>
+            <div style={{display:"flex",alignItems:"center",gap:8,margin:"14px 0"}}>
+              <div style={{flex:1,height:1,background:"rgba(255,255,255,.05)"}}/>
+              <span style={{fontSize:9,color:"rgba(255,255,255,.18)",letterSpacing:1.5,textTransform:"uppercase"}}>Yakında</span>
+              <div style={{flex:1,height:1,background:"rgba(255,255,255,.05)"}}/>
             </div>
 
-            <button disabled style={{width:"100%",padding:"14px 0",borderRadius:16,border:"1px solid rgba(255,255,255,.06)",background:"transparent",cursor:"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:14,color:"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
+            <button disabled style={{width:"100%",padding:"14px 0",borderRadius:16,border:"1px solid rgba(255,255,255,.04)",background:"transparent",cursor:"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,color:"rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(255,255,255,.2)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
               Apple ile Giriş Yap
             </button>
 
             <div style={{marginTop:20,textAlign:"center"}}>
-              <a href={"mailto:"+DESTEK_MAIL} style={{fontSize:11,color:"rgba(134,239,172,.4)",textDecoration:"none",letterSpacing:.3}}>✉️ {DESTEK_MAIL}</a>
+              <a href={"mailto:"+DESTEK_MAIL} style={{fontSize:10,color:"rgba(52,211,153,.25)",textDecoration:"none",letterSpacing:.5}}> {DESTEK_MAIL}</a>
             </div>
           </div>
         </div>
@@ -12773,105 +12783,107 @@ SADECE JSON döndür (başka metin yok):
   // ─── ONBOARDING ──────────────────────────────────────────────
   if(onboard) return (
     <>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
       <style>{`
-        @keyframes ob-in   { from{opacity:0;transform:translateX(48px) scale(.97)} to{opacity:1;transform:translateX(0) scale(1)} }
-        @keyframes ob-out  { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-32px)} }
-        @keyframes ob-up   { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes ob-glow { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.7;transform:scale(1.08)} }
-        @keyframes ob-float{ 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-10px) rotate(2deg)} }
-        @keyframes ob-pop  { 0%{transform:scale(0) rotate(-10deg);opacity:0} 70%{transform:scale(1.15) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
-        @keyframes ob-spin { to{transform:rotate(360deg)} }
-        .ob-slide  { animation: ob-in 0.4s cubic-bezier(.34,1.2,.64,1) forwards; }
-        .ob-delay1 { animation: ob-up 0.5s .1s both; }
-        .ob-delay2 { animation: ob-up 0.5s .2s both; }
-        .ob-delay3 { animation: ob-up 0.5s .3s both; }
-        .ob-delay4 { animation: ob-up 0.5s .4s both; }
-        .ob-pop    { animation: ob-pop 0.4s cubic-bezier(.34,1.6,.64,1) forwards; }
-        input:focus { border-color:var(--ob-accent,#16a34a) !important; box-shadow:0 0 0 3px color-mix(in srgb,var(--ob-accent,#16a34a) 15%,transparent) !important; outline:none; }
-        .ob-sel   { transition:all .2s cubic-bezier(.34,1.2,.64,1); }
-        .ob-sel:active { transform:scale(.96); }
-        ::-webkit-scrollbar { width:0; }
-        button { -webkit-tap-highlight-color: transparent; }
+        @keyframes ob-rise  { from{opacity:0;transform:translateY(30px) scale(.96)} to{opacity:1;transform:translateY(0) scale(1)} }
+        @keyframes ob-fade  { from{opacity:0} to{opacity:1} }
+        @keyframes ob-glow  { 0%,100%{opacity:.25} 50%{opacity:.5} }
+        @keyframes ob-pulse { 0%,100%{transform:scale(1)} 50%{transform:translateY(-6px)} }
+        @keyframes ob-check { from{transform:scale(0) rotate(-20deg);opacity:0} to{transform:scale(1) rotate(0);opacity:1} }
+        @keyframes ob-line  { from{width:0} to{width:100%} }
+        .ob-r1{animation:ob-rise .55s .05s both cubic-bezier(.34,1.1,.64,1)}
+        .ob-r2{animation:ob-rise .55s .15s both cubic-bezier(.34,1.1,.64,1)}
+        .ob-r3{animation:ob-rise .55s .25s both cubic-bezier(.34,1.1,.64,1)}
+        .ob-r4{animation:ob-rise .55s .35s both cubic-bezier(.34,1.1,.64,1)}
+        .ob-r5{animation:ob-rise .55s .45s both cubic-bezier(.34,1.1,.64,1)}
+        .ob-float{animation:ob-pulse 4s ease-in-out infinite}
+        .ob-check-pop{animation:ob-check .3s cubic-bezier(.34,1.6,.64,1) both}
+        ::-webkit-scrollbar{width:0}
+        button{-webkit-tap-highlight-color:transparent}
+        input{-webkit-tap-highlight-color:transparent}
+        input:focus{outline:none}
+        .ob-inp{background:rgba(255,255,255,.04);border:1px solid rgba(16,185,129,.15);border-radius:16px;color:#e8f5ec;font-family:'Nunito',sans-serif;transition:all .2s}
+        .ob-inp:focus{border-color:rgba(16,185,129,.5)!important;background:rgba(16,185,129,.04)!important;box-shadow:0 0 0 3px rgba(16,185,129,.08)!important}
+        .ob-inp::placeholder{color:rgba(255,255,255,.2)}
+        .ob-sel{transition:all .22s cubic-bezier(.34,1.1,.64,1)}
+        .ob-sel:active{transform:scale(.96)}
       `}</style>
+      <div style={{fontFamily:"'Nunito',sans-serif",minHeight:"100vh",maxWidth:430,margin:"0 auto",background:"#030604",overflow:"hidden",position:"relative"}}>
 
-      <div style={{fontFamily:"'Nunito',sans-serif",minHeight:"100vh",maxWidth:430,margin:"0 auto",position:"relative",overflow:"hidden",background:"#060d08"}}>
-
-        {/* ── Shared progress dots ── */}
+        {/* ── İlerleme çubuğu ── */}
         {(()=>{
-          const RENK=["#22c55e","#f59e0b","#3b82f6","#8b5cf6","#ef4444"];
-          const c=RENK[(obAdim-1)%RENK.length];
+          const ACC=["#10b981","#f0c14b","#3b82f6","#a78bfa","#f87171"];
+          const c=ACC[obAdim-1]||ACC[0];
+          const pct=(obAdim/5)*100;
           return(
-            <div style={{position:"fixed",top:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,zIndex:999,padding:"52px 24px 0",display:"flex",justifyContent:"center",gap:6,pointerEvents:"none"}}>
-              {[1,2,3,4,5].map(i=>(
-                <div key={i} style={{height:4,borderRadius:4,background:i<=obAdim?c:"rgba(255,255,255,.15)",width:i===obAdim?28:i<obAdim?14:10,transition:"all .4s cubic-bezier(.34,1.2,.64,1)"}}/>
-              ))}
+            <div style={{position:"fixed",top:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,zIndex:999}}>
+              <div style={{height:2,background:"rgba(255,255,255,.06)"}}>
+                <div style={{height:"100%",width:pct+"%",background:`linear-gradient(90deg,${c}aa,${c})`,borderRadius:2,transition:"width .5s cubic-bezier(.34,1.2,.64,1)",boxShadow:`0 0 8px ${c}60`}}/>
+              </div>
+              <div style={{display:"flex",justifyContent:"center",gap:8,padding:"14px 0 0"}}>
+                {[1,2,3,4,5].map(i=>(
+                  <div key={i} style={{width:i===obAdim?20:6,height:6,borderRadius:3,background:i<obAdim?c:i===obAdim?c:"rgba(255,255,255,.12)",transition:"all .4s cubic-bezier(.34,1.2,.64,1)",opacity:i>obAdim?.4:1}}/>
+                ))}
+              </div>
             </div>
           );
         })()}
 
-        {/* ══ ADIM 1: Fiziksel Bilgiler ══ */}
+        {/* ══ ADIM 1 — Fiziksel Bilgiler ══ */}
         {obAdim===1&&(
-          <div className="ob-slide" style={{minHeight:"100vh",position:"relative",display:"flex",flexDirection:"column",background:"linear-gradient(160deg,#030d04 0%,#0a2010 50%,#0f2d16 100%)"}}>
-            {/* Arka plan glow */}
-            <div style={{position:"absolute",top:"-20%",left:"50%",transform:"translateX(-50%)",width:400,height:400,background:"radial-gradient(#22c55e18,transparent 65%)",animation:"ob-glow 4s ease-in-out infinite",pointerEvents:"none"}}/>
-            <div style={{position:"absolute",bottom:0,left:0,right:0,height:"40%",background:"linear-gradient(to top,rgba(22,163,74,.04),transparent)",pointerEvents:"none"}}/>
+          <div style={{minHeight:"100vh",display:"flex",flexDirection:"column",position:"relative",background:"radial-gradient(ellipse 100% 60% at 50% -10%,rgba(16,185,129,.08) 0%,transparent 70%), #030604"}}>
+            <div style={{position:"absolute",top:"15%",left:"50%",transform:"translateX(-50%)",width:400,height:400,background:"radial-gradient(circle,rgba(16,185,129,.04) 0%,transparent 65%)",animation:"ob-glow 5s ease-in-out infinite",pointerEvents:"none"}}/>
 
-            <div style={{flex:1,padding:"96px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
+            <div style={{flex:1,padding:"80px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
               {/* İkon */}
-              <div className="ob-delay1" style={{marginBottom:28}}>
-                <div style={{width:72,height:72,borderRadius:22,background:"linear-gradient(135deg,#16a34a,#052e16)",boxShadow:"0 0 0 1px rgba(34,197,94,.2),0 16px 48px rgba(22,163,74,.3)",display:"flex",alignItems:"center",justifyContent:"center",animation:"ob-float 4s ease-in-out infinite"}}>
-                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <div className="ob-r1 ob-float" style={{marginBottom:32}}>
+                <div style={{width:80,height:80,borderRadius:28,background:"linear-gradient(145deg,rgba(16,185,129,.15),rgba(16,185,129,.03))",border:"1px solid rgba(16,185,129,.2)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 0 12px rgba(16,185,129,.04), 0 24px 64px rgba(0,0,0,.5)"}}>
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1.2" strokeLinecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                 </div>
               </div>
 
-              <div className="ob-delay2">
-                <div style={{fontSize:11,fontWeight:800,color:"rgba(74,222,128,.6)",letterSpacing:3,textTransform:"uppercase",marginBottom:10}}>Adım 1 / 5</div>
-                <div style={{fontFamily:"'DM Serif Display',serif",fontSize:34,color:"#f0fdf4",lineHeight:1.1,marginBottom:10,letterSpacing:-.5}}>
-                  Seni<br/><span style={{color:"#4ade80"}}>tanıyalım</span>
+              <div className="ob-r2" style={{marginBottom:32}}>
+                <div style={{fontSize:11,fontWeight:700,color:"rgba(52,211,153,.45)",letterSpacing:4,textTransform:"uppercase",marginBottom:12}}>01 — Beş adımdan biri</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:40,color:"#f0fdf4",lineHeight:1.05,fontWeight:300,letterSpacing:-.5,marginBottom:12}}>
+                  Seni<br/><em style={{color:"#34d399",fontStyle:"italic"}}>tanıyalım</em>
                 </div>
-                <div style={{fontSize:14,color:"rgba(187,247,208,.55)",lineHeight:1.6,marginBottom:32}}>
-                  Kişisel kalori hedefini hesaplamak için birkaç bilgiye ihtiyacımız var
-                </div>
+                <div style={{fontSize:14,color:"rgba(255,255,255,.35)",lineHeight:1.7,fontWeight:400}}>Kişisel kalori ve makro hedeflerini hesaplamak için birkaç bilgiye ihtiyacımız var.</div>
               </div>
 
-              {/* Input alanları */}
-              <div className="ob-delay3" style={{display:"flex",flexDirection:"column",gap:12,marginBottom:"auto"}}>
+              {/* Inputlar */}
+              <div className="ob-r3" style={{display:"flex",flexDirection:"column",gap:10,marginBottom:24}}>
                 {[
-                  {l:"Mevcut Kilo",u:"kg",v:obK,s:setObK,ph:"75",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>},
-                  {l:"Boy",u:"cm",v:obB,s:setObB,ph:"175",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 7l-5-5-5 5"/><path d="M17 17l-5 5-5-5"/></svg>},
-                  {l:"Yaş",u:"yıl",v:obY,s:setObY,ph:"25",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-1a6 6 0 0 1 12 0v1"/></svg>},
+                  {l:"Mevcut Kilo",u:"kg",v:obK,s:setObK,ph:"75",ic:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>},
+                  {l:"Boy",u:"cm",v:obB,s:setObB,ph:"175",ic:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 7l-5-5-5 5"/><path d="M17 17l-5 5-5-5"/></svg>},
+                  {l:"Yaş",u:"yıl",v:obY,s:setObY,ph:"25",ic:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 21v-1a6 6 0 0 1 12 0v1"/></svg>},
                 ].map((f,i)=>(
                   <div key={i}>
-                    <div style={{fontSize:11,fontWeight:700,color:"rgba(134,239,172,.6)",marginBottom:6,letterSpacing:.5}}>{f.l}</div>
+                    <div style={{fontSize:10,fontWeight:700,color:"rgba(52,211,153,.45)",letterSpacing:2,textTransform:"uppercase",marginBottom:6}}>{f.l}</div>
                     <div style={{position:"relative"}}>
-                      <div style={{position:"absolute",left:14,top:"50%",transform:"translateY(-50%)",color:"rgba(134,239,172,.5)"}}>{f.ic}</div>
-                      <input type="number" value={f.v} onChange={e=>f.s(e.target.value)} placeholder={f.ph}
-                        style={{width:"100%",padding:"14px 56px 14px 44px",borderRadius:16,border:"1.5px solid rgba(255,255,255,.1)",background:"rgba(255,255,255,.05)",color:"#f0fdf4",fontSize:16,fontWeight:800,fontFamily:"'Nunito',sans-serif",boxSizing:"border-box","--ob-accent":"#22c55e"}}/>
-                      <div style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",fontSize:12,color:"rgba(134,239,172,.5)",fontWeight:700}}>{f.u}</div>
+                      <div style={{position:"absolute",left:14,top:"50%",transform:"translateY(-50%)",color:"rgba(52,211,153,.35)"}}>{f.ic}</div>
+                      <input type="number" value={f.v} onChange={e=>f.s(e.target.value)} placeholder={f.ph} className="ob-inp"
+                        style={{width:"100%",padding:"14px 52px 14px 42px",fontSize:18,fontWeight:700,boxSizing:"border-box"}}/>
+                      <div style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",fontSize:11,color:"rgba(52,211,153,.35)",fontWeight:700,letterSpacing:1}}>{f.u}</div>
                     </div>
                   </div>
                 ))}
-
                 {/* Cinsiyet */}
                 <div>
-                  <div style={{fontSize:11,fontWeight:700,color:"rgba(134,239,172,.6)",marginBottom:8,letterSpacing:.5}}>Cinsiyet</div>
+                  <div style={{fontSize:10,fontWeight:700,color:"rgba(52,211,153,.45)",letterSpacing:2,textTransform:"uppercase",marginBottom:8}}>Cinsiyet</div>
                   <div style={{display:"flex",gap:8}}>
-                    {[{v:"erkek",l:"Erkek",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-1a6 6 0 0 1 12 0v1"/></svg>},
-                      {v:"kadin",l:"Kadın",ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M12 12v8M9 18h6"/></svg>}].map(c=>(
+                    {[{v:"erkek",l:"Erkek"},{v:"kadin",l:"Kadın"}].map(c=>(
                       <button key={c.v} onClick={()=>setObC(c.v)} className="ob-sel"
-                        style={{flex:1,padding:"12px 0",borderRadius:14,border:`1.5px solid ${obC===c.v?"#22c55e":"rgba(255,255,255,.1)"}`,background:obC===c.v?"rgba(34,197,94,.12)":"rgba(255,255,255,.04)",color:obC===c.v?"#4ade80":"rgba(255,255,255,.5)",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                        {c.ic}{c.l}
+                        style={{flex:1,padding:"13px 0",borderRadius:14,border:`1px solid ${obC===c.v?"rgba(16,185,129,.5)":"rgba(255,255,255,.07)"}`,background:obC===c.v?"rgba(16,185,129,.08)":"rgba(255,255,255,.02)",color:obC===c.v?"#34d399":"rgba(255,255,255,.4)",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:14}}>
+                        {c.l}
                       </button>
                     ))}
                   </div>
                 </div>
               </div>
 
-              {/* Devam */}
-              <div className="ob-delay4" style={{marginTop:28}}>
-                <button onClick={()=>{if(!obK||!obB||!obY){alert("Lütfen tüm alanları doldur");return;}setObAdim(2);}}
-                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 12px 40px rgba(22,163,74,.45),inset 0 1px 0 rgba(255,255,255,.15)",letterSpacing:.3,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+              <div className="ob-r4">
+                <button onClick={()=>{if(!obK||!obB||!obY)return alert("Tüm alanları doldurun");setObAdim(2);}}
+                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#10b981,#059669 70%)",border:"1px solid rgba(52,211,153,.2)",color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 0 0 1px rgba(16,185,129,.1), 0 16px 48px rgba(16,185,129,.3), 0 4px 12px rgba(0,0,0,.4)",letterSpacing:.5,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
                   Devam Et
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </button>
@@ -12880,55 +12892,56 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-        {/* ══ ADIM 2: Hedef ══ */}
+        {/* ══ ADIM 2 — Hedef ══ */}
         {obAdim===2&&(
-          <div className="ob-slide" style={{minHeight:"100vh",position:"relative",display:"flex",flexDirection:"column",background:"linear-gradient(160deg,#0c0800 0%,#1c1000 50%,#291500 100%)"}}>
-            <div style={{position:"absolute",top:"-10%",right:"-10%",width:300,height:300,background:"radial-gradient(#f59e0b14,transparent 65%)",animation:"ob-glow 4s ease-in-out infinite",pointerEvents:"none"}}/>
-            <div style={{flex:1,padding:"96px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
-              <button onClick={()=>setObAdim(1)} style={{position:"absolute",top:56,left:24,background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.6)"}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
+          <div style={{minHeight:"100vh",display:"flex",flexDirection:"column",position:"relative",background:"radial-gradient(ellipse 100% 60% at 50% -10%,rgba(200,146,42,.07) 0%,transparent 70%), #030604"}}>
+            <div style={{position:"absolute",top:"15%",right:"0",width:300,height:300,background:"radial-gradient(circle,rgba(200,146,42,.04) 0%,transparent 65%)",animation:"ob-glow 5s ease-in-out infinite",pointerEvents:"none"}}/>
+            <button onClick={()=>setObAdim(1)} style={{position:"absolute",top:52,left:24,background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.07)",borderRadius:12,width:38,height:38,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.4)",zIndex:2}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
 
-              <div className="ob-delay1" style={{width:72,height:72,borderRadius:22,background:"linear-gradient(135deg,#d97706,#92400e)",boxShadow:"0 16px 48px rgba(217,119,6,.3)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:28,animation:"ob-float 4s ease-in-out infinite"}}>
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fde68a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <div style={{flex:1,padding:"80px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
+              <div className="ob-r1 ob-float" style={{marginBottom:32}}>
+                <div style={{width:80,height:80,borderRadius:28,background:"linear-gradient(145deg,rgba(200,146,42,.15),rgba(200,146,42,.03))",border:"1px solid rgba(200,146,42,.2)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 0 12px rgba(200,146,42,.03), 0 24px 64px rgba(0,0,0,.5)"}}>
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" strokeWidth="1.2" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
               </div>
-
-              <div className="ob-delay2" style={{marginBottom:28}}>
-                <div style={{fontSize:11,fontWeight:800,color:"rgba(251,191,36,.6)",letterSpacing:3,textTransform:"uppercase",marginBottom:10}}>Adım 2 / 5</div>
-                <div style={{fontFamily:"'DM Serif Display',serif",fontSize:34,color:"#fef3c7",lineHeight:1.1,marginBottom:10,letterSpacing:-.5}}>Hedefin<br/><span style={{color:"#fbbf24"}}>ne?</span></div>
-                <div style={{fontSize:14,color:"rgba(253,230,138,.5)",lineHeight:1.6}}>Buna göre sana özel kalori ve makro hedefleri hesaplayacağız</div>
+              <div className="ob-r2" style={{marginBottom:28}}>
+                <div style={{fontSize:11,fontWeight:700,color:"rgba(240,193,75,.4)",letterSpacing:4,textTransform:"uppercase",marginBottom:12}}>02 — Hedefin</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:40,color:"#fefce8",lineHeight:1.05,fontWeight:300,letterSpacing:-.5,marginBottom:12}}>
+                  Ne<br/><em style={{color:"#f0c14b",fontStyle:"italic"}}>istiyorsun?</em>
+                </div>
               </div>
-
-              <div className="ob-delay3" style={{display:"flex",flexDirection:"column",gap:10,marginBottom:20}}>
+              <div className="ob-r3" style={{display:"flex",flexDirection:"column",gap:8,marginBottom:20}}>
                 {[
-                  {v:"kilo_ver",l:"Kilo Vermek",a:"Kalori açığı ile yağ yakımı",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>,c:"#22c55e"},
-                  {v:"kilo_al", l:"Kas Kütlesi Kazanmak",a:"Kalori fazlası ile kas gelişimi",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>,c:"#3b82f6"},
-                  {v:"koruma", l:"Sağlıklı Kalmak",a:"İdeal kiloda kalma ve yaşam kalitesi",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,c:"#f59e0b"},
+                  {v:"kilo_ver",l:"Kilo Vermek",a:"Kalori açığı ve yağ yakımı",c:"#10b981"},
+                  {v:"kilo_al", l:"Kas Kazanmak",a:"Kalori fazlası ve kas gelişimi",c:"#3b82f6"},
+                  {v:"koruma", l:"Sağlıklı Kalmak",a:"İdeal kiloda yaşam kalitesi",c:"#f0c14b"},
                 ].map(o=>(
                   <button key={o.v} onClick={()=>setObHedef(o.v)} className="ob-sel"
-                    style={{width:"100%",padding:"16px",borderRadius:18,border:`1.5px solid ${obHedef===o.v?o.c+"88":"rgba(255,255,255,.08)"}`,background:obHedef===o.v?`${o.c}12`:"rgba(255,255,255,.03)",cursor:"pointer",textAlign:"left",fontFamily:"'Nunito',sans-serif",display:"flex",alignItems:"center",gap:14}}>
-                    <div style={{width:44,height:44,borderRadius:14,background:obHedef===o.v?`${o.c}20`:"rgba(255,255,255,.05)",display:"flex",alignItems:"center",justifyContent:"center",color:obHedef===o.v?o.c:"rgba(255,255,255,.3)",flexShrink:0}}>{o.ic}</div>
+                    style={{width:"100%",padding:"18px 18px",borderRadius:18,border:`1px solid ${obHedef===o.v?o.c+"55":"rgba(255,255,255,.06)"}`,background:obHedef===o.v?`${o.c}0a`:"rgba(255,255,255,.02)",cursor:"pointer",textAlign:"left",fontFamily:"'Nunito',sans-serif",display:"flex",alignItems:"center",gap:14}}>
+                    <div style={{width:10,height:10,borderRadius:"50%",background:obHedef===o.v?o.c:"rgba(255,255,255,.15)",flexShrink:0,boxShadow:obHedef===o.v?`0 0 12px ${o.c}80`:"none",transition:"all .2s"}}/>
                     <div style={{flex:1}}>
-                      <div style={{fontSize:14,fontWeight:800,color:obHedef===o.v?"#fef3c7":"rgba(255,255,255,.7)",marginBottom:3}}>{o.l}</div>
-                      <div style={{fontSize:11,color:"rgba(255,255,255,.35)"}}>{o.a}</div>
+                      <div style={{fontSize:15,fontWeight:700,color:obHedef===o.v?"#f0fdf4":"rgba(255,255,255,.55)",marginBottom:3}}>{o.l}</div>
+                      <div style={{fontSize:11,color:"rgba(255,255,255,.25)"}}>{o.a}</div>
                     </div>
-                    {obHedef===o.v&&<div className="ob-pop" style={{width:22,height:22,borderRadius:8,background:o.c,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></div>}
+                    {obHedef===o.v&&<div className="ob-check-pop" style={{color:o.c}}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>}
                   </button>
                 ))}
-
-                {/* Hedef kilo */}
                 {(obHedef==="kilo_ver"||obHedef==="kilo_al")&&(
-                  <div className="ob-delay1" style={{marginTop:4}}>
-                    <div style={{fontSize:11,fontWeight:700,color:"rgba(251,191,36,.6)",marginBottom:6,letterSpacing:.5}}>Hedef Kilo (kg)</div>
-                    <input type="number" value={obHK} onChange={e=>setObHK(e.target.value)} placeholder="65"
-                      style={{width:"100%",padding:"13px 16px",borderRadius:14,border:"1.5px solid rgba(255,255,255,.1)",background:"rgba(255,255,255,.05)",color:"#fef3c7",fontSize:16,fontWeight:800,fontFamily:"'Nunito',sans-serif",boxSizing:"border-box","--ob-accent":"#f59e0b"}}/>
+                  <div className="ob-r1">
+                    <div style={{fontSize:10,fontWeight:700,color:"rgba(240,193,75,.4)",letterSpacing:2,textTransform:"uppercase",marginBottom:6}}>Hedef Kilo</div>
+                    <div style={{position:"relative"}}>
+                      <input type="number" value={obHK} onChange={e=>setObHK(e.target.value)} placeholder="65" className="ob-inp"
+                        style={{width:"100%",padding:"14px 52px 14px 16px",fontSize:18,fontWeight:700,boxSizing:"border-box"}}/>
+                      <div style={{position:"absolute",right:14,top:"50%",transform:"translateY(-50%)",fontSize:11,color:"rgba(240,193,75,.4)",fontWeight:700,letterSpacing:1}}>kg</div>
+                    </div>
                   </div>
                 )}
               </div>
-
-              <div className="ob-delay4" style={{marginTop:"auto"}}>
+              <div className="ob-r4">
                 <button onClick={()=>setObAdim(3)}
-                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#d97706,#b45309)",border:"none",color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 12px 40px rgba(217,119,6,.4),inset 0 1px 0 rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#c8922a,#a16207)",border:"1px solid rgba(240,193,75,.2)",color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 0 0 1px rgba(200,146,42,.1), 0 16px 48px rgba(200,146,42,.25), 0 4px 12px rgba(0,0,0,.4)",letterSpacing:.5,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
                   Devam Et
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </button>
@@ -12937,50 +12950,48 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-        {/* ══ ADIM 3: Aktivite ══ */}
+        {/* ══ ADIM 3 — Aktivite ══ */}
         {obAdim===3&&(
-          <div className="ob-slide" style={{minHeight:"100vh",position:"relative",display:"flex",flexDirection:"column",background:"linear-gradient(160deg,#00080f 0%,#001a2e 50%,#002040 100%)"}}>
-            <div style={{position:"absolute",top:"-10%",left:"50%",transform:"translateX(-50%)",width:350,height:350,background:"radial-gradient(#3b82f614,transparent 65%)",animation:"ob-glow 4s ease-in-out infinite",pointerEvents:"none"}}/>
-            <div style={{flex:1,padding:"96px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
-              <button onClick={()=>setObAdim(2)} style={{position:"absolute",top:56,left:24,background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.6)"}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-
-              <div className="ob-delay1" style={{width:72,height:72,borderRadius:22,background:"linear-gradient(135deg,#1d4ed8,#1e3a8a)",boxShadow:"0 16px 48px rgba(29,78,216,.3)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:28,animation:"ob-float 4s ease-in-out infinite"}}>
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <div style={{minHeight:"100vh",display:"flex",flexDirection:"column",position:"relative",background:"radial-gradient(ellipse 100% 60% at 50% -10%,rgba(59,130,246,.06) 0%,transparent 70%), #030604"}}>
+            <button onClick={()=>setObAdim(2)} style={{position:"absolute",top:52,left:24,background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.07)",borderRadius:12,width:38,height:38,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.4)",zIndex:2}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div style={{flex:1,padding:"80px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
+              <div className="ob-r1 ob-float" style={{marginBottom:32}}>
+                <div style={{width:80,height:80,borderRadius:28,background:"linear-gradient(145deg,rgba(59,130,246,.15),rgba(59,130,246,.03))",border:"1px solid rgba(59,130,246,.2)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 24px 64px rgba(0,0,0,.5)"}}>
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.2" strokeLinecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
               </div>
-
-              <div className="ob-delay2" style={{marginBottom:24}}>
-                <div style={{fontSize:11,fontWeight:800,color:"rgba(147,197,253,.6)",letterSpacing:3,textTransform:"uppercase",marginBottom:10}}>Adım 3 / 5</div>
-                <div style={{fontFamily:"'DM Serif Display',serif",fontSize:34,color:"#eff6ff",lineHeight:1.1,marginBottom:10,letterSpacing:-.5}}>Aktivite<br/><span style={{color:"#60a5fa"}}>seviyeni</span> seç</div>
-                <div style={{fontSize:14,color:"rgba(147,197,253,.5)",lineHeight:1.6}}>Bu bilgiyle günlük kalori yakımını hesaplayacağız</div>
+              <div className="ob-r2" style={{marginBottom:24}}>
+                <div style={{fontSize:11,fontWeight:700,color:"rgba(96,165,250,.4)",letterSpacing:4,textTransform:"uppercase",marginBottom:12}}>03 — Aktivite</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:40,color:"#eff6ff",lineHeight:1.05,fontWeight:300,letterSpacing:-.5}}>
+                  Ne kadar<br/><em style={{color:"#60a5fa",fontStyle:"italic"}}>hareket ediyorsun?</em>
+                </div>
               </div>
-
-              <div className="ob-delay3" style={{display:"flex",flexDirection:"column",gap:8}}>
+              <div className="ob-r3" style={{display:"flex",flexDirection:"column",gap:6,marginBottom:24}}>
                 {[
-                  {v:"sedanter",  l:"Hareketsiz",     a:"Masa başı iş, spor yok",        pct:15,c:"#64748b"},
-                  {v:"hafif",    l:"Hafif Aktif",    a:"Haftada 1–2 gün egzersiz",      pct:35,c:"#22c55e"},
-                  {v:"orta",     l:"Orta Aktif",     a:"Haftada 3–5 gün egzersiz",      pct:55,c:"#3b82f6"},
-                  {v:"aktif",    l:"Çok Aktif",      a:"Her gün yoğun egzersiz",        pct:80,c:"#8b5cf6"},
-                  {v:"cokAktif", l:"Profesyonel",    a:"Günde 2 antrenman / ağır iş",   pct:100,c:"#ef4444"},
+                  {v:"sedanter",  l:"Hareketsiz",    a:"Masa başı, spor yok",        w:15},
+                  {v:"hafif",    l:"Hafif Aktif",   a:"Haftada 1–2 gün egzersiz",   w:35},
+                  {v:"orta",     l:"Orta Aktif",    a:"Haftada 3–5 gün egzersiz",   w:55},
+                  {v:"aktif",    l:"Çok Aktif",     a:"Günlük yoğun egzersiz",      w:80},
+                  {v:"cokAktif", l:"Profesyonel",   a:"Günde 2 antrenman",          w:100},
                 ].map(a=>(
                   <button key={a.v} onClick={()=>setObA(a.v)} className="ob-sel"
-                    style={{width:"100%",padding:"13px 16px",borderRadius:16,border:`1.5px solid ${obA===a.v?a.c+"66":"rgba(255,255,255,.07)"}`,background:obA===a.v?`${a.c}10`:"rgba(255,255,255,.02)",cursor:"pointer",textAlign:"left",fontFamily:"'Nunito',sans-serif",display:"flex",alignItems:"center",gap:12}}>
-                    <div style={{flex:1}}>
-                      <div style={{fontSize:13,fontWeight:800,color:obA===a.v?"#eff6ff":"rgba(255,255,255,.6)",marginBottom:4}}>{a.l}</div>
-                      <div style={{height:3,background:"rgba(255,255,255,.08)",borderRadius:4,overflow:"hidden"}}>
-                        <div style={{width:obA===a.v?a.pct+"%":"0%",height:"100%",background:a.c,borderRadius:4,transition:"width .5s cubic-bezier(.34,1.2,.64,1)"}}/>
-                      </div>
-                      <div style={{fontSize:10,color:"rgba(255,255,255,.3)",marginTop:4}}>{a.a}</div>
+                    style={{width:"100%",padding:"14px 16px",borderRadius:16,border:`1px solid ${obA===a.v?"rgba(59,130,246,.4)":"rgba(255,255,255,.05)"}`,background:obA===a.v?"rgba(59,130,246,.07)":"rgba(255,255,255,.01)",cursor:"pointer",textAlign:"left",fontFamily:"'Nunito',sans-serif"}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+                      <span style={{fontSize:13,fontWeight:700,color:obA===a.v?"#bfdbfe":"rgba(255,255,255,.45)"}}>{a.l}</span>
+                      {obA===a.v&&<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.5" className="ob-check-pop"><polyline points="20 6 9 17 4 12"/></svg>}
                     </div>
-                    {obA===a.v&&<div className="ob-pop" style={{width:20,height:20,borderRadius:7,background:a.c,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><svg width="10" height="8" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></div>}
+                    <div style={{height:2,background:"rgba(255,255,255,.05)",borderRadius:99,overflow:"hidden"}}>
+                      <div style={{width:obA===a.v?a.w+"%":"0%",height:"100%",background:"linear-gradient(90deg,#3b82f6,#60a5fa)",borderRadius:99,transition:"width .6s cubic-bezier(.34,1.2,.64,1)"}}/>
+                    </div>
+                    <div style={{fontSize:10,color:"rgba(255,255,255,.2)",marginTop:4}}>{a.a}</div>
                   </button>
                 ))}
               </div>
-
-              <div className="ob-delay4" style={{marginTop:20}}>
+              <div className="ob-r4">
                 <button onClick={()=>setObAdim(4)}
-                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#1d4ed8,#1e3a8a)",border:"none",color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 12px 40px rgba(29,78,216,.4),inset 0 1px 0 rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#2563eb,#1d4ed8)",border:"1px solid rgba(96,165,250,.2)",color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 16px 48px rgba(37,99,235,.25), 0 4px 12px rgba(0,0,0,.4)",letterSpacing:.5,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
                   Devam Et
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </button>
@@ -12989,46 +13000,44 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-        {/* ══ ADIM 4: Beslenme Tarzı ══ */}
+        {/* ══ ADIM 4 — Beslenme Tarzı ══ */}
         {obAdim===4&&(
-          <div className="ob-slide" style={{minHeight:"100vh",position:"relative",display:"flex",flexDirection:"column",background:"linear-gradient(160deg,#08000f 0%,#150022 50%,#1a0030 100%)"}}>
-            <div style={{position:"absolute",top:"-10%",right:"0",width:300,height:300,background:"radial-gradient(#8b5cf614,transparent 65%)",animation:"ob-glow 4s ease-in-out infinite",pointerEvents:"none"}}/>
-            <div style={{flex:1,padding:"96px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1,overflowY:"auto"}}>
-              <button onClick={()=>setObAdim(3)} style={{position:"absolute",top:56,left:24,background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.6)"}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-
-              <div className="ob-delay1" style={{width:72,height:72,borderRadius:22,background:"linear-gradient(135deg,#7c3aed,#4c1d95)",boxShadow:"0 16px 48px rgba(124,58,237,.3)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:28,animation:"ob-float 4s ease-in-out infinite"}}>
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#c4b5fd" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>
+          <div style={{minHeight:"100vh",display:"flex",flexDirection:"column",position:"relative",background:"radial-gradient(ellipse 100% 60% at 50% -10%,rgba(139,92,246,.06) 0%,transparent 70%), #030604",overflowY:"auto"}}>
+            <button onClick={()=>setObAdim(3)} style={{position:"absolute",top:52,left:24,background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.07)",borderRadius:12,width:38,height:38,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.4)",zIndex:2}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div style={{flex:1,padding:"80px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
+              <div className="ob-r1 ob-float" style={{marginBottom:32}}>
+                <div style={{width:80,height:80,borderRadius:28,background:"linear-gradient(145deg,rgba(139,92,246,.15),rgba(139,92,246,.03))",border:"1px solid rgba(139,92,246,.2)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 24px 64px rgba(0,0,0,.5)"}}>
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#c4b5fd" strokeWidth="1.2" strokeLinecap="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>
+                </div>
               </div>
-
-              <div className="ob-delay2" style={{marginBottom:24}}>
-                <div style={{fontSize:11,fontWeight:800,color:"rgba(196,181,253,.6)",letterSpacing:3,textTransform:"uppercase",marginBottom:10}}>Adım 4 / 5</div>
-                <div style={{fontFamily:"'DM Serif Display',serif",fontSize:34,color:"#faf5ff",lineHeight:1.1,marginBottom:10,letterSpacing:-.5}}>Beslenme<br/><span style={{color:"#a78bfa"}}>tarzın</span></div>
-                <div style={{fontSize:14,color:"rgba(196,181,253,.5)",lineHeight:1.6}}>AI diyet önerileri bu seçime göre kişiselleşecek</div>
+              <div className="ob-r2" style={{marginBottom:24}}>
+                <div style={{fontSize:11,fontWeight:700,color:"rgba(196,181,253,.4)",letterSpacing:4,textTransform:"uppercase",marginBottom:12}}>04 — Beslenme</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:40,color:"#faf5ff",lineHeight:1.05,fontWeight:300,letterSpacing:-.5}}>
+                  Beslenme<br/><em style={{color:"#a78bfa",fontStyle:"italic"}}>tarzın</em>
+                </div>
               </div>
-
-              <div className="ob-delay3" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:"auto"}}>
+              <div className="ob-r3" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:24}}>
                 {[
-                  {v:"Normal",    l:"Her şey",      ic:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>,c:"#8b5cf6"},
-                  {v:"Vejeteryan",l:"Vejeteryan",   ic:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>,c:"#22c55e"},
-                  {v:"Vegan",     l:"Vegan",        ic:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,c:"#10b981"},
-                  {v:"Ketojenik", l:"Keto",         ic:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>,c:"#f59e0b"},
-                  {v:"GlutenFree",l:"Glutensiz",    ic:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>,c:"#ef4444"},
-                  {v:"Akdeniz",   l:"Akdeniz",      ic:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,c:"#0891b2"},
+                  {v:"Normal",    l:"Her şey",    c:"#8b5cf6",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>},
+                  {v:"Vejeteryan",l:"Vejeteryan", c:"#10b981",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/></svg>},
+                  {v:"Vegan",     l:"Vegan",      c:"#34d399",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>},
+                  {v:"Ketojenik", l:"Keto",       c:"#f0c14b",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>},
+                  {v:"GlutenFree",l:"Glutensiz",  c:"#f87171",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>},
+                  {v:"Akdeniz",   l:"Akdeniz",    c:"#38bdf8",ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>},
                 ].map(o=>(
                   <button key={o.v} onClick={()=>setObDiyet(o.v)} className="ob-sel"
-                    style={{padding:"16px 12px",borderRadius:16,border:`1.5px solid ${obDiyet===o.v?o.c+"88":"rgba(255,255,255,.07)"}`,background:obDiyet===o.v?`${o.c}15`:"rgba(255,255,255,.03)",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:8,fontFamily:"'Nunito',sans-serif",position:"relative"}}>
-                    {obDiyet===o.v&&<div className="ob-pop" style={{position:"absolute",top:8,right:8,width:18,height:18,borderRadius:6,background:o.c,display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="9" height="7" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></div>}
-                    <div style={{color:obDiyet===o.v?o.c:"rgba(255,255,255,.35)"}}>{o.ic}</div>
-                    <span style={{fontSize:12,fontWeight:800,color:obDiyet===o.v?"#faf5ff":"rgba(255,255,255,.5)"}}>{o.l}</span>
+                    style={{padding:"18px 12px",borderRadius:16,border:`1px solid ${obDiyet===o.v?o.c+"55":"rgba(255,255,255,.06)"}`,background:obDiyet===o.v?`${o.c}0d`:"rgba(255,255,255,.02)",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:8,fontFamily:"'Nunito',sans-serif",position:"relative"}}>
+                    {obDiyet===o.v&&<div className="ob-check-pop" style={{position:"absolute",top:8,right:8,width:16,height:16,borderRadius:5,background:o.c,display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="8" height="7" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></div>}
+                    <div style={{color:obDiyet===o.v?o.c:"rgba(255,255,255,.25)"}}>{o.ic}</div>
+                    <span style={{fontSize:12,fontWeight:700,color:obDiyet===o.v?"#f5f3ff":"rgba(255,255,255,.4)"}}>{o.l}</span>
                   </button>
                 ))}
               </div>
-
-              <div className="ob-delay4" style={{marginTop:24}}>
+              <div className="ob-r4">
                 <button onClick={()=>setObAdim(5)}
-                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#7c3aed,#6d28d9)",border:"none",color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 12px 40px rgba(124,58,237,.4),inset 0 1px 0 rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#7c3aed,#6d28d9)",border:"1px solid rgba(196,181,253,.15)",color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 16px 48px rgba(124,58,237,.25), 0 4px 12px rgba(0,0,0,.4)",letterSpacing:.5,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
                   Devam Et
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </button>
@@ -13037,63 +13046,60 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-        {/* ══ ADIM 5: Alerji ══ */}
+        {/* ══ ADIM 5 — Alerji ══ */}
         {obAdim===5&&(
-          <div className="ob-slide" style={{minHeight:"100vh",position:"relative",display:"flex",flexDirection:"column",background:"linear-gradient(160deg,#0f0000 0%,#200000 50%,#2d0000 100%)"}}>
-            <div style={{position:"absolute",top:"-10%",left:"30%",width:300,height:300,background:"radial-gradient(#ef444414,transparent 65%)",animation:"ob-glow 4s ease-in-out infinite",pointerEvents:"none"}}/>
-            <div style={{flex:1,padding:"96px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1,overflowY:"auto"}}>
-              <button onClick={()=>setObAdim(4)} style={{position:"absolute",top:56,left:24,background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.6)"}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-
-              <div className="ob-delay1" style={{width:72,height:72,borderRadius:22,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",boxShadow:"0 16px 48px rgba(220,38,38,.3)",display:"flex",alignItems:"center",justifyContent:"center",marginBottom:28,animation:"ob-float 4s ease-in-out infinite"}}>
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div style={{minHeight:"100vh",display:"flex",flexDirection:"column",position:"relative",background:"radial-gradient(ellipse 100% 60% at 50% -10%,rgba(239,68,68,.05) 0%,transparent 70%), #030604",overflowY:"auto"}}>
+            <button onClick={()=>setObAdim(4)} style={{position:"absolute",top:52,left:24,background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.07)",borderRadius:12,width:38,height:38,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:"rgba(255,255,255,.4)",zIndex:2}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div style={{flex:1,padding:"80px 28px 32px",display:"flex",flexDirection:"column",position:"relative",zIndex:1}}>
+              <div className="ob-r1 ob-float" style={{marginBottom:28}}>
+                <div style={{width:80,height:80,borderRadius:28,background:"linear-gradient(145deg,rgba(239,68,68,.12),rgba(239,68,68,.02))",border:"1px solid rgba(239,68,68,.15)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 24px 64px rgba(0,0,0,.5)"}}>
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.2" strokeLinecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
               </div>
-
-              <div className="ob-delay2" style={{marginBottom:20}}>
-                <div style={{fontSize:11,fontWeight:800,color:"rgba(252,165,165,.6)",letterSpacing:3,textTransform:"uppercase",marginBottom:10}}>Adım 5 / 5</div>
-                <div style={{fontFamily:"'DM Serif Display',serif",fontSize:34,color:"#fff1f2",lineHeight:1.1,marginBottom:10,letterSpacing:-.5}}>Alerji &<br/><span style={{color:"#f87171"}}>kısıtlamalar</span></div>
-                <div style={{fontSize:13,color:"rgba(252,165,165,.5)",lineHeight:1.6}}>Tariflerde ve AI önerilerinde otomatik işaretlenecek</div>
+              <div className="ob-r2" style={{marginBottom:20}}>
+                <div style={{fontSize:11,fontWeight:700,color:"rgba(252,165,165,.4)",letterSpacing:4,textTransform:"uppercase",marginBottom:12}}>05 — Alerji</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:40,color:"#fff1f2",lineHeight:1.05,fontWeight:300,letterSpacing:-.5,marginBottom:8}}>
+                  Alerji &<br/><em style={{color:"#f87171",fontStyle:"italic"}}>kısıtlamalar</em>
+                </div>
+                <div style={{fontSize:13,color:"rgba(255,255,255,.25)",lineHeight:1.6}}>Tariflerde ve AI önerilerinde otomatik işaretlenir</div>
               </div>
-
-              <div className="ob-delay3" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:20}}>
+              <div className="ob-r3" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7,marginBottom:16}}>
                 {[
-                  {id:"gluten",   l:"Gluten",       ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C8 2 5 6 5 11c0 4 3 7 7 8v1h4v-1c4-1 7-4 7-8 0-5-3-9-7-9z"/></svg>},
-                  {id:"laktoz",   l:"Laktoz",       ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 2h8l2 4H6L8 2z"/><path d="M6 6v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"/></svg>},
-                  {id:"yumurta",  l:"Yumurta",      ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><ellipse cx="12" cy="13" rx="7" ry="9"/></svg>},
-                  {id:"kuruyemis",l:"Kuruyemiş",    ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>},
-                  {id:"balik",    l:"Balık",        ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 3.09 7 6"/><circle cx="17" cy="12" r="1"/></svg>},
-                  {id:"kabuklu",  l:"Kabuklu",      ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17"/></svg>},
-                  {id:"soya",     l:"Soya",         ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="2"/><circle cx="6" cy="8" r="2"/><circle cx="18" cy="8" r="2"/></svg>},
-                  {id:"susam",    l:"Susam",        ic:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="18" cy="16" r="2"/></svg>},
+                  {id:"gluten",   l:"Gluten"},
+                  {id:"laktoz",   l:"Laktoz"},
+                  {id:"yumurta",  l:"Yumurta"},
+                  {id:"kuruyemis",l:"Kuruyemiş"},
+                  {id:"balik",    l:"Balık"},
+                  {id:"kabuklu",  l:"Kabuklu"},
+                  {id:"soya",     l:"Soya"},
+                  {id:"susam",    l:"Susam"},
                 ].map(a=>{
                   const s=obAlerji.includes(a.id);
                   return(
                     <button key={a.id} onClick={()=>setObAlerji(p=>s?p.filter(x=>x!==a.id):[...p,a.id])} className="ob-sel"
-                      style={{padding:"13px 10px",borderRadius:14,border:`1.5px solid ${s?"#ef444455":"rgba(255,255,255,.07)"}`,background:s?"rgba(239,68,68,.1)":"rgba(255,255,255,.02)",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:8,fontFamily:"'Nunito',sans-serif",position:"relative"}}>
-                      {s&&<div className="ob-pop" style={{position:"absolute",top:6,right:6,width:16,height:16,borderRadius:5,background:"#ef4444",display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="8" height="7" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></div>}
-                      <div style={{color:s?"#f87171":"rgba(255,255,255,.3)"}}>{a.ic}</div>
-                      <span style={{fontSize:11,fontWeight:800,color:s?"#fff1f2":"rgba(255,255,255,.45)",textAlign:"center"}}>{a.l}</span>
+                      style={{padding:"14px 10px",borderRadius:14,border:`1px solid ${s?"rgba(239,68,68,.4)":"rgba(255,255,255,.06)"}`,background:s?"rgba(239,68,68,.07)":"rgba(255,255,255,.01)",cursor:"pointer",fontFamily:"'Nunito',sans-serif",position:"relative",display:"flex",alignItems:"center",justifyContent:"center",gap:7}}>
+                      {s&&<div className="ob-check-pop" style={{position:"absolute",top:6,right:6,width:14,height:14,borderRadius:4,background:"#ef4444",display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="7" height="6" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg></div>}
+                      <span style={{fontSize:13,fontWeight:700,color:s?"#fca5a5":"rgba(255,255,255,.4)"}}>{a.l}</span>
                     </button>
                   );
                 })}
               </div>
-
               {obAlerji.length>0&&(
-                <div className="ob-delay1" style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",borderRadius:12,padding:"10px 14px",marginBottom:16,display:"flex",alignItems:"center",gap:8}}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
-                  <span style={{fontSize:11,color:"#fca5a5",fontWeight:700}}>{obAlerji.length} alerji seçildi — tariflerde işaretlenecek</span>
+                <div className="ob-r1" style={{background:"rgba(239,68,68,.07)",border:"1px solid rgba(239,68,68,.15)",borderRadius:12,padding:"10px 14px",marginBottom:14,display:"flex",alignItems:"center",gap:8}}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+                  <span style={{fontSize:11,color:"rgba(252,165,165,.7)",fontWeight:700}}>{obAlerji.length} alerji seçili</span>
                 </div>
               )}
-
-              <div className="ob-delay4">
+              <div className="ob-r4">
                 <button onClick={()=>onboardBitir(false)}
-                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",color:"#fff",fontSize:16,fontWeight:900,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 12px 40px rgba(22,163,74,.45),inset 0 1px 0 rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:12}}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                  Doya'ya Başla!
+                  style={{width:"100%",padding:"17px 0",borderRadius:18,background:"linear-gradient(135deg,#10b981,#059669 70%)",border:"1px solid rgba(52,211,153,.2)",color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",fontFamily:"'Nunito',sans-serif",boxShadow:"0 16px 48px rgba(16,185,129,.3), 0 4px 12px rgba(0,0,0,.4)",letterSpacing:.5,display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:10}}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  Doya'ya Başla
                 </button>
                 <button onClick={()=>onboardBitir(true)}
-                  style={{width:"100%",padding:"10px",background:"none",border:"none",color:"rgba(255,255,255,.3)",fontSize:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
+                  style={{width:"100%",padding:"10px",background:"none",border:"none",color:"rgba(255,255,255,.2)",fontSize:12,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
                   Alerjisiz devam et
                 </button>
               </div>
@@ -13115,33 +13121,63 @@ SADECE JSON döndür (başka metin yok):
   return (
     <>
       <style>{`
-        * { -webkit-tap-highlight-color: transparent; }
-        .ic{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-        .card-glass{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-        @keyframes pulse-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.5);opacity:0}}
-        @keyframes water-fill{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
-        .badge-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.4px}
-        @keyframes tabEnter { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes tabExit  { from{opacity:1;transform:translateY(0)} to{opacity:0;transform:translateY(-6px)} }
-        .tab-enter { animation: tabEnter 0.22s cubic-bezier(.34,1.2,.64,1) forwards; }
-        .tab-exit  { animation: tabExit 0.14s ease-in forwards; }
-        @keyframes slideUp { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
-        .modal-enter { animation: slideUp 0.3s cubic-bezier(.34,1.4,.64,1) forwards; }
-        @keyframes spin { to{transform:rotate(360deg)} }
-        .spin { animation: spin 0.8s linear infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');
+        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }
+        ::-webkit-scrollbar { width:0; height:0; }
+        button { transition: all .18s cubic-bezier(.34,1.2,.64,1); }
+        button:active { transform:scale(.95); }
+        input:focus { outline:none; }
+        input::placeholder { opacity:.4; }
+
+        /* ── Animasyonlar ── */
+        @keyframes lux-in   { from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+        @keyframes lux-fade { from{opacity:0} to{opacity:1} }
+        @keyframes lux-up   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes tab-in   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes tab-out  { from{opacity:1} to{opacity:0;transform:translateY(-5px)} }
+        @keyframes slide-up { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes spin     { to{transform:rotate(360deg)} }
+        @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.35} }
+        @keyframes shimmer  { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+        @keyframes glow-pulse { 0%,100%{opacity:.3} 50%{opacity:.6} }
+        @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+        @keyframes ring-fill { from{stroke-dashoffset:427} }
+        @keyframes number-pop { 0%{transform:scale(.8);opacity:0} 100%{transform:scale(1);opacity:1} }
+
+        .lux-card { animation: lux-in .5s cubic-bezier(.34,1.1,.64,1) both; }
+        .lux-card:nth-child(1){animation-delay:.05s}
+        .lux-card:nth-child(2){animation-delay:.1s}
+        .lux-card:nth-child(3){animation-delay:.15s}
+        .lux-card:nth-child(4){animation-delay:.2s}
+        .lux-card:nth-child(5){animation-delay:.25s}
+        .tab-enter { animation: tab-in .25s cubic-bezier(.34,1.2,.64,1) forwards; }
+        .tab-exit  { animation: tab-out .14s ease-in forwards; }
+        .modal-enter { animation: slide-up .32s cubic-bezier(.34,1.3,.64,1) forwards; }
+        .spin  { animation: spin .8s linear infinite; }
         .pulse { animation: pulse 1.5s ease-in-out infinite; }
-        @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
-        @keyframes glow { 0%,100%{box-shadow:0 0 20px #16a34a22} 50%{box-shadow:0 0 36px #16a34a44} }
-        .card-hover:active { transform:scale(.98); transition:transform .12s; }
-        input:focus { border-color:#16a34a !important; box-shadow:0 0 0 3px #16a34a18 !important; }
-        ::-webkit-scrollbar { width:0; }
-        button { transition: opacity .15s, transform .12s; }
-        button:active { opacity:.85; transform:scale(.97); }
+        .float { animation: float 3.5s ease-in-out infinite; }
+
+        /* ── Lüks kart hover ── */
+        .lux-lift { transition: transform .2s, box-shadow .2s; }
+        .lux-lift:active { transform:scale(.985); }
+
+        /* ── Input focus ── */
+        .lux-input:focus {
+          border-color: rgba(16,185,129,.6) !important;
+          box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;
+        }
+
+        /* ── Shimmer efekti ── */
+        .shimmer-line::after {
+          content:''; position:absolute; inset:0;
+          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+          animation: shimmer 2.5s ease-in-out infinite;
+        }
       `}</style>
-      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
-      <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:88,transition:"background .4s ease"}}>
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+      <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:92,transition:"background .5s ease",position:"relative"}}>
+        {/* Arka plan doku */}
+        {d&&<div style={{position:"fixed",inset:0,maxWidth:430,left:"50%",transform:"translateX(-50%)",background:"radial-gradient(ellipse 60% 40% at 50% 0%,rgba(16,185,129,.04) 0%,transparent 70%)",pointerEvents:"none",zIndex:0}}/>}
 
         {/* ══ SPOR UYGULAMASI MODAL ══════════════════════════════════ */}
         {sporAppAcik&&(
@@ -13478,70 +13514,60 @@ SADECE JSON döndür (başka metin yok):
         })()}
 
         {/* HEADER */}
-        <div style={{background:d?"linear-gradient(160deg,#0a1a0c 0%,#0d2211 50%,#0f2d15 100%)":"linear-gradient(160deg,#052e16 0%,#14532d 45%,#166534 100%)",padding:"0 0 0",color:"#fff",position:"relative",overflow:"hidden",boxShadow:"0 4px 32px #00000030"}}>
-          {/* Arka plan desen */}
-          <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle at 80% 20%,#22c55e14 0%,transparent 60%),radial-gradient(circle at 10% 80%,#15803d18 0%,transparent 50%)",pointerEvents:"none"}}/>
-          <div style={{position:"absolute",inset:0,backgroundImage:"repeating-linear-gradient(45deg,transparent,transparent 28px,rgba(255,255,255,.012) 28px,rgba(255,255,255,.012) 29px)",pointerEvents:"none"}}/>
+        <div style={{background:d?"linear-gradient(180deg,#030704 0%,#060d07 100%)":"linear-gradient(180deg,#065f46 0%,#047857 100%)",padding:"0",color:"#fff",position:"relative",overflow:"hidden",boxShadow:d?"0 1px 0 rgba(16,185,129,.08), 0 8px 40px rgba(0,0,0,.6)":"0 8px 40px rgba(4,120,87,.3)"}}>
+          {/* Glow */}
+          <div style={{position:"absolute",top:-40,left:"50%",transform:"translateX(-50%)",width:280,height:120,background:"radial-gradient(ellipse,rgba(16,185,129,.12) 0%,transparent 70%)",pointerEvents:"none"}}/>
+          {/* İnce yeşil çizgi - üst */}
+          <div style={{position:"absolute",top:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,rgba(52,211,153,.3),transparent)"}}/>
           {/* Ana içerik */}
-          <div style={{padding:"14px 16px 16px",position:"relative",zIndex:1}}>
+          <div style={{padding:"13px 16px 15px",position:"relative",zIndex:1}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            <div style={{display:"flex",alignItems:"center",gap:10}}>
+            <div style={{display:"flex",alignItems:"center",gap:9}}>
               {/* Hamburger */}
-              <button onClick={()=>setHamMenu(true)} style={{background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)",borderRadius:12,padding:"8px 9px",cursor:"pointer",display:"flex",flexDirection:"column",gap:3.5,flexShrink:0}}>
-                <span style={{display:"block",width:17,height:1.5,background:"#fff",borderRadius:2}}/>
-                <span style={{display:"block",width:12,height:1.5,background:"rgba(255,255,255,.7)",borderRadius:2}}/>
-                <span style={{display:"block",width:17,height:1.5,background:"#fff",borderRadius:2}}/>
+              <button onClick={()=>setHamMenu(true)} style={{background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:38,height:38,cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:4,flexShrink:0}}>
+                <span style={{display:"block",width:16,height:1.5,background:"rgba(255,255,255,.9)",borderRadius:2}}/>
+                <span style={{display:"block",width:10,height:1.5,background:"rgba(255,255,255,.5)",borderRadius:2,alignSelf:"flex-start",marginLeft:3}}/>
+                <span style={{display:"block",width:16,height:1.5,background:"rgba(255,255,255,.9)",borderRadius:2}}/>
               </button>
               {/* Kamera */}
               <button onClick={()=>{setAiModal(true);setAiSonuc(null);setAiHata(null);setAiImg(null);setAiNot("");setAiOgun("Kahvaltı");}}
-                title="Fotoğrafla Kalori Tara"
-                style={{background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.1)",borderRadius:12,padding:"8px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",width:36,height:36,flexShrink:0}}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                style={{background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" strokeWidth="2" strokeLinecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
               </button>
-              {/* Logo + isim */}
-              <div>
-                <div style={{display:"flex",alignItems:"center",gap:8}}>
-                  <div style={{width:32,height:32,background:"linear-gradient(145deg,#22c55e,#052e16 90%)",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,boxShadow:"0 2px 12px #22c55e30"}}>
-                    <svg width="20" height="20" viewBox="0 0 120 120" fill="none">
-                      <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#bHH)"/>
-                      <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#rHH)"/>
-                      <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
-                      <defs>
-                        <linearGradient id="bHH" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#16a34a"/><stop offset="100%" stopColor="#052e16"/></linearGradient>
-                        <linearGradient id="rHH" x1="26" y1="44" x2="94" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0%" stopColor="#4ade80"/><stop offset="100%" stopColor="#15803d"/></linearGradient>
-                      </defs>
-                    </svg>
-                  </div>
-                  <div>
-                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:24,lineHeight:1,letterSpacing:-.5}}>Do<span style={{color:"#4ade80"}}>ya</span></div>
-                    <div style={{fontSize:10,opacity:.65,letterSpacing:.5,marginTop:1}}>
-                      {aktif.isim?.split(" ")[0]}
-                      {isAdmin&&<span style={{background:"#fbbf24",color:"#78350f",fontSize:8,fontWeight:800,padding:"1px 5px",borderRadius:10,marginLeft:5}}>ADMIN</span>}
-                      {isOrtak&&<span style={{background:"rgba(255,255,255,.2)",fontSize:8,fontWeight:800,padding:"1px 5px",borderRadius:10,marginLeft:5}}>{aktif.refTip==="influencer"?"INFLUENCER":"İŞLETME"}</span>}
-                    </div>
+              {/* Logo */}
+              <div style={{display:"flex",alignItems:"center",gap:9}}>
+                <div style={{width:34,height:34,background:"linear-gradient(145deg,rgba(16,185,129,.25),rgba(16,185,129,.05))",borderRadius:12,border:"1px solid rgba(52,211,153,.2)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 8-3-3-5-5-5-8a5 5 0 0 1 5-5z"/><circle cx="12" cy="7" r="2" fill="#34d399" stroke="none"/></svg>
+                </div>
+                <div>
+                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,lineHeight:1,letterSpacing:.5,fontWeight:600,color:"#fff"}}>Doya</div>
+                  <div style={{fontSize:10,color:"rgba(52,211,153,.7)",letterSpacing:.5,marginTop:1}}>
+                    {aktif.isim?.split(" ")[0]}
+                    {isAdmin&&<span style={{background:"rgba(251,191,36,.15)",color:"#fbbf24",fontSize:8,fontWeight:800,padding:"1px 5px",borderRadius:6,marginLeft:5,border:"1px solid rgba(251,191,36,.2)"}}>ADMIN</span>}
+                    {isOrtak&&<span style={{background:"rgba(255,255,255,.08)",fontSize:8,fontWeight:800,padding:"1px 5px",borderRadius:6,marginLeft:5}}>{aktif.refTip==="influencer"?"INFLUENCER":"İŞLETME"}</span>}
                   </div>
                 </div>
               </div>
             </div>
             {/* Sağ aksiyonlar */}
             <div style={{display:"flex",gap:5,alignItems:"center"}}>
-              <button onClick={()=>setHpModal(true)} title="Haftalık Özet"
-                style={{background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.1)",borderRadius:12,width:36,height:36,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <button onClick={()=>setHpModal(true)}
+                style={{background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
               </button>
-              <button onClick={()=>setDark(!d)} title="Tema"
-                style={{background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.1)",borderRadius:12,width:36,height:36,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+              <button onClick={()=>setDark(!d)}
+                style={{background:"rgba(255,255,255,.07)",border:"1px solid rgba(255,255,255,.08)",borderRadius:12,width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
                 {d
-                  ?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                  :<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.85)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                  ?<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                  :<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                 }
               </button>
-              <div onClick={()=>setTab("puan")} style={{background:"linear-gradient(135deg,rgba(251,191,36,.18),rgba(217,119,6,.12))",border:"1px solid rgba(251,191,36,.25)",borderRadius:12,padding:"0 11px",height:36,display:"flex",alignItems:"center",gap:5,cursor:"pointer",flexShrink:0}}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span style={{fontSize:13,fontWeight:800,color:"#fbbf24"}}>{puan}</span>
+              <div onClick={()=>setTab("puan")} style={{height:38,padding:"0 12px",display:"flex",alignItems:"center",gap:5,cursor:"pointer",flexShrink:0,background:"rgba(200,146,42,.12)",border:"1px solid rgba(240,193,75,.15)",borderRadius:12}}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#f0c14b" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span style={{fontSize:13,fontWeight:800,color:"#f0c14b",letterSpacing:.3}}>{puan}</span>
               </div>
-              {premiumPlus&&<span style={{background:"linear-gradient(135deg,#7c3aed,#6d28d9)",fontSize:9,fontWeight:800,padding:"4px 8px",borderRadius:10,color:"#fff",letterSpacing:.5,flexShrink:0}}>PLUS</span>}
-              {premium&&!premiumPlus&&<span style={{background:"rgba(251,191,36,.15)",border:"1px solid rgba(251,191,36,.3)",fontSize:9,fontWeight:800,padding:"4px 8px",borderRadius:10,color:"#fbbf24",letterSpacing:.5,flexShrink:0}}>PRO</span>}
+              {premiumPlus&&<span style={{background:"linear-gradient(135deg,#7c3aed,#6d28d9)",fontSize:9,fontWeight:800,padding:"5px 9px",borderRadius:10,color:"#fff",letterSpacing:.8,flexShrink:0,border:"1px solid rgba(196,181,253,.15)"}}>PLUS</span>}
+              {premium&&!premiumPlus&&<span style={{background:"rgba(200,146,42,.12)",border:"1px solid rgba(240,193,75,.2)",fontSize:9,fontWeight:800,padding:"5px 9px",borderRadius:10,color:"#f0c14b",letterSpacing:.8,flexShrink:0}}>PRO</span>}
             </div>
           </div>
           </div>
@@ -13660,7 +13686,7 @@ SADECE JSON döndür (başka metin yok):
             )}
 
             {/* GÜNLÜK DİYET LİSTESİ */}
-            <div style={{...CS,marginBottom:10,background:d?"linear-gradient(145deg,#0e0c1a,#110e22)":"linear-gradient(145deg,#faf8ff,#f3f0ff)",border:d?"1px solid rgba(124,58,237,.2)":"1px solid rgba(124,58,237,.15)",boxShadow:d?"0 8px 32px rgba(124,58,237,.15)":"0 8px 32px rgba(124,58,237,.06)"}}>
+            <div className="lux-card" style={{...CS,marginBottom:10,background:d?"linear-gradient(145deg,#0e0c1a,#110e22)":"linear-gradient(145deg,#faf8ff,#f3f0ff)",border:d?"1px solid rgba(124,58,237,.2)":"1px solid rgba(124,58,237,.15)",boxShadow:d?"0 8px 32px rgba(124,58,237,.15)":"0 8px 32px rgba(124,58,237,.06)"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                 <div style={{display:"flex",alignItems:"center",gap:10}}>
                   <div style={{width:36,height:36,borderRadius:12,background:"linear-gradient(135deg,#7c3aed,#6d28d9)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 12px rgba(124,58,237,.35)"}}>
@@ -13737,98 +13763,89 @@ SADECE JSON döndür (başka metin yok):
               {diyetListesi?.hata&&<div style={{color:"#ef4444",fontSize:12}}>{diyetListesi.hata}</div>}
             </div>
 
-            {/* TDEE + Spor */}
-            {tdee&&<div style={{background:"linear-gradient(135deg,#6d28d9,#4f46e5)",borderRadius:20,padding:"14px 18px",margin:"10px 14px",color:"#fff",boxShadow:"0 8px 32px rgba(109,40,217,.25)",border:"1px solid rgba(167,139,250,.15)"}}>
-              <div style={{display:"flex",alignItems:"center",gap:6,fontSize:10,opacity:.7,fontWeight:800,letterSpacing:1.5,textTransform:"uppercase",marginBottom:2}}><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>GÜNLÜK YAKIM + SPOR</div>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:4}}>
-                <div>
-                  <div style={{fontSize:30,fontWeight:900}}>{HEDEF} <span style={{fontSize:13}}>kcal</span></div>
-                  {topSpor>0&&<div style={{fontSize:11,opacity:.8}}>Spor: +{topSpor} kcal</div>}
-                </div>
-                <div style={{textAlign:"right",fontSize:12}}>
-                  <div>Yedim: <b>{topKal}</b></div>
-                  <div style={{color:topKal<=HEDEF?"#86efac":"#fca5a5"}}>{topKal<=HEDEF?(HEDEF-topKal)+" kaldı":(topKal-HEDEF)+" fazla"}</div>
-                </div>
+            {/* TDEE — luxury subtle */}
+            {tdee&&<div className="lux-card" style={{margin:"0 14px 8px",background:d?"#080e09":"#fff",borderRadius:18,padding:"16px 20px",border:"1px solid rgba(139,92,246,.1)",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div>
+                <div style={{fontSize:9,fontWeight:700,color:"rgba(167,139,250,.5)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:6}}>Günlük Hedef</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:300,color:"#a78bfa",lineHeight:1,letterSpacing:-1}}>{HEDEF} <span style={{fontSize:13,fontWeight:400}}>kcal</span></div>
+                {topSpor>0&&<div style={{fontSize:10,color:"rgba(167,139,250,.5)",marginTop:4}}>Temel {tdee} + spor +{topSpor}</div>}
+              </div>
+              <div style={{textAlign:"right"}}>
+                <div style={{fontSize:9,fontWeight:700,color:r.muted,letterSpacing:2,textTransform:"uppercase",marginBottom:6}}>Kalan</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:300,color:topKal<=HEDEF?"#10b981":"#f87171",lineHeight:1,letterSpacing:-1}}>{Math.abs(HEDEF-topKal)}</div>
               </div>
             </div>}
 
-            {/* KALORİ ÖZET — Premium Ring */}
+            {/* KALORİ ÖZET — Luxury Ring */}
             {(()=>{
               const pct = Math.min(1, topKal / HEDEF);
-              const R = 68, C = 2*Math.PI*R;
-              const renk = topKal > HEDEF ? "#ef4444" : topKal > HEDEF*0.8 ? "#f59e0b" : "#22c55e";
+              const R = 72, C = 2*Math.PI*R;
+              const renk = topKal > HEDEF ? "#f87171" : topKal > HEDEF*0.8 ? "#fbbf24" : "#10b981";
+              const renkGlow = topKal > HEDEF ? "rgba(248,113,113,.25)" : topKal > HEDEF*0.8 ? "rgba(251,191,36,.2)" : "rgba(16,185,129,.2)";
               const makrolar = [
-                {l:"Protein",v:Math.round(topPro),b:"g",c:"#3b82f6",ic:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2C8 2 5 5 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-4-3-7-7-7z"/></svg>},
-                {l:"Karbonhidrat",v:Math.round(topKarb),b:"g",c:"#f59e0b",ic:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>},
-                {l:"Yağ",v:Math.round(topYag),b:"g",c:"#f43f5e",ic:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>},
+                {l:"Protein",  v:Math.round(topPro), c:"#60a5fa"},
+                {l:"Karb",     v:Math.round(topKarb),c:"#fbbf24"},
+                {l:"Yağ",      v:Math.round(topYag), c:"#f87171"},
               ];
               return (
-              <div style={{...CS,background:d?"linear-gradient(145deg,#0e1f11,#111a14)":"linear-gradient(145deg,#f6fdf6,#ffffff)",border:d?"1px solid #1e3024":"1px solid #e0f0e2"}}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+              <div className="lux-card" style={{...CS,padding:"22px 20px",background:d?"#080e09":"#ffffff",border:d?"1px solid rgba(16,185,129,.1)":"1px solid rgba(16,185,129,.12)"}}>
+                {/* Başlık satırı */}
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
                   <div>
-                    <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase"}}>Günlük Kalori</div>
-                    <div style={{fontSize:12,color:r.muted,marginTop:2}}>{new Date().toLocaleDateString("tr-TR",{weekday:"long",day:"numeric",month:"long"})}</div>
+                    <div style={{fontSize:9,fontWeight:700,color:r.sub,letterSpacing:3,textTransform:"uppercase",marginBottom:5}}>Günlük Kalori</div>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:15,color:r.muted,fontWeight:300}}>{new Date().toLocaleDateString("tr-TR",{weekday:"long",day:"numeric",month:"long"})}</div>
                   </div>
-                  <button onClick={()=>setPsModal(true)} style={{background:d?"rgba(59,130,246,.15)":"#eff6ff",border:"none",borderRadius:10,padding:"6px 12px",fontSize:11,fontWeight:700,color:"#3b82f6",cursor:"pointer",display:"flex",alignItems:"center",gap:5}}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                  <button onClick={()=>setPsModal(true)} style={{background:d?"rgba(255,255,255,.04)":"rgba(0,0,0,.03)",border:`1px solid ${d?"rgba(255,255,255,.07)":"rgba(0,0,0,.07)"}`,borderRadius:10,padding:"6px 12px",fontSize:10,fontWeight:700,color:r.muted,cursor:"pointer",display:"flex",alignItems:"center",gap:4,letterSpacing:.5}}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
                     Paylaş
                   </button>
                 </div>
-                {/* Ring + merkez */}
-                <div style={{display:"flex",alignItems:"center",gap:20}}>
+                {/* Ring */}
+                <div style={{display:"flex",alignItems:"center",gap:24}}>
                   <div style={{position:"relative",flexShrink:0}}>
-                    <svg width="160" height="160" viewBox="0 0 160 160">
-                      {/* Arka halka */}
-                      <circle cx="80" cy="80" r={R} fill="none" stroke={d?"#1e3024":"#e8f5e9"} strokeWidth="12"/>
-                      {/* İz halkası */}
-                      <circle cx="80" cy="80" r={R} fill="none" stroke={renk+"22"} strokeWidth="12"
-                        strokeDasharray={C} strokeDashoffset={0} strokeLinecap="round" transform="rotate(-90 80 80)"/>
-                      {/* Aktif halka */}
-                      <circle cx="80" cy="80" r={R} fill="none" stroke={renk} strokeWidth="12"
-                        strokeDasharray={C} strokeDashoffset={C-(C*pct)} strokeLinecap="round"
-                        transform="rotate(-90 80 80)" style={{transition:"stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)"}}/>
-                      {/* Glow efekti */}
-                      <circle cx="80" cy="80" r={R} fill="none" stroke={renk} strokeWidth="4" opacity="0.2"
-                        strokeDasharray={C} strokeDashoffset={C-(C*pct)} strokeLinecap="round"
-                        transform="rotate(-90 80 80)" style={{filter:"blur(4px)"}}/>
+                    <svg width="168" height="168" viewBox="0 0 168 168">
+                      <defs>
+                        <radialGradient id="ringGlow" cx="50%" cy="50%" r="50%">
+                          <stop offset="0%" stopColor={renk} stopOpacity=".08"/>
+                          <stop offset="100%" stopColor={renk} stopOpacity="0"/>
+                        </radialGradient>
+                      </defs>
+                      <circle cx="84" cy="84" r="84" fill="url(#ringGlow)"/>
+                      {/* Track */}
+                      <circle cx="84" cy="84" r={R} fill="none" stroke={d?"rgba(255,255,255,.05)":"rgba(0,0,0,.05)"} strokeWidth="10"/>
+                      {/* Progress */}
+                      <circle cx="84" cy="84" r={R} fill="none" stroke={renk} strokeWidth="10"
+                        strokeDasharray={C} strokeDashoffset={C*(1-pct)} strokeLinecap="round"
+                        transform="rotate(-90 84 84)" style={{transition:"stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)",filter:`drop-shadow(0 0 8px ${renkGlow})`}}/>
                     </svg>
-                    {/* Merkez metin */}
-                    <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-                      <div style={{fontSize:28,fontWeight:900,color:renk,lineHeight:1,letterSpacing:-1}}>{topKal}</div>
-                      <div style={{fontSize:10,color:r.muted,fontWeight:600}}>kcal</div>
-                      <div style={{fontSize:9,color:r.muted,marginTop:2}}>{Math.round(pct*100)}%</div>
+                    <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:2}}>
+                      <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:38,fontWeight:300,color:renk,lineHeight:1,letterSpacing:-1}}>{topKal}</div>
+                      <div style={{fontSize:9,fontWeight:700,color:r.muted,letterSpacing:2,textTransform:"uppercase"}}>kcal</div>
+                      <div style={{fontSize:10,fontWeight:700,color:renk,marginTop:2,opacity:.7}}>{Math.round(pct*100)}%</div>
                     </div>
                   </div>
-                  {/* Sağ taraf */}
-                  <div style={{flex:1}}>
-                    <div style={{marginBottom:14}}>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:4}}>
-                        <span style={{fontSize:11,color:r.sub,fontWeight:700}}>Hedef</span>
-                        <span style={{fontSize:18,fontWeight:900,color:r.text}}>{HEDEF}</span>
+                  {/* Stats */}
+                  <div style={{flex:1,display:"flex",flexDirection:"column",gap:12}}>
+                    {[
+                      {l:"Hedef",v:HEDEF,c:r.text},
+                      {l:"Yedim",v:topKal,c:renk},
+                      {l:topKal<=HEDEF?"Kalan":"Fazla",v:Math.abs(HEDEF-topKal),c:topKal<=HEDEF?"#10b981":"#f87171"},
+                      ...(topSpor>0?[{l:"Spor Yakımı",v:"+"+topSpor,c:"#10b981"}]:[]),
+                    ].map((s,i)=>(
+                      <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingBottom:i<(topSpor>0?3:2)?10:0,borderBottom:i<(topSpor>0?3:2)?`1px solid ${d?"rgba(255,255,255,.04)":"rgba(0,0,0,.05)"}`:undefined}}>
+                        <span style={{fontSize:10,color:r.muted,fontWeight:600,letterSpacing:.5,textTransform:"uppercase"}}>{s.l}</span>
+                        <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:400,color:s.c,letterSpacing:-.5}}>{s.v}</span>
                       </div>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:4}}>
-                        <span style={{fontSize:11,color:r.sub,fontWeight:700}}>Yedim</span>
-                        <span style={{fontSize:18,fontWeight:900,color:renk}}>{topKal}</span>
-                      </div>
-                      <div style={{height:1,background:r.brd,margin:"8px 0"}}/>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-                        <span style={{fontSize:11,color:r.sub,fontWeight:700}}>{topKal<=HEDEF?"Kalan":"Fazla"}</span>
-                        <span style={{fontSize:16,fontWeight:900,color:topKal<=HEDEF?"#22c55e":"#ef4444"}}>{Math.abs(HEDEF-topKal)}</span>
-                      </div>
-                      {topSpor>0&&<div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginTop:4}}>
-                        <span style={{fontSize:11,color:"#10b981",fontWeight:700}}>Spor</span>
-                        <span style={{fontSize:14,fontWeight:800,color:"#10b981"}}>+{topSpor}</span>
-                      </div>}
-                    </div>
+                    ))}
                   </div>
                 </div>
-                {/* Makro bar'ları */}
-                <div style={{display:"flex",gap:8,marginTop:14}}>
-                  {makrolar.map(m=>(
-                    <div key={m.l} style={{flex:1,background:d?m.c+"14":m.c+"0e",border:`1px solid ${m.c}22`,borderRadius:14,padding:"10px 8px",textAlign:"center"}}>
-                      <div style={{width:24,height:24,borderRadius:8,background:m.c+"20",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 6px",color:m.c}}>{m.ic}</div>
-                      <div style={{fontSize:16,fontWeight:900,color:m.c,lineHeight:1}}>{m.v}<span style={{fontSize:9,fontWeight:700}}>{m.b}</span></div>
-                      <div style={{fontSize:9,color:r.muted,marginTop:3,fontWeight:600,letterSpacing:.3}}>{m.l}</div>
+                {/* Makrolar */}
+                <div style={{display:"flex",gap:8,marginTop:20}}>
+                  {makrolar.map((m,i)=>(
+                    <div key={i} style={{flex:1,borderRadius:14,padding:"12px 8px",textAlign:"center",background:d?`${m.c}09`:`${m.c}07`,border:`1px solid ${m.c}18`}}>
+                      <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:400,color:m.c,lineHeight:1,letterSpacing:-.5}}>{m.v}</div>
+                      <div style={{fontSize:8,color:r.muted,marginTop:4,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase"}}>{m.l}</div>
+                      <div style={{fontSize:9,color:m.c,fontWeight:600,opacity:.6}}>g</div>
                     </div>
                   ))}
                 </div>
@@ -13838,21 +13855,23 @@ SADECE JSON döndür (başka metin yok):
 
             {/* SERİ KARTLARI */}
             {(yemekSeri>0||adimSeri>0)&&(
-              <div style={{display:"flex",gap:8,marginBottom:0,margin:"0 14px 10px"}}>
+              <div style={{display:"flex",gap:8,margin:"0 14px 8px"}}>
                 {yemekSeri>0&&(
-                  <div style={{flex:1,background:d?"linear-gradient(145deg,#1c1109,#221408)":"linear-gradient(145deg,#fff7ed,#fef3c7)",border:`1px solid ${yemekSeri>=7?"#f59e0b44":"#fed7aa"}`,borderRadius:16,padding:"14px",boxShadow:"0 4px 16px rgba(234,88,12,.1)"}}>
-                    <div style={{fontSize:26,marginBottom:4}}>🍽️</div>
-                    <div style={{fontSize:28,fontWeight:900,color:"#ea580c",lineHeight:1,letterSpacing:-1}}>{yemekSeri}</div>
-                    <div style={{fontSize:9,color:r.sub,fontWeight:700,marginTop:2,letterSpacing:.5}}>GÜNLÜK SERİ</div>
-                    {yemekSeri>=7&&<div style={{fontSize:9,color:"#f59e0b",fontWeight:800,marginTop:4,background:"rgba(245,158,11,.12)",padding:"2px 8px",borderRadius:20,display:"inline-block"}}>🔥 {yemekSeri>=30?"Efsane!":yemekSeri>=14?"Harika!":"Devam et!"}</div>}
+                  <div className="lux-card" style={{flex:1,background:d?"#080e09":"#fff",border:"1px solid rgba(245,158,11,.12)",borderRadius:18,padding:"16px 14px",position:"relative",overflow:"hidden"}}>
+                    <div style={{position:"absolute",top:-10,right:-10,width:60,height:60,background:"radial-gradient(circle,rgba(245,158,11,.08) 0%,transparent 70%)",borderRadius:"50%"}}/>
+                    <div style={{fontSize:9,fontWeight:700,color:"rgba(245,158,11,.5)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:8}}>Öğün Serisi</div>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:300,color:"#f59e0b",lineHeight:1,letterSpacing:-1}}>{yemekSeri}</div>
+                    <div style={{fontSize:9,color:r.muted,marginTop:4,fontWeight:600}}>gün üst üste</div>
+                    {yemekSeri>=7&&<div style={{fontSize:9,fontWeight:800,marginTop:8,color:"#f59e0b",letterSpacing:1}}>{yemekSeri>=30?"EFSANE ✦":yemekSeri>=14?"HARIKA ✦":"DEVAM ET ✦"}</div>}
                   </div>
                 )}
                 {adimSeri>0&&(
-                  <div style={{flex:1,background:d?"linear-gradient(145deg,#051209,#081a0c)":"linear-gradient(145deg,#f0fdf4,#dcfce7)",border:`1px solid ${adimSeri>=7?"#16a34a44":"#86efac"}`,borderRadius:16,padding:"14px",boxShadow:"0 4px 16px rgba(22,163,74,.08)"}}>
-                    <div style={{fontSize:26,marginBottom:4}}>👟</div>
-                    <div style={{fontSize:28,fontWeight:900,color:"#16a34a",lineHeight:1,letterSpacing:-1}}>{adimSeri}</div>
-                    <div style={{fontSize:9,color:r.sub,fontWeight:700,marginTop:2,letterSpacing:.5}}>ADIM SERİSİ</div>
-                    {adimSeri>=7&&<div style={{fontSize:9,color:"#16a34a",fontWeight:800,marginTop:4,background:"rgba(22,163,74,.12)",padding:"2px 8px",borderRadius:20,display:"inline-block"}}>🔥 {adimSeri>=30?"Efsane!":adimSeri>=14?"Harika!":"Devam et!"}</div>}
+                  <div className="lux-card" style={{flex:1,background:d?"#080e09":"#fff",border:"1px solid rgba(16,185,129,.12)",borderRadius:18,padding:"16px 14px",position:"relative",overflow:"hidden"}}>
+                    <div style={{position:"absolute",top:-10,right:-10,width:60,height:60,background:"radial-gradient(circle,rgba(16,185,129,.08) 0%,transparent 70%)",borderRadius:"50%"}}/>
+                    <div style={{fontSize:9,fontWeight:700,color:"rgba(16,185,129,.5)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:8}}>Adım Serisi</div>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:300,color:"#10b981",lineHeight:1,letterSpacing:-1}}>{adimSeri}</div>
+                    <div style={{fontSize:9,color:r.muted,marginTop:4,fontWeight:600}}>gün üst üste</div>
+                    {adimSeri>=7&&<div style={{fontSize:9,fontWeight:800,marginTop:8,color:"#10b981",letterSpacing:1}}>{adimSeri>=30?"EFSANE ✦":adimSeri>=14?"HARIKA ✦":"DEVAM ET ✦"}</div>}
                   </div>
                 )}
               </div>
@@ -13860,7 +13879,7 @@ SADECE JSON döndür (başka metin yok):
 
 
                         {/* ÖĞÜNLER */}
-            <div style={{...CS,padding:0,overflow:"hidden"}}>
+            <div className="lux-card" style={{...CS,padding:0,overflow:"hidden"}}>
               {/* Başlık */}
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 18px 14px",borderBottom:`1px solid ${r.brd}`}}>
                 <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -13935,7 +13954,7 @@ SADECE JSON döndür (başka metin yok):
             </div>
 
             {/* SPOR */}
-            <div style={{...CS,padding:0,overflow:"hidden"}}>
+            <div className="lux-card" style={{...CS,padding:0,overflow:"hidden"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"16px 18px 14px",borderBottom:`1px solid ${r.brd}`}}>
                 <div style={{display:"flex",alignItems:"center",gap:10}}>
                   <div style={{width:34,height:34,borderRadius:11,background:d?"rgba(16,185,129,.1)":"#ecfdf5",border:`1px solid ${d?"rgba(16,185,129,.15)":"rgba(16,185,129,.15)"}`,display:"flex",alignItems:"center",justifyContent:"center"}}>
@@ -14003,55 +14022,70 @@ SADECE JSON döndür (başka metin yok):
             </div>
 
             {/* SU */}
-            <div style={{...CS,cursor:"pointer"}} onClick={()=>setTab("su")}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                <div style={{...CT,display:"flex",alignItems:"center",gap:6}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>Su Takibi</div>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={r.muted} strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-              </div>
-              <div style={{display:"flex",alignItems:"center",gap:16}}>
-                {/* Su damlası görseli */}
-                <div style={{position:"relative",width:52,height:52,flexShrink:0}}>
-                  <svg width="52" height="52" viewBox="0 0 52 52">
-                    <defs>
-                      <clipPath id="waterClip">
-                        <path d="M26 6 C26 6 8 22 8 34 C8 43.9 16.1 48 26 48 C35.9 48 44 43.9 44 34 C44 22 26 6 26 6Z"/>
-                      </clipPath>
-                      <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.9"/>
-                        <stop offset="100%" stopColor="#2563eb"/>
-                      </linearGradient>
-                    </defs>
-                    <path d="M26 6 C26 6 8 22 8 34 C8 43.9 16.1 48 26 48 C35.9 48 44 43.9 44 34 C44 22 26 6 26 6Z" fill={d?"#1e3a5f22":"#eff6ff"} stroke="#3b82f6" strokeWidth="1.5"/>
-                    <rect x="8" y={48-40*Math.min(1,bugSu/suHed)} width="36" height={40*Math.min(1,bugSu/suHed)} fill="url(#waterGrad)" clipPath="url(#waterClip)" style={{transition:"y .6s,height .6s"}}/>
-                    <text x="26" y="34" fontSize="10" fontWeight="800" fill="#2563eb" textAnchor="middle" dominantBaseline="middle">{Math.round(bugSu/suHed*100)}%</text>
-                  </svg>
-                </div>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:28,fontWeight:900,color:"#2563eb",lineHeight:1,letterSpacing:-1}}>{(bugSu/1000).toFixed(1)}<span style={{fontSize:13,fontWeight:700}}> L</span></div>
-                  <div style={{fontSize:11,color:r.muted,marginTop:3}}>Hedef: {(suHed/1000).toFixed(1)}L ({suHed}ml)</div>
-                  <div style={{height:5,background:d?"#1e3a5f":"#dbeafe",borderRadius:8,overflow:"hidden",marginTop:8}}>
-                    <div style={{height:"100%",width:Math.min(100,bugSu/suHed*100)+"%",background:"linear-gradient(90deg,#60a5fa,#2563eb)",borderRadius:8,transition:"width .6s"}}/>
+            <div className="lux-card lux-lift" style={{...CS,cursor:"pointer",padding:0,overflow:"hidden"}} onClick={()=>setTab("su")}>
+              <div style={{padding:"18px 20px 16px",borderBottom:`1px solid ${d?"rgba(59,130,246,.08)":"rgba(59,130,246,.08)"}`}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:10}}>
+                    <div style={{width:34,height:34,borderRadius:11,background:d?"rgba(59,130,246,.08)":"rgba(59,130,246,.06)",border:"1px solid rgba(59,130,246,.12)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                    </div>
+                    <div>
+                      <div style={{fontSize:9,fontWeight:700,color:"rgba(96,165,250,.5)",letterSpacing:2.5,textTransform:"uppercase"}}>Su Takibi</div>
+                      <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:14,color:r.muted,fontWeight:300,marginTop:2}}>Hedef: {(suHed/1000).toFixed(1)}L</div>
+                    </div>
                   </div>
-                  <div style={{fontSize:10,color:"#3b82f6",fontWeight:700,marginTop:5}}>{bugSu>=suHed?"✓ Hedef tamamlandı!":(suHed-bugSu)+"ml daha iç"}</div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={r.muted} strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              </div>
+              <div style={{padding:"16px 20px"}}>
+                <div style={{display:"flex",alignItems:"center",gap:20}}>
+                  {/* Su yüzdesi dairesi */}
+                  <div style={{position:"relative",width:72,height:72,flexShrink:0}}>
+                    {(()=>{
+                      const sp=Math.min(1,bugSu/suHed);
+                      const SR=32, SC=2*Math.PI*SR;
+                      return(
+                        <svg width="72" height="72" viewBox="0 0 72 72">
+                          <circle cx="36" cy="36" r={SR} fill="none" stroke={d?"rgba(255,255,255,.04)":"rgba(0,0,0,.04)"} strokeWidth="7"/>
+                          <circle cx="36" cy="36" r={SR} fill="none" stroke="#3b82f6" strokeWidth="7"
+                            strokeDasharray={SC} strokeDashoffset={SC*(1-sp)} strokeLinecap="round"
+                            transform="rotate(-90 36 36)" style={{transition:"stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)",filter:"drop-shadow(0 0 5px rgba(59,130,246,.3))"}}/>
+                          <text x="36" y="41" fontSize="13" fontWeight="700" fill="#60a5fa" textAnchor="middle">{Math.round(sp*100)}%</text>
+                        </svg>
+                      );
+                    })()}
+                  </div>
+                  <div style={{flex:1}}>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:300,color:"#60a5fa",lineHeight:1,letterSpacing:-1}}>{(bugSu/1000).toFixed(1)}<span style={{fontSize:14,fontWeight:400}}> L</span></div>
+                    <div style={{height:3,background:d?"rgba(59,130,246,.08)":"rgba(59,130,246,.08)",borderRadius:99,overflow:"hidden",margin:"10px 0 6px"}}>
+                      <div style={{height:"100%",width:Math.min(100,bugSu/suHed*100)+"%",background:"linear-gradient(90deg,#60a5fa,#3b82f6)",borderRadius:99,transition:"width .8s cubic-bezier(.34,1.2,.64,1)",boxShadow:"0 0 8px rgba(59,130,246,.4)"}}/>
+                    </div>
+                    <div style={{fontSize:10,color:"#60a5fa",fontWeight:600,opacity:.7}}>{bugSu>=suHed?"✦ Hedef tamamlandı":(suHed-bugSu)+"ml kaldı"}</div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* ADIM SAYAR */}
-            <div style={CS}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-                <div style={CT}>👟 Adım Sayar</div>
+            <div className="lux-card" style={{...CS}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+                <div style={{display:"flex",alignItems:"center",gap:10}}>
+                  <div style={{width:34,height:34,borderRadius:11,background:d?"rgba(251,191,36,.06)":"rgba(251,191,36,.06)",border:"1px solid rgba(251,191,36,.12)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round"><path d="M13 4v4l3 3-3 3v4M9 4v4L6 11l3 3v4"/></svg>
+                  </div>
+                  <div style={{fontSize:9,fontWeight:700,color:"rgba(251,191,36,.5)",letterSpacing:2.5,textTransform:"uppercase"}}>Adım Sayar</div>
+                </div>
                 {adimIzin==="verildi"||adimIzin==="android"
-                  ?<span style={{fontSize:10,fontWeight:700,color:"#16a34a",background:"#dcfce7",padding:"2px 10px",borderRadius:99}}>● Sayıyor</span>
+                  ?<span style={{fontSize:9,fontWeight:700,color:"#10b981",background:"rgba(16,185,129,.08)",padding:"3px 10px",borderRadius:99,border:"1px solid rgba(16,185,129,.15)",letterSpacing:.5}}>Aktif</span>
                   :adimIzin==="reddedildi"
-                  ?<span style={{fontSize:10,fontWeight:700,color:"#ef4444",background:"#fef2f2",padding:"2px 10px",borderRadius:99}}>İzin Yok</span>
-                  :<span style={{fontSize:10,fontWeight:700,color:"#f59e0b",background:"#fffbeb",padding:"2px 10px",borderRadius:99}}>Bekliyor</span>
+                  ?<span style={{fontSize:9,fontWeight:700,color:"#f87171",background:"rgba(248,113,113,.08)",padding:"3px 10px",borderRadius:99,border:"1px solid rgba(248,113,113,.15)",letterSpacing:.5}}>İzin Yok</span>
+                  :<span style={{fontSize:9,fontWeight:700,color:"#fbbf24",background:"rgba(251,191,36,.08)",padding:"3px 10px",borderRadius:99,border:"1px solid rgba(251,191,36,.15)",letterSpacing:.5}}>Bekliyor</span>
                 }
               </div>
 
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:10}}>
                 <div>
-                  <div style={{fontSize:40,fontWeight:900,color:"#f59e0b",lineHeight:1}}>{adimSayar.toLocaleString("tr-TR")}</div>
+                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:48,fontWeight:300,color:"#fbbf24",lineHeight:1,letterSpacing:-2}}>{adimSayar.toLocaleString("tr-TR")}</div>
                   <div style={{fontSize:11,color:r.sub,marginTop:3}}>
                     ~{Math.round(adimSayar*0.04)} kcal yakıldı · ~{(adimSayar*0.00076).toFixed(2)} km
                   </div>
@@ -16390,13 +16424,13 @@ SADECE JSON döndür (başka metin yok):
 
         {/* FAB */}
         {tab==="anasayfa"&&(
-          <button style={{position:"fixed",bottom:96,right:"calc(50% - 215px + 14px)",background:"linear-gradient(135deg,#16a34a,#15803d)",color:"#fff",border:"none",borderRadius:20,width:52,height:52,cursor:"pointer",boxShadow:"0 8px 28px rgba(22,163,74,.5),inset 0 1px 0 rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:99}} onClick={()=>{setTab("gozat");setAramaOdak(true);}}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <button style={{position:"fixed",bottom:100,right:"calc(50% - 215px + 16px)",background:"linear-gradient(145deg,#10b981,#059669 60%,#047857)",color:"#fff",border:"1px solid rgba(52,211,153,.2)",borderRadius:22,width:54,height:54,cursor:"pointer",boxShadow:"0 0 0 1px rgba(16,185,129,.15), 0 12px 40px rgba(16,185,129,.45), 0 4px 12px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:99}} onClick={()=>{setTab("gozat");setAramaOdak(true);}}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </button>
         )}
 
         {/* NAV */}
-        <nav style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:430,background:d?"rgba(10,20,12,.95)":"rgba(255,255,255,.96)",backdropFilter:"blur(20px)",WebkitBackdropFilter:"blur(20px)",display:"flex",borderTop:`1px solid ${d?"#1a2e1e":"#e8f0e9"}`,zIndex:100,boxShadow:d?"0 -4px 32px #00000060":"0 -4px 32px #0d1f0f0e",paddingBottom:"env(safe-area-inset-bottom,0)"}}>
+        <nav style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:430,background:d?"rgba(4,9,6,.97)":"rgba(255,255,255,.97)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",display:"flex",borderTop:`1px solid ${d?"rgba(16,185,129,.08)":"rgba(16,185,129,.1)"}`,zIndex:100,boxShadow:d?"0 -1px 0 rgba(16,185,129,.05), 0 -20px 60px rgba(0,0,0,.8)":"0 -1px 0 rgba(16,185,129,.08), 0 -8px 32px rgba(0,0,0,.06)",paddingBottom:"env(safe-area-inset-bottom,0)"}}>
           {[
             {id:"anasayfa",svg:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,label:"Ana"},
             {id:"gozat",svg:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,label:"Gözat"},
@@ -16420,9 +16454,9 @@ SADECE JSON döndür (başka metin yok):
   if(n.id==="gozat"){changeTab("gozat");}
   else changeTab(n.id);
 }}>
-              <div style={{width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center"}}>{n.svg}</div>
-              {n.label}
-              {(n.badge||0)>0&&<span style={{background:"#ef4444",color:"#fff",fontSize:8,fontWeight:800,padding:"1px 4px",borderRadius:10}}>{n.badge}</span>}
+              <div style={{width:36,height:28,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:18,background:tab===n.id?(d?"rgba(16,185,129,.12)":"rgba(16,185,129,.1)"):"transparent",transition:"all .2s",marginBottom:1}}>{n.svg}</div>
+              <span style={{fontSize:9,letterSpacing:.5}}>{n.label}</span>
+              {(n.badge||0)>0&&<span style={{position:"absolute",top:6,right:"calc(50% - 16px)",background:"#ef4444",color:"#fff",fontSize:8,fontWeight:800,padding:"1px 5px",borderRadius:10,minWidth:14,textAlign:"center"}}>{n.badge}</span>}
             </button>
           ))}
         </nav>
