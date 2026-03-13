@@ -3671,218 +3671,293 @@ SADECE JSON döndür (başka metin yok):
 
         {/* ══ SPOR UYGULAMASI MODAL ══════════════════════════════════ */}
         {sporAppAcik&&(
-          <div style={{position:"fixed",inset:0,background:r.bg,zIndex:9990,display:"flex",flexDirection:"column",overflowY:"auto"}}>
-            {/* Header */}
-            <div style={{background:"linear-gradient(135deg,#1d4ed8,#7c3aed)",padding:"16px 18px 14px",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
+          <div style={{position:"fixed",inset:0,background:d?"#0a0000":r.bg,zIndex:9990,display:"flex",flexDirection:"column",overflowY:"auto"}}>
+
+            {/* ─── HEADER ─────────────────────────────────────── */}
+            <div style={{background:"linear-gradient(135deg,#7f1d1d,#dc2626 60%,#b91c1c)",padding:"16px 18px 14px",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0,position:"relative",overflow:"hidden"}}>
+              <div style={{position:"absolute",top:-30,right:-20,width:120,height:120,background:"radial-gradient(circle,rgba(255,255,255,.08),transparent 70%)",pointerEvents:"none"}}/>
+              <div style={{position:"absolute",bottom:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,rgba(255,200,200,.2),transparent)"}}/>
               <div>
-                <div style={{color:"#fff",fontSize:18,fontWeight:900}}>
-                  {sporAppAdim===0?"🏋️ Spor Kurulumu":sporAppAdim===1?"📋 Programın":sporAppAdim===2?"💪 Antrenman":"✅ Tebrikler!"}
+                <div style={{color:"#fff",fontSize:17,fontWeight:900,display:"flex",alignItems:"center",gap:8}}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="2" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/></svg>
+                  {sporAppAdim===0?"Spor Kurulumu":sporAppAdim===1?"Antrenman Programın":sporAppAdim===2?"Antrenman":"Tebrikler!"}
                 </div>
-                <div style={{color:"rgba(255,255,255,.75)",fontSize:11}}>
-                  {sporAppAdim===0?"Sana özel program oluşturalım":sporAppAdim===1?"Bugünkü egzersizlerini seç":sporAppAdim===2?"Sağlıklı ol, güçlen!":"Harika iş çıkardın!"}
+                <div style={{color:"rgba(255,255,255,.7)",fontSize:11,marginTop:2}}>
+                  {sporAppAdim===0?"Sana özel bir program hazırlayalım":sporAppAdim===1?"Bugünkü egzersizini seç ve başlat":"Sağlıklı ol, güçlen!"}
                 </div>
               </div>
               <button onClick={()=>{setSporAppAcik(false);if(antInterval)clearInterval(antInterval);}}
-                style={{background:"rgba(255,255,255,.2)",border:"none",color:"#fff",borderRadius:10,padding:"6px 12px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13}}>
-                ✕ Kapat</button>
+                style={{background:"rgba(0,0,0,.25)",border:"1px solid rgba(255,255,255,.15)",color:"#fff",borderRadius:10,padding:"7px 14px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,display:"flex",alignItems:"center",gap:6}}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                Kapat
+              </button>
             </div>
 
-            <div style={{flex:1,padding:"16px 16px 24px",maxWidth:430,margin:"0 auto",width:"100%"}}>
+            <div style={{flex:1,padding:"16px 16px 32px",maxWidth:430,margin:"0 auto",width:"100%",boxSizing:"border-box"}}>
 
-            {/* ── ADIM 0: KURULUM SORULARI ─────────────────────── */}
+            {/* ── ADIM 0 ─────────────────────────────────────── */}
             {sporAppAdim===0&&(
               <div>
-                {/* Progress bar */}
-                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:20}}>
-                  {[0,1,2,3,4].map(i=>(
-                    <div key={i} style={{flex:1,height:4,borderRadius:2,
-                      background:i<sporSoruAdim?"#1d4ed8":i===sporSoruAdim?"#1d4ed8":r.inpB,
-                      opacity:i===sporSoruAdim?1:i<sporSoruAdim?0.9:0.3,
-                      transition:"all .3s"}}/>
-                  ))}
-                  <span style={{fontSize:11,color:r.sub,whiteSpace:"nowrap"}}>{sporSoruAdim+1}/5</span>
-                </div>
-
-                {/* Soru 0: Hedef */}
-                {sporSoruAdim===0&&(
-                  <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:20}}>
-                      <div style={{fontSize:36,marginBottom:8}}>🎯</div>
-                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Hedefin ne?</div>
-                      <div style={{fontSize:12,color:r.sub}}>Sana özel bir program hazırlayalım</div>
+                {/* ── SPLASH SLAYT (sporSoruAdim === -1) ────── */}
+                {sporSoruAdim===-1&&(
+                  <div style={{animation:"ob-rise .5s both",textAlign:"center",paddingTop:20}}>
+                    {/* Merkez ikon */}
+                    <div style={{width:100,height:100,borderRadius:28,background:"linear-gradient(145deg,#dc2626,#7f1d1d)",margin:"0 auto 20px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 32px rgba(220,38,38,.4)"}}>
+                      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round">
+                        <path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/>
+                      </svg>
                     </div>
-                    {[
-                      {v:"kilo_ver",ikon:"🔥",l:"Yağ Yak / Kilo Ver",a:"Kalori yak, formu iyileştir"},
-                      {v:"kas",     ikon:"💪",l:"Kas Geliştir",       a:"Hacim ve güç kazan"},
-                      {v:"kilo_al", ikon:"📈",l:"Kilo Al / Hacim",    a:"Sağlıklı kilo kazan"},
-                      {v:"form",    ikon:"🎯",l:"Formu Koru",         a:"Kondisyonu geliştir"},
-                      {v:"saglik",  ikon:"🌿",l:"Sağlıklı Yaşa",      a:"Genel sağlık ve enerji"},
-                    ].map(o=>(
-                      <button key={o.v} onClick={()=>{setSporHedefSA(o.v);setSporSoruAdim(1);}}
-                        style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"14px 16px",
-                          borderRadius:14,border:`2px solid ${sporHedef===o.v?"#1d4ed8":r.inpB}`,
-                          background:sporHedef===o.v?"#eff6ff":r.inp,marginBottom:10,cursor:"pointer",
-                          transition:"all .15s",textAlign:"left"}}>
-                        <span style={{fontSize:26}}>{o.ikon}</span>
-                        <div style={{flex:1}}>
-                          <div style={{fontSize:14,fontWeight:700,color:sporHedef===o.v?"#1d4ed8":r.text}}>{o.l}</div>
-                          <div style={{fontSize:11,color:r.sub}}>{o.a}</div>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:300,color:d?"#fca5a5":"#7f1d1d",letterSpacing:-.5,marginBottom:8}}>Spor Uygulaması</div>
+                    <div style={{fontSize:13,color:r.sub,lineHeight:1.7,marginBottom:28,maxWidth:280,margin:"0 auto 28px"}}>Yapay zeka, hedefine ve seviyene göre<br/>kişisel antrenman programı hazırlar.</div>
+
+                    {/* Özellik kartları */}
+                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:28,textAlign:"left"}}>
+                      {[
+                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, l:"Kişisel Program", a:"Hedefine özel"},
+                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, l:"Zamanlayıcı", a:"Canlı antrenman"},
+                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="1.5" fill="#dc2626"/></svg>, l:"Kalori Takibi", a:"Otomatik hesap"},
+                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, l:"Her Seviye", a:"Başlangıç–ileri"},
+                      ].map((f,i)=>(
+                        <div key={i} style={{background:d?"rgba(220,38,38,.06)":"rgba(220,38,38,.04)",border:"1px solid rgba(220,38,38,.15)",borderRadius:14,padding:"12px 14px"}}>
+                          <div style={{marginBottom:6}}>{f.ikon}</div>
+                          <div style={{fontSize:12,fontWeight:800,color:d?"#fca5a5":"#7f1d1d"}}>{f.l}</div>
+                          <div style={{fontSize:10,color:r.muted}}>{f.a}</div>
                         </div>
-                        {sporHedef===o.v&&<span style={{color:"#1d4ed8",fontSize:20}}>✓</span>}
-                      </button>
-                    ))}
+                      ))}
+                    </div>
+
+                    <button onClick={()=>setSporSoruAdim(0)}
+                      style={{width:"100%",padding:"16px 0",borderRadius:16,border:"none",cursor:"pointer",
+                        background:"linear-gradient(135deg,#dc2626,#b91c1c)",color:"#fff",
+                        fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:15,
+                        boxShadow:"0 6px 20px rgba(220,38,38,.4)",display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                      Hadi Başlayalım
+                    </button>
                   </div>
                 )}
 
-                {/* Soru 1: Bölge */}
+                {/* Progress bar (sorular sırasında) */}
+                {sporSoruAdim>=0&&(
+                  <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:22}}>
+                    {[0,1,2,3,4].map(i=>(
+                      <div key={i} style={{flex:1,height:3,borderRadius:2,
+                        background:i<=sporSoruAdim?"#dc2626":d?"rgba(255,255,255,.1)":"rgba(220,38,38,.15)",
+                        transition:"all .3s"}}/>
+                    ))}
+                    <span style={{fontSize:10,color:r.sub,whiteSpace:"nowrap",fontWeight:700}}>{sporSoruAdim+1}/5</span>
+                  </div>
+                )}
+
+                {/* ── Soru 0: Hedef ─────────────────────────── */}
+                {sporSoruAdim===0&&(
+                  <div style={{animation:"ob-rise .4s both"}}>
+                    <div style={{textAlign:"center",marginBottom:22}}>
+                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="#fca5a5"/></svg>
+                      </div>
+                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Hedefin ne?</div>
+                      <div style={{fontSize:12,color:r.sub}}>Sana özel program hazırlayalım</div>
+                    </div>
+                    {[
+                      {v:"kilo_ver", l:"Yağ Yak & Kilo Ver", a:"Kalori yak, formu iyileştir",
+                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/><path d="M12 15v7"/><path d="M9 19h6"/></svg>},
+                      {v:"kas",      l:"Kas Geliştir",        a:"Hacim ve güç kazan",
+                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/></svg>},
+                      {v:"kilo_al",  l:"Kilo Al & Hacim Kazan", a:"Sağlıklı kilo kazan",
+                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>},
+                      {v:"form",     l:"Formu Koru",          a:"Kondisyon & esneklik",
+                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>},
+                      {v:"saglik",   l:"Sağlıklı Yaşa",       a:"Genel sağlık ve enerji",
+                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>},
+                    ].map(o=>{
+                      const sel=sporHedefSA===o.v||sporHedef===o.v;
+                      return(
+                      <button key={o.v} onClick={()=>{setSporHedefSA(o.v);setSporSoruAdim(1);}}
+                        style={{width:"100%",display:"flex",alignItems:"center",gap:14,padding:"14px 16px",
+                          borderRadius:14,border:`2px solid ${sel?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
+                          background:sel?d?"rgba(220,38,38,.12)":"rgba(220,38,38,.06)":r.inp,
+                          marginBottom:10,cursor:"pointer",transition:"all .15s",textAlign:"left"}}>
+                        <div style={{width:44,height:44,borderRadius:12,background:sel?"#dc2626":d?"rgba(220,38,38,.1)":"rgba(220,38,38,.08)",display:"flex",alignItems:"center",justifyContent:"center",color:sel?"#fff":"#dc2626",flexShrink:0}}>
+                          {o.ikon}
+                        </div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:14,fontWeight:800,color:sel?"#dc2626":r.text}}>{o.l}</div>
+                          <div style={{fontSize:11,color:r.sub,marginTop:2}}>{o.a}</div>
+                        </div>
+                        {sel&&<div style={{width:20,height:20,borderRadius:"50%",background:"#dc2626",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>}
+                      </button>
+                    );})}
+                  </div>
+                )}
+
+                {/* ── Soru 1: Bölge ─────────────────────────── */}
                 {sporSoruAdim===1&&(
                   <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:20}}>
-                      <div style={{fontSize:36,marginBottom:8}}>🎯</div>
-                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Hangi bölgeye odaklanmak istersin?</div>
+                    <div style={{textAlign:"center",marginBottom:22}}>
+                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><ellipse cx="12" cy="5" rx="3" ry="4"/><path d="M7 13c0-2.8 2-5 5-5s5 2.2 5 5c0 3-2.5 6-5 6s-5-3-5-6z"/><path d="M12 13v4"/></svg>
+                      </div>
+                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Hangi bölgeye odaklanmak istersin?</div>
                       <div style={{fontSize:12,color:r.sub}}>Birden fazla seçebilirsin</div>
                     </div>
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:20}}>
                       {[
-                        {v:"karin",  ikon:"⚡",l:"Karın",      a:"Core & abs"},
-                        {v:"omuz",   ikon:"🏔️",l:"Omuz",       a:"Deltoid & trapez"},
-                        {v:"gogus",  ikon:"🦁",l:"Göğüs",      a:"Pektoral kaslar"},
-                        {v:"sirt",   ikon:"🦅",l:"Sırt",        a:"Lat & rhomboid"},
-                        {v:"bacak",  ikon:"🦵",l:"Bacak",       a:"Quad, hamstring, kalça"},
-                        {v:"kol",    ikon:"💪",l:"Kol",         a:"Biceps & triceps"},
-                      ].map(o=>(
-                        <button key={o.v}
-                          onClick={()=>setSporBolge(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
+                        {v:"karin", l:"Karın", a:"Core & abs",
+                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="8" width="18" height="12" rx="3"/><path d="M12 8V4M8 12h8M8 16h8"/></svg>},
+                        {v:"omuz",  l:"Omuz",  a:"Deltoid & trapez",
+                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 4c-2 0-4 1.5-4 4v1H5l-2 3h18l-2-3h-3V8c0-2.5-2-4-4-4z"/></svg>},
+                        {v:"gogus", l:"Göğüs", a:"Pektoral",
+                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 9c0-1 .8-2 2-2h14c1.2 0 2 1 2 2v2c0 3-3 6-9 8-6-2-9-5-9-8V9z"/></svg>},
+                        {v:"sirt",  l:"Sırt",  a:"Lat & rhomboid",
+                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 3c-2 2-5 4-5 8h10c0-4-3-6-5-8z"/><path d="M7 11v6a5 5 0 0 0 10 0v-6"/></svg>},
+                        {v:"bacak", l:"Bacak", a:"Quad, hamstring",
+                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M9 3h6v8l2 10H7L9 11V3z"/></svg>},
+                        {v:"kol",   l:"Kol",   a:"Biceps & triceps",
+                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/></svg>},
+                      ].map(o=>{
+                        const sel=sporBolge.includes(o.v);
+                        return(
+                        <button key={o.v} onClick={()=>setSporBolge(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
                           style={{padding:"14px 10px",borderRadius:14,
-                            border:`2px solid ${sporBolge.includes(o.v)?"#7c3aed":r.inpB}`,
-                            background:sporBolge.includes(o.v)?"#f5f3ff":r.inp,
-                            cursor:"pointer",textAlign:"center",transition:"all .15s"}}>
-                          <div style={{fontSize:28,marginBottom:4}}>{o.ikon}</div>
-                          <div style={{fontSize:13,fontWeight:800,color:sporBolge.includes(o.v)?"#7c3aed":r.text}}>{o.l}</div>
-                          <div style={{fontSize:10,color:r.sub}}>{o.a}</div>
-                          {sporBolge.includes(o.v)&&<div style={{fontSize:10,color:"#7c3aed",fontWeight:700,marginTop:4}}>✓ Seçildi</div>}
+                            border:`2px solid ${sel?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
+                            background:sel?d?"rgba(220,38,38,.12)":"rgba(220,38,38,.06)":r.inp,
+                            cursor:"pointer",textAlign:"center",transition:"all .15s",position:"relative"}}>
+                          {sel&&<div style={{position:"absolute",top:8,right:8,width:16,height:16,borderRadius:"50%",background:"#dc2626",display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg></div>}
+                          <div style={{color:sel?"#dc2626":r.sub,marginBottom:6}}>{o.ikon}</div>
+                          <div style={{fontSize:13,fontWeight:800,color:sel?"#dc2626":r.text}}>{o.l}</div>
+                          <div style={{fontSize:10,color:r.sub,marginTop:2}}>{o.a}</div>
                         </button>
-                      ))}
+                      );})}
                     </div>
                     <div style={{display:"flex",gap:8}}>
-                      <button onClick={()=>setSporSoruAdim(0)}
-                        style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
-                        ← Geri</button>
-                      <button onClick={()=>setSporSoruAdim(2)}
-                        style={{...BTN("#7c3aed","13px 0"),flex:1,fontSize:14,fontWeight:800}}>
-                        Devam Et →</button>
+                      <button onClick={()=>setSporSoruAdim(0)} style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
+                      <button onClick={()=>setSporSoruAdim(2)} style={{...BTN("#dc2626","13px 0"),flex:1,fontSize:14,fontWeight:800,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>Devam Et →</button>
                     </div>
                   </div>
                 )}
 
-                {/* Soru 2: Seviye */}
+                {/* ── Soru 2: Seviye ────────────────────────── */}
                 {sporSoruAdim===2&&(
                   <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:20}}>
-                      <div style={{fontSize:36,marginBottom:8}}>📊</div>
-                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Spor seviyeniz nedir?</div>
-                      <div style={{fontSize:12,color:r.sub}}>Dürüst ol — en iyi sonucu bu verir 😊</div>
+                    <div style={{textAlign:"center",marginBottom:22}}>
+                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                      </div>
+                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Spor seviyeniz?</div>
+                      <div style={{fontSize:12,color:r.sub}}>Dürüst ol — en iyi sonucu bu verir</div>
                     </div>
                     {[
-                      {v:"baslangic",ikon:"🌱",l:"Başlangıç",a:"Düzenli spor yapmıyorum veya yeni başlıyorum",renk:"#10b981"},
-                      {v:"orta",     ikon:"⚡",l:"Orta",     a:"Haftada birkaç kez düzenli spor yapıyorum",renk:"#f59e0b"},
-                      {v:"ileri",    ikon:"🔥",l:"İleri",    a:"Yoğun antrenman yapıyorum, formum iyi",renk:"#ef4444"},
-                    ].map(o=>(
+                      {v:"baslangic", l:"Başlangıç", a:"Düzenli spor yapmıyorum veya yeni başlıyorum", renk:"#16a34a",
+                        ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 22V12M12 12C12 8 9 5 5 5M12 12c0-4 3-7 7-7"/><circle cx="12" cy="4" r="2"/></svg>},
+                      {v:"orta",      l:"Orta",       a:"Haftada birkaç kez düzenli spor yapıyorum",     renk:"#f59e0b",
+                        ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>},
+                      {v:"ileri",     l:"İleri",      a:"Yoğun antrenman yapıyorum, formum iyi",         renk:"#dc2626",
+                        ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>},
+                    ].map(o=>{
+                      const sel=sporSeviye===o.v;
+                      return(
                       <button key={o.v} onClick={()=>{setSporSeviye(o.v);setSporSoruAdim(3);}}
                         style={{width:"100%",display:"flex",alignItems:"center",gap:14,padding:"16px",
-                          borderRadius:14,border:`2px solid ${sporSeviye===o.v?o.renk:r.inpB}`,
-                          background:sporSeviye===o.v?o.renk+"18":r.inp,marginBottom:10,cursor:"pointer",
-                          transition:"all .15s",textAlign:"left"}}>
-                        <span style={{fontSize:30}}>{o.ikon}</span>
+                          borderRadius:14,border:`2px solid ${sel?o.renk:d?"rgba(255,255,255,.08)":"rgba(0,0,0,.08)"}`,
+                          background:sel?o.renk+"18":r.inp,marginBottom:10,cursor:"pointer",transition:"all .15s",textAlign:"left"}}>
+                        <div style={{width:48,height:48,borderRadius:13,background:sel?o.renk:d?"rgba(255,255,255,.05)":"rgba(0,0,0,.04)",display:"flex",alignItems:"center",justifyContent:"center",color:sel?"#fff":o.renk,flexShrink:0}}>
+                          {o.ikon}
+                        </div>
                         <div style={{flex:1}}>
-                          <div style={{fontSize:15,fontWeight:800,color:sporSeviye===o.v?o.renk:r.text}}>{o.l}</div>
+                          <div style={{fontSize:15,fontWeight:800,color:sel?o.renk:r.text}}>{o.l}</div>
                           <div style={{fontSize:11,color:r.sub,marginTop:2}}>{o.a}</div>
                         </div>
-                        {sporSeviye===o.v&&<span style={{color:o.renk,fontSize:20}}>✓</span>}
+                        {sel&&<div style={{width:20,height:20,borderRadius:"50%",background:o.renk,display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg></div>}
                       </button>
-                    ))}
-                    <button onClick={()=>setSporSoruAdim(1)}
-                      style={{...BTN("transparent","10px 0"),width:"100%",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
-                      ← Geri</button>
+                    );})}
+                    <button onClick={()=>setSporSoruAdim(1)} style={{...BTN("transparent","10px 0"),width:"100%",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
                   </div>
                 )}
 
-                {/* Soru 3: Ekipman */}
+                {/* ── Soru 3: Ekipman ───────────────────────── */}
                 {sporSoruAdim===3&&(
                   <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:20}}>
-                      <div style={{fontSize:36,marginBottom:8}}>🏠</div>
-                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Elindeki ekipman?</div>
+                    <div style={{textAlign:"center",marginBottom:22}}>
+                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><circle cx="3" cy="12" r="1.5" fill="#fca5a5"/><circle cx="21" cy="12" r="1.5" fill="#fca5a5"/></svg>
+                      </div>
+                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Elindeki ekipman?</div>
                       <div style={{fontSize:12,color:r.sub}}>Hiç seçmesen de olur — vücut ağırlığıyla da harika program çıkar</div>
                     </div>
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:20}}>
                       {[
-                        {v:"dambil",  ikon:"🏋️",l:"Dambıl",         a:"1 çift yeter"},
-                        {v:"barfix",  ikon:"🏗️",l:"Barfiks",         a:"Pull-up bar"},
-                        {v:"bench",   ikon:"🪑",l:"Bank / Sedir",    a:"Düz bench"},
-                        {v:"mat",     ikon:"🧘",l:"Egzersiz Matı",   a:"Zemin hareketleri"},
-                        {v:"ip",      ikon:"🪢",l:"Atlama İpi",      a:"Kardiyo"},
-                        {v:"direnc",  ikon:"🟡",l:"Direnç Bandı",    a:"Kasları aktive et"},
-                      ].map(o=>(
-                        <button key={o.v}
-                          onClick={()=>setSporEkipman(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
-                          style={{padding:"12px 10px",borderRadius:12,
-                            border:`2px solid ${sporEkipman.includes(o.v)?"#16a34a":r.inpB}`,
-                            background:sporEkipman.includes(o.v)?"#f0fdf4":r.inp,
-                            cursor:"pointer",textAlign:"center",transition:"all .15s"}}>
-                          <div style={{fontSize:24,marginBottom:4}}>{o.ikon}</div>
-                          <div style={{fontSize:12,fontWeight:700,color:sporEkipman.includes(o.v)?"#15803d":r.text}}>{o.l}</div>
-                          <div style={{fontSize:10,color:r.sub}}>{o.a}</div>
-                          {sporEkipman.includes(o.v)&&<div style={{fontSize:10,color:"#16a34a",fontWeight:700,marginTop:2}}>✓</div>}
+                        {v:"dambil",  l:"Dambıl",       a:"1 çift yeter",         ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><rect x="2" y="10" width="3" height="4" rx="1"/><rect x="19" y="10" width="3" height="4" rx="1"/></svg>},
+                        {v:"barfix",  l:"Barfiks",       a:"Pull-up bar",          ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="4" x2="22" y2="4"/><path d="M8 4v4a4 4 0 0 0 8 0V4"/></svg>},
+                        {v:"bench",   l:"Bank / Sedir",  a:"Düz bench",            ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M4 12h16v4H4zM7 12V8h10v4"/><line x1="6" y1="16" x2="6" y2="20"/><line x1="18" y1="16" x2="18" y2="20"/></svg>},
+                        {v:"mat",     l:"Egzersiz Matı", a:"Zemin hareketleri",    ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="2" y="8" width="20" height="8" rx="3"/><line x1="2" y1="12" x2="22" y2="12" strokeDasharray="2 2"/></svg>},
+                        {v:"ip",      l:"Atlama İpi",    a:"Kardiyo",              ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6 4l2 2M18 4l-2 2M8 6c0 4-4 6-4 8s2 4 8 4 8-2 8-4-4-4-4-8"/><circle cx="6" cy="3" r="1.5"/><circle cx="18" cy="3" r="1.5"/></svg>},
+                        {v:"direnc",  l:"Direnç Bandı",  a:"Kasları aktive et",    ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M4 12c0-3 2-5 5-5h6c3 0 5 2 5 5s-2 5-5 5H9c-3 0-5-2-5-5z"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/></svg>},
+                      ].map(o=>{
+                        const sel=sporEkipman.includes(o.v);
+                        return(
+                        <button key={o.v} onClick={()=>setSporEkipman(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
+                          style={{padding:"14px 10px",borderRadius:12,
+                            border:`2px solid ${sel?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
+                            background:sel?d?"rgba(220,38,38,.12)":"rgba(220,38,38,.06)":r.inp,
+                            cursor:"pointer",textAlign:"center",transition:"all .15s",position:"relative"}}>
+                          {sel&&<div style={{position:"absolute",top:6,right:6,width:16,height:16,borderRadius:"50%",background:"#dc2626",display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg></div>}
+                          <div style={{color:sel?"#dc2626":r.sub,marginBottom:6,display:"flex",justifyContent:"center"}}>{o.ikon}</div>
+                          <div style={{fontSize:12,fontWeight:700,color:sel?"#dc2626":r.text}}>{o.l}</div>
+                          <div style={{fontSize:10,color:r.sub,marginTop:2}}>{o.a}</div>
                         </button>
-                      ))}
+                      );})}
                     </div>
                     <div style={{display:"flex",gap:8}}>
-                      <button onClick={()=>setSporSoruAdim(2)}
-                        style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
-                        ← Geri</button>
-                      <button onClick={()=>setSporSoruAdim(4)}
-                        style={{...BTN("#16a34a","13px 0"),flex:1,fontSize:14,fontWeight:800}}>
-                        Devam Et →</button>
+                      <button onClick={()=>setSporSoruAdim(2)} style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
+                      <button onClick={()=>setSporSoruAdim(4)} style={{...BTN("#dc2626","13px 0"),flex:1,fontSize:14,fontWeight:800,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>Devam Et →</button>
                     </div>
                   </div>
                 )}
 
-                {/* Soru 4: Süre & Gün */}
+                {/* ── Soru 4: Süre & Gün ────────────────────── */}
                 {sporSoruAdim===4&&(
                   <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:20}}>
-                      <div style={{fontSize:36,marginBottom:8}}>⏱️</div>
-                      <div style={{fontSize:18,fontWeight:900,color:r.text,marginBottom:4}}>Ne kadar zamanın var?</div>
+                    <div style={{textAlign:"center",marginBottom:22}}>
+                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      </div>
+                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Ne kadar zamanın var?</div>
                       <div style={{fontSize:12,color:r.sub}}>Programa göre süre ve gün ayarlıyoruz</div>
                     </div>
 
-                    <div style={{...CS,marginBottom:12}}>
-                      <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:12}}>🕐 Antrenman süresi</div>
+                    <div style={{background:d?"rgba(255,255,255,.03)":"rgba(220,38,38,.03)",border:`1px solid ${d?"rgba(255,255,255,.06)":"rgba(220,38,38,.1)"}`,borderRadius:16,padding:"14px",marginBottom:12}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <div style={{fontSize:13,fontWeight:800,color:r.text}}>Antrenman süresi</div>
+                      </div>
                       <div style={{display:"flex",gap:8}}>
                         {[20,30,45,60].map(dk=>(
                           <button key={dk} onClick={()=>setSporSure2(dk)}
                             style={{flex:1,padding:"12px 0",borderRadius:12,
-                              border:`2px solid ${sporSure2===dk?"#1d4ed8":r.inpB}`,
-                              background:sporSure2===dk?"#eff6ff":r.inp,cursor:"pointer",
-                              fontSize:13,fontWeight:800,color:sporSure2===dk?"#1d4ed8":r.sub,
-                              transition:"all .15s"}}>
+                              border:`2px solid ${sporSure2===dk?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
+                              background:sporSure2===dk?d?"rgba(220,38,38,.2)":"rgba(220,38,38,.08)":r.inp,
+                              cursor:"pointer",fontSize:13,fontWeight:800,
+                              color:sporSure2===dk?"#dc2626":r.sub,transition:"all .15s"}}>
                             {dk}<br/><span style={{fontSize:9,fontWeight:600}}>dk</span>
                           </button>
                         ))}
                       </div>
                     </div>
 
-                    <div style={{...CS,marginBottom:16}}>
-                      <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:12}}>📅 Haftada kaç gün?</div>
+                    <div style={{background:d?"rgba(255,255,255,.03)":"rgba(220,38,38,.03)",border:`1px solid ${d?"rgba(255,255,255,.06)":"rgba(220,38,38,.1)"}`,borderRadius:16,padding:"14px",marginBottom:16}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <div style={{fontSize:13,fontWeight:800,color:r.text}}>Haftada kaç gün?</div>
+                      </div>
                       <div style={{display:"flex",gap:8}}>
                         {[2,3,4,5,6].map(g=>(
                           <button key={g} onClick={()=>setSporGun(g)}
                             style={{flex:1,padding:"12px 0",borderRadius:12,
-                              border:`2px solid ${sporGun===g?"#1d4ed8":r.inpB}`,
-                              background:sporGun===g?"#eff6ff":r.inp,cursor:"pointer",
-                              fontSize:15,fontWeight:800,color:sporGun===g?"#1d4ed8":r.sub,
-                              transition:"all .15s"}}>
+                              border:`2px solid ${sporGun===g?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
+                              background:sporGun===g?d?"rgba(220,38,38,.2)":"rgba(220,38,38,.08)":r.inp,
+                              cursor:"pointer",fontSize:15,fontWeight:800,
+                              color:sporGun===g?"#dc2626":r.sub,transition:"all .15s"}}>
                             {g}
                           </button>
                         ))}
@@ -3890,27 +3965,34 @@ SADECE JSON döndür (başka metin yok):
                     </div>
 
                     {/* Özet */}
-                    <div style={{background:"linear-gradient(135deg,#1d4ed818,#7c3aed12)",border:`1px solid ${r.inpB}`,borderRadius:14,padding:"12px 14px",marginBottom:16}}>
-                      <div style={{fontSize:12,fontWeight:800,color:r.text,marginBottom:8}}>📋 Seçimlerinin özeti</div>
+                    <div style={{background:"linear-gradient(135deg,rgba(220,38,38,.08),rgba(185,28,28,.05))",border:"1px solid rgba(220,38,38,.2)",borderRadius:14,padding:"12px 14px",marginBottom:16}}>
+                      <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:10}}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        <div style={{fontSize:12,fontWeight:800,color:d?"#fca5a5":"#7f1d1d"}}>Seçimlerinin özeti</div>
+                      </div>
                       <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                        {sporHedef&&<span style={{background:"#eff6ff",color:"#1d4ed8",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporHedef.replace("kilo_ver","🔥 Yağ Yak").replace("kas","💪 Kas").replace("kilo_al","📈 Kilo Al").replace("form","🎯 Form").replace("saglik","🌿 Sağlık")}</span>}
-                        {sporBolge.length>0&&sporBolge.map(b=><span key={b} style={{background:"#f5f3ff",color:"#7c3aed",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{b==="karin"?"⚡ Karın":b==="omuz"?"🏔️ Omuz":b==="gogus"?"🦁 Göğüs":b==="sirt"?"🦅 Sırt":b==="bacak"?"🦵 Bacak":"💪 Kol"}</span>)}
-                        {sporSeviye&&<span style={{background:"#f0fdf4",color:"#16a34a",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSeviye==="baslangic"?"🌱 Başlangıç":sporSeviye==="orta"?"⚡ Orta":"🔥 İleri"}</span>}
+                        {sporHedefSA&&<span style={{background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporHedefSA.replace("kilo_ver","Yağ Yak").replace("kas","Kas").replace("kilo_al","Kilo Al").replace("form","Form").replace("saglik","Sağlık")}</span>}
+                        {sporBolge.map(b=><span key={b} style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{b==="karin"?"Karın":b==="omuz"?"Omuz":b==="gogus"?"Göğüs":b==="sirt"?"Sırt":b==="bacak"?"Bacak":"Kol"}</span>)}
+                        {sporSeviye&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSeviye==="baslangic"?"Başlangıç":sporSeviye==="orta"?"Orta":"İleri"}</span>}
+                        {sporSure2&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSure2} dk</span>}
+                        {sporGun&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>Haftada {sporGun} gün</span>}
                       </div>
                     </div>
 
                     <div style={{display:"flex",gap:8}}>
-                      <button onClick={()=>setSporSoruAdim(3)}
-                        style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
-                        ← Geri</button>
+                      <button onClick={()=>setSporSoruAdim(3)} style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
                       <button onClick={()=>{
-                        if(!sporHedef){setSporSoruAdim(0);return;}
+                        if(!sporHedefSA&&!sporHedef){setSporSoruAdim(0);return;}
                         if(!sporSeviye){setSporSoruAdim(2);return;}
-                        const prg=sporProgramUret(sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge);
-                        setSporProgram(prg);
-                        setSporAppAdim(1);
-                      }} style={{...BTN("linear-gradient(135deg,#1d4ed8,#7c3aed)","13px 0"),flex:1,fontSize:14,fontWeight:900}}>
-                        💪 Programımı Oluştur →</button>
+                        const prg=sporProgramUret(sporHedefSA||sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge);
+                        setSporProgram(prg);setSporAppAdim(1);
+                      }} style={{flex:1,padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
+                        background:"linear-gradient(135deg,#dc2626,#b91c1c)",color:"#fff",
+                        fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
+                        boxShadow:"0 4px 16px rgba(220,38,38,.35)",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Programımı Oluştur
+                      </button>
                     </div>
                   </div>
                 )}
@@ -3918,57 +4000,59 @@ SADECE JSON döndür (başka metin yok):
               </div>
             )}
 
-            {/* ── ADIM 1: PROGRAM GÖRÜNÜMÜ ────────────────────── */}
+            {/* ── ADIM 1: PROGRAM ──────────────────────────────── */}
             {sporAppAdim===1&&sporProgram&&(
               <div>
-                {/* Program başlığı */}
-                <div style={{background:`linear-gradient(135deg,${sporProgram.renk},${sporProgram.renk}cc)`,borderRadius:16,padding:"16px 18px",marginBottom:14,color:"#fff"}}>
-                  <div style={{fontSize:22,fontWeight:900,marginBottom:4}}>{sporProgram.ad}</div>
-                  <div style={{display:"flex",gap:12,fontSize:12,opacity:.9}}>
-                    <span>📋 {sporProgram.gunler.length} günlük döngü</span>
-                    <span>💪 {sporProgram.topEgz} egzersiz</span>
-                    <span>⏱️ ~{sporSure2} dk/seans</span>
+                <div style={{background:`linear-gradient(135deg,#7f1d1d,#dc2626)`,borderRadius:16,padding:"16px 18px",marginBottom:14,color:"#fff",position:"relative",overflow:"hidden"}}>
+                  <div style={{position:"absolute",top:-20,right:-20,width:100,height:100,background:"radial-gradient(circle,rgba(255,255,255,.1),transparent 70%)",pointerEvents:"none"}}/>
+                  <div style={{fontSize:20,fontWeight:900,marginBottom:6}}>{sporProgram.ad}</div>
+                  <div style={{display:"flex",gap:10,fontSize:12,opacity:.9,flexWrap:"wrap"}}>
+                    <span style={{display:"flex",alignItems:"center",gap:4}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{sporProgram.gunler.length} günlük döngü</span>
+                    <span style={{display:"flex",alignItems:"center",gap:4}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>{sporProgram.topEgz} egzersiz</span>
+                    <span style={{display:"flex",alignItems:"center",gap:4}}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>~{sporSure2} dk/seans</span>
                   </div>
-                  <div style={{marginTop:8,fontSize:11,opacity:.8}}>
-                    Seviye: {sporSeviye==="baslangic"?"🌱 Başlangıç":sporSeviye==="orta"?"⚡ Orta":"🔥 İleri"} &nbsp;·&nbsp;
-                    Ekipman: {sporEkipman.length===0?"Ekipmansız (vücut ağırlığı)":sporEkipman.join(", ")}
+                  <div style={{marginTop:8,fontSize:11,opacity:.75}}>
+                    Seviye: {sporSeviye==="baslangic"?"Başlangıç":sporSeviye==="orta"?"Orta":"İleri"} &nbsp;·&nbsp;
+                    {sporEkipman.length===0?"Ekipmansız":sporEkipman.join(", ")}
                   </div>
                 </div>
-
-                {/* Günler */}
                 {sporProgram.gunler.map((gun,gi)=>(
-                  <div key={gi} style={{...CS,marginBottom:10,border:`2px solid ${sporProgram.renk}22`}}>
+                  <div key={gi} style={{background:r.card,border:"2px solid rgba(220,38,38,.15)",borderRadius:16,padding:"14px",marginBottom:10}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                       <div>
-                        <div style={{fontSize:13,fontWeight:900,color:r.text}}>📅 Gün {gi+1}: {gun.baslik}</div>
-                        <div style={{fontSize:11,color:r.sub}}>{gun.egzersizler.length} egzersiz</div>
+                        <div style={{fontSize:13,fontWeight:900,color:r.text,display:"flex",alignItems:"center",gap:6}}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                          Gün {gi+1}: {gun.baslik}
+                        </div>
+                        <div style={{fontSize:11,color:r.sub,marginTop:2}}>{gun.egzersizler.length} egzersiz</div>
                       </div>
-                      <button onClick={()=>antrenmanBaslat(gun)}
-                        style={{...BTN(sporProgram.renk,"8px 16px"),fontSize:12,fontWeight:800}}>
-                        ▶ Başlat</button>
+                      <button onClick={()=>antrenmanBaslat(gun)} style={{background:"linear-gradient(135deg,#dc2626,#b91c1c)",border:"none",borderRadius:12,padding:"9px 18px",color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer",display:"flex",alignItems:"center",gap:6,boxShadow:"0 3px 10px rgba(220,38,38,.3)"}}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Başlat
+                      </button>
                     </div>
                     {gun.egzersizler.map((e,ei)=>(
-                      <div key={ei} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 10px",
-                        borderRadius:10,background:r.inp,marginBottom:5}}>
-                        <span style={{fontSize:20,minWidth:26}}>{e.ikon}</span>
+                      <div key={ei} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 10px",borderRadius:10,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.05)"}`,marginBottom:5}}>
+                        <div style={{width:34,height:34,borderRadius:9,background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:18}}>{e.ikon}</div>
                         <div style={{flex:1}}>
                           <div style={{fontSize:12,fontWeight:700,color:r.text}}>{e.ad}</div>
                           <div style={{fontSize:10,color:r.sub}}>{e.kas}</div>
                         </div>
                         <div style={{textAlign:"right"}}>
-                          <div style={{fontSize:11,fontWeight:700,color:sporProgram.renk}}>{e.set} set × {e.rep}</div>
+                          <div style={{fontSize:11,fontWeight:700,color:"#dc2626"}}>{e.set} set × {e.rep}</div>
                           <div style={{fontSize:10,color:r.sub}}>~{Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60)} kcal</div>
                         </div>
                       </div>
                     ))}
-                    <div style={{marginTop:6,padding:"6px 10px",background:sporProgram.renk+"15",borderRadius:8,fontSize:11,color:sporProgram.renk,fontWeight:700,textAlign:"center"}}>
+                    <div style={{marginTop:8,padding:"7px 12px",background:"rgba(220,38,38,.08)",border:"1px solid rgba(220,38,38,.15)",borderRadius:10,fontSize:11,color:"#dc2626",fontWeight:700,textAlign:"center",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>
                       Tahmini yakım: ~{gun.egzersizler.reduce((t,e)=>t+Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60),0)} kcal
                     </div>
                   </div>
                 ))}
-
-                <button onClick={()=>setSporAppAdim(0)} style={{...BTN("transparent","10px"),width:"100%",border:`1.5px solid ${r.inpB}`,color:r.sub,fontSize:13}}>
-                  ← Yeniden Oluştur</button>
+                <button onClick={()=>{setSporAppAdim(0);setSporSoruAdim(-1);}} style={{...BTN("transparent","10px"),width:"100%",border:"1.5px solid rgba(220,38,38,.2)",color:"#dc2626",fontSize:13,fontWeight:700}}>
+                  ← Yeniden Oluştur
+                </button>
               </div>
             )}
 
@@ -3978,20 +4062,22 @@ SADECE JSON döndür (başka metin yok):
             {/* ── ANTRENMAN BİTİŞ ─────────────────────────────── */}
             {antBitmis&&(
               <div style={{textAlign:"center",paddingTop:40}}>
-                <div style={{fontSize:72,marginBottom:16}}>🏆</div>
-                <div style={{fontSize:28,fontWeight:900,color:r.text,marginBottom:8}}>Harika iş!</div>
-                <div style={{fontSize:14,color:r.sub,marginBottom:24}}>Antrenmanın tamamlandı ve kaloriler hesabına eklendi.</div>
-                <div style={{...CS,marginBottom:24,background:"linear-gradient(135deg,#16a34a18,#16a34a08)"}}>
-                  <div style={{fontSize:40,marginBottom:4}}>🔥</div>
-                  <div style={{fontSize:32,fontWeight:900,color:"#16a34a"}}>{Math.round(antSaniye/60*6)} kcal</div>
-                  <div style={{fontSize:12,color:r.sub}}>yakıldı • {Math.floor(antSaniye/60)} dk {antSaniye%60} sn</div>
-                  <div style={{fontSize:11,color:"#16a34a",marginTop:4,fontWeight:700}}>✅ Günlük takibine eklendi</div>
+                <div style={{width:90,height:90,borderRadius:26,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 20px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 28px rgba(220,38,38,.4)"}}>
+                  <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:300,color:d?"#fca5a5":"#7f1d1d",marginBottom:8}}>Harika iş!</div>
+                <div style={{fontSize:14,color:r.sub,marginBottom:24}}>Antrenmanın tamamlandı.</div>
+                <div style={{background:d?"rgba(220,38,38,.08)":"rgba(220,38,38,.05)",border:"1px solid rgba(220,38,38,.2)",borderRadius:16,padding:"20px",marginBottom:24}}>
+                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:42,fontWeight:300,color:"#dc2626",lineHeight:1}}>{Math.round(antSaniye/60*6)}</div>
+                  <div style={{fontSize:11,color:r.sub,marginTop:4}}>kcal yakıldı · {Math.floor(antSaniye/60)} dk {antSaniye%60} sn</div>
+                  <div style={{fontSize:11,color:"#dc2626",marginTop:8,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",gap:4}}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
+                    Günlük takibine eklendi
+                  </div>
                 </div>
                 <div style={{display:"flex",gap:8}}>
-                  <button onClick={()=>{setSporAppAdim(1);setAntBitmis(false);}}
-                    style={{...BTN("#7c3aed","13px 0"),flex:1,fontSize:13}}>📋 Programa Dön</button>
-                  <button onClick={()=>setSporAppAcik(false)}
-                    style={{...BTN("#16a34a","13px 0"),flex:1,fontSize:13}}>🏠 Ana Sayfaya</button>
+                  <button onClick={()=>{setSporAppAdim(1);setAntBitmis(false);}} style={{...BTN("rgba(220,38,38,.12)","13px 0"),flex:1,fontSize:13,color:"#dc2626",border:"1px solid rgba(220,38,38,.2)"}}>Programa Dön</button>
+                  <button onClick={()=>setSporAppAcik(false)} style={{...BTN("#dc2626","13px 0"),flex:1,fontSize:13,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>Ana Sayfaya</button>
                 </div>
               </div>
             )}
@@ -6611,7 +6697,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       const akt=tab===n.id;
                       return(
                       <button key={n.id} onClick={()=>{
-                        if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporSoruAdim(0);setSporProgram(null);setAntBitmis(false);setSporHedefSA("");setSporBolge([]);setSporSeviye("");}
+                        if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporSoruAdim(-1);setSporProgram(null);setAntBitmis(false);setSporHedefSA("");setSporBolge([]);setSporSeviye("");}
                         else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
                         else if(n.id==="__alerji__"){setAlerjiModal(true);}
                         else if(n.id==="__kilotakip__"){setKiloGirModal(true);setKiloInput(profil.kilo||"");setKiloNot("");}
