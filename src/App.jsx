@@ -885,6 +885,8 @@ export default function App(){
   const [antBitmis,setAntBitmis]=useState(false);
   const [sporTamGunler,setSporTamGunler]=useState([]);
   const [sporSekme,setSporSekme]=useState("plan");
+  const [sporTest,setSporTest]=useState(false);
+  const [sporTestEgz,setSporTestEgz]=useState("squat");
   const [sporKesfetBolge,setSporKesfetBolge]=useState("karin"); // keşfet seçili bölge // plan | kesfet | ilerleme
   const [sporGecmis,setSporGecmis]=useState([]); // [{tarih,program,sure,kcal,gunBaslik}] // tamamlanan gün indexleri
   const [sporSeciliGun,setSporSeciliGun]=useState(0);  // şu an görüntülenen gün
@@ -3848,17 +3850,26 @@ SADECE JSON döndür (başka metin yok):
               <div>
                 <div style={{color:"#fff",fontSize:17,fontWeight:900,display:"flex",alignItems:"center",gap:8}}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="2" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/></svg>
-                  {sporAppAdim===0?"Spor Kurulumu":sporAppAdim===1?"Antrenman Programın":sporAppAdim===2?"Antrenman":"Tebrikler!"}
+                  <div style={{display:"flex",alignItems:"center",gap:8}}>
+                    {sporAppAdim===0?"Spor Kurulumu":sporAppAdim===1?"Antrenman Programın":sporAppAdim===2?"Antrenman":"Tebrikler!"}
+                    <span style={{background:"rgba(255,255,255,.15)",border:"1px solid rgba(255,255,255,.25)",borderRadius:20,padding:"2px 8px",fontSize:9,fontWeight:800,letterSpacing:1,color:"rgba(255,255,255,.8)"}}>TEST SÜRÜMÜ</span>
+                  </div>
                 </div>
                 <div style={{color:"rgba(255,255,255,.7)",fontSize:11,marginTop:2}}>
                   {sporAppAdim===0?"Sana özel bir program hazırlayalım":sporAppAdim===1?"Bugünkü egzersizini seç ve başlat":"Sağlıklı ol, güçlen!"}
                 </div>
               </div>
-              <button onClick={()=>{setSporAppAcik(false);if(antInterval)clearInterval(antInterval);}}
-                style={{background:"rgba(0,0,0,.25)",border:"1px solid rgba(255,255,255,.15)",color:"#fff",borderRadius:10,padding:"7px 14px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,display:"flex",alignItems:"center",gap:6}}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                Kapat
-              </button>
+              <div style={{display:"flex",gap:8}}>
+                <button onClick={()=>setSporTest(p=>!p)}
+                  style={{background:"rgba(255,255,255,.1)",border:"1px solid rgba(255,255,255,.2)",color:"#fff",borderRadius:10,padding:"7px 12px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:11}}>
+                  🧪 Test
+                </button>
+                <button onClick={()=>{setSporAppAcik(false);if(antInterval)clearInterval(antInterval);}}
+                  style={{background:"rgba(0,0,0,.25)",border:"1px solid rgba(255,255,255,.15)",color:"#fff",borderRadius:10,padding:"7px 14px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,display:"flex",alignItems:"center",gap:6}}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  Kapat
+                </button>
+              </div>
             </div>
 
             <div style={{flex:1,padding:"16px 16px 32px",maxWidth:430,margin:"0 auto",width:"100%",boxSizing:"border-box"}}>
@@ -4171,6 +4182,26 @@ SADECE JSON döndür (başka metin yok):
                         {/* ── ADIM 1: PROGRAM + ALT SEKMELİ EKRAN ── */}
             {sporAppAdim===1&&(
               <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
+
+                {/* ── TEST PANELİ ── */}
+                {sporTest&&(
+                  <div style={{background:"rgba(0,0,0,.4)",border:"1px solid rgba(255,255,255,.1)",borderRadius:16,padding:14,marginBottom:14}}>
+                    <div style={{fontSize:11,fontWeight:800,color:"rgba(255,255,255,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>🧪 3D Animasyon Test</div>
+                    <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:12}}>
+                      {["squat","sinav","jumping_jack","plank","lunge","dambil_curl","lateral_raise","pullup","superman","hip_thrust","glut_bridge","crunch","mountain_climber","leg_raise","bicycle_crunch","burpee","high_knees","triceps_dips","skull_crusher","dambil_press","dambil_flye","yuruyus","kosma","ip_atlama","wall_sit","reverse_crunch","russian_twist","flutter_kick","side_plank"].map(e=>(
+                        <button key={e} onClick={()=>setSporTestEgz(e)}
+                          style={{padding:"4px 10px",borderRadius:20,border:"none",cursor:"pointer",fontSize:10,fontWeight:700,
+                            background:sporTestEgz===e?"#dc2626":"rgba(255,255,255,.1)",
+                            color:sporTestEgz===e?"#fff":"rgba(255,255,255,.6)"}}>
+                          {e}
+                        </button>
+                      ))}
+                    </div>
+                    <div style={{borderRadius:12,overflow:"hidden",display:"flex",justifyContent:"center"}}>
+                      <ExerciseModel3D exerciseId={sporTestEgz} width={280} height={220}/>
+                    </div>
+                  </div>
+                )}
 
                 {/* ── ALT NAVİGASYON ── */}
                 <div style={{display:"flex",background:d?"rgba(220,38,38,.08)":"rgba(220,38,38,.05)",borderRadius:16,padding:4,gap:4,marginBottom:16}}>
@@ -8599,8 +8630,8 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
 
       switch(exerciseId) {
         case 'sinav': case 'genis_sinav': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2;
-          const p=(Math.sin(t*4)+1)/2; character.position.y=(p*1.5)-4.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; camera.lookAt(0,2,0);
+          const p=(Math.sin(t*4)+1)/2; character.position.y=(p*1.5)-2.5;
           const b=1-p;
           armL.shoulder.rotation.x=-Math.PI/2+b*0.8; armR.shoulder.rotation.x=-Math.PI/2+b*0.8;
           armL.lowerArm.rotation.x=-b*1.8; armR.lowerArm.rotation.x=-b*1.8; neck.rotation.x=-0.3;
@@ -8725,7 +8756,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'plank': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-3.5; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
           armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2; neck.rotation.x=-0.3;
           break;
@@ -8754,14 +8785,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'dambil_press': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           const d=(Math.sin(t*2.5)+1)/2;
           armL.shoulder.rotation.z=1.2-d*0.8; armR.shoulder.rotation.z=-1.2+d*0.8;
           armL.lowerArm.rotation.x=-d*1.2; armR.lowerArm.rotation.x=-d*1.2;
           break;
         }
         case 'dambil_flye': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           const d=(Math.sin(t*2)+1)/2;
           armL.shoulder.rotation.z=0.3+d*1.0; armR.shoulder.rotation.z=-0.3-d*1.0;
           armL.lowerArm.rotation.x=-0.5; armR.lowerArm.rotation.x=-0.5;
@@ -8780,14 +8811,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'superman': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-4; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           const d=(Math.sin(t*1.8)+1)/2;
           armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=-d*0.8;
           legL.hip.rotation.x=d*0.8; legR.hip.rotation.x=d*0.8;
           break;
         }
         case 'hip_thrust': case 'glut_bridge': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           const d=(Math.sin(t*2)+1)/2; pelvis.position.y=5.5+d*1.5;
           legL.hip.rotation.x=-0.8+d*0.8; legR.hip.rotation.x=-0.8+d*0.8;
           legL.lowerLeg.rotation.x=1.2-d*0.8; legR.lowerLeg.rotation.x=1.2-d*0.8;
@@ -8798,13 +8829,13 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'crunch': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-0.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           const d=(Math.sin(t*2)+1)/2; torso.rotation.x=-d*1.0; neck.rotation.x=-d*0.5;
           legL.hip.rotation.x=-0.5; legR.hip.rotation.x=-0.5; legL.lowerLeg.rotation.x=0.8; legR.lowerLeg.rotation.x=0.8;
           break;
         }
         case 'mountain_climber': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
           armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
           const d=Math.sin(t*4);
@@ -8813,12 +8844,12 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'leg_raise': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-0.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           const d=(Math.sin(t*1.8)+1)/2; legL.hip.rotation.x=d*1.5; legR.hip.rotation.x=d*1.5;
           break;
         }
         case 'bicycle_crunch': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-0.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           const d=Math.sin(t*3); legL.hip.rotation.x=d*1.2; legR.hip.rotation.x=-d*1.2; torso.rotation.z=d*0.3;
           armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=d*0.8;
           legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
@@ -8833,7 +8864,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'skull_crusher': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-3; pelvis.position.y=5.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
           armL.shoulder.rotation.x=-1.8; armR.shoulder.rotation.x=-1.8;
           armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
           const d=(Math.sin(t*2.5)+1)/2; armL.lowerArm.rotation.x=-d*1.8; armR.lowerArm.rotation.x=-d*1.8;
