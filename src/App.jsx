@@ -8951,7 +8951,11 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
             mixerRef.current = new THREE.AnimationMixer(model);
             const action = mixerRef.current.clipAction(gltf.animations[0]);
             action.setLoop(THREE.LoopRepeat, Infinity);
+            action.timeScale = 1.0;
+            action.reset();
             action.play();
+            // Biriken delta'yı temizle
+            clock.getDelta();
           } else {
             console.warn('GLB has NO animations:', exerciseId);
           }
