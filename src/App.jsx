@@ -479,6 +479,10 @@ export default function App(){
   const [tarifIcerik,setTarifIcerik]=useState("");
   const [tarifSonuc,setTarifSonuc]=useState(null);
   const [tarifYuk,setTarifYuk]=useState(false);
+  const [tarifMetin,setTarifMetin]=useState("");
+  const [oneriSoru,setOneriSoru]=useState("");
+  const [oneriYuk,setOneriYuk]=useState(false);
+  const [oneriCevap,setOneriCevap]=useState("");
   const [icerikAnaliz,setIcerikAnaliz]=useState(null);
   const [icerikYuk,setIcerikYuk]=useState(false);
   const [icerikMetin,setIcerikMetin]=useState("");
@@ -510,6 +514,8 @@ export default function App(){
   const [secBesin,setSecBesin]=useState(null);
   const [besinArama,setBesinArama]=useState("");
   const [yemekEkleModal,setYemekEkleModal]=useState(false);
+  const [yemekAsistaniAcik,setYemekAsistaniAcik]=useState(false);
+  const [yemekAsistaniSlayt,setYemekAsistaniSlayt]=useState(0);
   const [yemekEkleSekme,setYemekEkleSekme]=useState("ara"); // ara | foto | hizli
   const [yemekEkleOgun,setYemekEkleOgun]=useState("Kahvaltı");
   const [hizliEkleMetin,setHizliEkleMetin]=useState("");
@@ -1446,10 +1452,24 @@ SADECE JSON döndür (başka metin yok):
 
   // ─── INTERSTİTİAL GÖSTER (AI öncesi reklam/geçiş) ───────────
   const interstitialGoster = (callback) => {
-    // Premium kullanıcılar için direkt çağır
     if (premium || premiumPlus) { callback(); return; }
-    // Ücretsiz kullanıcılar için direkt çağır (reklam entegrasyonu eklenebilir)
     callback();
+  };
+
+  // ─── YEMEk ÖNERİ ─────────────────────────────────────────────
+  const oneriSor = async () => {
+    if (!oneriSoru?.trim() || oneriYuk) return;
+    setOneriYuk(true); setOneriCevap("");
+    try {
+      const p = profil;
+      const profStr = `Kullanıcı profili: ${p.kilo||"?"}kg, ${p.boy||"?"}cm, ${p.yas||"?"}yaş, hedef: ${p.hedef||"?"}kg, aktivite: ${p.aktivite||"orta"}. Kalori hedefi: ${tdee||2000} kcal/gün.`;
+      const resp = await fetch("/.netlify/functions/ai-proxy", {method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:600,
+          messages:[{role:"user",content:`${profStr}\n\nKullanıcı sorusu: ${oneriSoru}\n\nKısa, pratik ve kişiye özel yemek önerisi ver. Türkçe, dostane ve net ol.`}]})});
+      const data = await resp.json();
+      setOneriCevap(data.content?.[0]?.text || "Öneri alınamadı.");
+    } catch(e) { setOneriCevap("Bağlantı hatası, tekrar dene."); }
+    setOneriYuk(false);
   };
 
   // ─── YEMEK EKLE ──────────────────────────────────────────────
@@ -3516,832 +3536,7 @@ SADECE JSON döndür (başka metin yok):
         )}
 
         {/* ══ SPOR UYGULAMASI MODAL ══════════════════════════════════ */}
-        {sporAppAcik&&(
-          <div style={{position:"fixed",inset:0,background:d?"#0a0000":r.bg,zIndex:9990,display:"flex",flexDirection:"column",overflowY:"auto"}}>
 
-            {/* ─── HEADER ─────────────────────────────────────── */}
-            <div style={{background:"linear-gradient(135deg,#7f1d1d,#dc2626 60%,#b91c1c)",padding:"16px 18px 14px",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0,position:"relative",overflow:"hidden"}}>
-              <div style={{position:"absolute",top:-30,right:-20,width:120,height:120,background:"radial-gradient(circle,rgba(255,255,255,.08),transparent 70%)",pointerEvents:"none"}}/>
-              <div style={{position:"absolute",bottom:0,left:0,right:0,height:1,background:"linear-gradient(90deg,transparent,rgba(255,200,200,.2),transparent)"}}/>
-              <div>
-                <div style={{color:"#fff",fontSize:17,fontWeight:900,display:"flex",alignItems:"center",gap:8}}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="2" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/></svg>
-                  <div style={{display:"flex",alignItems:"center",gap:8}}>
-                    {sporAppAdim===0?"Spor Kurulumu":sporAppAdim===1?"Antrenman Programın":sporAppAdim===2?"Antrenman":"Tebrikler!"}
-                    <span style={{background:"rgba(255,255,255,.15)",border:"1px solid rgba(255,255,255,.25)",borderRadius:20,padding:"2px 8px",fontSize:9,fontWeight:800,letterSpacing:1,color:"rgba(255,255,255,.8)"}}>TEST SÜRÜMÜ</span>
-                  </div>
-                </div>
-                <div style={{color:"rgba(255,255,255,.7)",fontSize:11,marginTop:2}}>
-                  {sporAppAdim===0?"Sana özel bir program hazırlayalım":sporAppAdim===1?"Bugünkü egzersizini seç ve başlat":"Sağlıklı ol, güçlen!"}
-                </div>
-              </div>
-              <div style={{display:"flex",gap:8}}>
-                <button onClick={()=>setSporTest(p=>!p)}
-                  style={{background:"rgba(255,255,255,.1)",border:"1px solid rgba(255,255,255,.2)",color:"#fff",borderRadius:10,padding:"7px 12px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:11}}>
-                  🧪 Test
-                </button>
-                <button onClick={()=>{setSporAppAcik(false);if(antInterval)clearInterval(antInterval);}}
-                  style={{background:"rgba(0,0,0,.25)",border:"1px solid rgba(255,255,255,.15)",color:"#fff",borderRadius:10,padding:"7px 14px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,display:"flex",alignItems:"center",gap:6}}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                  Kapat
-                </button>
-              </div>
-            </div>
-
-            <div style={{flex:1,padding:"16px 16px 32px",maxWidth:430,margin:"0 auto",width:"100%",boxSizing:"border-box"}}>
-
-            {/* ── ADIM 0 ─────────────────────────────────────── */}
-            {sporAppAdim===0&&(
-              <div>
-                {/* ── SPLASH SLAYT (sporSoruAdim === -1) ────── */}
-                {sporSoruAdim===-1&&(
-                  <div style={{animation:"ob-rise .5s both",textAlign:"center",paddingTop:20}}>
-                    {/* Merkez ikon */}
-                    <div style={{width:100,height:100,borderRadius:28,background:"linear-gradient(145deg,#dc2626,#7f1d1d)",margin:"0 auto 20px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 32px rgba(220,38,38,.4)"}}>
-                      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round">
-                        <path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/>
-                      </svg>
-                    </div>
-                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:36,fontWeight:300,color:d?"#fca5a5":"#7f1d1d",letterSpacing:-.5,marginBottom:8}}>Spor Uygulaması</div>
-                    <div style={{fontSize:13,color:r.sub,lineHeight:1.7,marginBottom:28,maxWidth:280,margin:"0 auto 28px"}}>Yapay zeka, hedefine ve seviyene göre<br/>kişisel antrenman programı hazırlar.</div>
-
-                    {/* Özellik kartları */}
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:28,textAlign:"left"}}>
-                      {[
-                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>, l:"Kişisel Program", a:"Hedefine özel"},
-                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, l:"Zamanlayıcı", a:"Canlı antrenman"},
-                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="1.5" fill="#dc2626"/></svg>, l:"Kalori Takibi", a:"Otomatik hesap"},
-                        {ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="1.5" strokeLinecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>, l:"Her Seviye", a:"Başlangıç–ileri"},
-                      ].map((f,i)=>(
-                        <div key={i} style={{background:d?"rgba(220,38,38,.06)":"rgba(220,38,38,.04)",border:"1px solid rgba(220,38,38,.15)",borderRadius:14,padding:"12px 14px"}}>
-                          <div style={{marginBottom:6}}>{f.ikon}</div>
-                          <div style={{fontSize:12,fontWeight:800,color:d?"#fca5a5":"#7f1d1d"}}>{f.l}</div>
-                          <div style={{fontSize:10,color:r.muted}}>{f.a}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <button onClick={()=>setSporSoruAdim(0)}
-                      style={{width:"100%",padding:"16px 0",borderRadius:16,border:"none",cursor:"pointer",
-                        background:"linear-gradient(135deg,#dc2626,#b91c1c)",color:"#fff",
-                        fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:15,
-                        boxShadow:"0 6px 20px rgba(220,38,38,.4)",display:"flex",alignItems:"center",justifyContent:"center",gap:10}}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                      Hadi Başlayalım
-                    </button>
-                  </div>
-                )}
-
-                {/* Progress bar (sorular sırasında) */}
-                {sporSoruAdim>=0&&(
-                  <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:22}}>
-                    {[0,1,2,3,4].map(i=>(
-                      <div key={i} style={{flex:1,height:3,borderRadius:2,
-                        background:i<=sporSoruAdim?"#dc2626":d?"rgba(255,255,255,.1)":"rgba(220,38,38,.15)",
-                        transition:"all .3s"}}/>
-                    ))}
-                    <span style={{fontSize:10,color:r.sub,whiteSpace:"nowrap",fontWeight:700}}>{sporSoruAdim+1}/5</span>
-                  </div>
-                )}
-
-                {/* ── Soru 0: Hedef ─────────────────────────── */}
-                {sporSoruAdim===0&&(
-                  <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:22}}>
-                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="#fca5a5"/></svg>
-                      </div>
-                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Hedefin ne?</div>
-                      <div style={{fontSize:12,color:r.sub}}>Sana özel program hazırlayalım</div>
-                    </div>
-                    {[
-                      {v:"kilo_ver", l:"Yağ Yak & Kilo Ver", a:"Kalori yak, formu iyileştir",
-                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/><path d="M12 15v7"/><path d="M9 19h6"/></svg>},
-                      {v:"kas",      l:"Kas Geliştir",        a:"Hacim ve güç kazan",
-                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/></svg>},
-                      {v:"kilo_al",  l:"Kilo Al & Hacim Kazan", a:"Sağlıklı kilo kazan",
-                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>},
-                      {v:"form",     l:"Formu Koru",          a:"Kondisyon & esneklik",
-                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>},
-                      {v:"saglik",   l:"Sağlıklı Yaşa",       a:"Genel sağlık ve enerji",
-                        ikon:<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>},
-                    ].map(o=>{
-                      const sel=sporHedef===o.v||sporHedef===o.v;
-                      return(
-                      <button key={o.v} onClick={()=>{setSporHedefSA(o.v);setSporSoruAdim(1);}}
-                        style={{width:"100%",display:"flex",alignItems:"center",gap:14,padding:"14px 16px",
-                          borderRadius:14,border:`2px solid ${sel?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
-                          background:sel?d?"rgba(220,38,38,.12)":"rgba(220,38,38,.06)":r.inp,
-                          marginBottom:10,cursor:"pointer",transition:"all .15s",textAlign:"left"}}>
-                        <div style={{width:44,height:44,borderRadius:12,background:sel?"#dc2626":d?"rgba(220,38,38,.1)":"rgba(220,38,38,.08)",display:"flex",alignItems:"center",justifyContent:"center",color:sel?"#fff":"#dc2626",flexShrink:0}}>
-                          {o.ikon}
-                        </div>
-                        <div style={{flex:1}}>
-                          <div style={{fontSize:14,fontWeight:800,color:sel?"#dc2626":r.text}}>{o.l}</div>
-                          <div style={{fontSize:11,color:r.sub,marginTop:2}}>{o.a}</div>
-                        </div>
-                        {sel&&<div style={{width:20,height:20,borderRadius:"50%",background:"#dc2626",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>}
-                      </button>
-                    );})}
-                  </div>
-                )}
-
-                {/* ── Soru 1: Bölge ─────────────────────────── */}
-                {sporSoruAdim===1&&(
-                  <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:22}}>
-                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><ellipse cx="12" cy="5" rx="3" ry="4"/><path d="M7 13c0-2.8 2-5 5-5s5 2.2 5 5c0 3-2.5 6-5 6s-5-3-5-6z"/><path d="M12 13v4"/></svg>
-                      </div>
-                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Hangi bölgeye odaklanmak istersin?</div>
-                      <div style={{fontSize:12,color:r.sub}}>Birden fazla seçebilirsin</div>
-                    </div>
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:20}}>
-                      {[
-                        {v:"karin", l:"Karın", a:"Core & abs",
-                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="3" y="8" width="18" height="12" rx="3"/><path d="M12 8V4M8 12h8M8 16h8"/></svg>},
-                        {v:"omuz",  l:"Omuz",  a:"Deltoid & trapez",
-                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 4c-2 0-4 1.5-4 4v1H5l-2 3h18l-2-3h-3V8c0-2.5-2-4-4-4z"/></svg>},
-                        {v:"gogus", l:"Göğüs", a:"Pektoral",
-                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 9c0-1 .8-2 2-2h14c1.2 0 2 1 2 2v2c0 3-3 6-9 8-6-2-9-5-9-8V9z"/></svg>},
-                        {v:"sirt",  l:"Sırt",  a:"Lat & rhomboid",
-                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 3c-2 2-5 4-5 8h10c0-4-3-6-5-8z"/><path d="M7 11v6a5 5 0 0 0 10 0v-6"/></svg>},
-                        {v:"bacak", l:"Bacak", a:"Quad, hamstring",
-                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M9 3h6v8l2 10H7L9 11V3z"/></svg>},
-                        {v:"kol",   l:"Kol",   a:"Biceps & triceps",
-                          ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16M4 12l-2-2m2 2l-2 2M20 12l2-2m-2 2l2 2"/></svg>},
-                      ].map(o=>{
-                        const sel=sporBolge.includes(o.v);
-                        return(
-                        <button key={o.v} onClick={()=>setSporBolge(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
-                          style={{padding:"14px 10px",borderRadius:14,
-                            border:`2px solid ${sel?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
-                            background:sel?d?"rgba(220,38,38,.12)":"rgba(220,38,38,.06)":r.inp,
-                            cursor:"pointer",textAlign:"center",transition:"all .15s",position:"relative"}}>
-                          {sel&&<div style={{position:"absolute",top:8,right:8,width:16,height:16,borderRadius:"50%",background:"#dc2626",display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg></div>}
-                          <div style={{color:sel?"#dc2626":r.sub,marginBottom:6}}>{o.ikon}</div>
-                          <div style={{fontSize:13,fontWeight:800,color:sel?"#dc2626":r.text}}>{o.l}</div>
-                          <div style={{fontSize:10,color:r.sub,marginTop:2}}>{o.a}</div>
-                        </button>
-                      );})}
-                    </div>
-                    <div style={{display:"flex",gap:8}}>
-                      <button onClick={()=>setSporSoruAdim(0)} style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
-                      <button onClick={()=>setSporSoruAdim(2)} style={{...BTN("#dc2626","13px 0"),flex:1,fontSize:14,fontWeight:800,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>Devam Et →</button>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── Soru 2: Seviye ────────────────────────── */}
-                {sporSoruAdim===2&&(
-                  <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:22}}>
-                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-                      </div>
-                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Spor seviyeniz?</div>
-                      <div style={{fontSize:12,color:r.sub}}>Dürüst ol — en iyi sonucu bu verir</div>
-                    </div>
-                    {[
-                      {v:"baslangic", l:"Başlangıç", a:"Düzenli spor yapmıyorum veya yeni başlıyorum", renk:"#16a34a",
-                        ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 22V12M12 12C12 8 9 5 5 5M12 12c0-4 3-7 7-7"/><circle cx="12" cy="4" r="2"/></svg>},
-                      {v:"orta",      l:"Orta",       a:"Haftada birkaç kez düzenli spor yapıyorum",     renk:"#f59e0b",
-                        ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>},
-                      {v:"ileri",     l:"İleri",      a:"Yoğun antrenman yapıyorum, formum iyi",         renk:"#dc2626",
-                        ikon:<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>},
-                    ].map(o=>{
-                      const sel=sporSeviye===o.v;
-                      return(
-                      <button key={o.v} onClick={()=>{setSporSeviye(o.v);setSporSoruAdim(3);}}
-                        style={{width:"100%",display:"flex",alignItems:"center",gap:14,padding:"16px",
-                          borderRadius:14,border:`2px solid ${sel?o.renk:d?"rgba(255,255,255,.08)":"rgba(0,0,0,.08)"}`,
-                          background:sel?o.renk+"18":r.inp,marginBottom:10,cursor:"pointer",transition:"all .15s",textAlign:"left"}}>
-                        <div style={{width:48,height:48,borderRadius:13,background:sel?o.renk:d?"rgba(255,255,255,.05)":"rgba(0,0,0,.04)",display:"flex",alignItems:"center",justifyContent:"center",color:sel?"#fff":o.renk,flexShrink:0}}>
-                          {o.ikon}
-                        </div>
-                        <div style={{flex:1}}>
-                          <div style={{fontSize:15,fontWeight:800,color:sel?o.renk:r.text}}>{o.l}</div>
-                          <div style={{fontSize:11,color:r.sub,marginTop:2}}>{o.a}</div>
-                        </div>
-                        {sel&&<div style={{width:20,height:20,borderRadius:"50%",background:o.renk,display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg></div>}
-                      </button>
-                    );})}
-                    <button onClick={()=>setSporSoruAdim(1)} style={{...BTN("transparent","10px 0"),width:"100%",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
-                  </div>
-                )}
-
-                {/* ── Soru 3: Ekipman ───────────────────────── */}
-                {sporSoruAdim===3&&(
-                  <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:22}}>
-                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><circle cx="3" cy="12" r="1.5" fill="#fca5a5"/><circle cx="21" cy="12" r="1.5" fill="#fca5a5"/></svg>
-                      </div>
-                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Elindeki ekipman?</div>
-                      <div style={{fontSize:12,color:r.sub}}>Hiç seçmesen de olur — vücut ağırlığıyla da harika program çıkar</div>
-                    </div>
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:20}}>
-                      {[
-                        {v:"dambil",  l:"Dambıl",       a:"Curl için gerekli",       ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><rect x="2" y="10" width="3" height="4" rx="1"/><rect x="19" y="10" width="3" height="4" rx="1"/></svg>},
-                        {v:"yok",     l:"Ekipmansız",   a:"Sadece vücut ağırlığı",   ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/></svg>},
-                      ].map(o=>{
-                        const sel=sporEkipman.includes(o.v)||(o.v==="yok"&&sporEkipman.length===0);
-                        return(
-                        <button key={o.v} onClick={()=>o.v==="yok"?setSporEkipman([]):setSporEkipman(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
-                          style={{padding:"14px 10px",borderRadius:12,
-                            border:`2px solid ${sel?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
-                            background:sel?d?"rgba(220,38,38,.12)":"rgba(220,38,38,.06)":r.inp,
-                            cursor:"pointer",textAlign:"center",transition:"all .15s",position:"relative"}}>
-                          {sel&&<div style={{position:"absolute",top:6,right:6,width:16,height:16,borderRadius:"50%",background:"#dc2626",display:"flex",alignItems:"center",justifyContent:"center"}}><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg></div>}
-                          <div style={{color:sel?"#dc2626":r.sub,marginBottom:6,display:"flex",justifyContent:"center"}}>{o.ikon}</div>
-                          <div style={{fontSize:12,fontWeight:700,color:sel?"#dc2626":r.text}}>{o.l}</div>
-                          <div style={{fontSize:10,color:r.sub,marginTop:2}}>{o.a}</div>
-                        </button>
-                      );})}
-                    </div>
-                    <div style={{display:"flex",gap:8}}>
-                      <button onClick={()=>setSporSoruAdim(2)} style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
-                      <button onClick={()=>setSporSoruAdim(4)} style={{...BTN("#dc2626","13px 0"),flex:1,fontSize:14,fontWeight:800,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>Devam Et →</button>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── Soru 4: Süre & Gün ────────────────────── */}
-                {sporSoruAdim===4&&(
-                  <div style={{animation:"ob-rise .4s both"}}>
-                    <div style={{textAlign:"center",marginBottom:22}}>
-                      <div style={{width:56,height:56,borderRadius:16,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(220,38,38,.3)"}}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                      </div>
-                      <div style={{fontSize:20,fontWeight:900,color:r.text,marginBottom:4}}>Ne kadar zamanın var?</div>
-                      <div style={{fontSize:12,color:r.sub}}>Programa göre süre ve gün ayarlıyoruz</div>
-                    </div>
-
-                    <div style={{background:d?"rgba(255,255,255,.03)":"rgba(220,38,38,.03)",border:`1px solid ${d?"rgba(255,255,255,.06)":"rgba(220,38,38,.1)"}`,borderRadius:16,padding:"14px",marginBottom:12}}>
-                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        <div style={{fontSize:13,fontWeight:800,color:r.text}}>Antrenman süresi</div>
-                      </div>
-                      <div style={{display:"flex",gap:8}}>
-                        {[20,30,45,60].map(dk=>(
-                          <button key={dk} onClick={()=>setSporSure2(dk)}
-                            style={{flex:1,padding:"12px 0",borderRadius:12,
-                              border:`2px solid ${sporSure2===dk?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
-                              background:sporSure2===dk?d?"rgba(220,38,38,.2)":"rgba(220,38,38,.08)":r.inp,
-                              cursor:"pointer",fontSize:13,fontWeight:800,
-                              color:sporSure2===dk?"#dc2626":r.sub,transition:"all .15s"}}>
-                            {dk}<br/><span style={{fontSize:9,fontWeight:600}}>dk</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div style={{background:d?"rgba(255,255,255,.03)":"rgba(220,38,38,.03)",border:`1px solid ${d?"rgba(255,255,255,.06)":"rgba(220,38,38,.1)"}`,borderRadius:16,padding:"14px",marginBottom:16}}>
-                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        <div style={{fontSize:13,fontWeight:800,color:r.text}}>Haftada kaç gün?</div>
-                      </div>
-                      <div style={{display:"flex",gap:8}}>
-                        {[2,3,4,5,6].map(g=>(
-                          <button key={g} onClick={()=>setSporGun(g)}
-                            style={{flex:1,padding:"12px 0",borderRadius:12,
-                              border:`2px solid ${sporGun===g?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
-                              background:sporGun===g?d?"rgba(220,38,38,.2)":"rgba(220,38,38,.08)":r.inp,
-                              cursor:"pointer",fontSize:15,fontWeight:800,
-                              color:sporGun===g?"#dc2626":r.sub,transition:"all .15s"}}>
-                            {g}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Özet */}
-                    <div style={{background:"linear-gradient(135deg,rgba(220,38,38,.08),rgba(185,28,28,.05))",border:"1px solid rgba(220,38,38,.2)",borderRadius:14,padding:"12px 14px",marginBottom:16}}>
-                      <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:10}}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                        <div style={{fontSize:12,fontWeight:800,color:d?"#fca5a5":"#7f1d1d"}}>Seçimlerinin özeti</div>
-                      </div>
-                      <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                        {sporHedef&&<span style={{background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporHedef.replace("kilo_ver","Yağ Yak").replace("kas","Kas").replace("kilo_al","Kilo Al").replace("form","Form").replace("saglik","Sağlık")}</span>}
-                        {sporBolge.map(b=><span key={b} style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{b==="karin"?"Karın":b==="omuz"?"Omuz":b==="gogus"?"Göğüs":b==="sirt"?"Sırt":b==="bacak"?"Bacak":"Kol"}</span>)}
-                        {sporSeviye&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSeviye==="baslangic"?"Başlangıç":sporSeviye==="orta"?"Orta":"İleri"}</span>}
-                        {sporSure2&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>{sporSure2} dk</span>}
-                        {sporGun&&<span style={{background:d?"rgba(220,38,38,.1)":"rgba(220,38,38,.06)",color:"#dc2626",borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>Haftada {sporGun} gün</span>}
-                      </div>
-                    </div>
-
-                    <div style={{display:"flex",gap:8}}>
-                      <button onClick={()=>setSporSoruAdim(3)} style={{...BTN("transparent","13px 0"),flex:"0 0 80px",border:`1.5px solid ${d?"rgba(255,255,255,.1)":"rgba(220,38,38,.2)"}`,color:r.sub,fontSize:13}}>← Geri</button>
-                      <button onClick={()=>{
-                        if(!sporHedef&&!sporHedef){setSporSoruAdim(0);return;}
-                        if(!sporSeviye){setSporSoruAdim(2);return;}
-                        const prg={...sporProgramUret(sporHedef||sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge),kaynak:'onerilen'};
-                        setSporProgram(prg);setSporAppAdim(1);
-                        if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{sporProgram:prg,sporTamGunler:[],sporSeciliGun:0}).catch(console.error);
-                      }} style={{flex:1,padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
-                        background:"linear-gradient(135deg,#dc2626,#b91c1c)",color:"#fff",
-                        fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
-                        boxShadow:"0 4px 16px rgba(220,38,38,.35)",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                        Programımı Oluştur
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-              </div>
-            )}
-
-                        {/* ── ADIM 1: PROGRAM + ALT SEKMELİ EKRAN ── */}
-            {sporAppAdim===1&&(
-              <div style={{display:"flex",flexDirection:"column",height:"100%"}}>
-
-                {/* ── TEST PANELİ ── */}
-                {sporTest&&(
-                  <div style={{background:"rgba(0,0,0,.4)",border:"1px solid rgba(255,255,255,.1)",borderRadius:16,padding:14,marginBottom:14}}>
-                    <div style={{fontSize:11,fontWeight:800,color:"rgba(255,255,255,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>🧪 3D Animasyon Test</div>
-                    <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:12}}>
-                      {["squat","sinav","jumping_jack","plank","lunge","dambil_curl","lateral_raise","pullup","superman","hip_thrust","glut_bridge","crunch","mountain_climber","leg_raise","bicycle_crunch","burpee","high_knees","triceps_dips","skull_crusher","dambil_press","dambil_flye","yuruyus","kosma","ip_atlama","wall_sit","reverse_crunch","russian_twist","flutter_kick","side_plank"].map(e=>(
-                        <button key={e} onClick={()=>setSporTestEgz(e)}
-                          style={{padding:"4px 10px",borderRadius:20,border:"none",cursor:"pointer",fontSize:10,fontWeight:700,
-                            background:sporTestEgz===e?"#dc2626":"rgba(255,255,255,.1)",
-                            color:sporTestEgz===e?"#fff":"rgba(255,255,255,.6)"}}>
-                          {e}
-                        </button>
-                      ))}
-                    </div>
-                    <div style={{borderRadius:12,overflow:"hidden",display:"flex",justifyContent:"center"}}>
-                      <ExerciseModel3D exerciseId={sporTestEgz} width={280} height={220}/>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── ALT NAVİGASYON ── */}
-                <div style={{display:"flex",background:d?"rgba(220,38,38,.08)":"rgba(220,38,38,.05)",borderRadius:16,padding:4,gap:4,marginBottom:16}}>
-                  {[
-                    {k:"plan", l:"Önerilen Plan", ikon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>},
-                    {k:"kesfet", l:"Keşfet", ikon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>},
-                    {k:"ilerleme", l:"İlerleme", ikon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>},
-                  ].map(s=>(
-                    <button key={s.k} onClick={()=>setSporSekme(s.k)}
-                      style={{flex:1,padding:"9px 4px",borderRadius:12,border:"none",cursor:"pointer",
-                        background:sporSekme===s.k?"linear-gradient(135deg,#dc2626,#b91c1c)":"transparent",
-                        color:sporSekme===s.k?"#fff":"rgba(220,38,38,.6)",
-                        fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:11,
-                        display:"flex",alignItems:"center",justifyContent:"center",gap:5,
-                        transition:"all .2s",boxShadow:sporSekme===s.k?"0 2px 8px rgba(220,38,38,.3)":"none"}}>
-                      {s.ikon}{s.l}
-                    </button>
-                  ))}
-                </div>
-
-                {/* ══ ÖNERILEN PLAN sekmesi ══ */}
-                {sporSekme==="plan"&&sporProgram&&(<>
-
-                  {/* Hero banner */}
-                  <div style={{margin:"-0px -0px 0",background:"linear-gradient(160deg,#3f0000,#7f1d1d 50%,#dc2626)",padding:"20px",borderRadius:16,position:"relative",overflow:"hidden",marginBottom:14}}>
-                    <div style={{position:"absolute",top:-40,right:-40,width:160,height:160,borderRadius:"50%",background:"rgba(255,255,255,.04)",pointerEvents:"none"}}/>
-                    <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(255,255,255,.12)",borderRadius:20,padding:"4px 12px",marginBottom:10,fontSize:10,fontWeight:800,color:"rgba(255,255,255,.9)",letterSpacing:1.5,textTransform:"uppercase"}}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-                      {sporSeviye==="baslangic"?"Başlangıç":sporSeviye==="orta"?"Orta":"İleri"} Düzey
-                    </div>
-                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:28,fontWeight:700,color:"#fff",lineHeight:1.1,marginBottom:6}}>{sporProgram.ad}</div>
-                    <div style={{display:"flex",gap:12,fontSize:11,color:"rgba(255,255,255,.7)",marginBottom:12}}>
-                      <span>{sporProgram.gunler.length} günlük döngü</span>
-                      <span>·</span><span>{sporProgram.topEgz} egzersiz</span>
-                      <span>·</span><span>~{sporSure2} dk/seans</span>
-                    </div>
-                    <div style={{height:3,background:"rgba(255,255,255,.15)",borderRadius:2}}>
-                      <div style={{height:"100%",width:`${Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%`,background:"#fff",borderRadius:2,transition:"width .5s"}}/>
-                    </div>
-                    <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"rgba(255,255,255,.5)",marginTop:4}}>
-                      <span>{sporTamGunler.length} gün tamamlandı</span>
-                      <span>{Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%</span>
-                    </div>
-                  </div>
-
-                  {/* Gün daireleri */}
-                  <div style={{background:d?"rgba(220,38,38,.04)":"rgba(220,38,38,.03)",border:"1px solid rgba(220,38,38,.1)",borderRadius:14,padding:"14px 16px",marginBottom:14}}>
-                    <div style={{fontSize:10,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>Günler</div>
-                    <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                      {sporProgram.gunler.map((gun,gi)=>{
-                        const tam=sporTamGunler.includes(gi);
-                        const secili=sporSeciliGun===gi;
-                        const kilitli=gi>0&&!sporTamGunler.includes(gi-1);
-                        return(
-                          <button key={gi} onClick={()=>!kilitli&&setSporSeciliGun(gi)}
-                            style={{width:44,height:44,borderRadius:"50%",
-                              border:`2px solid ${kilitli?"rgba(220,38,38,.1)":secili?"#dc2626":tam?"#dc2626":"rgba(220,38,38,.2)"}`,
-                              background:tam?"#dc2626":secili?"rgba(220,38,38,.12)":"transparent",
-                              cursor:kilitli?"not-allowed":"pointer",
-                              opacity:kilitli?0.35:1,
-                              display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
-                            {tam?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-                            :kilitli?<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(220,38,38,.4)" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                            :<span style={{fontSize:13,fontWeight:900,color:secili?"#dc2626":"rgba(220,38,38,.5)"}}>{gi+1}</span>}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Seçili gün */}
-                  {sporProgram.gunler[sporSeciliGun]&&(<div>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                      <div>
-                        <div style={{fontSize:15,fontWeight:900,color:r.text}}>{sporProgram.gunler[sporSeciliGun].baslik}</div>
-                        <div style={{fontSize:11,color:r.sub}}>{sporProgram.gunler[sporSeciliGun].egzersizler.length} egzersiz · ~{sporSure2} dk</div>
-                      </div>
-                      <button onClick={()=>{if(sporSeciliGun===0||sporTamGunler.includes(sporSeciliGun-1))antrenmanBaslat(sporProgram.gunler[sporSeciliGun],sporSeciliGun);}}
-                        style={{background:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"rgba(220,38,38,.05)":sporTamGunler.includes(sporSeciliGun)?"rgba(220,38,38,.1)":"linear-gradient(135deg,#dc2626,#b91c1c)",
-                          border:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"1.5px solid rgba(220,38,38,.15)":sporTamGunler.includes(sporSeciliGun)?"1.5px solid rgba(220,38,38,.3)":"none",
-                          borderRadius:14,padding:"11px 22px",
-                          color:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"rgba(220,38,38,.3)":sporTamGunler.includes(sporSeciliGun)?"#dc2626":"#fff",
-                          fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:13,
-                          cursor:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"not-allowed":"pointer",
-                          display:"flex",alignItems:"center",gap:8,
-                          boxShadow:sporTamGunler.includes(sporSeciliGun)||(sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1))?"none":"0 4px 16px rgba(220,38,38,.35)"}}>
-                        {sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)
-                          ?<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Kilitli</>
-                          :sporTamGunler.includes(sporSeciliGun)
-                            ?<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>Tekrar</>
-                            :<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Başlat</>}
-                      </button>
-                    </div>
-                      {sporProgram.gunler[sporSeciliGun]?.egzersizler.map((e,ei)=>(
-                        <div key={ei} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.04)"}`,marginBottom:8}}>
-                          <div style={{width:40,height:40,borderRadius:12,background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:20}}>{e.ikon}</div>
-                          <div style={{flex:1}}>
-                            <div style={{fontSize:13,fontWeight:800,color:r.text}}>{e.ad}</div>
-                            <div style={{fontSize:10,color:r.sub}}>{e.kas}</div>
-                          </div>
-                          <div style={{textAlign:"right",flexShrink:0}}>
-                            <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{e.set} × {e.rep}</div>
-                            <div style={{fontSize:10,color:r.sub}}>~{Math.round(e.kaloriDak*sporSure2/sporProgram.gunler[sporSeciliGun]?.egzersizler.length*60)} kcal</div>
-                          </div>
-                        </div>
-                      ))}
-                      <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"11px",background:"rgba(220,38,38,.06)",border:"1px solid rgba(220,38,38,.12)",borderRadius:14,marginTop:4}}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>
-                        <span style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>~{sporProgram.gunler[sporSeciliGun]?.egzersizler.reduce((t,e)=>t+Math.round(e.kaloriDak*sporSure2/sporProgram.gunler[sporSeciliGun]?.egzersizler.length*60),0)} kcal yakım</span>
-                      </div>
-                  </div>)}
-
-                  <button onClick={()=>{setSporAppAdim(0);setSporSoruAdim(-1);setSporTamGunler([]);setSporSeciliGun(0);}}
-                    style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,width:"100%",padding:"11px 0",borderRadius:14,border:"1.5px solid rgba(220,38,38,.2)",background:"transparent",color:"rgba(220,38,38,.7)",fontSize:13,fontWeight:700,cursor:"pointer",marginTop:12}}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
-                    Yeniden Oluştur
-                  </button>
-                </>)}
-
-                {/* ══ KEŞFETsekmesi ══ */}
-                {sporSekme==="kesfet"&&(
-                  <div>
-                    {/* Vücut bölgesi - görsel butonlar */}
-                    <div style={{fontSize:11,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:12}}>Vücut Odağı</div>
-                    <div style={{display:"flex",gap:8,overflowX:"auto",paddingBottom:8,marginBottom:20,scrollbarWidth:"none"}}>
-                      {[
-                        {k:"karin", l:"Karın",  emoji:"🔥", bg:"linear-gradient(135deg,#7f1d1d,#dc2626)", desc:"Core & Abs"},
-                        {k:"kol",   l:"Kol",    emoji:"💪", bg:"linear-gradient(135deg,#1e3a5f,#2563eb)", desc:"Biceps & Triceps"},
-                        {k:"gogus", l:"Göğüs",  emoji:"🏋️", bg:"linear-gradient(135deg,#14532d,#16a34a)", desc:"Pektoral"},
-                        {k:"sirt", l:"Sırt", emoji:<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round"><path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 7-3-2-5-4-5-7a5 5 0 0 1 5-5z"/><path d="M5 14c-1.5 1-2 3-2 5h18c0-2-.5-4-2-5"/><line x1="12" y1="14" x2="12" y2="19"/><line x1="9" y1="16" x2="15" y2="16"/></svg>, bg:"linear-gradient(135deg,#4c1d95,#7c3aed)", desc:"Lat & Rhomboid"},
-                        {k:"bacak", l:"Bacak",  emoji:"🦵", bg:"linear-gradient(135deg,#92400e,#d97706)", desc:"Quad & Hamstring"},
-                        {k:"omuz",  l:"Omuz",   emoji:"⚡", bg:"linear-gradient(135deg,#164e63,#0891b2)", desc:"Deltoid"},
-                        {k:"tum",   l:"Tüm Vücut",emoji:"🌟",bg:"linear-gradient(135deg,#3f0000,#dc2626)", desc:"Full Body"},
-                      ].map(b=>(
-                        <button key={b.k} onClick={()=>setSporKesfetBolge(b.k)}
-                          style={{flexShrink:0,width:90,borderRadius:16,overflow:"hidden",
-                            border:`2px solid ${sporKesfetBolge===b.k?"#dc2626":"transparent"}`,
-                            cursor:"pointer",padding:0,background:"transparent",
-                            boxShadow:sporKesfetBolge===b.k?"0 0 0 2px #dc2626, 0 4px 16px rgba(220,38,38,.3)":"none",
-                            transition:"all .2s"}}>
-                          <div style={{background:b.bg,padding:"18px 8px 10px",display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
-                            <div style={{fontSize:28}}>{b.emoji}</div>
-                            <div style={{fontSize:12,fontWeight:900,color:"#fff"}}>{b.l}</div>
-                            <div style={{fontSize:9,color:"rgba(255,255,255,.7)",fontWeight:600}}>{b.desc}</div>
-                          </div>
-                          {sporKesfetBolge===b.k&&<div style={{height:3,background:"#dc2626"}}/>}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Program kartları */}
-                    {(()=>{
-                      const hareketler = {
-                        karin:  ["plank","bicycle_crunch","burpee","squat"],
-                        kol:    ["dambil_curl","hammer_curl","sinav"],
-                        gogus:  ["sinav","burpee","plank"],
-                        sirt:   ["sinav","burpee","squat"],
-                        bacak:  ["squat","box_jump","burpee","jumping_jack"],
-                        omuz:   ["sinav","burpee","jumping_jack"],
-                        tum:    ["squat","sinav","bicycle_crunch","jumping_jack","burpee","box_jump"],
-                      };
-                      const bolgeAd = {karin:"Karın Kasları",kol:"Kol",gogus:"Göğüs",sirt:"Sırt",bacak:"Bacak",omuz:"Omuz",tum:"Tüm Vücut"};
-                      const bolgeEmoji = {karin:"🔥",kol:"💪",gogus:"🏋️",sirt:"🦅",bacak:"🦵",omuz:"⚡",tum:"🌟"};
-                      const egzler = hareketler[sporKesfetBolge]||[];
-
-                      const programlar = [
-                        {
-                          zorluk:1, ad:`${bolgeAd[sporKesfetBolge]} — Başlangıç`,
-                          sure:15, gunSayisi:28,
-                          renk:"#16a34a", renk2:"#15803d",
-                          acik:"Haftada 4 gün, 15 dk — temel hareketler",
-                          haftalik: [
-                            {gunler:[1,2,4,5], setler:2, rep:"10-12"},
-                            {gunler:[1,2,4,5], setler:2, rep:"12-15"},
-                            {gunler:[1,2,4,5], setler:3, rep:"12-15"},
-                            {gunler:[1,2,4,5], setler:3, rep:"15"},
-                          ]
-                        },
-                        {
-                          zorluk:2, ad:`${bolgeAd[sporKesfetBolge]} — Orta`,
-                          sure:25, gunSayisi:28,
-                          renk:"#d97706", renk2:"#b45309",
-                          acik:"Haftada 4 gün, 25 dk — artan yoğunluk",
-                          haftalik: [
-                            {gunler:[1,2,4,5], setler:3, rep:"12"},
-                            {gunler:[1,2,4,5], setler:3, rep:"15"},
-                            {gunler:[1,2,4,6], setler:4, rep:"12"},
-                            {gunler:[1,2,4,6], setler:4, rep:"15"},
-                          ]
-                        },
-                        {
-                          zorluk:3, ad:`${bolgeAd[sporKesfetBolge]} — İleri`,
-                          sure:40, gunSayisi:28,
-                          renk:"#dc2626", renk2:"#991b1b",
-                          acik:"Haftada 5 gün, 40 dk — yüksek yoğunluk",
-                          haftalik: [
-                            {gunler:[1,2,3,5,6], setler:4, rep:"12"},
-                            {gunler:[1,2,3,5,6], setler:4, rep:"15"},
-                            {gunler:[1,2,3,4,6], setler:5, rep:"12"},
-                            {gunler:[1,2,3,4,6], setler:5, rep:"15"},
-                          ]
-                        },
-                      ];
-
-                      return programlar.map((prog,pi)=>(
-                        <div key={pi} style={{borderRadius:18,overflow:"hidden",marginBottom:16,boxShadow:"0 4px 16px rgba(0,0,0,.1)"}}>
-                          {/* Header görsel */}
-                          <div style={{background:`linear-gradient(160deg,${prog.renk2},${prog.renk})`,padding:"20px 18px 16px",position:"relative",overflow:"hidden"}}>
-                            <div style={{position:"absolute",top:-20,right:-20,fontSize:80,opacity:.12}}>
-                              {bolgeEmoji[sporKesfetBolge]}
-                            </div>
-                            <div style={{position:"absolute",bottom:-30,right:20,fontSize:120,opacity:.06}}>
-                              {bolgeEmoji[sporKesfetBolge]}
-                            </div>
-                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",position:"relative"}}>
-                              <div>
-                                <div style={{display:"flex",gap:3,marginBottom:8}}>
-                                  {[1,2,3].map(z=>(
-                                    <div key={z} style={{width:20,height:20,borderRadius:"50%",
-                                      background:z<=prog.zorluk?"rgba(255,255,255,.9)":"rgba(255,255,255,.2)",
-                                      display:"flex",alignItems:"center",justifyContent:"center"}}>
-                                      <svg width="10" height="10" viewBox="0 0 24 24" fill={z<=prog.zorluk?"currentColor":"none"} stroke="white" strokeWidth="2">
-                                        <path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/>
-                                      </svg>
-                                    </div>
-                                  ))}
-                                </div>
-                                <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:4,lineHeight:1.2}}>{prog.ad}</div>
-                                <div style={{fontSize:11,color:"rgba(255,255,255,.75)"}}>{prog.acik}</div>
-                              </div>
-                              <div style={{background:"rgba(255,255,255,.15)",borderRadius:12,padding:"8px 12px",textAlign:"center",flexShrink:0}}>
-                                <div style={{fontSize:20,fontWeight:900,color:"#fff",lineHeight:1}}>28</div>
-                                <div style={{fontSize:9,color:"rgba(255,255,255,.75)",fontWeight:700}}>GÜN</div>
-                              </div>
-                            </div>
-                            {/* Meta */}
-                            <div style={{display:"flex",gap:12,marginTop:12}}>
-                              {[
-                                {ikon:"⏱",v:`${prog.sure} dk/seans`},
-                                {ikon:"📅",v:`${prog.zorluk===3?"Haftada 5":"Haftada 4"} gün`},
-                                {ikon:"💪",v:`${prog.zorluk===1?"2-3":"3-5"} set`},
-                              ].map((m,mi)=>(
-                                <div key={mi} style={{display:"flex",alignItems:"center",gap:4,fontSize:10,color:"rgba(255,255,255,.8)",fontWeight:600}}>
-                                  <span>{m.ikon}</span><span>{m.v}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Alt kısım */}
-                          <div style={{background:r.card,border:`1px solid ${prog.renk}22`,padding:"14px 16px"}}>
-                            {/* Hafta akışı */}
-                            <div style={{fontSize:10,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>4 Haftalık Plan</div>
-                            <div style={{display:"flex",gap:6,marginBottom:14}}>
-                              {prog.haftalik.map((h,hi)=>(
-                                <div key={hi} style={{flex:1,background:d?"rgba(255,255,255,.04)":"rgba(0,0,0,.03)",borderRadius:10,padding:"8px 6px",textAlign:"center",border:`1px solid ${d?"rgba(255,255,255,.06)":"rgba(0,0,0,.05)"}`}}>
-                                  <div style={{fontSize:9,fontWeight:800,color:r.muted,marginBottom:4}}>{hi+1}.HAFTA</div>
-                                  <div style={{fontSize:11,fontWeight:700,color:r.text}}>{h.setler}×{h.rep}</div>
-                                </div>
-                              ))}
-                            </div>
-                            {/* Egzersizler */}
-                            <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
-                              {egzler.slice(0,4).map((e,ei)=>{
-                                const egzDB = Object.values(typeof EGZERSIZ_DB!=="undefined"?EGZERSIZ_DB:{}).find?.(x=>x.id===e)||{ad:e,ikon:"💪"};
-                                return(
-                                  <span key={ei} style={{background:`${prog.renk}12`,border:`1px solid ${prog.renk}25`,
-                                    color:prog.renk,borderRadius:20,padding:"4px 10px",fontSize:10,fontWeight:700}}>
-                                    {egzDB.ikon||"💪"} {egzDB.ad||e}
-                                  </span>
-                                );
-                              })}
-                              {egzler.length>4&&<span style={{color:r.muted,fontSize:10,alignSelf:"center"}}>+{egzler.length-4} daha</span>}
-                            </div>
-                            <button onClick={()=>{
-                              const hedefMap={karin:"saglik",kol:"kas",gogus:"kas",sirt:"kas",bacak:"form",omuz:"kas",tum:"form"};
-                              // 28 günlük program oluştur - her hafta set/rep artar
-                              const gunler = [];
-                              const aktifGunler = prog.zorluk===3?[0,1,2,4,5]:[0,1,3,4];
-                              for(let hafta=0;hafta<4;hafta++){
-                                const haftaConfig = prog.haftalik[hafta];
-                                for(let gi=0;gi<aktifGunler.length;gi++){
-                                  const egzListesi = egzler.map(eid=>{
-                                    const e = Object.values(typeof EGZERSIZ_DB!=="undefined"?EGZERSIZ_DB:{}).find?.(x=>x.id===eid);
-                                    return e ? {...e, set:haftaConfig.setler, rep:haftaConfig.rep} : null;
-                                  }).filter(Boolean);
-                                  gunler.push({
-                                    baslik:`${hafta+1}.Hafta Gün ${gi+1} — ${bolgeAd[sporKesfetBolge]}`,
-                                    egzersizler: egzListesi,
-                                  });
-                                }
-                              }
-                              const yeniProg={
-                                ad:prog.ad,
-                                renk:prog.renk,
-                                gunler,
-                                topEgz:gunler.length*egzler.length,
-                                kaynak:"kesfet",
-                              };
-                              setSporProgram(yeniProg);
-                              setSporTamGunler([]);
-                              setSporSeciliGun(0);
-                              setSporSekme("plan");
-                              if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{
-                                sporProgram:yeniProg,
-                                sporTamGunler:[],
-                                sporSeciliGun:0,
-                              }).catch(console.error);
-                            }} style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
-                              background:`linear-gradient(135deg,${prog.renk},${prog.renk2})`,
-                              color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
-                              boxShadow:`0 4px 16px ${prog.renk}40`,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                              28 Günlük Programa Başla
-                            </button>
-                          </div>
-                        </div>
-                      ));
-                    })()}
-                  </div>
-                )}
-
-                {/* ══ İLERLEME sekmesi ══ */}
-                {sporSekme==="ilerleme"&&(
-                  <div>
-
-                    {/* Aktif plan kartı - Keşfet ile aynı görünüm */}
-                    {sporProgram?(()=>{
-                      const pct = Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100);
-                      const renk = sporProgram.renk||"#dc2626";
-                      const renk2 = renk==="linear-gradient(135deg,#16a34a,#15803d)"?"#15803d":renk==="linear-gradient(135deg,#d97706,#b45309)"?"#b45309":"#991b1b";
-                      return(
-                      <div style={{borderRadius:18,overflow:"hidden",marginBottom:16,boxShadow:"0 4px 16px rgba(0,0,0,.15)"}}>
-                        {/* Header */}
-                        <div style={{background:`linear-gradient(160deg,${renk2||"#7f1d1d"},${renk||"#dc2626"})`,padding:"20px 18px 16px",position:"relative",overflow:"hidden"}}>
-                          <div style={{position:"absolute",top:-20,right:-20,fontSize:100,opacity:.08}}>💪</div>
-                          <div style={{position:"relative"}}>
-                            {/* Kaynak badge */}
-                            <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(255,255,255,.15)",borderRadius:20,padding:"3px 10px",marginBottom:10,fontSize:9,fontWeight:800,color:"rgba(255,255,255,.9)",letterSpacing:1.5,textTransform:"uppercase"}}>
-                              {sporProgram.kaynak==="kesfet"?"🔍 Keşfet Planı":"📋 Önerilen Plan"}
-                            </div>
-                            <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:8,lineHeight:1.2}}>{sporProgram.ad}</div>
-                            {/* Progress bar */}
-                            <div style={{height:6,background:"rgba(255,255,255,.2)",borderRadius:3,marginBottom:6,overflow:"hidden"}}>
-                              <div style={{height:"100%",width:`${pct}%`,background:"#fff",borderRadius:3,transition:"width .5s"}}/>
-                            </div>
-                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                              <span style={{fontSize:11,color:"rgba(255,255,255,.7)"}}>
-                                {sporTamGunler.length}/{sporProgram.gunler.length} gün · {pct}% tamamlandı
-                              </span>
-                              <span style={{fontSize:11,color:"rgba(255,255,255,.8)",fontWeight:700}}>
-                                {sporProgram.gunler.length} günlük plan
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        {/* Alt kısım */}
-                        <div style={{background:r.card,border:`1px solid ${renk||"#dc2626"}22`,padding:"14px 16px"}}>
-                          {/* Gün daireleri mini */}
-                          <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:14}}>
-                            {sporProgram.gunler.slice(0,28).map((_,gi)=>(
-                              <div key={gi} style={{width:22,height:22,borderRadius:"50%",
-                                background:sporTamGunler.includes(gi)?renk||"#dc2626":d?"rgba(255,255,255,.06)":"rgba(0,0,0,.06)",
-                                border:`1px solid ${sporTamGunler.includes(gi)?renk||"#dc2626":"rgba(220,38,38,.15)"}`,
-                                display:"flex",alignItems:"center",justifyContent:"center"}}>
-                                {sporTamGunler.includes(gi)
-                                  ?<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>
-                                  :<span style={{fontSize:8,fontWeight:700,color:"rgba(220,38,38,.4)"}}>{gi+1}</span>
-                                }
-                              </div>
-                            ))}
-                          </div>
-                          <button onClick={()=>setSporSekme("plan")}
-                            style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
-                              background:`linear-gradient(135deg,${renk||"#dc2626"},${renk2||"#991b1b"})`,
-                              color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
-                              boxShadow:`0 4px 16px rgba(220,38,38,.3)`,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            Devam Et — Gün {Math.min(sporTamGunler.length+1,sporProgram.gunler.length)}
-                          </button>
-                        </div>
-                      </div>
-                    );})():( 
-                      <div style={{background:r.card,border:"1px solid rgba(220,38,38,.1)",borderRadius:16,padding:"24px",textAlign:"center",marginBottom:16}}>
-                        <div style={{fontSize:36,marginBottom:8}}>🏋️</div>
-                        <div style={{fontSize:14,fontWeight:800,color:r.text,marginBottom:4}}>Henüz plan seçmedin</div>
-                        <div style={{fontSize:12,color:r.sub,marginBottom:14}}>Keşfet sekmesinden bir program başlat</div>
-                        <button onClick={()=>setSporSekme("kesfet")}
-                          style={{...BTN("#dc2626","10px 20px"),fontSize:13,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>
-                          Keşfete Git →
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Özet istatistikler */}
-                    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
-                      {[
-                        {l:"Tamamlanan Gün",v:sporTamGunler.length,ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>},
-                        {l:"Toplam Antrenman",v:sporGecmis.length,ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>},
-                        {l:"Toplam Süre",v:(sporGecmis.reduce((t,g)=>t+Math.floor(g.sure/60),0))+" dk",ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>},
-                        {l:"Yakılan Kalori",v:(sporGecmis.reduce((t,g)=>t+g.kcal,0))+" kcal",ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>},
-                      ].map((s,i)=>(
-                        <div key={i} style={{background:r.card,border:"1px solid rgba(220,38,38,.1)",borderRadius:14,padding:"14px 12px"}}>
-                          <div style={{marginBottom:6}}>{s.ikon}</div>
-                          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:700,color:"#dc2626",lineHeight:1}}>{s.v||0}</div>
-                          <div style={{fontSize:10,color:r.sub,marginTop:4,fontWeight:700}}>{s.l}</div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Geçmiş antrenmanlar */}
-                    <div style={{fontSize:11,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Geçmiş Antrenmanlar</div>
-                    {sporGecmis.length===0?(
-                      <div style={{textAlign:"center",color:r.muted,padding:"20px 0",fontSize:13}}>
-                        <div style={{fontSize:32,marginBottom:8}}>📋</div>
-                        Henüz antrenman yapmadın.
-                      </div>
-                    ):sporGecmis.map((g,i)=>(
-                      <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"12px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.04)":"rgba(0,0,0,.04)"}`,marginBottom:8}}>
-                        <div style={{width:40,height:40,borderRadius:12,background:"rgba(220,38,38,.1)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"><path d="M6.5 6.5h11M4 12h16"/></svg>
-                        </div>
-                        <div style={{flex:1,minWidth:0}}>
-                          <div style={{fontSize:13,fontWeight:800,color:r.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{g.gunBaslik||g.program}</div>
-                          <div style={{fontSize:10,color:r.sub,marginTop:1}}>{g.program} · {g.tarih} {g.saat}</div>
-                        </div>
-                        <div style={{textAlign:"right",flexShrink:0}}>
-                          <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{g.kcal} kcal</div>
-                          <div style={{fontSize:10,color:r.sub}}>{Math.floor(g.sure/60)} dk</div>
-                        </div>
-                      </div>
-                     ))}
-                  </div>
-                )}
-
-              </div>
-            )}
-
-                        {/* ── ADIM 2: AKTİF ANTRENMAN ─────────────────────── */}
-            {renderAktifAntrenman()}
-
-            {/* ── ANTRENMAN BİTİŞ ─────────────────────────────── */}
-            {antBitmis&&(
-              <div style={{textAlign:"center",paddingTop:40}}>
-                <div style={{width:90,height:90,borderRadius:26,background:"linear-gradient(135deg,#dc2626,#7f1d1d)",margin:"0 auto 20px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 8px 28px rgba(220,38,38,.4)"}}>
-                  <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fca5a5" strokeWidth="1.5" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                </div>
-                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:300,color:d?"#fca5a5":"#7f1d1d",marginBottom:8}}>Harika iş!</div>
-                <div style={{fontSize:14,color:r.sub,marginBottom:24}}>Antrenmanın tamamlandı.</div>
-                <div style={{background:d?"rgba(220,38,38,.08)":"rgba(220,38,38,.05)",border:"1px solid rgba(220,38,38,.2)",borderRadius:16,padding:"20px",marginBottom:24}}>
-                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:42,fontWeight:300,color:"#dc2626",lineHeight:1}}>{Math.round(antSaniye/60*6)}</div>
-                  <div style={{fontSize:11,color:r.sub,marginTop:4}}>kcal yakıldı · {Math.floor(antSaniye/60)} dk {antSaniye%60} sn</div>
-                  <div style={{fontSize:11,color:"#dc2626",marginTop:8,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",gap:4}}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
-                    Günlük takibine eklendi
-                  </div>
-                </div>
-                <div style={{display:"flex",gap:8}}>
-                  <button onClick={()=>{setSporAppAdim(1);setAntBitmis(false);}} style={{...BTN("rgba(220,38,38,.12)","13px 0"),flex:1,fontSize:13,color:"#dc2626",border:"1px solid rgba(220,38,38,.2)"}}>Programa Dön</button>
-                  <button onClick={()=>setSporAppAcik(false)} style={{...BTN("#dc2626","13px 0"),flex:1,fontSize:13,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>Ana Sayfaya</button>
-                </div>
-              </div>
-            )}
-
-            </div>
-          </div>
-        )}
 
         {/* ═══ ALIŞVERİŞ LİSTESİ MODAL ═══ */}
         {alisverisModal&&(
@@ -7312,6 +6507,195 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 
         {/* HAMBURGER DRAWER */}
 
+        {/* ════ YEMEK ASİSTANI MODAL ════ */}
+        {yemekAsistaniAcik&&(
+          <div style={{position:"fixed",inset:0,background:d?"#0a0500":"#fff8f0",zIndex:9990,display:"flex",flexDirection:"column",overflowY:"auto"}}>
+            {yemekAsistaniSlayt < 4 ? (
+              // TANITIM SLAYTLARI
+              <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"32px 24px",minHeight:"100vh"}}>
+                {/* Kapat */}
+                <button onClick={()=>setYemekAsistaniAcik(false)} style={{position:"absolute",top:20,right:20,background:"transparent",border:"none",fontSize:24,color:r.sub,cursor:"pointer"}}>✕</button>
+
+                {/* Slayt içeriği */}
+                {[
+                  {
+                    emoji:"👨‍🍳",
+                    baslik:"Yemek Asistanın",
+                    acik:"Fotoğraf çek, malzeme yaz ya da ürün içeriğini analiz et. Yapay zeka her şeyi halleder.",
+                    renk:"#f97316",
+                    ozellikler:["📷 Fotoğraftan yemek tanıma","✍️ Yazarak tarif alma","🧪 İçerik analizi","🛒 Alışveriş listesi"],
+                  },
+                  {
+                    emoji:"📷",
+                    baslik:"Fotoğrafla Tanı",
+                    acik:"Yemeğin fotoğrafını çek ya da galerinden seç. AI anında kalori ve besin değerlerini hesaplar.",
+                    renk:"#8b5cf6",
+                    ozellikler:["Porsiyon tahmini","Kalori hesabı","Protein / Karb / Yağ","Günlüğe otomatik ekle"],
+                  },
+                  {
+                    emoji:"🍽️",
+                    baslik:"AI Tarif Üret",
+                    acik:"Elindeki malzemeleri yaz, AI sana adım adım tarif hazırlasın. Besin değerleri de gelir.",
+                    renk:"#16a34a",
+                    ozellikler:["Malzemelere göre tarif","Adım adım yapılış","Kalori hesabı","Takvime ekle"],
+                  },
+                  {
+                    emoji:"🧪",
+                    baslik:"İçerik Analizi",
+                    acik:"Ürün arkasındaki içerik listesini yapıştır. Tehlikeli katkı maddeleri kırmızıyla işaretlenir.",
+                    renk:"#dc2626",
+                    ozellikler:["Katkı maddesi tespiti","Tehlike seviyesi","E kodu açıklaması","Sağlık değerlendirmesi"],
+                  },
+                ][yemekAsistaniSlayt] && (() => {
+                  const s = [{
+                    emoji:"👨‍🍳",baslik:"Yemek Asistanın",acik:"Fotoğraf çek, malzeme yaz ya da ürün içeriğini analiz et. Yapay zeka her şeyi halleder.",renk:"#f97316",
+                    ozellikler:["📷 Fotoğraftan yemek tanıma","✍️ Yazarak tarif alma","🧪 İçerik analizi","🛒 Alışveriş listesi"],
+                  },{
+                    emoji:"📷",baslik:"Fotoğrafla Tanı",acik:"Yemeğin fotoğrafını çek ya da galerinden seç. AI anında kalori ve besin değerlerini hesaplar.",renk:"#8b5cf6",
+                    ozellikler:["Porsiyon tahmini","Kalori hesabı","Protein / Karb / Yağ","Günlüğe otomatik ekle"],
+                  },{
+                    emoji:"🍽️",baslik:"AI Tarif Üret",acik:"Elindeki malzemeleri yaz, AI sana adım adım tarif hazırlasın. Besin değerleri de gelir.",renk:"#16a34a",
+                    ozellikler:["Malzemelere göre tarif","Adım adım yapılış","Kalori hesabı","Takvime ekle"],
+                  },{
+                    emoji:"🧪",baslik:"İçerik Analizi",acik:"Ürün arkasındaki içerik listesini yapıştır. Tehlikeli katkı maddeleri kırmızıyla işaretlenir.",renk:"#dc2626",
+                    ozellikler:["Katkı maddesi tespiti","Tehlike seviyesi","E kodu açıklaması","Sağlık değerlendirmesi"],
+                  }][yemekAsistaniSlayt];
+                  return (
+                    <div style={{textAlign:"center",maxWidth:360,width:"100%"}}>
+                      {/* Emoji büyük */}
+                      <div style={{fontSize:80,marginBottom:24,filter:"drop-shadow(0 8px 24px rgba(0,0,0,.2))"}}>{s.emoji}</div>
+                      {/* Başlık */}
+                      <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:700,color:s.renk,marginBottom:12}}>{s.baslik}</div>
+                      {/* Açıklama */}
+                      <div style={{fontSize:15,color:r.sub,lineHeight:1.6,marginBottom:32}}>{s.acik}</div>
+                      {/* Özellikler */}
+                      <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:40}}>
+                        {s.ozellikler.map((o,i)=>(
+                          <div key={i} style={{background:d?`${s.renk}15`:`${s.renk}0d`,border:`1px solid ${s.renk}30`,borderRadius:12,padding:"10px 16px",fontSize:13,fontWeight:700,color:s.renk,textAlign:"left"}}>
+                            {o}
+                          </div>
+                        ))}
+                      </div>
+                      {/* Dots */}
+                      <div style={{display:"flex",justifyContent:"center",gap:8,marginBottom:32}}>
+                        {[0,1,2,3].map(i=>(
+                          <div key={i} onClick={()=>setYemekAsistaniSlayt(i)} style={{width:i===yemekAsistaniSlayt?24:8,height:8,borderRadius:4,background:i===yemekAsistaniSlayt?s.renk:r.muted,cursor:"pointer",transition:"all .3s"}}/>
+                        ))}
+                      </div>
+                      {/* Buton */}
+                      <button onClick={()=>setYemekAsistaniSlayt(p=>p+1)}
+                        style={{background:`linear-gradient(135deg,${s.renk},${s.renk}cc)`,border:"none",borderRadius:16,padding:"16px 40px",color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",width:"100%",boxShadow:`0 8px 24px ${s.renk}40`,fontFamily:"'Nunito',sans-serif"}}>
+                        {yemekAsistaniSlayt===3?"Hadi Başlayalım →":"Devam →"}
+                      </button>
+                    </div>
+                  );
+                })()}
+              </div>
+            ) : (
+              // ANA ARAYÜZ — sekmeli
+              <div style={{flex:1,display:"flex",flexDirection:"column"}}>
+                {/* Header */}
+                <div style={{background:`linear-gradient(135deg,#f97316,#ea580c)`,padding:"20px 20px 16px",position:"sticky",top:0,zIndex:1}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                    <div>
+                      <div style={{fontSize:11,fontWeight:800,color:"rgba(255,255,255,.6)",letterSpacing:2,textTransform:"uppercase"}}>YEMEK ASİSTANI</div>
+                      <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:700,color:"#fff"}}>Ne yapmak istersin?</div>
+                    </div>
+                    <button onClick={()=>setYemekAsistaniAcik(false)} style={{background:"rgba(255,255,255,.15)",border:"none",borderRadius:12,padding:"8px 12px",color:"#fff",cursor:"pointer",fontSize:13,fontWeight:700}}>✕ Kapat</button>
+                  </div>
+                  {/* Sekmeler */}
+                  <div style={{display:"flex",gap:8,marginTop:16,overflowX:"auto",paddingBottom:2}}>
+                    {[{k:"oneri",l:"🍽️ Yemek Öner"},{k:"tarif",l:"👨‍🍳 Tarif Yap"}].map(s=>(
+                      <button key={s.k} onClick={()=>setYemekEkleSekme(s.k)}
+                        style={{whiteSpace:"nowrap",padding:"7px 14px",borderRadius:20,border:"none",
+                          background:yemekEkleSekme===s.k?"rgba(255,255,255,.25)":"rgba(255,255,255,.1)",
+                          color:"#fff",fontSize:12,fontWeight:yemekEkleSekme===s.k?800:600,cursor:"pointer",transition:"all .15s"}}>
+                        {s.l}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* İçerik — mevcut sekme içeriklerini kullan */}
+                <div style={{flex:1,overflowY:"auto",padding:"16px 0"}}>
+                  <div style={{...CS}}>
+                    {yemekEkleSekme==="oneri"&&(
+                      <div style={{padding:"0 4px"}}>
+                        <div style={{fontSize:13,color:r.sub,marginBottom:12,lineHeight:1.5}}>Profil bilgilerine ve hedeflerine göre AI sana yemek önerir:</div>
+                        <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
+                          {[
+                            {l:"Bugün ne yemeliyim?",v:"Bugünkü öğünlerim için sağlıklı yemek öner. Kalori hedefim: "+((tdee||2000))+" kcal."},
+                            {l:"Hızlı ve sağlıklı tarif",v:"Hızlı yapılabilecek sağlıklı yemek öner."},
+                            {l:"Protein ağırlıklı öğün",v:"Yüksek proteinli öğün öner."},
+                            {l:"Hafif akşam yemeği",v:"Hafif ve sindirimi kolay akşam yemeği öner."},
+                          ].map((s,i)=>(
+                            <button key={i} onClick={()=>setOneriSoru(s.v)}
+                              style={{padding:"10px 14px",borderRadius:12,border:`1.5px solid ${r.inpB}`,background:r.inp,color:r.sub,fontSize:12,fontWeight:600,cursor:"pointer",textAlign:"left",fontFamily:"'Nunito',sans-serif"}}>
+                              {s.l}
+                            </button>
+                          ))}
+                        </div>
+                        <div style={{display:"flex",gap:8,marginBottom:12}}>
+                          <input value={oneriSoru||""} onChange={e=>setOneriSoru(e.target.value)}
+                            onKeyDown={e=>e.key==="Enter"&&oneriSoru?.trim()&&oneriSor()}
+                            placeholder="Yemek sor... (örn: kahvaltıda ne yesem?)" style={{...IS,flex:1,fontSize:13}}/>
+                          <button onClick={oneriSor} disabled={!oneriSoru?.trim()||oneriYuk}
+                            style={{...BTN("#f97316"),padding:"11px 16px",borderRadius:12,fontSize:13,opacity:!oneriSoru?.trim()||oneriYuk?.5:1}}>
+                            {oneriYuk?"...":"→"}
+                          </button>
+                        </div>
+                        {oneriYuk&&<div style={{textAlign:"center",padding:"16px 0",color:r.sub,fontSize:13}}>🤖 AI öneri hazırlıyor...</div>}
+                        {oneriCevap&&!oneriYuk&&(
+                          <div style={{background:d?"rgba(249,115,22,.08)":"rgba(249,115,22,.05)",border:"1px solid rgba(249,115,22,.2)",borderRadius:16,padding:16,fontSize:13,color:r.text,lineHeight:1.7,whiteSpace:"pre-wrap"}}>
+                            {oneriCevap}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {yemekEkleSekme==="tarif"&&(
+                      <div style={{padding:"0 4px"}}>
+                        <div style={{fontSize:13,color:r.sub,marginBottom:12}}>Elindeki malzemeleri yaz, AI tarif hazırlasın:</div>
+                        <textarea value={tarifMetin||""} onChange={e=>setTarifMetin(e.target.value)}
+                          placeholder="örn: tavuk göğsü, pirinç, sarımsak, zeytinyağı..."
+                          style={{...IS,minHeight:100,resize:"vertical",marginBottom:12,fontSize:13}}/>
+                        <button onClick={async()=>{
+                          if(!tarifMetin?.trim())return;
+                          setTarifYuk(true);setTarifSonuc(null);
+                          try{
+                            const p=profil;
+                            const profStr=`Kullanıcı: ${p.kilo||"?"}kg, ${p.boy||"?"}cm, hedef: ${p.hedef||"?"}.`;
+                            const resp=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                              body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,
+                                messages:[{role:"user",content:`${profStr} Malzemeler: ${tarifMetin}. JSON döndür: {yemekAdi:string,sure:string,kalori:number,malzemeler:[{miktar:string,isim:string}],adimlar:[string],ipucu:string,besinDegerleri:{protein:number,karbonhidrat:number,yag:number}}`}]})});
+                            const data=await resp.json();
+                            const text=data.content?.[0]?.text||"{}";
+                            setTarifSonuc(JSON.parse(text.replace(/```json|```/g,"").trim()));
+                          }catch(e){}
+                          setTarifYuk(false);
+                        }} disabled={!tarifMetin?.trim()||tarifYuk}
+                          style={{background:"linear-gradient(135deg,#16a34a,#15803d)",border:"none",borderRadius:12,padding:"12px 0",color:"#fff",fontSize:13,fontWeight:800,cursor:"pointer",width:"100%",opacity:!tarifMetin?.trim()||tarifYuk?.6:1}}>
+                          {tarifYuk?"🤖 Tarif hazırlanıyor...":"👨‍🍳 Tarif Oluştur"}
+                        </button>
+                        {tarifSonuc&&(
+                          <div style={{marginTop:16,background:d?"rgba(22,163,74,.08)":"rgba(22,163,74,.05)",border:"1px solid rgba(22,163,74,.2)",borderRadius:16,padding:16}}>
+                            <div style={{fontSize:18,fontWeight:900,color:"#16a34a",marginBottom:4}}>{tarifSonuc.yemekAdi}</div>
+                            <div style={{fontSize:11,color:r.sub,marginBottom:12}}>⏱ {tarifSonuc.sure} · 🔥 {tarifSonuc.kalori} kcal</div>
+                            <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Malzemeler:</div>
+                            {tarifSonuc.malzemeler?.map((m,i)=><div key={i} style={{fontSize:12,color:r.sub,paddingLeft:8,marginBottom:2}}>• {m.miktar} {m.isim}</div>)}
+                            <div style={{fontSize:12,fontWeight:700,color:r.text,margin:"10px 0 6px"}}>Yapılışı:</div>
+                            {tarifSonuc.adimlar?.map((a,i)=><div key={i} style={{fontSize:12,color:r.sub,paddingLeft:8,marginBottom:4}}>{i+1}. {a}</div>)}
+                            {tarifSonuc.ipucu&&<div style={{fontSize:11,color:"#16a34a",background:"rgba(22,163,74,.08)",borderRadius:8,padding:"8px 10px",marginTop:10}}>💡 {tarifSonuc.ipucu}</div>}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {hamMenu&&(
           <div style={{position:"fixed",inset:0,zIndex:300,display:"flex"}} onClick={()=>setHamMenu(false)}>
             {/* drawer */}
@@ -7342,7 +6726,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   para:   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"/><path d="M6.5 8h11l-1.5 8H8L6.5 8z"/><path d="M2 20h20"/></svg>,
                   admin:  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
                 };
-                const HAM_C={su:"#3b82f6",takvim:"#8b5cf6",arkadaslar:"#f59e0b",spor:"#10b981",diyetisyen:"#22c55e",diyet:"#16a34a",alerji:"#ef4444",kilo:"#6366f1",puan:"#f59e0b",para:"#059669",admin:"#dc2626"};
+                const HAM_C={su:"#3b82f6",takvim:"#8b5cf6",arkadaslar:"#f59e0b",spor:"#10b981",diyetisyen:"#22c55e",diyet:"#16a34a",alerji:"#ef4444",kilo:"#6366f1",puan:"#f59e0b",para:"#059669",admin:"#dc2626",yemek:"#f97316"};
                 const groups=[
                   { grup:"Takip", items:[
                     {id:"su",    ic:HAM_IC.su,    c:HAM_C.su,    label:"Su Takibi"},
@@ -7351,8 +6735,8 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   ...(sosyalAktif?[{ grup:"Sosyal", items:[
                     {id:"arkadaslar",ic:HAM_IC.arkadaslar,c:HAM_C.arkadaslar,label:"Arkadaşlar",badge:gelenIstekler.length},
                   ]}]:[]),
-                  { grup:"Spor", items:[
-                    {id:"__sporapp__",ic:HAM_IC.spor,c:HAM_C.spor,label:"Spor Uygulaması"},
+                  { grup:"Mutfak", items:[
+                    {id:"__yemekasistani__",ic:<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M12 14v8"/><path d="M9 22h6"/></svg>,c:HAM_C.yemek,label:"Yemek Asistanı"},
                   ]},
                   { grup:"Araçlar", items:[
                     {id:"__alisveris__",ic:"🛒",c:"#16a34a",label:"Alışveriş Listesi"},
@@ -7376,7 +6760,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       const akt=tab===n.id;
                       return(
                       <button key={n.id} onClick={()=>{
-                        if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporSoruAdim(-1);setSporProgram(null);setAntBitmis(false);setSporHedefSA("");setSporBolge([]);setSporSeviye("");}
+                        if(n.id==="__yemekasistani__"){setYemekAsistaniAcik(true);setYemekAsistaniSlayt(0);}
                         else if(n.id==="__alisveris__"){setAlisverisModal(true);}
                         else if(n.id==="__alerji__"){setAlerjiModal(true);}
                         else if(n.id==="__kilotakip__"){setKiloGirModal(true);setKiloInput(profil.kilo||"");setKiloNot("");}
@@ -8845,175 +8229,4 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
   );
 }
 
-
-// ─── 3D EGZERSİZ MODELİ (Sadece GLB) ────────────────────────
-const GLB_BASE = "https://res.cloudinary.com/dwolqgcu5/raw/upload/";
-const GLB_MAP = {
-  squat:          GLB_BASE + "air_squat_mgroko.glb",
-  sinav:          GLB_BASE + "push_up_pvsxsw.glb",
-  jumping_jack:   GLB_BASE + "jumping_jacks_gywqpn.glb",
-  plank:          GLB_BASE + "plank_cxwlod.glb",
-  burpee:         GLB_BASE + "burpee_qh76bv.glb",
-  dambil_curl:    GLB_BASE + "bicep_curl_xql5sz.glb",
-  hammer_curl:    GLB_BASE + "bicep_curl_xql5sz.glb",
-  bicycle_crunch: GLB_BASE + "bicycle_crunch_jhcywj.glb",
-  box_jump:       GLB_BASE + "box_jump_a7itco.glb",
-};
-
-const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) => {
-  const mountRef = useRef(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    let animationFrameId;
-    const mixerRef = { current: null };
-    let rendererRef = null;
-    let elRef = null;
-
-    const onPointerDown = (e) => { isDragging = true; prevX = e.clientX ?? e.touches?.[0]?.clientX ?? 0; };
-    const onPointerMove = (e) => {
-      if (!isDragging) return;
-      const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
-      spherical.theta -= (clientX - prevX) * 0.01;
-      prevX = clientX;
-    };
-    const onPointerUp = () => { isDragging = false; };
-
-    let isDragging = false;
-    let prevX = 0;
-    const spherical = { theta: 0, y: 8 };
-    const RADIUS = 20;
-
-    const waitAndInit = () => {
-      if (cancelled) return;
-      const THREE = window.THREE;
-      if (!THREE || !THREE.GLTFLoader) {
-        setTimeout(waitAndInit, 200);
-        return;
-      }
-
-      if (!mountRef.current) return;
-
-      const scene = new THREE.Scene();
-      scene.background = new THREE.Color('#1a0505');
-
-      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      camera.position.set(0, 8, 20);
-
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(width, height);
-      rendererRef = renderer;
-      mountRef.current.appendChild(renderer.domElement);
-
-      scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-      dirLight.position.set(5, 10, 8);
-      scene.add(dirLight);
-      const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
-      dirLight2.position.set(-5, 5, -8);
-      scene.add(dirLight2);
-
-      const floorMesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(30, 30),
-        new THREE.MeshStandardMaterial({ color: 0x111a12 })
-      );
-      floorMesh.rotation.x = -Math.PI / 2;
-      scene.add(floorMesh);
-
-      const clock = new THREE.Clock();
-      let lastTime = performance.now();
-      const glbUrl = GLB_MAP[exerciseId];
-
-      if (glbUrl) {
-        const loader = new THREE.GLTFLoader();
-        loader.load(glbUrl, (gltf) => {
-          if (cancelled) return;
-          const model = gltf.scene;
-          const box = new THREE.Box3().setFromObject(model);
-          const size = box.getSize(new THREE.Vector3());
-          const scale = 9 / Math.max(size.x, size.y, size.z);
-          model.scale.setScalar(scale);
-          const box2 = new THREE.Box3().setFromObject(model);
-          model.position.y = -box2.min.y;
-          model.position.x = 0;
-          model.position.z = 0;
-          model.traverse(child => {
-            if (child.isMesh) {
-              child.material = new THREE.MeshStandardMaterial({ color: 0xd2a683, roughness: 0.7 });
-            }
-          });
-          // Modeli group içine sar, grubu döndür (animasyon model.rotation'ı override eder)
-          const wrapper = new THREE.Group();
-          wrapper.rotation.x = -Math.PI / 2;
-          wrapper.add(model);
-          scene.add(wrapper);
-          if (gltf.animations && gltf.animations.length > 0) {
-            console.log('GLB animations found:', exerciseId, gltf.animations.length, gltf.animations.map(a=>a.name));
-            // gltf.scene kullan, model değil
-            mixerRef.current = new THREE.AnimationMixer(gltf.scene);
-            const action = mixerRef.current.clipAction(gltf.animations[0]);
-            action.setLoop(THREE.LoopRepeat, Infinity);
-            action.timeScale = 1.0;
-            action.reset();
-            action.play();
-          } else {
-            console.warn('GLB has NO animations:', exerciseId);
-          }
-        }, undefined, (err) => console.warn('GLB yüklenemedi:', exerciseId));
-      }
-
-      const el = renderer.domElement;
-      elRef = el;
-      el.addEventListener('mousedown', onPointerDown);
-      el.addEventListener('mousemove', onPointerMove);
-      el.addEventListener('mouseup', onPointerUp);
-      el.addEventListener('touchstart', onPointerDown, {passive:true});
-      el.addEventListener('touchmove', onPointerMove, {passive:true});
-      el.addEventListener('touchend', onPointerUp);
-
-      const animate = () => {
-        animationFrameId = requestAnimationFrame(animate);
-        const now = performance.now();
-        const delta = Math.min((now - lastTime) / 1000, 0.1); // max 100ms
-        lastTime = now;
-        if (mixerRef.current) mixerRef.current.update(delta);
-        if (!isDragging) spherical.theta += 0.003;
-        camera.position.x = Math.sin(spherical.theta) * RADIUS;
-        camera.position.z = Math.cos(spherical.theta) * RADIUS;
-        camera.position.y = spherical.y;
-        camera.lookAt(0, 5, 0);
-        renderer.render(scene, camera);
-      };
-      animate();
-    };
-
-    waitAndInit();
-
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(animationFrameId);
-      if (elRef) {
-        elRef.removeEventListener('mousedown', onPointerDown);
-        elRef.removeEventListener('mousemove', onPointerMove);
-        elRef.removeEventListener('mouseup', onPointerUp);
-        elRef.removeEventListener('touchstart', onPointerDown);
-        elRef.removeEventListener('touchmove', onPointerMove);
-        elRef.removeEventListener('touchend', onPointerUp);
-      }
-      if (rendererRef) {
-        if (mountRef.current && rendererRef.domElement.parentNode === mountRef.current)
-          mountRef.current.removeChild(rendererRef.domElement);
-        rendererRef.dispose();
-      }
-    };
-  }, [exerciseId, width, height]);
-
-  return (
-    <div ref={mountRef} style={{
-      width: `${width}px`, height: `${height}px`,
-      borderRadius: 16, overflow: 'hidden',
-      background: '#1a0505'
-    }}/>
-  );
-};
 
