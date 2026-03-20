@@ -389,364 +389,6 @@ function YildizGoster({v=3,boyut=12}){
 
 
 // ─── EGZERSİZ ANİMASYON BİLEŞENİ ────────────────────────────
-function EgzersizAnim({egzId, ikon}) {
-  const tip = (()=>{
-    const id = (egzId||"").toLowerCase();
-    if(id.includes("sinav")||id.includes("push")||id.includes("sikistirma")) return "sinav";
-    if(id.includes("squat")||id.includes("comelme")) return "squat";
-    if(id.includes("barfix")||id.includes("pullup")||id.includes("pull")) return "barfix";
-    if(id.includes("curl")||id.includes("biceps")||id.includes("dambil")) return "curl";
-    if(id.includes("plank")) return "plank";
-    if(id.includes("lunge")||id.includes("akbasa")) return "lunge";
-    if(id.includes("omuz")||id.includes("press")||id.includes("militar")||id.includes("shoulder")) return "press";
-    if(id.includes("mekik")||id.includes("situp")||id.includes("crunch")) return "mekik";
-    if(id.includes("kos")||id.includes("sprint")||id.includes("kardi")||id.includes("jump")) return "kos";
-    if(id.includes("dips")||id.includes("triceps")) return "dips";
-    return null;
-  })();
-
-  // Renk paleti - temiz minimal
-  const SK = "#f0d0b0";   // ten
-  const LN = "#34d399";   // emerald - çizgi rengi (dark theme)
-  const AC = "#10b981";   // accent
-  const GD = "#1a2e1e";   // zemin
-
-  const css = `
-    @keyframes ea-pushup   { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(13px)} }
-    @keyframes ea-squat    { 0%,100%{transform:translateY(0) scaleY(1)} 45%,55%{transform:translateY(10px) scaleY(0.82)} }
-    @keyframes ea-pullup   { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(-20px)} }
-    @keyframes ea-arm-up   { 0%,100%{transform:rotate(0deg)} 45%,55%{transform:rotate(-80deg)} }
-    @keyframes ea-press-a  { 0%,100%{transform:rotate(50deg)} 45%,55%{transform:rotate(10deg)} }
-    @keyframes ea-torso    { 0%,100%{transform:rotate(0deg)} 45%,55%{transform:rotate(-40deg)} }
-    @keyframes ea-leg-f    { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(30deg)} }
-    @keyframes ea-leg-b    { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-30deg)} }
-    @keyframes ea-arm-f    { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-40deg)} }
-    @keyframes ea-arm-bk   { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(40deg)} }
-    @keyframes ea-run-x    { 0%,100%{transform:translateX(-3px)} 50%{transform:translateX(3px)} }
-    @keyframes ea-dips-y   { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(18px)} }
-    @keyframes ea-lunge-y  { 0%,100%{transform:translateY(0)} 45%,55%{transform:translateY(9px)} }
-    @keyframes ea-dot      { 0%,100%{opacity:.2} 50%{opacity:.9} }
-    .p-ud  { animation: ea-pushup 1.6s cubic-bezier(.45,0,.55,1) infinite }
-    .p-sq  { animation: ea-squat 1.8s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 100% }
-    .p-pu  { animation: ea-pullup 1.6s cubic-bezier(.45,0,.55,1) infinite }
-    .p-au  { animation: ea-arm-up 1.4s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
-    .p-pa  { animation: ea-press-a 1.4s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
-    .p-tor { animation: ea-torso 1.5s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 100% }
-    .p-lf  { animation: ea-leg-f .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
-    .p-lb  { animation: ea-leg-b .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
-    .p-af  { animation: ea-arm-f .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
-    .p-ab  { animation: ea-arm-bk .7s cubic-bezier(.45,0,.55,1) infinite; transform-origin: 50% 0% }
-    .p-rx  { animation: ea-run-x .7s ease-in-out infinite }
-    .p-di  { animation: ea-dips-y 1.5s cubic-bezier(.45,0,.55,1) infinite }
-    .p-lu  { animation: ea-lunge-y 1.6s cubic-bezier(.45,0,.55,1) infinite; transform-origin:50% 0% }
-    .p-dot { animation: ea-dot 1.6s ease-in-out infinite }
-  `;
-
-  // ── Yardımcı: stick figure parçaları ──
-  // Çizgi kalınlığı, yuvarlak uçlar
-  const sw = 5;    // stroke-width gövde
-  const sw2 = 4;   // uzuvlar
-  const sw3 = 3;   // ince
-
-  const svgs = {
-
-    // ── ŞINAV ──────────────────────────────────────
-    sinav: (
-      <svg viewBox="0 0 200 120" width="100%" height="100%">
-        <style>{css}</style>
-        {/* Zemin */}
-        <line x1="10" y1="108" x2="190" y2="108" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        <g className="p-ud">
-          {/* Kollar */}
-          <line x1="40" y1="108" x2="60" y2="78" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="148" y1="108" x2="128" y2="78" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Gövde */}
-          <line x1="60" y1="78" x2="128" y2="78" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-          {/* Baş */}
-          <circle cx="140" cy="66" r="12" fill="none" stroke={SK} strokeWidth={sw2}/>
-          {/* Bacaklar */}
-          <line x1="80" y1="78" x2="75" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="105" y1="78" x2="108" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        </g>
-        {/* Etiket */}
-        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">ŞINAV</text>
-        {/* Yön oku */}
-        <g className="p-dot" style={{transformOrigin:"100px 90px"}}>
-          <path d="M96 96 L96 86 L93 90 M96 86 L99 90" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-        </g>
-      </svg>
-    ),
-
-    // ── SQUAT ──────────────────────────────────────
-    squat: (
-      <svg viewBox="0 0 200 140" width="100%" height="100%">
-        <style>{css}</style>
-        <line x1="30" y1="128" x2="170" y2="128" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        {/* Baş her zaman sabit */}
-        <circle cx="100" cy="22" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
-        <g className="p-sq">
-          {/* Gövde */}
-          <line x1="100" y1="35" x2="100" y2="68" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-          {/* Kollar */}
-          <line x1="100" y1="45" x2="68" y2="55" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="100" y1="45" x2="132" y2="55" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Bacaklar - kalça ekleminden */}
-          <line x1="100" y1="68" x2="72" y2="100" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="72" y1="100" x2="65" y2="128" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="100" y1="68" x2="128" y2="100" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="128" y1="100" x2="135" y2="128" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        </g>
-        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">SQUAT</text>
-        <g className="p-dot"><path d="M100 118 L100 108 L97 112 M100 108 L103 112" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
-      </svg>
-    ),
-
-    // ── BARFİKS ────────────────────────────────────
-    barfix: (
-      <svg viewBox="0 0 200 150" width="100%" height="100%">
-        <style>{css}</style>
-        {/* Bar */}
-        <line x1="20" y1="22" x2="180" y2="22" stroke={LN} strokeWidth="8" strokeLinecap="round" opacity=".6"/>
-        <g className="p-pu">
-          {/* Baş */}
-          <circle cx="100" cy="44" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
-          {/* Kollar */}
-          <line x1="100" y1="35" x2="72" y2="22" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="100" y1="35" x2="128" y2="22" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Gövde */}
-          <line x1="100" y1="57" x2="100" y2="95" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-          {/* Bacaklar sarkan */}
-          <line x1="100" y1="95" x2="88" y2="130" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="88" y1="130" x2="92" y2="146" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="100" y1="95" x2="112" y2="130" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="112" y1="130" x2="108" y2="146" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        </g>
-        <text x="100" y="138" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">BARFİKS</text>
-        <g className="p-dot"><path d="M100 80 L100 70 L97 74 M100 70 L103 74" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
-      </svg>
-    ),
-
-    // ── BİSEPS CURL ────────────────────────────────
-    curl: (
-      <svg viewBox="0 0 200 150" width="100%" height="100%">
-        <style>{css}</style>
-        <line x1="30" y1="138" x2="170" y2="138" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        {/* Baş */}
-        <circle cx="100" cy="22" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
-        {/* Gövde */}
-        <line x1="100" y1="35" x2="100" y2="85" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-        {/* Sol kol sabit */}
-        <line x1="100" y1="50" x2="130" y2="68" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="130" y1="68" x2="138" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        {/* Dambıl sağ sabit */}
-        <rect x="130" y="86" width="18" height="7" rx="3.5" fill={LN} opacity=".5"/>
-        {/* Sağ kol hareketli */}
-        <g className="p-au" style={{transformOrigin:"70px 50px"}}>
-          <line x1="100" y1="50" x2="70" y2="68" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="70" y1="68" x2="58" y2="46" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Dambıl sol */}
-          <rect x="48" y="40" width="18" height="7" rx="3.5" fill={LN} opacity=".7"/>
-        </g>
-        {/* Bacaklar */}
-        <line x1="100" y1="85" x2="88" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="88" y1="120" x2="84" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="100" y1="85" x2="112" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="112" y1="120" x2="116" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">BİSEPS CURL</text>
-        <g className="p-dot"><path d="M56 52 L56 42 L53 46 M56 42 L59 46" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
-      </svg>
-    ),
-
-    // ── PLANK ──────────────────────────────────────
-    plank: (
-      <svg viewBox="0 0 220 100" width="100%" height="100%">
-        <style>{css}</style>
-        <line x1="10" y1="90" x2="210" y2="90" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        {/* Gövde düz */}
-        <line x1="52" y1="72" x2="162" y2="68" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-        {/* Baş */}
-        <circle cx="174" cy="60" r="12" fill="none" stroke={SK} strokeWidth={sw2}/>
-        {/* Ön kollar */}
-        <line x1="130" y1="70" x2="128" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="156" y1="69" x2="154" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        {/* Bacaklar */}
-        <line x1="52" y1="72" x2="44" y2="90" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        {/* Nefes animasyonu */}
-        <g className="p-dot">
-          <circle cx="110" cy="68" r="4" fill={AC} opacity=".6"/>
-        </g>
-        <text x="110" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">PLANK — SABİT TUT</text>
-        {/* Çekirdek oku */}
-        <line x1="90" y1="58" x2="140" y2="56" stroke={AC} strokeWidth="1.5" strokeLinecap="round" strokeDasharray="4 3" opacity=".4" className="p-dot"/>
-      </svg>
-    ),
-
-    // ── LUNGE ──────────────────────────────────────
-    lunge: (
-      <svg viewBox="0 0 200 150" width="100%" height="100%">
-        <style>{css}</style>
-        <line x1="20" y1="138" x2="180" y2="138" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        {/* Baş */}
-        <circle cx="100" cy="22" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
-        <g className="p-lu" style={{transformOrigin:"100px 36px"}}>
-          {/* Gövde */}
-          <line x1="100" y1="35" x2="100" y2="80" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-          {/* Kollar */}
-          <line x1="100" y1="50" x2="72" y2="62" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="100" y1="50" x2="128" y2="62" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Bacak ileri */}
-          <line x1="100" y1="80" x2="68" y2="110" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="68" y1="110" x2="58" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Bacak geri */}
-          <line x1="100" y1="80" x2="128" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="128" y1="108" x2="138" y2="138" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        </g>
-        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">LUNGE</text>
-        <g className="p-dot"><path d="M100 120 L100 110 L97 114 M100 110 L103 114" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
-      </svg>
-    ),
-
-    // ── OMUZ PRESS ─────────────────────────────────
-    press: (
-      <svg viewBox="0 0 200 155" width="100%" height="100%">
-        <style>{css}</style>
-        <line x1="30" y1="144" x2="170" y2="144" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        {/* Baş */}
-        <circle cx="100" cy="32" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
-        {/* Gövde */}
-        <line x1="100" y1="45" x2="100" y2="95" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-        {/* Sol kol hareketli */}
-        <g className="p-pa" style={{transformOrigin:"100px 55px"}}>
-          <line x1="100" y1="55" x2="64" y2="72" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="64" y1="72" x2="48" y2="44" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Dambıl sol */}
-          <rect x="36" y="36" width="18" height="7" rx="3.5" fill={LN} opacity=".7"/>
-        </g>
-        {/* Sağ kol hareketli (ters delay) */}
-        <g className="p-pa" style={{transformOrigin:"100px 55px",animationDelay:"0s",transform:"scaleX(-1)",transformOrigin:"100px 55px"}}>
-          <line x1="100" y1="55" x2="136" y2="72" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="136" y1="72" x2="152" y2="44" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <rect x="146" y="36" width="18" height="7" rx="3.5" fill={LN} opacity=".7"/>
-        </g>
-        {/* Bacaklar */}
-        <line x1="100" y1="95" x2="86" y2="126" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="86" y1="126" x2="82" y2="144" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="100" y1="95" x2="114" y2="126" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="114" y1="126" x2="118" y2="144" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <text x="100" y="20" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">OMUZ PRESS</text>
-        <g className="p-dot"><path d="M100 50 L100 40 L97 44 M100 40 L103 44" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
-      </svg>
-    ),
-
-    // ── MEKİK ──────────────────────────────────────
-    mekik: (
-      <svg viewBox="0 0 200 130" width="100%" height="100%">
-        <style>{css}</style>
-        <line x1="20" y1="120" x2="180" y2="120" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        {/* Bacaklar yerde sabit */}
-        <line x1="115" y1="100" x2="162" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        <line x1="110" y1="104" x2="155" y2="120" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        {/* Üst vücut hareketli */}
-        <g className="p-tor" style={{transformOrigin:"113px 100px"}}>
-          {/* Gövde */}
-          <line x1="113" y1="100" x2="72" y2="82" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-          {/* Baş */}
-          <circle cx="62" cy="74" r="12" fill="none" stroke={SK} strokeWidth={sw2}/>
-          {/* Kollar */}
-          <line x1="88" y1="88" x2="72" y2="68" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="96" y1="85" x2="82" y2="64" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        </g>
-        <text x="100" y="14" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">MEKİK</text>
-        <g className="p-dot"><path d="M76 68 L76 58 L73 62 M76 58 L79 62" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
-      </svg>
-    ),
-
-    // ── KOŞU / KARDİYO ─────────────────────────────
-    kos: (
-      <svg viewBox="0 0 200 145" width="100%" height="100%">
-        <style>{css}</style>
-        <line x1="10" y1="132" x2="190" y2="132" stroke={LN} strokeWidth="2" strokeLinecap="round" opacity=".25"/>
-        <g className="p-rx">
-          {/* Baş */}
-          <circle cx="116" cy="28" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
-          {/* Gövde eğik */}
-          <line x1="112" y1="41" x2="100" y2="80" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-          {/* Kol ileri */}
-          <g className="p-af" style={{transformOrigin:"108px 52px"}}>
-            <line x1="108" y1="52" x2="78" y2="42" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          </g>
-          {/* Kol geri */}
-          <g className="p-ab" style={{transformOrigin:"108px 52px"}}>
-            <line x1="108" y1="52" x2="136" y2="46" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          </g>
-          {/* Bacak ileri */}
-          <g className="p-lf" style={{transformOrigin:"100px 80px"}}>
-            <line x1="100" y1="80" x2="78" y2="112" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-            <line x1="78" y1="112" x2="62" y2="132" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          </g>
-          {/* Bacak geri */}
-          <g className="p-lb" style={{transformOrigin:"100px 80px"}}>
-            <line x1="100" y1="80" x2="122" y2="108" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-            <line x1="122" y1="108" x2="138" y2="128" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          </g>
-        </g>
-        {/* Hareket çizgileri */}
-        {[0,1,2].map(i=>(
-          <line key={i} className="p-dot" x1={55-i*12} y1={52+i*14} x2={40-i*12} y2={52+i*14} stroke={AC} strokeWidth="2" strokeLinecap="round" style={{animationDelay:`${i*0.2}s`}}/>
-        ))}
-        <text x="100" y="16" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">KARDİYO / KOŞU</text>
-      </svg>
-    ),
-
-    // ── DİPS ───────────────────────────────────────
-    dips: (
-      <svg viewBox="0 0 200 150" width="100%" height="100%">
-        <style>{css}</style>
-        {/* Paralel barlar */}
-        <line x1="38" y1="50" x2="38" y2="110" stroke={LN} strokeWidth="7" strokeLinecap="round" opacity=".5"/>
-        <line x1="162" y1="50" x2="162" y2="110" stroke={LN} strokeWidth="7" strokeLinecap="round" opacity=".5"/>
-        <g className="p-di">
-          {/* Baş */}
-          <circle cx="100" cy="42" r="13" fill="none" stroke={SK} strokeWidth={sw2}/>
-          {/* Kollar */}
-          <line x1="100" y1="55" x2="62" y2="50" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="100" y1="55" x2="138" y2="50" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          {/* Gövde */}
-          <line x1="100" y1="55" x2="100" y2="100" stroke={LN} strokeWidth={sw} strokeLinecap="round"/>
-          {/* Bacaklar sarkan */}
-          <line x1="100" y1="100" x2="88" y2="132" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="88" y1="132" x2="84" y2="148" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="100" y1="100" x2="112" y2="132" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-          <line x1="112" y1="132" x2="116" y2="148" stroke={SK} strokeWidth={sw2} strokeLinecap="round"/>
-        </g>
-        <text x="100" y="16" textAnchor="middle" fill={LN} fontSize="10" fontWeight="700" fontFamily="system-ui" opacity=".7">DİPS</text>
-        <g className="p-dot"><path d="M100 78 L100 68 L97 72 M100 68 L103 72" stroke={AC} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></g>
-      </svg>
-    ),
-  };
-
-  return (
-    <div style={{
-      background:"linear-gradient(160deg,rgba(16,185,129,.06) 0%,transparent 60%), #080e09",
-      borderRadius:18,
-      display:"flex",
-      alignItems:"center",
-      justifyContent:"center",
-      height:148,
-      overflow:"hidden",
-      marginBottom:12,
-      border:"1px solid rgba(52,211,153,.1)",
-      position:"relative"
-    }}>
-      {tip && svgs[tip] ? svgs[tip] : (
-        <div style={{textAlign:"center",opacity:.5}}>
-          <div style={{fontSize:52}}>{ikon||"💪"}</div>
-          <div style={{fontSize:9,color:"#34d399",marginTop:6,fontWeight:700,letterSpacing:2,textTransform:"uppercase"}}>Hazır ol</div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 
 // ─── SET SAYAÇ BİLEŞENİ ──────────────────────────────────────
@@ -4740,195 +4382,7 @@ SADECE JSON döndür (başka metin yok):
           </div>
         )}
 
-        {/* DİYET LİSTESİ MODAL */}
-        {diyetListesiAcik&&(
-          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.65)",zIndex:400,display:"flex",alignItems:"flex-end",overflowY:"auto"}}>
-            <div style={{background:r.bg,borderRadius:"24px 24px 0 0",width:"100%",maxHeight:"92vh",overflowY:"auto"}}>
-              {/* Header */}
-              <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",padding:"20px 20px 16px",position:"sticky",top:0,zIndex:1}}>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                  <div style={{fontSize:18,fontWeight:900,color:"#fff"}}>🥗 Diyet Listesi</div>
-                  <button onClick={()=>setDiyetListesiAcik(false)}
-                    style={{background:"rgba(255,255,255,.15)",border:"none",borderRadius:10,padding:"6px 12px",cursor:"pointer",color:"#fff",fontWeight:800,fontSize:13}}>
-                    ✕
-                  </button>
-                </div>
-                {/* Grup seçimi */}
-                <div style={{display:"flex",gap:6,overflowX:"auto",scrollbarWidth:"none",paddingBottom:4}}>
-                  {[
-                    {k:"kilo_ver",l:"🔥 Kilo Ver",renk:"#dc2626"},
-                    {k:"vejetaryen",l:"🌱 Vejetaryen",renk:"#16a34a"},
-                    {k:"diyabet",l:"💊 Diyabet",renk:"#7c3aed"},
-                    {k:"tansiyon",l:"❤️ Tansiyon",renk:"#2563eb"},
-                  ].map(g=>(
-                    <button key={g.k} onClick={()=>setDiyetGrup(g.k)}
-                      style={{flexShrink:0,padding:"6px 14px",borderRadius:20,border:"none",cursor:"pointer",
-                        fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:11,
-                        background:diyetGrup===g.k?"rgba(255,255,255,.9)":"rgba(255,255,255,.15)",
-                        color:diyetGrup===g.k?g.renk:"#fff"}}>
-                      {g.l}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
-              <div style={{padding:"16px 16px 32px"}}>
-                {(()=>{
-                  // Kişiye özel kalori hesabı (Harris-Benedict)
-                  const kilo = parseFloat(profil?.kilo) || 70;
-                  const boy  = parseFloat(profil?.boy)  || 170;
-                  const yas  = parseFloat(profil?.yas)  || 30;
-                  const erkek = profil?.cinsiyet !== "kadin";
-                  const bmr = erkek
-                    ? Math.round(10*kilo + 6.25*boy - 5*yas + 5)
-                    : Math.round(10*kilo + 6.25*boy - 5*yas - 161);
-                  const tdee = Math.round(bmr * 1.375); // Hafif aktif
-                  const hedefKcal = {
-                    kilo_ver: Math.round(tdee * 0.8),   // %20 açık
-                    vejetaryen: tdee,
-                    diyabet: Math.round(tdee * 0.9),
-                    tansiyon: tdee,
-                  }[diyetGrup] || tdee;
-
-                  const protein = Math.round(kilo * 1.6);
-                  const yag    = Math.round(hedefKcal * 0.25 / 9);
-                  const karb   = Math.round((hedefKcal - protein*4 - yag*9) / 4);
-
-                  const DIYETLER = {
-                    kilo_ver: {
-                      renk:"#dc2626", renk2:"#991b1b",
-                      acik:`Günlük ${hedefKcal} kcal (TDEE'nin %80'i). ${kilo}kg için kişiselleştirildi.`,
-                      yasaklar:["Şeker","Beyaz ekmek","Hazır gıda","Gazlı içecek","Cips","Alkol","Patates kızartması"],
-                      serbestler:["Tavuk göğsü","Balık","Sebze","Yumurta","Lor peynir","Elma","Havuç","Yoğurt"],
-                      plan:[
-                        {ogun:"☀️ Sabah",yemekler:["2 haşlanmış yumurta","1 dilim tam buğday ekmeği","Domates + Salatalık","Yeşil çay"],kcal:Math.round(hedefKcal*0.35)},
-                        {ogun:"🌙 Akşam",yemekler:[`${Math.round(kilo*1.5)}g buğulama balık`,"Buharda sebze (brokoli, havuç)","Mercimek çorbası"],kcal:Math.round(hedefKcal*0.55)},
-                      ],
-                      alisveris:["Tavuk göğsü 500g","Balık fileto","Yumurta 12li","Brokoli","Havuç","Domates","Salatalık","Tam buğday ekmeği","Kefir","Yoğurt","Elma","Yeşil çay","Ceviz","Badem","Zeytinyağı"],
-                    },
-                    vejetaryen: {
-                      renk:"#16a34a", renk2:"#14532d",
-                      acik:`Et içermeyen bitkisel beslenme. ${kilo}kg için ${hedefKcal} kcal/gün. B12 takviyesi önerilir.`,
-                      yasaklar:["Kırmızı et","Tavuk","Balık","Sucuk","Salam"],
-                      serbestler:["Yumurta","Süt ürünleri","Baklagiller","Tofu","Kuruyemiş","Tüm sebzeler","Meyveler"],
-                      plan:[
-                        {ogun:"☀️ Sabah",yemekler:["Yulaf ezmesi süt ile","1 muz","Chia tohumu 1 kaşık","Portakal suyu"],kcal:Math.round(hedefKcal*0.35)},
-                        {ogun:"🌙 Akşam",yemekler:["Mercimek köftesi","Tahin soslu salata","Esmer pirinç","Cacık"],kcal:Math.round(hedefKcal*0.55)},
-                      ],
-                      alisveris:["Yulaf ezmesi","Chia tohumu","Mercimek","Tofu","Tahin","Esmer pirinç","Yumurta 12li","Muz","Elma","Portakal","Havuç","Ayran","Tam buğday ekmeği"],
-                    },
-                    diyabet: {
-                      renk:"#7c3aed", renk2:"#4c1d95",
-                      acik:`Kan şekeri dostu beslenme. ${kilo}kg için ${hedefKcal} kcal. Düşük glisemik indeks tercih edilir.`,
-                      yasaklar:["Şeker","Beyaz ekmek","Beyaz pirinç","Patates","Meyve suyu","Bal","Şekerli içecek"],
-                      serbestler:["Tam tahıl","Sebzeler","Baklagil","Balık","Tavuk","Yumurta","Yeşil yapraklılar"],
-                      plan:[
-                        {ogun:"☀️ Sabah",yemekler:["2 haşlama yumurta","Tam buğday ekmek 1 dilim","Taze domates + zeytin","Yeşil çay"],kcal:Math.round(hedefKcal*0.4)},
-                        {ogun:"🌙 Akşam",yemekler:[`${Math.round(kilo*1.2)}g ızgara balık`,"Zeytinyağlı kuru fasulye","Yeşil salata"],kcal:Math.round(hedefKcal*0.5)},
-                      ],
-                      alisveris:["Tam buğday ekmek","Yumurta 12li","Balık fileto","Kuru fasulye","Domates","Zeytin","Yeşil çay","Zeytinyağı"],
-                    },
-                    tansiyon: {
-                      renk:"#2563eb", renk2:"#1e3a8a",
-                      acik:`DASH diyeti. ${kilo}kg için ${hedefKcal} kcal. Günde 2g'dan az tuz. Potasyum yüksek.`,
-                      yasaklar:["Tuzlu gıda","Turşu","Konserve","Salam/sucuk","Fast food","Alkol","Hazır çorba"],
-                      serbestler:["Muz","Ispanak","Brokoli","Yulaf","Balık","Az yağlı süt","Fındık","Beyaz et"],
-                      plan:[
-                        {ogun:"☀️ Sabah",yemekler:["Tuzsuz yulaf ezmesi + muz","Az yağlı süt","Fındık 1 avuç"],kcal:Math.round(hedefKcal*0.4)},
-                        {ogun:"🌙 Akşam",yemekler:[`${Math.round(kilo*1.2)}g ızgara somon`,"Haşlama ıspanak","Tuzsuz salata"],kcal:Math.round(hedefKcal*0.5)},
-                      ],
-                      alisveris:["Yulaf ezmesi","Az yağlı süt","Muz","Fındık","Somon","Ispanak","Brokoli","Zeytinyağı","Yoğurt"],
-                    },
-                  };
-                  const diyet = DIYETLER[diyetGrup];
-                  return (
-                    <div>
-                      {/* Kalori hedefi */}
-                      <div style={{background:`linear-gradient(135deg,${diyet.renk2},${diyet.renk})`,borderRadius:16,padding:16,marginBottom:16}}>
-                        <div style={{fontSize:12,color:"rgba(255,255,255,.7)",marginBottom:4}}>{diyet.acik}</div>
-                        <div style={{display:"flex",gap:8,marginTop:10}}>
-                          {[["🔥",hedefKcal,"kcal/gün"],["🥩",protein+"g","Protein"],["🌾",karb+"g","Karb"],["🫒",yag+"g","Yağ"]].map(([ikon,val,lbl])=>(
-                            <div key={lbl} style={{flex:1,background:"rgba(255,255,255,.15)",borderRadius:12,padding:"8px 6px",textAlign:"center"}}>
-                              <div style={{fontSize:14}}>{ikon}</div>
-                              <div style={{fontSize:13,fontWeight:900,color:"#fff",lineHeight:1}}>{val}</div>
-                              <div style={{fontSize:9,color:"rgba(255,255,255,.7)",marginTop:2}}>{lbl}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Günlük yemek planı */}
-                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:10}}>Günlük Yemek Planı</div>
-                      {diyet.plan.map((ogun,oi)=>(
-                        <div key={oi} style={{borderRadius:14,background:r.card,border:`1px solid ${r.brd}`,marginBottom:8,overflow:"hidden"}}>
-                          <div style={{background:`${diyet.renk}15`,padding:"10px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                            <div style={{fontSize:13,fontWeight:800,color:diyet.renk}}>{ogun.ogun}</div>
-                            <div style={{fontSize:11,fontWeight:700,color:r.sub}}>{ogun.kcal} kcal</div>
-                          </div>
-                          <div style={{padding:"10px 14px"}}>
-                            {ogun.yemekler.map((y,yi)=>(
-                              <div key={yi} style={{display:"flex",alignItems:"center",gap:8,paddingVertical:3,marginBottom:4}}>
-                                <div style={{width:6,height:6,borderRadius:"50%",background:diyet.renk,flexShrink:0}}/>
-                                <div style={{fontSize:12,color:r.text}}>{y}</div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-
-                      {/* Yasaklar / Serbestler */}
-                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:16,marginBottom:16}}>
-                        <div style={{borderRadius:14,background:"rgba(220,38,38,.06)",border:"1px solid rgba(220,38,38,.15)",padding:12}}>
-                          <div style={{fontSize:10,fontWeight:800,color:"#dc2626",letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>❌ Kaçınılacaklar</div>
-                          {diyet.yasaklar.map((y,i)=>(
-                            <div key={i} style={{fontSize:11,color:"#dc2626",marginBottom:4,fontWeight:600}}>• {y}</div>
-                          ))}
-                        </div>
-                        <div style={{borderRadius:14,background:"rgba(16,163,74,.06)",border:"1px solid rgba(16,163,74,.15)",padding:12}}>
-                          <div style={{fontSize:10,fontWeight:800,color:"#16a34a",letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>✅ Serbest</div>
-                          {diyet.serbestler.map((y,i)=>(
-                            <div key={i} style={{fontSize:11,color:"#16a34a",marginBottom:4,fontWeight:600}}>• {y}</div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Alışveriş listesine ekle */}
-                      <button onClick={()=>{
-                        const yeniMalzemeler = diyet.alisveris.map(ad=>({
-                          id:Date.now()+Math.random(),
-                          ad, tarif:"🥗 "+({kilo_ver:"Kilo Verme",vejetaryen:"Vejetaryen",diyabet:"Diyabet",tansiyon:"Tansiyon"}[diyetGrup]||"")+" Diyeti",
-                          tamamlandi:false,
-                          tarih:new Date().toLocaleDateString("tr-TR"),
-                        }));
-                        setAlisverisListesi(p=>[...p,...yeniMalzemeler]);
-                        setDiyetListesiAcik(false);
-                        setAlisverisModal(true);
-                      }} style={{width:"100%",padding:"14px 0",borderRadius:14,border:"none",cursor:"pointer",
-                        background:`linear-gradient(135deg,${diyet.renk},${diyet.renk2})`,
-                        color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
-                        boxShadow:`0 4px 16px ${diyet.renk}40`,display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:8}}>
-                        🛒 Alışveriş Listesine Ekle
-                      </button>
-                      <button onClick={()=>{
-                        diyet.plan.forEach((ogun,oi)=>{
-                          const ogunMap=["sabah","ara1","ogle","ara2","aksam"];
-                          const ogunKey=["sabah","atistirma","ogle","atistirma","aksam"][oi]||"ogle";
-                          const yeni={ad:ogun.yemekler.join(", "),gram:100,gramKal:ogun.kcal,protein:0,karbonhidrat:0,yag:0,kaynak:"diyet"};
-                          gunEkle(secTarih,ogunKey,yeni);
-                        });
-                        setDiyetListesiAcik(false);
-                      }} style={{width:"100%",padding:"13px 0",borderRadius:14,border:`1.5px solid ${diyet.renk}`,cursor:"pointer",
-                        background:"transparent",color:diyet.renk,fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:13,
-                        display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
-                        📅 Bugünün Planına Ekle
-                      </button>
-                    </div>
-                  );
-                })()}
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* TARİF TAKVİM MODAL */}
         {tarifTakvimModal&&tarifSonuc&&(
@@ -6662,18 +6116,6 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               </div>
             )}
 
-            {/* AI DİYETİSYEN BUTONU */}
-            <div style={{...CS,background:d?"linear-gradient(145deg,#060f07,#08120a)":"linear-gradient(145deg,#f0fdf4,#fafff8)",border:"1px solid rgba(16,185,129,.1)"}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <div>
-                  <div style={{fontSize:9,fontWeight:700,color:"rgba(16,185,129,.4)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:5}}>AI Diyetisyen</div>
-                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:16,fontWeight:300,color:r.text}}>Kişisel beslenme danışmanın</div>
-                </div>
-                <button onClick={()=>{setDiyetisyenAcik(true);if(diyMesajlar.length===0)setDiyMesajlar([{rol:"ai",mesaj:"Merhaba! Ben Doya AI Diyetisyeninim. Beslenme, kilo yönetimi, tarif önerileri veya diyet planı hakkında sormak istediğin her şeyi sorabilirsin. Ne konuda yardım edebilirim?",zaman:new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"})}]);}}
-                  style={{background:"linear-gradient(135deg,#10b981,#059669)",border:"1px solid rgba(52,211,153,.2)",borderRadius:12,padding:"10px 16px",color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer",letterSpacing:.3,boxShadow:"0 4px 16px rgba(16,185,129,.2)"}}>
-                  Sohbet</button>
-              </div>
-            </div>
 
 
             {/* Aktif plan gösterimi */}
@@ -7860,59 +7302,6 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 
         {/* HAMBURGER DRAWER */}
 
-        {/* AI DİYETİSYEN MODAL - ana seviyede */}
-            {diyetisyenAcik&&(
-              <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.72)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",zIndex:9999,display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
-                <div style={{background:r.card,borderRadius:"24px 24px 0 0",maxHeight:"85vh",animation:"slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1) both",display:"flex",flexDirection:"column"}}>
-                  {/* Header */}
-                  <div style={{padding:"16px 20px",borderBottom:`1px solid ${r.inpB}`,display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
-                    <div>
-                      <div style={{fontSize:16,fontWeight:900,color:r.text}}>🧑‍⚕️ AI Diyetisyen</div>
-                      <div style={{fontSize:11,color:"#16a34a"}}>● Çevrimiçi</div>
-                    </div>
-                    <button onClick={()=>setDiyetisyenAcik(false)} style={{background:"transparent",border:"none",fontSize:22,cursor:"pointer",color:r.sub}}>✕</button>
-                  </div>
-                  {/* Mesajlar */}
-                  <div style={{flex:1,overflowY:"auto",padding:"16px 16px 8px"}}>
-                    {diyMesajlar.map((m,i)=>(
-                      <div key={i} style={{display:"flex",justifyContent:m.rol==="kullanici"?"flex-end":"flex-start",marginBottom:10}}>
-                        {m.rol==="ai"&&<div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#16a34a,#052e16)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,marginRight:8,flexShrink:0}}>🌿</div>}
-                        <div style={{maxWidth:"75%",background:m.rol==="kullanici"?"linear-gradient(135deg,#16a34a,#059669)":"#f0fdf4",color:m.rol==="kullanici"?"#fff":r.text,borderRadius:m.rol==="kullanici"?"18px 18px 4px 18px":"18px 18px 18px 4px",padding:"10px 14px",fontSize:13,lineHeight:1.5}}>
-                          {m.mesaj}
-                          <div style={{fontSize:9,opacity:.6,marginTop:4,textAlign:m.rol==="kullanici"?"right":"left"}}>{m.zaman}</div>
-                        </div>
-                      </div>
-                    ))}
-                    {diyYukleniyor&&(
-                      <div style={{display:"flex",justifyContent:"flex-start",marginBottom:10}}>
-                        <div style={{width:32,height:32,borderRadius:"50%",background:"linear-gradient(135deg,#16a34a,#052e16)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,marginRight:8}}>🌿</div>
-                        <div style={{background:"#f0fdf4",borderRadius:"18px 18px 18px 4px",padding:"12px 16px"}}>
-                          <div style={{display:"flex",gap:4}}>
-                            {[0,1,2].map(i=><div key={i} style={{width:6,height:6,borderRadius:"50%",background:"#16a34a",animation:`dotPulse 1.2s ${i*0.2}s infinite`}}/>)}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  {/* Hızlı sorular */}
-                  <div style={{padding:"4px 12px",display:"flex",gap:6,overflowX:"auto"}}>
-                    {["💪 Protein önerileri","🥗 Diyet planı","⚖️ Kilo verme","🍽️ Tarif öner","💊 Vitamin eksikliği"].map(s=>(
-                      <button key={s} onClick={()=>{setDiyYazi(s.slice(3));}} style={{whiteSpace:"nowrap",padding:"5px 11px",borderRadius:20,border:`1.5px solid ${r.inpB}`,background:r.inp,color:r.sub,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{s}</button>
-                    ))}
-                  </div>
-                  {/* Input */}
-                  <div style={{padding:"8px 16px 20px",display:"flex",gap:8,flexShrink:0}}>
-                    <input value={diyYazi} onChange={e=>setDiyYazi(e.target.value)}
-                      onKeyDown={e=>e.key==="Enter"&&diyYaziGonder()}
-                      placeholder="Diyetisyene sor..." style={{...IS,flex:1,padding:"11px 14px",fontSize:13,borderRadius:24}}/>
-                    <button onClick={diyYaziGonder} disabled={!diyYazi.trim()||diyYukleniyor}
-                      style={{...BTN("#16a34a","11px 16px"),borderRadius:24,fontSize:13,opacity:!diyYazi.trim()||diyYukleniyor?.5:1}}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-                  </div>
-                </div>
-              </div>
-            )}
-
         {hamMenu&&(
           <div style={{position:"fixed",inset:0,zIndex:300,display:"flex"}} onClick={()=>setHamMenu(false)}>
             {/* drawer */}
@@ -7959,8 +7348,6 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     {id:"__alisveris__",ic:"🛒",c:"#16a34a",label:"Alışveriş Listesi"},
                   ]},
                   { grup:"Sağlık AI", items:[
-                    {id:"__diyetlistesi__",ic:"🥗",c:"#16a34a",label:"Diyet Listesi"},
-                    {id:"__diyetisyen__",ic:HAM_IC.diyetisyen,c:HAM_C.diyetisyen,label:"AI Diyetisyen"},
                     {id:"__alerji__",ic:HAM_IC.alerji,c:HAM_C.alerji,label:"Alerji Yönetimi"},
                     {id:"__kilotakip__",ic:HAM_IC.kilo,c:HAM_C.kilo,label:"Kilo Takibi"},
                   ]},
@@ -7981,8 +7368,6 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       <button key={n.id} onClick={()=>{
                         if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporSoruAdim(-1);setSporProgram(null);setAntBitmis(false);setSporHedefSA("");setSporBolge([]);setSporSeviye("");}
                         else if(n.id==="__alisveris__"){setAlisverisModal(true);}
-                        else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);}
-                        else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
                         else if(n.id==="__alerji__"){setAlerjiModal(true);}
                         else if(n.id==="__kilotakip__"){setKiloGirModal(true);setKiloInput(profil.kilo||"");setKiloNot("");}
                         else setTab(n.id);
@@ -9443,135 +8828,15 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
           </div>
         )}
 
-        {/* ════════════════ GÜNLÜK DİYET LİSTESİ MODAL ════════════════ */}
-        {diyetListesiAcik&&(
-          <div style={{position:"fixed",inset:0,background:"#0008",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={()=>setDiyetListesiAcik(false)}>
-            <div className="modal-enter" style={{background:r.card,width:"100%",maxWidth:430,borderRadius:"24px 24px 0 0",padding:24,paddingBottom:34,maxHeight:"90vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-              <div style={{width:40,height:4,background:"#e5e7eb",borderRadius:99,margin:"0 auto 14px"}}/>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
-                <div>
-                  <div style={{fontSize:17,fontWeight:900,color:r.text}}>📋 Günlük Diyet Planı</div>
-                  <div style={{fontSize:11,color:r.sub}}>Hedefine göre kişisel beslenme listesi</div>
-                </div>
-                <button onClick={async()=>{
-                  setDiyetListesiYukleniyor(true);
-                  try{
-                    const hedefAcik=profil.hedef&&+profil.hedef<+profil.kilo?"kilo vermek":"kilo korumak";
-                    const resp=await fetch("/.netlify/functions/ai-proxy",{
-                      method:"POST",headers:{"Content-Type":"application/json"},
-                      body:JSON.stringify({
-                        model:"claude-haiku-4-5-20251001",max_tokens:800,
-                        system:"Sen Doya beslenme uygulamasının yapay zeka diyetisyenisin. Türkçe JSON ile cevap ver. Sadece JSON, başka hiçbir şey yazma.",
-                        messages:[{role:"user",content:`Profil: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas}y, ${profil.cinsiyet}, hedef:${hedefAcik}, TDEE:${tdee||2000}kcal, alerjiListesi:${alerjiListesi.join(",")||"yok"}. Günlük diyet planı oluştur. Format: {"kaloriHedef":number,"ogünler":[{"ogun":"Kahvaltı","ikon":"🌅","yiyecekler":[{"ad":"...","miktar":"...","kal":number,"tok":number}],"toplamKal":number}],"ipuclari":["...","...","..."]} - tok: 1-5 arası tokluk değeri`}]
-                      })
-                    });
-                    const data=await resp.json();
-                    const text=data.content?.[0]?.text||"{}";
-                    const clean=text.replace(/```json|```/g,"").trim();
-                    setDiyetListesi(JSON.parse(clean));
-                  }catch(e){setDiyetListesi(null);}
-                  setDiyetListesiYukleniyor(false);
-                }} style={{...BTN("#7c3aed","8px 14px"),fontSize:11}}>🔄 Yenile</button>
-              </div>
 
-              {diyetListesiYuk&&(
-                <div style={{textAlign:"center",padding:"40px 0",color:r.sub}}>
-                  <div className="spin" style={{fontSize:32,display:"inline-block",marginBottom:12}}>⚙️</div>
-                  <div style={{fontSize:13}}>AI planı hazırlıyor...</div>
-                </div>
-              )}
-              {!diyetListesi&&!diyetListesiYuk&&(
-                <div style={{textAlign:"center",padding:"30px 0",color:r.muted}}>
-                  <div style={{fontSize:40,marginBottom:10}}>🥗</div>
-                  <div style={{fontSize:13,fontWeight:700,marginBottom:6}}>Kişiselleştirilmiş plan hazır değil</div>
-                  <div style={{fontSize:11,color:r.sub,marginBottom:16}}>Profil bilgilerin kullanılarak bugüne özel<br/>bir diyet planı oluşturulacak.</div>
-                  <button onClick={async()=>{
-                    setDiyetListesiYukleniyor(true);
-                    try{
-                      const hedefAcik=profil.hedef&&+profil.hedef<+profil.kilo?"kilo vermek":"kilo korumak";
-                      const resp=await fetch("/.netlify/functions/ai-proxy",{
-                        method:"POST",headers:{"Content-Type":"application/json"},
-                        body:JSON.stringify({
-                          model:"claude-haiku-4-5-20251001",max_tokens:800,
-                          system:"Sen Doya beslenme uygulamasının yapay zeka diyetisyenisin. Türkçe JSON ile cevap ver. Sadece JSON, başka hiçbir şey yazma.",
-                          messages:[{role:"user",content:`Profil: ${profil.kilo}kg, ${profil.boy}cm, ${profil.yas}y, ${profil.cinsiyet}, hedef:${hedefAcik}, TDEE:${tdee||2000}kcal, alerjiListesi:${alerjiListesi.join(",")||"yok"}. Günlük diyet planı oluştur. Format: {"kaloriHedef":number,"ogünler":[{"ogun":"Kahvaltı","ikon":"🌅","yiyecekler":[{"ad":"...","miktar":"...","kal":number,"tok":number}],"toplamKal":number}],"ipuclari":["...","...","..."]} - tok: 1-5 arası tokluk değeri`}]
-                        })
-                      });
-                      const data=await resp.json();
-                      const text=data.content?.[0]?.text||"{}";
-                      const clean=text.replace(/```json|```/g,"").trim();
-                      setDiyetListesi(JSON.parse(clean));
-                    }catch(e){setDiyetListesi(null);}
-                    setDiyetListesiYukleniyor(false);
-                  }} style={{...BTN("#16a34a","10px 24px"),fontSize:13}}>🤖 Plan Oluştur</button>
-                </div>
-              )}
-              {diyetListesi&&!diyetListesiYuk&&(
-                <div>
-                  <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",borderRadius:14,padding:"12px 16px",color:"#fff",marginBottom:14,display:"flex",justifyContent:"space-between"}}>
-                    <div>
-                      <div style={{fontSize:11,opacity:.8}}>Günlük Kalori Hedefi</div>
-                      <div style={{fontSize:26,fontWeight:900}}>{diyetListesi.kaloriHedef} kcal</div>
-                    </div>
-                    <div style={{textAlign:"right",fontSize:11,opacity:.8}}>
-                      <div>Protein: {Math.round(diyetListesi.kaloriHedef*0.3/4)}g</div>
-                      <div>Karb: {Math.round(diyetListesi.kaloriHedef*0.45/4)}g</div>
-                      <div>Yağ: {Math.round(diyetListesi.kaloriHedef*0.25/9)}g</div>
-                    </div>
-                  </div>
-                  {(diyetListesi.ogünler||[]).map((og,ogi)=>(
-                    <div key={ogi} style={{...CS,marginBottom:10}}>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-                        <div style={{fontSize:14,fontWeight:800,color:r.text}}>{og.ikon} {og.ogun}</div>
-                        <span style={{background:"#f0fdf4",color:"#16a34a",borderRadius:20,padding:"2px 8px",fontSize:11,fontWeight:700}}>{og.toplamKal} kcal</span>
-                      </div>
-                      {(og.yiyecekler||[]).map((y,yi)=>{
-                        const alerjiVar=alerjiListesi.some(a=>{
-                          const aMap={"gluten":["un","ekmek","makarna","buğday"],"laktoz":["süt","peynir","yoğurt"],"yumurta":["yumurta"],"fındık":["fındık","fıstık","ceviz"],"soya":["soya","tofu"],"balık":["balık","somon","ton"],"susam":["susam","tahin"]};
-                          return (aMap[a]||[]).some(k=>y.ad.toLowerCase().includes(k));
-                        });
-                        return(
-                          <div key={yi} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:`1px solid ${r.brd}`}}>
-                            <div style={{flex:1}}>
-                              <div style={{fontSize:13,fontWeight:700,color:alerjiVar?"#dc2626":r.text,display:"flex",alignItems:"center",gap:4}}>
-                                {alerjiVar&&<span title="Alerji uyarısı">⚠️</span>}{y.ad}
-                              </div>
-                              <div style={{fontSize:11,color:r.sub}}>{y.miktar}</div>
-                            </div>
-                            <div style={{textAlign:"right",flexShrink:0}}>
-                              <div style={{fontSize:12,fontWeight:700,color:"#f59e0b"}}>{y.kal} kcal</div>
-                              <div style={{display:"flex",alignItems:"center",gap:2,justifyContent:"flex-end"}}>
-                                <span style={{fontSize:9,color:r.muted}}>tok:</span>
-                                {[1,2,3,4,5].map(s=><span key={s} style={{color:s<=(y.tok||3)?"#16a34a":"#e5e7eb",fontSize:10}}>●</span>)}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ))}
-                  {diyetListesi?.ipuclari&&(
-                    <div style={{...CS,background:d?"#1e293b":"#fffbeb",border:"1px solid #fcd34d"}}>
-                      <div style={{fontSize:13,fontWeight:800,color:"#d97706",marginBottom:8}}>💡 AI İpuçları</div>
-                      {(diyetListesi?.ipuclari||[]).map((ip,i)=>(
-                        <div key={i} style={{fontSize:12,color:r.sub,marginBottom:6,display:"flex",gap:6}}>
-                          <span style={{color:"#f59e0b"}}>•</span>{ip}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
 
       </div>
     </>
   );
 }
 
-// ─── MİXAMO GLB HARİTASI ─────────────────────────────────────────────────────
+
+// ─── 3D EGZERSİZ MODELİ (Sadece GLB) ────────────────────────
 const GLB_BASE = "/models/";
 const GLB_MAP = {
   squat:          GLB_BASE + "air_squat.glb",
@@ -9585,7 +8850,6 @@ const GLB_MAP = {
   box_jump:       GLB_BASE + "box_jump.glb",
 };
 
-// ─── 3D EGZERSİZ MODELİ (Gemini v7) ─────────────────────────────────────────
 const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) => {
   const mountRef = useRef(null);
 
@@ -9593,69 +8857,36 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     if (!window.THREE) return;
     const THREE = window.THREE;
     let animationFrameId;
+    let glbMixer = null;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#1a0505');
+
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
     camera.position.set(0, 8, 20);
+
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
     if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
-    dirLight.position.set(5,10,8); dirLight.castShadow = true;
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
+    dirLight.position.set(5, 10, 8);
+    dirLight.castShadow = true;
     scene.add(dirLight);
 
-    const skinMat   = new THREE.MeshStandardMaterial({ color:0xd2a683, roughness:0.8 });
-    const shirtMat  = new THREE.MeshStandardMaterial({ color:0x1d428a, roughness:0.9 });
-    const shortsMat = new THREE.MeshStandardMaterial({ color:0x1d428a, roughness:0.9 });
-    const hairMat   = new THREE.MeshStandardMaterial({ color:0x5c3a21, roughness:1.0 });
-    const shoeMat   = new THREE.MeshStandardMaterial({ color:0xd9d9d9, roughness:0.5 });
-    const propMat   = new THREE.MeshStandardMaterial({ color:0x333333, roughness:0.7 });
-    const matMat    = new THREE.MeshStandardMaterial({ color:0x2e8b57, roughness:1.0 });
-
-    const createPart = (type, params, mat, yOffset) => {
-      const group = new THREE.Group();
-      let geo;
-      if (type==='cylinder')      geo = new THREE.CylinderGeometry(params.rt,params.rb,params.h,16);
-      else if (type==='box')      geo = new THREE.BoxGeometry(params.w,params.h,params.d);
-      else if (type==='sphere')   geo = new THREE.SphereGeometry(params.r,16,16);
-      else if (type==='half-sphere') geo = new THREE.SphereGeometry(params.r,16,16,0,Math.PI*2,0,Math.PI/2);
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.y = yOffset;
-      mesh.castShadow = true; mesh.receiveShadow = true;
-      group.add(mesh);
-      return { group, mesh };
-    };
-
-    const floorMat = createPart('box',{w:7,h:0.15,d:12},matMat,-0.08).group; scene.add(floorMat);
-    const bench    = createPart('box',{w:4,h:2.5,d:2},propMat,1.25).group; bench.position.set(0,0,-2); scene.add(bench);
-    const wall     = createPart('box',{w:8,h:10,d:0.5},propMat,5).group;   wall.position.set(0,0,-1.5); scene.add(wall);
-
-    const character = new THREE.Group(); scene.add(character);
-    const pelvis = createPart('box',{w:1.3,h:0.8,d:0.8},shortsMat,0).group; character.add(pelvis);
-    const torso  = createPart('cylinder',{rt:0.65,rb:0.65,h:2.2},shirtMat,1.1).group; torso.position.y=0.4; pelvis.add(torso);
-    const neck   = createPart('cylinder',{rt:0.2,rb:0.2,h:0.4},skinMat,0.2).group; neck.position.y=2.2; torso.add(neck);
-    const head   = createPart('sphere',{r:0.55},skinMat,0.5).group; neck.add(head);
-    const hair   = createPart('half-sphere',{r:0.57},hairMat,0.5).group; hair.position.y=0.05; head.add(hair);
-
-    const addFeat=(w,h,d,col,x,y,z)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({color:col})); m.position.set(x,y,z); head.add(m); };
-    addFeat(0.1,0.1,0.05,0x222222,-0.2,0.6,0.5); addFeat(0.1,0.1,0.05,0x222222,0.2,0.6,0.5);
-    addFeat(0.08,0.18,0.08,0xd2a683,0,0.42,0.52); addFeat(0.22,0.05,0.05,0x222222,0,0.28,0.48);
-
-    const createArm=(sign)=>{ const shoulder=new THREE.Group(); shoulder.position.set(sign*0.8,1.9,0); torso.add(shoulder); const upperArm=createPart('box',{w:0.35,h:1.1,d:0.35},skinMat,-0.55).group; shoulder.add(upperArm); const lowerArm=createPart('box',{w:0.3,h:1.0,d:0.3},skinMat,-0.5).group; lowerArm.position.y=-1.1; upperArm.add(lowerArm); return {shoulder,upperArm,lowerArm}; };
-    const armL=createArm(1); const armR=createArm(-1);
-
-    const createLeg=(sign)=>{ const hip=new THREE.Group(); hip.position.set(sign*0.4,-0.4,0); pelvis.add(hip); const upperLeg=createPart('box',{w:0.45,h:1.3,d:0.45},skinMat,-0.65).group; hip.add(upperLeg); const lowerLeg=createPart('box',{w:0.4,h:1.2,d:0.4},skinMat,-0.6).group; lowerLeg.position.y=-1.3; upperLeg.add(lowerLeg); const shoe=createPart('box',{w:0.45,h:0.25,d:0.6},shoeMat,-0.125).group; shoe.position.set(0,-1.2,0.1); lowerLeg.add(shoe); return {hip,upperLeg,lowerLeg}; };
-    const legL=createLeg(1); const legR=createLeg(-1);
+    // Zemin
+    const floorGeo = new THREE.PlaneGeometry(20, 20);
+    const floorMat = new THREE.MeshStandardMaterial({ color: 0x1a2e1e });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.receiveShadow = true;
+    scene.add(floor);
 
     const clock = new THREE.Clock();
-    let glbMixer = null;
-
-    // GLB varsa yükle
     const glbUrl = GLB_MAP[exerciseId];
+
     if (glbUrl && (window.THREE?.GLTFLoader || window.GLTFLoader)) {
       const GLTFLoader = window.THREE?.GLTFLoader || window.GLTFLoader;
       const loader = new GLTFLoader();
@@ -9666,334 +8897,87 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
         const size = box.getSize(new THREE.Vector3());
         const scale = 10 / Math.max(size.x, size.y, size.z);
         model.scale.setScalar(scale);
-        // Modeli merkeze hizala
         model.position.set(
           -center.x * scale,
           -box.min.y * scale,
           -center.z * scale
         );
-        // Mixamo modelleri -90° döndürülmüş gelir, düzelt
         model.rotation.y = Math.PI;
-        // Ten rengi ver
         model.traverse(child => {
           if (child.isMesh) {
-            child.material = new THREE.MeshStandardMaterial({color:0xd2a683, roughness:0.8});
+            child.castShadow = true;
+            child.material = new THREE.MeshStandardMaterial({ color: 0xd2a683, roughness: 0.8 });
           }
         });
-        // Stick figure'ı gizle, sadece GLB göster
-        character.visible = false;
         scene.add(model);
         if (gltf.animations.length > 0) {
           glbMixer = new THREE.AnimationMixer(model);
           glbMixer.clipAction(gltf.animations[0]).play();
         }
-      }, undefined, (err) => {
-        // GLB yüklenemezse stick figure kalır
-        console.warn('GLB yüklenemedi:', err);
-      });
+      }, undefined, () => {});
     }
 
-    const resetAll = () => {
-      bench.visible=false; floorMat.visible=false; wall.visible=false;
-      character.rotation.set(0,0,0); character.position.set(0,0,0);
-      pelvis.position.set(0,5.5,0); pelvis.rotation.set(0,0,0);
-      torso.rotation.set(0,0,0); neck.rotation.set(0,0,0);
-      [armL,armR].forEach(a=>{ a.shoulder.rotation.set(0,0,0); a.upperArm.rotation.set(0,0,0); a.lowerArm.rotation.set(0,0,0); });
-      [legL,legR].forEach(l=>{ l.hip.rotation.set(0,0,0); l.upperLeg.rotation.set(0,0,0); l.lowerLeg.rotation.set(0,0,0); });
+    // Orbit kontrol (sürükle = döndür, zoom yok)
+    let isDragging = false;
+    let prevX = 0;
+    let spherical = { theta: 0, y: 8 };
+    const RADIUS = 20;
+
+    const onPointerDown = (e) => {
+      isDragging = true;
+      prevX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
     };
+    const onPointerMove = (e) => {
+      if (!isDragging) return;
+      const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+      const dx = clientX - prevX;
+      spherical.theta -= dx * 0.01;
+      prevX = clientX;
+    };
+    const onPointerUp = () => { isDragging = false; };
+
+    const el = renderer.domElement;
+    el.addEventListener('mousedown', onPointerDown);
+    el.addEventListener('mousemove', onPointerMove);
+    el.addEventListener('mouseup', onPointerUp);
+    el.addEventListener('touchstart', onPointerDown, {passive:true});
+    el.addEventListener('touchmove', onPointerMove, {passive:true});
+    el.addEventListener('touchend', onPointerUp);
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
-      const t = clock.elapsedTime;
- if (glbMixer) { glbMixer.update(delta); renderer.render(scene, camera); return; }
-      const camAngle = Math.sin(t*0.5)*(Math.PI/4);
-
-      // Harekete göre kamera mesafesi ve hedefi
-      const floorExercises = ['sinav','genis_sinav','plank','mountain_climber','crunch','leg_raise',
-        'bicycle_crunch','superman','hip_thrust','glut_bridge','dambil_press','dambil_flye',
-        'skull_crusher','reverse_crunch','flutter_kick','side_plank','donkey_kick'];
-      const isFloor = floorExercises.includes(exerciseId);
-      const camDist = isFloor ? 14 : 18;
-      const camHeight = isFloor ? 3 : 5;
-      const lookY = isFloor ? 1.5 : 5;
-
-      camera.position.x = Math.sin(camAngle)*camDist;
-      camera.position.z = Math.cos(camAngle)*camDist;
-      camera.position.y = camHeight + Math.sin(t*0.2)*0.5;
-      camera.lookAt(0, lookY, 0);
-      resetAll();
-
-      switch(exerciseId) {
-        case 'sinav': case 'genis_sinav': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2;
-          const p=(Math.sin(t*4)+1)/2; character.position.y=(p*1.2)-1.2;
-          const b=1-p;
-          armL.shoulder.rotation.x=-Math.PI/2+b*0.8; armR.shoulder.rotation.x=-Math.PI/2+b*0.8;
-          armL.lowerArm.rotation.x=-b*1.8; armR.lowerArm.rotation.x=-b*1.8; neck.rotation.x=-0.3;
-          break;
-        }
-        case 'triceps_dips': {
-          bench.visible=true; character.position.z=1.5;
-          const d=(Math.sin(t*3)+1)/2; pelvis.position.y=5.5-(1-d)*1.8;
-          armL.shoulder.rotation.x=Math.PI/4; armR.shoulder.rotation.x=Math.PI/4;
-          armL.lowerArm.rotation.x=-(1-d)*(Math.PI/1.5); armR.lowerArm.rotation.x=-(1-d)*(Math.PI/1.5);
-          legL.hip.rotation.x=-Math.PI/4+(1-d)*0.2; legR.hip.rotation.x=-Math.PI/4+(1-d)*0.2;
-          legL.lowerLeg.rotation.x=Math.PI/6; legR.lowerLeg.rotation.x=Math.PI/6;
-          break;
-        }
-        case 'high_knees': {
-          floorMat.visible=true; const cy=t*8;
-          const lL=Math.max(0,Math.sin(cy)); const lR=Math.max(0,Math.sin(cy+Math.PI));
-          torso.rotation.x=0.1;
-          legL.hip.rotation.x=-lL*(Math.PI/1.8); legL.lowerLeg.rotation.x=lL*(Math.PI/2.5);
-          legR.hip.rotation.x=-lR*(Math.PI/1.8); legR.lowerLeg.rotation.x=lR*(Math.PI/2.5);
-          armL.shoulder.rotation.x=lL*0.8-lR*0.8; armR.shoulder.rotation.x=lR*0.8-lL*0.8;
-          armL.lowerArm.rotation.x=-Math.PI/2.5; armR.lowerArm.rotation.x=-Math.PI/2.5;
-          pelvis.position.y=5.5+Math.sin(cy*2)*0.15;
-          break;
-        }
-        case 'yuruyus': {
-          floorMat.visible=true; const wc=t*4; const wl=Math.sin(wc);
-          legL.hip.rotation.x=wl*0.6; legR.hip.rotation.x=-wl*0.6;
-          legL.lowerLeg.rotation.x=Math.max(0,-wl*0.5); legR.lowerLeg.rotation.x=Math.max(0,wl*0.5);
-          armL.shoulder.rotation.x=-wl*0.6; armR.shoulder.rotation.x=wl*0.6;
-          armL.lowerArm.rotation.x=-0.2; armR.lowerArm.rotation.x=-0.2;
-          pelvis.position.y=5.5+Math.abs(Math.sin(wc*2))*0.1;
-          break;
-        }
-        case 'kosma': {
-          floorMat.visible=true; const rc=t*10; const rl=Math.sin(rc);
-          torso.rotation.x=0.2;
-          legL.hip.rotation.x=rl*1.0; legR.hip.rotation.x=-rl*1.0;
-          legL.lowerLeg.rotation.x=Math.max(0,-rl*1.2); legR.lowerLeg.rotation.x=Math.max(0,rl*1.2);
-          armL.shoulder.rotation.x=-rl*1.0; armR.shoulder.rotation.x=rl*1.0;
-          armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
-          pelvis.position.y=5.5+Math.abs(Math.sin(rc*2))*0.2;
-          break;
-        }
-        case 'ip_atlama': case 'ip': {
-          floorMat.visible=true; const jc=t*8;
-          pelvis.position.y=5.5+Math.abs(Math.sin(jc))*0.8;
-          const kb=Math.max(0,-Math.cos(jc))*0.3;
-          legL.hip.rotation.x=-kb; legR.hip.rotation.x=-kb;
-          legL.lowerLeg.rotation.x=kb*2; legR.lowerLeg.rotation.x=kb*2;
-          armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
-          armL.lowerArm.rotation.x=-Math.PI/4; armR.lowerArm.rotation.x=-Math.PI/4;
-          armL.lowerArm.rotation.z=Math.sin(jc)*0.2; armR.lowerArm.rotation.z=-Math.sin(jc)*0.2;
-          break;
-        }
-        case 'hip_abduction': {
-          const ac=(Math.sin(t*3)+1)/2;
-          legR.hip.rotation.z=-ac*0.8; torso.rotation.z=ac*0.15; pelvis.rotation.z=ac*0.1;
-          armL.shoulder.rotation.z=0.2; armR.shoulder.rotation.z=-0.2;
-          break;
-        }
-        case 'donkey_kick': {
-          floorMat.visible=true; pelvis.position.y=3.5; character.position.y=0; torso.rotation.x=Math.PI/2.2; neck.rotation.x=-0.5;
-          armL.shoulder.rotation.x=-Math.PI/2.2; armR.shoulder.rotation.x=-Math.PI/2.2;
-          legL.hip.rotation.x=-Math.PI/2; legL.lowerLeg.rotation.x=Math.PI/2;
-          const kc=(Math.sin(t*4)+1)/2;
-          legR.hip.rotation.x=-Math.PI/2+kc*1.5; legR.lowerLeg.rotation.x=Math.PI/2-kc*0.8;
-          break;
-        }
-        case 'wall_sit': {
-          wall.visible=true; character.position.z=0.5; pelvis.position.y=3.3; character.position.y=0;
-          legL.hip.rotation.x=-Math.PI/2; legR.hip.rotation.x=-Math.PI/2;
-          legL.lowerLeg.rotation.x=Math.PI/2; legR.lowerLeg.rotation.x=Math.PI/2;
-          armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
-          break;
-        }
-        case 'reverse_crunch': {
-          floorMat.visible=true; character.rotation.x=-Math.PI/2; pelvis.position.y=3.5; character.position.y=0;
-          armL.shoulder.rotation.x=0; armR.shoulder.rotation.x=0;
-          const rc2=(Math.sin(t*3)+1)/2;
-          legL.hip.rotation.x=-Math.PI/6-rc2*(Math.PI/1.5); legR.hip.rotation.x=-Math.PI/6-rc2*(Math.PI/1.5);
-          legL.lowerLeg.rotation.x=Math.PI/2; legR.lowerLeg.rotation.x=Math.PI/2;
-          pelvis.rotation.x=rc2*0.3;
-          break;
-        }
-        case 'russian_twist': {
-          floorMat.visible=true; pelvis.position.y=2.5; character.position.y=0; pelvis.rotation.x=-0.5;
-          legL.hip.rotation.x=-1.2; legR.hip.rotation.x=-1.2;
-          legL.lowerLeg.rotation.x=1.5; legR.lowerLeg.rotation.x=1.5;
-          const tw=Math.sin(t*4)*0.8;
-          torso.rotation.y=tw; neck.rotation.y=tw*0.5;
-          armL.shoulder.rotation.x=-1.5; armR.shoulder.rotation.x=-1.5;
-          armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
-          break;
-        }
-        case 'flutter_kick': {
-          floorMat.visible=true; character.rotation.x=-Math.PI/2; pelvis.position.y=3.5; character.position.y=0;
-          torso.rotation.x=0.2; neck.rotation.x=0.2;
-          const fl=Math.sin(t*6); const fr=Math.sin(t*6+Math.PI);
-          legL.hip.rotation.x=-0.3+fl*0.2; legR.hip.rotation.x=-0.3+fr*0.2;
-          break;
-        }
-        case 'side_plank': {
-          floorMat.visible=true; character.position.y=0; character.rotation.z=-Math.PI/2.2; pelvis.position.y=3.5;
-          armL.shoulder.rotation.z=Math.PI/2.2; armL.lowerArm.rotation.x=Math.PI/2;
-          armR.shoulder.rotation.z=Math.PI/2;
-          break;
-        }
-        case 'squat': case 'dambil_squat': {
-          floorMat.visible=true; const d=(Math.sin(t*2.5)+1)/2;
-          pelvis.position.y=5.5-d*1.8;
-          legL.hip.rotation.x=-d*1.5; legR.hip.rotation.x=-d*1.5;
-          legL.lowerLeg.rotation.x=d*1.5; legR.lowerLeg.rotation.x=d*1.5;
-          torso.rotation.x=d*0.4; armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=-d*0.8;
-          break;
-        }
-        case 'jumping_jack': {
-          floorMat.visible=true; pelvis.position.y=5.5+Math.abs(Math.sin(t*5))*0.5;
-          const jd=Math.sin(t*5);
-          legL.hip.rotation.z=Math.abs(jd)*0.5; legR.hip.rotation.z=-Math.abs(jd)*0.5;
-          armL.shoulder.rotation.z=0.2+Math.abs(jd)*2.2; armR.shoulder.rotation.z=-0.2-Math.abs(jd)*2.2;
-          break;
-        }
-        case 'plank': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
-          armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2; neck.rotation.x=-0.3;
-          break;
-        }
-        case 'lunge': {
-          floorMat.visible=true; const d=(Math.sin(t*2.5)+1)/2; pelvis.position.y=5.5-d*1.2;
-          legL.hip.rotation.x=-d*1.3; legR.hip.rotation.x=d*0.9;
-          legL.lowerLeg.rotation.x=d*1.3; legR.lowerLeg.rotation.x=-d*0.5; legR.hip.rotation.z=-0.3;
-          break;
-        }
-        case 'dambil_curl': case 'hammer_curl': {
-          const d=(Math.sin(t*2.5)+1)/2;
-          armL.lowerArm.rotation.x=-d*2.0; armR.lowerArm.rotation.x=-d*2.0;
-          break;
-        }
-        case 'lateral_raise': {
-          const d=(Math.sin(t*2)+1)/2;
-          armL.shoulder.rotation.z=0.2+d*1.4; armR.shoulder.rotation.z=-0.2-d*1.4;
-          break;
-        }
-        case 'dambil_press_omuz': {
-          const d=(Math.sin(t*2)+1)/2;
-          armL.shoulder.rotation.z=0.3+d*0.5; armR.shoulder.rotation.z=-0.3-d*0.5;
-          armL.shoulder.rotation.x=-d*1.8; armR.shoulder.rotation.x=-d*1.8;
-          armL.lowerArm.rotation.x=d*1.5; armR.lowerArm.rotation.x=d*1.5;
-          break;
-        }
-        case 'dambil_press': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          const d=(Math.sin(t*2.5)+1)/2;
-          armL.shoulder.rotation.z=1.2-d*0.8; armR.shoulder.rotation.z=-1.2+d*0.8;
-          armL.lowerArm.rotation.x=-d*1.2; armR.lowerArm.rotation.x=-d*1.2;
-          break;
-        }
-        case 'dambil_flye': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          const d=(Math.sin(t*2)+1)/2;
-          armL.shoulder.rotation.z=0.3+d*1.0; armR.shoulder.rotation.z=-0.3-d*1.0;
-          armL.lowerArm.rotation.x=-0.5; armR.lowerArm.rotation.x=-0.5;
-          break;
-        }
-        case 'pullup': {
-          const d=(Math.sin(t*1.5)+1)/2; pelvis.position.y=5.5+d*2;
-          armL.shoulder.rotation.x=-2.0+d*0.8; armR.shoulder.rotation.x=-2.0+d*0.8;
-          armL.shoulder.rotation.z=0.5; armR.shoulder.rotation.z=-0.5;
-          armL.lowerArm.rotation.x=d*1.5; armR.lowerArm.rotation.x=d*1.5;
-          break;
-        }
-        case 'dambil_row': {
-          torso.rotation.x=-0.7; const d=(Math.sin(t*2.5)+1)/2;
-          armL.shoulder.rotation.x=-0.3-d*1.2; armL.lowerArm.rotation.x=d*1.2;
-          break;
-        }
-        case 'superman': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          const d=(Math.sin(t*1.8)+1)/2;
-          armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=-d*0.8;
-          legL.hip.rotation.x=d*0.8; legR.hip.rotation.x=d*0.8;
-          break;
-        }
-        case 'hip_thrust': case 'glut_bridge': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          const d=(Math.sin(t*2)+1)/2; pelvis.position.y=5.5+d*1.5;
-          legL.hip.rotation.x=-0.8+d*0.8; legR.hip.rotation.x=-0.8+d*0.8;
-          legL.lowerLeg.rotation.x=1.2-d*0.8; legR.lowerLeg.rotation.x=1.2-d*0.8;
-          break;
-        }
-        case 'calf_raise': {
-          floorMat.visible=true; const d=(Math.sin(t*2.5)+1)/2; pelvis.position.y=5.5+d*0.5;
-          break;
-        }
-        case 'crunch': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          const d=(Math.sin(t*2)+1)/2; torso.rotation.x=-d*1.0; neck.rotation.x=-d*0.5;
-          legL.hip.rotation.x=-0.5; legR.hip.rotation.x=-0.5; legL.lowerLeg.rotation.x=0.8; legR.lowerLeg.rotation.x=0.8;
-          break;
-        }
-        case 'mountain_climber': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
-          armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
-          const d=Math.sin(t*4);
-          legL.hip.rotation.x=d*1.2; legR.hip.rotation.x=-d*1.2;
-          legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
-          break;
-        }
-        case 'leg_raise': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          const d=(Math.sin(t*1.8)+1)/2; legL.hip.rotation.x=d*1.5; legR.hip.rotation.x=d*1.5;
-          break;
-        }
-        case 'bicycle_crunch': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          const d=Math.sin(t*3); legL.hip.rotation.x=d*1.2; legR.hip.rotation.x=-d*1.2; torso.rotation.z=d*0.3;
-          armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=d*0.8;
-          legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
-          break;
-        }
-        case 'burpee': {
-          floorMat.visible=true; const ph=(t*1.2)%4;
-          if(ph<1){ pelvis.position.y=5.5; }
-          else if(ph<2){ const d=ph-1; pelvis.position.y=5.5-d*1.8; legL.hip.rotation.x=-d*1.5; legR.hip.rotation.x=-d*1.5; legL.lowerLeg.rotation.x=d*1.5; legR.lowerLeg.rotation.x=d*1.5; }
-          else if(ph<3){ character.rotation.x=Math.PI/2; character.position.y=-3; const d2=(Math.sin((ph-2)*Math.PI*2)+1)/2; pelvis.position.y=5.5+d2*1.2; armL.shoulder.rotation.x=-Math.PI/2+d2*0.5; armR.shoulder.rotation.x=-Math.PI/2+d2*0.5; }
-          else { pelvis.position.y=5.5+Math.abs(Math.sin((ph-3)*Math.PI))*1.5; armL.shoulder.rotation.x=-1.5; armR.shoulder.rotation.x=-1.5; }
-          break;
-        }
-        case 'skull_crusher': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
-          armL.shoulder.rotation.x=-1.8; armR.shoulder.rotation.x=-1.8;
-          armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
-          const d=(Math.sin(t*2.5)+1)/2; armL.lowerArm.rotation.x=-d*1.8; armR.lowerArm.rotation.x=-d*1.8;
-          break;
-        }
-        case 'pike_push': {
-          floorMat.visible=true; character.rotation.x=Math.PI/4; character.position.y=-0.5; pelvis.position.y=4.0; torso.rotation.x=-0.5;
-          const d=(Math.sin(t*2.5)+1)/2;
-          armL.shoulder.rotation.x=-Math.PI/2+d*0.5; armR.shoulder.rotation.x=-Math.PI/2+d*0.5;
-          armL.lowerArm.rotation.x=-Math.PI/2+d*Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2+d*Math.PI/2;
-          break;
-        }
-        case 'box_jump': {
-          floorMat.visible=true; const ph2=(t*2)%2;
-          if(ph2<1){ const d=Math.sin(ph2*Math.PI); pelvis.position.y=5.5-d*0.8; legL.hip.rotation.x=-d*0.8; legR.hip.rotation.x=-d*0.8; legL.lowerLeg.rotation.x=d*0.8; legR.lowerLeg.rotation.x=d*0.8; }
-          else { const d=Math.sin((ph2-1)*Math.PI); pelvis.position.y=5.5+d*2.0; armL.shoulder.rotation.x=-d*1.5; armR.shoulder.rotation.x=-d*1.5; }
-          break;
-        }
-        default: break;
-      }
+      if (glbMixer) glbMixer.update(delta);
+      // Sürüklenmiyorsa yavaş otomatik dön
+      if (!isDragging) spherical.theta += 0.005;
+      camera.position.x = Math.sin(spherical.theta) * RADIUS;
+      camera.position.z = Math.cos(spherical.theta) * RADIUS;
+      camera.position.y = spherical.y;
+      camera.lookAt(0, 5, 0);
       renderer.render(scene, camera);
     };
-
     animate();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      if(mountRef.current && renderer.domElement.parentNode===mountRef.current)
+      el.removeEventListener('mousedown', onPointerDown);
+      el.removeEventListener('mousemove', onPointerMove);
+      el.removeEventListener('mouseup', onPointerUp);
+      el.removeEventListener('touchstart', onPointerDown);
+      el.removeEventListener('touchmove', onPointerMove);
+      el.removeEventListener('touchend', onPointerUp);
+      if (mountRef.current && renderer.domElement.parentNode === mountRef.current)
         mountRef.current.removeChild(renderer.domElement);
-      [skinMat,shirtMat,shortsMat,hairMat,shoeMat,propMat,matMat].forEach(m=>m.dispose());
       renderer.dispose();
     };
   }, [exerciseId, width, height]);
 
-  return <div ref={mountRef} style={{width:`${width}px`,height:`${height}px`,borderRadius:16,overflow:'hidden'}}/>;
+  return (
+    <div ref={mountRef} style={{
+      width: `${width}px`, height: `${height}px`,
+      borderRadius: 16, overflow: 'hidden',
+      background: '#1a0505',
+      display: 'flex', alignItems: 'center', justifyContent: 'center'
+    }}/>
+  );
 };
