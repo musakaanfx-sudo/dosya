@@ -8941,10 +8941,17 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
               child.material = new THREE.MeshStandardMaterial({ color: 0xd2a683, roughness: 0.7 });
             }
           });
+          // Mixamo GLB'ler yatık gelir, dik yap
+          model.rotation.x = -Math.PI / 2;
           scene.add(model);
           if (gltf.animations && gltf.animations.length > 0) {
+            console.log('GLB animations found:', exerciseId, gltf.animations.length, gltf.animations.map(a=>a.name));
             mixerRef.current = new THREE.AnimationMixer(model);
-            mixerRef.current.clipAction(gltf.animations[0]).play();
+            const action = mixerRef.current.clipAction(gltf.animations[0]);
+            action.setLoop(THREE.LoopRepeat, Infinity);
+            action.play();
+          } else {
+            console.warn('GLB has NO animations:', exerciseId);
           }
         }, undefined, (err) => console.warn('GLB yüklenemedi:', exerciseId));
       }
