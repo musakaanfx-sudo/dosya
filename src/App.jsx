@@ -480,6 +480,8 @@ export default function App(){
   const [tarifSonuc,setTarifSonuc]=useState(null);
   const [tarifYuk,setTarifYuk]=useState(false);
   const [tarifMetin,setTarifMetin]=useState("");
+  const [fotoTarifYuk,setFotoTarifYuk]=useState(false);
+  const [fotoTarifSonuc,setFotoTarifSonuc]=useState(null);
   const [oneriSoru,setOneriSoru]=useState("");
   const [oneriYuk,setOneriYuk]=useState(false);
   const [oneriCevap,setOneriCevap]=useState("");
@@ -4337,7 +4339,7 @@ SADECE JSON döndür (başka metin yok):
 
             {/* SEKMELER */}
             <div style={{display:"flex",gap:0,marginBottom:14,borderBottom:`2px solid ${r.inpB}`}}>
-              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"icerik",ikon:"🧪",l:"İçerik"},{k:"tarif",ikon:"👨‍🍳",l:"Tarif"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
+              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
                 <button key={s.k} onClick={()=>{setYemekEkleSekme(s.k);setBesinArama("");setHizliSonuc(null);}}
                   style={{flex:1,padding:"10px 4px",border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
                     background:"transparent",
@@ -4604,280 +4606,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 
             {/* HIZLI EKLE sekmesi */}
 
-            {/* ═══ İÇERİK ANALİZİ SEKMESİ ═══ */}
-            {yemekEkleSekme==="icerik"&&(
-              <div style={{paddingTop:8}}>
-                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>🧪 İçerik Analizi</div>
-                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Ürün arkasındaki içerik listesini yapıştır — katkı maddeleri kırmızıyla işaretlenecek</div>
-                <textarea
-                  value={icerikMetin} onChange={e=>setIcerikMetin(e.target.value)}
-                  placeholder={"Örn: Buğday unu, su, tuz, E211, E322, E471, şeker, malt özü..."}
-                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
-                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
-                    resize:"none",height:100,outline:"none",boxSizing:"border-box",marginBottom:10}}
-                />
-                <div style={{display:"flex",gap:8,marginBottom:16}}>
-                  <button onClick={async()=>{
-                    if(!icerikMetin.trim()) return;
-                    setIcerikYuk(true);
-                    try{
-                      const sistem = "Sen bir gıda uzmanısın. Kullanıcının verdiği içerik listesini analiz et. JSON döndür: {ozet:string, katkiMaddeleri:[{kod:string,ad:string,tehlikeli:boolean,aciklama:string}], guvenli:boolean, uyari:string|null}. Tehlikeli katkı maddelerini işaretle.";
-                      const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                        body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:800,system:sistem,
-                          messages:[{role:"user",content:"İçerik listesi: "+icerikMetin}]})});
-                      const data = await res.json();
-                      const txt = data.content?.[0]?.text||"";
-                      const clean = txt.replace(/```json|```/g,"").trim();
-                      setIcerikAnaliz(JSON.parse(clean));
-                    }catch(e){
-                      setIcerikAnaliz({ozet:"Analiz yapılamadı",katkiMaddeleri:[],guvenli:true,uyari:null});
-                    }
-                    setIcerikYuk(false);
-                  }}
-                  style={{...BTN("#16a34a","11px 20px"),flex:2,fontSize:13,fontWeight:800,
-                    boxShadow:"0 4px 14px rgba(16,163,74,.25)"}}>
-                    {icerikYuk?"⏳ Analiz ediliyor...":"🔬 Analiz Et"}
-                  </button>
-                  <button onClick={()=>{setIcerikMetin("");setIcerikAnaliz(null);}}
-                    style={{...BTN("transparent","11px 14px"),flex:1,fontSize:12,border:`1px solid ${r.brd}`,color:r.sub}}>
-                    Temizle
-                  </button>
-                </div>
 
-                {/* Sonuç */}
-                {icerikAnaliz&&(
-                  <div>
-                    {/* Genel durum */}
-                    <div style={{background:icerikAnaliz.guvenli?"rgba(16,163,74,.08)":"rgba(220,38,38,.08)",
-                      border:`1px solid ${icerikAnaliz.guvenli?"rgba(16,163,74,.25)":"rgba(220,38,38,.25)"}`,
-                      borderRadius:14,padding:"12px 14px",marginBottom:12}}>
-                      <div style={{fontSize:14,fontWeight:900,color:icerikAnaliz.guvenli?"#16a34a":"#dc2626",marginBottom:4}}>
-                        {icerikAnaliz.guvenli?"✅ Genel olarak güvenli":"⚠️ Dikkat edilmesi gereken maddeler var"}
-                      </div>
-                      <div style={{fontSize:12,color:r.text}}>{icerikAnaliz.ozet}</div>
-                      {icerikAnaliz.uyari&&(
-                        <div style={{marginTop:8,fontSize:11,color:"#dc2626",fontWeight:700}}>⚠️ {icerikAnaliz.uyari}</div>
-                      )}
-                    </div>
-
-                    {/* Katkı maddeleri */}
-                    {icerikAnaliz.katkiMaddeleri.length>0&&(
-                      <div>
-                        <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Katkı Maddeleri</div>
-                        {icerikAnaliz.katkiMaddeleri.map((k,i)=>(
-                          <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 12px",
-                            borderRadius:12,marginBottom:6,
-                            background:k.tehlikeli?"rgba(220,38,38,.06)":"rgba(16,163,74,.04)",
-                            border:`1px solid ${k.tehlikeli?"rgba(220,38,38,.2)":"rgba(16,163,74,.1)"}`}}>
-                            <div style={{flexShrink:0,width:44,height:22,borderRadius:6,
-                              background:k.tehlikeli?"#dc2626":"#16a34a",
-                              display:"flex",alignItems:"center",justifyContent:"center",
-                              fontSize:9,fontWeight:900,color:"#fff",marginTop:1}}>
-                              {k.kod}
-                            </div>
-                            <div style={{flex:1}}>
-                              <div style={{fontSize:12,fontWeight:800,color:k.tehlikeli?"#dc2626":r.text}}>{k.ad}</div>
-                              <div style={{fontSize:10,color:r.sub,marginTop:2}}>{k.aciklama}</div>
-                            </div>
-                            <div style={{fontSize:16,flexShrink:0}}>{k.tehlikeli?"🔴":"🟢"}</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ═══ TARİF SEKMESİ ═══ */}
-            {yemekEkleSekme==="tarif"&&(
-              <div style={{paddingTop:8}}>
-                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>👨‍🍳 AI Yemek Yapma</div>
-                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Elindeki malzemeleri yaz — sana özel sağlıklı tarif hazırlayalım</div>
-                {/* Fotoğrafla yardım */}
-                <div style={{display:"flex",gap:8,marginBottom:12}}>
-                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
-                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
-                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
-                    <input type="file" accept="image/*" style={{display:"none"}} onChange={async(e)=>{
-                      const file=e.target.files?.[0]; if(!file) return;
-                      setTarifFotoYuk(true);
-                      const reader=new FileReader();
-                      reader.onload=async(ev)=>{
-                        const b64=ev.target.result.split(",")[1];
-                        try{
-                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
-                              messages:[{role:"user",content:[
-                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
-                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
-                              ]}]})});
-                          const data=await res.json();
-                          const txt=data.content?.[0]?.text||"";
-                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
-                        }catch(e){console.error(e);}
-                        setTarifFotoYuk(false);
-                      };
-                      reader.readAsDataURL(file);
-                    }}/>
-                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📷 Fotoğraftan malzeme tara"}
-                  </label>
-                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
-                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
-                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
-                    <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={async(e)=>{
-                      const file=e.target.files?.[0]; if(!file) return;
-                      setTarifFotoYuk(true);
-                      const reader=new FileReader();
-                      reader.onload=async(ev)=>{
-                        const b64=ev.target.result.split(",")[1];
-                        try{
-                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
-                              messages:[{role:"user",content:[
-                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
-                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
-                              ]}]})});
-                          const data=await res.json();
-                          const txt=data.content?.[0]?.text||"";
-                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
-                        }catch(e){console.error(e);}
-                        setTarifFotoYuk(false);
-                      };
-                      reader.readAsDataURL(file);
-                    }}/>
-                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📸 Kamera ile çek"}
-                  </label>
-                </div>
-
-                <textarea
-                  value={tarifIcerik} onChange={e=>setTarifIcerik(e.target.value)}
-                  placeholder={"Örn: tavuk göğsü, brokoli, zeytinyağı, sarımsak, limon\nYa da: dolma biber, kıyma, pirinç, domates"}
-                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
-                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
-                    resize:"none",height:90,outline:"none",boxSizing:"border-box",marginBottom:10}}
-                />
-                {/* Diyet tercihi */}
-                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
-                  {["Sağlıklı","Az karbonhidrat","Vejetaryen","Vegan","Yüksek protein","Hızlı (<20dk)"].map(t=>(
-                    <button key={t} onClick={()=>setTarifIcerik(p=>p+(p?", ":"")+t)}
-                      style={{padding:"4px 10px",borderRadius:20,border:`1px solid ${r.brd}`,
-                        background:r.card,color:r.sub,fontSize:10,fontWeight:700,cursor:"pointer"}}>
-                      {t}
-                    </button>
-                  ))}
-                </div>
-                <button onClick={async()=>{
-                  if(!tarifIcerik.trim()) return;
-                  setTarifYuk(true); setTarifSonuc(null);
-                  try{
-                    const profStr = profil.kilo?`Kullanıcı: ${profil.kilo}kg, hedef: ${profil.hedef}`:"";
-                    const sistem = `Sen sağlıklı beslenme uzmanı bir şefsın. Kullanıcının verdiği malzemelere göre tarif hazırla. JSON döndür: {yemekAdi:string, sure:string, kalori:number, malzemeler:[{miktar:string,isim:string}], adimlar:[string], ipucu:string, besinDegerleri:{protein:number,karbonhidrat:number,yag:number}}. ${profStr}`;
-                    const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,system:sistem,
-                        messages:[{role:"user",content:"Malzemeler: "+tarifIcerik}]})});
-                    const data = await res.json();
-                    const txt = data.content?.[0]?.text||"";
-                    const clean = txt.replace(/```json|```/g,"").trim();
-                    setTarifSonuc(JSON.parse(clean));
-                  }catch(e){
-                    setTarifSonuc(null);
-                  }
-                  setTarifYuk(false);
-                }}
-                style={{...BTN("#f59e0b","12px 0"),width:"100%",fontSize:14,fontWeight:900,
-                  boxShadow:"0 4px 14px rgba(245,158,11,.25)",marginBottom:16}}>
-                  {tarifYuk?"⏳ Tarif hazırlanıyor...":"🍳 Tarif Oluştur"}
-                </button>
-
-                {/* Tarif sonucu */}
-                {tarifSonuc&&(
-                  <div style={{borderRadius:16,overflow:"hidden",border:`1px solid ${r.brd}`}}>
-                    {/* Header */}
-                    <div style={{background:"linear-gradient(135deg,#f59e0b,#d97706)",padding:"16px"}}>
-                      <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:4}}>{tarifSonuc.yemekAdi}</div>
-                      <div style={{display:"flex",gap:12}}>
-                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>⏱ {tarifSonuc.sure}</span>
-                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>🔥 {tarifSonuc.kalori} kcal</span>
-                      </div>
-                      {/* Besin değerleri */}
-                      <div style={{display:"flex",gap:8,marginTop:8}}>
-                        {[["P",tarifSonuc.besinDegerleri?.protein+"g"],["K",tarifSonuc.besinDegerleri?.karbonhidrat+"g"],["Y",tarifSonuc.besinDegerleri?.yag+"g"]].map(([l,v])=>(
-                          <div key={l} style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 8px",fontSize:10,color:"#fff",fontWeight:800}}>
-                            {l}: {v}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    {/* İçerik */}
-                    <div style={{background:r.card,padding:"14px"}}>
-                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Malzemeler</div>
-                      <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
-                        {tarifSonuc.malzemeler?.map((m,i)=>(
-                          <span key={i} style={{background:d?"rgba(245,158,11,.12)":"rgba(245,158,11,.08)",
-                            border:"1px solid rgba(245,158,11,.2)",color:"#d97706",
-                            borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>
-                            {m.miktar} {m.isim}
-                          </span>
-                        ))}
-                      </div>
-                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Yapılışı</div>
-                      {tarifSonuc.adimlar?.map((a,i)=>(
-                        <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
-                          <div style={{width:22,height:22,borderRadius:"50%",background:"#f59e0b",
-                            display:"flex",alignItems:"center",justifyContent:"center",
-                            fontSize:10,fontWeight:900,color:"#fff",flexShrink:0,marginTop:1}}>
-                            {i+1}
-                          </div>
-                          <div style={{fontSize:12,color:r.text,lineHeight:1.5}}>{a}</div>
-                        </div>
-                      ))}
-                      {tarifSonuc.ipucu&&(
-                        <div style={{background:"rgba(245,158,11,.08)",border:"1px solid rgba(245,158,11,.2)",
-                          borderRadius:10,padding:"10px 12px",marginTop:8}}>
-                          <div style={{fontSize:11,color:"#d97706",fontWeight:700}}>💡 {tarifSonuc.ipucu}</div>
-                        </div>
-                      )}
-                      {/* Yemeği ekle */}
-                      <div style={{display:"flex",gap:8,marginTop:12}}>
-                        <button onClick={()=>{
-                          if(!tarifSonuc) return;
-                          const yeni={ad:tarifSonuc.yemekAdi,gram:100,gramKal:tarifSonuc.kalori,
-                            protein:tarifSonuc.besinDegerleri?.protein||0,
-                            karbonhidrat:tarifSonuc.besinDegerleri?.karbonhidrat||0,
-                            yag:tarifSonuc.besinDegerleri?.yag||0,kaynak:"tarif"};
-                          gunEkle(secTarih,"ogle",yeni);
-                        }} style={{...BTN("#16a34a","11px 0"),flex:1,fontSize:13,fontWeight:800,
-                          boxShadow:"0 4px 14px rgba(16,163,74,.2)"}}>
-                          ✅ Günlüğe Ekle
-                        </button>
-                        <button onClick={()=>setTarifTakvimModal(true)}
-                          style={{...BTN("#7c3aed","11px 0"),flex:1,fontSize:13,fontWeight:800,
-                            boxShadow:"0 4px 14px rgba(124,58,237,.2)"}}>
-                          📅 Takvime Ekle
-                        </button>
-                      </div>
-                      {/* Alışveriş listesine ekle */}
-                      <button onClick={()=>{
-                        if(!tarifSonuc?.malzemeler) return;
-                        const yeniMalzemeler = tarifSonuc.malzemeler.map(m=>({
-                          id:Date.now()+Math.random(),
-                          ad:`${m.miktar} ${m.isim}`,
-                          tarif:tarifSonuc.yemekAdi,
-                          tamamlandi:false,
-                          tarih:new Date().toLocaleDateString("tr-TR"),
-                        }));
-                        setAlisverisListesi(p=>[...p,...yeniMalzemeler]);
-                        setAlisverisModal(true);
-                      }} style={{...BTN("#f59e0b","11px 0"),width:"100%",fontSize:13,fontWeight:800,marginTop:8,
-                        boxShadow:"0 4px 14px rgba(245,158,11,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                        🛒 Malzemeleri Alışveriş Listesine Ekle
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
 
             {yemekEkleSekme==="hizli"&&(
               <div>
@@ -5006,50 +4735,12 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             </div>
             {/* Genel / Arkadaşlar sekmesi */}
             <div style={{display:"flex",background:d?"#1e293b":"#f0fdf4",borderRadius:12,padding:4,marginBottom:12,gap:4}}>
-              {[{v:"genel",l:"🌍 Genel"},{v:"arkadaslar",l:"👥 Arkadaşlar"},{v:"tarifler",l:"🍳 Tarifler"}].map(s=>(
+              {[{v:"genel",l:"🌍 Genel"},{v:"arkadaslar",l:"👥 Arkadaşlar"}].map(s=>(
                 <button key={s.v} onClick={()=>setSosyalSekme(s.v)} style={{flex:1,padding:"8px 0",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:sosyalSekme===s.v?d?"#334155":"#fff":"transparent",color:sosyalSekme===s.v?"#16a34a":r.sub,boxShadow:sosyalSekme===s.v?"0 1px 4px #0001":"none",transition:"all .15s"}}>{s.l}</button>
               ))}
             </div>
             {(sosyalSekme==="arkadaslar"&&arkadaslar.length===0)&&(
               <div style={{textAlign:"center",color:r.muted,padding:"24px 0",fontSize:13}}>Henüz arkadaşın yok. Arkadaş ekleyerek onların paylaşımlarını gör!</div>
-            )}
-            {sosyalSekme==="tarifler"&&(
-              <div>
-                {/* Kategori filtreleri */}
-                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:8}}>
-                  {["","Kahvaltı","Öğle","Akşam","Atıştırmalık","Çorba","Sporcu"].map(k=>(
-                    <button key={k} onClick={()=>{setTarifKat(k);setTarifUlke("");setTarifLimit(10);}} style={{padding:"5px 12px",borderRadius:20,border:`1.5px solid ${tarifKat===k&&!tarifUlke?"#16a34a":r.inpB}`,background:tarifKat===k&&!tarifUlke?"#16a34a":r.inp,color:tarifKat===k&&!tarifUlke?"#fff":r.sub,fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
-                      {k||"Tümü"} {k===""?`(${tarifler.length})`:`(${tarifler.filter(t=>t.kategori===k||(k==="Sporcu"&&t.sporcu)).length})`}
-                    </button>
-                  ))}
-                </div>
-                {/* Ülke filtreleri */}
-                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
-                  {[
-                    {k:"",l:"🌍 Tümü"},
-                    {k:"Almanya",l:"🇩🇪 Almanya"},
-                    {k:"Türkiye",l:"🇹🇷 Türkiye"},
-                  ].map(u=>{
-                    const ulkeSayisi = u.k===""
-                      ? tarifler.length
-                      : u.k==="Türkiye"
-                      ? tarifler.filter(t=>!t.ulke).length
-                      : tarifler.filter(t=>t.ulke===u.k).length;
-                    const aktif = tarifUlke===u.k;
-                    return(
-                      <button key={u.k} onClick={()=>{setTarifUlke(u.k);setTarifKat("");setTarifLimit(10);}}
-                        style={{padding:"5px 12px",borderRadius:20,
-                          border:`1.5px solid ${aktif?"#7c3aed":r.inpB}`,
-                          background:aktif?"#7c3aed":r.inp,
-                          color:aktif?"#fff":r.sub,
-                          fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
-                        {u.l} ({ulkeSayisi})
-                      </button>
-                    );
-                  })}
-                </div>
-                {renderTarifListesi()}
-              </div>
             )}
             {sosyalSekme!=="tarifler"&&paylasimlar.filter(ps=>{
               if(engelliler.includes(ps.uid)) return false;
@@ -6517,72 +6208,40 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 <button onClick={()=>setYemekAsistaniAcik(false)} style={{position:"absolute",top:20,right:20,background:"transparent",border:"none",fontSize:24,color:r.sub,cursor:"pointer"}}>✕</button>
 
                 {/* Slayt içeriği */}
-                {[
-                  {
-                    emoji:"👨‍🍳",
-                    baslik:"Yemek Asistanın",
-                    acik:"Fotoğraf çek, malzeme yaz ya da ürün içeriğini analiz et. Yapay zeka her şeyi halleder.",
-                    renk:"#f97316",
-                    ozellikler:["📷 Fotoğraftan yemek tanıma","✍️ Yazarak tarif alma","🧪 İçerik analizi","🛒 Alışveriş listesi"],
-                  },
-                  {
-                    emoji:"📷",
-                    baslik:"Fotoğrafla Tanı",
-                    acik:"Yemeğin fotoğrafını çek ya da galerinden seç. AI anında kalori ve besin değerlerini hesaplar.",
-                    renk:"#8b5cf6",
-                    ozellikler:["Porsiyon tahmini","Kalori hesabı","Protein / Karb / Yağ","Günlüğe otomatik ekle"],
-                  },
-                  {
-                    emoji:"🍽️",
-                    baslik:"AI Tarif Üret",
-                    acik:"Elindeki malzemeleri yaz, AI sana adım adım tarif hazırlasın. Besin değerleri de gelir.",
-                    renk:"#16a34a",
+                {(()=>{
+                  const slaytlar=[{
+                    emoji:"👨‍🍳",baslik:"Yemek Asistanın",renk:"#f97316",
+                    acik:"Malzeme yaz, fotoğraf çek veya ürün içeriğini analiz et. Yapay zeka halleder.",
+                    ozellikler:["✍️ Yazarak tarif alma","📷 Fotoğraftan tarif","🧪 İçerik analizi","🛒 Alışveriş listesi"],
+                  },{
+                    emoji:"🍽️",baslik:"AI Tarif Üret",renk:"#16a34a",
+                    acik:"Elindeki malzemeleri yaz, AI sana adım adım tarif hazırlasın.",
                     ozellikler:["Malzemelere göre tarif","Adım adım yapılış","Kalori hesabı","Takvime ekle"],
-                  },
-                  {
-                    emoji:"🧪",
-                    baslik:"İçerik Analizi",
+                  },{
+                    emoji:"📷",baslik:"Fotoğraftan Tarif",renk:"#8b5cf6",
+                    acik:"Malzemelerin fotoğrafını çek, AI ne yapabileceğini söylesin.",
+                    ozellikler:["Malzeme tanıma","Tarif önerisi","Adım adım yapılış","Kalori hesabı"],
+                  },{
+                    emoji:"🧪",baslik:"İçerik Analizi",renk:"#dc2626",
                     acik:"Ürün arkasındaki içerik listesini yapıştır. Tehlikeli katkı maddeleri kırmızıyla işaretlenir.",
-                    renk:"#dc2626",
                     ozellikler:["Katkı maddesi tespiti","Tehlike seviyesi","E kodu açıklaması","Sağlık değerlendirmesi"],
-                  },
-                ][yemekAsistaniSlayt] && (() => {
-                  const s = [{
-                    emoji:"👨‍🍳",baslik:"Yemek Asistanın",acik:"Fotoğraf çek, malzeme yaz ya da ürün içeriğini analiz et. Yapay zeka her şeyi halleder.",renk:"#f97316",
-                    ozellikler:["📷 Fotoğraftan yemek tanıma","✍️ Yazarak tarif alma","🧪 İçerik analizi","🛒 Alışveriş listesi"],
-                  },{
-                    emoji:"📷",baslik:"Fotoğrafla Tanı",acik:"Yemeğin fotoğrafını çek ya da galerinden seç. AI anında kalori ve besin değerlerini hesaplar.",renk:"#8b5cf6",
-                    ozellikler:["Porsiyon tahmini","Kalori hesabı","Protein / Karb / Yağ","Günlüğe otomatik ekle"],
-                  },{
-                    emoji:"🍽️",baslik:"AI Tarif Üret",acik:"Elindeki malzemeleri yaz, AI sana adım adım tarif hazırlasın. Besin değerleri de gelir.",renk:"#16a34a",
-                    ozellikler:["Malzemelere göre tarif","Adım adım yapılış","Kalori hesabı","Takvime ekle"],
-                  },{
-                    emoji:"🧪",baslik:"İçerik Analizi",acik:"Ürün arkasındaki içerik listesini yapıştır. Tehlikeli katkı maddeleri kırmızıyla işaretlenir.",renk:"#dc2626",
-                    ozellikler:["Katkı maddesi tespiti","Tehlike seviyesi","E kodu açıklaması","Sağlık değerlendirmesi"],
-                  }][yemekAsistaniSlayt];
-                  return (
+                  }];
+                  const s=slaytlar[yemekAsistaniSlayt]||slaytlar[0];
+                  return(
                     <div style={{textAlign:"center",maxWidth:360,width:"100%"}}>
-                      {/* Emoji büyük */}
                       <div style={{fontSize:80,marginBottom:24,filter:"drop-shadow(0 8px 24px rgba(0,0,0,.2))"}}>{s.emoji}</div>
-                      {/* Başlık */}
                       <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:32,fontWeight:700,color:s.renk,marginBottom:12}}>{s.baslik}</div>
-                      {/* Açıklama */}
                       <div style={{fontSize:15,color:r.sub,lineHeight:1.6,marginBottom:32}}>{s.acik}</div>
-                      {/* Özellikler */}
                       <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:40}}>
                         {s.ozellikler.map((o,i)=>(
-                          <div key={i} style={{background:d?`${s.renk}15`:`${s.renk}0d`,border:`1px solid ${s.renk}30`,borderRadius:12,padding:"10px 16px",fontSize:13,fontWeight:700,color:s.renk,textAlign:"left"}}>
-                            {o}
-                          </div>
+                          <div key={i} style={{background:d?`${s.renk}15`:`${s.renk}0d`,border:`1px solid ${s.renk}30`,borderRadius:12,padding:"10px 16px",fontSize:13,fontWeight:700,color:s.renk,textAlign:"left"}}>{o}</div>
                         ))}
                       </div>
-                      {/* Dots */}
                       <div style={{display:"flex",justifyContent:"center",gap:8,marginBottom:32}}>
                         {[0,1,2,3].map(i=>(
                           <div key={i} onClick={()=>setYemekAsistaniSlayt(i)} style={{width:i===yemekAsistaniSlayt?24:8,height:8,borderRadius:4,background:i===yemekAsistaniSlayt?s.renk:r.muted,cursor:"pointer",transition:"all .3s"}}/>
                         ))}
                       </div>
-                      {/* Buton */}
                       <button onClick={()=>setYemekAsistaniSlayt(p=>p+1)}
                         style={{background:`linear-gradient(135deg,${s.renk},${s.renk}cc)`,border:"none",borderRadius:16,padding:"16px 40px",color:"#fff",fontSize:15,fontWeight:800,cursor:"pointer",width:"100%",boxShadow:`0 8px 24px ${s.renk}40`,fontFamily:"'Nunito',sans-serif"}}>
                         {yemekAsistaniSlayt===3?"Hadi Başlayalım →":"Devam →"}
@@ -6605,7 +6264,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   </div>
                   {/* Sekmeler */}
                   <div style={{display:"flex",gap:8,marginTop:16,overflowX:"auto",paddingBottom:2}}>
-                    {[{k:"oneri",l:"🍽️ Yemek Öner"},{k:"tarif",l:"👨‍🍳 Tarif Yap"}].map(s=>(
+                    {[{k:"oneri",l:"🍽️ Yemek Öner"},{k:"tarif",l:"👨‍🍳 Tarif Yap"},{k:"foto_tarif",l:"📷 Fotoğraftan Tarif"}].map(s=>(
                       <button key={s.k} onClick={()=>setYemekEkleSekme(s.k)}
                         style={{whiteSpace:"nowrap",padding:"7px 14px",borderRadius:20,border:"none",
                           background:yemekEkleSekme===s.k?"rgba(255,255,255,.25)":"rgba(255,255,255,.1)",
@@ -6689,6 +6348,77 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                         )}
                       </div>
                     )}
+                    {yemekEkleSekme==="foto_tarif"&&(
+                      <div style={{padding:"0 4px"}}>
+                        <div style={{fontSize:13,color:r.sub,marginBottom:16,lineHeight:1.5}}>Elindeki malzemelerin fotoğrafını çek — AI ne yapabileceğini söylesin:</div>
+                        <div style={{display:"flex",gap:10,marginBottom:16}}>
+                          <label style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,padding:"20px 10px",borderRadius:16,border:`2px dashed rgba(249,115,22,.35)`,background:d?"rgba(249,115,22,.04)":"rgba(249,115,22,.03)",cursor:"pointer"}}>
+                            <div style={{fontSize:32}}>📸</div>
+                            <div style={{fontSize:12,fontWeight:800,color:"#f97316"}}>Kamera</div>
+                            <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={e=>{
+                              const file=e.target.files?.[0]; if(!file)return;
+                              setFotoTarifYuk(true); setFotoTarifSonuc(null);
+                              const reader=new FileReader();
+                              reader.onload=async(ev)=>{
+                                try{
+                                  const b64=ev.target.result.split(",")[1];
+                                  const p=profil;
+                                  const resp=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                                    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,
+                                      messages:[{role:"user",content:[
+                                        {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
+                                        {type:"text",text:`Kullanıcı: ${p.kilo||"?"}kg, hedef: ${p.hedef||"?"}. Fotoğraftaki malzemelerle yapılabilecek en iyi tarifi öner. JSON: {yemekAdi:string,sure:string,kalori:number,malzemeler:[{miktar:string,isim:string}],adimlar:[string],ipucu:string}`}
+                                      ]}]})});
+                                  const data=await resp.json();
+                                  const text=data.content?.[0]?.text||"{}";
+                                  setFotoTarifSonuc(JSON.parse(text.replace(/```json|```/g,"").trim()));
+                                }catch(e){}
+                                setFotoTarifYuk(false);
+                              };
+                              reader.readAsDataURL(file);
+                            }}/>
+                          </label>
+                          <label style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:8,padding:"20px 10px",borderRadius:16,border:`2px dashed rgba(139,92,246,.35)`,background:d?"rgba(139,92,246,.04)":"rgba(139,92,246,.03)",cursor:"pointer"}}>
+                            <div style={{fontSize:32}}>🖼️</div>
+                            <div style={{fontSize:12,fontWeight:800,color:"#8b5cf6"}}>Galeri</div>
+                            <input type="file" accept="image/*" style={{display:"none"}} onChange={e=>{
+                              const file=e.target.files?.[0]; if(!file)return;
+                              setFotoTarifYuk(true); setFotoTarifSonuc(null);
+                              const reader=new FileReader();
+                              reader.onload=async(ev)=>{
+                                try{
+                                  const b64=ev.target.result.split(",")[1];
+                                  const p=profil;
+                                  const resp=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                                    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,
+                                      messages:[{role:"user",content:[
+                                        {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
+                                        {type:"text",text:`Kullanıcı: ${p.kilo||"?"}kg, hedef: ${p.hedef||"?"}. Fotoğraftaki malzemelerle yapılabilecek en iyi tarifi öner. JSON: {yemekAdi:string,sure:string,kalori:number,malzemeler:[{miktar:string,isim:string}],adimlar:[string],ipucu:string}`}
+                                      ]}]})});
+                                  const data=await resp.json();
+                                  const text=data.content?.[0]?.text||"{}";
+                                  setFotoTarifSonuc(JSON.parse(text.replace(/```json|```/g,"").trim()));
+                                }catch(e){}
+                                setFotoTarifYuk(false);
+                              };
+                              reader.readAsDataURL(file);
+                            }}/>
+                          </label>
+                        </div>
+                        {fotoTarifYuk&&<div style={{textAlign:"center",padding:"20px 0",color:r.sub,fontSize:13}}>🤖 Malzemeler analiz ediliyor, tarif hazırlanıyor...</div>}
+                        {fotoTarifSonuc&&!fotoTarifYuk&&(
+                          <div style={{background:d?"rgba(249,115,22,.08)":"rgba(249,115,22,.05)",border:"1px solid rgba(249,115,22,.2)",borderRadius:16,padding:16}}>
+                            <div style={{fontSize:18,fontWeight:900,color:"#f97316",marginBottom:4}}>{fotoTarifSonuc.yemekAdi}</div>
+                            <div style={{fontSize:11,color:r.sub,marginBottom:12}}>⏱ {fotoTarifSonuc.sure} · 🔥 {fotoTarifSonuc.kalori} kcal</div>
+                            <div style={{fontSize:12,fontWeight:700,color:r.text,marginBottom:6}}>Malzemeler:</div>
+                            {fotoTarifSonuc.malzemeler?.map((m,i)=><div key={i} style={{fontSize:12,color:r.sub,paddingLeft:8,marginBottom:2}}>• {m.miktar} {m.isim}</div>)}
+                            <div style={{fontSize:12,fontWeight:700,color:r.text,margin:"10px 0 6px"}}>Yapılışı:</div>
+                            {fotoTarifSonuc.adimlar?.map((a,i)=><div key={i} style={{fontSize:12,color:r.sub,paddingLeft:8,marginBottom:4}}>{i+1}. {a}</div>)}
+                            {fotoTarifSonuc.ipucu&&<div style={{fontSize:11,color:"#f97316",background:"rgba(249,115,22,.08)",borderRadius:8,padding:"8px 10px",marginTop:10}}>💡 {fotoTarifSonuc.ipucu}</div>}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -6760,7 +6490,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       const akt=tab===n.id;
                       return(
                       <button key={n.id} onClick={()=>{
-                        if(n.id==="__yemekasistani__"){setYemekAsistaniAcik(true);setYemekAsistaniSlayt(0);}
+                        if(n.id==="__yemekasistani__"){setYemekAsistaniAcik(true);setYemekAsistaniSlayt(0);setYemekEkleSekme("oneri");}
                         else if(n.id==="__alisveris__"){setAlisverisModal(true);}
                         else if(n.id==="__alerji__"){setAlerjiModal(true);}
                         else if(n.id==="__kilotakip__"){setKiloGirModal(true);setKiloInput(profil.kilo||"");setKiloNot("");}
@@ -6933,7 +6663,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 
               {/* Sekmeler */}
               <div style={{display:"flex",padding:"10px 14px 0",gap:4,flexShrink:0}}>
-                {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"icerik",ikon:"🧪",l:"İçerik"},{k:"tarif",ikon:"👨‍🍳",l:"Tarif"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
+                {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
                   <button key={s.k} onClick={()=>{setYemekEkleSekme(s.k);setBesinArama("");setHizliSonuc(null);}}
                     style={{flex:1,padding:"8px 4px",borderRadius:"12px 12px 0 0",border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
                       background:yemekEkleSekme===s.k?(d?"#1e293b":"#fff"):d?"#0f172a":"#f8fafc",
@@ -7052,280 +6782,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 
                 {/* HIZLI EKLE sekmesi */}
     
-            {/* ═══ İÇERİK ANALİZİ SEKMESİ ═══ */}
-            {yemekEkleSekme==="icerik"&&(
-              <div style={{paddingTop:8}}>
-                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>🧪 İçerik Analizi</div>
-                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Ürün arkasındaki içerik listesini yapıştır — katkı maddeleri kırmızıyla işaretlenecek</div>
-                <textarea
-                  value={icerikMetin} onChange={e=>setIcerikMetin(e.target.value)}
-                  placeholder={"Örn: Buğday unu, su, tuz, E211, E322, E471, şeker, malt özü..."}
-                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
-                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
-                    resize:"none",height:100,outline:"none",boxSizing:"border-box",marginBottom:10}}
-                />
-                <div style={{display:"flex",gap:8,marginBottom:16}}>
-                  <button onClick={async()=>{
-                    if(!icerikMetin.trim()) return;
-                    setIcerikYuk(true);
-                    try{
-                      const sistem = "Sen bir gıda uzmanısın. Kullanıcının verdiği içerik listesini analiz et. JSON döndür: {ozet:string, katkiMaddeleri:[{kod:string,ad:string,tehlikeli:boolean,aciklama:string}], guvenli:boolean, uyari:string|null}. Tehlikeli katkı maddelerini işaretle.";
-                      const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                        body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:800,system:sistem,
-                          messages:[{role:"user",content:"İçerik listesi: "+icerikMetin}]})});
-                      const data = await res.json();
-                      const txt = data.content?.[0]?.text||"";
-                      const clean = txt.replace(/```json|```/g,"").trim();
-                      setIcerikAnaliz(JSON.parse(clean));
-                    }catch(e){
-                      setIcerikAnaliz({ozet:"Analiz yapılamadı",katkiMaddeleri:[],guvenli:true,uyari:null});
-                    }
-                    setIcerikYuk(false);
-                  }}
-                  style={{...BTN("#16a34a","11px 20px"),flex:2,fontSize:13,fontWeight:800,
-                    boxShadow:"0 4px 14px rgba(16,163,74,.25)"}}>
-                    {icerikYuk?"⏳ Analiz ediliyor...":"🔬 Analiz Et"}
-                  </button>
-                  <button onClick={()=>{setIcerikMetin("");setIcerikAnaliz(null);}}
-                    style={{...BTN("transparent","11px 14px"),flex:1,fontSize:12,border:`1px solid ${r.brd}`,color:r.sub}}>
-                    Temizle
-                  </button>
-                </div>
 
-                {/* Sonuç */}
-                {icerikAnaliz&&(
-                  <div>
-                    {/* Genel durum */}
-                    <div style={{background:icerikAnaliz.guvenli?"rgba(16,163,74,.08)":"rgba(220,38,38,.08)",
-                      border:`1px solid ${icerikAnaliz.guvenli?"rgba(16,163,74,.25)":"rgba(220,38,38,.25)"}`,
-                      borderRadius:14,padding:"12px 14px",marginBottom:12}}>
-                      <div style={{fontSize:14,fontWeight:900,color:icerikAnaliz.guvenli?"#16a34a":"#dc2626",marginBottom:4}}>
-                        {icerikAnaliz.guvenli?"✅ Genel olarak güvenli":"⚠️ Dikkat edilmesi gereken maddeler var"}
-                      </div>
-                      <div style={{fontSize:12,color:r.text}}>{icerikAnaliz.ozet}</div>
-                      {icerikAnaliz.uyari&&(
-                        <div style={{marginTop:8,fontSize:11,color:"#dc2626",fontWeight:700}}>⚠️ {icerikAnaliz.uyari}</div>
-                      )}
-                    </div>
-
-                    {/* Katkı maddeleri */}
-                    {icerikAnaliz.katkiMaddeleri.length>0&&(
-                      <div>
-                        <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Katkı Maddeleri</div>
-                        {icerikAnaliz.katkiMaddeleri.map((k,i)=>(
-                          <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 12px",
-                            borderRadius:12,marginBottom:6,
-                            background:k.tehlikeli?"rgba(220,38,38,.06)":"rgba(16,163,74,.04)",
-                            border:`1px solid ${k.tehlikeli?"rgba(220,38,38,.2)":"rgba(16,163,74,.1)"}`}}>
-                            <div style={{flexShrink:0,width:44,height:22,borderRadius:6,
-                              background:k.tehlikeli?"#dc2626":"#16a34a",
-                              display:"flex",alignItems:"center",justifyContent:"center",
-                              fontSize:9,fontWeight:900,color:"#fff",marginTop:1}}>
-                              {k.kod}
-                            </div>
-                            <div style={{flex:1}}>
-                              <div style={{fontSize:12,fontWeight:800,color:k.tehlikeli?"#dc2626":r.text}}>{k.ad}</div>
-                              <div style={{fontSize:10,color:r.sub,marginTop:2}}>{k.aciklama}</div>
-                            </div>
-                            <div style={{fontSize:16,flexShrink:0}}>{k.tehlikeli?"🔴":"🟢"}</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* ═══ TARİF SEKMESİ ═══ */}
-            {yemekEkleSekme==="tarif"&&(
-              <div style={{paddingTop:8}}>
-                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>👨‍🍳 AI Yemek Yapma</div>
-                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Elindeki malzemeleri yaz — sana özel sağlıklı tarif hazırlayalım</div>
-                {/* Fotoğrafla yardım */}
-                <div style={{display:"flex",gap:8,marginBottom:12}}>
-                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
-                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
-                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
-                    <input type="file" accept="image/*" style={{display:"none"}} onChange={async(e)=>{
-                      const file=e.target.files?.[0]; if(!file) return;
-                      setTarifFotoYuk(true);
-                      const reader=new FileReader();
-                      reader.onload=async(ev)=>{
-                        const b64=ev.target.result.split(",")[1];
-                        try{
-                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
-                              messages:[{role:"user",content:[
-                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
-                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
-                              ]}]})});
-                          const data=await res.json();
-                          const txt=data.content?.[0]?.text||"";
-                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
-                        }catch(e){console.error(e);}
-                        setTarifFotoYuk(false);
-                      };
-                      reader.readAsDataURL(file);
-                    }}/>
-                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📷 Fotoğraftan malzeme tara"}
-                  </label>
-                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
-                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
-                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
-                    <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={async(e)=>{
-                      const file=e.target.files?.[0]; if(!file) return;
-                      setTarifFotoYuk(true);
-                      const reader=new FileReader();
-                      reader.onload=async(ev)=>{
-                        const b64=ev.target.result.split(",")[1];
-                        try{
-                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
-                              messages:[{role:"user",content:[
-                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
-                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
-                              ]}]})});
-                          const data=await res.json();
-                          const txt=data.content?.[0]?.text||"";
-                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
-                        }catch(e){console.error(e);}
-                        setTarifFotoYuk(false);
-                      };
-                      reader.readAsDataURL(file);
-                    }}/>
-                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📸 Kamera ile çek"}
-                  </label>
-                </div>
-
-                <textarea
-                  value={tarifIcerik} onChange={e=>setTarifIcerik(e.target.value)}
-                  placeholder={"Örn: tavuk göğsü, brokoli, zeytinyağı, sarımsak, limon\nYa da: dolma biber, kıyma, pirinç, domates"}
-                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
-                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
-                    resize:"none",height:90,outline:"none",boxSizing:"border-box",marginBottom:10}}
-                />
-                {/* Diyet tercihi */}
-                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
-                  {["Sağlıklı","Az karbonhidrat","Vejetaryen","Vegan","Yüksek protein","Hızlı (<20dk)"].map(t=>(
-                    <button key={t} onClick={()=>setTarifIcerik(p=>p+(p?", ":"")+t)}
-                      style={{padding:"4px 10px",borderRadius:20,border:`1px solid ${r.brd}`,
-                        background:r.card,color:r.sub,fontSize:10,fontWeight:700,cursor:"pointer"}}>
-                      {t}
-                    </button>
-                  ))}
-                </div>
-                <button onClick={async()=>{
-                  if(!tarifIcerik.trim()) return;
-                  setTarifYuk(true); setTarifSonuc(null);
-                  try{
-                    const profStr = profil.kilo?`Kullanıcı: ${profil.kilo}kg, hedef: ${profil.hedef}`:"";
-                    const sistem = `Sen sağlıklı beslenme uzmanı bir şefsın. Kullanıcının verdiği malzemelere göre tarif hazırla. JSON döndür: {yemekAdi:string, sure:string, kalori:number, malzemeler:[{miktar:string,isim:string}], adimlar:[string], ipucu:string, besinDegerleri:{protein:number,karbonhidrat:number,yag:number}}. ${profStr}`;
-                    const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-                      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,system:sistem,
-                        messages:[{role:"user",content:"Malzemeler: "+tarifIcerik}]})});
-                    const data = await res.json();
-                    const txt = data.content?.[0]?.text||"";
-                    const clean = txt.replace(/```json|```/g,"").trim();
-                    setTarifSonuc(JSON.parse(clean));
-                  }catch(e){
-                    setTarifSonuc(null);
-                  }
-                  setTarifYuk(false);
-                }}
-                style={{...BTN("#f59e0b","12px 0"),width:"100%",fontSize:14,fontWeight:900,
-                  boxShadow:"0 4px 14px rgba(245,158,11,.25)",marginBottom:16}}>
-                  {tarifYuk?"⏳ Tarif hazırlanıyor...":"🍳 Tarif Oluştur"}
-                </button>
-
-                {/* Tarif sonucu */}
-                {tarifSonuc&&(
-                  <div style={{borderRadius:16,overflow:"hidden",border:`1px solid ${r.brd}`}}>
-                    {/* Header */}
-                    <div style={{background:"linear-gradient(135deg,#f59e0b,#d97706)",padding:"16px"}}>
-                      <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:4}}>{tarifSonuc.yemekAdi}</div>
-                      <div style={{display:"flex",gap:12}}>
-                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>⏱ {tarifSonuc.sure}</span>
-                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>🔥 {tarifSonuc.kalori} kcal</span>
-                      </div>
-                      {/* Besin değerleri */}
-                      <div style={{display:"flex",gap:8,marginTop:8}}>
-                        {[["P",tarifSonuc.besinDegerleri?.protein+"g"],["K",tarifSonuc.besinDegerleri?.karbonhidrat+"g"],["Y",tarifSonuc.besinDegerleri?.yag+"g"]].map(([l,v])=>(
-                          <div key={l} style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 8px",fontSize:10,color:"#fff",fontWeight:800}}>
-                            {l}: {v}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    {/* İçerik */}
-                    <div style={{background:r.card,padding:"14px"}}>
-                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Malzemeler</div>
-                      <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
-                        {tarifSonuc.malzemeler?.map((m,i)=>(
-                          <span key={i} style={{background:d?"rgba(245,158,11,.12)":"rgba(245,158,11,.08)",
-                            border:"1px solid rgba(245,158,11,.2)",color:"#d97706",
-                            borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>
-                            {m.miktar} {m.isim}
-                          </span>
-                        ))}
-                      </div>
-                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Yapılışı</div>
-                      {tarifSonuc.adimlar?.map((a,i)=>(
-                        <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
-                          <div style={{width:22,height:22,borderRadius:"50%",background:"#f59e0b",
-                            display:"flex",alignItems:"center",justifyContent:"center",
-                            fontSize:10,fontWeight:900,color:"#fff",flexShrink:0,marginTop:1}}>
-                            {i+1}
-                          </div>
-                          <div style={{fontSize:12,color:r.text,lineHeight:1.5}}>{a}</div>
-                        </div>
-                      ))}
-                      {tarifSonuc.ipucu&&(
-                        <div style={{background:"rgba(245,158,11,.08)",border:"1px solid rgba(245,158,11,.2)",
-                          borderRadius:10,padding:"10px 12px",marginTop:8}}>
-                          <div style={{fontSize:11,color:"#d97706",fontWeight:700}}>💡 {tarifSonuc.ipucu}</div>
-                        </div>
-                      )}
-                      {/* Yemeği ekle */}
-                      <div style={{display:"flex",gap:8,marginTop:12}}>
-                        <button onClick={()=>{
-                          if(!tarifSonuc) return;
-                          const yeni={ad:tarifSonuc.yemekAdi,gram:100,gramKal:tarifSonuc.kalori,
-                            protein:tarifSonuc.besinDegerleri?.protein||0,
-                            karbonhidrat:tarifSonuc.besinDegerleri?.karbonhidrat||0,
-                            yag:tarifSonuc.besinDegerleri?.yag||0,kaynak:"tarif"};
-                          gunEkle(secTarih,"ogle",yeni);
-                        }} style={{...BTN("#16a34a","11px 0"),flex:1,fontSize:13,fontWeight:800,
-                          boxShadow:"0 4px 14px rgba(16,163,74,.2)"}}>
-                          ✅ Günlüğe Ekle
-                        </button>
-                        <button onClick={()=>setTarifTakvimModal(true)}
-                          style={{...BTN("#7c3aed","11px 0"),flex:1,fontSize:13,fontWeight:800,
-                            boxShadow:"0 4px 14px rgba(124,58,237,.2)"}}>
-                          📅 Takvime Ekle
-                        </button>
-                      </div>
-                      {/* Alışveriş listesine ekle */}
-                      <button onClick={()=>{
-                        if(!tarifSonuc?.malzemeler) return;
-                        const yeniMalzemeler = tarifSonuc.malzemeler.map(m=>({
-                          id:Date.now()+Math.random(),
-                          ad:`${m.miktar} ${m.isim}`,
-                          tarif:tarifSonuc.yemekAdi,
-                          tamamlandi:false,
-                          tarih:new Date().toLocaleDateString("tr-TR"),
-                        }));
-                        setAlisverisListesi(p=>[...p,...yeniMalzemeler]);
-                        setAlisverisModal(true);
-                      }} style={{...BTN("#f59e0b","11px 0"),width:"100%",fontSize:13,fontWeight:800,marginTop:8,
-                        boxShadow:"0 4px 14px rgba(245,158,11,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                        🛒 Malzemeleri Alışveriş Listesine Ekle
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
 
             {yemekEkleSekme==="hizli"&&(
                   <div>
