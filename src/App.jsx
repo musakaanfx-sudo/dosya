@@ -8949,7 +8949,8 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           scene.add(wrapper);
           if (gltf.animations && gltf.animations.length > 0) {
             console.log('GLB animations found:', exerciseId, gltf.animations.length, gltf.animations.map(a=>a.name));
-            mixerRef.current = new THREE.AnimationMixer(model);
+            // gltf.scene kullan, model değil
+            mixerRef.current = new THREE.AnimationMixer(gltf.scene);
             const action = mixerRef.current.clipAction(gltf.animations[0]);
             action.setLoop(THREE.LoopRepeat, Infinity);
             action.timeScale = 1.0;
