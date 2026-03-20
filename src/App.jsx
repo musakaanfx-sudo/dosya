@@ -4327,10 +4327,6 @@ SADECE JSON döndür (başka metin yok):
                             <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{e.set} × {e.rep}</div>
                             <div style={{fontSize:10,color:r.sub}}>~{Math.round(e.kaloriDak*sporSure2/sporProgram.gunler[sporSeciliGun]?.egzersizler.length*60)} kcal</div>
                           </div>
-                          <button onClick={()=>setModel3D({exerciseId:e.id,ad:e.ad})}
-                            style={{background:"rgba(220,38,38,.1)",border:"1px solid rgba(220,38,38,.2)",borderRadius:10,padding:"7px 9px",color:"#dc2626",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",gap:3,fontSize:10,fontWeight:800}}>
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>3D
-                          </button>
                         </div>
                       ))}
                       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"11px",background:"rgba(220,38,38,.06)",border:"1px solid rgba(220,38,38,.12)",borderRadius:14,marginTop:4}}>
@@ -9601,7 +9597,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#1a0505');
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 5, 18);
+    camera.position.set(0, 8, 20);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
@@ -9670,19 +9666,30 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
         const size = box.getSize(new THREE.Vector3());
         const scale = 10 / Math.max(size.x, size.y, size.z);
         model.scale.setScalar(scale);
-        model.position.sub(center.multiplyScalar(scale));
-        model.position.y += 3;
+        // Modeli merkeze hizala
+        model.position.set(
+          -center.x * scale,
+          -box.min.y * scale,
+          -center.z * scale
+        );
+        // Mixamo modelleri -90° döndürülmüş gelir, düzelt
+        model.rotation.y = Math.PI;
         // Ten rengi ver
         model.traverse(child => {
           if (child.isMesh) {
             child.material = new THREE.MeshStandardMaterial({color:0xd2a683, roughness:0.8});
           }
         });
+        // Stick figure'ı gizle, sadece GLB göster
+        character.visible = false;
         scene.add(model);
         if (gltf.animations.length > 0) {
           glbMixer = new THREE.AnimationMixer(model);
           glbMixer.clipAction(gltf.animations[0]).play();
         }
+      }, undefined, (err) => {
+        // GLB yüklenemezse stick figure kalır
+        console.warn('GLB yüklenemedi:', err);
       });
     }
 
