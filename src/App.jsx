@@ -8866,9 +8866,24 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
   useEffect(() => {
     let cancelled = false;
     let animationFrameId;
-    let glbMixer = null;
+    const mixerRef = { current: null };
+    let rendererRef = null;
+    let elRef = null;
 
-    // THREE ve GLTFLoader hazır olana kadar bekle
+    const onPointerDown = (e) => { isDragging = true; prevX = e.clientX ?? e.touches?.[0]?.clientX ?? 0; };
+    const onPointerMove = (e) => {
+      if (!isDragging) return;
+      const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+      spherical.theta -= (clientX - prevX) * 0.01;
+      prevX = clientX;
+    };
+    const onPointerUp = () => { isDragging = false; };
+
+    let isDragging = false;
+    let prevX = 0;
+    const spherical = { theta: 0, y: 8 };
+    const RADIUS = 20;
+
     const waitAndInit = () => {
       if (cancelled) return;
       const THREE = window.THREE;
@@ -8876,130 +8891,105 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
         setTimeout(waitAndInit, 200);
         return;
       }
-      init(THREE);
-    };
 
-    const init = (THREE) => {
-      if (cancelled || !mountRef.current) return;
+      if (!mountRef.current) return;
 
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#1a0505');
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('#1a0505');
 
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 8, 20);
+      const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+      camera.position.set(0, 8, 20);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(width, height);
-    renderer.shadowMap.enabled = true;
-    if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(width, height);
+      rendererRef = renderer;
+      mountRef.current.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
-    dirLight.position.set(5, 10, 8);
-    dirLight.castShadow = true;
-    scene.add(dirLight);
+      scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      dirLight.position.set(5, 10, 8);
+      scene.add(dirLight);
+      const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
+      dirLight2.position.set(-5, 5, -8);
+      scene.add(dirLight2);
 
-    // Zemin
-    const floorGeo = new THREE.PlaneGeometry(20, 20);
-    const floorMat = new THREE.MeshStandardMaterial({ color: 0x1a2e1e });
-    const floor = new THREE.Mesh(floorGeo, floorMat);
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
-    scene.add(floor);
+      const floorMesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(30, 30),
+        new THREE.MeshStandardMaterial({ color: 0x111a12 })
+      );
+      floorMesh.rotation.x = -Math.PI / 2;
+      scene.add(floorMesh);
 
-    const clock = new THREE.Clock();
-    const glbUrl = GLB_MAP[exerciseId];
+      const clock = new THREE.Clock();
+      const glbUrl = GLB_MAP[exerciseId];
 
-    if (glbUrl && (window.THREE?.GLTFLoader || window.GLTFLoader)) {
-      const GLTFLoader = window.THREE?.GLTFLoader || window.GLTFLoader;
-      const loader = new GLTFLoader();
-      loader.load(glbUrl, (gltf) => {
-        const model = gltf.scene;
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        const scale = 10 / Math.max(size.x, size.y, size.z);
-        model.scale.setScalar(scale);
-        model.position.set(
-          -center.x * scale,
-          -box.min.y * scale,
-          -center.z * scale
-        );
-        model.rotation.y = Math.PI;
-        model.traverse(child => {
-          if (child.isMesh) {
-            child.castShadow = true;
-            child.material = new THREE.MeshStandardMaterial({ color: 0xd2a683, roughness: 0.8 });
+      if (glbUrl) {
+        const loader = new THREE.GLTFLoader();
+        loader.load(glbUrl, (gltf) => {
+          if (cancelled) return;
+          const model = gltf.scene;
+          const box = new THREE.Box3().setFromObject(model);
+          const size = box.getSize(new THREE.Vector3());
+          const scale = 9 / Math.max(size.x, size.y, size.z);
+          model.scale.setScalar(scale);
+          const box2 = new THREE.Box3().setFromObject(model);
+          model.position.y = -box2.min.y;
+          model.position.x = 0;
+          model.position.z = 0;
+          model.traverse(child => {
+            if (child.isMesh) {
+              child.material = new THREE.MeshStandardMaterial({ color: 0xd2a683, roughness: 0.7 });
+            }
+          });
+          scene.add(model);
+          if (gltf.animations && gltf.animations.length > 0) {
+            mixerRef.current = new THREE.AnimationMixer(model);
+            mixerRef.current.clipAction(gltf.animations[0]).play();
           }
-        });
-        scene.add(model);
-        if (gltf.animations.length > 0) {
-          glbMixer = new THREE.AnimationMixer(model);
-          glbMixer.clipAction(gltf.animations[0]).play();
-        }
-      }, undefined, () => {});
-    }
+        }, undefined, (err) => console.warn('GLB yüklenemedi:', exerciseId));
+      }
 
-    // Orbit kontrol (sürükle = döndür, zoom yok)
-    let isDragging = false;
-    let prevX = 0;
-    let spherical = { theta: 0, y: 8 };
-    const RADIUS = 20;
+      const el = renderer.domElement;
+      elRef = el;
+      el.addEventListener('mousedown', onPointerDown);
+      el.addEventListener('mousemove', onPointerMove);
+      el.addEventListener('mouseup', onPointerUp);
+      el.addEventListener('touchstart', onPointerDown, {passive:true});
+      el.addEventListener('touchmove', onPointerMove, {passive:true});
+      el.addEventListener('touchend', onPointerUp);
 
-    const onPointerDown = (e) => {
-      isDragging = true;
-      prevX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+      const animate = () => {
+        animationFrameId = requestAnimationFrame(animate);
+        const delta = clock.getDelta();
+        if (mixerRef.current) mixerRef.current.update(delta);
+        if (!isDragging) spherical.theta += 0.003;
+        camera.position.x = Math.sin(spherical.theta) * RADIUS;
+        camera.position.z = Math.cos(spherical.theta) * RADIUS;
+        camera.position.y = spherical.y;
+        camera.lookAt(0, 5, 0);
+        renderer.render(scene, camera);
+      };
+      animate();
     };
-    const onPointerMove = (e) => {
-      if (!isDragging) return;
-      const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
-      const dx = clientX - prevX;
-      spherical.theta -= dx * 0.01;
-      prevX = clientX;
-    };
-    const onPointerUp = () => { isDragging = false; };
-
-    const el = renderer.domElement;
-    el.addEventListener('mousedown', onPointerDown);
-    el.addEventListener('mousemove', onPointerMove);
-    el.addEventListener('mouseup', onPointerUp);
-    el.addEventListener('touchstart', onPointerDown, {passive:true});
-    el.addEventListener('touchmove', onPointerMove, {passive:true});
-    el.addEventListener('touchend', onPointerUp);
-
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-      const delta = clock.getDelta();
-      if (glbMixer) glbMixer.update(delta);
-      // Sürüklenmiyorsa yavaş otomatik dön
-      if (!isDragging) spherical.theta += 0.005;
-      camera.position.x = Math.sin(spherical.theta) * RADIUS;
-      camera.position.z = Math.cos(spherical.theta) * RADIUS;
-      camera.position.y = spherical.y;
-      camera.lookAt(0, 5, 0);
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      el.removeEventListener('mousedown', onPointerDown);
-      el.removeEventListener('mousemove', onPointerMove);
-      el.removeEventListener('mouseup', onPointerUp);
-      el.removeEventListener('touchstart', onPointerDown);
-      el.removeEventListener('touchmove', onPointerMove);
-      el.removeEventListener('touchend', onPointerUp);
-      if (mountRef.current && renderer.domElement.parentNode === mountRef.current)
-        mountRef.current.removeChild(renderer.domElement);
-      renderer.dispose();
-    };
-    }; // end init
 
     waitAndInit();
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(animationFrameId);
+      if (elRef) {
+        elRef.removeEventListener('mousedown', onPointerDown);
+        elRef.removeEventListener('mousemove', onPointerMove);
+        elRef.removeEventListener('mouseup', onPointerUp);
+        elRef.removeEventListener('touchstart', onPointerDown);
+        elRef.removeEventListener('touchmove', onPointerMove);
+        elRef.removeEventListener('touchend', onPointerUp);
+      }
+      if (rendererRef) {
+        if (mountRef.current && rendererRef.domElement.parentNode === mountRef.current)
+          mountRef.current.removeChild(rendererRef.domElement);
+        rendererRef.dispose();
+      }
     };
   }, [exerciseId, width, height]);
 
@@ -9007,8 +8997,8 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     <div ref={mountRef} style={{
       width: `${width}px`, height: `${height}px`,
       borderRadius: 16, overflow: 'hidden',
-      background: '#1a0505',
-      display: 'flex', alignItems: 'center', justifyContent: 'center'
+      background: '#1a0505'
     }}/>
   );
 };
+
