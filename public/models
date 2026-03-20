@@ -1,10 +1,9 @@
-public/
-  models/
-    air_squat.glb
-    push_up.glb
-    jumping_jacks.glb
-    plank.glb
-    burpee.glb
-    bicep_curl.glb
-    bicycle_crunch.glb
-    box_jump.glb
+public/models/
+  air_squat.glb
+  bicep_curl.glb
+  bicycle_crunch.glb
+  box_jump.glb
+  burpee.glb
+  jumping_jacks.glb
+  plank.glb
+  push_up.glb
