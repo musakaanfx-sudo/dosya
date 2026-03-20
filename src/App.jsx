@@ -8941,9 +8941,11 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
               child.material = new THREE.MeshStandardMaterial({ color: 0xd2a683, roughness: 0.7 });
             }
           });
-          // Mixamo GLB'ler yatık gelir, dik yap
-          model.rotation.x = -Math.PI / 2;
-          scene.add(model);
+          // Modeli group içine sar, grubu döndür (animasyon model.rotation'ı override eder)
+          const wrapper = new THREE.Group();
+          wrapper.rotation.x = -Math.PI / 2;
+          wrapper.add(model);
+          scene.add(wrapper);
           if (gltf.animations && gltf.animations.length > 0) {
             console.log('GLB animations found:', exerciseId, gltf.animations.length, gltf.animations.map(a=>a.name));
             mixerRef.current = new THREE.AnimationMixer(model);
