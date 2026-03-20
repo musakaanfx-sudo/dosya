@@ -749,6 +749,26 @@ function EgzersizAnim({egzId, ikon}) {
 }
 
 
+// ─── SET SAYAÇ BİLEŞENİ ──────────────────────────────────────
+function SetSayacTimer({ sayac, setSayac, onBit }) {
+  useEffect(() => {
+    if (sayac <= 0) { onBit(); return; }
+    const t = setTimeout(() => setSayac(s => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [sayac]);
+  return null;
+}
+
+// ─── DİNLENME SAYAÇ BİLEŞENİ ────────────────────────────────
+function DinlenmeSayacTimer({ sayac, setSayac, onBit }) {
+  useEffect(() => {
+    if (sayac <= 0) { onBit(); return; }
+    const t = setTimeout(() => setSayac(s => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [sayac]);
+  return null;
+}
+
 // ─── ANA COMPONENT ───────────────────────────────────────────
 export default function App(){
   const profFotoRef = useRef(null);
@@ -937,6 +957,7 @@ export default function App(){
   const [diyYukleniyor,setDiyYukleniyor]=useState(false);
   // ─── KİLO TAKİP ──────────────────────────────────
   const [kiloKayitlar,setKiloKayitlar]=useState([]); // [{tarih,kilo}]
+  const [kiloGecmis,setKiloGecmis]=useState([]); // grafik için geçmiş
   const [kiloGirModal,setKiloGirModal]=useState(false);
   const [kiloInput,setKiloInput]=useState("");
   const [kiloNot,setKiloNot]=useState("");
@@ -944,6 +965,11 @@ export default function App(){
   // ─── GÜNLÜK DİYET LİSTESİ ────────────────────────
   const [diyetListesi,setDiyetListesi]=useState(null); // AI üretilen plan
   const [diyetListesiYuk,setDiyetListesiYuk]=useState(false);
+  const [diyetListesiYukleniyor,setDiyetListesiYukleniyor]=useState(false);
+  // ─── TARİF FİLTRELERİ ────────────────────────────
+  const [tarifKat,setTarifKat]=useState("");
+  const [tarifUlke,setTarifUlke]=useState("");
+  const [tarifLimit,setTarifLimit]=useState(10);
   const [yorumMet,setYorumMet]=useState({});
   const [sikayet,setSikayet]=useState({ hedef:null,sebep:"",modal:false,tip:"kullanici",postId:null,postFotoUrl:null });
 
@@ -1581,170 +1607,101 @@ SADECE JSON döndür (başka metin yok):
 
   // ─── EGZERSIZ VERİTABANI ────────────────────────────────────
   const EGZERSIZ_DB = {
-    // GÖĞÜs
-    sıkıştırma:      {id:"sıkıştırma",ad:"Şınav",ikon:"💪",kas:"Göğüs",ekipman:"yok",
+    // GÖĞÜS
+    sinav: {id:"sinav",ad:"Şınav",ikon:"💪",kas:"Göğüs",ekipman:"yok",
       acik:"Eller omuz genişliğinde, vücut düz. Göğüs yere değecek kadar in.",
-      met:5.5, kaloriDak:0.09,
-      setRep:[{set:3,rep:"8-12"},{set:4,rep:"10-15"},{set:5,rep:"15-20"}],
-      video:"push_up"},
-    genis_sinav:     {id:"genis_sinav",
-      mixamo:true,ad:"Geniş Şınav",ikon:"💪",kas:"Göğüs Dış",ekipman:"yok",
-      acik:"Eller normalden geniş. Daha çok dış göğüs çalışır.",
-      met:5.5,kaloriDak:0.09,setRep:[{set:3,rep:"8-12"},{set:4,rep:"10-15"}],video:"wide_push"},
-    dambil_press:    {id:"dambil_press",ad:"Dambıl Bench Press",ikon:"🏋️",kas:"Göğüs",ekipman:"dambil",
-      acik:"Sırtta yatarak dambılları göğüs hizasında yukarı itin.",
-      met:6,kaloriDak:0.1,setRep:[{set:3,rep:"10-12"},{set:4,rep:"8-12"}],video:"db_press"},
-    dambil_flye:     {id:"dambil_flye",ad:"Dambıl Flye",ikon:"🦅",kas:"Göğüs İç",ekipman:"dambil",
-      acik:"Kollar yanlara açık, hafif kıvrık. Dambılları yukarı getir.",
-      met:5,kaloriDak:0.08,setRep:[{set:3,rep:"12-15"}],video:"db_flye"},
-    // SIRT
-    pullup:          {id:"pullup",ad:"Pull-Up (Barfiks)",ikon:"🏗️",kas:"Sırt",ekipman:"barfix",
-      acik:"Palmar tutuş. Çene bare kadar çekil, kontrollü in.",
-      met:7,kaloriDak:0.12,setRep:[{set:3,rep:"5-10"},{set:4,rep:"8-12"}],video:"pullup"},
-    dambil_row:      {id:"dambil_row",ad:"Tek Kol Dambıl Row",ikon:"🤸",kas:"Sırt",ekipman:"dambil",
-      acik:"Bir dizi bank üzerinde. Dambılı bele çekip kontrollü indir.",
-      met:5.5,kaloriDak:0.09,setRep:[{set:3,rep:"10-12"}],video:"db_row"},
-    superman:        {id:"superman",ad:"Superman",ikon:"🦸",kas:"Alt Sırt",ekipman:"yok",
-      acik:"Yüzüstü yat. Kol ve bacakları aynı anda kaldır, 2 sn tut.",
-      met:3.5,kaloriDak:0.06,setRep:[{set:3,rep:"12-15"}],video:"superman"},
-    // OMUZ
-    dambil_press_omuz:{id:"dambil_press_omuz",ad:"Omuz Press",ikon:"🏋️",kas:"Omuz",ekipman:"dambil",
-      acik:"Ayakta ya da oturarak dambılları başın üzerine itin.",
-      met:5.5,kaloriDak:0.09,setRep:[{set:3,rep:"10-12"}],video:"shoulder_press"},
-    lateral_raise:   {id:"lateral_raise",ad:"Lateral Raise",ikon:"🦋",kas:"Omuz Yan",ekipman:"dambil",
-      acik:"Dambılları yanlara kaldır, omuz seviyesinde dur.",
-      met:4.5,kaloriDak:0.075,setRep:[{set:3,rep:"12-15"}],video:"lateral"},
-    pike_push:       {id:"pike_push",ad:"Pike Şınav",ikon:"⬆️",kas:"Omuz",ekipman:"yok",
-      acik:"Kalçayı yukarı kaldırıp baş aşağı pozisyonda şınav yap.",
-      met:5,kaloriDak:0.08,setRep:[{set:3,rep:"8-12"}],video:"pike_push"},
+      met:5.5,kaloriDak:0.09,
+      setRep:[{set:3,rep:"8-12"},{set:4,rep:"10-15"},{set:5,rep:"15-20"}]},
     // KOL
-    dambil_curl:     {id:"dambil_curl",
-      mixamo:true,ad:"Dambıl Curl",ikon:"💪",kas:"Biceps",ekipman:"dambil",
+    dambil_curl: {id:"dambil_curl",ad:"Dambıl Curl",ikon:"💪",kas:"Biceps",ekipman:"dambil",
       acik:"Dirsekleri sabit tut. Dambılı omzuna doğru curl yap.",
-      met:4.5,kaloriDak:0.075,setRep:[{set:3,rep:"12-15"}],video:"curl"},
-    hammer_curl:     {id:"hammer_curl",
-      mixamo:true,ad:"Hammer Curl",ikon:"🔨",kas:"Biceps/Ön Kol",ekipman:"dambil",
-      acik:"Avuç içi içe bakacak şekilde curl yap.",
-      met:4.5,kaloriDak:0.075,setRep:[{set:3,rep:"12-15"}],video:"hammer"},
-    triceps_dips:    {id:"triceps_dips",ad:"Triceps Dips",ikon:"⬇️",kas:"Triceps",ekipman:"yok",
-      acik:"Sandalye ya da bank kenarında. Dirsekler arkada, vücudu indir.",
-      met:5,kaloriDak:0.08,setRep:[{set:3,rep:"10-15"}],video:"dips"},
-    skull_crusher:   {id:"skull_crusher",ad:"Skull Crusher",ikon:"💀",kas:"Triceps",ekipman:"dambil",
-      acik:"Sırtüstü. Dambılları alna doğru bükerek indir, it.",
-      met:5,kaloriDak:0.08,setRep:[{set:3,rep:"10-12"}],video:"skull"},
-    // BACAK
-    squat:           {id:"squat",
-      mixamo:true,ad:"Squat",ikon:"🦵",kas:"Bacak/Kalça",ekipman:"yok",
-      acik:"Ayaklar omuz genişliğinde. Kalçayı geri çekerek diz 90° olana kadar in.",
-      met:6,kaloriDak:0.1,setRep:[{set:3,rep:"15-20"},{set:4,rep:"12-15"}],video:"squat"},
-    lunge:           {id:"lunge",ad:"Lunge",ikon:"🦵",kas:"Quadriceps",ekipman:"yok",
-      acik:"Adım at, ön diz 90°. Her bacak için tekrar et.",
-      met:5.5,kaloriDak:0.09,setRep:[{set:3,rep:"12 her bacak"}],video:"lunge"},
-    dambil_squat:    {id:"dambil_squat",ad:"Dambıl Squat",ikon:"🏋️",kas:"Bacak",ekipman:"dambil",
-      acik:"Her elde dambıl, normal squat hareketi.",
-      met:6.5,kaloriDak:0.11,setRep:[{set:4,rep:"12-15"}],video:"db_squat"},
-    hip_thrust:      {id:"hip_thrust",ad:"Hip Thrust",ikon:"🍑",kas:"Kalça/Glut",ekipman:"yok",
-      acik:"Sırtı banka daya, kalçayı yukarı kaldır. 1 sn tepede tut.",
-      met:5,kaloriDak:0.08,setRep:[{set:4,rep:"15-20"}],video:"hip_thrust"},
-    calf_raise:      {id:"calf_raise",ad:"Calf Raise",ikon:"🦶",kas:"Baldır",ekipman:"yok",
-      acik:"Parmak uçlarında yüksel, kontrollü in.",
-      met:3.5,kaloriDak:0.06,setRep:[{set:4,rep:"20-25"}],video:"calf"},
-    glut_bridge:     {id:"glut_bridge",ad:"Glut Bridge",ikon:"🌉",kas:"Kalça/Hamstring",ekipman:"yok",
-      acik:"Sırtüstü, dizler bükük. Kalçayı yukarı kaldır, 1 sn tut.",
-      met:4,kaloriDak:0.07,setRep:[{set:3,rep:"15-20"}],video:"glut_bridge"},
+      met:4.5,kaloriDak:0.075,
+      setRep:[{set:3,rep:"12-15"},{set:4,rep:"10-12"}]},
+    hammer_curl: {id:"hammer_curl",ad:"Hammer Curl",ikon:"🔨",kas:"Biceps/Ön Kol",ekipman:"dambil",
+      acik:"Avuç içi içe bakacak şekilde curl yap. Ön kolu da çalıştırır.",
+      met:4.5,kaloriDak:0.075,
+      setRep:[{set:3,rep:"12-15"},{set:4,rep:"10-12"}]},
     // KARIN
-    crunch:          {id:"crunch",ad:"Crunch",ikon:"🔄",kas:"Karın Üst",ekipman:"mat",
-      acik:"Sırtüstü, dizler bükük. Omuzları yerden kaldır, anında bırakma.",
-      met:4,kaloriDak:0.07,setRep:[{set:3,rep:"15-20"}],video:"crunch"},
-    plank:           {id:"plank",
-      mixamo:true,ad:"Plank",ikon:"🪵",kas:"Karın/Core",ekipman:"mat",
-      acik:"Dirsekler omuz altında, vücut düz çizgi. Nefes al.",
-      met:4,kaloriDak:0.07,setRep:[{set:3,rep:"30-60 sn"}],video:"plank"},
-    mountain_climber:{id:"mountain_climber",ad:"Mountain Climber",ikon:"🏔️",kas:"Core/Kardiyo",ekipman:"mat",
-      acik:"Şınav pozisyonunda dizleri göğse doğru hızlı çek.",
-      met:8,kaloriDak:0.13,setRep:[{set:3,rep:"30 sn"}],video:"mountain"},
-    bicycle_crunch:  {id:"bicycle_crunch",
-      mixamo:true,ad:"Bicycle Crunch",ikon:"🚴",kas:"Karın Yan",ekipman:"mat",
+    plank: {id:"plank",ad:"Plank",ikon:"🪵",kas:"Karın/Core",ekipman:"yok",
+      acik:"Dirsekler omuz altında, vücut düz çizgi. Nefes al, karnı sık.",
+      met:4,kaloriDak:0.07,
+      setRep:[{set:3,rep:"30 sn"},{set:3,rep:"45 sn"},{set:4,rep:"60 sn"}]},
+    bicycle_crunch: {id:"bicycle_crunch",ad:"Bicycle Crunch",ikon:"🚴",kas:"Karın Yan",ekipman:"yok",
       acik:"Sırtüstü, dirsek karşı dize değecek şekilde bisiklet hareketi.",
-      met:6,kaloriDak:0.1,setRep:[{set:3,rep:"20 her yan"}],video:"bicycle"},
-    leg_raise:       {id:"leg_raise",ad:"Leg Raise",ikon:"🦵",kas:"Karın Alt",ekipman:"mat",
-      acik:"Sırtüstü, bacakları düz tutarak 90° kaldır, kontrollü indir.",
-      met:4.5,kaloriDak:0.075,setRep:[{set:3,rep:"12-15"}],video:"leg_raise"},
+      met:6,kaloriDak:0.1,
+      setRep:[{set:3,rep:"20 her yan"},{set:4,rep:"25 her yan"}]},
+    // BACAK
+    squat: {id:"squat",ad:"Squat",ikon:"🦵",kas:"Bacak/Kalça",ekipman:"yok",
+      acik:"Ayaklar omuz genişliğinde. Kalçayı geri çekerek diz 90° olana kadar in.",
+      met:6,kaloriDak:0.1,
+      setRep:[{set:3,rep:"15-20"},{set:4,rep:"12-15"},{set:5,rep:"10-12"}]},
     // KARDİYO
-    jumping_jack:    {id:"jumping_jack",
-      mixamo:true,ad:"Jumping Jack",ikon:"⭐",kas:"Tüm Vücut",ekipman:"yok",
+    jumping_jack: {id:"jumping_jack",ad:"Jumping Jack",ikon:"⭐",kas:"Tüm Vücut",ekipman:"yok",
       acik:"Ayaklar birlikte, eller aşağıda başla. Zıpla, ayaklar açılır eller tepede.",
-      met:8.5,kaloriDak:0.14,setRep:[{set:3,rep:"30 sn"}],video:"jj"},
-    burpee:          {id:"burpee",
-      mixamo:true,ad:"Burpee",ikon:"🔥",kas:"Tüm Vücut",ekipman:"yok",
-      acik:"Çök→şınav→çök→zıpla. En etkili kardiyo hareketlerinden biri.",
-      met:12,kaloriDak:0.2,setRep:[{set:3,rep:"8-12"},{set:4,rep:"10-15"}],video:"burpee"},
-    high_knees:      {id:"high_knees",ad:"High Knees",ikon:"🏃",kas:"Bacak/Kardiyo",ekipman:"yok",
-      acik:"Yerde koşar gibi dizleri bele kadar kaldır. Kolları salla.",
-      met:10,kaloriDak:0.17,setRep:[{set:3,rep:"30 sn"}],video:"high_knees"},
-    box_jump:        {id:"box_jump",
-      mixamo:true,ad:"Squat Jump",ikon:"🦘",kas:"Bacak/Kardiyo",ekipman:"yok",
-      acik:"Squat pozisyonundan yukarı zıpla, yumuşak iş.",
-      met:9,kaloriDak:0.15,setRep:[{set:3,rep:"10-12"}],video:"squat_jump"},
+      met:8.5,kaloriDak:0.14,
+      setRep:[{set:3,rep:"30 sn"},{set:4,rep:"40 sn"}]},
+    burpee: {id:"burpee",ad:"Burpee",ikon:"🔥",kas:"Tüm Vücut",ekipman:"yok",
+      acik:"Çök → şınav → çök → zıpla. En etkili kardiyo hareketlerinden biri.",
+      met:12,kaloriDak:0.2,
+      setRep:[{set:3,rep:"8-10"},{set:4,rep:"10-12"},{set:5,rep:"12-15"}]},
+    box_jump: {id:"box_jump",ad:"Squat Jump",ikon:"🦘",kas:"Bacak/Kardiyo",ekipman:"yok",
+      acik:"Squat pozisyonundan yukarı zıpla, yumuşak in.",
+      met:9,kaloriDak:0.15,
+      setRep:[{set:3,rep:"8-10"},{set:4,rep:"10-12"}]},
   };
 
   // PROGRAM ÜRETICI
   const sporProgramUret=(hedef,seviye,ekipmanlar,sure,gun,bolgeler=[])=>{
     const ekip=(e)=>ekipmanlar.includes(e);
-    const hepsiVar=(e)=>!e||ekip(e)||e==="yok";
-    const egz=Object.values(EGZERSIZ_DB).filter(e=>hepsiVar(e.ekipman));
-    
     const setIdx = seviye==="baslangic"?0:seviye==="orta"?1:2;
     const programlar = {
       kilo_ver:{
         ad:"🔥 Yağ Yakım Programı",renk:"#ef4444",
         programlar:[
-          {gun:1,baslik:"Üst Vücut + Kardiyo",egzersizler:["sıkıştırma","triceps_dips","pike_push","mountain_climber","jumping_jack","plank"]},
-          {gun:2,baslik:"Alt Vücut + Kardiyo",egzersizler:["squat","lunge","hip_thrust","high_knees","box_jump","calf_raise"]},
-          {gun:3,baslik:"Full Body HIIT",egzersizler:["burpee","mountain_climber","jumping_jack","squat","sıkıştırma","high_knees"]},
-          {gun:4,baslik:"Karın + Core",egzersizler:["plank","crunch","bicycle_crunch","leg_raise","mountain_climber"]},
+          {gun:1,baslik:"Kardiyo + Göğüs",egzersizler:["jumping_jack","burpee","sinav","bicycle_crunch","plank"]},
+          {gun:2,baslik:"Bacak + Kardiyo",egzersizler:["squat","box_jump","burpee","jumping_jack","bicycle_crunch"]},
+          {gun:3,baslik:"Full Body HIIT",egzersizler:["burpee","jumping_jack","squat","sinav","box_jump"]},
+          {gun:4,baslik:"Core + Kardiyo",egzersizler:["plank","bicycle_crunch","burpee","jumping_jack","squat"]},
         ],
       },
       kas:{
         ad:"💪 Kas Geliştirme",renk:"#7c3aed",
         programlar:[
-          {gun:1,baslik:"Göğüs + Triceps",egzersizler:ekip("dambil")?["dambil_press","dambil_flye","sıkıştırma","triceps_dips","skull_crusher"]:["sıkıştırma","genis_sinav","triceps_dips","pike_push"]},
-          {gun:2,baslik:"Sırt + Biceps",egzersizler:ekip("dambil")?(ekip("barfix")?["pullup","dambil_row","dambil_curl","hammer_curl","superman"]:["dambil_row","dambil_curl","hammer_curl","superman"]):["pullup","superman","triceps_dips"]},
-          {gun:3,baslik:"Omuz + Kol",egzersizler:ekip("dambil")?["dambil_press_omuz","lateral_raise","dambil_curl","hammer_curl","skull_crusher"]:["pike_push","triceps_dips","sıkıştırma"]},
-          {gun:4,baslik:"Bacak + Kalça",egzersizler:ekip("dambil")?["dambil_squat","lunge","hip_thrust","glut_bridge","calf_raise"]:["squat","lunge","hip_thrust","glut_bridge","calf_raise"]},
-          {gun:5,baslik:"Karın + Core",egzersizler:["plank","crunch","bicycle_crunch","leg_raise","mountain_climber"]},
+          {gun:1,baslik:"Göğüs + Kol",egzersizler:ekip("dambil")?["sinav","dambil_curl","hammer_curl","plank","bicycle_crunch"]:["sinav","plank","bicycle_crunch","squat","burpee"]},
+          {gun:2,baslik:"Bacak + Kardiyo",egzersizler:["squat","box_jump","jumping_jack","burpee","bicycle_crunch"]},
+          {gun:3,baslik:"Kol + Core",egzersizler:ekip("dambil")?["dambil_curl","hammer_curl","sinav","plank","bicycle_crunch"]:["sinav","plank","bicycle_crunch","squat","jumping_jack"]},
         ],
       },
       kilo_al:{
         ad:"📈 Kilo Alma Programı",renk:"#16a34a",
         programlar:[
-          {gun:1,baslik:"Üst Vücut Hacim",egzersizler:ekip("dambil")?["dambil_press","dambil_flye","dambil_row","dambil_curl","skull_crusher","pike_push"]:["sıkıştırma","genis_sinav","triceps_dips","pullup"]},
-          {gun:2,baslik:"Alt Vücut Hacim",egzersizler:ekip("dambil")?["dambil_squat","lunge","hip_thrust","calf_raise","glut_bridge"]:["squat","lunge","hip_thrust","glut_bridge","calf_raise"]},
-          {gun:3,baslik:"Güç + Core",egzersizler:["burpee","plank","crunch","superman","leg_raise"]},
+          {gun:1,baslik:"Üst Vücut",egzersizler:ekip("dambil")?["sinav","dambil_curl","hammer_curl","plank","bicycle_crunch"]:["sinav","plank","squat","bicycle_crunch","jumping_jack"]},
+          {gun:2,baslik:"Alt Vücut",egzersizler:["squat","box_jump","burpee","jumping_jack","plank"]},
+          {gun:3,baslik:"Full Body",egzersizler:["burpee","squat","sinav","jumping_jack","bicycle_crunch"]},
         ],
       },
       form:{
         ad:"🎯 Form Geliştirme",renk:"#f59e0b",
         programlar:[
-          {gun:1,baslik:"Üst Vücut Form",egzersizler:["sıkıştırma","pike_push","triceps_dips","plank","mountain_climber"]},
-          {gun:2,baslik:"Alt Vücut Form",egzersizler:["squat","lunge","glut_bridge","calf_raise","hip_thrust"]},
-          {gun:3,baslik:"Core & Esneklik",egzersizler:["plank","crunch","bicycle_crunch","leg_raise","superman"]},
-          {gun:4,baslik:"Kardiyo & Dayanıklılık",egzersizler:["jumping_jack","high_knees","burpee","mountain_climber","box_jump"]},
+          {gun:1,baslik:"Üst Vücut",egzersizler:["sinav","plank","bicycle_crunch","jumping_jack","burpee"]},
+          {gun:2,baslik:"Alt Vücut",egzersizler:["squat","box_jump","jumping_jack","burpee","plank"]},
+          {gun:3,baslik:"Core",egzersizler:["plank","bicycle_crunch","burpee","squat","jumping_jack"]},
+          {gun:4,baslik:"Kardiyo",egzersizler:["jumping_jack","burpee","box_jump","squat","sinav"]},
         ],
       },
       saglik:{
         ad:"🌿 Sağlıklı Yaşam",renk:"#0891b2",
         programlar:[
-          {gun:1,baslik:"Hafif Kardiyo",egzersizler:["jumping_jack","high_knees","squat","plank","crunch"]},
-          {gun:2,baslik:"Esneme + Core",egzersizler:["superman","plank","glut_bridge","calf_raise","crunch"]},
-          {gun:3,baslik:"Aktif Dinlenme",egzersizler:["jumping_jack","mountain_climber","bicycle_crunch","leg_raise","plank"]},
+          {gun:1,baslik:"Hafif Kardiyo",egzersizler:["jumping_jack","squat","plank","bicycle_crunch","sinav"]},
+          {gun:2,baslik:"Core + Denge",egzersizler:["plank","bicycle_crunch","squat","jumping_jack","burpee"]},
+          {gun:3,baslik:"Aktif Dinlenme",egzersizler:["jumping_jack","squat","sinav","plank","bicycle_crunch"]},
         ],
       },
     };
     const pBase=programlar[hedef]||programlar.saglik;
     const gunler=pBase.programlar.slice(0,gun).map(g=>({
       ...g,
-      egzersizler:g.egzersizler.filter(id=>EGZERSIZ_DB[id]&&hepsiVar(EGZERSIZ_DB[id].ekipman))
+      egzersizler:g.egzersizler.filter(id=>EGZERSIZ_DB[id])
         .map(id=>{
           const e=EGZERSIZ_DB[id];
           const sr=e.setRep[Math.min(setIdx,e.setRep.length-1)];
@@ -1816,6 +1773,31 @@ SADECE JSON döndür (başka metin yok):
     setGunluk(prev=>({...prev,[bg]:yeniGun}));
     if(firebaseUID) await gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
     setSporModal(false); setSporSure("30"); setSporTempo("orta");
+  };
+
+  // ─── GÜN EKLE (takvime yemek ekleme yardımcısı) ─────────────
+  const gunEkle = async (tarih, ogun, yeniYemek) => {
+    const kayit = {
+      ...yeniYemek,
+      kat: ogun === "kahvalti" ? "Kahvaltı" : ogun === "ogle" ? "Öğle Yemeği" : ogun === "aksam" ? "Akşam Yemeği" : "Atıştırmalık",
+      saat: new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }),
+      gramKal: yeniYemek.gramKal || yeniYemek.kal || 0,
+      gramPro: yeniYemek.gramPro || yeniYemek.protein || 0,
+      gramKarb: yeniYemek.gramKarb || yeniYemek.karbonhidrat || 0,
+      gramYag: yeniYemek.gramYag || yeniYemek.yag || 0,
+    };
+    const eskiY = gunV(tarih).yemekler || [];
+    const yeniGun = { ...gunV(tarih), yemekler: [...eskiY, kayit] };
+    setGunluk(prev => ({ ...prev, [tarih]: yeniGun }));
+    if (firebaseUID) await gunVeriKaydet(firebaseUID, tarih, yeniGun).catch(console.error);
+  };
+
+  // ─── INTERSTİTİAL GÖSTER (AI öncesi reklam/geçiş) ───────────
+  const interstitialGoster = (callback) => {
+    // Premium kullanıcılar için direkt çağır
+    if (premium || premiumPlus) { callback(); return; }
+    // Ücretsiz kullanıcılar için direkt çağır (reklam entegrasyonu eklenebilir)
+    callback();
   };
 
   // ─── YEMEK EKLE ──────────────────────────────────────────────
@@ -4108,16 +4090,12 @@ SADECE JSON döndür (başka metin yok):
                     </div>
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:20}}>
                       {[
-                        {v:"dambil",  l:"Dambıl",       a:"1 çift yeter",         ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><rect x="2" y="10" width="3" height="4" rx="1"/><rect x="19" y="10" width="3" height="4" rx="1"/></svg>},
-                        {v:"barfix",  l:"Barfiks",       a:"Pull-up bar",          ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="4" x2="22" y2="4"/><path d="M8 4v4a4 4 0 0 0 8 0V4"/></svg>},
-                        {v:"bench",   l:"Bank / Sedir",  a:"Düz bench",            ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M4 12h16v4H4zM7 12V8h10v4"/><line x1="6" y1="16" x2="6" y2="20"/><line x1="18" y1="16" x2="18" y2="20"/></svg>},
-                        {v:"mat",     l:"Egzersiz Matı", a:"Zemin hareketleri",    ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="2" y="8" width="20" height="8" rx="3"/><line x1="2" y1="12" x2="22" y2="12" strokeDasharray="2 2"/></svg>},
-                        {v:"ip",      l:"Atlama İpi",    a:"Kardiyo",              ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6 4l2 2M18 4l-2 2M8 6c0 4-4 6-4 8s2 4 8 4 8-2 8-4-4-4-4-8"/><circle cx="6" cy="3" r="1.5"/><circle cx="18" cy="3" r="1.5"/></svg>},
-                        {v:"direnc",  l:"Direnç Bandı",  a:"Kasları aktive et",    ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M4 12c0-3 2-5 5-5h6c3 0 5 2 5 5s-2 5-5 5H9c-3 0-5-2-5-5z"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/></svg>},
+                        {v:"dambil",  l:"Dambıl",       a:"Curl için gerekli",       ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><rect x="2" y="10" width="3" height="4" rx="1"/><rect x="19" y="10" width="3" height="4" rx="1"/></svg>},
+                        {v:"yok",     l:"Ekipmansız",   a:"Sadece vücut ağırlığı",   ikon:<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/></svg>},
                       ].map(o=>{
-                        const sel=sporEkipman.includes(o.v);
+                        const sel=sporEkipman.includes(o.v)||(o.v==="yok"&&sporEkipman.length===0);
                         return(
-                        <button key={o.v} onClick={()=>setSporEkipman(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
+                        <button key={o.v} onClick={()=>o.v==="yok"?setSporEkipman([]):setSporEkipman(p=>p.includes(o.v)?p.filter(x=>x!==o.v):[...p,o.v])}
                           style={{padding:"14px 10px",borderRadius:12,
                             border:`2px solid ${sel?"#dc2626":d?"rgba(255,255,255,.08)":"rgba(220,38,38,.15)"}`,
                             background:sel?d?"rgba(220,38,38,.12)":"rgba(220,38,38,.06)":r.inp,
@@ -4402,13 +4380,13 @@ SADECE JSON döndür (başka metin yok):
                     {/* Program kartları */}
                     {(()=>{
                       const hareketler = {
-                        karin:  ["crunch","plank","mountain_climber","leg_raise","bicycle_crunch"],
-                        kol:    ["dambil_curl","hammer_curl","triceps_dips","skull_crusher"],
-                        gogus:  ["sinav","genis_sinav","dambil_press","dambil_flye","pike_push"],
-                        sirt:   ["pullup","dambil_row","superman"],
-                        bacak:  ["squat","lunge","hip_thrust","calf_raise","glut_bridge","dambil_squat"],
-                        omuz:   ["lateral_raise","dambil_press_omuz","pike_push"],
-                        tum:    ["squat","sinav","crunch","jumping_jack","burpee","high_knees","mountain_climber"],
+                        karin:  ["plank","bicycle_crunch","burpee","squat"],
+                        kol:    ["dambil_curl","hammer_curl","sinav"],
+                        gogus:  ["sinav","burpee","plank"],
+                        sirt:   ["sinav","burpee","squat"],
+                        bacak:  ["squat","box_jump","burpee","jumping_jack"],
+                        omuz:   ["sinav","burpee","jumping_jack"],
+                        tum:    ["squat","sinav","bicycle_crunch","jumping_jack","burpee","box_jump"],
                       };
                       const bolgeAd = {karin:"Karın Kasları",kol:"Kol",gogus:"Göğüs",sirt:"Sırt",bacak:"Bacak",omuz:"Omuz",tum:"Tüm Vücut"};
                       const bolgeEmoji = {karin:"🔥",kol:"💪",gogus:"🏋️",sirt:"🦅",bacak:"🦵",omuz:"⚡",tum:"🌟"};
@@ -9598,7 +9576,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 }
 
 // ─── MİXAMO GLB HARİTASI ─────────────────────────────────────────────────────
-const GLB_BASE = "https://res.cloudinary.com/SENIN_HESABIN/raw/upload/doya/";
+const GLB_BASE = "/models/";
 const GLB_MAP = {
   squat:          GLB_BASE + "air_squat.glb",
   sinav:          GLB_BASE + "push_up.glb",
@@ -9682,8 +9660,9 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
 
     // GLB varsa yükle
     const glbUrl = GLB_MAP[exerciseId];
-    if (glbUrl && window.THREE?.GLTFLoader) {
-      const loader = new window.THREE.GLTFLoader();
+    if (glbUrl && (window.THREE?.GLTFLoader || window.GLTFLoader)) {
+      const GLTFLoader = window.THREE?.GLTFLoader || window.GLTFLoader;
+      const loader = new GLTFLoader();
       loader.load(glbUrl, (gltf) => {
         const model = gltf.scene;
         const box = new THREE.Box3().setFromObject(model);
@@ -9718,6 +9697,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+      const delta = clock.getDelta();
       const t = clock.elapsedTime;
  if (glbMixer) { glbMixer.update(delta); renderer.render(scene, camera); return; }
       const camAngle = Math.sin(t*0.5)*(Math.PI/4);
