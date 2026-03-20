@@ -736,9 +736,19 @@ export default function App(){
       s.onload=()=>{
         const s2=document.createElement('script');
         s2.src='https://cdn.jsdelivr.net/npm/three@0.128/examples/js/loaders/GLTFLoader.js';
+        s2.onload=()=>{
+          // GLTFLoader r128'de window.THREE.GLTFLoader olarak register olur
+          // Eğer window.GLTFLoader'a düşmüşse THREE altına taşı
+          if(window.GLTFLoader && !window.THREE.GLTFLoader){
+            window.THREE.GLTFLoader = window.GLTFLoader;
+          }
+          window.__threeReady = true;
+        };
         document.head.appendChild(s2);
       };
       document.head.appendChild(s);
+    } else {
+      window.__threeReady = true;
     }
   },[]);
 
@@ -8854,10 +8864,23 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
   const mountRef = useRef(null);
 
   useEffect(() => {
-    if (!window.THREE) return;
-    const THREE = window.THREE;
+    let cancelled = false;
     let animationFrameId;
     let glbMixer = null;
+
+    // THREE ve GLTFLoader hazır olana kadar bekle
+    const waitAndInit = () => {
+      if (cancelled) return;
+      const THREE = window.THREE;
+      if (!THREE || !THREE.GLTFLoader) {
+        setTimeout(waitAndInit, 200);
+        return;
+      }
+      init(THREE);
+    };
+
+    const init = (THREE) => {
+      if (cancelled || !mountRef.current) return;
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#1a0505');
@@ -8969,6 +8992,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
       if (mountRef.current && renderer.domElement.parentNode === mountRef.current)
         mountRef.current.removeChild(renderer.domElement);
       renderer.dispose();
+    };
+    }; // end init
+
+    waitAndInit();
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(animationFrameId);
     };
   }, [exerciseId, width, height]);
 
