@@ -806,6 +806,20 @@ export default function App(){
 
   // ── APP STATE ──
   const [tab,setTab]=useState("anasayfa");
+  const [alisverisListesi,setAlisverisListesi]=useState([]);
+  const [alisverisModal,setAlisverisModal]=useState(false);
+  const [alisverisEkle,setAlisverisEkle]=useState("");
+  const [alisverisGun,setAlisverisGun]=useState(null); // takvim
+  const [tarifTakvimModal,setTarifTakvimModal]=useState(false);
+  const [tarifFotoMetin,setTarifFotoMetin]=useState("");
+  const [tarifFotoYuk,setTarifFotoYuk]=useState(false);
+  const [tarifModal,setTarifModal]=useState(false);
+  const [tarifIcerik,setTarifIcerik]=useState("");
+  const [tarifSonuc,setTarifSonuc]=useState(null);
+  const [tarifYuk,setTarifYuk]=useState(false);
+  const [icerikAnaliz,setIcerikAnaliz]=useState(null);
+  const [icerikYuk,setIcerikYuk]=useState(false);
+  const [icerikMetin,setIcerikMetin]=useState("");
   const [hamMenu,setHamMenu]=useState(false);
   const [profil,setProfil]=useState({ kilo:"",boy:"",yas:"",cinsiyet:"erkek",aktivite:"orta",hedef:"" });
   const [gunluk,setGunluk]=useState({});
@@ -916,6 +930,8 @@ export default function App(){
   const [ekstraAiHak,setEkstraAiHak]=useState(0);
   // ─── AI DİYETİSYEN ───────────────────────────────
   const [diyetisyenAcik,setDiyetisyenAcik]=useState(false);
+  const [diyetListesiAcik,setDiyetListesiAcik]=useState(false);
+  const [diyetGrup,setDiyetGrup]=useState("kilo_ver"); // kilo_ver | vejetaryen | diyabet | tansiyon
   const [diyMesajlar,setDiyMesajlar]=useState([]);
   const [diyYazi,setDiyYazi]=useState("");
   const [diyYukleniyor,setDiyYukleniyor]=useState(false);
@@ -926,7 +942,6 @@ export default function App(){
   const [kiloNot,setKiloNot]=useState("");
   const [kiloGirDeger,setKiloGirDeger]=useState("");
   // ─── GÜNLÜK DİYET LİSTESİ ────────────────────────
-  const [diyetListesiAcik,setDiyetListesiAcik]=useState(false);
   const [diyetListesi,setDiyetListesi]=useState(null); // AI üretilen plan
   const [diyetListesiYuk,setDiyetListesiYuk]=useState(false);
   const [yorumMet,setYorumMet]=useState({});
@@ -1050,6 +1065,11 @@ export default function App(){
     if(!window.THREE){
       const s=document.createElement('script');
       s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.onload=()=>{
+        const s2=document.createElement('script');
+        s2.src='https://cdn.jsdelivr.net/npm/three@0.128/examples/js/loaders/GLTFLoader.js';
+        document.head.appendChild(s2);
+      };
       document.head.appendChild(s);
     }
   },[]);
@@ -1266,6 +1286,11 @@ export default function App(){
             // Günlük verileri yükle
             const gunler = await tumGunleriGetir(user.uid);
             if(Object.keys(gunler).length>0) setGunluk(gunler);
+            // Spor verilerini yükle
+            if(tam.sporProgram) setSporProgram(tam.sporProgram);
+            if(tam.sporTamGunler) setSporTamGunler(tam.sporTamGunler||[]);
+            if(tam.sporGecmis) setSporGecmis(tam.sporGecmis||[]);
+            if(tam.sporSeciliGun!=null) setSporSeciliGun(tam.sporSeciliGun||0);
             // Tüm kullanıcıları yükle (arkadaş arama için)
             const hepsi = await tumKullanicilariGetir();
             setKullanicilar(hepsi);
@@ -1562,7 +1587,8 @@ SADECE JSON döndür (başka metin yok):
       met:5.5, kaloriDak:0.09,
       setRep:[{set:3,rep:"8-12"},{set:4,rep:"10-15"},{set:5,rep:"15-20"}],
       video:"push_up"},
-    genis_sinav:     {id:"genis_sinav",ad:"Geniş Şınav",ikon:"💪",kas:"Göğüs Dış",ekipman:"yok",
+    genis_sinav:     {id:"genis_sinav",
+      mixamo:true,ad:"Geniş Şınav",ikon:"💪",kas:"Göğüs Dış",ekipman:"yok",
       acik:"Eller normalden geniş. Daha çok dış göğüs çalışır.",
       met:5.5,kaloriDak:0.09,setRep:[{set:3,rep:"8-12"},{set:4,rep:"10-15"}],video:"wide_push"},
     dambil_press:    {id:"dambil_press",ad:"Dambıl Bench Press",ikon:"🏋️",kas:"Göğüs",ekipman:"dambil",
@@ -1592,10 +1618,12 @@ SADECE JSON döndür (başka metin yok):
       acik:"Kalçayı yukarı kaldırıp baş aşağı pozisyonda şınav yap.",
       met:5,kaloriDak:0.08,setRep:[{set:3,rep:"8-12"}],video:"pike_push"},
     // KOL
-    dambil_curl:     {id:"dambil_curl",ad:"Dambıl Curl",ikon:"💪",kas:"Biceps",ekipman:"dambil",
+    dambil_curl:     {id:"dambil_curl",
+      mixamo:true,ad:"Dambıl Curl",ikon:"💪",kas:"Biceps",ekipman:"dambil",
       acik:"Dirsekleri sabit tut. Dambılı omzuna doğru curl yap.",
       met:4.5,kaloriDak:0.075,setRep:[{set:3,rep:"12-15"}],video:"curl"},
-    hammer_curl:     {id:"hammer_curl",ad:"Hammer Curl",ikon:"🔨",kas:"Biceps/Ön Kol",ekipman:"dambil",
+    hammer_curl:     {id:"hammer_curl",
+      mixamo:true,ad:"Hammer Curl",ikon:"🔨",kas:"Biceps/Ön Kol",ekipman:"dambil",
       acik:"Avuç içi içe bakacak şekilde curl yap.",
       met:4.5,kaloriDak:0.075,setRep:[{set:3,rep:"12-15"}],video:"hammer"},
     triceps_dips:    {id:"triceps_dips",ad:"Triceps Dips",ikon:"⬇️",kas:"Triceps",ekipman:"yok",
@@ -1605,7 +1633,8 @@ SADECE JSON döndür (başka metin yok):
       acik:"Sırtüstü. Dambılları alna doğru bükerek indir, it.",
       met:5,kaloriDak:0.08,setRep:[{set:3,rep:"10-12"}],video:"skull"},
     // BACAK
-    squat:           {id:"squat",ad:"Squat",ikon:"🦵",kas:"Bacak/Kalça",ekipman:"yok",
+    squat:           {id:"squat",
+      mixamo:true,ad:"Squat",ikon:"🦵",kas:"Bacak/Kalça",ekipman:"yok",
       acik:"Ayaklar omuz genişliğinde. Kalçayı geri çekerek diz 90° olana kadar in.",
       met:6,kaloriDak:0.1,setRep:[{set:3,rep:"15-20"},{set:4,rep:"12-15"}],video:"squat"},
     lunge:           {id:"lunge",ad:"Lunge",ikon:"🦵",kas:"Quadriceps",ekipman:"yok",
@@ -1627,29 +1656,34 @@ SADECE JSON döndür (başka metin yok):
     crunch:          {id:"crunch",ad:"Crunch",ikon:"🔄",kas:"Karın Üst",ekipman:"mat",
       acik:"Sırtüstü, dizler bükük. Omuzları yerden kaldır, anında bırakma.",
       met:4,kaloriDak:0.07,setRep:[{set:3,rep:"15-20"}],video:"crunch"},
-    plank:           {id:"plank",ad:"Plank",ikon:"🪵",kas:"Karın/Core",ekipman:"mat",
+    plank:           {id:"plank",
+      mixamo:true,ad:"Plank",ikon:"🪵",kas:"Karın/Core",ekipman:"mat",
       acik:"Dirsekler omuz altında, vücut düz çizgi. Nefes al.",
       met:4,kaloriDak:0.07,setRep:[{set:3,rep:"30-60 sn"}],video:"plank"},
     mountain_climber:{id:"mountain_climber",ad:"Mountain Climber",ikon:"🏔️",kas:"Core/Kardiyo",ekipman:"mat",
       acik:"Şınav pozisyonunda dizleri göğse doğru hızlı çek.",
       met:8,kaloriDak:0.13,setRep:[{set:3,rep:"30 sn"}],video:"mountain"},
-    bicycle_crunch:  {id:"bicycle_crunch",ad:"Bicycle Crunch",ikon:"🚴",kas:"Karın Yan",ekipman:"mat",
+    bicycle_crunch:  {id:"bicycle_crunch",
+      mixamo:true,ad:"Bicycle Crunch",ikon:"🚴",kas:"Karın Yan",ekipman:"mat",
       acik:"Sırtüstü, dirsek karşı dize değecek şekilde bisiklet hareketi.",
       met:6,kaloriDak:0.1,setRep:[{set:3,rep:"20 her yan"}],video:"bicycle"},
     leg_raise:       {id:"leg_raise",ad:"Leg Raise",ikon:"🦵",kas:"Karın Alt",ekipman:"mat",
       acik:"Sırtüstü, bacakları düz tutarak 90° kaldır, kontrollü indir.",
       met:4.5,kaloriDak:0.075,setRep:[{set:3,rep:"12-15"}],video:"leg_raise"},
     // KARDİYO
-    jumping_jack:    {id:"jumping_jack",ad:"Jumping Jack",ikon:"⭐",kas:"Tüm Vücut",ekipman:"yok",
+    jumping_jack:    {id:"jumping_jack",
+      mixamo:true,ad:"Jumping Jack",ikon:"⭐",kas:"Tüm Vücut",ekipman:"yok",
       acik:"Ayaklar birlikte, eller aşağıda başla. Zıpla, ayaklar açılır eller tepede.",
       met:8.5,kaloriDak:0.14,setRep:[{set:3,rep:"30 sn"}],video:"jj"},
-    burpee:          {id:"burpee",ad:"Burpee",ikon:"🔥",kas:"Tüm Vücut",ekipman:"yok",
+    burpee:          {id:"burpee",
+      mixamo:true,ad:"Burpee",ikon:"🔥",kas:"Tüm Vücut",ekipman:"yok",
       acik:"Çök→şınav→çök→zıpla. En etkili kardiyo hareketlerinden biri.",
       met:12,kaloriDak:0.2,setRep:[{set:3,rep:"8-12"},{set:4,rep:"10-15"}],video:"burpee"},
     high_knees:      {id:"high_knees",ad:"High Knees",ikon:"🏃",kas:"Bacak/Kardiyo",ekipman:"yok",
       acik:"Yerde koşar gibi dizleri bele kadar kaldır. Kolları salla.",
       met:10,kaloriDak:0.17,setRep:[{set:3,rep:"30 sn"}],video:"high_knees"},
-    box_jump:        {id:"box_jump",ad:"Squat Jump",ikon:"🦘",kas:"Bacak/Kardiyo",ekipman:"yok",
+    box_jump:        {id:"box_jump",
+      mixamo:true,ad:"Squat Jump",ikon:"🦘",kas:"Bacak/Kardiyo",ekipman:"yok",
       acik:"Squat pozisyonundan yukarı zıpla, yumuşak iş.",
       met:9,kaloriDak:0.15,setRep:[{set:3,rep:"10-12"}],video:"squat_jump"},
   };
@@ -1749,16 +1783,24 @@ SADECE JSON döndür (başka metin yok):
     setGunluk(prev=>({...prev,[bg]:yeniGun}));
     if(firebaseUID) await gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
     setAntBitmis(true);
-    setSporTamGunler(p=>p.includes(aktifAntrenman?.gunIdx||0)?p:[...p,aktifAntrenman?.gunIdx||0]);
-    setSporGecmis(p=>[{
-      tarih:new Date().toLocaleDateString("tr-TR"),
-      saat:new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}),
-      program:sporProgram?.ad||"Antrenman",
-      gunBaslik:aktifAntrenman?.baslik||"",
-      sure:antSaniye,
-      kcal:Math.round(antSaniye/60*6),
-      egzSayi:aktifAntrenman?.egzersizler?.length||0,
-    },...p].slice(0,30));
+    setSporTamGunler(p=>{
+      const yeni=p.includes(aktifAntrenman?.gunIdx||0)?p:[...p,aktifAntrenman?.gunIdx||0];
+      if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{sporTamGunler:yeni}).catch(console.error);
+      return yeni;
+    });
+    setSporGecmis(p=>{
+      const yeni=[{
+        tarih:new Date().toLocaleDateString("tr-TR"),
+        saat:new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}),
+        program:sporProgram?.ad||"Antrenman",
+        gunBaslik:aktifAntrenman?.baslik||"",
+        sure:antSaniye,
+        kcal:Math.round(antSaniye/60*6),
+        egzSayi:aktifAntrenman?.egzersizler?.length||0,
+      },...p].slice(0,30);
+      if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{sporGecmis:yeni}).catch(console.error);
+      return yeni;
+    });
     setAktifAntrenman(null);
     setAntInterval(null);
   };
@@ -4163,8 +4205,9 @@ SADECE JSON döndür (başka metin yok):
                       <button onClick={()=>{
                         if(!sporHedef&&!sporHedef){setSporSoruAdim(0);return;}
                         if(!sporSeviye){setSporSoruAdim(2);return;}
-                        const prg=sporProgramUret(sporHedef||sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge);
+                        const prg={...sporProgramUret(sporHedef||sporHedef,sporSeviye,sporEkipman,sporSure2,sporGun,sporBolge),kaynak:'onerilen'};
                         setSporProgram(prg);setSporAppAdim(1);
+                        if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{sporProgram:prg,sporTamGunler:[],sporSeciliGun:0}).catch(console.error);
                       }} style={{flex:1,padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
                         background:"linear-gradient(135deg,#dc2626,#b91c1c)",color:"#fff",
                         fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
@@ -4254,38 +4297,48 @@ SADECE JSON döndür (başka metin yok):
                       {sporProgram.gunler.map((gun,gi)=>{
                         const tam=sporTamGunler.includes(gi);
                         const secili=sporSeciliGun===gi;
+                        const kilitli=gi>0&&!sporTamGunler.includes(gi-1);
                         return(
-                        <button key={gi} onClick={()=>setSporSeciliGun(gi)}
-                          style={{width:44,height:44,borderRadius:"50%",
-                            border:`2px solid ${secili?"#dc2626":tam?"#dc2626":"rgba(220,38,38,.2)"}`,
-                            background:tam?"#dc2626":secili?"rgba(220,38,38,.12)":"transparent",
-                            cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
-                          {tam
-                            ?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
-                            :<span style={{fontSize:13,fontWeight:900,color:secili?"#dc2626":"rgba(220,38,38,.5)"}}>{gi+1}</span>
-                          }
-                        </button>
-                      );})}
+                          <button key={gi} onClick={()=>!kilitli&&setSporSeciliGun(gi)}
+                            style={{width:44,height:44,borderRadius:"50%",
+                              border:`2px solid ${kilitli?"rgba(220,38,38,.1)":secili?"#dc2626":tam?"#dc2626":"rgba(220,38,38,.2)"}`,
+                              background:tam?"#dc2626":secili?"rgba(220,38,38,.12)":"transparent",
+                              cursor:kilitli?"not-allowed":"pointer",
+                              opacity:kilitli?0.35:1,
+                              display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
+                            {tam?<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+                            :kilitli?<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(220,38,38,.4)" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            :<span style={{fontSize:13,fontWeight:900,color:secili?"#dc2626":"rgba(220,38,38,.5)"}}>{gi+1}</span>}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
 
                   {/* Seçili gün */}
-                  {sporProgram.gunler[sporSeciliGun]&&(()=>{
-                    const gun=sporProgram.gunler[sporSeciliGun];
-                    const tam=sporTamGunler.includes(sporSeciliGun);
-                    return(
-                    <div>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                        <div>
-                          <div style={{fontSize:15,fontWeight:900,color:r.text}}>{gun.baslik}</div>
-                          <div style={{fontSize:11,color:r.sub}}>{gun.egzersizler.length} egzersiz · ~{sporSure2} dk</div>
-                        </div>
-                        <button onClick={()=>antrenmanBaslat(gun,sporSeciliGun)}
-                          style={{background:tam?"rgba(220,38,38,.1)":"linear-gradient(135deg,#dc2626,#b91c1c)",border:tam?"1.5px solid rgba(220,38,38,.3)":"none",borderRadius:14,padding:"11px 22px",color:tam?"#dc2626":"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",gap:8,boxShadow:tam?"none":"0 4px 16px rgba(220,38,38,.35)"}}>
-                          {tam?<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>Tekrar</>:<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Başlat</>}
-                        </button>
+                  {sporProgram.gunler[sporSeciliGun]&&(<div>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+                      <div>
+                        <div style={{fontSize:15,fontWeight:900,color:r.text}}>{sporProgram.gunler[sporSeciliGun].baslik}</div>
+                        <div style={{fontSize:11,color:r.sub}}>{sporProgram.gunler[sporSeciliGun].egzersizler.length} egzersiz · ~{sporSure2} dk</div>
                       </div>
-                      {gun.egzersizler.map((e,ei)=>(
+                      <button onClick={()=>{if(sporSeciliGun===0||sporTamGunler.includes(sporSeciliGun-1))antrenmanBaslat(sporProgram.gunler[sporSeciliGun],sporSeciliGun);}}
+                        style={{background:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"rgba(220,38,38,.05)":sporTamGunler.includes(sporSeciliGun)?"rgba(220,38,38,.1)":"linear-gradient(135deg,#dc2626,#b91c1c)",
+                          border:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"1.5px solid rgba(220,38,38,.15)":sporTamGunler.includes(sporSeciliGun)?"1.5px solid rgba(220,38,38,.3)":"none",
+                          borderRadius:14,padding:"11px 22px",
+                          color:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"rgba(220,38,38,.3)":sporTamGunler.includes(sporSeciliGun)?"#dc2626":"#fff",
+                          fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:13,
+                          cursor:sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)?"not-allowed":"pointer",
+                          display:"flex",alignItems:"center",gap:8,
+                          boxShadow:sporTamGunler.includes(sporSeciliGun)||(sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1))?"none":"0 4px 16px rgba(220,38,38,.35)"}}>
+                        {sporSeciliGun>0&&!sporTamGunler.includes(sporSeciliGun-1)
+                          ?<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Kilitli</>
+                          :sporTamGunler.includes(sporSeciliGun)
+                            ?<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>Tekrar</>
+                            :<><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Başlat</>}
+                      </button>
+                    </div>
+                      {sporProgram.gunler[sporSeciliGun]?.egzersizler.map((e,ei)=>(
                         <div key={ei} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",borderRadius:14,background:r.card,border:`1px solid ${d?"rgba(255,255,255,.05)":"rgba(0,0,0,.04)"}`,marginBottom:8}}>
                           <div style={{width:40,height:40,borderRadius:12,background:d?"rgba(220,38,38,.15)":"rgba(220,38,38,.08)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:20}}>{e.ikon}</div>
                           <div style={{flex:1}}>
@@ -4294,7 +4347,7 @@ SADECE JSON döndür (başka metin yok):
                           </div>
                           <div style={{textAlign:"right",flexShrink:0}}>
                             <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{e.set} × {e.rep}</div>
-                            <div style={{fontSize:10,color:r.sub}}>~{Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60)} kcal</div>
+                            <div style={{fontSize:10,color:r.sub}}>~{Math.round(e.kaloriDak*sporSure2/sporProgram.gunler[sporSeciliGun]?.egzersizler.length*60)} kcal</div>
                           </div>
                           <button onClick={()=>setModel3D({exerciseId:e.id,ad:e.ad})}
                             style={{background:"rgba(220,38,38,.1)",border:"1px solid rgba(220,38,38,.2)",borderRadius:10,padding:"7px 9px",color:"#dc2626",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",gap:3,fontSize:10,fontWeight:800}}>
@@ -4304,10 +4357,9 @@ SADECE JSON döndür (başka metin yok):
                       ))}
                       <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"11px",background:"rgba(220,38,38,.06)",border:"1px solid rgba(220,38,38,.12)",borderRadius:14,marginTop:4}}>
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>
-                        <span style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>~{gun.egzersizler.reduce((t,e)=>t+Math.round(e.kaloriDak*sporSure2/gun.egzersizler.length*60),0)} kcal yakım</span>
+                        <span style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>~{sporProgram.gunler[sporSeciliGun]?.egzersizler.reduce((t,e)=>t+Math.round(e.kaloriDak*sporSure2/sporProgram.gunler[sporSeciliGun]?.egzersizler.length*60),0)} kcal yakım</span>
                       </div>
-                    </div>
-                  );})()}
+                  </div>)}
 
                   <button onClick={()=>{setSporAppAdim(0);setSporSoruAdim(-1);setSporTamGunler([]);setSporSeciliGun(0);}}
                     style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,width:"100%",padding:"11px 0",borderRadius:14,border:"1.5px solid rgba(220,38,38,.2)",background:"transparent",color:"rgba(220,38,38,.7)",fontSize:13,fontWeight:700,cursor:"pointer",marginTop:12}}>
@@ -4326,7 +4378,7 @@ SADECE JSON döndür (başka metin yok):
                         {k:"karin", l:"Karın",  emoji:"🔥", bg:"linear-gradient(135deg,#7f1d1d,#dc2626)", desc:"Core & Abs"},
                         {k:"kol",   l:"Kol",    emoji:"💪", bg:"linear-gradient(135deg,#1e3a5f,#2563eb)", desc:"Biceps & Triceps"},
                         {k:"gogus", l:"Göğüs",  emoji:"🏋️", bg:"linear-gradient(135deg,#14532d,#16a34a)", desc:"Pektoral"},
-                        {k:"sirt",  l:"Sırt",   emoji:"🦅", bg:"linear-gradient(135deg,#4c1d95,#7c3aed)", desc:"Lat & Rhomboid"},
+                        {k:"sirt", l:"Sırt", emoji:<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round"><path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 7-3-2-5-4-5-7a5 5 0 0 1 5-5z"/><path d="M5 14c-1.5 1-2 3-2 5h18c0-2-.5-4-2-5"/><line x1="12" y1="14" x2="12" y2="19"/><line x1="9" y1="16" x2="15" y2="16"/></svg>, bg:"linear-gradient(135deg,#4c1d95,#7c3aed)", desc:"Lat & Rhomboid"},
                         {k:"bacak", l:"Bacak",  emoji:"🦵", bg:"linear-gradient(135deg,#92400e,#d97706)", desc:"Quad & Hamstring"},
                         {k:"omuz",  l:"Omuz",   emoji:"⚡", bg:"linear-gradient(135deg,#164e63,#0891b2)", desc:"Deltoid"},
                         {k:"tum",   l:"Tüm Vücut",emoji:"🌟",bg:"linear-gradient(135deg,#3f0000,#dc2626)", desc:"Full Body"},
@@ -4489,15 +4541,22 @@ SADECE JSON döndür (başka metin yok):
                                   });
                                 }
                               }
-                              setSporProgram({
+                              const yeniProg={
                                 ad:prog.ad,
                                 renk:prog.renk,
                                 gunler,
                                 topEgz:gunler.length*egzler.length,
-                              });
+                                kaynak:"kesfet",
+                              };
+                              setSporProgram(yeniProg);
                               setSporTamGunler([]);
                               setSporSeciliGun(0);
                               setSporSekme("plan");
+                              if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{
+                                sporProgram:yeniProg,
+                                sporTamGunler:[],
+                                sporSeciliGun:0,
+                              }).catch(console.error);
                             }} style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
                               background:`linear-gradient(135deg,${prog.renk},${prog.renk2})`,
                               color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
@@ -4515,39 +4574,86 @@ SADECE JSON döndür (başka metin yok):
                 {/* ══ İLERLEME sekmesi ══ */}
                 {sporSekme==="ilerleme"&&(
                   <div>
-                    {/* Mevcut program kartı */}
-                    {sporProgram&&(
-                      <div style={{background:`linear-gradient(135deg,#3f0000,#7f1d1d,#dc2626)`,borderRadius:16,padding:"16px",marginBottom:14,position:"relative",overflow:"hidden"}}>
-                        <div style={{position:"absolute",top:-20,right:-20,width:100,height:100,borderRadius:"50%",background:"rgba(255,255,255,.05)"}}/>
-                        <div style={{fontSize:10,fontWeight:800,color:"rgba(255,255,255,.6)",letterSpacing:2,textTransform:"uppercase",marginBottom:6}}>Önerilen Plan</div>
-                        <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:8}}>{sporProgram.ad}</div>
-                        {/* Progress bar */}
-                        <div style={{height:4,background:"rgba(255,255,255,.15)",borderRadius:2,marginBottom:6}}>
-                          <div style={{height:"100%",width:`${Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)}%`,background:"#fff",borderRadius:2,transition:"width .5s"}}/>
+
+                    {/* Aktif plan kartı - Keşfet ile aynı görünüm */}
+                    {sporProgram?(()=>{
+                      const pct = Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100);
+                      const renk = sporProgram.renk||"#dc2626";
+                      const renk2 = renk==="linear-gradient(135deg,#16a34a,#15803d)"?"#15803d":renk==="linear-gradient(135deg,#d97706,#b45309)"?"#b45309":"#991b1b";
+                      return(
+                      <div style={{borderRadius:18,overflow:"hidden",marginBottom:16,boxShadow:"0 4px 16px rgba(0,0,0,.15)"}}>
+                        {/* Header */}
+                        <div style={{background:`linear-gradient(160deg,${renk2||"#7f1d1d"},${renk||"#dc2626"})`,padding:"20px 18px 16px",position:"relative",overflow:"hidden"}}>
+                          <div style={{position:"absolute",top:-20,right:-20,fontSize:100,opacity:.08}}>💪</div>
+                          <div style={{position:"relative"}}>
+                            {/* Kaynak badge */}
+                            <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(255,255,255,.15)",borderRadius:20,padding:"3px 10px",marginBottom:10,fontSize:9,fontWeight:800,color:"rgba(255,255,255,.9)",letterSpacing:1.5,textTransform:"uppercase"}}>
+                              {sporProgram.kaynak==="kesfet"?"🔍 Keşfet Planı":"📋 Önerilen Plan"}
+                            </div>
+                            <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:8,lineHeight:1.2}}>{sporProgram.ad}</div>
+                            {/* Progress bar */}
+                            <div style={{height:6,background:"rgba(255,255,255,.2)",borderRadius:3,marginBottom:6,overflow:"hidden"}}>
+                              <div style={{height:"100%",width:`${pct}%`,background:"#fff",borderRadius:3,transition:"width .5s"}}/>
+                            </div>
+                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                              <span style={{fontSize:11,color:"rgba(255,255,255,.7)"}}>
+                                {sporTamGunler.length}/{sporProgram.gunler.length} gün · {pct}% tamamlandı
+                              </span>
+                              <span style={{fontSize:11,color:"rgba(255,255,255,.8)",fontWeight:700}}>
+                                {sporProgram.gunler.length} günlük plan
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                          <span style={{fontSize:11,color:"rgba(255,255,255,.65)"}}>
-                            {sporTamGunler.length}/{sporProgram.gunler.length} gün · %{Math.round(sporTamGunler.length/Math.max(sporProgram.gunler.length,1)*100)} tamamlandı
-                          </span>
+                        {/* Alt kısım */}
+                        <div style={{background:r.card,border:`1px solid ${renk||"#dc2626"}22`,padding:"14px 16px"}}>
+                          {/* Gün daireleri mini */}
+                          <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:14}}>
+                            {sporProgram.gunler.slice(0,28).map((_,gi)=>(
+                              <div key={gi} style={{width:22,height:22,borderRadius:"50%",
+                                background:sporTamGunler.includes(gi)?renk||"#dc2626":d?"rgba(255,255,255,.06)":"rgba(0,0,0,.06)",
+                                border:`1px solid ${sporTamGunler.includes(gi)?renk||"#dc2626":"rgba(220,38,38,.15)"}`,
+                                display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                {sporTamGunler.includes(gi)
+                                  ?<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>
+                                  :<span style={{fontSize:8,fontWeight:700,color:"rgba(220,38,38,.4)"}}>{gi+1}</span>
+                                }
+                              </div>
+                            ))}
+                          </div>
                           <button onClick={()=>setSporSekme("plan")}
-                            style={{background:"rgba(255,255,255,.15)",border:"1px solid rgba(255,255,255,.25)",borderRadius:10,padding:"7px 16px",color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12,cursor:"pointer"}}>
-                            Devam Et →
+                            style={{width:"100%",padding:"13px 0",borderRadius:14,border:"none",cursor:"pointer",
+                              background:`linear-gradient(135deg,${renk||"#dc2626"},${renk2||"#991b1b"})`,
+                              color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
+                              boxShadow:`0 4px 16px rgba(220,38,38,.3)`,display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Devam Et — Gün {Math.min(sporTamGunler.length+1,sporProgram.gunler.length)}
                           </button>
                         </div>
                       </div>
+                    );})():( 
+                      <div style={{background:r.card,border:"1px solid rgba(220,38,38,.1)",borderRadius:16,padding:"24px",textAlign:"center",marginBottom:16}}>
+                        <div style={{fontSize:36,marginBottom:8}}>🏋️</div>
+                        <div style={{fontSize:14,fontWeight:800,color:r.text,marginBottom:4}}>Henüz plan seçmedin</div>
+                        <div style={{fontSize:12,color:r.sub,marginBottom:14}}>Keşfet sekmesinden bir program başlat</div>
+                        <button onClick={()=>setSporSekme("kesfet")}
+                          style={{...BTN("#dc2626","10px 20px"),fontSize:13,boxShadow:"0 4px 14px rgba(220,38,38,.3)"}}>
+                          Keşfete Git →
+                        </button>
+                      </div>
                     )}
 
-                    {/* Özet istatistik kartlar */}
+                    {/* Özet istatistikler */}
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:16}}>
                       {[
-                        {l:"Tamamlanan Gün",v:sporTamGunler.length,c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>},
-                        {l:"Toplam Antrenman",v:sporGecmis.length,c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>},
-                        {l:"Toplam Süre",v:(sporGecmis.reduce((t,g)=>t+Math.floor(g.sure/60),0))+" dk",c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>},
-                        {l:"Yakılan Kalori",v:(sporGecmis.reduce((t,g)=>t+g.kcal,0))+" kcal",c:"#dc2626",ikon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>},
+                        {l:"Tamamlanan Gün",v:sporTamGunler.length,ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>},
+                        {l:"Toplam Antrenman",v:sporGecmis.length,ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M6.5 6.5h11M4 12h16"/></svg>},
+                        {l:"Toplam Süre",v:(sporGecmis.reduce((t,g)=>t+Math.floor(g.sure/60),0))+" dk",ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>},
+                        {l:"Yakılan Kalori",v:(sporGecmis.reduce((t,g)=>t+g.kcal,0))+" kcal",ikon:<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2"><path d="M12 2c1.5 4 4 6 4 9a4 4 0 0 1-8 0c0-3 2.5-5 4-9z"/></svg>},
                       ].map((s,i)=>(
                         <div key={i} style={{background:r.card,border:"1px solid rgba(220,38,38,.1)",borderRadius:14,padding:"14px 12px"}}>
                           <div style={{marginBottom:6}}>{s.ikon}</div>
-                          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:700,color:s.c,lineHeight:1}}>{s.v||0}</div>
+                          <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:700,color:"#dc2626",lineHeight:1}}>{s.v||0}</div>
                           <div style={{fontSize:10,color:r.sub,marginTop:4,fontWeight:700}}>{s.l}</div>
                         </div>
                       ))}
@@ -4556,8 +4662,8 @@ SADECE JSON döndür (başka metin yok):
                     {/* Geçmiş antrenmanlar */}
                     <div style={{fontSize:11,fontWeight:800,color:"rgba(220,38,38,.5)",letterSpacing:2,textTransform:"uppercase",marginBottom:10}}>Geçmiş Antrenmanlar</div>
                     {sporGecmis.length===0?(
-                      <div style={{textAlign:"center",color:r.muted,padding:"28px 0",fontSize:13}}>
-                        <div style={{fontSize:36,marginBottom:8}}>🏋️</div>
+                      <div style={{textAlign:"center",color:r.muted,padding:"20px 0",fontSize:13}}>
+                        <div style={{fontSize:32,marginBottom:8}}>📋</div>
                         Henüz antrenman yapmadın.
                       </div>
                     ):sporGecmis.map((g,i)=>(
@@ -4567,14 +4673,14 @@ SADECE JSON döndür (başka metin yok):
                         </div>
                         <div style={{flex:1,minWidth:0}}>
                           <div style={{fontSize:13,fontWeight:800,color:r.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{g.gunBaslik||g.program}</div>
-                          <div style={{fontSize:10,color:r.sub,marginTop:2}}>{g.tarih} · {g.saat}</div>
+                          <div style={{fontSize:10,color:r.sub,marginTop:1}}>{g.program} · {g.tarih} {g.saat}</div>
                         </div>
                         <div style={{textAlign:"right",flexShrink:0}}>
                           <div style={{fontSize:12,fontWeight:800,color:"#dc2626"}}>{g.kcal} kcal</div>
                           <div style={{fontSize:10,color:r.sub}}>{Math.floor(g.sure/60)} dk</div>
                         </div>
                       </div>
-                    ))}
+                     ))}
                   </div>
                 )}
 
@@ -4607,6 +4713,384 @@ SADECE JSON döndür (başka metin yok):
               </div>
             )}
 
+            </div>
+          </div>
+        )}
+
+        {/* ═══ ALIŞVERİŞ LİSTESİ MODAL ═══ */}
+        {alisverisModal&&(
+          <div style={{position:"fixed",inset:0,background:"#000a",zIndex:300,display:"flex",alignItems:"flex-end"}} onClick={()=>setAlisverisModal(false)}>
+            <div style={{background:r.card,borderRadius:"18px 18px 0 0",padding:22,width:"100%",maxHeight:"75vh",overflow:"auto"}} onClick={e=>e.stopPropagation()}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+                <div style={{fontSize:17,fontWeight:900,color:r.text}}>🛒 Alışveriş Listesi</div>
+                <button onClick={()=>setAlisverisModal(false)} style={{background:"transparent",border:"none",fontSize:20,cursor:"pointer",color:r.muted}}>✕</button>
+              </div>
+              {/* Ekle */}
+              <div style={{display:"flex",gap:8,marginBottom:16}}>
+                <input value={alisverisEkle} onChange={e=>setAlisverisEkle(e.target.value)}
+                  onKeyDown={e=>{if(e.key==="Enter"&&alisverisEkle.trim()){setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamam:false}]);setAlisverisEkle("");}}}
+                  placeholder="Ürün ekle..."
+                  style={{...IS,flex:1,fontSize:14}}/>
+                <button onClick={()=>{if(alisverisEkle.trim()){setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamam:false}]);setAlisverisEkle("");}}}
+                  style={{...BTN("#16a34a","11px 16px"),fontSize:14,fontWeight:900}}>+</button>
+              </div>
+              {/* Liste */}
+              {alisverisListesi.length===0?(
+                <div style={{textAlign:"center",padding:"24px 0",color:r.muted,fontSize:13}}>
+                  <div style={{fontSize:32,marginBottom:8}}>🛒</div>
+                  Henüz ürün yok
+                </div>
+              ):alisverisListesi.map(item=>(
+                <div key={item.id} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",
+                  borderRadius:12,marginBottom:6,
+                  background:item.tamam?d?"rgba(16,163,74,.06)":"rgba(16,163,74,.04)":r.bg2,
+                  border:`1px solid ${item.tamam?"rgba(16,163,74,.2)":r.brd}`}}>
+                  <button onClick={()=>setAlisverisListesi(p=>p.map(x=>x.id===item.id?{...x,tamam:!x.tamam}:x))}
+                    style={{width:24,height:24,borderRadius:"50%",border:`2px solid ${item.tamam?"#16a34a":r.brd}`,
+                      background:item.tamam?"#16a34a":"transparent",cursor:"pointer",flexShrink:0,
+                      display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    {item.tamam&&<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>}
+                  </button>
+                  <span style={{flex:1,fontSize:13,color:r.text,textDecoration:item.tamam?"line-through":"none",opacity:item.tamam?.5:1}}>{item.ad}</span>
+                  <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>x.id!==item.id))}
+                    style={{background:"transparent",border:"none",cursor:"pointer",color:r.muted,fontSize:16}}>✕</button>
+                </div>
+              ))}
+              {alisverisListesi.some(x=>x.tamam)&&(
+                <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>!x.tamam))}
+                  style={{...BTN("transparent","8px 0"),width:"100%",fontSize:12,color:r.muted,marginTop:8}}>
+                  ✓ Alınanları temizle
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* DİYET LİSTESİ MODAL */}
+        {diyetListesiAcik&&(
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.65)",zIndex:400,display:"flex",alignItems:"flex-end",overflowY:"auto"}}>
+            <div style={{background:r.bg,borderRadius:"24px 24px 0 0",width:"100%",maxHeight:"92vh",overflowY:"auto"}}>
+              {/* Header */}
+              <div style={{background:"linear-gradient(135deg,#16a34a,#15803d)",padding:"20px 20px 16px",position:"sticky",top:0,zIndex:1}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+                  <div style={{fontSize:18,fontWeight:900,color:"#fff"}}>🥗 Diyet Listesi</div>
+                  <button onClick={()=>setDiyetListesiAcik(false)}
+                    style={{background:"rgba(255,255,255,.15)",border:"none",borderRadius:10,padding:"6px 12px",cursor:"pointer",color:"#fff",fontWeight:800,fontSize:13}}>
+                    ✕
+                  </button>
+                </div>
+                {/* Grup seçimi */}
+                <div style={{display:"flex",gap:6,overflowX:"auto",scrollbarWidth:"none",paddingBottom:4}}>
+                  {[
+                    {k:"kilo_ver",l:"🔥 Kilo Ver",renk:"#dc2626"},
+                    {k:"vejetaryen",l:"🌱 Vejetaryen",renk:"#16a34a"},
+                    {k:"diyabet",l:"💊 Diyabet",renk:"#7c3aed"},
+                    {k:"tansiyon",l:"❤️ Tansiyon",renk:"#2563eb"},
+                  ].map(g=>(
+                    <button key={g.k} onClick={()=>setDiyetGrup(g.k)}
+                      style={{flexShrink:0,padding:"6px 14px",borderRadius:20,border:"none",cursor:"pointer",
+                        fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:11,
+                        background:diyetGrup===g.k?"rgba(255,255,255,.9)":"rgba(255,255,255,.15)",
+                        color:diyetGrup===g.k?g.renk:"#fff"}}>
+                      {g.l}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{padding:"16px 16px 32px"}}>
+                {(()=>{
+                  // Kişiye özel kalori hesabı (Harris-Benedict)
+                  const kilo = parseFloat(profil?.kilo) || 70;
+                  const boy  = parseFloat(profil?.boy)  || 170;
+                  const yas  = parseFloat(profil?.yas)  || 30;
+                  const erkek = profil?.cinsiyet !== "kadin";
+                  const bmr = erkek
+                    ? Math.round(10*kilo + 6.25*boy - 5*yas + 5)
+                    : Math.round(10*kilo + 6.25*boy - 5*yas - 161);
+                  const tdee = Math.round(bmr * 1.375); // Hafif aktif
+                  const hedefKcal = {
+                    kilo_ver: Math.round(tdee * 0.8),   // %20 açık
+                    vejetaryen: tdee,
+                    diyabet: Math.round(tdee * 0.9),
+                    tansiyon: tdee,
+                  }[diyetGrup] || tdee;
+
+                  const protein = Math.round(kilo * 1.6);
+                  const yag    = Math.round(hedefKcal * 0.25 / 9);
+                  const karb   = Math.round((hedefKcal - protein*4 - yag*9) / 4);
+
+                  const DIYETLER = {
+                    kilo_ver: {
+                      renk:"#dc2626", renk2:"#991b1b",
+                      acik:`Günlük ${hedefKcal} kcal (TDEE'nin %80'i). ${kilo}kg için kişiselleştirildi.`,
+                      yasaklar:["Şeker","Beyaz ekmek","Hazır gıda","Gazlı içecek","Cips","Alkol","Patates kızartması"],
+                      serbestler:["Tavuk göğsü","Balık","Sebze","Yumurta","Lor peynir","Elma","Havuç","Yoğurt"],
+                      plan:[
+                        {ogun:"☀️ Sabah",yemekler:["2 haşlanmış yumurta","1 dilim tam buğday ekmeği","Domates + Salatalık","Yeşil çay"],kcal:Math.round(hedefKcal*0.35)},
+                        {ogun:"🌙 Akşam",yemekler:[`${Math.round(kilo*1.5)}g buğulama balık`,"Buharda sebze (brokoli, havuç)","Mercimek çorbası"],kcal:Math.round(hedefKcal*0.55)},
+                      ],
+                      alisveris:["Tavuk göğsü 500g","Balık fileto","Yumurta 12li","Brokoli","Havuç","Domates","Salatalık","Tam buğday ekmeği","Kefir","Yoğurt","Elma","Yeşil çay","Ceviz","Badem","Zeytinyağı"],
+                    },
+                    vejetaryen: {
+                      renk:"#16a34a", renk2:"#14532d",
+                      acik:`Et içermeyen bitkisel beslenme. ${kilo}kg için ${hedefKcal} kcal/gün. B12 takviyesi önerilir.`,
+                      yasaklar:["Kırmızı et","Tavuk","Balık","Sucuk","Salam"],
+                      serbestler:["Yumurta","Süt ürünleri","Baklagiller","Tofu","Kuruyemiş","Tüm sebzeler","Meyveler"],
+                      plan:[
+                        {ogun:"☀️ Sabah",yemekler:["Yulaf ezmesi süt ile","1 muz","Chia tohumu 1 kaşık","Portakal suyu"],kcal:Math.round(hedefKcal*0.35)},
+                        {ogun:"🌙 Akşam",yemekler:["Mercimek köftesi","Tahin soslu salata","Esmer pirinç","Cacık"],kcal:Math.round(hedefKcal*0.55)},
+                      ],
+                      alisveris:["Yulaf ezmesi","Chia tohumu","Mercimek","Tofu","Tahin","Esmer pirinç","Yumurta 12li","Muz","Elma","Portakal","Havuç","Ayran","Tam buğday ekmeği"],
+                    },
+                    diyabet: {
+                      renk:"#7c3aed", renk2:"#4c1d95",
+                      acik:`Kan şekeri dostu beslenme. ${kilo}kg için ${hedefKcal} kcal. Düşük glisemik indeks tercih edilir.`,
+                      yasaklar:["Şeker","Beyaz ekmek","Beyaz pirinç","Patates","Meyve suyu","Bal","Şekerli içecek"],
+                      serbestler:["Tam tahıl","Sebzeler","Baklagil","Balık","Tavuk","Yumurta","Yeşil yapraklılar"],
+                      plan:[
+                        {ogun:"☀️ Sabah",yemekler:["2 haşlama yumurta","Tam buğday ekmek 1 dilim","Taze domates + zeytin","Yeşil çay"],kcal:Math.round(hedefKcal*0.4)},
+                        {ogun:"🌙 Akşam",yemekler:[`${Math.round(kilo*1.2)}g ızgara balık`,"Zeytinyağlı kuru fasulye","Yeşil salata"],kcal:Math.round(hedefKcal*0.5)},
+                      ],
+                      alisveris:["Tam buğday ekmek","Yumurta 12li","Balık fileto","Kuru fasulye","Domates","Zeytin","Yeşil çay","Zeytinyağı"],
+                    },
+                    tansiyon: {
+                      renk:"#2563eb", renk2:"#1e3a8a",
+                      acik:`DASH diyeti. ${kilo}kg için ${hedefKcal} kcal. Günde 2g'dan az tuz. Potasyum yüksek.`,
+                      yasaklar:["Tuzlu gıda","Turşu","Konserve","Salam/sucuk","Fast food","Alkol","Hazır çorba"],
+                      serbestler:["Muz","Ispanak","Brokoli","Yulaf","Balık","Az yağlı süt","Fındık","Beyaz et"],
+                      plan:[
+                        {ogun:"☀️ Sabah",yemekler:["Tuzsuz yulaf ezmesi + muz","Az yağlı süt","Fındık 1 avuç"],kcal:Math.round(hedefKcal*0.4)},
+                        {ogun:"🌙 Akşam",yemekler:[`${Math.round(kilo*1.2)}g ızgara somon`,"Haşlama ıspanak","Tuzsuz salata"],kcal:Math.round(hedefKcal*0.5)},
+                      ],
+                      alisveris:["Yulaf ezmesi","Az yağlı süt","Muz","Fındık","Somon","Ispanak","Brokoli","Zeytinyağı","Yoğurt"],
+                    },
+                  };
+                  const diyet = DIYETLER[diyetGrup];
+                  return (
+                    <div>
+                      {/* Kalori hedefi */}
+                      <div style={{background:`linear-gradient(135deg,${diyet.renk2},${diyet.renk})`,borderRadius:16,padding:16,marginBottom:16}}>
+                        <div style={{fontSize:12,color:"rgba(255,255,255,.7)",marginBottom:4}}>{diyet.acik}</div>
+                        <div style={{display:"flex",gap:8,marginTop:10}}>
+                          {[["🔥",hedefKcal,"kcal/gün"],["🥩",protein+"g","Protein"],["🌾",karb+"g","Karb"],["🫒",yag+"g","Yağ"]].map(([ikon,val,lbl])=>(
+                            <div key={lbl} style={{flex:1,background:"rgba(255,255,255,.15)",borderRadius:12,padding:"8px 6px",textAlign:"center"}}>
+                              <div style={{fontSize:14}}>{ikon}</div>
+                              <div style={{fontSize:13,fontWeight:900,color:"#fff",lineHeight:1}}>{val}</div>
+                              <div style={{fontSize:9,color:"rgba(255,255,255,.7)",marginTop:2}}>{lbl}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Günlük yemek planı */}
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:10}}>Günlük Yemek Planı</div>
+                      {diyet.plan.map((ogun,oi)=>(
+                        <div key={oi} style={{borderRadius:14,background:r.card,border:`1px solid ${r.brd}`,marginBottom:8,overflow:"hidden"}}>
+                          <div style={{background:`${diyet.renk}15`,padding:"10px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                            <div style={{fontSize:13,fontWeight:800,color:diyet.renk}}>{ogun.ogun}</div>
+                            <div style={{fontSize:11,fontWeight:700,color:r.sub}}>{ogun.kcal} kcal</div>
+                          </div>
+                          <div style={{padding:"10px 14px"}}>
+                            {ogun.yemekler.map((y,yi)=>(
+                              <div key={yi} style={{display:"flex",alignItems:"center",gap:8,paddingVertical:3,marginBottom:4}}>
+                                <div style={{width:6,height:6,borderRadius:"50%",background:diyet.renk,flexShrink:0}}/>
+                                <div style={{fontSize:12,color:r.text}}>{y}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Yasaklar / Serbestler */}
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:16,marginBottom:16}}>
+                        <div style={{borderRadius:14,background:"rgba(220,38,38,.06)",border:"1px solid rgba(220,38,38,.15)",padding:12}}>
+                          <div style={{fontSize:10,fontWeight:800,color:"#dc2626",letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>❌ Kaçınılacaklar</div>
+                          {diyet.yasaklar.map((y,i)=>(
+                            <div key={i} style={{fontSize:11,color:"#dc2626",marginBottom:4,fontWeight:600}}>• {y}</div>
+                          ))}
+                        </div>
+                        <div style={{borderRadius:14,background:"rgba(16,163,74,.06)",border:"1px solid rgba(16,163,74,.15)",padding:12}}>
+                          <div style={{fontSize:10,fontWeight:800,color:"#16a34a",letterSpacing:1,textTransform:"uppercase",marginBottom:8}}>✅ Serbest</div>
+                          {diyet.serbestler.map((y,i)=>(
+                            <div key={i} style={{fontSize:11,color:"#16a34a",marginBottom:4,fontWeight:600}}>• {y}</div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Alışveriş listesine ekle */}
+                      <button onClick={()=>{
+                        const yeniMalzemeler = diyet.alisveris.map(ad=>({
+                          id:Date.now()+Math.random(),
+                          ad, tarif:"🥗 "+({kilo_ver:"Kilo Verme",vejetaryen:"Vejetaryen",diyabet:"Diyabet",tansiyon:"Tansiyon"}[diyetGrup]||"")+" Diyeti",
+                          tamamlandi:false,
+                          tarih:new Date().toLocaleDateString("tr-TR"),
+                        }));
+                        setAlisverisListesi(p=>[...p,...yeniMalzemeler]);
+                        setDiyetListesiAcik(false);
+                        setAlisverisModal(true);
+                      }} style={{width:"100%",padding:"14px 0",borderRadius:14,border:"none",cursor:"pointer",
+                        background:`linear-gradient(135deg,${diyet.renk},${diyet.renk2})`,
+                        color:"#fff",fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:14,
+                        boxShadow:`0 4px 16px ${diyet.renk}40`,display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginBottom:8}}>
+                        🛒 Alışveriş Listesine Ekle
+                      </button>
+                      <button onClick={()=>{
+                        diyet.plan.forEach((ogun,oi)=>{
+                          const ogunMap=["sabah","ara1","ogle","ara2","aksam"];
+                          const ogunKey=["sabah","atistirma","ogle","atistirma","aksam"][oi]||"ogle";
+                          const yeni={ad:ogun.yemekler.join(", "),gram:100,gramKal:ogun.kcal,protein:0,karbonhidrat:0,yag:0,kaynak:"diyet"};
+                          gunEkle(secTarih,ogunKey,yeni);
+                        });
+                        setDiyetListesiAcik(false);
+                      }} style={{width:"100%",padding:"13px 0",borderRadius:14,border:`1.5px solid ${diyet.renk}`,cursor:"pointer",
+                        background:"transparent",color:diyet.renk,fontFamily:"'Nunito',sans-serif",fontWeight:900,fontSize:13,
+                        display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                        📅 Bugünün Planına Ekle
+                      </button>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TARİF TAKVİM MODAL */}
+        {tarifTakvimModal&&tarifSonuc&&(
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.6)",zIndex:400,display:"flex",alignItems:"flex-end"}}>
+            <div style={{background:r.card,borderRadius:"20px 20px 0 0",padding:22,width:"100%",maxHeight:"80vh",overflowY:"auto"}}>
+              <div style={{fontSize:16,fontWeight:900,color:r.text,marginBottom:4}}>📅 Takvime Ekle</div>
+              <div style={{fontSize:12,color:r.sub,marginBottom:16}}>{tarifSonuc.yemekAdi} — hangi güne ekleyelim?</div>
+              <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:16}}>
+                {[0,1,2,3,4,5,6].map(offset=>{
+                  const d=new Date(); d.setDate(d.getDate()+offset);
+                  const key=tarihKey(d);
+                  const label=offset===0?"Bugün":offset===1?"Yarın":d.toLocaleDateString("tr-TR",{weekday:"short",day:"numeric",month:"short"});
+                  return(
+                    <button key={offset} onClick={()=>setAlisverisGun(key)}
+                      style={{padding:"10px 16px",borderRadius:12,border:`2px solid ${alisverisGun===key?"#7c3aed":r.brd}`,
+                        background:alisverisGun===key?"rgba(124,58,237,.1)":r.card,
+                        color:alisverisGun===key?"#7c3aed":r.text,
+                        cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:12}}>
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+              {/* Öğün seçimi */}
+              <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Öğün</div>
+              <div style={{display:"flex",gap:8,marginBottom:16}}>
+                {[["sabah","☀️ Sabah"],["ogle","🌤 Öğle"],["aksam","🌙 Akşam"],["atistirma","🍎 Atıştırma"]].map(([k,l])=>(
+                  <button key={k} onClick={()=>setTarifTakvimOgun && null}
+                    style={{flex:1,padding:"10px 4px",borderRadius:12,border:`2px solid ${r.brd}`,
+                      background:r.card,color:r.sub,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:10}}>
+                    {l}
+                  </button>
+                ))}
+              </div>
+              <div style={{display:"flex",gap:8}}>
+                <button onClick={()=>{
+                  if(!alisverisGun){alert("Gün seçin");return;}
+                  const yeni={ad:tarifSonuc.yemekAdi,gram:100,gramKal:tarifSonuc.kalori,
+                    protein:tarifSonuc.besinDegerleri?.protein||0,
+                    karbonhidrat:tarifSonuc.besinDegerleri?.karbonhidrat||0,
+                    yag:tarifSonuc.besinDegerleri?.yag||0,kaynak:"tarif"};
+                  gunEkle(alisverisGun,"ogle",yeni);
+                  setTarifTakvimModal(false);
+                  setAlisverisGun(null);
+                }} style={{...BTN("#7c3aed","13px 0"),flex:2,fontSize:14,fontWeight:900,boxShadow:"0 4px 14px rgba(124,58,237,.3)"}}>
+                  ✅ Takvime Ekle
+                </button>
+                <button onClick={()=>setTarifTakvimModal(false)}
+                  style={{...BTN("transparent","13px 0"),flex:1,border:`1px solid ${r.brd}`,color:r.sub,fontSize:13}}>
+                  İptal
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ALIŞVERİŞ LİSTESİ MODAL */}
+        {alisverisModal&&(
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.6)",zIndex:400,display:"flex",alignItems:"flex-end"}}>
+            <div style={{background:r.card,borderRadius:"20px 20px 0 0",padding:22,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+                <div>
+                  <div style={{fontSize:16,fontWeight:900,color:r.text}}>🛒 Alışveriş Listesi</div>
+                  <div style={{fontSize:11,color:r.sub}}>{alisverisListesi.filter(x=>!x.tamamlandi).length} ürün kaldı</div>
+                </div>
+                <button onClick={()=>setAlisverisModal(false)}
+                  style={{background:"rgba(0,0,0,.1)",border:"none",borderRadius:10,padding:"8px 14px",cursor:"pointer",fontWeight:800,fontSize:13,color:r.text}}>
+                  ✕
+                </button>
+              </div>
+              {/* Yeni ürün ekle */}
+              <div style={{display:"flex",gap:8,marginBottom:16}}>
+                <input value={alisverisEkle} onChange={e=>setAlisverisEkle(e.target.value)}
+                  onKeyDown={e=>e.key==="Enter"&&alisverisEkle.trim()&&(setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR")}]),setAlisverisEkle(""))}
+                  placeholder="Ürün ekle..." 
+                  style={{flex:1,padding:"11px 14px",borderRadius:12,border:`1px solid ${r.brd}`,background:r.inp,color:r.text,fontSize:13,fontFamily:"'Nunito',sans-serif",outline:"none"}}/>
+                <button onClick={()=>{if(!alisverisEkle.trim())return;setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR")}]);setAlisverisEkle("");}}
+                  style={{...BTN("#16a34a","11px 16px"),fontWeight:900,fontSize:18,flexShrink:0}}>
+                  +
+                </button>
+              </div>
+              {/* Liste */}
+              {alisverisListesi.length===0?(
+                <div style={{textAlign:"center",padding:"32px 0",color:r.muted}}>
+                  <div style={{fontSize:36,marginBottom:8}}>🛒</div>
+                  <div style={{fontSize:13}}>Liste boş — tarif'ten otomatik ekleyebilirsin</div>
+                </div>
+              ):(
+                <div>
+                  {/* Grupla - tarife göre */}
+                  {Object.entries(alisverisListesi.reduce((acc,item)=>{
+                    const key=item.tarif||"Diğer";
+                    if(!acc[key]) acc[key]=[];
+                    acc[key].push(item);
+                    return acc;
+                  },{})).map(([tarif,items])=>(
+                    <div key={tarif} style={{marginBottom:16}}>
+                      <div style={{fontSize:10,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8,display:"flex",alignItems:"center",gap:6}}>
+                        <span>🍳</span> {tarif}
+                      </div>
+                      {items.map(item=>(
+                        <div key={item.id} style={{display:"flex",alignItems:"center",gap:10,padding:"11px 14px",
+                          borderRadius:12,background:item.tamamlandi?d?"rgba(255,255,255,.03)":"rgba(0,0,0,.03)":r.card,
+                          border:`1px solid ${item.tamamlandi?"transparent":r.brd}`,marginBottom:6,
+                          opacity:item.tamamlandi?0.5:1,transition:"all .2s"}}>
+                          <button onClick={()=>setAlisverisListesi(p=>p.map(x=>x.id===item.id?{...x,tamamlandi:!x.tamamlandi}:x))}
+                            style={{width:24,height:24,borderRadius:"50%",border:`2px solid ${item.tamamlandi?"#16a34a":r.brd}`,
+                              background:item.tamamlandi?"#16a34a":"transparent",cursor:"pointer",flexShrink:0,
+                              display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            {item.tamamlandi&&<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>}
+                          </button>
+                          <span style={{flex:1,fontSize:13,color:r.text,textDecoration:item.tamamlandi?"line-through":"none",fontWeight:600}}>
+                            {item.ad}
+                          </span>
+                          <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>x.id!==item.id))}
+                            style={{background:"rgba(220,38,38,.1)",border:"none",borderRadius:8,padding:"4px 8px",
+                              cursor:"pointer",color:"#dc2626",fontSize:11,fontWeight:800}}>
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                  {/* Alt butonlar */}
+                  <div style={{display:"flex",gap:8,marginTop:8,paddingTop:8,borderTop:`1px solid ${r.brd}`}}>
+                    <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>!x.tamamlandi))}
+                      style={{...BTN("transparent","10px 0"),flex:1,fontSize:12,border:`1px solid ${r.brd}`,color:r.sub}}>
+                      🗑 Tamamlananları Sil
+                    </button>
+                    <button onClick={()=>setAlisverisListesi([])}
+                      style={{...BTN("transparent","10px 0"),flex:1,fontSize:12,border:"1px solid rgba(220,38,38,.3)",color:"#dc2626"}}>
+                      🗑 Listeyi Temizle
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -5204,10 +5688,23 @@ SADECE JSON döndür (başka metin yok):
         {/* ──── GÖZAT ─────────────────────────────────────────────── */}
         {tab==="gozat"&&(
           <div style={{padding:"8px 0 16px"}}>
+            {/* Alışveriş listesi butonu */}
+            <button onClick={()=>setAlisverisModal(true)}
+              style={{display:"flex",alignItems:"center",gap:8,padding:"10px 14px",borderRadius:12,
+                background:d?"rgba(16,163,74,.08)":"rgba(16,163,74,.06)",
+                border:"1px solid rgba(16,163,74,.2)",width:"100%",marginBottom:12,cursor:"pointer",
+                color:"#16a34a",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:13}}>
+              <span style={{fontSize:20}}>🛒</span>
+              <span>Alışveriş Listesi</span>
+              <span style={{marginLeft:"auto",background:"#16a34a",color:"#fff",borderRadius:20,
+                padding:"2px 8px",fontSize:10,fontWeight:900}}>
+                {alisverisListesi.filter(x=>!x.tamam).length} ürün
+              </span>
+            </button>
 
             {/* SEKMELER */}
             <div style={{display:"flex",gap:0,marginBottom:14,borderBottom:`2px solid ${r.inpB}`}}>
-              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
+              {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"icerik",ikon:"🧪",l:"İçerik"},{k:"tarif",ikon:"👨‍🍳",l:"Tarif"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
                 <button key={s.k} onClick={()=>{setYemekEkleSekme(s.k);setBesinArama("");setHizliSonuc(null);}}
                   style={{flex:1,padding:"10px 4px",border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
                     background:"transparent",
@@ -5473,6 +5970,282 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             )}
 
             {/* HIZLI EKLE sekmesi */}
+
+            {/* ═══ İÇERİK ANALİZİ SEKMESİ ═══ */}
+            {yemekEkleSekme==="icerik"&&(
+              <div style={{paddingTop:8}}>
+                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>🧪 İçerik Analizi</div>
+                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Ürün arkasındaki içerik listesini yapıştır — katkı maddeleri kırmızıyla işaretlenecek</div>
+                <textarea
+                  value={icerikMetin} onChange={e=>setIcerikMetin(e.target.value)}
+                  placeholder={"Örn: Buğday unu, su, tuz, E211, E322, E471, şeker, malt özü..."}
+                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
+                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
+                    resize:"none",height:100,outline:"none",boxSizing:"border-box",marginBottom:10}}
+                />
+                <div style={{display:"flex",gap:8,marginBottom:16}}>
+                  <button onClick={async()=>{
+                    if(!icerikMetin.trim()) return;
+                    setIcerikYuk(true);
+                    try{
+                      const sistem = "Sen bir gıda uzmanısın. Kullanıcının verdiği içerik listesini analiz et. JSON döndür: {ozet:string, katkiMaddeleri:[{kod:string,ad:string,tehlikeli:boolean,aciklama:string}], guvenli:boolean, uyari:string|null}. Tehlikeli katkı maddelerini işaretle.";
+                      const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                        body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:800,system:sistem,
+                          messages:[{role:"user",content:"İçerik listesi: "+icerikMetin}]})});
+                      const data = await res.json();
+                      const txt = data.content?.[0]?.text||"";
+                      const clean = txt.replace(/```json|```/g,"").trim();
+                      setIcerikAnaliz(JSON.parse(clean));
+                    }catch(e){
+                      setIcerikAnaliz({ozet:"Analiz yapılamadı",katkiMaddeleri:[],guvenli:true,uyari:null});
+                    }
+                    setIcerikYuk(false);
+                  }}
+                  style={{...BTN("#16a34a","11px 20px"),flex:2,fontSize:13,fontWeight:800,
+                    boxShadow:"0 4px 14px rgba(16,163,74,.25)"}}>
+                    {icerikYuk?"⏳ Analiz ediliyor...":"🔬 Analiz Et"}
+                  </button>
+                  <button onClick={()=>{setIcerikMetin("");setIcerikAnaliz(null);}}
+                    style={{...BTN("transparent","11px 14px"),flex:1,fontSize:12,border:`1px solid ${r.brd}`,color:r.sub}}>
+                    Temizle
+                  </button>
+                </div>
+
+                {/* Sonuç */}
+                {icerikAnaliz&&(
+                  <div>
+                    {/* Genel durum */}
+                    <div style={{background:icerikAnaliz.guvenli?"rgba(16,163,74,.08)":"rgba(220,38,38,.08)",
+                      border:`1px solid ${icerikAnaliz.guvenli?"rgba(16,163,74,.25)":"rgba(220,38,38,.25)"}`,
+                      borderRadius:14,padding:"12px 14px",marginBottom:12}}>
+                      <div style={{fontSize:14,fontWeight:900,color:icerikAnaliz.guvenli?"#16a34a":"#dc2626",marginBottom:4}}>
+                        {icerikAnaliz.guvenli?"✅ Genel olarak güvenli":"⚠️ Dikkat edilmesi gereken maddeler var"}
+                      </div>
+                      <div style={{fontSize:12,color:r.text}}>{icerikAnaliz.ozet}</div>
+                      {icerikAnaliz.uyari&&(
+                        <div style={{marginTop:8,fontSize:11,color:"#dc2626",fontWeight:700}}>⚠️ {icerikAnaliz.uyari}</div>
+                      )}
+                    </div>
+
+                    {/* Katkı maddeleri */}
+                    {icerikAnaliz.katkiMaddeleri.length>0&&(
+                      <div>
+                        <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Katkı Maddeleri</div>
+                        {icerikAnaliz.katkiMaddeleri.map((k,i)=>(
+                          <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 12px",
+                            borderRadius:12,marginBottom:6,
+                            background:k.tehlikeli?"rgba(220,38,38,.06)":"rgba(16,163,74,.04)",
+                            border:`1px solid ${k.tehlikeli?"rgba(220,38,38,.2)":"rgba(16,163,74,.1)"}`}}>
+                            <div style={{flexShrink:0,width:44,height:22,borderRadius:6,
+                              background:k.tehlikeli?"#dc2626":"#16a34a",
+                              display:"flex",alignItems:"center",justifyContent:"center",
+                              fontSize:9,fontWeight:900,color:"#fff",marginTop:1}}>
+                              {k.kod}
+                            </div>
+                            <div style={{flex:1}}>
+                              <div style={{fontSize:12,fontWeight:800,color:k.tehlikeli?"#dc2626":r.text}}>{k.ad}</div>
+                              <div style={{fontSize:10,color:r.sub,marginTop:2}}>{k.aciklama}</div>
+                            </div>
+                            <div style={{fontSize:16,flexShrink:0}}>{k.tehlikeli?"🔴":"🟢"}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ═══ TARİF SEKMESİ ═══ */}
+            {yemekEkleSekme==="tarif"&&(
+              <div style={{paddingTop:8}}>
+                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>👨‍🍳 AI Yemek Yapma</div>
+                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Elindeki malzemeleri yaz — sana özel sağlıklı tarif hazırlayalım</div>
+                {/* Fotoğrafla yardım */}
+                <div style={{display:"flex",gap:8,marginBottom:12}}>
+                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
+                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
+                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
+                    <input type="file" accept="image/*" style={{display:"none"}} onChange={async(e)=>{
+                      const file=e.target.files?.[0]; if(!file) return;
+                      setTarifFotoYuk(true);
+                      const reader=new FileReader();
+                      reader.onload=async(ev)=>{
+                        const b64=ev.target.result.split(",")[1];
+                        try{
+                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
+                              messages:[{role:"user",content:[
+                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
+                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
+                              ]}]})});
+                          const data=await res.json();
+                          const txt=data.content?.[0]?.text||"";
+                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
+                        }catch(e){console.error(e);}
+                        setTarifFotoYuk(false);
+                      };
+                      reader.readAsDataURL(file);
+                    }}/>
+                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📷 Fotoğraftan malzeme tara"}
+                  </label>
+                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
+                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
+                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
+                    <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={async(e)=>{
+                      const file=e.target.files?.[0]; if(!file) return;
+                      setTarifFotoYuk(true);
+                      const reader=new FileReader();
+                      reader.onload=async(ev)=>{
+                        const b64=ev.target.result.split(",")[1];
+                        try{
+                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
+                              messages:[{role:"user",content:[
+                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
+                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
+                              ]}]})});
+                          const data=await res.json();
+                          const txt=data.content?.[0]?.text||"";
+                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
+                        }catch(e){console.error(e);}
+                        setTarifFotoYuk(false);
+                      };
+                      reader.readAsDataURL(file);
+                    }}/>
+                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📸 Kamera ile çek"}
+                  </label>
+                </div>
+
+                <textarea
+                  value={tarifIcerik} onChange={e=>setTarifIcerik(e.target.value)}
+                  placeholder={"Örn: tavuk göğsü, brokoli, zeytinyağı, sarımsak, limon\nYa da: dolma biber, kıyma, pirinç, domates"}
+                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
+                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
+                    resize:"none",height:90,outline:"none",boxSizing:"border-box",marginBottom:10}}
+                />
+                {/* Diyet tercihi */}
+                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
+                  {["Sağlıklı","Az karbonhidrat","Vejetaryen","Vegan","Yüksek protein","Hızlı (<20dk)"].map(t=>(
+                    <button key={t} onClick={()=>setTarifIcerik(p=>p+(p?", ":"")+t)}
+                      style={{padding:"4px 10px",borderRadius:20,border:`1px solid ${r.brd}`,
+                        background:r.card,color:r.sub,fontSize:10,fontWeight:700,cursor:"pointer"}}>
+                      {t}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={async()=>{
+                  if(!tarifIcerik.trim()) return;
+                  setTarifYuk(true); setTarifSonuc(null);
+                  try{
+                    const profStr = profil.kilo?`Kullanıcı: ${profil.kilo}kg, hedef: ${profil.hedef}`:"";
+                    const sistem = `Sen sağlıklı beslenme uzmanı bir şefsın. Kullanıcının verdiği malzemelere göre tarif hazırla. JSON döndür: {yemekAdi:string, sure:string, kalori:number, malzemeler:[{miktar:string,isim:string}], adimlar:[string], ipucu:string, besinDegerleri:{protein:number,karbonhidrat:number,yag:number}}. ${profStr}`;
+                    const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,system:sistem,
+                        messages:[{role:"user",content:"Malzemeler: "+tarifIcerik}]})});
+                    const data = await res.json();
+                    const txt = data.content?.[0]?.text||"";
+                    const clean = txt.replace(/```json|```/g,"").trim();
+                    setTarifSonuc(JSON.parse(clean));
+                  }catch(e){
+                    setTarifSonuc(null);
+                  }
+                  setTarifYuk(false);
+                }}
+                style={{...BTN("#f59e0b","12px 0"),width:"100%",fontSize:14,fontWeight:900,
+                  boxShadow:"0 4px 14px rgba(245,158,11,.25)",marginBottom:16}}>
+                  {tarifYuk?"⏳ Tarif hazırlanıyor...":"🍳 Tarif Oluştur"}
+                </button>
+
+                {/* Tarif sonucu */}
+                {tarifSonuc&&(
+                  <div style={{borderRadius:16,overflow:"hidden",border:`1px solid ${r.brd}`}}>
+                    {/* Header */}
+                    <div style={{background:"linear-gradient(135deg,#f59e0b,#d97706)",padding:"16px"}}>
+                      <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:4}}>{tarifSonuc.yemekAdi}</div>
+                      <div style={{display:"flex",gap:12}}>
+                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>⏱ {tarifSonuc.sure}</span>
+                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>🔥 {tarifSonuc.kalori} kcal</span>
+                      </div>
+                      {/* Besin değerleri */}
+                      <div style={{display:"flex",gap:8,marginTop:8}}>
+                        {[["P",tarifSonuc.besinDegerleri?.protein+"g"],["K",tarifSonuc.besinDegerleri?.karbonhidrat+"g"],["Y",tarifSonuc.besinDegerleri?.yag+"g"]].map(([l,v])=>(
+                          <div key={l} style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 8px",fontSize:10,color:"#fff",fontWeight:800}}>
+                            {l}: {v}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* İçerik */}
+                    <div style={{background:r.card,padding:"14px"}}>
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Malzemeler</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
+                        {tarifSonuc.malzemeler?.map((m,i)=>(
+                          <span key={i} style={{background:d?"rgba(245,158,11,.12)":"rgba(245,158,11,.08)",
+                            border:"1px solid rgba(245,158,11,.2)",color:"#d97706",
+                            borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>
+                            {m.miktar} {m.isim}
+                          </span>
+                        ))}
+                      </div>
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Yapılışı</div>
+                      {tarifSonuc.adimlar?.map((a,i)=>(
+                        <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
+                          <div style={{width:22,height:22,borderRadius:"50%",background:"#f59e0b",
+                            display:"flex",alignItems:"center",justifyContent:"center",
+                            fontSize:10,fontWeight:900,color:"#fff",flexShrink:0,marginTop:1}}>
+                            {i+1}
+                          </div>
+                          <div style={{fontSize:12,color:r.text,lineHeight:1.5}}>{a}</div>
+                        </div>
+                      ))}
+                      {tarifSonuc.ipucu&&(
+                        <div style={{background:"rgba(245,158,11,.08)",border:"1px solid rgba(245,158,11,.2)",
+                          borderRadius:10,padding:"10px 12px",marginTop:8}}>
+                          <div style={{fontSize:11,color:"#d97706",fontWeight:700}}>💡 {tarifSonuc.ipucu}</div>
+                        </div>
+                      )}
+                      {/* Yemeği ekle */}
+                      <div style={{display:"flex",gap:8,marginTop:12}}>
+                        <button onClick={()=>{
+                          if(!tarifSonuc) return;
+                          const yeni={ad:tarifSonuc.yemekAdi,gram:100,gramKal:tarifSonuc.kalori,
+                            protein:tarifSonuc.besinDegerleri?.protein||0,
+                            karbonhidrat:tarifSonuc.besinDegerleri?.karbonhidrat||0,
+                            yag:tarifSonuc.besinDegerleri?.yag||0,kaynak:"tarif"};
+                          gunEkle(secTarih,"ogle",yeni);
+                        }} style={{...BTN("#16a34a","11px 0"),flex:1,fontSize:13,fontWeight:800,
+                          boxShadow:"0 4px 14px rgba(16,163,74,.2)"}}>
+                          ✅ Günlüğe Ekle
+                        </button>
+                        <button onClick={()=>setTarifTakvimModal(true)}
+                          style={{...BTN("#7c3aed","11px 0"),flex:1,fontSize:13,fontWeight:800,
+                            boxShadow:"0 4px 14px rgba(124,58,237,.2)"}}>
+                          📅 Takvime Ekle
+                        </button>
+                      </div>
+                      {/* Alışveriş listesine ekle */}
+                      <button onClick={()=>{
+                        if(!tarifSonuc?.malzemeler) return;
+                        const yeniMalzemeler = tarifSonuc.malzemeler.map(m=>({
+                          id:Date.now()+Math.random(),
+                          ad:`${m.miktar} ${m.isim}`,
+                          tarif:tarifSonuc.yemekAdi,
+                          tamamlandi:false,
+                          tarih:new Date().toLocaleDateString("tr-TR"),
+                        }));
+                        setAlisverisListesi(p=>[...p,...yeniMalzemeler]);
+                        setAlisverisModal(true);
+                      }} style={{...BTN("#f59e0b","11px 0"),width:"100%",fontSize:13,fontWeight:800,marginTop:8,
+                        boxShadow:"0 4px 14px rgba(245,158,11,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                        🛒 Malzemeleri Alışveriş Listesine Ekle
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {yemekEkleSekme==="hizli"&&(
               <div>
                 <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:6}}>Ne yedin? AI kalorini hesaplasın ✨</div>
@@ -7208,7 +7981,11 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   { grup:"Spor", items:[
                     {id:"__sporapp__",ic:HAM_IC.spor,c:HAM_C.spor,label:"Spor Uygulaması"},
                   ]},
+                  { grup:"Araçlar", items:[
+                    {id:"__alisveris__",ic:"🛒",c:"#16a34a",label:"Alışveriş Listesi"},
+                  ]},
                   { grup:"Sağlık AI", items:[
+                    {id:"__diyetlistesi__",ic:"🥗",c:"#16a34a",label:"Diyet Listesi"},
                     {id:"__diyetisyen__",ic:HAM_IC.diyetisyen,c:HAM_C.diyetisyen,label:"AI Diyetisyen"},
                     {id:"__alerji__",ic:HAM_IC.alerji,c:HAM_C.alerji,label:"Alerji Yönetimi"},
                     {id:"__kilotakip__",ic:HAM_IC.kilo,c:HAM_C.kilo,label:"Kilo Takibi"},
@@ -7229,6 +8006,8 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       return(
                       <button key={n.id} onClick={()=>{
                         if(n.id==="__sporapp__"){setSporAppAcik(true);setSporAppAdim(0);setSporSoruAdim(-1);setSporProgram(null);setAntBitmis(false);setSporHedefSA("");setSporBolge([]);setSporSeviye("");}
+                        else if(n.id==="__alisveris__"){setAlisverisModal(true);}
+                        else if(n.id==="__diyetlistesi__"){setDiyetListesiAcik(true);}
                         else if(n.id==="__diyetisyen__"){setDiyetisyenAcik(true);}
                         else if(n.id==="__alerji__"){setAlerjiModal(true);}
                         else if(n.id==="__kilotakip__"){setKiloGirModal(true);setKiloInput(profil.kilo||"");setKiloNot("");}
@@ -7401,7 +8180,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 
               {/* Sekmeler */}
               <div style={{display:"flex",padding:"10px 14px 0",gap:4,flexShrink:0}}>
-                {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
+                {[{k:"ara",ikon:"🔍",l:"Ara"},{k:"foto",ikon:"📷",l:"Fotoğraf"},{k:"icerik",ikon:"🧪",l:"İçerik"},{k:"tarif",ikon:"👨‍🍳",l:"Tarif"},{k:"hizli",ikon:"✨",l:"Hızlı Ekle"}].map(s=>(
                   <button key={s.k} onClick={()=>{setYemekEkleSekme(s.k);setBesinArama("");setHizliSonuc(null);}}
                     style={{flex:1,padding:"8px 4px",borderRadius:"12px 12px 0 0",border:"none",cursor:"pointer",fontSize:11,fontWeight:700,
                       background:yemekEkleSekme===s.k?(d?"#1e293b":"#fff"):d?"#0f172a":"#f8fafc",
@@ -7519,7 +8298,283 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 )}
 
                 {/* HIZLI EKLE sekmesi */}
-                {yemekEkleSekme==="hizli"&&(
+    
+            {/* ═══ İÇERİK ANALİZİ SEKMESİ ═══ */}
+            {yemekEkleSekme==="icerik"&&(
+              <div style={{paddingTop:8}}>
+                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>🧪 İçerik Analizi</div>
+                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Ürün arkasındaki içerik listesini yapıştır — katkı maddeleri kırmızıyla işaretlenecek</div>
+                <textarea
+                  value={icerikMetin} onChange={e=>setIcerikMetin(e.target.value)}
+                  placeholder={"Örn: Buğday unu, su, tuz, E211, E322, E471, şeker, malt özü..."}
+                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
+                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
+                    resize:"none",height:100,outline:"none",boxSizing:"border-box",marginBottom:10}}
+                />
+                <div style={{display:"flex",gap:8,marginBottom:16}}>
+                  <button onClick={async()=>{
+                    if(!icerikMetin.trim()) return;
+                    setIcerikYuk(true);
+                    try{
+                      const sistem = "Sen bir gıda uzmanısın. Kullanıcının verdiği içerik listesini analiz et. JSON döndür: {ozet:string, katkiMaddeleri:[{kod:string,ad:string,tehlikeli:boolean,aciklama:string}], guvenli:boolean, uyari:string|null}. Tehlikeli katkı maddelerini işaretle.";
+                      const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                        body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:800,system:sistem,
+                          messages:[{role:"user",content:"İçerik listesi: "+icerikMetin}]})});
+                      const data = await res.json();
+                      const txt = data.content?.[0]?.text||"";
+                      const clean = txt.replace(/```json|```/g,"").trim();
+                      setIcerikAnaliz(JSON.parse(clean));
+                    }catch(e){
+                      setIcerikAnaliz({ozet:"Analiz yapılamadı",katkiMaddeleri:[],guvenli:true,uyari:null});
+                    }
+                    setIcerikYuk(false);
+                  }}
+                  style={{...BTN("#16a34a","11px 20px"),flex:2,fontSize:13,fontWeight:800,
+                    boxShadow:"0 4px 14px rgba(16,163,74,.25)"}}>
+                    {icerikYuk?"⏳ Analiz ediliyor...":"🔬 Analiz Et"}
+                  </button>
+                  <button onClick={()=>{setIcerikMetin("");setIcerikAnaliz(null);}}
+                    style={{...BTN("transparent","11px 14px"),flex:1,fontSize:12,border:`1px solid ${r.brd}`,color:r.sub}}>
+                    Temizle
+                  </button>
+                </div>
+
+                {/* Sonuç */}
+                {icerikAnaliz&&(
+                  <div>
+                    {/* Genel durum */}
+                    <div style={{background:icerikAnaliz.guvenli?"rgba(16,163,74,.08)":"rgba(220,38,38,.08)",
+                      border:`1px solid ${icerikAnaliz.guvenli?"rgba(16,163,74,.25)":"rgba(220,38,38,.25)"}`,
+                      borderRadius:14,padding:"12px 14px",marginBottom:12}}>
+                      <div style={{fontSize:14,fontWeight:900,color:icerikAnaliz.guvenli?"#16a34a":"#dc2626",marginBottom:4}}>
+                        {icerikAnaliz.guvenli?"✅ Genel olarak güvenli":"⚠️ Dikkat edilmesi gereken maddeler var"}
+                      </div>
+                      <div style={{fontSize:12,color:r.text}}>{icerikAnaliz.ozet}</div>
+                      {icerikAnaliz.uyari&&(
+                        <div style={{marginTop:8,fontSize:11,color:"#dc2626",fontWeight:700}}>⚠️ {icerikAnaliz.uyari}</div>
+                      )}
+                    </div>
+
+                    {/* Katkı maddeleri */}
+                    {icerikAnaliz.katkiMaddeleri.length>0&&(
+                      <div>
+                        <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Katkı Maddeleri</div>
+                        {icerikAnaliz.katkiMaddeleri.map((k,i)=>(
+                          <div key={i} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"10px 12px",
+                            borderRadius:12,marginBottom:6,
+                            background:k.tehlikeli?"rgba(220,38,38,.06)":"rgba(16,163,74,.04)",
+                            border:`1px solid ${k.tehlikeli?"rgba(220,38,38,.2)":"rgba(16,163,74,.1)"}`}}>
+                            <div style={{flexShrink:0,width:44,height:22,borderRadius:6,
+                              background:k.tehlikeli?"#dc2626":"#16a34a",
+                              display:"flex",alignItems:"center",justifyContent:"center",
+                              fontSize:9,fontWeight:900,color:"#fff",marginTop:1}}>
+                              {k.kod}
+                            </div>
+                            <div style={{flex:1}}>
+                              <div style={{fontSize:12,fontWeight:800,color:k.tehlikeli?"#dc2626":r.text}}>{k.ad}</div>
+                              <div style={{fontSize:10,color:r.sub,marginTop:2}}>{k.aciklama}</div>
+                            </div>
+                            <div style={{fontSize:16,flexShrink:0}}>{k.tehlikeli?"🔴":"🟢"}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ═══ TARİF SEKMESİ ═══ */}
+            {yemekEkleSekme==="tarif"&&(
+              <div style={{paddingTop:8}}>
+                <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:4}}>👨‍🍳 AI Yemek Yapma</div>
+                <div style={{fontSize:11,color:r.sub,marginBottom:12}}>Elindeki malzemeleri yaz — sana özel sağlıklı tarif hazırlayalım</div>
+                {/* Fotoğrafla yardım */}
+                <div style={{display:"flex",gap:8,marginBottom:12}}>
+                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
+                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
+                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
+                    <input type="file" accept="image/*" style={{display:"none"}} onChange={async(e)=>{
+                      const file=e.target.files?.[0]; if(!file) return;
+                      setTarifFotoYuk(true);
+                      const reader=new FileReader();
+                      reader.onload=async(ev)=>{
+                        const b64=ev.target.result.split(",")[1];
+                        try{
+                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
+                              messages:[{role:"user",content:[
+                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
+                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
+                              ]}]})});
+                          const data=await res.json();
+                          const txt=data.content?.[0]?.text||"";
+                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
+                        }catch(e){console.error(e);}
+                        setTarifFotoYuk(false);
+                      };
+                      reader.readAsDataURL(file);
+                    }}/>
+                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📷 Fotoğraftan malzeme tara"}
+                  </label>
+                  <label style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:6,
+                    padding:"11px 0",borderRadius:12,border:`1.5px dashed ${r.brd}`,cursor:"pointer",
+                    background:r.inp,color:r.sub,fontSize:12,fontWeight:700}}>
+                    <input type="file" accept="image/*" capture="environment" style={{display:"none"}} onChange={async(e)=>{
+                      const file=e.target.files?.[0]; if(!file) return;
+                      setTarifFotoYuk(true);
+                      const reader=new FileReader();
+                      reader.onload=async(ev)=>{
+                        const b64=ev.target.result.split(",")[1];
+                        try{
+                          const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                            body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:300,
+                              messages:[{role:"user",content:[
+                                {type:"image",source:{type:"base64",media_type:file.type,data:b64}},
+                                {type:"text",text:"Bu fotoğraftaki yiyecek malzemelerini listele. Sadece virgülle ayrılmış malzeme listesi yaz, başka hiçbir şey yazma. Türkçe yaz."}
+                              ]}]})});
+                          const data=await res.json();
+                          const txt=data.content?.[0]?.text||"";
+                          setTarifIcerik(p=>(p?p+", ":"")+txt.trim());
+                        }catch(e){console.error(e);}
+                        setTarifFotoYuk(false);
+                      };
+                      reader.readAsDataURL(file);
+                    }}/>
+                    {tarifFotoYuk?"⏳ Analiz ediliyor...":"📸 Kamera ile çek"}
+                  </label>
+                </div>
+
+                <textarea
+                  value={tarifIcerik} onChange={e=>setTarifIcerik(e.target.value)}
+                  placeholder={"Örn: tavuk göğsü, brokoli, zeytinyağı, sarımsak, limon\nYa da: dolma biber, kıyma, pirinç, domates"}
+                  style={{width:"100%",padding:"12px",borderRadius:12,border:`1px solid ${r.brd}`,
+                    background:r.inp,color:r.text,fontSize:12,fontFamily:"'Nunito',sans-serif",
+                    resize:"none",height:90,outline:"none",boxSizing:"border-box",marginBottom:10}}
+                />
+                {/* Diyet tercihi */}
+                <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>
+                  {["Sağlıklı","Az karbonhidrat","Vejetaryen","Vegan","Yüksek protein","Hızlı (<20dk)"].map(t=>(
+                    <button key={t} onClick={()=>setTarifIcerik(p=>p+(p?", ":"")+t)}
+                      style={{padding:"4px 10px",borderRadius:20,border:`1px solid ${r.brd}`,
+                        background:r.card,color:r.sub,fontSize:10,fontWeight:700,cursor:"pointer"}}>
+                      {t}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={async()=>{
+                  if(!tarifIcerik.trim()) return;
+                  setTarifYuk(true); setTarifSonuc(null);
+                  try{
+                    const profStr = profil.kilo?`Kullanıcı: ${profil.kilo}kg, hedef: ${profil.hedef}`:"";
+                    const sistem = `Sen sağlıklı beslenme uzmanı bir şefsın. Kullanıcının verdiği malzemelere göre tarif hazırla. JSON döndür: {yemekAdi:string, sure:string, kalori:number, malzemeler:[{miktar:string,isim:string}], adimlar:[string], ipucu:string, besinDegerleri:{protein:number,karbonhidrat:number,yag:number}}. ${profStr}`;
+                    const res = await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
+                      body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1000,system:sistem,
+                        messages:[{role:"user",content:"Malzemeler: "+tarifIcerik}]})});
+                    const data = await res.json();
+                    const txt = data.content?.[0]?.text||"";
+                    const clean = txt.replace(/```json|```/g,"").trim();
+                    setTarifSonuc(JSON.parse(clean));
+                  }catch(e){
+                    setTarifSonuc(null);
+                  }
+                  setTarifYuk(false);
+                }}
+                style={{...BTN("#f59e0b","12px 0"),width:"100%",fontSize:14,fontWeight:900,
+                  boxShadow:"0 4px 14px rgba(245,158,11,.25)",marginBottom:16}}>
+                  {tarifYuk?"⏳ Tarif hazırlanıyor...":"🍳 Tarif Oluştur"}
+                </button>
+
+                {/* Tarif sonucu */}
+                {tarifSonuc&&(
+                  <div style={{borderRadius:16,overflow:"hidden",border:`1px solid ${r.brd}`}}>
+                    {/* Header */}
+                    <div style={{background:"linear-gradient(135deg,#f59e0b,#d97706)",padding:"16px"}}>
+                      <div style={{fontSize:18,fontWeight:900,color:"#fff",marginBottom:4}}>{tarifSonuc.yemekAdi}</div>
+                      <div style={{display:"flex",gap:12}}>
+                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>⏱ {tarifSonuc.sure}</span>
+                        <span style={{fontSize:11,color:"rgba(255,255,255,.8)"}}>🔥 {tarifSonuc.kalori} kcal</span>
+                      </div>
+                      {/* Besin değerleri */}
+                      <div style={{display:"flex",gap:8,marginTop:8}}>
+                        {[["P",tarifSonuc.besinDegerleri?.protein+"g"],["K",tarifSonuc.besinDegerleri?.karbonhidrat+"g"],["Y",tarifSonuc.besinDegerleri?.yag+"g"]].map(([l,v])=>(
+                          <div key={l} style={{background:"rgba(255,255,255,.2)",borderRadius:8,padding:"4px 8px",fontSize:10,color:"#fff",fontWeight:800}}>
+                            {l}: {v}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* İçerik */}
+                    <div style={{background:r.card,padding:"14px"}}>
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Malzemeler</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
+                        {tarifSonuc.malzemeler?.map((m,i)=>(
+                          <span key={i} style={{background:d?"rgba(245,158,11,.12)":"rgba(245,158,11,.08)",
+                            border:"1px solid rgba(245,158,11,.2)",color:"#d97706",
+                            borderRadius:20,padding:"3px 10px",fontSize:11,fontWeight:700}}>
+                            {m.miktar} {m.isim}
+                          </span>
+                        ))}
+                      </div>
+                      <div style={{fontSize:11,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Yapılışı</div>
+                      {tarifSonuc.adimlar?.map((a,i)=>(
+                        <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
+                          <div style={{width:22,height:22,borderRadius:"50%",background:"#f59e0b",
+                            display:"flex",alignItems:"center",justifyContent:"center",
+                            fontSize:10,fontWeight:900,color:"#fff",flexShrink:0,marginTop:1}}>
+                            {i+1}
+                          </div>
+                          <div style={{fontSize:12,color:r.text,lineHeight:1.5}}>{a}</div>
+                        </div>
+                      ))}
+                      {tarifSonuc.ipucu&&(
+                        <div style={{background:"rgba(245,158,11,.08)",border:"1px solid rgba(245,158,11,.2)",
+                          borderRadius:10,padding:"10px 12px",marginTop:8}}>
+                          <div style={{fontSize:11,color:"#d97706",fontWeight:700}}>💡 {tarifSonuc.ipucu}</div>
+                        </div>
+                      )}
+                      {/* Yemeği ekle */}
+                      <div style={{display:"flex",gap:8,marginTop:12}}>
+                        <button onClick={()=>{
+                          if(!tarifSonuc) return;
+                          const yeni={ad:tarifSonuc.yemekAdi,gram:100,gramKal:tarifSonuc.kalori,
+                            protein:tarifSonuc.besinDegerleri?.protein||0,
+                            karbonhidrat:tarifSonuc.besinDegerleri?.karbonhidrat||0,
+                            yag:tarifSonuc.besinDegerleri?.yag||0,kaynak:"tarif"};
+                          gunEkle(secTarih,"ogle",yeni);
+                        }} style={{...BTN("#16a34a","11px 0"),flex:1,fontSize:13,fontWeight:800,
+                          boxShadow:"0 4px 14px rgba(16,163,74,.2)"}}>
+                          ✅ Günlüğe Ekle
+                        </button>
+                        <button onClick={()=>setTarifTakvimModal(true)}
+                          style={{...BTN("#7c3aed","11px 0"),flex:1,fontSize:13,fontWeight:800,
+                            boxShadow:"0 4px 14px rgba(124,58,237,.2)"}}>
+                          📅 Takvime Ekle
+                        </button>
+                      </div>
+                      {/* Alışveriş listesine ekle */}
+                      <button onClick={()=>{
+                        if(!tarifSonuc?.malzemeler) return;
+                        const yeniMalzemeler = tarifSonuc.malzemeler.map(m=>({
+                          id:Date.now()+Math.random(),
+                          ad:`${m.miktar} ${m.isim}`,
+                          tarif:tarifSonuc.yemekAdi,
+                          tamamlandi:false,
+                          tarih:new Date().toLocaleDateString("tr-TR"),
+                        }));
+                        setAlisverisListesi(p=>[...p,...yeniMalzemeler]);
+                        setAlisverisModal(true);
+                      }} style={{...BTN("#f59e0b","11px 0"),width:"100%",fontSize:13,fontWeight:800,marginTop:8,
+                        boxShadow:"0 4px 14px rgba(245,158,11,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                        🛒 Malzemeleri Alışveriş Listesine Ekle
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {yemekEkleSekme==="hizli"&&(
                   <div>
                     <div style={{fontSize:13,fontWeight:800,color:r.text,marginBottom:10}}>Ne yedin? AI kalorini hesaplasın ✨</div>
                     <div style={{position:"relative",marginBottom:12}}>
@@ -8542,6 +9597,20 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
   );
 }
 
+// ─── MİXAMO GLB HARİTASI ─────────────────────────────────────────────────────
+const GLB_BASE = "https://res.cloudinary.com/SENIN_HESABIN/raw/upload/doya/";
+const GLB_MAP = {
+  squat:          GLB_BASE + "air_squat.glb",
+  sinav:          GLB_BASE + "push_up.glb",
+  jumping_jack:   GLB_BASE + "jumping_jacks.glb",
+  plank:          GLB_BASE + "plank.glb",
+  burpee:         GLB_BASE + "burpee.glb",
+  dambil_curl:    GLB_BASE + "bicep_curl.glb",
+  hammer_curl:    GLB_BASE + "bicep_curl.glb",
+  bicycle_crunch: GLB_BASE + "bicycle_crunch.glb",
+  box_jump:       GLB_BASE + "box_jump.glb",
+};
+
 // ─── 3D EGZERSİZ MODELİ (Gemini v7) ─────────────────────────────────────────
 const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) => {
   const mountRef = useRef(null);
@@ -8587,7 +9656,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
       return { group, mesh };
     };
 
-    const floorMat = createPart('box',{w:6,h:0.2,d:10},matMat,-0.1).group; scene.add(floorMat);
+    const floorMat = createPart('box',{w:7,h:0.15,d:12},matMat,-0.08).group; scene.add(floorMat);
     const bench    = createPart('box',{w:4,h:2.5,d:2},propMat,1.25).group; bench.position.set(0,0,-2); scene.add(bench);
     const wall     = createPart('box',{w:8,h:10,d:0.5},propMat,5).group;   wall.position.set(0,0,-1.5); scene.add(wall);
 
@@ -8609,6 +9678,34 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
     const legL=createLeg(1); const legR=createLeg(-1);
 
     const clock = new THREE.Clock();
+    let glbMixer = null;
+
+    // GLB varsa yükle
+    const glbUrl = GLB_MAP[exerciseId];
+    if (glbUrl && window.THREE?.GLTFLoader) {
+      const loader = new window.THREE.GLTFLoader();
+      loader.load(glbUrl, (gltf) => {
+        const model = gltf.scene;
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const scale = 10 / Math.max(size.x, size.y, size.z);
+        model.scale.setScalar(scale);
+        model.position.sub(center.multiplyScalar(scale));
+        model.position.y += 3;
+        // Ten rengi ver
+        model.traverse(child => {
+          if (child.isMesh) {
+            child.material = new THREE.MeshStandardMaterial({color:0xd2a683, roughness:0.8});
+          }
+        });
+        scene.add(model);
+        if (gltf.animations.length > 0) {
+          glbMixer = new THREE.AnimationMixer(model);
+          glbMixer.clipAction(gltf.animations[0]).play();
+        }
+      });
+    }
 
     const resetAll = () => {
       bench.visible=false; floorMat.visible=false; wall.visible=false;
@@ -8621,17 +9718,29 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      const t = clock.getElapsedTime();
+      const t = clock.elapsedTime;
+ if (glbMixer) { glbMixer.update(delta); renderer.render(scene, camera); return; }
       const camAngle = Math.sin(t*0.5)*(Math.PI/4);
-      camera.position.x = Math.sin(camAngle)*18;
-      camera.position.z = Math.cos(camAngle)*18;
-      camera.lookAt(0,5,0);
+
+      // Harekete göre kamera mesafesi ve hedefi
+      const floorExercises = ['sinav','genis_sinav','plank','mountain_climber','crunch','leg_raise',
+        'bicycle_crunch','superman','hip_thrust','glut_bridge','dambil_press','dambil_flye',
+        'skull_crusher','reverse_crunch','flutter_kick','side_plank','donkey_kick'];
+      const isFloor = floorExercises.includes(exerciseId);
+      const camDist = isFloor ? 14 : 18;
+      const camHeight = isFloor ? 3 : 5;
+      const lookY = isFloor ? 1.5 : 5;
+
+      camera.position.x = Math.sin(camAngle)*camDist;
+      camera.position.z = Math.cos(camAngle)*camDist;
+      camera.position.y = camHeight + Math.sin(t*0.2)*0.5;
+      camera.lookAt(0, lookY, 0);
       resetAll();
 
       switch(exerciseId) {
         case 'sinav': case 'genis_sinav': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; camera.lookAt(0,2,0);
-          const p=(Math.sin(t*4)+1)/2; character.position.y=(p*1.5)-2.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/2;
+          const p=(Math.sin(t*4)+1)/2; character.position.y=(p*1.2)-1.2;
           const b=1-p;
           armL.shoulder.rotation.x=-Math.PI/2+b*0.8; armR.shoulder.rotation.x=-Math.PI/2+b*0.8;
           armL.lowerArm.rotation.x=-b*1.8; armR.lowerArm.rotation.x=-b*1.8; neck.rotation.x=-0.3;
@@ -8694,7 +9803,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'donkey_kick': {
-          floorMat.visible=true; pelvis.position.y=2; torso.rotation.x=Math.PI/2.2; neck.rotation.x=-0.5;
+          floorMat.visible=true; pelvis.position.y=3.5; character.position.y=0; torso.rotation.x=Math.PI/2.2; neck.rotation.x=-0.5;
           armL.shoulder.rotation.x=-Math.PI/2.2; armR.shoulder.rotation.x=-Math.PI/2.2;
           legL.hip.rotation.x=-Math.PI/2; legL.lowerLeg.rotation.x=Math.PI/2;
           const kc=(Math.sin(t*4)+1)/2;
@@ -8702,14 +9811,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'wall_sit': {
-          wall.visible=true; character.position.z=0.5; pelvis.position.y=3.3;
+          wall.visible=true; character.position.z=0.5; pelvis.position.y=3.3; character.position.y=0;
           legL.hip.rotation.x=-Math.PI/2; legR.hip.rotation.x=-Math.PI/2;
           legL.lowerLeg.rotation.x=Math.PI/2; legR.lowerLeg.rotation.x=Math.PI/2;
           armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
           break;
         }
         case 'reverse_crunch': {
-          floorMat.visible=true; character.rotation.x=-Math.PI/2; pelvis.position.y=0.8;
+          floorMat.visible=true; character.rotation.x=-Math.PI/2; pelvis.position.y=3.5; character.position.y=0;
           armL.shoulder.rotation.x=0; armR.shoulder.rotation.x=0;
           const rc2=(Math.sin(t*3)+1)/2;
           legL.hip.rotation.x=-Math.PI/6-rc2*(Math.PI/1.5); legR.hip.rotation.x=-Math.PI/6-rc2*(Math.PI/1.5);
@@ -8718,7 +9827,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'russian_twist': {
-          floorMat.visible=true; pelvis.position.y=1.0; pelvis.rotation.x=-0.5;
+          floorMat.visible=true; pelvis.position.y=2.5; character.position.y=0; pelvis.rotation.x=-0.5;
           legL.hip.rotation.x=-1.2; legR.hip.rotation.x=-1.2;
           legL.lowerLeg.rotation.x=1.5; legR.lowerLeg.rotation.x=1.5;
           const tw=Math.sin(t*4)*0.8;
@@ -8728,14 +9837,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'flutter_kick': {
-          floorMat.visible=true; character.rotation.x=-Math.PI/2; pelvis.position.y=0.8;
+          floorMat.visible=true; character.rotation.x=-Math.PI/2; pelvis.position.y=3.5; character.position.y=0;
           torso.rotation.x=0.2; neck.rotation.x=0.2;
           const fl=Math.sin(t*6); const fr=Math.sin(t*6+Math.PI);
           legL.hip.rotation.x=-0.3+fl*0.2; legR.hip.rotation.x=-0.3+fr*0.2;
           break;
         }
         case 'side_plank': {
-          floorMat.visible=true; character.position.y=-3; character.rotation.z=-Math.PI/2.2; pelvis.position.y=3.5;
+          floorMat.visible=true; character.position.y=0; character.rotation.z=-Math.PI/2.2; pelvis.position.y=3.5;
           armL.shoulder.rotation.z=Math.PI/2.2; armL.lowerArm.rotation.x=Math.PI/2;
           armR.shoulder.rotation.z=Math.PI/2;
           break;
@@ -8756,7 +9865,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'plank': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
           armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2; neck.rotation.x=-0.3;
           break;
@@ -8785,14 +9894,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'dambil_press': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           const d=(Math.sin(t*2.5)+1)/2;
           armL.shoulder.rotation.z=1.2-d*0.8; armR.shoulder.rotation.z=-1.2+d*0.8;
           armL.lowerArm.rotation.x=-d*1.2; armR.lowerArm.rotation.x=-d*1.2;
           break;
         }
         case 'dambil_flye': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           const d=(Math.sin(t*2)+1)/2;
           armL.shoulder.rotation.z=0.3+d*1.0; armR.shoulder.rotation.z=-0.3-d*1.0;
           armL.lowerArm.rotation.x=-0.5; armR.lowerArm.rotation.x=-0.5;
@@ -8811,14 +9920,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'superman': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-2; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           const d=(Math.sin(t*1.8)+1)/2;
           armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=-d*0.8;
           legL.hip.rotation.x=d*0.8; legR.hip.rotation.x=d*0.8;
           break;
         }
         case 'hip_thrust': case 'glut_bridge': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           const d=(Math.sin(t*2)+1)/2; pelvis.position.y=5.5+d*1.5;
           legL.hip.rotation.x=-0.8+d*0.8; legR.hip.rotation.x=-0.8+d*0.8;
           legL.lowerLeg.rotation.x=1.2-d*0.8; legR.lowerLeg.rotation.x=1.2-d*0.8;
@@ -8829,13 +9938,13 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'crunch': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-0.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           const d=(Math.sin(t*2)+1)/2; torso.rotation.x=-d*1.0; neck.rotation.x=-d*0.5;
           legL.hip.rotation.x=-0.5; legR.hip.rotation.x=-0.5; legL.lowerLeg.rotation.x=0.8; legR.lowerLeg.rotation.x=0.8;
           break;
         }
         case 'mountain_climber': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           armL.shoulder.rotation.x=-Math.PI/2; armR.shoulder.rotation.x=-Math.PI/2;
           armL.lowerArm.rotation.x=-Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2;
           const d=Math.sin(t*4);
@@ -8844,12 +9953,12 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'leg_raise': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-0.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           const d=(Math.sin(t*1.8)+1)/2; legL.hip.rotation.x=d*1.5; legR.hip.rotation.x=d*1.5;
           break;
         }
         case 'bicycle_crunch': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-0.5; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           const d=Math.sin(t*3); legL.hip.rotation.x=d*1.2; legR.hip.rotation.x=-d*1.2; torso.rotation.z=d*0.3;
           armL.shoulder.rotation.x=-d*0.8; armR.shoulder.rotation.x=d*0.8;
           legL.lowerLeg.rotation.x=d>0?d*1.0:0; legR.lowerLeg.rotation.x=d<0?-d*1.0:0;
@@ -8864,14 +9973,14 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
           break;
         }
         case 'skull_crusher': {
-          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=-1; pelvis.position.y=4.0; camera.lookAt(0,2,0);
+          floorMat.visible=true; character.rotation.x=Math.PI/2; character.position.y=0; pelvis.position.y=3.5;
           armL.shoulder.rotation.x=-1.8; armR.shoulder.rotation.x=-1.8;
           armL.shoulder.rotation.z=0.3; armR.shoulder.rotation.z=-0.3;
           const d=(Math.sin(t*2.5)+1)/2; armL.lowerArm.rotation.x=-d*1.8; armR.lowerArm.rotation.x=-d*1.8;
           break;
         }
         case 'pike_push': {
-          floorMat.visible=true; character.rotation.x=Math.PI/4; character.position.y=-2; pelvis.position.y=5.5; torso.rotation.x=-0.5;
+          floorMat.visible=true; character.rotation.x=Math.PI/4; character.position.y=-0.5; pelvis.position.y=4.0; torso.rotation.x=-0.5;
           const d=(Math.sin(t*2.5)+1)/2;
           armL.shoulder.rotation.x=-Math.PI/2+d*0.5; armR.shoulder.rotation.x=-Math.PI/2+d*0.5;
           armL.lowerArm.rotation.x=-Math.PI/2+d*Math.PI/2; armR.lowerArm.rotation.x=-Math.PI/2+d*Math.PI/2;
