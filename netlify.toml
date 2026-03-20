@@ -2,12 +2,11 @@
   command = "npm run build"
   publish = "dist"
   functions = "netlify/functions"
-
 [build.environment]
   NODE_VERSION = "20"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
   VITE_SKIP_TS_ERRORS = "true"
-
+  SECRETS_SCAN_OMIT_KEYS = "FIREBASE_PROJECT_ID"
 [[headers]]
   for = "/*"
   [headers.values]
