@@ -8921,6 +8921,7 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
       scene.add(floorMesh);
 
       const clock = new THREE.Clock();
+      let lastTime = performance.now();
       const glbUrl = GLB_MAP[exerciseId];
 
       if (glbUrl) {
@@ -8954,8 +8955,6 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
             action.timeScale = 1.0;
             action.reset();
             action.play();
-            // Biriken delta'yı temizle
-            clock.getDelta();
           } else {
             console.warn('GLB has NO animations:', exerciseId);
           }
@@ -8973,7 +8972,9 @@ const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) =>
 
       const animate = () => {
         animationFrameId = requestAnimationFrame(animate);
-        const delta = clock.getDelta();
+        const now = performance.now();
+        const delta = Math.min((now - lastTime) / 1000, 0.1); // max 100ms
+        lastTime = now;
         if (mixerRef.current) mixerRef.current.update(delta);
         if (!isDragging) spherical.theta += 0.003;
         camera.position.x = Math.sin(spherical.theta) * RADIUS;
