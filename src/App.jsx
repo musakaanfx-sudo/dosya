@@ -8847,17 +8847,17 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
 
 
 // ─── 3D EGZERSİZ MODELİ (Sadece GLB) ────────────────────────
-const GLB_BASE = "/models/";
+const GLB_BASE = "https://res.cloudinary.com/dwolqgcu5/raw/upload/";
 const GLB_MAP = {
-  squat:          GLB_BASE + "air_squat.glb",
-  sinav:          GLB_BASE + "push_up.glb",
-  jumping_jack:   GLB_BASE + "jumping_jacks.glb",
-  plank:          GLB_BASE + "plank.glb",
-  burpee:         GLB_BASE + "burpee.glb",
-  dambil_curl:    GLB_BASE + "bicep_curl.glb",
-  hammer_curl:    GLB_BASE + "bicep_curl.glb",
-  bicycle_crunch: GLB_BASE + "bicycle_crunch.glb",
-  box_jump:       GLB_BASE + "box_jump.glb",
+  squat:          GLB_BASE + "air_squat_mgroko",
+  sinav:          GLB_BASE + "push_up_pvsxsw",
+  jumping_jack:   GLB_BASE + "jumping_jacks_gywqpn",
+  plank:          GLB_BASE + "plank_cxwlod",
+  burpee:         GLB_BASE + "burpee_qh76bv",
+  dambil_curl:    GLB_BASE + "bicep_curl_xql5sz",
+  hammer_curl:    GLB_BASE + "bicep_curl_xql5sz",
+  bicycle_crunch: GLB_BASE + "bicycle_crunch_jhcywj",
+  box_jump:       GLB_BASE + "box_jump_a7itco",
 };
 
 const ExerciseModel3D = ({ exerciseId = 'squat', width = 320, height = 320 }) => {
