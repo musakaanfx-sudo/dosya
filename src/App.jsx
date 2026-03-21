@@ -643,10 +643,14 @@ export default function App(){
 
   const onayBesinler = besinler.filter(b=>b.onay&&!b.silindi);
   // Sadece arama için (gözat filtreleri olmadan)
-  const aramaBesinler = !besinArama ? [] : onayBesinler.filter(b=>
-    b.ad.toLowerCase().includes(besinArama.toLowerCase())||
-    (b.marka&&b.marka.toLowerCase().includes(besinArama.toLowerCase()))
-  );
+  const aramaBesinler = !besinArama ? [] : onayBesinler.filter(b=>{
+    const q = besinArama.toLowerCase();
+    if(b.isimler && Array.isArray(b.isimler)) return b.isimler.some(i=>i.includes(q));
+    const adLatin = b.adLatin?.toLowerCase()||"";
+    return b.ad.toLowerCase().includes(q)||
+      (b.marka&&b.marka.toLowerCase().includes(q))||
+      adLatin.includes(q);
+  });
   // Gözat listesi için (arama olmadan, sadece filtreler)
   const filtreBesinler = onayBesinler.filter(b=>{
     const katUy  = !besinFil.kat||b.kat===besinFil.kat;
@@ -670,6 +674,37 @@ export default function App(){
     yildiz_az:(a2,b3)=>(a2.yildiz??3)-(b3.yildiz??3),
     isim:(a2,b3)=>a2.ad.localeCompare(b3.ad),
   }[besinFil.sira](a,b2):0));
+
+  // ─── FİRESTORE BESİN VERİTABANI ─────────────────────────────
+  useEffect(()=>{
+    let cancelled = false;
+    const fetchBesinler = async () => {
+      try {
+        const { collection, getDocs, query, limit } = await import("firebase/firestore");
+        // Firestore'dan tüm onaylı besinleri çek
+        const q = query(collection(db, "besinler"), limit(2000));
+        const snap = await getDocs(q);
+        if(cancelled) return;
+        const fsBesinler = snap.docs.map(d=>({ ...d.data(), firebaseId: d.id }));
+        // Kullanıcının diline göre filtrele (ulkeler array veya ulke string)
+        const dilBesinler = fsBesinler.filter(b=>{
+          if(b.ulkeler && Array.isArray(b.ulkeler)) return b.ulkeler.includes(dil) || b.ulkeler.includes("tr");
+          if(b.ulke) return b.ulke === dil || b.ulke === "tr" || b.ulke === "en";
+          return true;
+        });
+        // BESIN_DB ile birleştir (kodda olanlar da kalsın)
+        const fsIds = new Set(dilBesinler.map(b=>b.ad));
+        const localEksik = BESIN_DB.filter(b=>!fsIds.has(b.ad));
+        setBesinler([...dilBesinler, ...localEksik]);
+      } catch(e) {
+        console.error("Besin fetch hatası:", e);
+        // Hata olursa local DB ile devam et
+        setBesinler(BESIN_DB);
+      }
+    };
+    fetchBesinler();
+    return () => { cancelled = true; };
+  }, [dil]);
 
   // ─── ADIM SAYAR ──────────────────────────────────────────────
   // Otomatik başlat: izin daha önce verilmişse hemen başlat
