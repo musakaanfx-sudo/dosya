@@ -1,20 +1,23 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("/mnt/user-data/uploads/doya-4456f-firebase-adminsdk-fbsvc-131d63c824.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-const db = admin.firestore();
+let initialized = false;
+function initFirebase() {
+  if (initialized) return;
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    }),
+  });
+  initialized = true;
+}
 
 const TARIFLER = [
-  // ── 1 ── TÜRK
   {
     ad: "Mercimek Çorbası",
-    adler: { tr:"Mercimek Çorbası", de:"Rote Linsensuppe", en:"Red Lentil Soup", fr:"Soupe aux Lentilles Rouges", es:"Sopa de Lentejas Rojas", it:"Zuppa di Lenticchie Rosse", el:"Σούπα Κόκκινης Φακής", pl:"Zupa z Czerwonej Soczewicy", pt:"Sopa de Lentilhas Vermelhas", nl:"Rode Linzensoep", sv:"Röd Linssoppa", da:"Rød Linsesuppe", no:"Rød Linsesuppe", fi:"Punainen Linssiketto", hu:"Vörös Lencseleves", cs:"Polévka z Červené Čočky", ro:"Supă de Linte Roșie", hr:"Juha od Crvene Leće", lv:"Sarkanā Lēcu Zupa", et:"Punane Läätsesupp", lt:"Raudonųjų Lęšių Sriuba" },
-    ulke: "tr",
-    sure: 35,
-    porsiyon: 4,
-    zorluk: "kolay",
+    adler: { tr:"Mercimek Çorbası", de:"Rote Linsensuppe", en:"Red Lentil Soup", fr:"Soupe aux Lentilles Rouges", es:"Sopa de Lentejas", it:"Zuppa di Lenticchie" },
+    ulke: "tr", sure: 35, porsiyon: 4, zorluk: "kolay",
     malzemeler: [
       { ad:"Kırmızı Mercimek", miktar:200, birim:"g" },
       { ad:"Soğan", miktar:1, birim:"adet" },
@@ -23,98 +26,71 @@ const TARIFLER = [
       { ad:"Zeytinyağı", miktar:2, birim:"yemek kaşığı" },
       { ad:"Kimyon", miktar:1, birim:"çay kaşığı" },
       { ad:"Pul Biber", miktar:1, birim:"çay kaşığı" },
-      { ad:"Su / Et Suyu", miktar:1500, birim:"ml" },
+      { ad:"Su", miktar:1500, birim:"ml" },
     ],
     adimlar: [
       "Soğan ve havucu küçük doğrayın, zeytinyağında 5 dakika kavurun.",
       "Sarımsak ve kimyonu ekleyip 1 dakika daha kavurun.",
-      "Yıkanmış mercimeği ekleyin, et suyu veya su ile örtün.",
+      "Yıkanmış mercimeği ekleyin, su ile örtün.",
       "Kaynayınca kısık ateşte 20 dakika pişirin.",
       "Blender ile pürüzsüz kıvama getirin.",
-      "Üzerine eritilmiş tereyağında pul biber gezdirerek servis yapın.",
+      "Üzerine pul biberli tereyağı gezdirerek servis yapın.",
     ],
-    toplamKal: 1520, toplamPro: 88, toplamKarb: 240, toplamYag: 32,
     kalPorsiyon: 380,
     etiketler: ["çorba", "baklagil", "vejetaryen", "glutensiz", "kolay"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 2 ── TÜRK
   {
     ad: "İmam Bayıldı",
-    adler: { tr:"İmam Bayıldı", de:"İmam Bayıldı (Türkisches Auberginengericht)", en:"İmam Bayıldı (Stuffed Aubergine)", fr:"İmam Bayıldı (Aubergines Farcies)", it:"İmam Bayıldı (Melanzane Ripiene)" },
-    ulke: "tr",
-    sure: 60,
-    porsiyon: 4,
-    zorluk: "orta",
+    adler: { tr:"İmam Bayıldı", de:"Gefüllte Auberginen", en:"Stuffed Aubergine", fr:"Aubergines Farcies", it:"Melanzane Ripiene" },
+    ulke: "tr", sure: 60, porsiyon: 4, zorluk: "orta",
     malzemeler: [
-      { ad:"Patlıcan (büyük)", miktar:4, birim:"adet" },
+      { ad:"Patlıcan", miktar:4, birim:"adet" },
       { ad:"Soğan", miktar:3, birim:"adet" },
       { ad:"Sarımsak", miktar:4, birim:"diş" },
       { ad:"Domates", miktar:4, birim:"adet" },
       { ad:"Maydanoz", miktar:1, birim:"demet" },
       { ad:"Zeytinyağı", miktar:100, birim:"ml" },
-      { ad:"Şeker", miktar:1, birim:"çay kaşığı" },
-      { ad:"Tuz", miktar:1, birim:"tatlı kaşığı" },
     ],
     adimlar: [
-      "Patlıcanları almaşık şekilde soyup tuzlu suda 20 dakika bekletin.",
-      "Kuruladıktan sonra sırtına derin bir yarık açın.",
+      "Patlıcanları almaşık soyup tuzlu suda 20 dakika bekletin.",
       "Soğan ve sarımsağı zeytinyağında pembeleşene kadar kavurun.",
-      "Domatesleri rendeleyip ekleyin, 10 dakika pişirin, maydanoz, tuz, şeker katın.",
+      "Domatesleri rendeleyip ekleyin, 10 dakika pişirin.",
       "İç harcı patlıcanların içine doldurun.",
-      "Tepsiye dizin, üzerine az su ve zeytinyağı dökün, 180°C fırında 40 dakika pişirin.",
+      "180°C fırında 40 dakika pişirin.",
     ],
-    toplamKal: 1080, toplamPro: 16, toplamKarb: 80, toplamYag: 80,
     kalPorsiyon: 270,
-    etiketler: ["ana yemek", "sebze", "vegan", "glutensiz", "zeytinyağlı"],
+    etiketler: ["ana yemek", "sebze", "vegan", "zeytinyağlı", "glutensiz"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 3 ── ALMAN
   {
     ad: "Sauerbraten",
-    adler: { tr:"Sauerbraten (Alman Ekşi Eti)", de:"Sauerbraten", en:"German Pot Roast", fr:"Rôti Mariné Allemand", it:"Arrosto Marinato Tedesco" },
-    ulke: "de",
-    sure: 180,
-    porsiyon: 6,
-    zorluk: "zor",
+    adler: { tr:"Alman Ekşi Eti", de:"Sauerbraten", en:"German Pot Roast", fr:"Rôti Mariné Allemand" },
+    ulke: "de", sure: 180, porsiyon: 6, zorluk: "zor",
     malzemeler: [
-      { ad:"Dana Antrikot veya But", miktar:1200, birim:"g" },
+      { ad:"Dana Antrikot", miktar:1200, birim:"g" },
       { ad:"Kırmızı Şarap Sirkesi", miktar:250, birim:"ml" },
       { ad:"Kırmızı Şarap", miktar:250, birim:"ml" },
       { ad:"Soğan", miktar:2, birim:"adet" },
       { ad:"Havuç", miktar:2, birim:"adet" },
       { ad:"Defne Yaprağı", miktar:3, birim:"adet" },
-      { ad:"Karabiber", miktar:10, birim:"tane" },
-      { ad:"Karanfil", miktar:5, birim:"tane" },
-      { ad:"Lebkuchen (Baharlı Bisküvi)", miktar:3, birim:"adet" },
-      { ad:"Sıvı Yağ", miktar:3, birim:"yemek kaşığı" },
+      { ad:"Lebkuchen", miktar:3, birim:"adet" },
     ],
     adimlar: [
-      "Eti sirke, şarap, baharat ve sebzelerle marine edin — buzdolabında 2-3 gün bekletin.",
-      "Eti marine'den çıkarıp kurulayın, her tarafını yağda kızartın.",
-      "Marine suyunu ve sebzeleri ekleyip kapakla orta ateşte 2.5 saat pişirin.",
-      "Eti çıkarın, sosu süzün ve lebkucheni rendeleyin, sosun içinde eritin.",
+      "Eti sirke, şarap, baharat ve sebzelerle 2-3 gün marine edin.",
+      "Eti marine'den çıkarıp her tarafını yağda kızartın.",
+      "Marine suyunu ekleyip kapakla 2.5 saat pişirin.",
+      "Sosu süzün, lebkucheni rendeleyin, sosun içinde eritin.",
       "Sos koyulaşana kadar kaynatın, dilimlenmiş etle servis yapın.",
     ],
-    toplamKal: 3600, toplamPro: 300, toplamKarb: 60, toplamYag: 180,
     kalPorsiyon: 600,
-    etiketler: ["ana yemek", "et", "Alman mutfağı", "fırın", "özel gün"],
+    etiketler: ["ana yemek", "et", "Alman mutfağı", "özel gün"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 4 ── FRANSIZ
   {
     ad: "Ratatouille",
-    adler: { tr:"Ratatouille (Fransız Sebze Güveci)", de:"Ratatouille", en:"Ratatouille", es:"Ratatouille", it:"Ratatouille" },
-    ulke: "fr",
-    sure: 75,
-    porsiyon: 4,
-    zorluk: "orta",
+    adler: { tr:"Ratatouille", de:"Ratatouille", en:"Ratatouille", es:"Ratatouille", it:"Ratatouille" },
+    ulke: "fr", sure: 75, porsiyon: 4, zorluk: "orta",
     malzemeler: [
       { ad:"Patlıcan", miktar:2, birim:"adet" },
       { ad:"Kabak", miktar:2, birim:"adet" },
@@ -124,238 +100,192 @@ const TARIFLER = [
       { ad:"Sarımsak", miktar:3, birim:"diş" },
       { ad:"Zeytinyağı", miktar:60, birim:"ml" },
       { ad:"Taze Kekik", miktar:3, birim:"dal" },
-      { ad:"Taze Fesleğen", miktar:1, birim:"demet" },
     ],
     adimlar: [
-      "Soğan ve sarımsağı zeytinyağında kavurun.",
-      "Domatesleri rendeleyip ekleyin, 15 dakika soslaştırın — tuz, kekik, fesleğen ekleyin.",
-      "Sebzeleri çok ince yuvarlak dilimler halinde kesin.",
+      "Soğan ve sarımsağı zeytinyağında kavurun, domatesleri rendeleyip 15 dakika soslaştırın.",
+      "Tüm sebzeleri çok ince yuvarlak dilimleyin.",
       "Fırın kabına domates sosunu yayın.",
-      "Dilimlenmiş sebzeleri üst üste bindirerek şakayık gibi dizip sıralayın.",
-      "Üzerine zeytinyağı, tuz, kekik serpin. 180°C'de 45 dakika pişirin.",
+      "Sebzeleri üst üste bindirerek sıralayın, zeytinyağı ve kekik serpin.",
+      "180°C'de 45 dakika pişirin.",
     ],
-    toplamKal: 680, toplamPro: 16, toplamKarb: 72, toplamYag: 36,
     kalPorsiyon: 170,
     etiketler: ["ana yemek", "sebze", "vegan", "Fransız mutfağı", "fırın", "glutensiz"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 5 ── İTALYAN
   {
     ad: "Spaghetti alla Carbonara",
-    adler: { tr:"Karbonara Makarna", de:"Spaghetti Carbonara", en:"Spaghetti Carbonara", fr:"Spaghetti à la Carbonara", es:"Espaguetis a la Carbonara", el:"Σπαγγέτι Καρμπονάρα" },
-    ulke: "it",
-    sure: 20,
-    porsiyon: 2,
-    zorluk: "orta",
+    adler: { tr:"Karbonara", de:"Spaghetti Carbonara", en:"Spaghetti Carbonara", fr:"Carbonara", es:"Espaguetis Carbonara" },
+    ulke: "it", sure: 20, porsiyon: 2, zorluk: "orta",
     malzemeler: [
       { ad:"Spaghetti", miktar:200, birim:"g" },
       { ad:"Guanciale veya Pastırma", miktar:100, birim:"g" },
       { ad:"Yumurta Sarısı", miktar:3, birim:"adet" },
-      { ad:"Pecorino Romano veya Parmesan", miktar:60, birim:"g" },
+      { ad:"Pecorino Romano", miktar:60, birim:"g" },
       { ad:"Karabiber", miktar:1, birim:"çay kaşığı" },
-      { ad:"Tuz", miktar:1, birim:"tatlı kaşığı" },
     ],
     adimlar: [
       "Makarnayı tuzlu suda al dente pişirin.",
-      "Guanciale'yi tavada orta ateşte kavurun, yağ çıksın — ocaktan alın.",
-      "Yumurta sarılarını rendelenmiş peynirle çırpın, bol karabiber ekleyin.",
-      "Makarnayı süzün, biraz pişirme suyu saklayın.",
-      "Sıcak makarnayı guanciale'nin üzerine atın, ateş kapalı.",
-      "Sos karışımını ekleyin, pişirme suyu ile kıvamını ayarlayın — asla ateşe koymayın.",
+      "Guanciale'yi tavada kavurun, ocaktan alın.",
+      "Yumurta sarıları ve peyniri çırpın, bol karabiber ekleyin.",
+      "Sıcak makarnayı guanciale'ye atın, ateş kapalı.",
+      "Sos karışımını ekleyin, pişirme suyu ile kıvam verin — asla ateşe koymayın.",
     ],
-    toplamKal: 1120, toplamPro: 72, toplamKarb: 152, toplamYag: 24,
     kalPorsiyon: 560,
     etiketler: ["makarna", "İtalyan mutfağı", "hızlı", "klasik"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 6 ── İSPANYOL
   {
     ad: "Paella Valenciana",
-    adler: { tr:"Paella", de:"Paella Valenciana", en:"Valencian Paella", fr:"Paella Valenciana", it:"Paella Valenciana" },
-    ulke: "es",
-    sure: 60,
-    porsiyon: 4,
-    zorluk: "zor",
+    adler: { tr:"Paella", de:"Paella Valenciana", en:"Valencian Paella", fr:"Paella Valenciana" },
+    ulke: "es", sure: 60, porsiyon: 4, zorluk: "zor",
     malzemeler: [
-      { ad:"Kısa Taneli Pirinç (Bomba)", miktar:320, birim:"g" },
+      { ad:"Kısa Taneli Pirinç", miktar:320, birim:"g" },
       { ad:"Tavuk But", miktar:4, birim:"parça" },
       { ad:"Taze Fasulye", miktar:200, birim:"g" },
-      { ad:"Domates (Rendelenmiş)", miktar:2, birim:"adet" },
-      { ad:"Sarımsak", miktar:3, birim:"diş" },
+      { ad:"Domates", miktar:2, birim:"adet" },
       { ad:"Safran", miktar:1, birim:"tutam" },
-      { ad:"Tatlı Kırmızıbiber Tozu", miktar:1, birim:"çay kaşığı" },
       { ad:"Zeytinyağı", miktar:80, birim:"ml" },
-      { ad:"Sıcak Et/Tavuk Suyu", miktar:800, birim:"ml" },
-      { ad:"Tuz", miktar:1, birim:"tatlı kaşığı" },
+      { ad:"Tavuk Suyu", miktar:800, birim:"ml" },
     ],
     adimlar: [
       "Safranı ılık suda 10 dakika bekletin.",
-      "Paella tavasında zeytinyağını kızdırın, tavukları altın rengi olana dek kızartın.",
-      "Taze fasulyeleri ekleyip kavurun.",
-      "Sarımsak ve domatesi ekleyin, 5 dakika pişirin.",
-      "Kırmızıbiber tozu serpin, pirinci ekleyin, 2 dakika kavurun.",
-      "Sıcak suyu ve safranı dökün. Karıştırmadan 18 dakika kısık ateşte pişirin.",
-      "Socarrat (çıtır taban) oluşması için son 2 dakika ateşi artırın, dinlendirip servis yapın.",
+      "Tavukları paella tavasında altın rengi olana dek kızartın.",
+      "Fasulye, sarımsak, domates ekleyip kavurun.",
+      "Pirinci ekleyin, 2 dakika kavurun, sıcak suyu ve safranı dökün.",
+      "Karıştırmadan 18 dakika kısık ateşte pişirin, son 2 dakika ateşi artırın.",
     ],
-    toplamKal: 2480, toplamPro: 120, toplamKarb: 312, toplamYag: 72,
     kalPorsiyon: 620,
     etiketler: ["ana yemek", "pirinç", "İspanyol mutfağı", "özel gün", "glutensiz"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 7 ── YUNAN
   {
-    ad: "Μουσακάς",
-    adler: { tr:"Musaka", de:"Moussaka", en:"Moussaka", fr:"Moussaka", it:"Moussaka", es:"Musaka", el:"Μουσακάς" },
-    ulke: "el",
-    sure: 90,
-    porsiyon: 6,
-    zorluk: "zor",
+    ad: "Moussaka",
+    adler: { tr:"Musaka", de:"Moussaka", en:"Moussaka", fr:"Moussaka", es:"Musaca", el:"Μουσακάς" },
+    ulke: "el", sure: 90, porsiyon: 6, zorluk: "zor",
     malzemeler: [
-      { ad:"Patlıcan (büyük)", miktar:3, birim:"adet" },
+      { ad:"Patlıcan", miktar:3, birim:"adet" },
       { ad:"Kuzu Kıyma", miktar:500, birim:"g" },
       { ad:"Soğan", miktar:2, birim:"adet" },
-      { ad:"Sarımsak", miktar:3, birim:"diş" },
       { ad:"Konserve Domates", miktar:400, birim:"g" },
       { ad:"Tarçın", miktar:0.5, birim:"çay kaşığı" },
-      { ad:"Zeytinyağı", miktar:80, birim:"ml" },
       { ad:"Süt", miktar:500, birim:"ml" },
       { ad:"Un", miktar:50, birim:"g" },
       { ad:"Tereyağı", miktar:50, birim:"g" },
       { ad:"Yumurta", miktar:2, birim:"adet" },
-      { ad:"Gravyer/Parmesan", miktar:100, birim:"g" },
+      { ad:"Gravyer", miktar:100, birim:"g" },
     ],
     adimlar: [
-      "Patlıcanları dilimleyip tuzlayın, 20 dakika bekletin, kurulayın, zeytinyağında kızartın.",
-      "Soğan ve sarımsağı kavurun, kıymayı ekleyip rengi değişene kadar pişirin.",
-      "Domates, tarçın, tuz, karabiber ekleyip 15 dakika soteleyin.",
-      "Béchamel: tereyağı eritip unu kavurun, sütü yavaş ekleyip koyulaşana kadar karıştırın. Ocaktan alıp yumurta ve peynir ekleyin.",
+      "Patlıcanları tuzlayın, kurulayın, zeytinyağında kızartın.",
+      "Soğan kavurun, kıymayı ekleyin, domates, tarçın, tuz ekleyip 15 dakika pişirin.",
+      "Béchamel: tereyağı + un + süt, koyulaşınca ocaktan alıp yumurta ve peynir ekleyin.",
       "Tepsiye patlıcan — kıyma — patlıcan katmanları oluşturun.",
-      "Üzerine béchamel dökün, 180°C'de 45 dakika altın rengi olana kadar pişirin.",
+      "Béchamel'i dökün, 180°C'de 45 dakika pişirin.",
     ],
-    toplamKal: 3600, toplamPro: 204, toplamKarb: 180, toplamYag: 216,
     kalPorsiyon: 600,
     etiketler: ["ana yemek", "et", "Yunan mutfağı", "fırın", "özel gün"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 8 ── İNGİLİZ
   {
     ad: "Shepherd's Pie",
-    adler: { tr:"Çoban Turtası", de:"Shepherd's Pie", en:"Shepherd's Pie", fr:"Tourte du Berger", it:"Torta del Pastore" },
-    ulke: "en",
-    sure: 70,
-    porsiyon: 4,
-    zorluk: "orta",
+    adler: { tr:"Çoban Turtası", de:"Shepherd's Pie", en:"Shepherd's Pie", fr:"Tourte du Berger" },
+    ulke: "en", sure: 70, porsiyon: 4, zorluk: "orta",
     malzemeler: [
       { ad:"Kuzu Kıyma", miktar:500, birim:"g" },
       { ad:"Patates", miktar:800, birim:"g" },
       { ad:"Soğan", miktar:1, birim:"adet" },
       { ad:"Havuç", miktar:2, birim:"adet" },
-      { ad:"Taze Bezelye", miktar:150, birim:"g" },
+      { ad:"Bezelye", miktar:150, birim:"g" },
       { ad:"Et Suyu", miktar:300, birim:"ml" },
-      { ad:"Worcestershire Sos", miktar:2, birim:"yemek kaşığı" },
-      { ad:"Domates Salçası", miktar:2, birim:"yemek kaşığı" },
       { ad:"Tereyağı", miktar:50, birim:"g" },
       { ad:"Süt", miktar:100, birim:"ml" },
     ],
     adimlar: [
-      "Patatesleri haşlayın, tereyağı ve sütle pürüzsüz püre yapın.",
-      "Soğan ve havucu yağda kavurun, kıymayı ekleyip rengi değişene kadar pişirin.",
-      "Worcestershire sos, domates salçası, et suyu ve bezelyeyi ekleyip 15 dakika pişirin.",
-      "Karışımı fırın kabına aktarın.",
-      "Üzerine püreyi kaplayın, çatal ile desen çizin.",
+      "Patatesleri haşlayın, tereyağı ve sütle püre yapın.",
+      "Soğan ve havucu kavurun, kıyma, et suyu ve bezelyeyi ekleyip 15 dakika pişirin.",
+      "Karışımı fırın kabına aktarın, üzerine püre kaplayın.",
       "180°C'de 25 dakika, üzeri altın rengi olana kadar pişirin.",
     ],
-    toplamKal: 2400, toplamPro: 128, toplamKarb: 256, toplamYag: 96,
     kalPorsiyon: 600,
     etiketler: ["ana yemek", "et", "İngiliz mutfağı", "fırın", "kış"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 9 ── NORVEÇ
   {
     ad: "Fårikål",
-    adler: { tr:"Fårikål (Norveç Kuzu Güveci)", de:"Fårikål", en:"Fårikål (Norwegian Lamb Stew)", fr:"Ragoût d'Agneau Norvégien", sv:"Fårikål" },
-    ulke: "no",
-    sure: 150,
-    porsiyon: 4,
-    zorluk: "kolay",
+    adler: { tr:"Norveç Kuzu Güveci", de:"Fårikål", en:"Norwegian Lamb Stew", fr:"Ragoût d'Agneau Norvégien", no:"Fårikål" },
+    ulke: "no", sure: 150, porsiyon: 4, zorluk: "kolay",
     malzemeler: [
       { ad:"Kuzu Eti (Kemikli)", miktar:1200, birim:"g" },
-      { ad:"Beyaz Lahana", miktar:1, birim:"kafa (1kg)" },
+      { ad:"Beyaz Lahana", miktar:1000, birim:"g" },
       { ad:"Karabiber Tanesi", miktar:15, birim:"tane" },
       { ad:"Tuz", miktar:2, birim:"tatlı kaşığı" },
-      { ad:"Un", miktar:2, birim:"yemek kaşığı" },
       { ad:"Su", miktar:500, birim:"ml" },
     ],
     adimlar: [
-      "Lahanayı iri dilimleyin. Kuzuyu büyük parçalar halinde kesin.",
-      "Büyük tencereye kuzu ve lahana katmanları oluşturun.",
-      "Her katmana tuz, karabiber ve un serpin.",
+      "Lahanayı iri dilimleyin, eti büyük parçalara kesin.",
+      "Tencereye kuzu ve lahana katmanları oluşturun, her katmana tuz ve karabiber serpin.",
       "Su ekleyip kaynayınca kısık ateşe alın.",
       "Kapakla 2-2.5 saat, et kemikten ayrılana kadar pişirin.",
       "Haşlanmış patatesle servis yapın.",
     ],
-    toplamKal: 2800, toplamPro: 240, toplamKarb: 48, toplamYag: 160,
     kalPorsiyon: 700,
     etiketler: ["ana yemek", "et", "Norveç mutfağı", "geleneksel", "kış", "glutensiz"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
-
-  // ── 10 ── LEHE
   {
-    ad: "Bigos (Avcı Yahnisi)",
-    adler: { tr:"Bigos (Leh Avcı Yahnisi)", de:"Bigos (Polnischer Jäger-Eintopf)", en:"Bigos (Polish Hunter's Stew)", fr:"Bigos (Ragoût du Chasseur Polonais)", it:"Bigos (Stufato del Cacciatore Polacco)" },
-    ulke: "pl",
-    sure: 120,
-    porsiyon: 6,
-    zorluk: "orta",
+    ad: "Bigos",
+    adler: { tr:"Leh Avcı Yahnisi", de:"Bigos", en:"Hunter's Stew", fr:"Ragoût du Chasseur Polonais", pl:"Bigos" },
+    ulke: "pl", sure: 120, porsiyon: 6, zorluk: "orta",
     malzemeler: [
-      { ad:"Ekşi Lahana (Kiszona Kapusta)", miktar:500, birim:"g" },
+      { ad:"Ekşi Lahana", miktar:500, birim:"g" },
       { ad:"Taze Lahana", miktar:300, birim:"g" },
-      { ad:"Domuz Eti Güveci", miktar:300, birim:"g" },
-      { ad:"Pastırma/Boczek", miktar:150, birim:"g" },
-      { ad:"Kielbasa (Polonya Sosisi)", miktar:200, birim:"g" },
-      { ad:"Kuru Kayısı veya Kuru Erik", miktar:50, birim:"g" },
+      { ad:"Domuz Güveci Eti", miktar:300, birim:"g" },
+      { ad:"Kielbasa Sosisi", miktar:200, birim:"g" },
+      { ad:"Kuru Erik", miktar:50, birim:"g" },
       { ad:"Kuru Mantar", miktar:30, birim:"g" },
       { ad:"Kırmızı Şarap", miktar:150, birim:"ml" },
       { ad:"Defne Yaprağı", miktar:2, birim:"adet" },
-      { ad:"Karabiber", miktar:0.5, birim:"çay kaşığı" },
     ],
     adimlar: [
       "Kuru mantarları ılık suda 30 dakika ıslatın, suyunu saklayın.",
-      "Domuz etini ve pastırmayı büyük bir tencerede kavurun.",
-      "Sosisi dilimleyip ekleyin, 5 dakika daha kavurun.",
-      "Ekşi lahanayı yıkamadan, taze lahanayı doğrayıp ekleyin.",
-      "Mantar suyu, şarap, mantar, kuru meyve ve baharatları ekleyin.",
-      "Kısık ateşte en az 1.5 saat, hatta ertesi güne kadar pişirin — bekledikçe lezzetlenir.",
+      "Eti ve sosisi büyük tencerede kavurun.",
+      "Ekşi lahana, taze lahana, mantar suyu, şarap ve baharatları ekleyin.",
+      "Kısık ateşte 1.5 saat pişirin — bekledikçe lezzetlenir.",
     ],
-    toplamKal: 3600, toplamPro: 192, toplamKarb: 120, toplamYag: 240,
     kalPorsiyon: 600,
-    etiketler: ["ana yemek", "et", "Leh mutfağı", "geleneksel", "kış", "özel gün"],
+    etiketler: ["ana yemek", "et", "Leh mutfağı", "geleneksel", "kış"],
     onay: true,
-    eklenme: admin.firestore.FieldValue.serverTimestamp(),
   },
 ];
 
-async function seed() {
-  const batch = db.batch();
-  for (const tarif of TARIFLER) {
-    const ref = db.collection("tarifler").doc();
-    batch.set(ref, tarif);
-  }
-  await batch.commit();
-  console.log(`✅ ${TARIFLER.length} tarif eklendi.`);
-  process.exit(0);
-}
+exports.handler = async () => {
+  try {
+    initFirebase();
+    const db = admin.firestore();
 
-seed().catch(e => { console.error(e); process.exit(1); });
+    // Daha önce eklenmiş mi kontrol et
+    const mevcut = await db.collection("tarifler").limit(1).get();
+    if (!mevcut.empty) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ mesaj: "⚠️ Tarifler zaten mevcut, tekrar eklenmedi." }),
+      };
+    }
+
+    const batch = db.batch();
+    for (const tarif of TARIFLER) {
+      const ref = db.collection("tarifler").doc();
+      batch.set(ref, { ...tarif, eklenme: admin.firestore.FieldValue.serverTimestamp() });
+    }
+    await batch.commit();
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ mesaj: `✅ ${TARIFLER.length} tarif eklendi.` }),
+    };
+  } catch (e) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ hata: e.message }),
+    };
+  }
+};
