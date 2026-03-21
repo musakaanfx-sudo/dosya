@@ -28,249 +28,183 @@ function uidUret() { return "NTR-" + String(Math.floor(Math.random()*900000)+100
 // ─── DİL METİNLERİ ───────────────────────────────────────────
 const LANG = {
   tr: {
-    dilSec: "Dil Seçin",
-    hosgeldin: "Hoşgeldin!",
-    basla: "Başlayalım →",
-    atla: "Geç",
-    devam: "Devam →",
+    dilSec: "Dil Seçin", hosgeldin: "Hoşgeldin!", basla: "Başlayalım →", atla: "Geç", devam: "Devam →",
     slides: [
-      {
-        baslik: "10.000+ Besin",
-        alt: "Kalori & Makro Takibi",
-        acik: "Dev veritabanından saniyeler içinde ara, ekle. Protein, karbonhidrat, yağ ve vitamin değerlerini günlük olarak takip et.",
-        renk: "#10b981",
-        ic: ["Kalori & makro takibi","Öğün bazlı gruplama","Su & kilo takibi"],
-        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="2" fill="#34d399" stroke="none" opacity=".6"/></svg>`,
-      },
-      {
-        baslik: "AI ile Analiz",
-        alt: "Fotoğrafla Kalori Tara",
-        acik: "Yemeğini fotoğrafla, yapay zeka tüm besin değerlerini anında hesaplasın. Öğünü tek tıkla günlüğüne ekle.",
-        renk: "#6366f1",
-        ic: ["Fotoğrafla besin tanıma","Anında kalori tahmini","Otomatik öğüne ekle"],
-        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" strokeWidth="1" strokeLinecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/><circle cx="12" cy="13" r="1.5" fill="#a5b4fc" stroke="none" opacity=".6"/></svg>`,
-      },
-      {
-        baslik: "AI Diyet Planı",
-        alt: "Kişiselleştirilmiş Günlük Plan",
-        acik: "Hedefine, alerjen ve beslenme tarzına göre her gün taze bir diyet planı oluşturulsun. Sabah kahvaltısından gece atıştırmalığına kadar.",
-        renk: "#c8922a",
-        ic: ["Günlük kişisel plan","Alerji & diyet uyumu","AI beslenme danışmanı"],
-        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" strokeWidth="1" strokeLinecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
-      },
-      {
-        baslik: "Sağlık Takibi",
-        alt: "Kilo · BMI · TDEE · Su",
-        acik: "Kilo değişimini grafikle izle, BMI ve günlük kalori hedefini öğren. Su tüketiminizi kaydet, oruç saatlerini takip et.",
-        renk: "#0891b2",
-        ic: ["Kilo grafiği & BMI","TDEE hesaplama","Aralıklı oruç takibi"],
-        svgIkon: `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 10h13l-1.8 9H7.3L5.5 10z"/><path d="M9 10V7m6 3V7"/></svg>`,
-      },
+      { baslik:"10.000+ Besin", alt:"Kalori & Makro Takibi", acik:"Dev veritabanından saniyeler içinde ara, ekle. Protein, karbonhidrat, yağ ve vitamin değerlerini günlük olarak takip et.", renk:"#10b981", ic:["Kalori & makro takibi","Öğün bazlı gruplama","Su & kilo takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="2" fill="#34d399" stroke="none" opacity=".6"/></svg>` },
+      { baslik:"AI ile Analiz", alt:"Fotoğrafla Kalori Tara", acik:"Yemeğini fotoğrafla, yapay zeka tüm besin değerlerini anında hesaplasın. Öğünü tek tıkla günlüğüne ekle.", renk:"#6366f1", ic:["Fotoğrafla besin tanıma","Anında kalori tahmini","Otomatik öğüne ekle"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" strokeWidth="1" strokeLinecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/><circle cx="12" cy="13" r="1.5" fill="#a5b4fc" stroke="none" opacity=".6"/></svg>` },
+      { baslik:"AI Diyet Planı", alt:"Kişiselleştirilmiş Günlük Plan", acik:"Hedefine, alerjen ve beslenme tarzına göre her gün taze bir diyet planı oluşturulsun.", renk:"#c8922a", ic:["Günlük kişisel plan","Alerji & diyet uyumu","AI beslenme danışmanı"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" strokeWidth="1" strokeLinecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>` },
+      { baslik:"Sağlık Takibi", alt:"Kilo · BMI · TDEE · Su", acik:"Kilo değişimini grafikle izle, BMI ve günlük kalori hedefini öğren. Su tüketimini kaydet, oruç saatlerini takip et.", renk:"#0891b2", ic:["Kilo grafiği & BMI","TDEE hesaplama","Aralıklı oruç takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 10h13l-1.8 9H7.3L5.5 10z"/><path d="M9 10V7m6 3V7"/></svg>` },
     ],
   },
   en: {
-    dilSec: "Select Language",
-    hosgeldin: "Welcome!",
-    basla: "Get Started →",
-    atla: "Skip",
-    devam: "Next →",
+    dilSec: "Select Language", hosgeldin: "Welcome!", basla: "Get Started →", atla: "Skip", devam: "Next →",
     slides: [
-      {
-        ikon: "kalori",
-        baslik: "Eat Healthy with Doya",
-        acik: "Log everything you eat in seconds. Track calories, protein and vitamins with 1,900+ foods from top Turkish & global brands.",
-        renk: "#030604",
-        vurgu: "#10b981",
-        detaylar: ["10K+ besin", "Makro takibi", "Vitamin analizi"],
-      },
-      {
-        ikon: "ai",
-        baslik: "AI Photo Scanner",
-        acik: "Snap a photo of your meal and let AI instantly calculate calories and macros. Premium Plus members get 10 scans per day.",
-        renk: "#030604",
-        vurgu: "#818cf8",
-        detaylar: ["Fotoğrafla kaydet", "Anında analiz", "AI destekli"],
-      },
-      {
-        ikon: "diyetisyen",
-        baslik: "Your Personal AI Dietitian",
-        acik: "Chat with your 24/7 AI dietitian anytime. Get personalized meal plans tailored to your goal, allergies, and diet style.",
-        renk: "#030604",
-        vurgu: "#34d399",
-        detaylar: ["24/7 access", "Personal plans", "Allergy-aware"],
-      },
-      {
-        ikon: "saglik",
-        baslik: "Full Health Tracking",
-        acik: "Track your weight with charts, monitor water intake, and practice intermittent fasting. Reach your goals.",
-        renk: "#030604",
-        vurgu: "#60a5fa",
-        detaylar: ["Weight charts", "Water tracking", "Fasting mode"],
-      },
+      { ikon:"kalori", baslik:"Eat Healthy with Doya", acik:"Log everything you eat in seconds. Track calories, protein and vitamins with 10,000+ foods.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ foods","Macro tracking","Vitamin analysis"] },
+      { ikon:"ai", baslik:"AI Photo Scanner", acik:"Snap a photo of your meal and let AI instantly calculate calories and macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo logging","Instant analysis","AI powered"] },
+      { ikon:"diyetisyen", baslik:"Your Personal AI Dietitian", acik:"Get personalized meal plans tailored to your goal, allergies, and diet style.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 access","Personal plans","Allergy-aware"] },
+      { ikon:"saglik", baslik:"Full Health Tracking", acik:"Track your weight, water intake, and practice intermittent fasting.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Weight charts","Water tracking","Fasting mode"] },
     ],
   },
   de: {
-    dilSec: "Sprache wählen",
-    hosgeldin: "Willkommen!",
-    basla: "Los geht's →",
-    atla: "Überspringen",
-    devam: "Weiter →",
+    dilSec: "Sprache wählen", hosgeldin: "Willkommen!", basla: "Los geht's →", atla: "Überspringen", devam: "Weiter →",
     slides: [
-      {
-        ikon: "kalori",
-        baslik: "Gesund essen mit Doya",
-        acik: "Tracke alles was du isst in Sekunden. Kalorien, Protein, Kohlenhydrate und Vitamine — mit über 2.100 Lebensmitteln aus türkischen und deutschen Marken.",
-        renk: "#030604",
-        vurgu: "#10b981",
-        detaylar: ["10K+ besin", "Makro takibi", "Vitamin analizi"],
-      },
-      {
-        ikon: "ai",
-        baslik: "KI-Fotoanalyse",
-        acik: "Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen. Premium Plus Mitglieder erhalten 10 Scans pro Tag.",
-        renk: "#030604",
-        vurgu: "#818cf8",
-        detaylar: ["Fotoğrafla kaydet", "Anında analiz", "AI destekli"],
-      },
-      {
-        ikon: "diyetisyen",
-        baslik: "Dein KI-Ernährungsberater",
-        acik: "Chatte jederzeit mit deinem 24/7 KI-Ernährungsberater. Persönliche Pläne nach Ziel und Allergien.",
-        renk: "#030604",
-        vurgu: "#34d399",
-        detaylar: ["24/7 Zugang", "Persönliche Pläne", "Allergiebewusst"],
-      },
-      {
-        ikon: "saglik",
-        baslik: "Gesundheits-Tracking",
-        acik: "Gewichtsverlauf mit Diagrammen, Wasserzähler und Intervallfasten. Analysiere deinen Körper.",
-        renk: "#030604",
-        vurgu: "#60a5fa",
-        detaylar: ["Gewichtsdiagramm", "Wasserzähler", "Fastenmodus"],
-      },
+      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 10.000 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
+      { ikon:"ai", baslik:"KI-Fotoanalyse", acik:"Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-Logging","Sofortanalyse","KI-gestützt"] },
+      { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsberater", acik:"Persönliche Pläne nach Ziel, Allergien und Ernährungsstil — jederzeit.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
+      { ikon:"saglik", baslik:"Gesundheits-Tracking", acik:"Gewichtsverlauf, Wasserzähler und Intervallfasten — alles an einem Ort.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsdiagramm","Wasserzähler","Fastenmodus"] },
     ],
   },
   it: {
-    dilSec: "Seleziona lingua",
-    hosgeldin: "Benvenuto!",
-    basla: "Iniziamo →",
-    atla: "Salta",
-    devam: "Avanti →",
+    dilSec: "Seleziona lingua", hosgeldin: "Benvenuto!", basla: "Iniziamo →", atla: "Salta", devam: "Avanti →",
     slides: [
-      {
-        ikon: "kalori",
-        baslik: "Mangia sano con Doya",
-        acik: "Registra tutto ciò che mangi in pochi secondi. Traccia calorie, proteine e vitamine con oltre 2.100 alimenti.",
-        renk: "#030604",
-        vurgu: "#10b981",
-        detaylar: ["10K+ besin", "Makro takibi", "Vitamin analizi"],
-      },
-      {
-        ikon: "ai",
-        baslik: "Scanner AI per foto",
-        acik: "Scatta una foto del tuo pasto e lascia che l'IA calcoli immediatamente calorie e macros.",
-        renk: "#030604",
-        vurgu: "#818cf8",
-        detaylar: ["Fotoğrafla kaydet", "Anında analiz", "AI destekli"],
-      },
-      {
-        ikon: "diyetisyen",
-        baslik: "Il Tuo Dietologo AI",
-        acik: "Chatta con il tuo dietologo AI 24/7. Piani alimentari personalizzati.",
-        renk: "#030604",
-        vurgu: "#34d399",
-        detaylar: ["Accesso 24/7", "Piani personali", "Allergie-friendly"],
-      },
-      {
-        ikon: "saglik",
-        baslik: "Monitoraggio Salute",
-        acik: "Traccia peso, acqua e digiuno intermittente.",
-        renk: "#030604",
-        vurgu: "#60a5fa",
-        detaylar: ["Grafico peso", "Acqua", "Digiuno"],
-      },
+      { ikon:"kalori", baslik:"Mangia sano con Doya", acik:"Registra tutto ciò che mangi in secondi. Calorie, proteine e vitamine con oltre 10.000 alimenti.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimenti","Tracking macro","Analisi vitamine"] },
+      { ikon:"ai", baslik:"Scanner AI per foto", acik:"Scatta una foto del tuo pasto e l'IA calcola subito calorie e macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Analisi istantanea","AI integrata"] },
+      { ikon:"diyetisyen", baslik:"Il Tuo Dietologo AI", acik:"Piani alimentari personalizzati in base al tuo obiettivo e alle allergie.", renk:"#030604", vurgu:"#34d399", detaylar:["Accesso 24/7","Piani personali","Allergie-friendly"] },
+      { ikon:"saglik", baslik:"Monitoraggio Salute", acik:"Peso, acqua e digiuno intermittente — tutto in uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafico peso","Acqua","Digiuno"] },
     ],
   },
   fr: {
-    dilSec: "Choisir la langue",
-    hosgeldin: "Bienvenue !",
-    basla: "Commençons →",
-    atla: "Passer",
-    devam: "Suivant →",
+    dilSec: "Choisir la langue", hosgeldin: "Bienvenue !", basla: "Commençons →", atla: "Passer", devam: "Suivant →",
     slides: [
-      {
-        ikon: "kalori",
-        baslik: "Mangez sainement avec Doya",
-        acik: "Enregistrez tout ce que vous mangez en quelques secondes. Suivez calories, protéines et vitamines avec plus de 2 100 aliments.",
-        renk: "#030604",
-        vurgu: "#10b981",
-        detaylar: ["10K+ besin", "Makro takibi", "Vitamin analizi"],
-      },
-      {
-        ikon: "ai",
-        baslik: "Scanner IA par photo",
-        acik: "Photographiez votre repas et laissez l'IA calculer instantanément les calories et les macros.",
-        renk: "#030604",
-        vurgu: "#818cf8",
-        detaylar: ["Fotoğrafla kaydet", "Anında analiz", "AI destekli"],
-      },
-      {
-        ikon: "diyetisyen",
-        baslik: "Votre Diététicien IA",
-        acik: "Discutez avec votre diététicien IA 24/7. Plans alimentaires personnalisés.",
-        renk: "#030604",
-        vurgu: "#34d399",
-        detaylar: ["Accès 24/7", "Plans personnels", "Allergie-adapté"],
-      },
-      {
-        ikon: "saglik",
-        baslik: "Suivi Santé",
-        acik: "Poids, eau et jeûne intermittent — suivez tout.",
-        renk: "#030604",
-        vurgu: "#60a5fa",
-        detaylar: ["Graphique poids", "Eau", "Jeûne"],
-      },
+      { ikon:"kalori", baslik:"Mangez sainement avec Doya", acik:"Enregistrez tout ce que vous mangez en secondes. Calories, protéines et vitamines avec plus de 10 000 aliments.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ aliments","Suivi macros","Analyse vitamines"] },
+      { ikon:"ai", baslik:"Scanner IA par photo", acik:"Photographiez votre repas et l'IA calcule instantanément les calories et macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo journal","Analyse instantanée","IA intégrée"] },
+      { ikon:"diyetisyen", baslik:"Votre Diététicien IA", acik:"Plans alimentaires personnalisés selon votre objectif, allergies et style alimentaire.", renk:"#030604", vurgu:"#34d399", detaylar:["Accès 24/7","Plans personnels","Adapté aux allergies"] },
+      { ikon:"saglik", baslik:"Suivi Santé Complet", acik:"Poids, eau et jeûne intermittent — tout en un.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graphique poids","Eau","Jeûne"] },
     ],
   },
   es: {
-    dilSec: "Seleccionar idioma",
-    hosgeldin: "¡Bienvenido!",
-    basla: "Empecemos →",
-    atla: "Saltar",
-    devam: "Siguiente →",
+    dilSec: "Seleccionar idioma", hosgeldin: "¡Bienvenido!", basla: "Empecemos →", atla: "Saltar", devam: "Siguiente →",
     slides: [
-      {
-        ikon: "kalori",
-        baslik: "Come sano con Doya",
-        acik: "Registra todo lo que comes en segundos. Rastrea calorías, proteínas y vitaminas con más de 2.100 alimentos.",
-        renk: "#030604",
-        vurgu: "#10b981",
-        detaylar: ["10K+ besin", "Makro takibi", "Vitamin analizi"],
-      },
-      {
-        ikon: "ai",
-        baslik: "Escáner IA por foto",
-        acik: "Fotografía tu comida y deja que la IA calcule al instante las calorías y macros.",
-        renk: "#030604",
-        vurgu: "#818cf8",
-        detaylar: ["Fotoğrafla kaydet", "Anında analiz", "AI destekli"],
-      },
-      {
-        ikon: "diyetisyen",
-        baslik: "Tu Dietista IA Personal",
-        acik: "Habla con tu dietista IA 24/7. Planes personalizados.",
-        renk: "#030604",
-        vurgu: "#34d399",
-        detaylar: ["Acceso 24/7", "Planes personales", "Sin alérgenos"],
-      },
-      {
-        ikon: "saglik",
-        baslik: "Seguimiento de Salud",
-        acik: "Peso, agua y ayuno intermitente — todo en uno.",
-        renk: "#030604",
-        vurgu: "#60a5fa",
-        detaylar: ["Gráfico peso", "Agua", "Ayuno"],
-      },
+      { ikon:"kalori", baslik:"Come sano con Doya", acik:"Registra todo lo que comes en segundos. Calorías, proteínas y vitaminas con más de 10.000 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimentos","Seguimiento macros","Análisis vitaminas"] },
+      { ikon:"ai", baslik:"Escáner IA por foto", acik:"Fotografía tu comida y la IA calcula al instante las calorías y macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Análisis instantáneo","IA integrada"] },
+      { ikon:"diyetisyen", baslik:"Tu Dietista IA Personal", acik:"Planes personalizados según tu objetivo, alergias y estilo alimentario.", renk:"#030604", vurgu:"#34d399", detaylar:["Acceso 24/7","Planes personales","Sin alérgenos"] },
+      { ikon:"saglik", baslik:"Seguimiento de Salud", acik:"Peso, agua y ayuno intermitente — todo en uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gráfico peso","Agua","Ayuno"] },
+    ],
+  },
+  nl: {
+    dilSec: "Taal kiezen", hosgeldin: "Welkom!", basla: "Aan de slag →", atla: "Overslaan", devam: "Volgende →",
+    slides: [
+      { ikon:"kalori", baslik:"Eet gezond met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 10.000 voedingsmiddelen.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ voedsel","Macro-tracking","Vitamine-analyse"] },
+      { ikon:"ai", baslik:"AI Fotoscanner", acik:"Maak een foto van je maaltijd en laat AI direct calorieën en macro's berekenen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto loggen","Directe analyse","AI aangedreven"] },
+      { ikon:"diyetisyen", baslik:"Jouw Persoonlijke AI-Diëtist", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
+      { ikon:"saglik", baslik:"Volledige Gezondheidsregistratie", acik:"Gewicht, water en intermitterend vasten — alles op één plek.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsgrafiek","Water bijhouden","Vastenmodus"] },
+    ],
+  },
+  sv: {
+    dilSec: "Välj språk", hosgeldin: "Välkommen!", basla: "Kom igång →", atla: "Hoppa över", devam: "Nästa →",
+    slides: [
+      { ikon:"kalori", baslik:"Ät hälsosamt med Doya", acik:"Logga allt du äter på sekunder. Kalorier, protein och vitaminer med över 10 000 livsmedel.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ livsmedel","Makrospårning","Vitaminanalys"] },
+      { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta en bild av din måltid och låt AI omedelbart beräkna kalorier och makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-loggning","Omedelbar analys","AI-driven"] },
+      { ikon:"diyetisyen", baslik:"Din Personliga AI-Dietist", acik:"Personliga måltidsplaner baserade på ditt mål, allergier och kostvanor.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tillgång","Personliga planer","Allergimedveten"] },
+      { ikon:"saglik", baslik:"Fullständig Hälsospårning", acik:"Vikt, vatten och intermittent fasta — allt på ett ställe.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Viktdiagram","Vattensporning","Fastemodus"] },
+    ],
+  },
+  da: {
+    dilSec: "Vælg sprog", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Spring over", devam: "Næste →",
+    slides: [
+      { ikon:"kalori", baslik:"Spis sundt med Doya", acik:"Log alt hvad du spiser på sekunder. Kalorier, protein og vitaminer med over 10.000 fødevarer.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ fødevarer","Makro-tracking","Vitaminanalyse"] },
+      { ikon:"ai", baslik:"AI-fotoscanner", acik:"Tag et billede af dit måltid og lad AI øjeblikkeligt beregne kalorier og makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logning","Øjeblikkelig analyse","AI-drevet"] },
+      { ikon:"diyetisyen", baslik:"Din Personlige AI-Diætist", acik:"Personlige måltidsplaner baseret på dit mål, allergier og kosttype.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 adgang","Personlige planer","Allergibevidst"] },
+      { ikon:"saglik", baslik:"Fuld Sundhedssporing", acik:"Vægt, vand og intermitterende faste — alt på ét sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vægtkurve","Vandsporing","Fastemodus"] },
+    ],
+  },
+  no: {
+    dilSec: "Velg språk", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Hopp over", devam: "Neste →",
+    slides: [
+      { ikon:"kalori", baslik:"Spis sunt med Doya", acik:"Logg alt du spiser på sekunder. Kalorier, protein og vitaminer med over 10 000 matvarer.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ matvarer","Makro-sporing","Vitaminanalyse"] },
+      { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta et bilde av måltidet ditt og la AI umiddelbart beregne kalorier og makroer.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logging","Umiddelbar analyse","AI-drevet"] },
+      { ikon:"diyetisyen", baslik:"Din Personlige AI-Ernæringsfysiolog", acik:"Personlige måltidsplaner basert på ditt mål, allergier og kosthold.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tilgang","Personlige planer","Allergibevisst"] },
+      { ikon:"saglik", baslik:"Full Helsesporing", acik:"Vekt, vann og intermitterende faste — alt på ett sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vektkurve","Vannsporing","Fastemodus"] },
+    ],
+  },
+  at: {
+    dilSec: "Sprache wählen", hosgeldin: "Willkommen!", basla: "Los geht's →", atla: "Überspringen", devam: "Weiter →",
+    slides: [
+      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 10.000 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
+      { ikon:"ai", baslik:"KI-Fotoanalyse", acik:"Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-Logging","Sofortanalyse","KI-gestützt"] },
+      { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsberater", acik:"Persönliche Pläne nach Ziel, Allergien und Ernährungsstil — jederzeit.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
+      { ikon:"saglik", baslik:"Gesundheits-Tracking", acik:"Gewichtsverlauf, Wasserzähler und Intervallfasten — alles auf einen Blick.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsdiagramm","Wasserzähler","Fastenmodus"] },
+    ],
+  },
+  be: {
+    dilSec: "Taal kiezen", hosgeldin: "Welkom!", basla: "Aan de slag →", atla: "Overslaan", devam: "Volgende →",
+    slides: [
+      { ikon:"kalori", baslik:"Gezond eten met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 10.000 voedingsmiddelen.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ voedsel","Macro-tracking","Vitamine-analyse"] },
+      { ikon:"ai", baslik:"AI Fotoscanner", acik:"Maak een foto van je maaltijd en laat AI direct calorieën en macro's berekenen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto loggen","Directe analyse","AI aangedreven"] },
+      { ikon:"diyetisyen", baslik:"Jouw Persoonlijke AI-Diëtist", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
+      { ikon:"saglik", baslik:"Volledige Gezondheidsregistratie", acik:"Gewicht, water en intermitterend vasten — alles op één plek.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsgrafiek","Water bijhouden","Vastenmodus"] },
+    ],
+  },
+  fi: {
+    dilSec: "Valitse kieli", hosgeldin: "Tervetuloa!", basla: "Aloitetaan →", atla: "Ohita", devam: "Seuraava →",
+    slides: [
+      { ikon:"kalori", baslik:"Syö terveellisesti Doyan kanssa", acik:"Kirjaa kaikki syömäsi sekunneissa. Seuraa kaloreita, proteiineja ja vitamiineja yli 10 000 elintarvikkeella.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ ruokaa","Makroseuranta","Vitamiinianalyysi"] },
+      { ikon:"ai", baslik:"AI-valokuvaskanneri", acik:"Ota kuva ateriastasi ja anna tekoälyn laskea kalorit ja makrot välittömästi.", renk:"#030604", vurgu:"#818cf8", detaylar:["Kuvakirjaus","Välitön analyysi","Tekoälypohjainen"] },
+      { ikon:"diyetisyen", baslik:"Henkilökohtainen AI-ravitsemusterapeutti", acik:"Henkilökohtaiset ateriasuunnitelmat tavoitteesi, allergioidesi ja ruokavaliosi mukaan.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 saatavilla","Henkilökohtaiset suunnitelmat","Allergiavapaa"] },
+      { ikon:"saglik", baslik:"Täydellinen terveydenseuranta", acik:"Paino, vesi ja paastoaminen — kaikki yhdessä paikassa.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Painokaavio","Vesiseuranta","Paastotila"] },
+    ],
+  },
+  pl: {
+    dilSec: "Wybierz język", hosgeldin: "Witamy!", basla: "Zaczynajmy →", atla: "Pomiń", devam: "Dalej →",
+    slides: [
+      { ikon:"kalori", baslik:"Jedz zdrowo z Doya", acik:"Zapisuj wszystko co jesz w sekundach. Śledź kalorie, białka i witaminy z ponad 10 000 produktów.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ produktów","Śledzenie makro","Analiza witamin"] },
+      { ikon:"ai", baslik:"Skaner AI do zdjęć", acik:"Zrób zdjęcie posiłku i pozwól AI natychmiast obliczyć kalorie i makroskładniki.", renk:"#030604", vurgu:"#818cf8", detaylar:["Rejestracja zdjęć","Natychmiastowa analiza","Oparte na AI"] },
+      { ikon:"diyetisyen", baslik:"Twój osobisty dietetyk AI", acik:"Spersonalizowane plany posiłków dopasowane do Twojego celu, alergii i diety.", renk:"#030604", vurgu:"#34d399", detaylar:["Dostęp 24/7","Osobiste plany","Świadomość alergii"] },
+      { ikon:"saglik", baslik:"Pełne śledzenie zdrowia", acik:"Waga, woda i post przerywany — wszystko w jednym miejscu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Wykres wagi","Śledzenie wody","Tryb postu"] },
+    ],
+  },
+  cs: {
+    dilSec: "Vyberte jazyk", hosgeldin: "Vítejte!", basla: "Začínáme →", atla: "Přeskočit", devam: "Další →",
+    slides: [
+      { ikon:"kalori", baslik:"Jezte zdravě s Doya", acik:"Zaznamenejte vše, co jíte, během vteřin. Sledujte kalorie, bílkoviny a vitamíny s více než 10 000 potravinami.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ potravin","Sledování maker","Analýza vitamínů"] },
+      { ikon:"ai", baslik:"AI fotoskener", acik:"Vyfotografujte jídlo a nechte AI okamžitě vypočítat kalorie a makra.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto záznamy","Okamžitá analýza","Poháněno AI"] },
+      { ikon:"diyetisyen", baslik:"Váš osobní AI dietolog", acik:"Personalizované plány jídel přizpůsobené vašemu cíli, alergiím a stravovacímu stylu.", renk:"#030604", vurgu:"#34d399", detaylar:["Přístup 24/7","Osobní plány","Uvědomění o alergiích"] },
+      { ikon:"saglik", baslik:"Kompletní sledování zdraví", acik:"Váha, voda a přerušovaný půst — vše na jednom místě.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graf váhy","Sledování vody","Režim půstu"] },
+    ],
+  },
+  pt: {
+    dilSec: "Selecionar idioma", hosgeldin: "Bem-vindo!", basla: "Vamos começar →", atla: "Pular", devam: "Próximo →",
+    slides: [
+      { ikon:"kalori", baslik:"Coma saudável com Doya", acik:"Registe tudo o que come em segundos. Acompanhe calorias, proteínas e vitaminas com mais de 10.000 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimentos","Rastreamento de macros","Análise de vitaminas"] },
+      { ikon:"ai", baslik:"Scanner AI por foto", acik:"Tire uma foto da sua refeição e deixe a IA calcular instantaneamente calorias e macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Registo por foto","Análise instantânea","Baseado em IA"] },
+      { ikon:"diyetisyen", baslik:"O seu Nutricionista AI Pessoal", acik:"Planos de refeição personalizados com base no seu objetivo, alergias e estilo alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acesso 24/7","Planos pessoais","Consciente de alergias"] },
+      { ikon:"saglik", baslik:"Rastreamento de Saúde Completo", acik:"Peso, água e jejum intermitente — tudo num só lugar.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gráfico de peso","Rastreamento de água","Modo de jejum"] },
+    ],
+  },
+  el: {
+    dilSec: "Επιλογή γλώσσας", hosgeldin: "Καλώς ήρθατε!", basla: "Ξεκινάμε →", atla: "Παράλειψη", devam: "Επόμενο →",
+    slides: [
+      { ikon:"kalori", baslik:"Τρώτε υγιεινά με το Doya", acik:"Καταγράψτε όλα όσα τρώτε σε δευτερόλεπτα. Παρακολουθήστε θερμίδες, πρωτεΐνες και βιταμίνες με πάνω από 10.000 τρόφιμα.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ τρόφιμα","Παρακολούθηση μακρο","Ανάλυση βιταμινών"] },
+      { ikon:"ai", baslik:"Σαρωτής AI με φωτογραφία", acik:"Φωτογραφίστε το γεύμα σας και αφήστε το AI να υπολογίσει άμεσα θερμίδες και μακροθρεπτικά.", renk:"#030604", vurgu:"#818cf8", detaylar:["Καταγραφή με φωτο","Άμεση ανάλυση","Βασισμένο σε AI"] },
+      { ikon:"diyetisyen", baslik:"Ο Προσωπικός σας AI Διατροφολόγος", acik:"Εξατομικευμένα πλάνα γευμάτων βάσει στόχου, αλλεργιών και διατροφικού στυλ.", renk:"#030604", vurgu:"#34d399", detaylar:["Πρόσβαση 24/7","Προσωπικά πλάνα","Ευαισθησία σε αλλεργίες"] },
+      { ikon:"saglik", baslik:"Πλήρης Παρακολούθηση Υγείας", acik:"Βάρος, νερό και διαλειμματική νηστεία — όλα σε ένα μέρος.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Γράφημα βάρους","Παρακολούθηση νερού","Λειτουργία νηστείας"] },
+    ],
+  },
+  hu: {
+    dilSec: "Válasszon nyelvet", hosgeldin: "Üdvözöljük!", basla: "Kezdjük →", atla: "Kihagyás", devam: "Következő →",
+    slides: [
+      { ikon:"kalori", baslik:"Egészségesen enni a Doyával", acik:"Másodpercek alatt rögzítsen mindent, amit eszik. Kövesse nyomon a kalóriákat, fehérjéket és vitaminokat több mint 10 000 élelmiszerrel.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ élelmiszer","Makró követés","Vitaminelemzés"] },
+      { ikon:"ai", baslik:"AI fotószkenner", acik:"Fényképezze le az ételét, és hagyja, hogy az AI azonnal kiszámítsa a kalóriákat és makrókat.", renk:"#030604", vurgu:"#818cf8", detaylar:["Fotós naplózás","Azonnali elemzés","AI-alapú"] },
+      { ikon:"diyetisyen", baslik:"Az Ön személyes AI dietetikusa", acik:"Személyre szabott étkezési tervek céljához, allergiáihoz és étkezési stílusához igazítva.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 hozzáférés","Személyes tervek","Allergia-tudatos"] },
+      { ikon:"saglik", baslik:"Teljes egészségkövetés", acik:"Testsúly, víz és időszakos böjt — minden egy helyen.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Súlygrafikon","Vízkövetés","Böjt mód"] },
+    ],
+  },
+  ro: {
+    dilSec: "Selectați limba", hosgeldin: "Bun venit!", basla: "Să începem →", atla: "Sari peste", devam: "Următorul →",
+    slides: [
+      { ikon:"kalori", baslik:"Mâncați sănătos cu Doya", acik:"Înregistrați tot ce mâncați în câteva secunde. Urmăriți calorii, proteine și vitamine cu peste 10.000 de alimente.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimente","Urmărire macro","Analiză vitamine"] },
+      { ikon:"ai", baslik:"Scanner AI prin foto", acik:"Fotografiați masa și lăsați AI să calculeze imediat caloriile și macronutrienții.", renk:"#030604", vurgu:"#818cf8", detaylar:["Înregistrare foto","Analiză instantanee","Bazat pe AI"] },
+      { ikon:"diyetisyen", baslik:"Nutriționistul dvs. AI Personal", acik:"Planuri de masă personalizate în funcție de obiectiv, alergii și stilul alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acces 24/7","Planuri personale","Conștient de alergii"] },
+      { ikon:"saglik", baslik:"Monitorizare completă a sănătății", acik:"Greutate, apă și post intermitent — totul într-un singur loc.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafic greutate","Urmărire apă","Mod post"] },
+    ],
+  },
+  hr: {
+    dilSec: "Odaberite jezik", hosgeldin: "Dobrodošli!", basla: "Počnimo →", atla: "Preskoči", devam: "Sljedeće →",
+    slides: [
+      { ikon:"kalori", baslik:"Jedite zdravo s Doyom", acik:"Zabilježite sve što jedete u sekundi. Pratite kalorije, proteine i vitamine s više od 10.000 namirnica.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ namirnica","Praćenje makroa","Analiza vitamina"] },
+      { ikon:"ai", baslik:"AI skener fotoaparatom", acik:"Fotografirajte obrok i pustite AI da odmah izračuna kalorije i makronutrijente.", renk:"#030604", vurgu:"#818cf8", detaylar:["Bilježenje fotom","Trenutna analiza","Pokretano AI-om"] },
+      { ikon:"diyetisyen", baslik:"Vaš osobni AI nutricionist", acik:"Personalizirani planovi obroka prilagođeni vašem cilju, alergijama i stilu prehrane.", renk:"#030604", vurgu:"#34d399", detaylar:["Pristup 24/7","Osobni planovi","Svjesnost alergija"] },
+      { ikon:"saglik", baslik:"Potpuno praćenje zdravlja", acik:"Težina, voda i povremeni post — sve na jednom mjestu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafikon težine","Praćenje vode","Način posta"] },
     ],
   },
 };
@@ -351,6 +285,8 @@ const BESIN_DB = [
 // ─── DEMO VERİLER ───────────────────────────────────────────────
 
 // ─── YARDIMCI FONKSİYONLAR ───────────────────────────────────
+// Ürün adını kullanıcının diline göre döndürür
+function besinAd(b, dil){ if(!b) return ""; return b.adler?.[dil] || b.ad || ""; }
 function tarihKey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function bugunKey(){ return tarihKey(new Date()); }
 function bmiHesapla(k,b){ if(!k||!b)return null; return +(k/((b/100)**2)).toFixed(1); }
@@ -803,13 +739,18 @@ export default function App(){
             ref.lastStep=now;
             ref.sayac+=1;
             setAdimSayar(ref.sayac);
-            // Her 10 adımda kaydet
+            // Her 10 adımda localStorage kaydet
             if(ref.sayac%10===0){
               const bg=tarihKey(new Date());
               localStorage.setItem("doya_adim_"+bg, ref.sayac);
               // Takvime kaydet
               gunSet(bg,"adim",ref.sayac);
               gunSet(bg,"adimKal",Math.round(ref.sayac*0.04));
+            }
+            // Her 100 adımda Firebase kaydet (veri tasarrufu)
+            if(ref.sayac%100===0 && firebaseUID){
+              const bg=tarihKey(new Date());
+              gunVeriKaydet(firebaseUID,bg,{...gunV(bg),adim:ref.sayac,adimKal:Math.round(ref.sayac*0.04)}).catch(console.error);
             }
           }
         }
@@ -1881,7 +1822,7 @@ SADECE JSON döndür (başka metin yok):
               </div>
 
               <div className="w3" style={{display:"flex",flexDirection:"column",gap:8,width:"100%",maxWidth:300}}>
-                {[{k:"tr",ad:"Türkçe",fl:"🇹🇷"},{k:"en",ad:"English",fl:"🇬🇧"},{k:"de",ad:"Deutsch",fl:"🇩🇪"},{k:"it",ad:"Italiano",fl:"🇮🇹"},{k:"fr",ad:"Français",fl:"🇫🇷"},{k:"es",ad:"Español",fl:"🇪🇸"}].map(l=>(
+                {[{k:"tr",ad:"Türkçe",fl:"🇹🇷"},{k:"en",ad:"English",fl:"🇬🇧"},{k:"de",ad:"Deutsch",fl:"🇩🇪"},{k:"at",ad:"Österreich",fl:"🇦🇹"},{k:"nl",ad:"Nederlands",fl:"🇳🇱"},{k:"be",ad:"Belgique",fl:"🇧🇪"},{k:"fr",ad:"Français",fl:"🇫🇷"},{k:"es",ad:"Español",fl:"🇪🇸"},{k:"it",ad:"Italiano",fl:"🇮🇹"},{k:"pt",ad:"Português",fl:"🇵🇹"},{k:"el",ad:"Ελληνικά",fl:"🇬🇷"},{k:"sv",ad:"Svenska",fl:"🇸🇪"},{k:"da",ad:"Dansk",fl:"🇩🇰"},{k:"no",ad:"Norsk",fl:"🇳🇴"},{k:"fi",ad:"Suomi",fl:"🇫🇮"},{k:"pl",ad:"Polski",fl:"🇵🇱"},{k:"cs",ad:"Čeština",fl:"🇨🇿"},{k:"hu",ad:"Magyar",fl:"🇭🇺"},{k:"ro",ad:"Română",fl:"🇷🇴"},{k:"hr",ad:"Hrvatski",fl:"🇭🇷"}].map(l=>(
                   <button key={l.k} onClick={()=>setDil(l.k)} style={{
                     padding:"13px 18px",
                     borderRadius:14,
@@ -2008,7 +1949,7 @@ SADECE JSON döndür (başka metin yok):
           marginBottom:48,fontFamily:"sans-serif",
           animation:"fadeSlideUp 0.8s ease-out 0.2s both"
         }}>
-          Sağlıklı Beslenme Takibi
+          Nutrition Tracking
         </div>
 
         {/* İlerleme çubuğu */}
@@ -2032,7 +1973,7 @@ SADECE JSON döndür (başka metin yok):
           fontFamily:"sans-serif",letterSpacing:1,
           animation:"dotPulse 1.4s ease-in-out infinite"
         }}>
-          Yükleniyor
+          Loading
           <span style={{animation:"dotPulse 1.4s 0.2s infinite"}}>.</span>
           <span style={{animation:"dotPulse 1.4s 0.4s infinite"}}>.</span>
           <span style={{animation:"dotPulse 1.4s 0.6s infinite"}}>.</span>
@@ -2044,7 +1985,7 @@ SADECE JSON döndür (başka metin yok):
           fontSize:11,color:"rgba(187,247,208,0.3)",
           fontFamily:"sans-serif"
         }}>
-          10.000+ besin · AI destekli
+          10,000+ foods · AI powered
         </div>
 
         <style>{`
@@ -2119,10 +2060,20 @@ SADECE JSON döndür (başka metin yok):
         <div style={{position:"relative",paddingTop:88,paddingBottom:48,textAlign:"center",zIndex:1}}>
           {/* Logo */}
           <div className="g1" style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:100,height:100,background:"linear-gradient(145deg,rgba(16,185,129,.15),rgba(16,185,129,.03))",borderRadius:32,marginBottom:28,boxShadow:"0 0 0 1px rgba(16,185,129,.12), 0 0 0 8px rgba(16,185,129,.03), 0 32px 80px rgba(0,0,0,.5)",animation:"g-float 5s ease-in-out infinite",border:"1px solid rgba(16,185,129,.15)"}}>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round">
-              <path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 8-3-3-5-5-5-8a5 5 0 0 1 5-5z"/>
-              <circle cx="12" cy="7" r="2" fill="#34d399" stroke="none" opacity=".8"/>
-              <path d="M7 18c0-2 2-3 5-3s5 1 5 3" opacity=".5"/>
+            <svg width="48" height="48" viewBox="0 0 120 120" fill="none">
+              <path d="M26 52 Q26 88 60 88 Q94 88 94 52 Z" fill="url(#bL3)"/>
+              <ellipse cx="60" cy="52" rx="34" ry="8" fill="url(#rL3)"/>
+              <path d="M52 65 Q60 52 72 60 Q60 78 52 65Z" fill="#fbbf24"/>
+              <defs>
+                <linearGradient id="bL3" x1="26" y1="52" x2="94" y2="88" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#f0fdf4"/>
+                  <stop offset="100%" stopColor="#bbf7d0"/>
+                </linearGradient>
+                <linearGradient id="rL3" x1="26" y1="44" x2="94" y2="60" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#dcfce7"/>
+                  <stop offset="100%" stopColor="#f0fdf4"/>
+                </linearGradient>
+              </defs>
             </svg>
           </div>
 
@@ -2132,11 +2083,11 @@ SADECE JSON döndür (başka metin yok):
             </div>
           </div>
           <div className="g2" style={{fontSize:10,color:"rgba(52,211,153,.35)",letterSpacing:5,textTransform:"uppercase",marginTop:12,marginBottom:4}}>
-            Beslen &nbsp;·&nbsp; Takip Et &nbsp;·&nbsp; Doyur
+            Eat &nbsp;·&nbsp; Track &nbsp;·&nbsp; Thrive
           </div>
           {/* Pills */}
           <div className="g3" style={{display:"flex",justifyContent:"center",gap:6,marginTop:20,flexWrap:"wrap",padding:"0 24px"}}>
-            {["AI Destekli","10K+ Besin","Kişisel Plan"].map(t=>(
+            {["AI Powered","10K+ Foods","Personal Plan"].map(t=>(
               <span key={t} style={{background:"rgba(16,185,129,.06)",border:"1px solid rgba(16,185,129,.12)",color:"rgba(52,211,153,.6)",padding:"4px 12px",borderRadius:99,fontSize:9,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase"}}>{t}</span>
             ))}
           </div>
@@ -4299,7 +4250,7 @@ SADECE JSON döndür (başka metin yok):
               {(secilenGV.yemekler||[]).length===0?<div style={{color:r.muted,fontSize:12}}>Kayıt yok.</div>:(secilenGV.yemekler||[]).map((y,i)=>(
                 <div key={i} style={{padding:"6px 0",borderBottom:`1px solid ${r.rowB}`}}>
                   <div style={{display:"flex",justifyContent:"space-between"}}>
-                    <div style={{fontSize:12,fontWeight:700,color:r.text}}>{y.ad} ({y.gram}g) <span style={{color:r.muted}}>{y.kat}</span></div>
+                    <div style={{fontSize:12,fontWeight:700,color:r.text}}>{besinAd(y,dil)} ({y.gram}g) <span style={{color:r.muted}}>{y.kat}</span></div>
                     <div style={{fontWeight:800,color:"#16a34a",fontSize:12}}>{y.gramKal} kcal</div>
                   </div>
                 </div>
@@ -4399,7 +4350,7 @@ SADECE JSON döndür (başka metin yok):
                       <div key={b.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 14px",borderRadius:14,border:`1px solid ${r.inpB}`,marginBottom:8,background:r.inp,cursor:"pointer"}}
                         onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
                         <div style={{flex:1}}>
-                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
+                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{besinAd(b,dil)}{b.marka?` (${b.marka})`:""}</div>
                           <div style={{fontSize:11,color:r.muted,marginTop:2}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g · {b.kat}</div>
                         </div>
                         <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}}
@@ -4419,7 +4370,7 @@ SADECE JSON döndür (başka metin yok):
                       <div key={b.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 14px",borderRadius:14,border:`1px solid ${r.inpB}`,marginBottom:8,background:r.inp,cursor:"pointer"}}
                         onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
                         <div style={{flex:1}}>
-                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
+                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{besinAd(b,dil)}{b.marka?` (${b.marka})`:""}</div>
                           <div style={{fontSize:11,color:r.muted}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g</div>
                         </div>
                         <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}}
@@ -4466,7 +4417,7 @@ SADECE JSON döndür (başka metin yok):
                         setHizliEkleYuk(true);setHizliSonuc(null);
                         const yeni=aiGunlukKullanim+1;setAiGunlukKullanim(yeni);
                         try{
-                          localStorage.setItem("aiGunluk_"+bugunKey(),String(yeni));
+                          if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{aiKullanim:{tarih:bugunKey(),sayi:yeni}}).catch(console.error);
                           const reader=new FileReader();
                           reader.onload=async(ev)=>{
                             const b64=ev.target.result.split(",")[1];
@@ -4505,7 +4456,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                         setHizliEkleYuk(true);setHizliSonuc(null);
                         const yeni=aiGunlukKullanim+1;setAiGunlukKullanim(yeni);
                         try{
-                          localStorage.setItem("aiGunluk_"+bugunKey(),String(yeni));
+                          if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{aiKullanim:{tarih:bugunKey(),sayi:yeni}}).catch(console.error);
                           const reader=new FileReader();
                           reader.onload=async(ev)=>{
                             const b64=ev.target.result.split(",")[1];
@@ -4544,7 +4495,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 </>)}
                 {hizliSonuc&&!hizliEkleYuk&&(
                   <div style={{...CS,marginTop:16,textAlign:"left"}}>
-                    <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{hizliSonuc.ad}</div>
+                    <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{besinAd(hizliSonuc,dil)}</div>
                     <div style={{fontSize:12,color:r.sub,marginBottom:10}}>{hizliSonuc.acik}</div>
                     <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
                       {[{l:"Kalori",v:hizliSonuc.kal,b:"kcal",c:"#16a34a"},{l:"Protein",v:hizliSonuc.pro,b:"g",c:"#3b82f6"},{l:"Karb",v:hizliSonuc.karb,b:"g",c:"#f59e0b"},{l:"Yağ",v:hizliSonuc.yag,b:"g",c:"#ef4444"}].map(m=>(
@@ -4642,7 +4593,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 </button>
                 {hizliSonuc&&!hizliSonuc.hata&&!hizliEkleYuk&&(
                   <div style={{...CS}}>
-                    <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{hizliSonuc.ad}</div>
+                    <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{besinAd(hizliSonuc,dil)}</div>
                     <div style={{fontSize:12,color:r.sub,marginBottom:12}}>{hizliSonuc.acik}</div>
                     <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
                       {[{l:"Kalori",v:hizliSonuc.kal,b:"kcal",c:"#16a34a"},{l:"Protein",v:hizliSonuc.pro,b:"g",c:"#3b82f6"},{l:"Karb",v:hizliSonuc.karb,b:"g",c:"#f59e0b"},{l:"Yağ",v:hizliSonuc.yag,b:"g",c:"#ef4444"}].map(m=>(
@@ -4777,7 +4728,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 )}
                 {ps.yemekler.length>0&&(
                   <div style={{background:d?"#0f172a":"#f0fdf4",borderRadius:10,padding:8,marginBottom:8}}>
-                    {ps.yemekler.map((y,i)=><div key={i} style={{fontSize:11,color:r.sub}}>🍽 {y.ad} ({y.gram}g) — {y.kal} kcal</div>)}
+                    {ps.yemekler.map((y,i)=><div key={i} style={{fontSize:11,color:r.sub}}>🍽 {besinAd(y,dil)} ({y.gram}g) — {y.kal} kcal</div>)}
                   </div>
                 )}
                 <div style={{display:"flex",gap:6,marginBottom:8}}>
@@ -4920,7 +4871,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                           {ay2.length===0?<div style={{fontSize:12,color:r.muted}}>Kayıt yok.</div>:ay2.map((y,i)=>(
                             <div key={i} style={{padding:"5px 0",borderBottom:`1px solid ${r.rowB}`}}>
                               <div style={{display:"flex",justifyContent:"space-between"}}>
-                                <div style={{fontSize:12,fontWeight:700,color:r.text}}>{y.ad} ({y.gram}g)</div>
+                                <div style={{fontSize:12,fontWeight:700,color:r.text}}>{besinAd(y,dil)} ({y.gram}g)</div>
                                 <div style={{fontWeight:800,color:"#16a34a",fontSize:12}}>{y.gramKal||y.kal} kcal</div>
                               </div>
                             </div>
@@ -5702,7 +5653,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                           <div style={{fontSize:13,color:r.text,lineHeight:1.5,marginBottom:6}}>{ps.icerik}</div>
                           {ps.yemekler?.length>0&&(
                             <div style={{background:d?"#0f172a":"#f0fdf4",borderRadius:8,padding:"6px 10px",marginBottom:6}}>
-                              {ps.yemekler.map((y,i)=><div key={i} style={{fontSize:11,color:r.sub}}>🍽 {y.ad} — {y.kal} kcal</div>)}
+                              {ps.yemekler.map((y,i)=><div key={i} style={{fontSize:11,color:r.sub}}>🍽 {besinAd(y,dil)} — {y.kal} kcal</div>)}
                             </div>
                           )}
                           <div style={{display:"flex",gap:10,fontSize:11,color:r.muted}}>
@@ -6707,7 +6658,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       <div key={b.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 14px",borderRadius:14,border:`1px solid ${r.inpB}`,marginBottom:8,background:r.inp,cursor:"pointer"}}
                         onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));setYemekKat(yemekEkleOgun);setYemekEkleModal(false);}}>
                         <div style={{flex:1}}>
-                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{b.ad}{b.marka?` (${b.marka})`:""}</div>
+                          <div style={{fontWeight:800,fontSize:13,color:r.text}}>{besinAd(b,dil)}{b.marka?` (${b.marka})`:""}</div>
                           <div style={{fontSize:11,color:r.muted}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g</div>
                         </div>
                         <div style={{background:"#16a34a",borderRadius:10,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:20,flexShrink:0}}>+</div>
@@ -6755,7 +6706,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     {hizliEkleYuk&&<div style={{marginTop:20,color:r.sub,fontSize:13}}>🤖 AI analiz ediyor...</div>}
                     {hizliSonuc&&!hizliEkleYuk&&(
                       <div style={{...CS,marginTop:16,textAlign:"left"}}>
-                        <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{hizliSonuc.ad}</div>
+                        <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{besinAd(hizliSonuc,dil)}</div>
                         <div style={{fontSize:12,color:r.sub,marginBottom:10}}>{hizliSonuc.acik}</div>
                         <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
                           {[{l:"Kalori",v:hizliSonuc.kal,b:"kcal",c:"#16a34a"},{l:"Protein",v:hizliSonuc.pro,b:"g",c:"#3b82f6"},{l:"Karb",v:hizliSonuc.karb,b:"g",c:"#f59e0b"},{l:"Yağ",v:hizliSonuc.yag,b:"g",c:"#ef4444"}].map(m=>(
@@ -6821,7 +6772,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     </button>
                     {hizliSonuc&&!hizliSonuc.hata&&!hizliEkleYuk&&(
                       <div style={{...CS}}>
-                        <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{hizliSonuc.ad}</div>
+                        <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{besinAd(hizliSonuc,dil)}</div>
                         <div style={{fontSize:12,color:r.sub,marginBottom:12}}>{hizliSonuc.acik}</div>
                         <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
                           {[{l:"Kalori",v:hizliSonuc.kal,b:"kcal",c:"#16a34a"},{l:"Protein",v:hizliSonuc.pro,b:"g",c:"#3b82f6"},{l:"Karb",v:hizliSonuc.karb,b:"g",c:"#f59e0b"},{l:"Yağ",v:hizliSonuc.yag,b:"g",c:"#ef4444"}].map(m=>(
@@ -6856,7 +6807,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             <div style={{background:r.card,borderRadius:"18px 18px 0 0",padding:22,width:"100%",maxWidth:430,maxHeight:"93vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
               <div style={{display:"flex",justifyContent:"space-between",marginBottom:12}}>
                 <div>
-                  <div style={{fontSize:17,fontWeight:900,color:r.text}}>{secBesin.ad}</div>
+                  <div style={{fontSize:17,fontWeight:900,color:r.text}}>{besinAd(secBesin,dil)}</div>
                   {secBesin.marka&&<div style={{fontSize:12,color:"#16a34a",fontWeight:700}}>{secBesin.marka}</div>}
                   <div style={{fontSize:11,color:r.muted}}>{secBesin.kat}</div>
                   <div style={{fontSize:10,color:r.muted,fontStyle:"italic",marginTop:2}}>*Besin değerleri tahminidir</div>
