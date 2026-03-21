@@ -239,11 +239,11 @@ const LANG = {
 // ─── SABİTLER ────────────────────────────────────────────────
 const DESTEK_MAIL   = "Doyasupport@gmail.com";
 const ORTAKLIK_MAIL = "Doyasupport@gmail.com";
-const PREMIUM_FIYAT = 300;        // aylık ₺ (sınırsız AI)
-const PREMIUM_YILLIK = 2700;      // yıllık ₺ (3 ay bedava)
-const PREMIUM_PLUS_YILLIK = 2700; // yıllık ₺
-const PREMIUM_PLUS_FIYAT = 300;   // aylık ₺
-const AI_GUNLUK_LIMIT = 1; // ücretsiz günlük AI hak
+const PREMIUM_FIYAT = 79;         // aylık ₺
+const PREMIUM_YILLIK = 479;       // yıllık ₺ (%50 indirim)
+const PREMIUM_PLUS_YILLIK = 479;  // yıllık ₺
+const PREMIUM_PLUS_FIYAT = 79;    // aylık ₺
+const AI_GUNLUK_LIMIT = 4; // ücretsiz günlük AI hak
 const GUNLUK_MAX_PUAN = 750; // Günlük kazanılabilir max puan (manipülasyon önleme) // premium plus günlük fotoğraf hakkı
 const AYLAR  = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
 const GUNLER = ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
@@ -552,7 +552,7 @@ export default function App(){
 
   // ── SOSYAL AKIŞ ──
   const [paylasimlar,setPaylasimlar]=useState([]);
-  const [yeniPS,setYeniPS]=useState(""); const [postFoto,setPostFoto]=useState(null); const [sosyalSekme,setSosyalSekme]=useState("genel");
+  const [yeniPS,setYeniPS]=useState(""); const [postFoto,setPostFoto]=useState(null); const [sosyalSekme,setSosyalSekme]=useState("arkadaslar");
   const [gunlukKazanilanPuan,setGunlukKazanilanPuan]=useState(0);
   const [gunlukPuanGun,setGunlukPuanGun]=useState("");
   const [marketSekme,setMarketSekme]=useState("market"); // "market" | "reklam"
@@ -911,10 +911,9 @@ export default function App(){
   // ─── FİREBASE: TARİFLER YÜKLEME ─────────────────────────────
   useEffect(()=>{
     setTarifFbYuk(true);
-    import("firebase/firestore").then(({getDocs,collection,query,where,orderBy})=>{
+    import("firebase/firestore").then(({getDocs,collection})=>{
       getDocs(collection(db,"tarifler")).then(snap=>{
-        const veri=snap.docs.map(d=>({id:d.id,...d.data()}));
-        setTarifFbVeriler(veri);
+        setTarifFbVeriler(snap.docs.map(d=>({id:d.id,...d.data()})));
         setTarifFbYuk(false);
       }).catch(()=>setTarifFbYuk(false));
     }).catch(()=>setTarifFbYuk(false));
@@ -1042,9 +1041,13 @@ export default function App(){
   useEffect(()=>{
     if(!firebaseUID||!aktif) return;
     const bugun=bugunKey();
+    // Firebase'deki sonGiris kontrolü (localStorage değil - cihazdan bağımsız)
+    const sonGirisFirebase=aktif.sonGiris;
+    if(sonGirisFirebase===bugun) return; // Firebase'de bugün zaten bonus aldı
+    // localStorage ikincil kontrol (çift tetiklenmeyi önle)
     const sonGirisKey="doya_son_giris_"+firebaseUID;
-    const sonGiris=localStorage.getItem(sonGirisKey);
-    if(sonGiris===bugun) return; // Bugün zaten bonus aldı
+    const sonGirisLocal=localStorage.getItem(sonGirisKey);
+    if(sonGirisLocal===bugun) return;
     // İlk kez bugün giriş yapıyor → +100 puan
     const yeniPuan=(puan||0)+100;
     setPuan(yeniPuan);
@@ -1053,7 +1056,7 @@ export default function App(){
       puan:yeniPuan,
       sonGiris:bugun
     }).catch(console.error);
-  },[firebaseUID,aktif?.uid]); // aktif?.uid değişince (yeni oturum) tetikle
+  },[firebaseUID]); // sadece firebaseUID değişince — aktif?.uid kaldırıldı
 
   // ─── FİREBASE: GERÇEK ZAMANLI POST DİNLEYİCİ ────────────────
   useEffect(()=>{
@@ -2976,6 +2979,7 @@ SADECE JSON döndür (başka metin yok):
     const goster = filtreli.slice(0,tarifLimit);
     return(<>
       {goster.map(tarif=>{
+        // Alerji kontrolü
         const alerjiEslesme = alerjiListesi.filter(a=>{
           const malStr = (tarif.malzemeler||[]).join(" ").toLowerCase();
           const aMap = {
@@ -2990,6 +2994,7 @@ SADECE JSON döndür (başka metin yok):
           };
           return (aMap[a]||[]).some(k=>malStr.includes(k));
         });
+        // Tokluk hesabı (protein+lif bazlı)
         const p=tarif.makro?.p||0, k=tarif.makro?.k||0, y=tarif.makro?.y||0;
         const kal=tarif.kalori||300;
         const tokPuan=Math.min(5,Math.max(1,Math.round(((p*0.5)+(k*0.1)+(y*0.2)+(kal>400?0.5:1))*2)/2));
@@ -3023,6 +3028,7 @@ SADECE JSON döndür (başka metin yok):
               <div style={{fontSize:10,fontWeight:800,color:"#ef4444"}}>{tarif.makro.y}g</div>
             </div>
           </div>
+          {/* Sağlık Yıldızı - makro bazlı hesaplama */}
           <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:8}}>
             <YildizGoster v={getTarifSaglik(tarif)} boyut={14}/>
             <span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{getTarifSaglik(tarif)}/5</span>
@@ -4766,19 +4772,12 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 </>
               )}
             </div>
-            {/* Genel / Arkadaşlar sekmesi */}
-            <div style={{display:"flex",background:d?"#1e293b":"#f0fdf4",borderRadius:12,padding:4,marginBottom:12,gap:4}}>
-              {[{v:"genel",l:"🌍 Genel"},{v:"arkadaslar",l:"👥 Arkadaşlar"}].map(s=>(
-                <button key={s.v} onClick={()=>setSosyalSekme(s.v)} style={{flex:1,padding:"8px 0",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,background:sosyalSekme===s.v?d?"#334155":"#fff":"transparent",color:sosyalSekme===s.v?"#16a34a":r.sub,boxShadow:sosyalSekme===s.v?"0 1px 4px #0001":"none",transition:"all .15s"}}>{s.l}</button>
-              ))}
-            </div>
-            {(sosyalSekme==="arkadaslar"&&arkadaslar.length===0)&&(
+            {arkadaslar.length===0&&(
               <div style={{textAlign:"center",color:r.muted,padding:"24px 0",fontSize:13}}>Henüz arkadaşın yok. Arkadaş ekleyerek onların paylaşımlarını gör!</div>
             )}
-            {sosyalSekme!=="tarifler"&&paylasimlar.filter(ps=>{
+            {paylasimlar.filter(ps=>{
               if(engelliler.includes(ps.uid)) return false;
-              if(sosyalSekme==="arkadaslar") return arkadaslar.some(a=>a.uid===ps.uid)||ps.uid===aktif?.uid;
-              return true;
+              return arkadaslar.some(a=>a.uid===ps.uid)||ps.uid===aktif?.uid;
             }).map(ps=>(
               <div key={ps.id} style={CS}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
@@ -5008,7 +5007,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               <div style={{display:"flex",flexDirection:"column",gap:8}}>
                 {/* Aylık/Yıllık toggle */}
                 <div style={{display:"flex",background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.04)",borderRadius:14,padding:4,gap:4,margin:"0 14px"}}>
-                  {[{v:false,l:"Aylık"},{v:true,l:"Yıllık — %25 İndirim"}].map(p=>(
+                  {[{v:false,l:"Aylık"},{v:true,l:"Yıllık — %50 İndirim"}].map(p=>(
                     <button key={String(p.v)} onClick={()=>setYillikPlan(p.v)}
                       style={{flex:1,padding:"9px 0",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"'Nunito',sans-serif",
                         fontWeight:700,fontSize:11,transition:"all .2s",letterSpacing:.3,
@@ -5025,20 +5024,25 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   <div style={{position:"absolute",top:12,right:16,background:"linear-gradient(135deg,rgba(16,185,129,.2),rgba(5,150,105,.15))",border:"1px solid rgba(52,211,153,.25)",color:"#10b981",fontSize:8,fontWeight:800,padding:"3px 10px",borderRadius:20,letterSpacing:1.5,textTransform:"uppercase"}}>En İyi</div>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
                     <div style={{fontSize:9,fontWeight:700,color:"rgba(16,185,129,.5)",letterSpacing:2.5,textTransform:"uppercase"}}>Premium</div>
-                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,fontWeight:300,color:"#10b981",letterSpacing:-.5}}>300₺<span style={{fontSize:12,fontWeight:300}}>/ay</span></div>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:26,fontWeight:300,color:"#10b981",letterSpacing:-.5}}>
+                      {yillikPlan
+                        ? <>{PREMIUM_YILLIK}₺<span style={{fontSize:12,fontWeight:300}}>/yıl</span><span style={{fontSize:11,color:"rgba(16,185,129,.5)",marginLeft:6,textDecoration:"line-through"}}>{PREMIUM_FIYAT*12}₺</span></>
+                        : <>{PREMIUM_FIYAT}₺<span style={{fontSize:12,fontWeight:300}}>/ay</span></>
+                      }
+                    </div>
                   </div>
                   <div style={{fontSize:12,color:r.sub,marginBottom:12}}>
-                    {["✅ Sınırsız AI fotoğraf analizi","✅ AI ile hızlı yemek ekleme","✅ Tüm reklamlar kalkar","✅ Kişisel AI diyetisyen sohbeti","✅ Günlük diyet planı oluşturma"].map((f,i)=><div key={i} style={{marginBottom:6,fontSize:12,color:r.muted}}>{f}</div>)}
+                    {["✅ Sınırsız AI kullanımı","✅ AI fotoğraf analizi","✅ AI ile hızlı yemek ekleme","✅ Tüm reklamlar kalkar","✅ Kişisel AI diyetisyen sohbeti","✅ Günlük diyet planı oluşturma","✅ 145+ ülke tarifi"].map((f,i)=><div key={i} style={{marginBottom:6,fontSize:12,color:r.muted}}>{f}</div>)}
                   </div>
                   <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.05)",border:"1px solid rgba(16,185,129,.1)",borderRadius:10,padding:"8px 12px",marginBottom:12,fontSize:11,color:"rgba(16,185,129,.6)",textAlign:"center"}}>
-                    Ücretsiz: Günlük 1 AI hakkı &nbsp;·&nbsp; Premium: Sınırsız
+                    Ücretsiz: Günlük {AI_GUNLUK_LIMIT} AI hakkı &nbsp;·&nbsp; Premium: Sınırsız
                   </div>
                   <button style={{...BTN("#10b981"),width:"100%",padding:"12px 0",fontSize:13,fontWeight:800}} onClick={async()=>{
                     setPremiumPlus(true); setPremium(true); setReklam(false);
                     if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{premium:true,premiumPlus:true}).catch(console.error);
                     setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,premium:true,premiumPlus:true}:u));
                   }}>
-                    {yillikPlan?`Satın Al — 2700₺/yıl`:`Satın Al — 300₺/ay`}
+                    {yillikPlan?`Satın Al — ${PREMIUM_YILLIK}₺/yıl`:`Satın Al — ${PREMIUM_FIYAT}₺/ay`}
                   </button>
                 </div>
 
@@ -6456,25 +6460,22 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       <div style={{padding:"0 4px"}}>
                         {/* Ülke filtreleri */}
                         <div style={{marginBottom:10}}>
-                          <div style={{fontSize:11,fontWeight:800,color:r.muted,marginBottom:6,letterSpacing:1}}>ÜLKE</div>
-                          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                          <div style={{fontSize:10,fontWeight:800,color:r.muted,marginBottom:6,letterSpacing:1.5,textTransform:"uppercase"}}>Ülke Mutfağı</div>
+                          <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:4}}>
                             {[
                               {k:"",l:"🌍 Tümü"},
-                              {k:"tr",l:"🇹🇷 Türkiye"},
-                              {k:"de",l:"🇩🇪 Almanya"},
-                              {k:"fr",l:"🇫🇷 Fransa"},
-                              {k:"it",l:"🇮🇹 İtalya"},
-                              {k:"es",l:"🇪🇸 İspanya"},
-                              {k:"el",l:"🇬🇷 Yunanistan"},
-                              {k:"en",l:"🇬🇧 İngiltere"},
-                              {k:"no",l:"🇳🇴 Norveç"},
-                              {k:"pl",l:"🇵🇱 Polonya"},
+                              {k:"tr",l:"🇹🇷 TR"},{k:"de",l:"🇩🇪 DE"},{k:"at",l:"🇦🇹 AT"},{k:"fr",l:"🇫🇷 FR"},
+                              {k:"it",l:"🇮🇹 IT"},{k:"es",l:"🇪🇸 ES"},{k:"pt",l:"🇵🇹 PT"},{k:"el",l:"🇬🇷 EL"},
+                              {k:"en",l:"🇬🇧 EN"},{k:"nl",l:"🇳🇱 NL"},{k:"be",l:"🇧🇪 BE"},{k:"sv",l:"🇸🇪 SE"},
+                              {k:"da",l:"🇩🇰 DA"},{k:"no",l:"🇳🇴 NO"},{k:"fi",l:"🇫🇮 FI"},{k:"pl",l:"🇵🇱 PL"},
+                              {k:"cs",l:"🇨🇿 CS"},{k:"hu",l:"🇭🇺 HU"},{k:"ro",l:"🇷🇴 RO"},{k:"hr",l:"🇭🇷 HR"},
+                              {k:"lv",l:"🇱🇻 LV"},{k:"et",l:"🇪🇪 ET"},{k:"lt",l:"🇱🇹 LT"},
                             ].map(u=>(
                               <button key={u.k} onClick={()=>{setTarifAsistanUlke(u.k);setTarifAsistanEtiket("");setTarifAsistanLimit(5);}}
-                                style={{padding:"5px 10px",borderRadius:20,border:`1.5px solid ${tarifAsistanUlke===u.k?"#f97316":r.inpB}`,
+                                style={{flexShrink:0,padding:"5px 10px",borderRadius:20,border:`1.5px solid ${tarifAsistanUlke===u.k?"#f97316":r.inpB}`,
                                   background:tarifAsistanUlke===u.k?"#f97316":r.inp,
                                   color:tarifAsistanUlke===u.k?"#fff":r.sub,
-                                  fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
+                                  fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif",whiteSpace:"nowrap"}}>
                                 {u.l}
                               </button>
                             ))}
@@ -6482,103 +6483,148 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                         </div>
                         {/* Etiket filtreleri */}
                         <div style={{marginBottom:12}}>
-                          <div style={{fontSize:11,fontWeight:800,color:r.muted,marginBottom:6,letterSpacing:1}}>FİLTRE</div>
-                          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                            {["","vejetaryen","vegan","glutensiz","kolay","hızlı","fırın","kış","özel gün"].map(e=>(
+                          <div style={{fontSize:10,fontWeight:800,color:r.muted,marginBottom:6,letterSpacing:1.5,textTransform:"uppercase"}}>Kategori</div>
+                          <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:4}}>
+                            {[
+                              {e:"",ic:"🍽️",renk:"#6b7280"},
+                              {e:"sporcu",ic:"💪",renk:"#2563eb"},
+                              {e:"yüksek protein",ic:"🥩",renk:"#dc2626"},
+                              {e:"düşük kalori",ic:"⚖️",renk:"#16a34a"},
+                              {e:"vegan",ic:"🌱",renk:"#15803d"},
+                              {e:"vejetaryen",ic:"🥦",renk:"#22c55e"},
+                              {e:"kahvaltı",ic:"🌅",renk:"#f59e0b"},
+                              {e:"glutensiz",ic:"🚫",renk:"#d97706"},
+                              {e:"meal prep",ic:"📦",renk:"#8b5cf6"},
+                              {e:"antrenman öncesi",ic:"⚡",renk:"#0ea5e9"},
+                              {e:"antrenman sonrası",ic:"🏋️",renk:"#06b6d4"},
+                              {e:"hızlı",ic:"⏱️",renk:"#f97316"},
+                              {e:"çorba",ic:"🍲",renk:"#c2410c"},
+                              {e:"salata",ic:"🥗",renk:"#65a30d"},
+                              {e:"detoks",ic:"✨",renk:"#7c3aed"},
+                              {e:"omega-3",ic:"🐟",renk:"#0284c7"},
+                              {e:"kış",ic:"❄️",renk:"#60a5fa"},
+                            ].map(({e,ic,renk})=>{
+                              const aktif=tarifAsistanEtiket===e;
+                              return(
                               <button key={e} onClick={()=>{setTarifAsistanEtiket(e);setTarifAsistanLimit(5);}}
-                                style={{padding:"4px 10px",borderRadius:20,border:`1.5px solid ${tarifAsistanEtiket===e?"#16a34a":r.inpB}`,
-                                  background:tarifAsistanEtiket===e?"#16a34a":r.inp,
-                                  color:tarifAsistanEtiket===e?"#fff":r.sub,
-                                  fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
-                                {e||"Tümü"}
+                                style={{flexShrink:0,padding:"5px 11px",borderRadius:20,border:`1.5px solid ${aktif?renk:r.inpB}`,
+                                  background:aktif?renk:r.inp,color:aktif?"#fff":r.sub,
+                                  fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif",whiteSpace:"nowrap",
+                                  display:"flex",alignItems:"center",gap:4}}>
+                                <span style={{fontSize:12}}>{ic}</span>{e||"Tümü"}
                               </button>
-                            ))}
+                              );
+                            })}
                           </div>
                         </div>
                         {/* Tarif listesi */}
                         {tarifFbYuk?(
-                          <div style={{textAlign:"center",padding:"24px 0",color:r.sub,fontSize:13}}>⏳ Tarifler yükleniyor...</div>
+                          <div style={{textAlign:"center",padding:"32px 0",color:r.sub,fontSize:13}}>⏳ Tarifler yükleniyor...</div>
                         ):(()=>{
-                          const fbFiltreli = tarifFbVeriler.filter(t=>{
-                            const ulkeOk = !tarifAsistanUlke || t.ulke===tarifAsistanUlke;
-                            const etiketOk = !tarifAsistanEtiket || (t.etiketler||[]).includes(tarifAsistanEtiket);
-                            return ulkeOk && etiketOk;
-                          });
                           const ULKE_BAYRAK={tr:"🇹🇷",de:"🇩🇪",fr:"🇫🇷",it:"🇮🇹",es:"🇪🇸",el:"🇬🇷",en:"🇬🇧",no:"🇳🇴",pl:"🇵🇱",sv:"🇸🇪",da:"🇩🇰",fi:"🇫🇮",nl:"🇳🇱",be:"🇧🇪",at:"🇦🇹",pt:"🇵🇹",hu:"🇭🇺",cs:"🇨🇿",ro:"🇷🇴",hr:"🇭🇷",lv:"🇱🇻",et:"🇪🇪",lt:"🇱🇹"};
+                          const ULKE_AD={tr:"Türkiye",de:"Almanya",fr:"Fransa",it:"İtalya",es:"İspanya",el:"Yunanistan",en:"İngiltere",no:"Norveç",pl:"Polonya",sv:"İsveç",da:"Danimarka",fi:"Finlandiya",nl:"Hollanda",be:"Belçika",at:"Avusturya",pt:"Portekiz",hu:"Macaristan",cs:"Çekya",ro:"Romanya",hr:"Hırvatistan",lv:"Letonya",et:"Estonya",lt:"Litvanya"};
                           const ZORLUK_RENK={kolay:"#16a34a",orta:"#f59e0b",zor:"#ef4444"};
+                          const fbFiltreli=tarifFbVeriler.filter(t=>{
+                            const ulkeOk=!tarifAsistanUlke||t.ulke===tarifAsistanUlke;
+                            const etiketOk=!tarifAsistanEtiket||(t.etiketler||[]).includes(tarifAsistanEtiket);
+                            return ulkeOk&&etiketOk;
+                          });
                           if(fbFiltreli.length===0) return(
-                            <div style={{textAlign:"center",padding:"24px 0",color:r.muted,fontSize:13}}>
-                              Bu filtreye uygun tarif bulunamadı.
+                            <div style={{textAlign:"center",padding:"32px 0",color:r.muted}}>
+                              <div style={{fontSize:32,marginBottom:8}}>🍽️</div>
+                              <div style={{fontSize:13,fontWeight:700}}>Bu filtreye uygun tarif bulunamadı.</div>
+                              <button onClick={()=>{setTarifAsistanUlke("");setTarifAsistanEtiket("");}}
+                                style={{marginTop:12,...BTN("#f97316"),padding:"8px 20px",fontSize:12}}>
+                                Filtreleri Temizle
+                              </button>
                             </div>
                           );
                           return(<>
-                            <div style={{fontSize:11,color:r.muted,marginBottom:8}}>{fbFiltreli.length} tarif bulundu</div>
+                            <div style={{fontSize:11,color:r.muted,marginBottom:10,display:"flex",justifyContent:"space-between"}}>
+                              <span><b style={{color:r.text}}>{fbFiltreli.length}</b> tarif</span>
+                              {(tarifAsistanUlke||tarifAsistanEtiket)&&(
+                                <button onClick={()=>{setTarifAsistanUlke("");setTarifAsistanEtiket("");setTarifAsistanLimit(5);}}
+                                  style={{background:"none",border:"none",color:"#f97316",fontSize:11,fontWeight:700,cursor:"pointer"}}>
+                                  ✕ Temizle
+                                </button>
+                              )}
+                            </div>
                             {fbFiltreli.slice(0,tarifAsistanLimit).map(t=>{
-                              // Tokluk puanı - kalPorsiyon bazlı
                               const kal=t.kalPorsiyon||350;
-                              const tokP = kal<=300?4.5:kal<=450?3.5:kal<=600?2.5:2;
+                              const tokP=kal<=250?5:kal<=350?4:kal<=450?3.5:kal<=550?3:kal<=700?2.5:2;
                               const tokRenk=tokP>=4?"#16a34a":tokP>=3?"#f59e0b":"#ef4444";
-                              const tokL=tokP>=4?"Çok tok tutar":tokP>=3?"Orta tok":"Kısa süre tok";
-                              // Sağlık yıldızı - etiket bazlı
+                              const tokL=tokP>=4.5?"Çok tok tutar":tokP>=3.5?"Tok tutar":tokP>=3?"Orta tok":"Az tok";
                               let saglik=3;
-                              if((t.etiketler||[]).includes("vegan")||( t.etiketler||[]).includes("vejetaryen")) saglik+=0.5;
-                              if((t.etiketler||[]).includes("glutensiz")) saglik+=0.5;
-                              if(kal<=350) saglik+=0.5; else if(kal>=600) saglik-=1;
-                              if(t.zorluk==="kolay") saglik+=0.2;
+                              const et=t.etiketler||[];
+                              if(et.includes("vegan")) saglik+=1;
+                              else if(et.includes("vejetaryen")) saglik+=0.5;
+                              if(et.includes("glutensiz")) saglik+=0.3;
+                              if(et.includes("sporcu")||et.includes("yüksek protein")) saglik+=0.5;
+                              if(et.includes("düşük kalori")||et.includes("detoks")) saglik+=0.5;
+                              if(et.includes("omega-3")) saglik+=0.3;
+                              if(kal<=300) saglik+=0.5; else if(kal>=600) saglik-=1;
                               saglik=Math.min(5,Math.max(1,Math.round(saglik*2)/2));
+                              const bayrak=ULKE_BAYRAK[t.ulke]||"🌍";
+                              const ulkeAdi=ULKE_AD[t.ulke]||t.ulke;
                               return(
-                              <div key={t.id} style={{background:d?"#1e293b":"#f8fafc",borderRadius:14,padding:14,marginBottom:10,border:`1px solid ${r.inpB}`}}>
-                                {/* Başlık satırı */}
-                                <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
-                                  <div style={{flex:1}}>
-                                    <div style={{fontWeight:800,fontSize:14,color:r.text,marginBottom:4}}>
-                                      {ULKE_BAYRAK[t.ulke]||"🌍"} {t.ad}
-                                    </div>
-                                    <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                                      <span style={{background:"#f0fdf4",color:"#16a34a",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>⏱ {t.sure} dk</span>
-                                      <span style={{background:d?`${ZORLUK_RENK[t.zorluk]||"#6b7280"}20`:`${ZORLUK_RENK[t.zorluk]||"#6b7280"}15`,color:ZORLUK_RENK[t.zorluk]||"#6b7280",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>{t.zorluk||"orta"}</span>
-                                      <span style={{background:"#fef3c7",color:"#d97706",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>🔥 {t.kalPorsiyon} kcal/porsiyon</span>
-                                      <span style={{background:"#fdf4ff",color:"#9333ea",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>👥 {t.porsiyon} kişi</span>
-                                    </div>
-                                  </div>
+                              <div key={t.id} style={{background:d?"#1e293b":"#fff",borderRadius:16,padding:"14px 14px 10px",marginBottom:12,border:`1px solid ${r.inpB}`,position:"relative",overflow:"hidden",boxShadow:d?"none":"0 1px 4px rgba(0,0,0,.06)"}}>
+                                {/* Sağ üst — ülke */}
+                                <div style={{position:"absolute",top:0,right:0,background:d?"rgba(255,255,255,.06)":"rgba(0,0,0,.04)",borderRadius:"0 16px 0 12px",padding:"5px 10px",display:"flex",alignItems:"center",gap:4}}>
+                                  <span style={{fontSize:16,lineHeight:1}}>{bayrak}</span>
+                                  <span style={{fontSize:9,fontWeight:800,color:r.muted,letterSpacing:.5}}>{ulkeAdi}</span>
                                 </div>
-                                {/* Sağlık yıldızı + tokluk */}
-                                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:10,background:d?"rgba(255,255,255,.04)":"rgba(0,0,0,.03)",borderRadius:10,padding:"8px 10px"}}>
+                                {/* Başlık */}
+                                <div style={{fontWeight:900,fontSize:14,color:r.text,marginBottom:6,paddingRight:80,lineHeight:1.3}}>{t.ad}</div>
+                                {/* Badges */}
+                                <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:10}}>
+                                  <span style={{background:"#f0fdf4",color:"#16a34a",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>⏱ {t.sure} dk</span>
+                                  <span style={{background:d?`${ZORLUK_RENK[t.zorluk]||"#6b7280"}25`:`${ZORLUK_RENK[t.zorluk]||"#6b7280"}12`,color:ZORLUK_RENK[t.zorluk]||"#6b7280",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>
+                                    {t.zorluk==="kolay"?"😊 kolay":t.zorluk==="orta"?"🤔 orta":"💪 zor"}
+                                  </span>
+                                  <span style={{background:"#fef3c7",color:"#d97706",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>🔥 {t.kalPorsiyon} kcal</span>
+                                  <span style={{background:"#f5f3ff",color:"#7c3aed",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>👥 {t.porsiyon} kişilik</span>
+                                </div>
+                                {/* Sağlık + Tokluk */}
+                                <div style={{display:"flex",gap:8,marginBottom:10,background:d?"rgba(255,255,255,.04)":"#f8fafc",borderRadius:12,padding:"10px 12px"}}>
                                   <div style={{flex:1}}>
-                                    <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>SAĞLIK PUANI</div>
-                                    <div style={{display:"flex",alignItems:"center",gap:4}}>
-                                      {"★★★★★".split("").map((_,i)=>(
-                                        <span key={i} style={{fontSize:14,color:i<Math.floor(saglik)?"#f59e0b":i<saglik?"#fbbf24":"#d1d5db"}}>★</span>
+                                    <div style={{fontSize:9,color:r.muted,fontWeight:800,marginBottom:4,letterSpacing:.8}}>SAĞLIK PUANI</div>
+                                    <div style={{display:"flex",alignItems:"center",gap:3}}>
+                                      {[1,2,3,4,5].map(i=>(
+                                        <span key={i} style={{fontSize:15,color:i<=Math.floor(saglik)?"#f59e0b":i-0.5<=saglik?"#fbbf24":"#e5e7eb",lineHeight:1}}>★</span>
                                       ))}
-                                      <span style={{fontSize:11,fontWeight:800,color:"#f59e0b",marginLeft:2}}>{saglik}/5</span>
+                                      <span style={{fontSize:11,fontWeight:900,color:"#f59e0b",marginLeft:3}}>{saglik}</span>
                                     </div>
                                   </div>
+                                  <div style={{width:1,background:r.inpB}}/>
                                   <div style={{flex:1}}>
-                                    <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>TOKLUK</div>
-                                    <div style={{display:"flex",alignItems:"center",gap:4}}>
-                                      <div style={{flex:1,height:6,background:d?"#334155":"#e5e7eb",borderRadius:3,overflow:"hidden"}}>
-                                        <div style={{height:"100%",width:`${Math.round(tokP/5*100)}%`,background:tokRenk,borderRadius:3,transition:"width .3s"}}/>
+                                    <div style={{fontSize:9,color:r.muted,fontWeight:800,marginBottom:4,letterSpacing:.8}}>TOKLUK</div>
+                                    <div style={{display:"flex",alignItems:"center",gap:5}}>
+                                      <div style={{flex:1,height:5,background:d?"#334155":"#e5e7eb",borderRadius:3,overflow:"hidden"}}>
+                                        <div style={{height:"100%",width:`${Math.round(tokP/5*100)}%`,background:tokRenk,borderRadius:3,transition:"width .4s"}}/>
                                       </div>
-                                      <span style={{fontSize:10,fontWeight:800,color:tokRenk,whiteSpace:"nowrap"}}>{tokL}</span>
+                                      <span style={{fontSize:10,fontWeight:800,color:tokRenk,whiteSpace:"nowrap",minWidth:60,textAlign:"right"}}>{tokL}</span>
                                     </div>
                                   </div>
                                 </div>
-                                {/* Etiketler */}
-                                {(t.etiketler||[]).length>0&&(
+                                {/* Etiketler — tıklanabilir */}
+                                {et.length>0&&(
                                   <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:10}}>
-                                    {(t.etiketler||[]).map((e,i)=>(
-                                      <span key={i} style={{background:d?"rgba(99,102,241,.15)":"rgba(99,102,241,.08)",color:"#6366f1",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700}}>#{e}</span>
+                                    {et.slice(0,6).map((e,i)=>(
+                                      <span key={i} onClick={()=>{setTarifAsistanEtiket(e);setTarifAsistanLimit(5);}}
+                                        style={{background:d?"rgba(99,102,241,.15)":"rgba(99,102,241,.08)",color:"#6366f1",borderRadius:20,padding:"2px 8px",fontSize:10,fontWeight:700,cursor:"pointer"}}>
+                                        #{e}
+                                      </span>
                                     ))}
                                   </div>
                                 )}
                                 {/* Malzemeler */}
                                 <details>
-                                  <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#16a34a",marginBottom:6}}>
-                                    📋 Malzemeler ({(t.malzemeler||[]).length} adet)
+                                  <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#16a34a",marginBottom:6,userSelect:"none"}}>
+                                    📋 Malzemeler <span style={{fontWeight:400,color:r.muted}}>({(t.malzemeler||[]).length} adet)</span>
                                   </summary>
-                                  <div style={{background:d?"#0f172a":"#f9fafb",borderRadius:8,padding:"8px 10px",marginBottom:6}}>
+                                  <div style={{background:d?"#0f172a":"#f9fafb",borderRadius:10,padding:"8px 12px",marginBottom:6}}>
                                     {(t.malzemeler||[]).map((m,i)=>(
-                                      <div key={i} style={{fontSize:12,color:r.sub,marginBottom:2}}>
+                                      <div key={i} style={{fontSize:12,color:r.sub,marginBottom:3}}>
                                         • {typeof m==="object"?`${m.miktar} ${m.birim} ${m.ad}`:m}
                                       </div>
                                     ))}
@@ -6586,24 +6632,29 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                                 </details>
                                 {/* Adımlar */}
                                 <details>
-                                  <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#2563eb",marginBottom:6}}>
-                                    👨‍🍳 Yapılışı ({(t.adimlar||[]).length} adım)
+                                  <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#2563eb",marginBottom:6,userSelect:"none"}}>
+                                    👨‍🍳 Yapılışı <span style={{fontWeight:400,color:r.muted}}>({(t.adimlar||[]).length} adım)</span>
                                   </summary>
-                                  <div style={{background:d?"#0f172a":"#f9fafb",borderRadius:8,padding:"8px 10px"}}>
+                                  <div style={{background:d?"#0f172a":"#f9fafb",borderRadius:10,padding:"8px 12px"}}>
                                     {(t.adimlar||[]).map((a,i)=>(
-                                      <div key={i} style={{fontSize:12,color:r.sub,marginBottom:6,display:"flex",gap:8}}>
-                                        <span style={{background:"#f97316",color:"#fff",borderRadius:"50%",width:18,height:18,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:800,flexShrink:0}}>{i+1}</span>
-                                        {a}
+                                      <div key={i} style={{fontSize:12,color:r.sub,marginBottom:8,display:"flex",gap:10,alignItems:"flex-start"}}>
+                                        <span style={{background:"linear-gradient(135deg,#f97316,#ea580c)",color:"#fff",borderRadius:"50%",width:20,height:20,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:800,flexShrink:0}}>{i+1}</span>
+                                        <span style={{lineHeight:1.5}}>{a}</span>
                                       </div>
                                     ))}
                                   </div>
                                 </details>
+                                {/* Alt köşe bayrak */}
+                                <div style={{display:"flex",justifyContent:"flex-end",alignItems:"center",gap:5,marginTop:8,paddingTop:8,borderTop:`1px solid ${r.inpB}`}}>
+                                  <span style={{fontSize:10,color:r.muted,fontWeight:700}}>{ulkeAdi} Mutfağı</span>
+                                  <span style={{fontSize:20,lineHeight:1}}>{bayrak}</span>
+                                </div>
                               </div>
                               );
                             })}
                             {fbFiltreli.length>tarifAsistanLimit&&(
                               <button onClick={()=>setTarifAsistanLimit(p=>p+5)}
-                                style={{...BTN("#f97316"),width:"100%",padding:"11px 0",fontSize:13,fontWeight:800,marginTop:4}}>
+                                style={{background:"linear-gradient(135deg,#f97316,#ea580c)",border:"none",borderRadius:14,padding:"13px 0",color:"#fff",fontSize:13,fontWeight:800,cursor:"pointer",width:"100%",boxShadow:"0 4px 14px rgba(249,115,22,.3)",fontFamily:"'Nunito',sans-serif"}}>
                                 ↓ {fbFiltreli.length-tarifAsistanLimit} tarif daha göster
                               </button>
                             )}
