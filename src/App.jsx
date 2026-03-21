@@ -4406,7 +4406,13 @@ SADECE JSON döndür (başka metin yok):
                         onClick={()=>{setSecBesin(b);setYemekGram(String(b.por||100));}}>
                         <div style={{flex:1}}>
                           <div style={{fontWeight:800,fontSize:13,color:r.text}}>{besinAd(b,dil)}{b.marka?` (${b.marka})`:""}</div>
-                          <div style={{fontSize:11,color:r.muted}}>{b.kal} kcal · P:{b.pro}g K:{b.karb}g Y:{b.yag}g</div>
+                          <div style={{display:"flex",alignItems:"center",gap:6,marginTop:4,flexWrap:"wrap"}}>
+                            {b.yildiz&&<span style={{fontSize:11,color:"#f59e0b"}}>{"⭐".repeat(Math.round(b.yildiz))}</span>}
+                            {b.aclikSuresi&&<span style={{fontSize:10,color:r.muted,background:r.card,borderRadius:6,padding:"1px 5px"}}>🕐 {b.aclikSuresi}</span>}
+                            {b.tokPuan&&<span style={{fontSize:10,color:b.tokPuan>=70?"#16a34a":b.tokPuan>=45?"#f59e0b":"#ef4444",background:r.card,borderRadius:6,padding:"1px 5px"}}>💪 {b.tokPuan}/100</span>}
+                            {b.katkiMaddeleri&&b.katkiMaddeleri.some(k=>k.tehlikeli)&&<span style={{fontSize:10,color:"#ef4444",background:"rgba(239,68,68,.1)",borderRadius:6,padding:"1px 5px"}}>⚠️ {b.katkiMaddeleri.filter(k=>k.tehlikeli).map(k=>k.kod||k.ad).join(", ")}</span>}
+                            {b.katkiMaddeleri&&b.katkiMaddeleri.length===0&&<span style={{fontSize:10,color:"#16a34a",background:"rgba(22,163,74,.1)",borderRadius:6,padding:"1px 5px"}}>✅ Katkısız</span>}
+                          </div>
                         </div>
                         <button onClick={e=>{e.stopPropagation();setSecBesin(b);setYemekGram(String(b.por||100));}}
                           style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>+</button>
