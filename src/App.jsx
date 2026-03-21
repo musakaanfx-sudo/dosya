@@ -207,6 +207,33 @@ const LANG = {
       { ikon:"saglik", baslik:"Potpuno praćenje zdravlja", acik:"Težina, voda i povremeni post — sve na jednom mjestu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafikon težine","Praćenje vode","Način posta"] },
     ],
   },
+  lv: {
+    dilSec: "Izvēlieties valodu", hosgeldin: "Laipni lūdzam!", basla: "Sāksim →", atla: "Izlaist", devam: "Tālāk →",
+    slides: [
+      { ikon:"kalori", baslik:"Ēdiet veselīgi ar Doya", acik:"Reģistrējiet visu, ko ēdat, sekundēs. Izsekojiet kalorijas, olbaltumvielas un vitamīnus ar vairāk nekā 10 000 pārtikas produktu.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ produktu","Makro izsekošana","Vitamīnu analīze"] },
+      { ikon:"ai", baslik:"AI foto skeneris", acik:"Fotografējiet savu ēdienu un ļaujiet AI nekavējoties aprēķināt kalorijas un makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto reģistrācija","Tūlītēja analīze","Balstīts uz AI"] },
+      { ikon:"diyetisyen", baslik:"Jūsu personīgais AI dietologs", acik:"Personalizēti ēdienreižu plāni, kas pielāgoti jūsu mērķim, alerģijām un ēšanas stilam.", renk:"#030604", vurgu:"#34d399", detaylar:["Pieeja 24/7","Personīgie plāni","Alerģiju apzināšanās"] },
+      { ikon:"saglik", baslik:"Pilnīga veselības izsekošana", acik:"Svars, ūdens un intermitējošā gavēšana — viss vienuviet.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svara grafiks","Ūdens izsekošana","Gavēšanas režīms"] },
+    ],
+  },
+  et: {
+    dilSec: "Vali keel", hosgeldin: "Tere tulemast!", basla: "Alustame →", atla: "Jäta vahele", devam: "Edasi →",
+    slides: [
+      { ikon:"kalori", baslik:"Söö tervislikult Doyaga", acik:"Salvesta kõik, mida sööd, sekunditega. Jälgi kaloreid, valke ja vitamiine üle 10 000 toiduainega.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ toiduainet","Makro jälgimine","Vitamiinianalüüs"] },
+      { ikon:"ai", baslik:"AI fotoSkänner", acik:"Pildista oma einet ja lase AI-l kohe arvutada kalorid ja makrod.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto logimine","Kohene analüüs","AI-põhine"] },
+      { ikon:"diyetisyen", baslik:"Sinu isiklik AI dietoloog", acik:"Isikupärastatud toiduplaanid vastavalt sinu eesmärgile, allergiatele ja toitumisstiilile.", renk:"#030604", vurgu:"#34d399", detaylar:["Juurdepääs 24/7","Isiklikud plaanid","Allergiateadlik"] },
+      { ikon:"saglik", baslik:"Täielik tervise jälgimine", acik:"Kaal, vesi ja vahelduv paastumine — kõik ühes kohas.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Kaalugraafik","Vee jälgimine","Paastumisrežiim"] },
+    ],
+  },
+  lt: {
+    dilSec: "Pasirinkite kalbą", hosgeldin: "Sveiki atvykę!", basla: "Pradėkime →", atla: "Praleisti", devam: "Toliau →",
+    slides: [
+      { ikon:"kalori", baslik:"Valgykite sveikai su Doya", acik:"Užregistruokite viską, ką valgote, per sekundes. Sekite kalorijas, baltymus ir vitaminus su daugiau nei 10 000 maisto produktų.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ produktų","Makro sekimas","Vitaminų analizė"] },
+      { ikon:"ai", baslik:"AI nuotraukų skaitytuvas", acik:"Nufotografuokite savo patiekalą ir leiskite AI iš karto apskaičiuoti kalorijas ir makrus.", renk:"#030604", vurgu:"#818cf8", detaylar:["Nuotraukų registravimas","Momentinė analizė","AI pagrįstas"] },
+      { ikon:"diyetisyen", baslik:"Jūsų asmeninis AI dietologas", acik:"Personalizuoti maitinimosi planai pagal jūsų tikslą, alergijas ir mitybos stilių.", renk:"#030604", vurgu:"#34d399", detaylar:["Prieiga 24/7","Asmeniniai planai","Alergijų sąmoningumas"] },
+      { ikon:"saglik", baslik:"Pilnas sveikatos sekimas", acik:"Svoris, vanduo ir intervalinis badavimas — viskas vienoje vietoje.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svorio grafikas","Vandens sekimas","Badavimo režimas"] },
+    ],
+  },
 };
 
 // ─── SABİTLER ────────────────────────────────────────────────
@@ -1857,7 +1884,7 @@ SADECE JSON döndür (başka metin yok):
               </div>
 
               <div className="w3" style={{display:"flex",flexDirection:"column",gap:8,width:"100%",maxWidth:300}}>
-                {[{k:"tr",ad:"Türkçe",fl:"🇹🇷"},{k:"en",ad:"English",fl:"🇬🇧"},{k:"de",ad:"Deutsch",fl:"🇩🇪"},{k:"at",ad:"Österreich",fl:"🇦🇹"},{k:"nl",ad:"Nederlands",fl:"🇳🇱"},{k:"be",ad:"Belgique",fl:"🇧🇪"},{k:"fr",ad:"Français",fl:"🇫🇷"},{k:"es",ad:"Español",fl:"🇪🇸"},{k:"it",ad:"Italiano",fl:"🇮🇹"},{k:"pt",ad:"Português",fl:"🇵🇹"},{k:"el",ad:"Ελληνικά",fl:"🇬🇷"},{k:"sv",ad:"Svenska",fl:"🇸🇪"},{k:"da",ad:"Dansk",fl:"🇩🇰"},{k:"no",ad:"Norsk",fl:"🇳🇴"},{k:"fi",ad:"Suomi",fl:"🇫🇮"},{k:"pl",ad:"Polski",fl:"🇵🇱"},{k:"cs",ad:"Čeština",fl:"🇨🇿"},{k:"hu",ad:"Magyar",fl:"🇭🇺"},{k:"ro",ad:"Română",fl:"🇷🇴"},{k:"hr",ad:"Hrvatski",fl:"🇭🇷"}].map(l=>(
+                {[{k:"tr",ad:"Türkçe",fl:"🇹🇷"},{k:"en",ad:"English",fl:"🇬🇧"},{k:"de",ad:"Deutsch",fl:"🇩🇪"},{k:"at",ad:"Österreich",fl:"🇦🇹"},{k:"nl",ad:"Nederlands",fl:"🇳🇱"},{k:"be",ad:"Belgique",fl:"🇧🇪"},{k:"fr",ad:"Français",fl:"🇫🇷"},{k:"es",ad:"Español",fl:"🇪🇸"},{k:"it",ad:"Italiano",fl:"🇮🇹"},{k:"pt",ad:"Português",fl:"🇵🇹"},{k:"el",ad:"Ελληνικά",fl:"🇬🇷"},{k:"sv",ad:"Svenska",fl:"🇸🇪"},{k:"da",ad:"Dansk",fl:"🇩🇰"},{k:"no",ad:"Norsk",fl:"🇳🇴"},{k:"fi",ad:"Suomi",fl:"🇫🇮"},{k:"pl",ad:"Polski",fl:"🇵🇱"},{k:"cs",ad:"Čeština",fl:"🇨🇿"},{k:"hu",ad:"Magyar",fl:"🇭🇺"},{k:"ro",ad:"Română",fl:"🇷🇴"},{k:"hr",ad:"Hrvatski",fl:"🇭🇷"},{k:"lv",ad:"Latviešu",fl:"🇱🇻"},{k:"et",ad:"Eesti",fl:"🇪🇪"},{k:"lt",ad:"Lietuvių",fl:"🇱🇹"}].map(l=>(
                   <button key={l.k} onClick={()=>setDil(l.k)} style={{
                     padding:"13px 18px",
                     borderRadius:14,
