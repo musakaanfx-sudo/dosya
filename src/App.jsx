@@ -244,6 +244,7 @@ const PREMIUM_YILLIK = 479;       // yıllık ₺ (%50 indirim)
 const PREMIUM_PLUS_YILLIK = 479;  // yıllık ₺
 const PREMIUM_PLUS_FIYAT = 79;    // aylık ₺
 const AI_GUNLUK_LIMIT = 4; // ücretsiz günlük AI hak
+const AI_PREMIUM_LIMIT = 20; // premium: 2 saatte 20 hak
 const GUNLUK_MAX_PUAN = 750; // Günlük kazanılabilir max puan (manipülasyon önleme) // premium plus günlük fotoğraf hakkı
 const AYLAR  = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
 const GUNLER = ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
@@ -460,6 +461,7 @@ export default function App(){
   const [premium,setPremium]=useState(false);
   const [premiumPlus,setPremiumPlus]=useState(false);
   const [aiGunlukKullanim,setAiGunlukKullanim]=useState(0);
+  const [aiPremiumPencere,setAiPremiumPencere]=useState({sayi:0,baslangic:0}); // 2 saatlik pencere
   const [reklam,setReklam]=useState(true);
   const [acikHesap,setAcikHesap]=useState(true);
   const [sosyalAktif,setSosyalAktif]=useState(true);
@@ -1531,7 +1533,18 @@ SADECE JSON döndür (başka metin yok):
     const bugun=new Date().toISOString().split("T")[0];
     const yeni=aiGunlukKullanim+1;
     setAiGunlukKullanim(yeni);
-    // Firebase'e kaydet - veri silinse bile korunur
+    // Premium: 2 saatlik pencere takibi
+    if(premium||premiumPlus){
+      const simdi=Date.now();
+      const pencere=aiPremiumPencere;
+      const ikiSaatMs=2*60*60*1000;
+      if(simdi-pencere.baslangic>ikiSaatMs){
+        // Pencere sıfırla
+        setAiPremiumPencere({sayi:1,baslangic:simdi});
+      } else {
+        setAiPremiumPencere(p=>({...p,sayi:p.sayi+1}));
+      }
+    }
     if(firebaseUID){
       await kullaniciyiGuncelle(firebaseUID,{aiKullanim:{tarih:bugun,sayi:yeni}}).catch(console.error);
     }
@@ -4529,15 +4542,15 @@ SADECE JSON döndür (başka metin yok):
             {yemekEkleSekme==="foto"&&(
               <div style={{paddingTop:8}}>
                 {/* Limit kontrolü */}
-                {aiGunlukKullanim>=(premium||premiumPlus?9999:AI_GUNLUK_LIMIT+ekstraAiHak)&&(
+                {(premium||premiumPlus ? (()=>{const ms=Date.now()-aiPremiumPencere.baslangic; return ms<7200000?aiPremiumPencere.sayi>=AI_PREMIUM_LIMIT:false})() : aiGunlukKullanim>=(AI_GUNLUK_LIMIT+ekstraAiHak))&&(
                   <div style={{background:d?"#1c1a10":"#fef2f2",border:"1.5px solid #fca5a5",borderRadius:14,padding:"14px",marginBottom:12,textAlign:"center"}}>
                     <div style={{fontSize:22,marginBottom:4}}>⏰</div>
                     <div style={{fontSize:13,fontWeight:900,color:"#ef4444",marginBottom:4}}>Günlük limit doldu</div>
-                    <div style={{fontSize:11,color:r.sub}}>Bugün {AI_GUNLUK_LIMIT+ekstraAiHak} analiz hakkını kullandın. Yarın yenilenir.</div>
+                    <div style={{fontSize:11,color:r.sub}}>{(premium||premiumPlus) ? `2 saatlik ${AI_PREMIUM_LIMIT} AI hakkını kullandın. Pencere yenilenir.` : `Bugün ${AI_GUNLUK_LIMIT+ekstraAiHak} analiz hakkını kullandın. Yarın yenilenir.`}</div>
                     <button onClick={()=>setTab("puan")} style={{...BTN("#f59e0b","8px 16px"),fontSize:12,marginTop:8}}>⭐ Ekstra Hak Al</button>
                   </div>
                 )}
-                {aiGunlukKullanim<(premium||premiumPlus?9999:AI_GUNLUK_LIMIT+ekstraAiHak)&&(<>
+                {(premium||premiumPlus ? (()=>{const ms=Date.now()-aiPremiumPencere.baslangic; return ms<7200000?aiPremiumPencere.sayi<AI_PREMIUM_LIMIT:true})() : aiGunlukKullanim<(AI_GUNLUK_LIMIT+ekstraAiHak))&&(<>
                   {/* Yapay zekaya bilgi ver */}
                   <div style={{marginBottom:14}}>
                     <div style={{fontSize:11,fontWeight:700,color:r.sub,marginBottom:6}}>💡 Yapay zekaya ipucu ver <span style={{color:r.muted,fontWeight:400}}>(isteğe bağlı)</span></div>
@@ -4631,7 +4644,10 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   </div>
                   {!premium&&!premiumPlus&&(
                     <div style={{fontSize:10,color:r.muted,textAlign:"center",marginBottom:10}}>
-                      {Math.max(0,AI_GUNLUK_LIMIT+ekstraAiHak-aiGunlukKullanim)} / {AI_GUNLUK_LIMIT+ekstraAiHak} günlük hak kaldı
+                      {(premium||premiumPlus)
+                        ? `${Math.max(0,AI_PREMIUM_LIMIT-(Date.now()-aiPremiumPencere.baslangic<7200000?aiPremiumPencere.sayi:0))} / ${AI_PREMIUM_LIMIT} (2 saatlik hak)`
+                        : `${Math.max(0,AI_GUNLUK_LIMIT+ekstraAiHak-aiGunlukKullanim)} / ${AI_GUNLUK_LIMIT+ekstraAiHak} günlük hak kaldı`
+                      }
                     </div>
                   )}
                   {hizliEkleYuk&&<div style={{textAlign:"center",padding:"20px 0",color:r.sub,fontSize:13}}>🤖 AI analiz ediyor...</div>}
@@ -5087,10 +5103,10 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     </div>
                   </div>
                   <div style={{fontSize:12,color:r.sub,marginBottom:12}}>
-                    {["✅ Sınırsız AI kullanımı","✅ AI fotoğraf analizi","✅ AI ile hızlı yemek ekleme","✅ Tüm reklamlar kalkar","✅ Kişisel AI diyetisyen sohbeti","✅ Günlük diyet planı oluşturma","✅ 145+ ülke tarifi"].map((f,i)=><div key={i} style={{marginBottom:6,fontSize:12,color:r.muted}}>{f}</div>)}
+                    {["✅ 2 saatte 20 AI kullanım hakkı","✅ AI fotoğraf analizi","✅ AI ile hızlı yemek ekleme","✅ Tüm reklamlar kalkar","✅ Kişisel AI diyetisyen sohbeti","✅ Günlük diyet planı oluşturma","✅ 145+ ülke tarifi"].map((f,i)=><div key={i} style={{marginBottom:6,fontSize:12,color:r.muted}}>{f}</div>)}
                   </div>
                   <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.05)",border:"1px solid rgba(16,185,129,.1)",borderRadius:10,padding:"8px 12px",marginBottom:12,fontSize:11,color:"rgba(16,185,129,.6)",textAlign:"center"}}>
-                    Ücretsiz: Günlük {AI_GUNLUK_LIMIT} AI hakkı &nbsp;·&nbsp; Premium: Sınırsız
+                    Ücretsiz: Günlük {AI_GUNLUK_LIMIT} AI hakkı &nbsp;·&nbsp; Premium: 2 saatte {AI_PREMIUM_LIMIT} hak
                   </div>
                   <button style={{...BTN("#10b981"),width:"100%",padding:"12px 0",fontSize:13,fontWeight:800}} onClick={async()=>{
                     setPremiumPlus(true); setPremium(true); setReklam(false);
@@ -5110,10 +5126,10 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             {(premium||premiumPlus)&&(
               <div style={{...CS,background:d?"linear-gradient(145deg,#040d06,#071209)":"linear-gradient(145deg,#f0fdf4,#f5fffa)",border:"1px solid rgba(16,185,129,.25)"}}>
                 <div style={{fontSize:9,fontWeight:700,color:"rgba(16,185,129,.5)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:10}}>✅ Premium Aktif</div>
-                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981",marginBottom:10}}>Sınırsız AI · Reklamsız deneyim</div>
+                <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981",marginBottom:10}}>2 saatte 20 AI hakkı · Reklamsız deneyim</div>
                 <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.04)",border:"1px solid rgba(16,185,129,.1)",borderRadius:12,padding:"10px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <span style={{fontSize:10,color:r.muted,letterSpacing:.3}}>AI hakkı</span>
-                  <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981"}}>∞ Sınırsız</span>
+                  <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981"}}>{AI_PREMIUM_LIMIT} / 2 saat</span>
                 </div>
               </div>
             )}
