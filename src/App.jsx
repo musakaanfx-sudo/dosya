@@ -30,16 +30,17 @@ const LANG = {
   tr: {
     dilSec: "Dil Seçin", hosgeldin: "Hoşgeldin!", basla: "Başlayalım →", atla: "Geç", devam: "Devam →",
     slides: [
-      { baslik:"10.000+ Besin", alt:"Kalori & Makro Takibi", acik:"Dev veritabanından saniyeler içinde ara, ekle. Protein, karbonhidrat, yağ ve vitamin değerlerini günlük olarak takip et.", renk:"#10b981", ic:["Kalori & makro takibi","Öğün bazlı gruplama","Su & kilo takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="2" fill="#34d399" stroke="none" opacity=".6"/></svg>` },
-      { baslik:"AI ile Analiz", alt:"Fotoğrafla Kalori Tara", acik:"Yemeğini fotoğrafla, yapay zeka tüm besin değerlerini anında hesaplasın. Öğünü tek tıkla günlüğüne ekle.", renk:"#6366f1", ic:["Fotoğrafla besin tanıma","Anında kalori tahmini","Otomatik öğüne ekle"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" strokeWidth="1" strokeLinecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/><circle cx="12" cy="13" r="1.5" fill="#a5b4fc" stroke="none" opacity=".6"/></svg>` },
-      { baslik:"AI Diyet Planı", alt:"Kişiselleştirilmiş Günlük Plan", acik:"Hedefine, alerjen ve beslenme tarzına göre her gün taze bir diyet planı oluşturulsun.", renk:"#c8922a", ic:["Günlük kişisel plan","Alerji & diyet uyumu","AI beslenme danışmanı"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" strokeWidth="1" strokeLinecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>` },
-      { baslik:"Sağlık Takibi", alt:"Kilo · BMI · TDEE · Su", acik:"Kilo değişimini grafikle izle, BMI ve günlük kalori hedefini öğren. Su tüketimini kaydet, oruç saatlerini takip et.", renk:"#0891b2", ic:["Kilo grafiği & BMI","TDEE hesaplama","Aralıklı oruç takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 10h13l-1.8 9H7.3L5.5 10z"/><path d="M9 10V7m6 3V7"/></svg>` },
+      { baslik:"2.900+ Besin", alt:"Kalori & Makro Takibi", acik:"Dev veritabanından saniyeler içinde ara, ekle. Protein, karbonhidrat, yağ ve vitamin değerlerini günlük olarak takip et.", renk:"#10b981", ic:["Kalori & makro takibi","Öğün bazlı gruplama","Su & kilo takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="2" fill="#34d399" stroke="none" opacity=".6"/></svg>` },
+      { baslik:"Yemek Asistanı", alt:"AI Tarif · Fotoğraftan Analiz", acik:"Malzeme yaz, fotoğraf çek veya ürün içeriğini analiz et. Yapay zeka adım adım tarif hazırlasın, E-kodlarını tespit etsin.", renk:"#f97316", ic:["Yazarak tarif alma","Fotoğraftan malzeme tanıma","İçerik & E-kodu analizi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fb923c" strokeWidth="1" strokeLinecap="round"><path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M12 14v8"/><path d="M9 22h6"/></svg>` },
+      { baslik:"145+ Dünya Tarifi", alt:"23 Ülke Mutfağı · Filtreli", acik:"Türk mutfağından İtalya'ya, Yunanistan'dan Norveç'e 145+ sağlıklı tarif. Sporcu, vejetaryen, glutensiz, düşük kalorili filtrele.", renk:"#8b5cf6", ic:["Sporcu & yüksek protein","Vegan & vejetaryen","Ülkeye özel tarifler"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>` },
+      { baslik:"Puan Kazan & Ödül Al", alt:"Günlük Giriş · Reklam · Davet", acik:"Her gün giriş yap +50 puan, reklam izle +50 puan, arkadaş davet et +100 puan kazan. Puanlarınla ekstra AI hakkı satın al.", renk:"#f59e0b", ic:["Günlük +50 giriş puanı","Reklam izleyerek puan","AI hak satın alma"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>` },
+      { baslik:"Sağlık & Spor Takibi", alt:"Kilo · BMI · Oruç · Adım", acik:"Kilo değişimini grafikle izle, BMI ve TDEE hesapla. Su tüketimini kaydet, aralıklı oruç takip et. Spor aktivitelerini ekle.", renk:"#0891b2", ic:["Kilo grafiği & BMI","Aralıklı oruç takibi","Spor & adım sayacı"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 10h13l-1.8 9H7.3L5.5 10z"/><path d="M9 10V7m6 3V7"/></svg>` },
     ],
   },
   en: {
     dilSec: "Select Language", hosgeldin: "Welcome!", basla: "Get Started →", atla: "Skip", devam: "Next →",
     slides: [
-      { ikon:"kalori", baslik:"Eat Healthy with Doya", acik:"Log everything you eat in seconds. Track calories, protein and vitamins with 10,000+ foods.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ foods","Macro tracking","Vitamin analysis"] },
+      { ikon:"kalori", baslik:"Eat Healthy with Doya", acik:"Log everything you eat in seconds. Track calories, protein and vitamins with 2,900+ foods.", renk:"#030604", vurgu:"#10b981", detaylar:["2,900+ foods","Macro tracking","Vitamin analysis"] },
       { ikon:"ai", baslik:"AI Photo Scanner", acik:"Snap a photo of your meal and let AI instantly calculate calories and macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo logging","Instant analysis","AI powered"] },
       { ikon:"diyetisyen", baslik:"Your Personal AI Dietitian", acik:"Get personalized meal plans tailored to your goal, allergies, and diet style.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 access","Personal plans","Allergy-aware"] },
       { ikon:"saglik", baslik:"Full Health Tracking", acik:"Track your weight, water intake, and practice intermittent fasting.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Weight charts","Water tracking","Fasting mode"] },
@@ -48,7 +49,7 @@ const LANG = {
   de: {
     dilSec: "Sprache wählen", hosgeldin: "Willkommen!", basla: "Los geht's →", atla: "Überspringen", devam: "Weiter →",
     slides: [
-      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 10.000 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
+      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 2.900 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
       { ikon:"ai", baslik:"KI-Fotoanalyse", acik:"Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-Logging","Sofortanalyse","KI-gestützt"] },
       { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsberater", acik:"Persönliche Pläne nach Ziel, Allergien und Ernährungsstil — jederzeit.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
       { ikon:"saglik", baslik:"Gesundheits-Tracking", acik:"Gewichtsverlauf, Wasserzähler und Intervallfasten — alles an einem Ort.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsdiagramm","Wasserzähler","Fastenmodus"] },
@@ -57,7 +58,7 @@ const LANG = {
   it: {
     dilSec: "Seleziona lingua", hosgeldin: "Benvenuto!", basla: "Iniziamo →", atla: "Salta", devam: "Avanti →",
     slides: [
-      { ikon:"kalori", baslik:"Mangia sano con Doya", acik:"Registra tutto ciò che mangi in secondi. Calorie, proteine e vitamine con oltre 10.000 alimenti.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimenti","Tracking macro","Analisi vitamine"] },
+      { ikon:"kalori", baslik:"Mangia sano con Doya", acik:"Registra tutto ciò che mangi in secondi. Calorie, proteine e vitamine con oltre 2.900 alimenti.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimenti","Tracking macro","Analisi vitamine"] },
       { ikon:"ai", baslik:"Scanner AI per foto", acik:"Scatta una foto del tuo pasto e l'IA calcola subito calorie e macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Analisi istantanea","AI integrata"] },
       { ikon:"diyetisyen", baslik:"Il Tuo Dietologo AI", acik:"Piani alimentari personalizzati in base al tuo obiettivo e alle allergie.", renk:"#030604", vurgu:"#34d399", detaylar:["Accesso 24/7","Piani personali","Allergie-friendly"] },
       { ikon:"saglik", baslik:"Monitoraggio Salute", acik:"Peso, acqua e digiuno intermittente — tutto in uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafico peso","Acqua","Digiuno"] },
@@ -66,7 +67,7 @@ const LANG = {
   fr: {
     dilSec: "Choisir la langue", hosgeldin: "Bienvenue !", basla: "Commençons →", atla: "Passer", devam: "Suivant →",
     slides: [
-      { ikon:"kalori", baslik:"Mangez sainement avec Doya", acik:"Enregistrez tout ce que vous mangez en secondes. Calories, protéines et vitamines avec plus de 10 000 aliments.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ aliments","Suivi macros","Analyse vitamines"] },
+      { ikon:"kalori", baslik:"Mangez sainement avec Doya", acik:"Enregistrez tout ce que vous mangez en secondes. Calories, protéines et vitamines avec plus de 2.900 aliments.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ aliments","Suivi macros","Analyse vitamines"] },
       { ikon:"ai", baslik:"Scanner IA par photo", acik:"Photographiez votre repas et l'IA calcule instantanément les calories et macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo journal","Analyse instantanée","IA intégrée"] },
       { ikon:"diyetisyen", baslik:"Votre Diététicien IA", acik:"Plans alimentaires personnalisés selon votre objectif, allergies et style alimentaire.", renk:"#030604", vurgu:"#34d399", detaylar:["Accès 24/7","Plans personnels","Adapté aux allergies"] },
       { ikon:"saglik", baslik:"Suivi Santé Complet", acik:"Poids, eau et jeûne intermittent — tout en un.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graphique poids","Eau","Jeûne"] },
@@ -75,7 +76,7 @@ const LANG = {
   es: {
     dilSec: "Seleccionar idioma", hosgeldin: "¡Bienvenido!", basla: "Empecemos →", atla: "Saltar", devam: "Siguiente →",
     slides: [
-      { ikon:"kalori", baslik:"Come sano con Doya", acik:"Registra todo lo que comes en segundos. Calorías, proteínas y vitaminas con más de 10.000 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimentos","Seguimiento macros","Análisis vitaminas"] },
+      { ikon:"kalori", baslik:"Come sano con Doya", acik:"Registra todo lo que comes en segundos. Calorías, proteínas y vitaminas con más de 2.900 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimentos","Seguimiento macros","Análisis vitaminas"] },
       { ikon:"ai", baslik:"Escáner IA por foto", acik:"Fotografía tu comida y la IA calcula al instante las calorías y macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Análisis instantáneo","IA integrada"] },
       { ikon:"diyetisyen", baslik:"Tu Dietista IA Personal", acik:"Planes personalizados según tu objetivo, alergias y estilo alimentario.", renk:"#030604", vurgu:"#34d399", detaylar:["Acceso 24/7","Planes personales","Sin alérgenos"] },
       { ikon:"saglik", baslik:"Seguimiento de Salud", acik:"Peso, agua y ayuno intermitente — todo en uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gráfico peso","Agua","Ayuno"] },
@@ -84,7 +85,7 @@ const LANG = {
   nl: {
     dilSec: "Taal kiezen", hosgeldin: "Welkom!", basla: "Aan de slag →", atla: "Overslaan", devam: "Volgende →",
     slides: [
-      { ikon:"kalori", baslik:"Eet gezond met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 10.000 voedingsmiddelen.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ voedsel","Macro-tracking","Vitamine-analyse"] },
+      { ikon:"kalori", baslik:"Eet gezond met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 2.900 producten.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ producten","Macro-tracking","Vitamine-analyse"] },
       { ikon:"ai", baslik:"AI Fotoscanner", acik:"Maak een foto van je maaltijd en laat AI direct calorieën en macro's berekenen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto loggen","Directe analyse","AI aangedreven"] },
       { ikon:"diyetisyen", baslik:"Jouw Persoonlijke AI-Diëtist", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
       { ikon:"saglik", baslik:"Volledige Gezondheidsregistratie", acik:"Gewicht, water en intermitterend vasten — alles op één plek.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsgrafiek","Water bijhouden","Vastenmodus"] },
@@ -93,7 +94,7 @@ const LANG = {
   sv: {
     dilSec: "Välj språk", hosgeldin: "Välkommen!", basla: "Kom igång →", atla: "Hoppa över", devam: "Nästa →",
     slides: [
-      { ikon:"kalori", baslik:"Ät hälsosamt med Doya", acik:"Logga allt du äter på sekunder. Kalorier, protein och vitaminer med över 10 000 livsmedel.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ livsmedel","Makrospårning","Vitaminanalys"] },
+      { ikon:"kalori", baslik:"Ät hälsosamt med Doya", acik:"Logga allt du äter på sekunder. Kalorier, protein och vitaminer med över 2.900 livsmedel.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ livsmedel","Makrospårning","Vitaminanalys"] },
       { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta en bild av din måltid och låt AI omedelbart beräkna kalorier och makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-loggning","Omedelbar analys","AI-driven"] },
       { ikon:"diyetisyen", baslik:"Din Personliga AI-Dietist", acik:"Personliga måltidsplaner baserade på ditt mål, allergier och kostvanor.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tillgång","Personliga planer","Allergimedveten"] },
       { ikon:"saglik", baslik:"Fullständig Hälsospårning", acik:"Vikt, vatten och intermittent fasta — allt på ett ställe.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Viktdiagram","Vattensporning","Fastemodus"] },
@@ -102,7 +103,7 @@ const LANG = {
   da: {
     dilSec: "Vælg sprog", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Spring over", devam: "Næste →",
     slides: [
-      { ikon:"kalori", baslik:"Spis sundt med Doya", acik:"Log alt hvad du spiser på sekunder. Kalorier, protein og vitaminer med over 10.000 fødevarer.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ fødevarer","Makro-tracking","Vitaminanalyse"] },
+      { ikon:"kalori", baslik:"Spis sundt med Doya", acik:"Log alt hvad du spiser på sekunder. Kalorier, protein og vitaminer med over 2.900 fødevarer.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ fødevarer","Makro-tracking","Vitaminanalyse"] },
       { ikon:"ai", baslik:"AI-fotoscanner", acik:"Tag et billede af dit måltid og lad AI øjeblikkeligt beregne kalorier og makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logning","Øjeblikkelig analyse","AI-drevet"] },
       { ikon:"diyetisyen", baslik:"Din Personlige AI-Diætist", acik:"Personlige måltidsplaner baseret på dit mål, allergier og kosttype.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 adgang","Personlige planer","Allergibevidst"] },
       { ikon:"saglik", baslik:"Fuld Sundhedssporing", acik:"Vægt, vand og intermitterende faste — alt på ét sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vægtkurve","Vandsporing","Fastemodus"] },
@@ -111,7 +112,7 @@ const LANG = {
   no: {
     dilSec: "Velg språk", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Hopp over", devam: "Neste →",
     slides: [
-      { ikon:"kalori", baslik:"Spis sunt med Doya", acik:"Logg alt du spiser på sekunder. Kalorier, protein og vitaminer med over 10 000 matvarer.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ matvarer","Makro-sporing","Vitaminanalyse"] },
+      { ikon:"kalori", baslik:"Spis sunt med Doya", acik:"Logg alt du spiser på sekunder. Kalorier, protein og vitaminer med over 2.900 matvarer.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ matvarer","Makro-sporing","Vitaminanalyse"] },
       { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta et bilde av måltidet ditt og la AI umiddelbart beregne kalorier og makroer.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logging","Umiddelbar analyse","AI-drevet"] },
       { ikon:"diyetisyen", baslik:"Din Personlige AI-Ernæringsfysiolog", acik:"Personlige måltidsplaner basert på ditt mål, allergier og kosthold.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tilgang","Personlige planer","Allergibevisst"] },
       { ikon:"saglik", baslik:"Full Helsesporing", acik:"Vekt, vann og intermitterende faste — alt på ett sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vektkurve","Vannsporing","Fastemodus"] },
@@ -120,7 +121,7 @@ const LANG = {
   at: {
     dilSec: "Sprache wählen", hosgeldin: "Willkommen!", basla: "Los geht's →", atla: "Überspringen", devam: "Weiter →",
     slides: [
-      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 10.000 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
+      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 2.900 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
       { ikon:"ai", baslik:"KI-Fotoanalyse", acik:"Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-Logging","Sofortanalyse","KI-gestützt"] },
       { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsberater", acik:"Persönliche Pläne nach Ziel, Allergien und Ernährungsstil — jederzeit.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
       { ikon:"saglik", baslik:"Gesundheits-Tracking", acik:"Gewichtsverlauf, Wasserzähler und Intervallfasten — alles auf einen Blick.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsdiagramm","Wasserzähler","Fastenmodus"] },
@@ -129,7 +130,7 @@ const LANG = {
   be: {
     dilSec: "Taal kiezen", hosgeldin: "Welkom!", basla: "Aan de slag →", atla: "Overslaan", devam: "Volgende →",
     slides: [
-      { ikon:"kalori", baslik:"Gezond eten met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 10.000 voedingsmiddelen.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ voedsel","Macro-tracking","Vitamine-analyse"] },
+      { ikon:"kalori", baslik:"Gezond eten met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 2.900 producten.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ producten","Macro-tracking","Vitamine-analyse"] },
       { ikon:"ai", baslik:"AI Fotoscanner", acik:"Maak een foto van je maaltijd en laat AI direct calorieën en macro's berekenen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto loggen","Directe analyse","AI aangedreven"] },
       { ikon:"diyetisyen", baslik:"Jouw Persoonlijke AI-Diëtist", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
       { ikon:"saglik", baslik:"Volledige Gezondheidsregistratie", acik:"Gewicht, water en intermitterend vasten — alles op één plek.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsgrafiek","Water bijhouden","Vastenmodus"] },
@@ -138,7 +139,7 @@ const LANG = {
   fi: {
     dilSec: "Valitse kieli", hosgeldin: "Tervetuloa!", basla: "Aloitetaan →", atla: "Ohita", devam: "Seuraava →",
     slides: [
-      { ikon:"kalori", baslik:"Syö terveellisesti Doyan kanssa", acik:"Kirjaa kaikki syömäsi sekunneissa. Seuraa kaloreita, proteiineja ja vitamiineja yli 10 000 elintarvikkeella.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ ruokaa","Makroseuranta","Vitamiinianalyysi"] },
+      { ikon:"kalori", baslik:"Syö terveellisesti Doyan kanssa", acik:"Kirjaa kaikki syömäsi sekunneissa. Seuraa kaloreita, proteiineja ja vitamiineja yli 2.900 elintarvikkeella.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ ruokaa","Makroseuranta","Vitamiinianalyysi"] },
       { ikon:"ai", baslik:"AI-valokuvaskanneri", acik:"Ota kuva ateriastasi ja anna tekoälyn laskea kalorit ja makrot välittömästi.", renk:"#030604", vurgu:"#818cf8", detaylar:["Kuvakirjaus","Välitön analyysi","Tekoälypohjainen"] },
       { ikon:"diyetisyen", baslik:"Henkilökohtainen AI-ravitsemusterapeutti", acik:"Henkilökohtaiset ateriasuunnitelmat tavoitteesi, allergioidesi ja ruokavaliosi mukaan.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 saatavilla","Henkilökohtaiset suunnitelmat","Allergiavapaa"] },
       { ikon:"saglik", baslik:"Täydellinen terveydenseuranta", acik:"Paino, vesi ja paastoaminen — kaikki yhdessä paikassa.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Painokaavio","Vesiseuranta","Paastotila"] },
@@ -147,7 +148,7 @@ const LANG = {
   pl: {
     dilSec: "Wybierz język", hosgeldin: "Witamy!", basla: "Zaczynajmy →", atla: "Pomiń", devam: "Dalej →",
     slides: [
-      { ikon:"kalori", baslik:"Jedz zdrowo z Doya", acik:"Zapisuj wszystko co jesz w sekundach. Śledź kalorie, białka i witaminy z ponad 10 000 produktów.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ produktów","Śledzenie makro","Analiza witamin"] },
+      { ikon:"kalori", baslik:"Jedz zdrowo z Doya", acik:"Zapisuj wszystko co jesz w sekundach. Śledź kalorie, białka i witaminy z ponad 2.900 produktów.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktów","Śledzenie makro","Analiza witamin"] },
       { ikon:"ai", baslik:"Skaner AI do zdjęć", acik:"Zrób zdjęcie posiłku i pozwól AI natychmiast obliczyć kalorie i makroskładniki.", renk:"#030604", vurgu:"#818cf8", detaylar:["Rejestracja zdjęć","Natychmiastowa analiza","Oparte na AI"] },
       { ikon:"diyetisyen", baslik:"Twój osobisty dietetyk AI", acik:"Spersonalizowane plany posiłków dopasowane do Twojego celu, alergii i diety.", renk:"#030604", vurgu:"#34d399", detaylar:["Dostęp 24/7","Osobiste plany","Świadomość alergii"] },
       { ikon:"saglik", baslik:"Pełne śledzenie zdrowia", acik:"Waga, woda i post przerywany — wszystko w jednym miejscu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Wykres wagi","Śledzenie wody","Tryb postu"] },
@@ -156,7 +157,7 @@ const LANG = {
   cs: {
     dilSec: "Vyberte jazyk", hosgeldin: "Vítejte!", basla: "Začínáme →", atla: "Přeskočit", devam: "Další →",
     slides: [
-      { ikon:"kalori", baslik:"Jezte zdravě s Doya", acik:"Zaznamenejte vše, co jíte, během vteřin. Sledujte kalorie, bílkoviny a vitamíny s více než 10 000 potravinami.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ potravin","Sledování maker","Analýza vitamínů"] },
+      { ikon:"kalori", baslik:"Jezte zdravě s Doya", acik:"Zaznamenejte vše, co jíte, během vteřin. Sledujte kalorie, bílkoviny a vitamíny s více než 2.900 potravinami.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ potravin","Sledování maker","Analýza vitamínů"] },
       { ikon:"ai", baslik:"AI fotoskener", acik:"Vyfotografujte jídlo a nechte AI okamžitě vypočítat kalorie a makra.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto záznamy","Okamžitá analýza","Poháněno AI"] },
       { ikon:"diyetisyen", baslik:"Váš osobní AI dietolog", acik:"Personalizované plány jídel přizpůsobené vašemu cíli, alergiím a stravovacímu stylu.", renk:"#030604", vurgu:"#34d399", detaylar:["Přístup 24/7","Osobní plány","Uvědomění o alergiích"] },
       { ikon:"saglik", baslik:"Kompletní sledování zdraví", acik:"Váha, voda a přerušovaný půst — vše na jednom místě.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graf váhy","Sledování vody","Režim půstu"] },
@@ -165,7 +166,7 @@ const LANG = {
   pt: {
     dilSec: "Selecionar idioma", hosgeldin: "Bem-vindo!", basla: "Vamos começar →", atla: "Pular", devam: "Próximo →",
     slides: [
-      { ikon:"kalori", baslik:"Coma saudável com Doya", acik:"Registe tudo o que come em segundos. Acompanhe calorias, proteínas e vitaminas com mais de 10.000 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimentos","Rastreamento de macros","Análise de vitaminas"] },
+      { ikon:"kalori", baslik:"Coma saudável com Doya", acik:"Registe tudo o que come em segundos. Acompanhe calorias, proteínas e vitaminas com mais de 2.900 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimentos","Rastreamento de macros","Análise de vitaminas"] },
       { ikon:"ai", baslik:"Scanner AI por foto", acik:"Tire uma foto da sua refeição e deixe a IA calcular instantaneamente calorias e macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Registo por foto","Análise instantânea","Baseado em IA"] },
       { ikon:"diyetisyen", baslik:"O seu Nutricionista AI Pessoal", acik:"Planos de refeição personalizados com base no seu objetivo, alergias e estilo alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acesso 24/7","Planos pessoais","Consciente de alergias"] },
       { ikon:"saglik", baslik:"Rastreamento de Saúde Completo", acik:"Peso, água e jejum intermitente — tudo num só lugar.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gráfico de peso","Rastreamento de água","Modo de jejum"] },
@@ -174,7 +175,7 @@ const LANG = {
   el: {
     dilSec: "Επιλογή γλώσσας", hosgeldin: "Καλώς ήρθατε!", basla: "Ξεκινάμε →", atla: "Παράλειψη", devam: "Επόμενο →",
     slides: [
-      { ikon:"kalori", baslik:"Τρώτε υγιεινά με το Doya", acik:"Καταγράψτε όλα όσα τρώτε σε δευτερόλεπτα. Παρακολουθήστε θερμίδες, πρωτεΐνες και βιταμίνες με πάνω από 10.000 τρόφιμα.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ τρόφιμα","Παρακολούθηση μακρο","Ανάλυση βιταμινών"] },
+      { ikon:"kalori", baslik:"Τρώτε υγιεινά με το Doya", acik:"Καταγράψτε όλα όσα τρώτε σε δευτερόλεπτα. Παρακολουθήστε θερμίδες, πρωτεΐνες και βιταμίνες με πάνω από 2.900 τρόφιμα.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ τρόφιμα","Παρακολούθηση μακρο","Ανάλυση βιταμινών"] },
       { ikon:"ai", baslik:"Σαρωτής AI με φωτογραφία", acik:"Φωτογραφίστε το γεύμα σας και αφήστε το AI να υπολογίσει άμεσα θερμίδες και μακροθρεπτικά.", renk:"#030604", vurgu:"#818cf8", detaylar:["Καταγραφή με φωτο","Άμεση ανάλυση","Βασισμένο σε AI"] },
       { ikon:"diyetisyen", baslik:"Ο Προσωπικός σας AI Διατροφολόγος", acik:"Εξατομικευμένα πλάνα γευμάτων βάσει στόχου, αλλεργιών και διατροφικού στυλ.", renk:"#030604", vurgu:"#34d399", detaylar:["Πρόσβαση 24/7","Προσωπικά πλάνα","Ευαισθησία σε αλλεργίες"] },
       { ikon:"saglik", baslik:"Πλήρης Παρακολούθηση Υγείας", acik:"Βάρος, νερό και διαλειμματική νηστεία — όλα σε ένα μέρος.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Γράφημα βάρους","Παρακολούθηση νερού","Λειτουργία νηστείας"] },
@@ -183,7 +184,7 @@ const LANG = {
   hu: {
     dilSec: "Válasszon nyelvet", hosgeldin: "Üdvözöljük!", basla: "Kezdjük →", atla: "Kihagyás", devam: "Következő →",
     slides: [
-      { ikon:"kalori", baslik:"Egészségesen enni a Doyával", acik:"Másodpercek alatt rögzítsen mindent, amit eszik. Kövesse nyomon a kalóriákat, fehérjéket és vitaminokat több mint 10 000 élelmiszerrel.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ élelmiszer","Makró követés","Vitaminelemzés"] },
+      { ikon:"kalori", baslik:"Egészségesen enni a Doyával", acik:"Másodpercek alatt rögzítsen mindent, amit eszik. Kövesse nyomon a kalóriákat, fehérjéket és vitaminokat több mint 2.900 élelmiszerrel.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ élelmiszer","Makró követés","Vitaminelemzés"] },
       { ikon:"ai", baslik:"AI fotószkenner", acik:"Fényképezze le az ételét, és hagyja, hogy az AI azonnal kiszámítsa a kalóriákat és makrókat.", renk:"#030604", vurgu:"#818cf8", detaylar:["Fotós naplózás","Azonnali elemzés","AI-alapú"] },
       { ikon:"diyetisyen", baslik:"Az Ön személyes AI dietetikusa", acik:"Személyre szabott étkezési tervek céljához, allergiáihoz és étkezési stílusához igazítva.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 hozzáférés","Személyes tervek","Allergia-tudatos"] },
       { ikon:"saglik", baslik:"Teljes egészségkövetés", acik:"Testsúly, víz és időszakos böjt — minden egy helyen.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Súlygrafikon","Vízkövetés","Böjt mód"] },
@@ -192,7 +193,7 @@ const LANG = {
   ro: {
     dilSec: "Selectați limba", hosgeldin: "Bun venit!", basla: "Să începem →", atla: "Sari peste", devam: "Următorul →",
     slides: [
-      { ikon:"kalori", baslik:"Mâncați sănătos cu Doya", acik:"Înregistrați tot ce mâncați în câteva secunde. Urmăriți calorii, proteine și vitamine cu peste 10.000 de alimente.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ alimente","Urmărire macro","Analiză vitamine"] },
+      { ikon:"kalori", baslik:"Mâncați sănătos cu Doya", acik:"Înregistrați tot ce mâncați în câteva secunde. Urmăriți calorii, proteine și vitamine cu peste 2.900 de alimente.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimente","Urmărire macro","Analiză vitamine"] },
       { ikon:"ai", baslik:"Scanner AI prin foto", acik:"Fotografiați masa și lăsați AI să calculeze imediat caloriile și macronutrienții.", renk:"#030604", vurgu:"#818cf8", detaylar:["Înregistrare foto","Analiză instantanee","Bazat pe AI"] },
       { ikon:"diyetisyen", baslik:"Nutriționistul dvs. AI Personal", acik:"Planuri de masă personalizate în funcție de obiectiv, alergii și stilul alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acces 24/7","Planuri personale","Conștient de alergii"] },
       { ikon:"saglik", baslik:"Monitorizare completă a sănătății", acik:"Greutate, apă și post intermitent — totul într-un singur loc.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafic greutate","Urmărire apă","Mod post"] },
@@ -201,7 +202,7 @@ const LANG = {
   hr: {
     dilSec: "Odaberite jezik", hosgeldin: "Dobrodošli!", basla: "Počnimo →", atla: "Preskoči", devam: "Sljedeće →",
     slides: [
-      { ikon:"kalori", baslik:"Jedite zdravo s Doyom", acik:"Zabilježite sve što jedete u sekundi. Pratite kalorije, proteine i vitamine s više od 10.000 namirnica.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ namirnica","Praćenje makroa","Analiza vitamina"] },
+      { ikon:"kalori", baslik:"Jedite zdravo s Doyom", acik:"Zabilježite sve što jedete u sekundi. Pratite kalorije, proteine i vitamine s više od 2.900 namirnica.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ namirnica","Praćenje makroa","Analiza vitamina"] },
       { ikon:"ai", baslik:"AI skener fotoaparatom", acik:"Fotografirajte obrok i pustite AI da odmah izračuna kalorije i makronutrijente.", renk:"#030604", vurgu:"#818cf8", detaylar:["Bilježenje fotom","Trenutna analiza","Pokretano AI-om"] },
       { ikon:"diyetisyen", baslik:"Vaš osobni AI nutricionist", acik:"Personalizirani planovi obroka prilagođeni vašem cilju, alergijama i stilu prehrane.", renk:"#030604", vurgu:"#34d399", detaylar:["Pristup 24/7","Osobni planovi","Svjesnost alergija"] },
       { ikon:"saglik", baslik:"Potpuno praćenje zdravlja", acik:"Težina, voda i povremeni post — sve na jednom mjestu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafikon težine","Praćenje vode","Način posta"] },
@@ -210,7 +211,7 @@ const LANG = {
   lv: {
     dilSec: "Izvēlieties valodu", hosgeldin: "Laipni lūdzam!", basla: "Sāksim →", atla: "Izlaist", devam: "Tālāk →",
     slides: [
-      { ikon:"kalori", baslik:"Ēdiet veselīgi ar Doya", acik:"Reģistrējiet visu, ko ēdat, sekundēs. Izsekojiet kalorijas, olbaltumvielas un vitamīnus ar vairāk nekā 10 000 pārtikas produktu.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ produktu","Makro izsekošana","Vitamīnu analīze"] },
+      { ikon:"kalori", baslik:"Ēdiet veselīgi ar Doya", acik:"Reģistrējiet visu, ko ēdat, sekundēs. Izsekojiet kalorijas, olbaltumvielas un vitamīnus ar vairāk nekā 2.900 pārtikas produktu.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktu","Makro izsekošana","Vitamīnu analīze"] },
       { ikon:"ai", baslik:"AI foto skeneris", acik:"Fotografējiet savu ēdienu un ļaujiet AI nekavējoties aprēķināt kalorijas un makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto reģistrācija","Tūlītēja analīze","Balstīts uz AI"] },
       { ikon:"diyetisyen", baslik:"Jūsu personīgais AI dietologs", acik:"Personalizēti ēdienreižu plāni, kas pielāgoti jūsu mērķim, alerģijām un ēšanas stilam.", renk:"#030604", vurgu:"#34d399", detaylar:["Pieeja 24/7","Personīgie plāni","Alerģiju apzināšanās"] },
       { ikon:"saglik", baslik:"Pilnīga veselības izsekošana", acik:"Svars, ūdens un intermitējošā gavēšana — viss vienuviet.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svara grafiks","Ūdens izsekošana","Gavēšanas režīms"] },
@@ -219,7 +220,7 @@ const LANG = {
   et: {
     dilSec: "Vali keel", hosgeldin: "Tere tulemast!", basla: "Alustame →", atla: "Jäta vahele", devam: "Edasi →",
     slides: [
-      { ikon:"kalori", baslik:"Söö tervislikult Doyaga", acik:"Salvesta kõik, mida sööd, sekunditega. Jälgi kaloreid, valke ja vitamiine üle 10 000 toiduainega.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ toiduainet","Makro jälgimine","Vitamiinianalüüs"] },
+      { ikon:"kalori", baslik:"Söö tervislikult Doyaga", acik:"Salvesta kõik, mida sööd, sekunditega. Jälgi kaloreid, valke ja vitamiine üle 2.900 toiduainega.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ toiduainet","Makro jälgimine","Vitamiinianalüüs"] },
       { ikon:"ai", baslik:"AI fotoSkänner", acik:"Pildista oma einet ja lase AI-l kohe arvutada kalorid ja makrod.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto logimine","Kohene analüüs","AI-põhine"] },
       { ikon:"diyetisyen", baslik:"Sinu isiklik AI dietoloog", acik:"Isikupärastatud toiduplaanid vastavalt sinu eesmärgile, allergiatele ja toitumisstiilile.", renk:"#030604", vurgu:"#34d399", detaylar:["Juurdepääs 24/7","Isiklikud plaanid","Allergiateadlik"] },
       { ikon:"saglik", baslik:"Täielik tervise jälgimine", acik:"Kaal, vesi ja vahelduv paastumine — kõik ühes kohas.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Kaalugraafik","Vee jälgimine","Paastumisrežiim"] },
@@ -228,7 +229,7 @@ const LANG = {
   lt: {
     dilSec: "Pasirinkite kalbą", hosgeldin: "Sveiki atvykę!", basla: "Pradėkime →", atla: "Praleisti", devam: "Toliau →",
     slides: [
-      { ikon:"kalori", baslik:"Valgykite sveikai su Doya", acik:"Užregistruokite viską, ką valgote, per sekundes. Sekite kalorijas, baltymus ir vitaminus su daugiau nei 10 000 maisto produktų.", renk:"#030604", vurgu:"#10b981", detaylar:["10K+ produktų","Makro sekimas","Vitaminų analizė"] },
+      { ikon:"kalori", baslik:"Valgykite sveikai su Doya", acik:"Užregistruokite viską, ką valgote, per sekundes. Sekite kalorijas, baltymus ir vitaminus su daugiau nei 2.900 maisto produktų.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktų","Makro sekimas","Vitaminų analizė"] },
       { ikon:"ai", baslik:"AI nuotraukų skaitytuvas", acik:"Nufotografuokite savo patiekalą ir leiskite AI iš karto apskaičiuoti kalorijas ir makrus.", renk:"#030604", vurgu:"#818cf8", detaylar:["Nuotraukų registravimas","Momentinė analizė","AI pagrįstas"] },
       { ikon:"diyetisyen", baslik:"Jūsų asmeninis AI dietologas", acik:"Personalizuoti maitinimosi planai pagal jūsų tikslą, alergijas ir mitybos stilių.", renk:"#030604", vurgu:"#34d399", detaylar:["Prieiga 24/7","Asmeniniai planai","Alergijų sąmoningumas"] },
       { ikon:"saglik", baslik:"Pilnas sveikatos sekimas", acik:"Svoris, vanduo ir intervalinis badavimas — viskas vienoje vietoje.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svorio grafikas","Vandens sekimas","Badavimo režimas"] },
@@ -2109,7 +2110,7 @@ SADECE JSON döndür (başka metin yok):
           fontSize:11,color:"rgba(187,247,208,0.3)",
           fontFamily:"sans-serif"
         }}>
-          10,000+ foods · AI powered
+          2,900+ foods · AI powered
         </div>
 
         <style>{`
@@ -2211,7 +2212,7 @@ SADECE JSON döndür (başka metin yok):
           </div>
           {/* Pills */}
           <div className="g3" style={{display:"flex",justifyContent:"center",gap:6,marginTop:20,flexWrap:"wrap",padding:"0 24px"}}>
-            {["AI Powered","10K+ Foods","Personal Plan"].map(t=>(
+            {["AI Powered","2,900+ Foods","Personal Plan"].map(t=>(
               <span key={t} style={{background:"rgba(16,185,129,.06)",border:"1px solid rgba(16,185,129,.12)",color:"rgba(52,211,153,.6)",padding:"4px 12px",borderRadius:99,fontSize:9,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase"}}>{t}</span>
             ))}
           </div>
@@ -5148,15 +5149,15 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 <div style={{padding:14}}>
                   <div style={{fontSize:11,color:r.muted,marginBottom:10,lineHeight:1.6}}>
                     Biriktirdiğin puanları harcayarak ekstra AI analiz hakkı satın alabilirsin.
-                    <br/><span style={{color:"#f59e0b",fontWeight:700}}>1 reklam izle = 50 puan</span> · <span style={{color:"#7c3aed",fontWeight:700}}>1 AI hakkı = 130 puan</span>
+                    <br/><span style={{color:"#f59e0b",fontWeight:700}}>1 reklam izle = 50 puan</span> · <span style={{color:"#7c3aed",fontWeight:700}}>1 AI hakkı = 60 puan</span>
                   </div>
 
                   {/* AI Hak paketleri */}
                   {[
-                    {adet:1, puan:130, emoji:"⚡", acikla:"Tek seferlik analiz"},
-                    {adet:3, puan:360, emoji:"🔋", acikla:"En çok tercih edilen"},
-                    {adet:5, puan:580, emoji:"🚀", acikla:"Haftalık paket"},
-                    {adet:10,puan:1100,emoji:"💎", acikla:"Tam günlük limit"},
+                    {adet:1, puan:60,  emoji:"⚡", acikla:"Tek seferlik analiz"},
+                    {adet:3, puan:170, emoji:"🔋", acikla:"En çok tercih edilen"},
+                    {adet:5, puan:270, emoji:"🚀", acikla:"Haftalık paket"},
+                    {adet:10,puan:520, emoji:"💎", acikla:"Tam günlük limit"},
                   ].map(item=>(
                     <div key={item.adet} style={{display:"flex",alignItems:"center",justifyContent:"space-between",background:d?"#0f172a":"#f9fafb",borderRadius:12,padding:"10px 12px",marginBottom:8,border:`1.5px solid ${puan>=item.puan?"#16a34a33":r.inpB}`}}>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
