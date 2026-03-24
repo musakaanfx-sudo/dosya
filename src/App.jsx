@@ -463,6 +463,19 @@ export default function App(){
   const [reklam,setReklam]=useState(true);
   const [acikHesap,setAcikHesap]=useState(true);
   const [sosyalAktif,setSosyalAktif]=useState(true);
+  const [sponsorIdx,setSponsorIdx]=useState(0);
+
+  // ── Türkiye'ye özel sponsor markalar ──
+  const TR_SPONSORLAR = [
+    { marka:"Ülker",       kategori:"Sağlıklı atıştırmalık",  ikon:"🍫", renk:"#e63946", acik:"Fit & Light serisi — düşük kalorili çikolata barlar",       url:"https://ulker.com.tr" },
+    { marka:"Pınar",       kategori:"Protein & Süt ürünleri", ikon:"🥛", renk:"#2563eb", acik:"Yüksek proteinli süt ve yoğurt çeşitleri",                  url:"https://pinar.com.tr" },
+    { marka:"Sek",         kategori:"Süt & Süt ürünleri",     ikon:"🧈", renk:"#f59e0b", acik:"Günlük besin ihtiyacınız için doğal süt ürünleri",           url:"https://sek.com.tr"  },
+    { marka:"Tukaş",       kategori:"Konserve & Doğal",       ikon:"🥫", renk:"#16a34a", acik:"Doğal sebze ve meyve konserveleri",                          url:"https://tukas.com.tr" },
+    { marka:"Torku",       kategori:"Tahıl & Baklagil",        ikon:"🌾", renk:"#d97706", acik:"Organik tahıllar ve glutensiz ürün seçenekleri",             url:"https://torku.com.tr" },
+    { marka:"Kırım",       kategori:"Bal & Doğal ürünler",    ikon:"🍯", renk:"#f97316", acik:"Doğal süzme bal ve propolis ürünleri",                      url:"https://kirim.com.tr" },
+    { marka:"Erikli",      kategori:"Su & Hidrasyon",          ikon:"💧", renk:"#0ea5e9", acik:"Doğal kaynak suyu — günlük hidrasyon için ideal",           url:"https://erikli.com.tr"},
+    { marka:"Tamek",       kategori:"Meyve suyu & Konserve",  ikon:"🍅", renk:"#dc2626", acik:"%100 doğal meyve suları ve konserve ürünler",               url:"https://tamek.com.tr" },
+  ];
   const [besinler,setBesinler]=useState(BESIN_DB);
   const [bekBesin,setBekBesin]=useState([]);
 
@@ -608,6 +621,11 @@ export default function App(){
 
   // ── ADMIN ──
   const [adminUid,setAdminUid]=useState(""); const [adminTip,setAdminTip]=useState("influencer");
+  const [sponsorYonetimUlke,setSponsorYonetimUlke]=useState("tr");
+  const [sponsorlar,setSponsorlar]=useState({}); // {tr:[...], el:[...], de:[...]}
+  const [sponsorForm,setSponsorForm]=useState({marka:"",kategori:"",ikon:"",acik:"",url:"",aktif:true});
+  const [sponsorYukl,setSponsorYukl]=useState(false);
+  const [sponsorMesaj,setSponsorMesaj]=useState("");
   const [adminMsg,setAdminMsg]=useState(""); const [banMsg,setBanMsg]=useState("");
   const [adminOzelRefKod,setAdminOzelRefKod]=useState("");
   const [adminIsletmeIsmi,setAdminIsletmeIsmi]=useState("");
@@ -908,6 +926,15 @@ export default function App(){
   const BAD = (c)=>({ background:c+"15",color:c,padding:"3px 10px",borderRadius:20,fontSize:10,fontWeight:800,display:"inline-block",letterSpacing:.3,border:`1px solid ${c}25` });
   const NB  = (a)=>({ flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"10px 4px 8px",cursor:"pointer",color:a?"#10b981":r.muted,fontSize:9,fontWeight:a?800:600,gap:3,background:"none",border:"none",minWidth:44,letterSpacing:.5,position:"relative",transition:"color .2s" });
 
+  // ─── FİREBASE: SPONSORLAR YÜKLEME ───────────────────────────
+  useEffect(()=>{
+    import("firebase/firestore").then(({getDoc,doc:dc})=>{
+      getDoc(dc(db,"appConfig","sponsorlar")).then(snap=>{
+        if(snap.exists()) setSponsorlar(snap.data()||{});
+      }).catch(()=>{});
+    });
+  },[]);
+
   // ─── FİREBASE: TARİFLER YÜKLEME ─────────────────────────────
   useEffect(()=>{
     setTarifFbYuk(true);
@@ -1048,13 +1075,15 @@ export default function App(){
     const sonGirisKey="doya_son_giris_"+firebaseUID;
     const sonGirisLocal=localStorage.getItem(sonGirisKey);
     if(sonGirisLocal===bugun) return;
-    // İlk kez bugün giriş yapıyor → +100 puan
-    const yeniPuan=(puan||0)+100;
+    // İlk kez bugün giriş yapıyor → +50 puan
+    const yeniPuan=(puan||0)+50;
     setPuan(yeniPuan);
     localStorage.setItem(sonGirisKey,bugun);
     kullaniciyiGuncelle(firebaseUID,{
       puan:yeniPuan,
-      sonGiris:bugun
+      sonGiris:bugun,
+      dil:dil, // dil bilgisini de güncelle
+      sonAktivite:bugun
     }).catch(console.error);
   },[firebaseUID]); // sadece firebaseUID değişince — aktif?.uid kaldırıldı
 
@@ -3841,20 +3870,46 @@ SADECE JSON döndür (başka metin yok):
           <div className={tabAnimClass} style={{paddingBottom:16}}>
 
             {/* ── Reklam banner ── */}
-            {reklam&&!false&&premium&&(
-              <div style={{display:"flex",alignItems:"center",gap:10,margin:"10px 14px 0",padding:"11px 14px",background:d?"rgba(200,146,42,.06)":"rgba(200,146,42,.05)",border:"1px solid rgba(200,146,42,.12)",borderRadius:16}}>
-                <div style={{width:28,height:28,borderRadius:9,background:"rgba(200,146,42,.1)",border:"1px solid rgba(240,193,75,.15)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f0c14b" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            {reklam&&!premium&&!premiumPlus&&(()=>{
+              const dilSponsor = (sponsorlar[dil]||[]).filter(s=>s.aktif!==false);
+              const gosterilecek = dilSponsor.length>0 ? dilSponsor : (dil==="tr" ? TR_SPONSORLAR : []);
+              if(gosterilecek.length===0) return(
+                <div style={{margin:"10px 14px 0",borderRadius:16,border:`1.5px dashed ${r.inpB}`,padding:"14px",display:"flex",alignItems:"center",gap:10,background:"transparent"}}>
+                  <div style={{fontSize:24,opacity:.3}}>📢</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:11,fontWeight:700,color:r.muted,opacity:.6}}>Bu bölgede henüz sponsor yok</div>
+                    <div style={{fontSize:10,color:r.muted,opacity:.45,marginTop:2}}>Burası reklam alanı — marka sahipleri için boş bekliyor</div>
+                  </div>
+                  <button onClick={()=>setReklam(false)} style={{background:"none",border:"none",cursor:"pointer",color:r.muted,opacity:.4,padding:0,fontSize:14}}>✕</button>
                 </div>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:9,color:"rgba(240,193,75,.45)",fontWeight:700,letterSpacing:2,textTransform:"uppercase",marginBottom:2}}>Duyuru</div>
-                  <div style={{fontSize:11,color:d?"rgba(255,255,255,.45)":"rgba(0,0,0,.45)",fontWeight:500}}>Premium ile reklamsız, tam deneyim — sadece {PREMIUM_FIYAT}₺/ay</div>
+              );
+              const sp=gosterilecek[sponsorIdx%gosterilecek.length];
+              return(
+              <div style={{margin:"10px 14px 0",borderRadius:16,overflow:"hidden",border:`1px solid ${sp.renk||"#6b7280"}22`,background:d?`${sp.renk||"#6b7280"}08`:`${sp.renk||"#6b7280"}06`,position:"relative"}}>
+                <div style={{position:"absolute",top:8,right:10,fontSize:8,fontWeight:800,color:sp.renk||"#6b7280",opacity:.5,letterSpacing:1.5,textTransform:"uppercase"}}>SPONSOR</div>
+                <div style={{display:"flex",alignItems:"center",gap:10,padding:"11px 14px"}}>
+                  <div style={{width:36,height:36,borderRadius:10,background:`${sp.renk||"#6b7280"}15`,border:`1px solid ${sp.renk||"#6b7280"}25`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:18}}>
+                    {sp.ikon||"🏷️"}
+                  </div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:2}}>
+                      <span style={{fontSize:12,fontWeight:800,color:sp.renk||"#6b7280"}}>{sp.marka}</span>
+                      <span style={{fontSize:9,color:r.muted,background:d?"rgba(255,255,255,.06)":"rgba(0,0,0,.05)",borderRadius:20,padding:"1px 6px"}}>{sp.kategori}</span>
+                    </div>
+                    <div style={{fontSize:11,color:d?"rgba(255,255,255,.45)":"rgba(0,0,0,.45)",fontWeight:500,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{sp.acik}</div>
+                  </div>
+                  <button onClick={(e)=>{e.stopPropagation();setSponsorIdx(i=>i+1);}}
+                    style={{background:"none",border:"none",cursor:"pointer",color:r.muted,padding:"4px 2px",flexShrink:0,fontSize:16,lineHeight:1}}>›</button>
                 </div>
-                <button onClick={()=>setReklam(false)} style={{background:"none",border:"none",cursor:"pointer",color:d?"rgba(255,255,255,.2)":"rgba(0,0,0,.2)",padding:4,display:"flex"}}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </button>
+                <div style={{borderTop:`1px solid ${sp.renk||"#6b7280"}15`,padding:"6px 14px",display:"flex",justifyContent:"space-between",alignItems:"center",background:d?"rgba(0,0,0,.2)":"rgba(0,0,0,.02)"}}>
+                  <span style={{fontSize:9,color:r.muted}}>Premium üyeler reklamsız deneyim yaşar</span>
+                  <button onClick={()=>setReklam(false)} style={{background:"none",border:"none",cursor:"pointer",color:r.muted,padding:0}}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
               </div>
-            )}
+              );
+            })()}
 
             {/* ── BMI Kartı ── */}
             {bmi&&bmiD&&(
@@ -4999,7 +5054,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               <div style={{fontSize:9,fontWeight:700,color:"rgba(240,193,75,.4)",letterSpacing:3,textTransform:"uppercase",marginBottom:16}}>Puan Durumu</div>
               <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:56,fontWeight:300,color:"#f0c14b",lineHeight:1,letterSpacing:-3,marginBottom:6}}>{puan}</div>
               <div style={{fontSize:10,color:r.muted,letterSpacing:.5}}>Puan biriktir, AI hakkı kazan</div>
-              {firebaseUID&&localStorage.getItem("doya_son_giris_"+firebaseUID)===bugunKey()&&<div style={{marginTop:12,background:"rgba(200,146,42,.08)",border:"1px solid rgba(240,193,75,.15)",borderRadius:10,padding:"8px 12px",fontSize:10,color:"rgba(240,193,75,.7)",fontWeight:700,letterSpacing:.5}}>Bugünkü giriş bonusu — +100 puan alındı</div>}
+              {firebaseUID&&localStorage.getItem("doya_son_giris_"+firebaseUID)===bugunKey()&&<div style={{marginTop:12,background:"rgba(200,146,42,.08)",border:"1px solid rgba(240,193,75,.15)",borderRadius:10,padding:"8px 12px",fontSize:10,color:"rgba(240,193,75,.7)",fontWeight:700,letterSpacing:.5}}>Bugünkü giriş bonusu — +50 puan alındı</div>}
             </div>
 
             {/* Premium planlar */}
@@ -6164,6 +6219,249 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* ── AKTİF KULLANICI PANELİ ── */}
+            {(()=>{
+              const AKTIF_ESIK = 500; // aylık 500 puan = aktif kullanıcı
+              const ULKE_AD_TR={tr:"🇹🇷 Türkiye",de:"🇩🇪 Almanya",at:"🇦🇹 Avusturya",be:"🇧🇪 Belçika",nl:"🇳🇱 Hollanda",fr:"🇫🇷 Fransa",es:"🇪🇸 İspanya",it:"🇮🇹 İtalya",pt:"🇵🇹 Portekiz",el:"🇬🇷 Yunanistan",sv:"🇸🇪 İsveç",da:"🇩🇰 Danimarka",no:"🇳🇴 Norveç",fi:"🇫🇮 Finlandiya",pl:"🇵🇱 Polonya",cs:"🇨🇿 Çekya",hu:"🇭🇺 Macaristan",ro:"🇷🇴 Romanya",hr:"🇭🇷 Hırvatistan",en:"🇬🇧 İngiltere",lv:"🇱🇻 Letonya",et:"🇪🇪 Estonya",lt:"🇱🇹 Litvanya"};
+
+              // Aktif kullanıcılar: 500+ puan (aylık)
+              const aktifler = kullanicilar.filter(u=>((u.puan||0)>=AKTIF_ESIK));
+              const toplamKullanici = kullanicilar.length;
+
+              // Ülkeye göre grupla
+              const ulkeGrup = {};
+              aktifler.forEach(u=>{
+                const k = u.dil||"tr";
+                if(!ulkeGrup[k]) ulkeGrup[k]=[];
+                ulkeGrup[k].push(u);
+              });
+              const ulkeSirali = Object.entries(ulkeGrup).sort((a,b)=>b[1].length-a[1].length);
+
+              return(
+              <div style={{...CS,border:"2px solid #16a34a",marginBottom:10}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+                  <div style={{width:28,height:28,background:"linear-gradient(135deg,#16a34a,#059669)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>📊</div>
+                  <div style={{fontWeight:800,fontSize:13,color:r.text}}>Aktif Kullanıcı Paneli</div>
+                  <div style={{marginLeft:"auto",background:"rgba(22,163,74,.1)",border:"1px solid rgba(22,163,74,.2)",borderRadius:20,padding:"3px 10px",fontSize:10,fontWeight:800,color:"#16a34a"}}>
+                    {aktifler.length} / {toplamKullanici} aktif
+                  </div>
+                </div>
+
+                {/* Özet sayılar */}
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:14}}>
+                  {[
+                    {l:"Toplam Kayıt",v:toplamKullanici,c:"#6b7280",ic:"👥"},
+                    {l:"Aktif (500+ puan)",v:aktifler.length,c:"#16a34a",ic:"⚡"},
+                    {l:"Premium",v:kullanicilar.filter(u=>u.premium||u.premiumPlus).length,c:"#f59e0b",ic:"⭐"},
+                  ].map(s=>(
+                    <div key={s.l} style={{background:d?"rgba(255,255,255,.04)":"rgba(0,0,0,.03)",border:`1px solid ${s.c}20`,borderRadius:12,padding:"10px 8px",textAlign:"center"}}>
+                      <div style={{fontSize:18,marginBottom:2}}>{s.ic}</div>
+                      <div style={{fontSize:20,fontWeight:900,color:s.c}}>{s.v}</div>
+                      <div style={{fontSize:9,color:r.muted,fontWeight:700,letterSpacing:.5}}>{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Ülke bazlı dağılım */}
+                <div style={{fontSize:10,fontWeight:800,color:r.muted,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8}}>Ülke Bazlı Aktif Kullanıcılar</div>
+                {ulkeSirali.length===0?(
+                  <div style={{textAlign:"center",color:r.muted,fontSize:12,padding:"12px 0"}}>Henüz 500 puana ulaşan kullanıcı yok.</div>
+                ):(
+                  ulkeSirali.map(([k,ular])=>{
+                    const pct = aktifler.length>0 ? Math.round(ular.length/aktifler.length*100) : 0;
+                    return(
+                    <div key={k} style={{marginBottom:8}}>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
+                        <span style={{fontSize:12,fontWeight:700,color:r.text}}>{ULKE_AD_TR[k]||k.toUpperCase()}</span>
+                        <span style={{fontSize:11,fontWeight:800,color:"#16a34a"}}>{ular.length} kullanıcı <span style={{color:r.muted,fontWeight:400}}>(%{pct})</span></span>
+                      </div>
+                      <div style={{height:6,background:d?"#1e293b":"#f1f5f9",borderRadius:3,overflow:"hidden"}}>
+                        <div style={{height:"100%",width:`${pct}%`,background:"linear-gradient(90deg,#16a34a,#34d399)",borderRadius:3,transition:"width .4s"}}/>
+                      </div>
+                    </div>
+                    );
+                  })
+                )}
+
+                {/* Tüm aktif kullanıcılar listesi */}
+                {aktifler.length>0&&(
+                  <details style={{marginTop:10}}>
+                    <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#16a34a",userSelect:"none"}}>
+                      Tüm aktif kullanıcıları gör ({aktifler.length} kişi)
+                    </summary>
+                    <div style={{marginTop:8,maxHeight:240,overflowY:"auto"}}>
+                      {aktifler.sort((a,b)=>(b.puan||0)-(a.puan||0)).map(u=>(
+                        <div key={u.uid} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 8px",borderRadius:10,marginBottom:4,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)"}}>
+                          <div style={{width:28,height:28,borderRadius:"50%",background:"#16a34a",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:800,fontSize:11,flexShrink:0,overflow:"hidden"}}>
+                            {u.foto?<img src={u.foto} style={{width:"100%",height:"100%",objectFit:"cover"}} alt=""/>:(u.isim||"?")[0]}
+                          </div>
+                          <div style={{flex:1,minWidth:0}}>
+                            <div style={{fontSize:11,fontWeight:700,color:r.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{u.isim||"İsimsiz"}</div>
+                            <div style={{fontSize:9,color:r.muted}}>{ULKE_AD_TR[u.dil||"tr"]||"?"} · {u.uid?.slice(0,8)}</div>
+                          </div>
+                          <div style={{display:"flex",alignItems:"center",gap:4}}>
+                            {(u.premium||u.premiumPlus)&&<span style={{fontSize:9,background:"rgba(245,158,11,.1)",color:"#f59e0b",borderRadius:20,padding:"1px 6px",fontWeight:800}}>⭐</span>}
+                            <span style={{fontSize:11,fontWeight:900,color:"#16a34a"}}>{u.puan||0}</span>
+                            <span style={{fontSize:9,color:r.muted}}>puan</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </div>
+              );
+            })()}
+
+            {/* ── SPONSOR YÖNETİMİ ── */}
+            <div style={{...CS,border:"2px solid #f97316",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+                <div style={{width:28,height:28,background:"linear-gradient(135deg,#f97316,#ea580c)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>📢</div>
+                <div style={{fontWeight:800,fontSize:13,color:r.text}}>Sponsor Yönetimi</div>
+              </div>
+
+              {/* Ülke seçimi */}
+              <div style={{marginBottom:12}}>
+                <div style={CT}>Ülke Seç</div>
+                <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
+                  {[
+                    {k:"tr",l:"🇹🇷 TR"},{k:"de",l:"🇩🇪 DE"},{k:"el",l:"🇬🇷 EL"},{k:"en",l:"🇬🇧 EN"},
+                    {k:"fr",l:"🇫🇷 FR"},{k:"it",l:"🇮🇹 IT"},{k:"es",l:"🇪🇸 ES"},{k:"nl",l:"🇳🇱 NL"},
+                    {k:"be",l:"🇧🇪 BE"},{k:"at",l:"🇦🇹 AT"},{k:"pt",l:"🇵🇹 PT"},{k:"sv",l:"🇸🇪 SE"},
+                    {k:"no",l:"🇳🇴 NO"},{k:"da",l:"🇩🇰 DA"},{k:"fi",l:"🇫🇮 FI"},{k:"pl",l:"🇵🇱 PL"},
+                    {k:"cs",l:"🇨🇿 CS"},{k:"hu",l:"🇭🇺 HU"},{k:"ro",l:"🇷🇴 RO"},{k:"hr",l:"🇭🇷 HR"},
+                    {k:"lv",l:"🇱🇻 LV"},{k:"et",l:"🇪🇪 ET"},{k:"lt",l:"🇱🇹 LT"},
+                  ].map(u=>{
+                    const sayi=(sponsorlar[u.k]||[]).length;
+                    return(
+                    <button key={u.k} onClick={()=>setSponsorYonetimUlke(u.k)}
+                      style={{padding:"5px 10px",borderRadius:20,border:`1.5px solid ${sponsorYonetimUlke===u.k?"#f97316":"rgba(249,115,22,.2)"}`,
+                        background:sponsorYonetimUlke===u.k?"#f97316":"transparent",
+                        color:sponsorYonetimUlke===u.k?"#fff":r.sub,
+                        fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif",
+                        position:"relative"}}>
+                      {u.l}{sayi>0&&<span style={{marginLeft:4,background:sponsorYonetimUlke===u.k?"rgba(255,255,255,.3)":"#f97316",color:"#fff",borderRadius:10,padding:"0 5px",fontSize:9,fontWeight:800}}>{sayi}</span>}
+                    </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Yeni sponsor formu */}
+              <div style={{background:d?"rgba(249,115,22,.05)":"rgba(249,115,22,.04)",border:"1px solid rgba(249,115,22,.15)",borderRadius:12,padding:12,marginBottom:12}}>
+                <div style={{fontSize:11,fontWeight:800,color:"#f97316",marginBottom:10,letterSpacing:.5}}>
+                  ➕ {sponsorYonetimUlke.toUpperCase()} için yeni sponsor ekle
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
+                  <div>
+                    <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>Marka Adı *</div>
+                    <input style={{...IS,fontSize:12}} placeholder="Ülker" value={sponsorForm.marka}
+                      onChange={e=>setSponsorForm(p=>({...p,marka:e.target.value}))}/>
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>Kategori *</div>
+                    <input style={{...IS,fontSize:12}} placeholder="Sağlıklı atıştırmalık" value={sponsorForm.kategori}
+                      onChange={e=>setSponsorForm(p=>({...p,kategori:e.target.value}))}/>
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>İkon (emoji)</div>
+                    <input style={{...IS,fontSize:16,textAlign:"center"}} placeholder="🏷️" value={sponsorForm.ikon}
+                      onChange={e=>setSponsorForm(p=>({...p,ikon:e.target.value}))}/>
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>Renk (hex)</div>
+                    <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                      <input type="color" value={sponsorForm.renk||"#f97316"} onChange={e=>setSponsorForm(p=>({...p,renk:e.target.value}))}
+                        style={{width:36,height:36,borderRadius:8,border:"none",cursor:"pointer",padding:2}}/>
+                      <input style={{...IS,fontSize:12,flex:1}} placeholder="#f97316" value={sponsorForm.renk||""}
+                        onChange={e=>setSponsorForm(p=>({...p,renk:e.target.value}))}/>
+                    </div>
+                  </div>
+                </div>
+                <div style={{marginBottom:8}}>
+                  <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>Kısa Açıklama *</div>
+                  <input style={{...IS,fontSize:12}} placeholder="Fit & Light serisi — düşük kalorili ürünler" value={sponsorForm.acik}
+                    onChange={e=>setSponsorForm(p=>({...p,acik:e.target.value}))}/>
+                </div>
+                <div style={{marginBottom:10}}>
+                  <div style={{fontSize:10,color:r.muted,fontWeight:700,marginBottom:3}}>Web Sitesi (opsiyonel)</div>
+                  <input style={{...IS,fontSize:12}} placeholder="https://marka.com" value={sponsorForm.url}
+                    onChange={e=>setSponsorForm(p=>({...p,url:e.target.value}))}/>
+                </div>
+                {sponsorMesaj&&<div style={{fontSize:11,fontWeight:700,color:sponsorMesaj.includes("✅")?"#16a34a":"#ef4444",marginBottom:8}}>{sponsorMesaj}</div>}
+                <button disabled={!sponsorForm.marka||!sponsorForm.kategori||!sponsorForm.acik||sponsorYukl}
+                  onClick={async()=>{
+                    setSponsorYukl(true); setSponsorMesaj("");
+                    try{
+                      const yeniSponsor={...sponsorForm,id:Date.now(),aktif:true,eklenme:new Date().toISOString()};
+                      const mevcutListe=sponsorlar[sponsorYonetimUlke]||[];
+                      const yeniListe=[...mevcutListe,yeniSponsor];
+                      const yeniSponsorlar={...sponsorlar,[sponsorYonetimUlke]:yeniListe};
+                      const {setDoc,doc:dc}=await import("firebase/firestore");
+                      await setDoc(dc(db,"appConfig","sponsorlar"),yeniSponsorlar);
+                      setSponsorlar(yeniSponsorlar);
+                      setSponsorForm({marka:"",kategori:"",ikon:"",acik:"",url:"",aktif:true,renk:""});
+                      setSponsorMesaj("✅ Sponsor eklendi!");
+                      setTimeout(()=>setSponsorMesaj(""),3000);
+                    }catch(e){ setSponsorMesaj("❌ Hata: "+e.message); }
+                    setSponsorYukl(false);
+                  }}
+                  style={{...BTN("#f97316"),width:"100%",padding:"10px 0",fontSize:12,opacity:!sponsorForm.marka||!sponsorForm.acik||sponsorYukl?0.5:1}}>
+                  {sponsorYukl?"⏳ Kaydediliyor...":"📢 Sponsoru Ekle"}
+                </button>
+              </div>
+
+              {/* Mevcut sponsorlar listesi */}
+              {(sponsorlar[sponsorYonetimUlke]||[]).length===0?(
+                <div style={{textAlign:"center",color:r.muted,fontSize:12,padding:"12px 0"}}>
+                  {sponsorYonetimUlke.toUpperCase()} için henüz sponsor yok.
+                </div>
+              ):(
+                <div>
+                  <div style={{fontSize:11,fontWeight:700,color:r.muted,marginBottom:8}}>
+                    {sponsorYonetimUlke.toUpperCase()} — {(sponsorlar[sponsorYonetimUlke]||[]).length} sponsor
+                  </div>
+                  {(sponsorlar[sponsorYonetimUlke]||[]).map((sp,i)=>(
+                    <div key={sp.id||i} style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",
+                      background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",
+                      border:`1px solid ${sp.aktif!==false?"rgba(249,115,22,.2)":"rgba(107,114,128,.2)"}`,
+                      borderRadius:12,marginBottom:6}}>
+                      <div style={{fontSize:20,width:32,textAlign:"center"}}>{sp.ikon||"🏷️"}</div>
+                      <div style={{flex:1,minWidth:0}}>
+                        <div style={{display:"flex",alignItems:"center",gap:6}}>
+                          <span style={{fontSize:12,fontWeight:800,color:sp.renk||r.text}}>{sp.marka}</span>
+                          <span style={{fontSize:9,color:r.muted,background:d?"rgba(255,255,255,.06)":"rgba(0,0,0,.05)",borderRadius:20,padding:"1px 6px"}}>{sp.kategori}</span>
+                          {sp.aktif===false&&<span style={{fontSize:9,color:"#ef4444",fontWeight:800}}>GİZLİ</span>}
+                        </div>
+                        <div style={{fontSize:10,color:r.muted,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{sp.acik}</div>
+                      </div>
+                      <div style={{display:"flex",gap:4}}>
+                        {/* Aktif/Pasif toggle */}
+                        <button onClick={async()=>{
+                          const yeniListe=(sponsorlar[sponsorYonetimUlke]||[]).map((s,j)=>j===i?{...s,aktif:s.aktif===false}:s);
+                          const yeni={...sponsorlar,[sponsorYonetimUlke]:yeniListe};
+                          setSponsorlar(yeni);
+                          const {setDoc,doc:dc}=await import("firebase/firestore");
+                          await setDoc(dc(db,"appConfig","sponsorlar"),yeni).catch(console.error);
+                        }} style={{background:sp.aktif!==false?"rgba(16,163,74,.1)":"rgba(107,114,128,.1)",border:"none",borderRadius:8,padding:"5px 8px",cursor:"pointer",fontSize:10,fontWeight:800,color:sp.aktif!==false?"#16a34a":"#6b7280"}}>
+                          {sp.aktif!==false?"✓ Aktif":"✗ Gizli"}
+                        </button>
+                        {/* Sil butonu */}
+                        <button onClick={async()=>{
+                          if(!window.confirm(`"${sp.marka}" silinsin mi?`)) return;
+                          const yeniListe=(sponsorlar[sponsorYonetimUlke]||[]).filter((_,j)=>j!==i);
+                          const yeni={...sponsorlar,[sponsorYonetimUlke]:yeniListe};
+                          setSponsorlar(yeni);
+                          const {setDoc,doc:dc}=await import("firebase/firestore");
+                          await setDoc(dc(db,"appConfig","sponsorlar"),yeni).catch(console.error);
+                        }} style={{background:"rgba(239,68,68,.1)",border:"none",borderRadius:8,padding:"5px 8px",cursor:"pointer",fontSize:12,color:"#ef4444"}}>🗑️</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div style={{fontSize:12,fontWeight:700,color:r.sub,padding:"4px 4px 6px"}}>Besin Onay Kuyruğu ({bekBesin.length})</div>
