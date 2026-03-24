@@ -74,7 +74,7 @@ exports.handler = async (event) => {
     },
   };
 
-  const MODEL = "gemini-2.0-flash-lite";
+  const MODEL = "gemini-2.5-flash-lite";
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
   try {
