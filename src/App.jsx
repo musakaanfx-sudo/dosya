@@ -5422,7 +5422,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             <div style={CS}>
               <div style={CT}>IBAN Bilgisi</div>
               <div style={{background:d?"#0f172a":"#eff6ff",borderRadius:10,padding:10,marginBottom:12,fontSize:12,color:"#1d4ed8",lineHeight:1.6}}>
-                📅 3 ayda bir ödeme (Ocak / Nisan / Temmuz / Ekim) · Min. ₺50<br/>
+                📅 3 ayda bir ödeme (Ocak - Nisan - Temmuz - Ekim) · Min. ₺50<br/>
                 <span style={{fontSize:10,opacity:.8}}>Ödeme bilgileriniz şifreli olarak saklanmaktadır.</span>
               </div>
               {[{l:"IBAN",ph:"TR00 0000 0000 0000 0000 0000 00",k:"iban"},{l:"Hesap Sahibi",ph:"Ad Soyad",k:"ibanAd"}].map(f=>(
@@ -5888,10 +5888,10 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 {/* Progress barlar — inline, hook yok */}
                 <div style={{...CS,margin:"0 16px 10px"}}>
                   <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:14}}>📈 Günlük Ortalamalar</div>
-                  <StatRow label={"🔥 Kalori — "+ortaKal+" kcal/gün"} deger={ortaKal+" / "+hedefKal+" kcal"} yuzde={Math.min(100,Math.round((ortaKal/hedefKal)*100))}/>
-                  <StatRow label={"💪 Protein — "+ortaPro+"g/gün"} deger={ortaPro+" / "+hedefPro+"g"} yuzde={Math.min(100,Math.round((ortaPro/hedefPro)*100))}/>
-                  <StatRow label={"💧 Su — "+ortaSu+"ml/gün"} deger={ortaSu+" / "+suHedAylik+"ml"} yuzde={Math.min(100,Math.round((ortaSu/suHedAylik)*100))}/>
-                  <StatRow label={"👟 Adım — "+ortaAdim.toLocaleString()+"/gün"} deger={ortaAdim.toLocaleString()+" / 10.000"} yuzde={Math.min(100,Math.round((ortaAdim/10000)*100))}/>
+                  <StatRow label={"🔥 Kalori — "+ortaKal+" kcal/gün"} deger={ortaKal+" &#47; "+hedefKal+" kcal"} yuzde={Math.min(100,Math.round((ortaKal/hedefKal)*100))}/>
+                  <StatRow label={"💪 Protein — "+ortaPro+"g/gün"} deger={ortaPro+" &#47; "+hedefPro+"g"} yuzde={Math.min(100,Math.round((ortaPro/hedefPro)*100))}/>
+                  <StatRow label={"💧 Su — "+ortaSu+"ml/gün"} deger={ortaSu+" &#47; "+suHedAylik+"ml"} yuzde={Math.min(100,Math.round((ortaSu/suHedAylik)*100))}/>
+                  <StatRow label={"👟 Adım — "+ortaAdim.toLocaleString()+"/gün"} deger={ortaAdim.toLocaleString()+" &#47; 10.000"} yuzde={Math.min(100,Math.round((ortaAdim/10000)*100))}/>
                 </div>
 
                 {/* Makro dağılımı */}
@@ -5985,7 +5985,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             </div>
 
             <div style={{...CS,border:"2px solid #2563eb"}}>
-              <div style={CT}>UID ile Ortak Ata / Kaldır</div>
+              <div style={CT}>UID ile Ortak Ata - Kaldır</div>
               <div style={{fontSize:11,color:r.sub,marginBottom:6}}>Kullanıcı UID'si veya NTR kodunu gir:</div>
               <input style={{...IS,marginBottom:8}} placeholder="NTR-000000" value={adminUid} onChange={e=>setAdminUid(e.target.value)}/>
 
@@ -7625,7 +7625,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       <div key={m.l} style={{marginBottom:7}}>
                         <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:r.sub,marginBottom:2}}>
                           <span>{m.l}</span>
-                          <span style={{fontWeight:700,color:m.renk}}>{m.v}{m.birim} / günlük {m.ihtiyac}{m.birim} tavsiye</span>
+                          <span style={{fontWeight:700,color:m.renk}}>{m.v}{m.birim}{" / "}günlük {m.ihtiyac}{m.birim} tavsiye</span>
                         </div>
                         <div style={{...PB,height:5,marginTop:0}}><div style={{...PF(pct,m.renk),height:5}}/></div>
                       </div>
@@ -7670,9 +7670,9 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 <div style={{fontWeight:800,color:r.text,marginBottom:6}}>📊 Günlük Özet</div>
                 <div style={{fontSize:13,color:r.sub,lineHeight:1.9}}>
                   🗓 {bugunKey()}<br/>
-                  🔥 Kalori: {topKal} / {HEDEF} kcal<br/>
+                  🔥 Kalori: {topKal{"/"}{HEDEF} kcal<br/>
                   💪 Protein: {Math.round(topPro)}g | Karb: {Math.round(topKarb)}g | Yağ: {Math.round(topYag)}g<br/>
-                  💧 Su: {bugSu} / {suHed} ml<br/>
+                  💧 Su: {bugSu}{" / "}{suHed} ml<br/>
                   🏃 Spor: {topSpor} kcal yakıldı<br/>
                   {bmi&&`📏 BMI: ${bmi} (${bmiD?.etiket})`}
                 </div>
@@ -8165,12 +8165,12 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               </div>
 
               <div style={{background:d?"#1e293b":"#f9fafb",borderRadius:12,padding:12,marginBottom:12,fontSize:12,color:r.sub}}>
-                <b>Şartlar:</b> Min. <b>1.000 takipçi</b> veya aktif işletme. Spam / yanıltıcı içerik yasak.
+                <b>Şartlar:</b> Min. <b>1.000 takipçi</b> veya aktif işletme. Spam, yanıltıcı içerik yasak.
               </div>
 
               <div style={{marginBottom:10}}>
                 <div style={{fontSize:12,color:r.sub,fontWeight:700,marginBottom:5}}>{basTip==="influencer"?"Platform & Kullanıcı Adı":"İşletme Adı & Adresi"}  <span style={{color:"#ef4444"}}>*</span></div>
-                <input style={{...IS}} placeholder={basTip==="influencer"?"@instagram / youtube.com/kanal":"FitLife Spor Salonu - Kadıköy"} value={basAd} onChange={e=>setBasAd(e.target.value)}/>
+                <input style={{...IS}} placeholder={basTip==="influencer"?"@instagram veya youtube.com/kanal":"FitLife Spor Salonu - Kadıköy"} value={basAd} onChange={e=>setBasAd(e.target.value)}/>
               </div>
 
               {basTip==="influencer"&&(
