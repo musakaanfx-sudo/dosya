@@ -1,3 +1,4 @@
+import './doya.css';
 import { useState, useRef, useEffect } from "react";
 import {
   auth, db,
@@ -3490,112 +3491,11 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
     );
   };
 
-  const APP_CSS = String.raw`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }
-        ::-webkit-scrollbar { width:0; height:0; }
-        button { transition: all .18s cubic-bezier(.34,1.2,.64,1); }
-        button:active { transform:scale(.95); }
-        input:focus { outline:none; }
-        input::placeholder { opacity:.4; }
-        /* ── Animasyonlar ── */        @keyframes lux-in   { from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
-        @keyframes lux-fade { from{opacity:0} to{opacity:1} }
-        @keyframes lux-up   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes tab-in   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes tab-out  { from{opacity:1} to{opacity:0;transform:translateY(-5px)} }
-        @keyframes slide-up { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes spin     { to{transform:rotate(360deg)} }
-        @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.35} }
-        @keyframes shimmer  { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
-        @keyframes glow-pulse { 0%,100%{opacity:.3} 50%{opacity:.6} }
-        @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-        @keyframes ring-fill { from{stroke-dashoffset:427} }
-        @keyframes number-pop { 0%{transform:scale(.8);opacity:0} 100%{transform:scale(1);opacity:1} }
-        .lux-card { animation: lux-in .5s cubic-bezier(.34,1.1,.64,1) both; }
-        .lux-card:nth-child(1){animation-delay:.05s}
-        .lux-card:nth-child(2){animation-delay:.1s}
-        .lux-card:nth-child(3){animation-delay:.15s}
-        .lux-card:nth-child(4){animation-delay:.2s}
-        .lux-card:nth-child(5){animation-delay:.25s}
-        .tab-enter { animation: tab-in .25s cubic-bezier(.34,1.2,.64,1) forwards; }
-        .tab-exit  { animation: tab-out .14s ease-in forwards; }
-        .modal-enter { animation: slide-up .32s cubic-bezier(.34,1.3,.64,1) forwards; }
-        .spin  { animation: spin .8s linear infinite; }
-        .pulse { animation: pulse 1.5s ease-in-out infinite; }
-        .float { animation: float 3.5s ease-in-out infinite; }
-        /* ── Lüks kart hover ── */        .lux-lift { transition: transform .2s, box-shadow .2s; }
-        .lux-lift:active { transform:scale(.985); }
-        /* ── Input focus ── */        .lux-input:focus {
-          border-color: rgba(16,185,129,.6) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;        }
-        .ob-inp {
-          background: rgba(255,255,255,.04) !important;          border: 1px solid rgba(255,255,255,.08) !important;          border-radius: 14px !important;          color: #e8f5ec !important;          font-family: 'Nunito', sans-serif !important;          font-size: 14px !important;          transition: border .15s, box-shadow .15s !important;        }
-        .ob-inp:focus {
-          border-color: rgba(52,211,153,.3) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.06) !important;          outline: none !important;        }
-        .ob-inp::placeholder { color: rgba(255,255,255,.2) !important; }
-        /* ── Shimmer efekti ── */        .shimmer-line::after {
-          content:''; position:absolute; inset:0;          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);          animation: shimmer 2.5s ease-in-out infinite;        }
-        
-`;
-  const SOZLESME_HTML = `
-                <div style="background:#fff7ed;border:1.5px solid #f59e0b;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#92400e;font-weight:700">
-                  ⚠️ Bu sözleşmeyi dikkatlice okuyunuz. Onaylamanız hukuki bağlayıcılık taşır.
-                </div>
-                Bu sözleşme ("Sözleşme"), <b>Doya Beslenme Takip Uygulaması</b> ("Doya" veya "Platform") ile ortaklık başvurusu onaylanan <b>Influencer / İşletme Ortağı</b> ("Ortak") arasında kurulmaktadır. Başvuruyu onaylayarak ve referans kodunu kullanmaya başlayarak bu sözleşmenin tüm maddelerini okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.<br/><br/>
 
-                <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
-                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği kazançtan aşağıdaki şekilde pay alır:<br/>
-                <b>a) Aktif Kullanıcı Başına Sabit Ödeme:</b> Ortak'ın referans kodu ile kayıt olan kullanıcılardan her biri, bir takvim ayı içinde en az <b>500 puan</b> kazanmışsa o kullanıcı "aktif" sayılır. Her aktif kullanıcı başına Ortak'a aylık <b>2,5 ₺ (iki buçuk Türk Lirası)</b> sabit ödeme yapılır. Premium/ücretsiz ayrımı yapılmaz; tüm aktif kullanıcılar eşit değerlidir.<br/>
-                <b>b) Premium / Ücretsiz Ayrımı Yoktur:</b> Ortak'ın getirdiği kullanıcıların premium üyelik alıp almaması ödeme miktarını değiştirmez. Yalnızca aktif kullanıcı sayısı esas alınır.<br/>
-                <b>c) Aktif Kullanıcı Tanımı:</b> Bir kullanıcının aktif sayılabilmesi için 30 takvim günü içinde uygulama içi puan sisteminde <b>500 puan</b> veya üzeri kazanmış olması şarttır. Bu eşiği karşılamayan kullanıcılar o ay için aktif sayılmaz ve ödemelere dahil edilmez.<br/>
-                Kazanç tutarı; aktif kullanıcı sayısına ve platform politikalarına göre değişkenlik gösterebilir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
 
-                <b>2. ÖDEME KOŞULLARI</b><br/>
-                Ödemeler <b>3 (üç) ayda bir</b> yapılır (Ocak, Nisan, Temmuz ve Ekim aylarının ilk haftasında). Ortak'ın sisteme kaydettiği IBAN hesabına transfer gerçekleştirilir. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. <b>Birikmiş kazanç, son ödeme döneminden itibaren 1 (bir) yıl içinde çekim talebi iletilmezse otomatik olarak silinir ve talep edilemez.</b> Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
-
-                <b>3. REKABET YASAĞI VE ANLIK FESİH HAKKI</b><br/>
-                Ortak; aktif ortaklık süresi boyunca aşağıdaki faaliyetlerde bulunamaz:<br/>
-                • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
-                • Kullanıcıları Doya'dan rakip platformlara yönlendirecek içerik üretemez.<br/><br/>
-                <b>Bu maddenin ihlali halinde Doya, ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş kazançlar minimum ödeme tutarını geçiyorsa ödenir; geçmiyorsa ödenmez.<br/><br/>
-
-                <b>4. İÇERİK STANDARTLARI VE MARKA KULLANIMI</b><br/>
-                Ortak; Doya adını, logosunu ve uygulama görsellerini yalnızca Doya'nın onayladığı biçimde kullanabilir. Sponsorlu içerikler "reklam" veya "#reklam" etiketiyle işaretlenmelidir.<br/><br/>
-
-                <b>5. PERFORMANS VE AKTİFLİK ZORUNLULUĞU</b><br/>
-                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca yeni kullanıcı gelmemesi halinde Doya ortaklığı askıya alabilir.<br/><br/>
-
-                <b>6. DOYA'NIN TEK TARAFLI FESİH HAKKI</b><br/>
-                Sahte hesap, bot trafik, yanıltıcı içerik veya marka itibarını zedeleyen davranışlar halinde Doya ortaklığı derhal feshedebilir. Diğer durumlarda <b>15 gün</b> önceden bildirim yapılır.<br/><br/>
-
-                <b>7. GİZLİLİK VE TİCARİ SIRRIN KORUNMASI</b><br/>
-                Ortak; kullanıcı verilerini, gelir rakamlarını ve iş modelini üçüncü şahıslarla paylaşamaz. Bu yükümlülük sözleşmeden sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
-
-                <b>8. MALİ RİSK VE ÖDEME GECİKMESİ</b><br/>
-                Nakit akışı sorunlarında ödemeler gecikmeli yapılabilir. Doya'nın iflası halinde birikmiş kazançlar iflas masasına dahil edilir. Ortak bu finansal riski kabul eder.<br/><br/>
-
-                <b>9. SINIRLI SORUMLULUK</b><br/>
-                Doya, Ortak'ın faaliyetlerinden doğan üçüncü kişi zararlarından sorumlu tutulamaz.<br/><br/>
-
-                <b>10. VERGİ VE STOPAJ</b><br/>
-                Fatura ibraz edilmezse brüt tutar üzerinden yüzde 20 stopaj kesilir. Tüm vergi yükümlülükleri Ortak'a aittir.<br/><br/>
-
-                <b>11. DEĞİŞİKLİK HAKKI</b><br/>
-                Koşullar <b>15 gün</b> önceden e-posta ile bildirilerek değiştirilebilir.<br/><br/>
-
-                <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
-                Uyuşmazlıklarda <b>Adana mahkemeleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
-
-                <b>13. ORTAKLIK SÜRESİ</b><br/>
-                Sözleşme onay tarihinde yürürlüğe girer, süresi <b>3 ay</b>dır. Her iki taraf itiraz bildirmezse aylık dönemlerle otomatik uzar. İlk 3 ayda <b>10 aktif kullanıcı</b> getirilememesi halinde Doya uzatım teklifi yapmayabilir.<br/><br/>
-
-                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;font-size:10.5px;color:#166534">
-                  📌 <b>Önemli:</b> Bu sözleşme geçerlidir. Son güncel tarih için iletişime geçin.<br/>
-                  İletişim: <b>Doyasupport@gmail.com</b>
-                </div>
-              `;
 
   return (
     <>
-      <style>{APP_CSS}</style>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
       <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:92,transition:"background .5s ease",position:"relative"}}>
         {/* Arka plan doku */}
@@ -8185,7 +8085,49 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
             <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
               <div style={{fontSize:16,fontWeight:900,color:"#111",marginBottom:14}}>Ortaklık Sözleşmesi</div>
-              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}} dangerouslySetInnerHTML={{__html:SOZLESME_HTML}}/>
+              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}}>
+                <div style={{background:"#fff7ed",border:"1.5px solid #f59e0b",borderRadius:10,padding:"10px 12px",marginBottom:14,fontSize:11,color:"#92400e",fontWeight:700}}>
+                  ⚠️ Bu sözleşmeyi dikkatlice okuyunuz. Onaylamanız hukuki bağlayıcılık taşır.
+                </div>
+                Bu sözleşme, <b>Doya Beslenme Takip Uygulaması</b> ile ortaklık başvurusu onaylanan <b>Influencer veya İşletme Ortağı</b> arasında kurulmaktadır. Başvuruyu onaylayarak bu sözleşmenin tüm maddelerini kabul etmiş olursunuz.<br/><br/>
+                <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
+                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcılardan pay alır.<br/>
+                <b>a&#41; Aktif Kullanıcı Başına Sabit Ödeme:</b> Referans koduyla kayıt olan kullanıcılardan, bir takvim ayında en az <b>500 puan</b> kazananlar "aktif" sayılır. Her aktif kullanıcı için aylık <b>2,5 ₺</b> ödeme yapılır. Premium/ücretsiz ayrımı yapılmaz.<br/>
+                <b>b&#41; Premium Ayrımı Yoktur:</b> Yalnızca aktif kullanıcı sayısı esas alınır.<br/>
+                <b>c&#41; Aktif Kullanıcı Tanımı:</b> 30 takvim günü içinde <b>500 puan</b> veya üzeri kazanmış olması şarttır.<br/>
+                Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
+                <b>2. ÖDEME KOŞULLARI</b><br/>
+                Ödemeler <b>3 ayda bir</b> yapılır. Ortak'ın IBAN hesabına transfer edilir. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar sonraki döneme aktarılır. <b>Birikmiş kazanç, 1 yıl içinde çekim talebi iletilmezse otomatik olarak silinir.</b> Hatalı IBAN bilgisinden doğan kayıplardan Ortak sorumludur.<br/><br/>
+                <b>3. REKABET YASAĞI VE ANLIK FESİH HAKKI</b><br/>
+                Ortak; aktif ortaklık süresince rakip beslenme veya diyet uygulamalarını tanıtamaz, reklam yapamaz, sponsorluk anlaşması imzalayamaz. Kullanıcıları rakip platformlara yönlendirecek içerik üretemez.<br/>
+                <b>Bu maddenin ihlali halinde Doya ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş kazançlar minimum tutarı geçiyorsa ödenir; geçmiyorsa ödenmez.<br/><br/>
+                <b>4. İÇERİK STANDARTLARI VE MARKA KULLANIMI</b><br/>
+                Ortak, Doya adını ve logosunu yalnızca onaylı biçimde kullanabilir. Yanıltıcı veya bilimsel dayanaktan yoksun içerik üretemez. Sponsorlu içerikler yasal zorunluluklar çerçevesinde "reklam" veya "#reklam" etiketiyle işaretlenmelidir; aksi halde doğacak yaptırımlar tamamen Ortak'a aittir.<br/><br/>
+                <b>5. PERFORMANS VE AKTİFLİK ZORUNLULUĞU</b><br/>
+                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca yeni kullanıcı gelmemesi halinde Doya, ortaklık statüsünü askıya alabilir ya da sonlandırabilir.<br/><br/>
+                <b>6. DOYA'NIN TEK TARAFLI FESİH HAKKI</b><br/>
+                Şu durumlarda Doya ortaklığı derhal feshedebilir: Rekabet yasağı ihlali, yanıltıcı içerik, sahte hesap veya bot trafik kullanımı, marka itibarını zedeleyen davranışlar, mahkûmiyet kararıyla sonuçlanan suç işlenmesi. Diğer durumlarda <b>15 gün</b> önceden yazılı bildirim yapılır.<br/><br/>
+                <b>7. GİZLİLİK VE TİCARİ SIRRIN KORUNMASI</b><br/>
+                Ortak; kullanıcı verilerini, gelir rakamlarını ve iş modelini üçüncü şahıslarla paylaşamaz. Bu yükümlülük sözleşme sona erdikten sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
+                <b>8. MALİ RİSK VE ÖDEME GECİKMESİ</b><br/>
+                Nakit akışı sorunlarında ödemeler gecikmeli yapılabilir; Ortak önceden bilgilendirilir. Doya'nın iflası halinde birikmiş kazançlar iflas masasına dahil edilir. Ortak bu finansal riski kabul eder.<br/><br/>
+                <b>9. SINIRLI SORUMLULUK</b><br/>
+                Doya, Ortak'ın içerik üretim faaliyetlerinden doğan üçüncü kişi zararlarından, telif hakkı ihlallerinden veya vergi yükümlülüklerinden sorumlu tutulamaz.<br/><br/>
+                <b>10. VERGİ VE STOPAJ</b><br/>
+                Fatura ibraz edilmezse brüt tutar üzerinden yüzde 20 stopaj kesilir. Tüm vergi yükümlülükleri münhasıran Ortak'a aittir.<br/><br/>
+                <b>11. DEĞİŞİKLİK HAKKI</b><br/>
+                Doya, koşulları <b>15 gün</b> önceden e-posta yoluyla bildirerek değiştirebilir. Değişiklik sonrası referans kodunun kullanılmaya devam edilmesi yeni koşulların kabulü anlamına gelir.<br/><br/>
+                <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
+                Uyuşmazlıklarda önce arabuluculuk yoluna başvurulur. Uzlaşı sağlanamazsa <b>Adana mahkemeleri ve icra daireleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
+                <b>13. ORTAKLIK SÜRESİ VE YÜRÜRLÜK</b><br/>
+                <b>a&#41;</b> Sözleşme, başvurunun onaylandığı tarihte yürürlüğe girer. Ortaklık süresi <b>3 ay</b>dır.<br/>
+                <b>b&#41;</b> Her iki taraf 7 gün önceden itiraz bildirmezse sözleşme aylık dönemlerle otomatik uzar.<br/>
+                <b>c&#41;</b> Ortaklık sona erdiğinde referans kodu devre dışı bırakılır; kazanılmış komisyonlar normal takvimde ödenir.<br/>
+                <b>d&#41;</b> İlk 3 ayda <b>10 aktif kullanıcı</b> getirilememesi halinde Doya uzatım teklifinde bulunmayabilir.<br/><br/>
+                <div style={{background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,padding:"8px 12px",fontSize:10.5,color:"#166534"}}>
+                  📌 İletişim: <b>Doyasupport@gmail.com</b> — Ortaklık: <b>Doyasupport@gmail.com</b>
+                </div>
+              </div>
               <div style={{display:"flex",alignItems:"flex-start",gap:8,margin:"14px 0",background:"#fff7ed",borderRadius:10,padding:10}}>
                 <input type="checkbox" id="soz" checked={sozlesmeOnay} onChange={e=>setSozlesmeOnay(e.target.checked)} style={{marginTop:3,width:18,height:18,cursor:"pointer",accentColor:"#f59e0b"}}/>
                 <label htmlFor="soz" style={{fontSize:12,color:"#374151",cursor:"pointer",lineHeight:1.6}}>Sözleşmenin tüm maddelerini okudum; <b>rekabet yasağı, anlık fesih hakkı, mali risk ve gizlilik</b> koşulları dahil tüm hükümleri kabul ediyorum. Bu onayın hukuki bağlayıcılık taşıdığını biliyor ve kabul ediyorum.</label>
