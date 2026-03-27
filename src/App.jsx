@@ -733,15 +733,6 @@ export default function App(){
 
   // ─── FİRESTORE BESİN VERİTABANI ─────────────────────────────
   useEffect(()=>{
-    const el=document.getElementById('doya-global-css');
-    if(el) return;
-    const s=document.createElement('style');
-    s.id='doya-global-css';
-    s.textContent="\n        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }\n        ::-webkit-scrollbar { width:0; height:0; }\n        button { transition: all .18s cubic-bezier(.34,1.2,.64,1); }\n        button:active { transform:scale(.95); }\n        input:focus { outline:none; }\n        input::placeholder { opacity:.4; }\n        /* ── Animasyonlar ── */        @keyframes lux-in   { from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }\n        @keyframes lux-fade { from{opacity:0} to{opacity:1} }\n        @keyframes lux-up   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }\n        @keyframes tab-in   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }\n        @keyframes tab-out  { from{opacity:1} to{opacity:0;transform:translateY(-5px)} }\n        @keyframes slide-up { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }\n        @keyframes spin     { to{transform:rotate(360deg)} }\n        @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.35} }\n        @keyframes shimmer  { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }\n        @keyframes glow-pulse { 0%,100%{opacity:.3} 50%{opacity:.6} }\n        @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }\n        @keyframes ring-fill { from{stroke-dashoffset:427} }\n        @keyframes number-pop { 0%{transform:scale(.8);opacity:0} 100%{transform:scale(1);opacity:1} }\n        .lux-card { animation: lux-in .5s cubic-bezier(.34,1.1,.64,1) both; }\n        .lux-card:nth-child(1){animation-delay:.05s}\n        .lux-card:nth-child(2){animation-delay:.1s}\n        .lux-card:nth-child(3){animation-delay:.15s}\n        .lux-card:nth-child(4){animation-delay:.2s}\n        .lux-card:nth-child(5){animation-delay:.25s}\n        .tab-enter { animation: tab-in .25s cubic-bezier(.34,1.2,.64,1) forwards; }\n        .tab-exit  { animation: tab-out .14s ease-in forwards; }\n        .modal-enter { animation: slide-up .32s cubic-bezier(.34,1.3,.64,1) forwards; }\n        .spin  { animation: spin .8s linear infinite; }\n        .pulse { animation: pulse 1.5s ease-in-out infinite; }\n        .float { animation: float 3.5s ease-in-out infinite; }\n        /* ── Lüks kart hover ── */        .lux-lift { transition: transform .2s, box-shadow .2s; }\n        .lux-lift:active { transform:scale(.985); }\n        /* ── Input focus ── */        .lux-input:focus {\n          border-color: rgba(16,185,129,.6) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;        }\n        .ob-inp {\n          background: rgba(255,255,255,.04) !important;          border: 1px solid rgba(255,255,255,.08) !important;          border-radius: 14px !important;          color: #e8f5ec !important;          font-family: 'Nunito', sans-serif !important;          font-size: 14px !important;          transition: border .15s, box-shadow .15s !important;        }\n        .ob-inp:focus {\n          border-color: rgba(52,211,153,.3) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.06) !important;          outline: none !important;        }\n        .ob-inp::placeholder { color: rgba(255,255,255,.2) !important; }\n        /* ── Shimmer efekti ── */        .shimmer-line::after {\n          content:''; position:absolute; inset:0;          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);          animation: shimmer 2.5s ease-in-out infinite;        }\n        \n";
-    document.head.appendChild(s);
-  },[]);
-
-  useEffect(()=>{
     let cancelled = false;
     const fetchBesinler = async () => {
       try {
@@ -3504,6 +3495,51 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
 
   return (
     <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }
+        ::-webkit-scrollbar { width:0; height:0; }
+        button { transition: all .18s cubic-bezier(.34,1.2,.64,1); }
+        button:active { transform:scale(.95); }
+        input:focus { outline:none; }
+        input::placeholder { opacity:.4; }
+        /* ── Animasyonlar ── */        @keyframes lux-in   { from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+        @keyframes lux-fade { from{opacity:0} to{opacity:1} }
+        @keyframes lux-up   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes tab-in   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes tab-out  { from{opacity:1} to{opacity:0;transform:translateY(-5px)} }
+        @keyframes slide-up { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes spin     { to{transform:rotate(360deg)} }
+        @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.35} }
+        @keyframes shimmer  { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+        @keyframes glow-pulse { 0%,100%{opacity:.3} 50%{opacity:.6} }
+        @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+        @keyframes ring-fill { from{stroke-dashoffset:427} }
+        @keyframes number-pop { 0%{transform:scale(.8);opacity:0} 100%{transform:scale(1);opacity:1} }
+        .lux-card { animation: lux-in .5s cubic-bezier(.34,1.1,.64,1) both; }
+        .lux-card:nth-child(1){animation-delay:.05s}
+        .lux-card:nth-child(2){animation-delay:.1s}
+        .lux-card:nth-child(3){animation-delay:.15s}
+        .lux-card:nth-child(4){animation-delay:.2s}
+        .lux-card:nth-child(5){animation-delay:.25s}
+        .tab-enter { animation: tab-in .25s cubic-bezier(.34,1.2,.64,1) forwards; }
+        .tab-exit  { animation: tab-out .14s ease-in forwards; }
+        .modal-enter { animation: slide-up .32s cubic-bezier(.34,1.3,.64,1) forwards; }
+        .spin  { animation: spin .8s linear infinite; }
+        .pulse { animation: pulse 1.5s ease-in-out infinite; }
+        .float { animation: float 3.5s ease-in-out infinite; }
+        /* ── Lüks kart hover ── */        .lux-lift { transition: transform .2s, box-shadow .2s; }
+        .lux-lift:active { transform:scale(.985); }
+        /* ── Input focus ── */        .lux-input:focus {
+          border-color: rgba(16,185,129,.6) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;        }
+        .ob-inp {
+          background: rgba(255,255,255,.04) !important;          border: 1px solid rgba(255,255,255,.08) !important;          border-radius: 14px !important;          color: #e8f5ec !important;          font-family: 'Nunito', sans-serif !important;          font-size: 14px !important;          transition: border .15s, box-shadow .15s !important;        }
+        .ob-inp:focus {
+          border-color: rgba(52,211,153,.3) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.06) !important;          outline: none !important;        }
+        .ob-inp::placeholder { color: rgba(255,255,255,.2) !important; }
+        /* ── Shimmer efekti ── */        .shimmer-line::after {
+          content:''; position:absolute; inset:0;          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);          animation: shimmer 2.5s ease-in-out infinite;        }
+        
+`}</style>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
       <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:92,transition:"background .5s ease",position:"relative"}}>
         {/* Arka plan doku */}
