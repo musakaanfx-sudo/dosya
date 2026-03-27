@@ -4420,7 +4420,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
                           <div style={{display:"flex",alignItems:"center",gap:6,marginTop:4,flexWrap:"wrap"}}>
                             {b.yildiz&&<span style={{fontSize:11,color:"#f59e0b"}}>{"⭐".repeat(Math.round(b.yildiz))}</span>}
                             {b.aclikSuresi&&<span style={{fontSize:10,color:r.muted,background:r.card,borderRadius:6,padding:"1px 5px"}}>🕐 {b.aclikSuresi}</span>}
-                            {b.tokPuan&&<span style={{fontSize:10,color:b.tokPuan>=70?"#16a34a":b.tokPuan>=45?"#f59e0b":"#ef4444",background:r.card,borderRadius:6,padding:"1px 5px"}}>💪 {b.tokPuan}/100</span>}
+                            {b.tokPuan&&<span style={{fontSize:10,color:b.tokPuan>=70?"#16a34a":b.tokPuan>=45?"#f59e0b":"#ef4444",background:r.card,borderRadius:6,padding:"1px 5px"}}>💪 {b.tokPuan+"/100"}</span>}
                             {b.katkiMaddeleri&&b.katkiMaddeleri.some(k=>k.tehlikeli)&&<span style={{fontSize:10,color:"#ef4444",background:"rgba(239,68,68,.1)",borderRadius:6,padding:"1px 5px"}}>⚠️ {b.katkiMaddeleri.filter(k=>k.tehlikeli).map(k=>k.kod||k.ad).join(", ")}</span>}
                             {b.katkiMaddeleri&&b.katkiMaddeleri.length===0&&<span style={{fontSize:10,color:"#16a34a",background:"rgba(22,163,74,.1)",borderRadius:6,padding:"1px 5px"}}>✅ Katkısız</span>}
                           </div>
@@ -6107,7 +6107,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       <div>
                         <div style={{fontSize:13,fontWeight:700,color:r.text}}>{u.isim}</div>
                         <div style={{fontSize:10,color:r.muted}}>{u.uid?.slice(0,10)} · {u.refTip==="influencer"?"🎯 Influencer":"🏢 İşletme"}</div>
-                        <div style={{fontSize:10,color:"#16a34a",fontWeight:700,marginTop:2}}>👥 {aktifler2.length} aktif × ₺2.5 = ₺{(aktifler2.length*2.5).toFixed(1)}/ay</div>
+                        <div style={{fontSize:10,color:"#16a34a",fontWeight:700,marginTop:2}}>👥 {aktifler2.length} aktif × ₺2.5 = ₺{(aktifler2.length*2.5).toFixed(1)+" /ay"}</div>
                         {u.iban&&<div style={{fontSize:10,color:"#2563eb",fontWeight:700,marginTop:2}}>IBAN: {u.iban}</div>}
                         {u.ibanAd&&<div style={{fontSize:10,color:r.muted}}>Hesap: {u.ibanAd}</div>}
                         {u.sonOdeme&&<div style={{fontSize:9,color:r.muted,marginTop:2}}>Son ödeme: {u.sonOdeme}</div>}
