@@ -1,4 +1,3 @@
-import './doya.css';
 import { useState, useRef, useEffect } from "react";
 import {
   auth, db,
@@ -733,6 +732,15 @@ export default function App(){
   }[besinFil.sira](a,b2):0));
 
   // ─── FİRESTORE BESİN VERİTABANI ─────────────────────────────
+  useEffect(()=>{
+    const el=document.getElementById('doya-global-css');
+    if(el) return;
+    const s=document.createElement('style');
+    s.id='doya-global-css';
+    s.textContent="\n        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }\n        ::-webkit-scrollbar { width:0; height:0; }\n        button { transition: all .18s cubic-bezier(.34,1.2,.64,1); }\n        button:active { transform:scale(.95); }\n        input:focus { outline:none; }\n        input::placeholder { opacity:.4; }\n        /* ── Animasyonlar ── */        @keyframes lux-in   { from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }\n        @keyframes lux-fade { from{opacity:0} to{opacity:1} }\n        @keyframes lux-up   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }\n        @keyframes tab-in   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }\n        @keyframes tab-out  { from{opacity:1} to{opacity:0;transform:translateY(-5px)} }\n        @keyframes slide-up { from{opacity:0;transform:translateY(36px)} to{opacity:1;transform:translateY(0)} }\n        @keyframes spin     { to{transform:rotate(360deg)} }\n        @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.35} }\n        @keyframes shimmer  { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }\n        @keyframes glow-pulse { 0%,100%{opacity:.3} 50%{opacity:.6} }\n        @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }\n        @keyframes ring-fill { from{stroke-dashoffset:427} }\n        @keyframes number-pop { 0%{transform:scale(.8);opacity:0} 100%{transform:scale(1);opacity:1} }\n        .lux-card { animation: lux-in .5s cubic-bezier(.34,1.1,.64,1) both; }\n        .lux-card:nth-child(1){animation-delay:.05s}\n        .lux-card:nth-child(2){animation-delay:.1s}\n        .lux-card:nth-child(3){animation-delay:.15s}\n        .lux-card:nth-child(4){animation-delay:.2s}\n        .lux-card:nth-child(5){animation-delay:.25s}\n        .tab-enter { animation: tab-in .25s cubic-bezier(.34,1.2,.64,1) forwards; }\n        .tab-exit  { animation: tab-out .14s ease-in forwards; }\n        .modal-enter { animation: slide-up .32s cubic-bezier(.34,1.3,.64,1) forwards; }\n        .spin  { animation: spin .8s linear infinite; }\n        .pulse { animation: pulse 1.5s ease-in-out infinite; }\n        .float { animation: float 3.5s ease-in-out infinite; }\n        /* ── Lüks kart hover ── */        .lux-lift { transition: transform .2s, box-shadow .2s; }\n        .lux-lift:active { transform:scale(.985); }\n        /* ── Input focus ── */        .lux-input:focus {\n          border-color: rgba(16,185,129,.6) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;        }\n        .ob-inp {\n          background: rgba(255,255,255,.04) !important;          border: 1px solid rgba(255,255,255,.08) !important;          border-radius: 14px !important;          color: #e8f5ec !important;          font-family: 'Nunito', sans-serif !important;          font-size: 14px !important;          transition: border .15s, box-shadow .15s !important;        }\n        .ob-inp:focus {\n          border-color: rgba(52,211,153,.3) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.06) !important;          outline: none !important;        }\n        .ob-inp::placeholder { color: rgba(255,255,255,.2) !important; }\n        /* ── Shimmer efekti ── */        .shimmer-line::after {\n          content:''; position:absolute; inset:0;          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);          animation: shimmer 2.5s ease-in-out infinite;        }\n        \n";
+    document.head.appendChild(s);
+  },[]);
+
   useEffect(()=>{
     let cancelled = false;
     const fetchBesinler = async () => {
@@ -3046,7 +3054,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
           {/* Sağlık Yıldızı - makro bazlı hesaplama */}
           <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:8}}>
             <YildizGoster v={getTarifSaglik(tarif)} boyut={14}/>
-            <span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{getTarifSaglik(tarif)}/5</span>
+            <span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{getTarifSaglik(tarif)}{"/"+"5"}</span>
             <span style={{fontSize:10,color:r.muted}}>sağlık puanı</span>
           </div>
           <details>
@@ -3317,7 +3325,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               <div style={{fontSize:36,fontWeight:900,fontFamily:"monospace",letterSpacing:-1}}>{mm}:{ss}</div>
             </div>
             <div style={{textAlign:"right"}}>
-              <div style={{fontSize:11,opacity:.7,marginBottom:4}}>Egzersiz {antAdim+1}/{egz.length}</div>
+              <div style={{fontSize:11,opacity:.7,marginBottom:4}}>{"Egzersiz "+(antAdim+1)+"/"+(egz.length)}</div>
               <div style={{display:"flex",gap:5}}>
                 {egz.map((_,i)=>(
                   <div key={i} style={{width:20,height:4,borderRadius:2,
@@ -4982,7 +4990,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981",marginBottom:10}}>2 saatte 20 AI hakkı · Reklamsız deneyim</div>
                 <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.04)",border:"1px solid rgba(16,185,129,.1)",borderRadius:12,padding:"10px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <span style={{fontSize:10,color:r.muted,letterSpacing:.3}}>AI hakkı</span>
-                  <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981"}}>{AI_PREMIUM_LIMIT} / 2 saat</span>
+                  <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981"}}>{AI_PREMIUM_LIMIT}{" / "}2 saat</span>
                 </div>
               </div>
             )}
@@ -5478,7 +5486,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                         onClick={async()=>{const t=yeniIsim.trim();if(!t||t===aktif.isim){setIsimDuzenle(false);return;}setAktif(p=>({...p,isim:t}));setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,isim:t}:u));if(firebaseUID)await kullaniciyiGuncelle(firebaseUID,{isim:t}).catch(console.error);setIsimDuzenle(false);}}>✓</button>
                       <button style={{background:"transparent",border:`1px solid ${d?"rgba(255,255,255,.07)":"rgba(0,0,0,.07)"}`,borderRadius:12,padding:"0 12px",color:r.muted,fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,cursor:"pointer"}} onClick={()=>setIsimDuzenle(false)}>✕</button>
                     </div>
-                    <div style={{fontSize:9,color:r.muted,marginTop:5,letterSpacing:.5}}>{yeniIsim.length}/30</div>
+                    <div style={{fontSize:9,color:r.muted,marginTop:5,letterSpacing:.5}}>{yeniIsim.length+"/30"}</div>
                   </div>
                 ):(
                   <div style={{marginBottom:14}}>
@@ -6271,7 +6279,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   <div style={{width:28,height:28,background:"linear-gradient(135deg,#16a34a,#059669)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>📊</div>
                   <div style={{fontWeight:800,fontSize:13,color:r.text}}>Aktif Kullanıcı Paneli</div>
                   <div style={{marginLeft:"auto",background:"rgba(22,163,74,.1)",border:"1px solid rgba(22,163,74,.2)",borderRadius:20,padding:"3px 10px",fontSize:10,fontWeight:800,color:"#16a34a"}}>
-                    {aktifler.length} / {toplamKullanici} aktif
+                    {aktifler.length}{" / "}{toplamKullanici} aktif
                   </div>
                 </div>
 
@@ -7357,7 +7365,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               <div style={{background:d?"linear-gradient(135deg,#134e2a,#166534)":"linear-gradient(135deg,#10b981,#059669)",borderRadius:"20px 20px 0 0",padding:"16px 18px 14px",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
                 <div>
                   <div style={{color:"#fff",fontSize:16,fontWeight:900}}>{yemekEkleOgun}</div>
-                  <div style={{color:"rgba(255,255,255,.7)",fontSize:12}}>{bugKatKal(yemekEkleOgun)} / {HEDEF} kcal</div>
+                  <div style={{color:"rgba(255,255,255,.7)",fontSize:12}}>{bugKatKal(yemekEkleOgun)}{" / "}{HEDEF} kcal</div>
                 </div>
                 <button onClick={()=>setYemekEkleModal(false)} style={{background:"rgba(255,255,255,.2)",border:"none",color:"#fff",borderRadius:10,padding:"6px 12px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13}}>✕</button>
               </div>
