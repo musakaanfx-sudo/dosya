@@ -7670,7 +7670,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 <div style={{fontWeight:800,color:r.text,marginBottom:6}}>📊 Günlük Özet</div>
                 <div style={{fontSize:13,color:r.sub,lineHeight:1.9}}>
                   🗓 {bugunKey()}<br/>
-                  🔥 Kalori: {topKal{"/"}{HEDEF} kcal<br/>
+                  🔥 Kalori: {topKal} - {HEDEF} kcal<br/>
                   💪 Protein: {Math.round(topPro)}g | Karb: {Math.round(topKarb)}g | Yağ: {Math.round(topYag)}g<br/>
                   💧 Su: {bugSu}{" / "}{suHed} ml<br/>
                   🏃 Spor: {topSpor} kcal yakıldı<br/>
