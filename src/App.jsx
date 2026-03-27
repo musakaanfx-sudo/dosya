@@ -3535,6 +3535,64 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
           content:''; position:absolute; inset:0;          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);          animation: shimmer 2.5s ease-in-out infinite;        }
         
 `;
+  const SOZLESME_HTML = `
+                <div style="background:#fff7ed;border:1.5px solid #f59e0b;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#92400e;font-weight:700">
+                  ⚠️ Bu sözleşmeyi dikkatlice okuyunuz. Onaylamanız hukuki bağlayıcılık taşır.
+                </div>
+                Bu sözleşme ("Sözleşme"), <b>Doya Beslenme Takip Uygulaması</b> ("Doya" veya "Platform") ile ortaklık başvurusu onaylanan <b>Influencer / İşletme Ortağı</b> ("Ortak") arasında kurulmaktadır. Başvuruyu onaylayarak ve referans kodunu kullanmaya başlayarak bu sözleşmenin tüm maddelerini okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.<br/><br/>
+
+                <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
+                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği kazançtan aşağıdaki şekilde pay alır:<br/>
+                <b>a) Aktif Kullanıcı Başına Sabit Ödeme:</b> Ortak'ın referans kodu ile kayıt olan kullanıcılardan her biri, bir takvim ayı içinde en az <b>500 puan</b> kazanmışsa o kullanıcı "aktif" sayılır. Her aktif kullanıcı başına Ortak'a aylık <b>2,5 ₺ (iki buçuk Türk Lirası)</b> sabit ödeme yapılır. Premium/ücretsiz ayrımı yapılmaz; tüm aktif kullanıcılar eşit değerlidir.<br/>
+                <b>b) Premium / Ücretsiz Ayrımı Yoktur:</b> Ortak'ın getirdiği kullanıcıların premium üyelik alıp almaması ödeme miktarını değiştirmez. Yalnızca aktif kullanıcı sayısı esas alınır.<br/>
+                <b>c) Aktif Kullanıcı Tanımı:</b> Bir kullanıcının aktif sayılabilmesi için 30 takvim günü içinde uygulama içi puan sisteminde <b>500 puan</b> veya üzeri kazanmış olması şarttır. Bu eşiği karşılamayan kullanıcılar o ay için aktif sayılmaz ve ödemelere dahil edilmez.<br/>
+                Kazanç tutarı; aktif kullanıcı sayısına ve platform politikalarına göre değişkenlik gösterebilir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
+
+                <b>2. ÖDEME KOŞULLARI</b><br/>
+                Ödemeler <b>3 (üç) ayda bir</b> yapılır (Ocak, Nisan, Temmuz ve Ekim aylarının ilk haftasında). Ortak'ın sisteme kaydettiği IBAN hesabına transfer gerçekleştirilir. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. <b>Birikmiş kazanç, son ödeme döneminden itibaren 1 (bir) yıl içinde çekim talebi iletilmezse otomatik olarak silinir ve talep edilemez.</b> Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
+
+                <b>3. REKABET YASAĞI VE ANLIK FESİH HAKKI</b><br/>
+                Ortak; aktif ortaklık süresi boyunca aşağıdaki faaliyetlerde bulunamaz:<br/>
+                • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
+                • Kullanıcıları Doya'dan rakip platformlara yönlendirecek içerik üretemez.<br/><br/>
+                <b>Bu maddenin ihlali halinde Doya, ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş kazançlar minimum ödeme tutarını geçiyorsa ödenir; geçmiyorsa ödenmez.<br/><br/>
+
+                <b>4. İÇERİK STANDARTLARI VE MARKA KULLANIMI</b><br/>
+                Ortak; Doya adını, logosunu ve uygulama görsellerini yalnızca Doya'nın onayladığı biçimde kullanabilir. Sponsorlu içerikler "reklam" veya "#reklam" etiketiyle işaretlenmelidir.<br/><br/>
+
+                <b>5. PERFORMANS VE AKTİFLİK ZORUNLULUĞU</b><br/>
+                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca yeni kullanıcı gelmemesi halinde Doya ortaklığı askıya alabilir.<br/><br/>
+
+                <b>6. DOYA'NIN TEK TARAFLI FESİH HAKKI</b><br/>
+                Sahte hesap, bot trafik, yanıltıcı içerik veya marka itibarını zedeleyen davranışlar halinde Doya ortaklığı derhal feshedebilir. Diğer durumlarda <b>15 gün</b> önceden bildirim yapılır.<br/><br/>
+
+                <b>7. GİZLİLİK VE TİCARİ SIRRIN KORUNMASI</b><br/>
+                Ortak; kullanıcı verilerini, gelir rakamlarını ve iş modelini üçüncü şahıslarla paylaşamaz. Bu yükümlülük sözleşmeden sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
+
+                <b>8. MALİ RİSK VE ÖDEME GECİKMESİ</b><br/>
+                Nakit akışı sorunlarında ödemeler gecikmeli yapılabilir. Doya'nın iflası halinde birikmiş kazançlar iflas masasına dahil edilir. Ortak bu finansal riski kabul eder.<br/><br/>
+
+                <b>9. SINIRLI SORUMLULUK</b><br/>
+                Doya, Ortak'ın faaliyetlerinden doğan üçüncü kişi zararlarından sorumlu tutulamaz.<br/><br/>
+
+                <b>10. VERGİ VE STOPAJ</b><br/>
+                Fatura ibraz edilmezse brüt tutar üzerinden yüzde 20 stopaj kesilir. Tüm vergi yükümlülükleri Ortak'a aittir.<br/><br/>
+
+                <b>11. DEĞİŞİKLİK HAKKI</b><br/>
+                Koşullar <b>15 gün</b> önceden e-posta ile bildirilerek değiştirilebilir.<br/><br/>
+
+                <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
+                Uyuşmazlıklarda <b>Adana mahkemeleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
+
+                <b>13. ORTAKLIK SÜRESİ</b><br/>
+                Sözleşme onay tarihinde yürürlüğe girer, süresi <b>3 ay</b>dır. Her iki taraf itiraz bildirmezse aylık dönemlerle otomatik uzar. İlk 3 ayda <b>10 aktif kullanıcı</b> getirilememesi halinde Doya uzatım teklifi yapmayabilir.<br/><br/>
+
+                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;font-size:10.5px;color:#166534">
+                  📌 <b>Önemli:</b> Bu sözleşme geçerlidir. Son güncel tarih için iletişime geçin.<br/>
+                  İletişim: <b>Doyasupport@gmail.com</b>
+                </div>
+              `;
+
   return (
     <>
       <style>{APP_CSS}</style>
@@ -8127,63 +8185,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
             <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
               <div style={{fontSize:16,fontWeight:900,color:"#111",marginBottom:14}}>Ortaklık Sözleşmesi</div>
-              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}} dangerouslySetInnerHTML={{__html:`
-                <div style="background:#fff7ed;border:1.5px solid #f59e0b;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#92400e;font-weight:700">
-                  ⚠️ Bu sözleşmeyi dikkatlice okuyunuz. Onaylamanız hukuki bağlayıcılık taşır.
-                </div>
-                Bu sözleşme ("Sözleşme"), <b>Doya Beslenme Takip Uygulaması</b> ("Doya" veya "Platform") ile ortaklık başvurusu onaylanan <b>Influencer / İşletme Ortağı</b> ("Ortak") arasında kurulmaktadır. Başvuruyu onaylayarak ve referans kodunu kullanmaya başlayarak bu sözleşmenin tüm maddelerini okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.<br/><br/>
-
-                <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
-                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği kazançtan aşağıdaki şekilde pay alır:<br/>
-                <b>a) Aktif Kullanıcı Başına Sabit Ödeme:</b> Ortak'ın referans kodu ile kayıt olan kullanıcılardan her biri, bir takvim ayı içinde en az <b>500 puan</b> kazanmışsa o kullanıcı "aktif" sayılır. Her aktif kullanıcı başına Ortak'a aylık <b>2,5 ₺ (iki buçuk Türk Lirası)</b> sabit ödeme yapılır. Premium/ücretsiz ayrımı yapılmaz; tüm aktif kullanıcılar eşit değerlidir.<br/>
-                <b>b) Premium / Ücretsiz Ayrımı Yoktur:</b> Ortak'ın getirdiği kullanıcıların premium üyelik alıp almaması ödeme miktarını değiştirmez. Yalnızca aktif kullanıcı sayısı esas alınır.<br/>
-                <b>c) Aktif Kullanıcı Tanımı:</b> Bir kullanıcının aktif sayılabilmesi için 30 takvim günü içinde uygulama içi puan sisteminde <b>500 puan</b> veya üzeri kazanmış olması şarttır. Bu eşiği karşılamayan kullanıcılar o ay için aktif sayılmaz ve ödemelere dahil edilmez.<br/>
-                Kazanç tutarı; aktif kullanıcı sayısına ve platform politikalarına göre değişkenlik gösterebilir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
-
-                <b>2. ÖDEME KOŞULLARI</b><br/>
-                Ödemeler <b>3 (üç) ayda bir</b> yapılır (Ocak, Nisan, Temmuz ve Ekim aylarının ilk haftasında). Ortak'ın sisteme kaydettiği IBAN hesabına transfer gerçekleştirilir. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. <b>Birikmiş kazanç, son ödeme döneminden itibaren 1 (bir) yıl içinde çekim talebi iletilmezse otomatik olarak silinir ve talep edilemez.</b> Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
-
-                <b>3. REKABET YASAĞI VE ANLIK FESİH HAKKI</b><br/>
-                Ortak; aktif ortaklık süresi boyunca aşağıdaki faaliyetlerde bulunamaz:<br/>
-                • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
-                • Kullanıcıları Doya'dan rakip platformlara yönlendirecek içerik üretemez.<br/><br/>
-                <b>Bu maddenin ihlali halinde Doya, ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş kazançlar minimum ödeme tutarını geçiyorsa ödenir; geçmiyorsa ödenmez.<br/><br/>
-
-                <b>4. İÇERİK STANDARTLARI VE MARKA KULLANIMI</b><br/>
-                Ortak; Doya adını, logosunu ve uygulama görsellerini yalnızca Doya'nın onayladığı biçimde kullanabilir. Sponsorlu içerikler "reklam" veya "#reklam" etiketiyle işaretlenmelidir.<br/><br/>
-
-                <b>5. PERFORMANS VE AKTİFLİK ZORUNLULUĞU</b><br/>
-                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca yeni kullanıcı gelmemesi halinde Doya ortaklığı askıya alabilir.<br/><br/>
-
-                <b>6. DOYA'NIN TEK TARAFLI FESİH HAKKI</b><br/>
-                Sahte hesap, bot trafik, yanıltıcı içerik veya marka itibarını zedeleyen davranışlar halinde Doya ortaklığı derhal feshedebilir. Diğer durumlarda <b>15 gün</b> önceden bildirim yapılır.<br/><br/>
-
-                <b>7. GİZLİLİK VE TİCARİ SIRRIN KORUNMASI</b><br/>
-                Ortak; kullanıcı verilerini, gelir rakamlarını ve iş modelini üçüncü şahıslarla paylaşamaz. Bu yükümlülük sözleşmeden sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
-
-                <b>8. MALİ RİSK VE ÖDEME GECİKMESİ</b><br/>
-                Nakit akışı sorunlarında ödemeler gecikmeli yapılabilir. Doya'nın iflası halinde birikmiş kazançlar iflas masasına dahil edilir. Ortak bu finansal riski kabul eder.<br/><br/>
-
-                <b>9. SINIRLI SORUMLULUK</b><br/>
-                Doya, Ortak'ın faaliyetlerinden doğan üçüncü kişi zararlarından sorumlu tutulamaz.<br/><br/>
-
-                <b>10. VERGİ VE STOPAJ</b><br/>
-                Fatura ibraz edilmezse brüt tutar üzerinden yüzde 20 stopaj kesilir. Tüm vergi yükümlülükleri Ortak'a aittir.<br/><br/>
-
-                <b>11. DEĞİŞİKLİK HAKKI</b><br/>
-                Koşullar <b>15 gün</b> önceden e-posta ile bildirilerek değiştirilebilir.<br/><br/>
-
-                <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
-                Uyuşmazlıklarda <b>Adana mahkemeleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
-
-                <b>13. ORTAKLIK SÜRESİ</b><br/>
-                Sözleşme onay tarihinde yürürlüğe girer, süresi <b>3 ay</b>dır. Her iki taraf itiraz bildirmezse aylık dönemlerle otomatik uzar. İlk 3 ayda <b>10 aktif kullanıcı</b> getirilememesi halinde Doya uzatım teklifi yapmayabilir.<br/><br/>
-
-                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;font-size:10.5px;color:#166534">
-                  📌 <b>Önemli:</b> Bu sözleşme ${new Date().toLocaleDateString("tr-TR")} tarihi itibarıyla geçerlidir.<br/>
-                  İletişim: <b>Doyasupport@gmail.com</b>
-                </div>
-              `}}/>
+              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}} dangerouslySetInnerHTML={{__html:SOZLESME_HTML}}/>
               <div style={{display:"flex",alignItems:"flex-start",gap:8,margin:"14px 0",background:"#fff7ed",borderRadius:10,padding:10}}>
                 <input type="checkbox" id="soz" checked={sozlesmeOnay} onChange={e=>setSozlesmeOnay(e.target.checked)} style={{marginTop:3,width:18,height:18,cursor:"pointer",accentColor:"#f59e0b"}}/>
                 <label htmlFor="soz" style={{fontSize:12,color:"#374151",cursor:"pointer",lineHeight:1.6}}>Sözleşmenin tüm maddelerini okudum; <b>rekabet yasağı, anlık fesih hakkı, mali risk ve gizlilik</b> koşulları dahil tüm hükümleri kabul ediyorum. Bu onayın hukuki bağlayıcılık taşıdığını biliyor ve kabul ediyorum.</label>
