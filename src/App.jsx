@@ -3045,7 +3045,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
           {/* Sağlık Yıldızı - makro bazlı hesaplama */}
           <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:8}}>
             <YildizGoster v={getTarifSaglik(tarif)} boyut={14}/>
-            <span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{getTarifSaglik(tarif)}{"/"+"5"}</span>
+            <span style={{fontSize:11,color:"#f59e0b",fontWeight:700}}>{getTarifSaglik(tarif)}/5</span>
             <span style={{fontSize:10,color:r.muted}}>sağlık puanı</span>
           </div>
           <details>
@@ -3316,7 +3316,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               <div style={{fontSize:36,fontWeight:900,fontFamily:"monospace",letterSpacing:-1}}>{mm}:{ss}</div>
             </div>
             <div style={{textAlign:"right"}}>
-              <div style={{fontSize:11,opacity:.7,marginBottom:4}}>{"Egzersiz "+(antAdim+1)+"/"+(egz.length)}</div>
+              <div style={{fontSize:11,opacity:.7,marginBottom:4}}>Egzersiz {antAdim+1}/{egz.length}</div>
               <div style={{display:"flex",gap:5}}>
                 {egz.map((_,i)=>(
                   <div key={i} style={{width:20,height:4,borderRadius:2,
@@ -3490,12 +3490,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
     );
   };
 
-
-
-
-  return (
-    <>
-      <style>{`
+  const APP_CSS = String.raw`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }
         ::-webkit-scrollbar { width:0; height:0; }
         button { transition: all .18s cubic-bezier(.34,1.2,.64,1); }
@@ -3539,7 +3534,10 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
         /* ── Shimmer efekti ── */        .shimmer-line::after {
           content:''; position:absolute; inset:0;          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);          animation: shimmer 2.5s ease-in-out infinite;        }
         
-`}</style>
+`;
+  return (
+    <>
+      <style>{APP_CSS}</style>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
       <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:92,transition:"background .5s ease",position:"relative"}}>
         {/* Arka plan doku */}
@@ -4420,7 +4418,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
                           <div style={{display:"flex",alignItems:"center",gap:6,marginTop:4,flexWrap:"wrap"}}>
                             {b.yildiz&&<span style={{fontSize:11,color:"#f59e0b"}}>{"⭐".repeat(Math.round(b.yildiz))}</span>}
                             {b.aclikSuresi&&<span style={{fontSize:10,color:r.muted,background:r.card,borderRadius:6,padding:"1px 5px"}}>🕐 {b.aclikSuresi}</span>}
-                            {b.tokPuan&&<span style={{fontSize:10,color:b.tokPuan>=70?"#16a34a":b.tokPuan>=45?"#f59e0b":"#ef4444",background:r.card,borderRadius:6,padding:"1px 5px"}}>💪 {b.tokPuan+"/100"}</span>}
+                            {b.tokPuan&&<span style={{fontSize:10,color:b.tokPuan>=70?"#16a34a":b.tokPuan>=45?"#f59e0b":"#ef4444",background:r.card,borderRadius:6,padding:"1px 5px"}}>💪 {b.tokPuan}/100</span>}
                             {b.katkiMaddeleri&&b.katkiMaddeleri.some(k=>k.tehlikeli)&&<span style={{fontSize:10,color:"#ef4444",background:"rgba(239,68,68,.1)",borderRadius:6,padding:"1px 5px"}}>⚠️ {b.katkiMaddeleri.filter(k=>k.tehlikeli).map(k=>k.kod||k.ad).join(", ")}</span>}
                             {b.katkiMaddeleri&&b.katkiMaddeleri.length===0&&<span style={{fontSize:10,color:"#16a34a",background:"rgba(22,163,74,.1)",borderRadius:6,padding:"1px 5px"}}>✅ Katkısız</span>}
                           </div>
@@ -4541,8 +4539,8 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   {!premium&&!premiumPlus&&(
                     <div style={{fontSize:10,color:r.muted,textAlign:"center",marginBottom:10}}>
                       {(premium||premiumPlus)
-                        ? `${Math.max(0,AI_PREMIUM_LIMIT-(Date.now()-aiPremiumPencere.baslangic<7200000?aiPremiumPencere.sayi:0))}` + " / " + `${AI_PREMIUM_LIMIT} (2 saatlik hak)`
-                        : `${Math.max(0,AI_GUNLUK_LIMIT+ekstraAiHak-aiGunlukKullanim)}` + " / " + `${AI_GUNLUK_LIMIT+ekstraAiHak} günlük hak kaldı`
+                        ? `${Math.max(0,AI_PREMIUM_LIMIT-(Date.now()-aiPremiumPencere.baslangic<7200000?aiPremiumPencere.sayi:0))} / ${AI_PREMIUM_LIMIT} (2 saatlik hak)`
+                        : `${Math.max(0,AI_GUNLUK_LIMIT+ekstraAiHak-aiGunlukKullanim)} / ${AI_GUNLUK_LIMIT+ekstraAiHak} günlük hak kaldı`
                       }
                     </div>
                   )}
@@ -5026,7 +5024,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981",marginBottom:10}}>2 saatte 20 AI hakkı · Reklamsız deneyim</div>
                 <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.04)",border:"1px solid rgba(16,185,129,.1)",borderRadius:12,padding:"10px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                   <span style={{fontSize:10,color:r.muted,letterSpacing:.3}}>AI hakkı</span>
-                  <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981"}}>{AI_PREMIUM_LIMIT}{" / "}2 saat</span>
+                  <span style={{fontFamily:"'Cormorant Garamond',serif",fontSize:18,fontWeight:300,color:"#10b981"}}>{AI_PREMIUM_LIMIT} / 2 saat</span>
                 </div>
               </div>
             )}
@@ -5466,7 +5464,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             <div style={CS}>
               <div style={CT}>IBAN Bilgisi</div>
               <div style={{background:d?"#0f172a":"#eff6ff",borderRadius:10,padding:10,marginBottom:12,fontSize:12,color:"#1d4ed8",lineHeight:1.6}}>
-                📅 3 ayda bir ödeme (Ocak - Nisan - Temmuz - Ekim) · Min. ₺50<br/>
+                📅 3 ayda bir ödeme (Ocak / Nisan / Temmuz / Ekim) · Min. ₺50<br/>
                 <span style={{fontSize:10,opacity:.8}}>Ödeme bilgileriniz şifreli olarak saklanmaktadır.</span>
               </div>
               {[{l:"IBAN",ph:"TR00 0000 0000 0000 0000 0000 00",k:"iban"},{l:"Hesap Sahibi",ph:"Ad Soyad",k:"ibanAd"}].map(f=>(
@@ -5522,7 +5520,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                         onClick={async()=>{const t=yeniIsim.trim();if(!t||t===aktif.isim){setIsimDuzenle(false);return;}setAktif(p=>({...p,isim:t}));setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,isim:t}:u));if(firebaseUID)await kullaniciyiGuncelle(firebaseUID,{isim:t}).catch(console.error);setIsimDuzenle(false);}}>✓</button>
                       <button style={{background:"transparent",border:`1px solid ${d?"rgba(255,255,255,.07)":"rgba(0,0,0,.07)"}`,borderRadius:12,padding:"0 12px",color:r.muted,fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13,cursor:"pointer"}} onClick={()=>setIsimDuzenle(false)}>✕</button>
                     </div>
-                    <div style={{fontSize:9,color:r.muted,marginTop:5,letterSpacing:.5}}>{yeniIsim.length+"/30"}</div>
+                    <div style={{fontSize:9,color:r.muted,marginTop:5,letterSpacing:.5}}>{yeniIsim.length}/30</div>
                   </div>
                 ):(
                   <div style={{marginBottom:14}}>
@@ -5932,10 +5930,10 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 {/* Progress barlar — inline, hook yok */}
                 <div style={{...CS,margin:"0 16px 10px"}}>
                   <div style={{fontSize:13,fontWeight:900,color:r.text,marginBottom:14}}>📈 Günlük Ortalamalar</div>
-                  <StatRow label={"🔥 Kalori — "+ortaKal+" kcal/gün"} deger={ortaKal+" &#47; "+hedefKal+" kcal"} yuzde={Math.min(100,Math.round((ortaKal/hedefKal)*100))}/>
-                  <StatRow label={"💪 Protein — "+ortaPro+"g/gün"} deger={ortaPro+" &#47; "+hedefPro+"g"} yuzde={Math.min(100,Math.round((ortaPro/hedefPro)*100))}/>
-                  <StatRow label={"💧 Su — "+ortaSu+"ml/gün"} deger={ortaSu+" &#47; "+suHedAylik+"ml"} yuzde={Math.min(100,Math.round((ortaSu/suHedAylik)*100))}/>
-                  <StatRow label={"👟 Adım — "+ortaAdim.toLocaleString()+"/gün"} deger={ortaAdim.toLocaleString()+" &#47; 10.000"} yuzde={Math.min(100,Math.round((ortaAdim/10000)*100))}/>
+                  <StatRow label={"🔥 Kalori — "+ortaKal+" kcal/gün"} deger={ortaKal+" / "+hedefKal+" kcal"} yuzde={Math.min(100,Math.round((ortaKal/hedefKal)*100))}/>
+                  <StatRow label={"💪 Protein — "+ortaPro+"g/gün"} deger={ortaPro+" / "+hedefPro+"g"} yuzde={Math.min(100,Math.round((ortaPro/hedefPro)*100))}/>
+                  <StatRow label={"💧 Su — "+ortaSu+"ml/gün"} deger={ortaSu+" / "+suHedAylik+"ml"} yuzde={Math.min(100,Math.round((ortaSu/suHedAylik)*100))}/>
+                  <StatRow label={"👟 Adım — "+ortaAdim.toLocaleString()+"/gün"} deger={ortaAdim.toLocaleString()+" / 10.000"} yuzde={Math.min(100,Math.round((ortaAdim/10000)*100))}/>
                 </div>
 
                 {/* Makro dağılımı */}
@@ -6029,7 +6027,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             </div>
 
             <div style={{...CS,border:"2px solid #2563eb"}}>
-              <div style={CT}>UID ile Ortak Ata - Kaldır</div>
+              <div style={CT}>UID ile Ortak Ata / Kaldır</div>
               <div style={{fontSize:11,color:r.sub,marginBottom:6}}>Kullanıcı UID'si veya NTR kodunu gir:</div>
               <input style={{...IS,marginBottom:8}} placeholder="NTR-000000" value={adminUid} onChange={e=>setAdminUid(e.target.value)}/>
 
@@ -6107,7 +6105,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       <div>
                         <div style={{fontSize:13,fontWeight:700,color:r.text}}>{u.isim}</div>
                         <div style={{fontSize:10,color:r.muted}}>{u.uid?.slice(0,10)} · {u.refTip==="influencer"?"🎯 Influencer":"🏢 İşletme"}</div>
-                        <div style={{fontSize:10,color:"#16a34a",fontWeight:700,marginTop:2}}>👥 {aktifler2.length} aktif × ₺2.5 = ₺{(aktifler2.length*2.5).toFixed(1)+" /ay"}</div>
+                        <div style={{fontSize:10,color:"#16a34a",fontWeight:700,marginTop:2}}>👥 {aktifler2.length} aktif × ₺2.5 = ₺{(aktifler2.length*2.5).toFixed(1)}/ay</div>
                         {u.iban&&<div style={{fontSize:10,color:"#2563eb",fontWeight:700,marginTop:2}}>IBAN: {u.iban}</div>}
                         {u.ibanAd&&<div style={{fontSize:10,color:r.muted}}>Hesap: {u.ibanAd}</div>}
                         {u.sonOdeme&&<div style={{fontSize:9,color:r.muted,marginTop:2}}>Son ödeme: {u.sonOdeme}</div>}
@@ -6315,7 +6313,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   <div style={{width:28,height:28,background:"linear-gradient(135deg,#16a34a,#059669)",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>📊</div>
                   <div style={{fontWeight:800,fontSize:13,color:r.text}}>Aktif Kullanıcı Paneli</div>
                   <div style={{marginLeft:"auto",background:"rgba(22,163,74,.1)",border:"1px solid rgba(22,163,74,.2)",borderRadius:20,padding:"3px 10px",fontSize:10,fontWeight:800,color:"#16a34a"}}>
-                    {aktifler.length}{" / "}{toplamKullanici} aktif
+                    {aktifler.length} / {toplamKullanici} aktif
                   </div>
                 </div>
 
@@ -7401,7 +7399,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               <div style={{background:d?"linear-gradient(135deg,#134e2a,#166534)":"linear-gradient(135deg,#10b981,#059669)",borderRadius:"20px 20px 0 0",padding:"16px 18px 14px",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
                 <div>
                   <div style={{color:"#fff",fontSize:16,fontWeight:900}}>{yemekEkleOgun}</div>
-                  <div style={{color:"rgba(255,255,255,.7)",fontSize:12}}>{bugKatKal(yemekEkleOgun)}{" / "}{HEDEF} kcal</div>
+                  <div style={{color:"rgba(255,255,255,.7)",fontSize:12}}>{bugKatKal(yemekEkleOgun)} / {HEDEF} kcal</div>
                 </div>
                 <button onClick={()=>setYemekEkleModal(false)} style={{background:"rgba(255,255,255,.2)",border:"none",color:"#fff",borderRadius:10,padding:"6px 12px",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13}}>✕</button>
               </div>
@@ -7669,7 +7667,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                       <div key={m.l} style={{marginBottom:7}}>
                         <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:r.sub,marginBottom:2}}>
                           <span>{m.l}</span>
-                          <span style={{fontWeight:700,color:m.renk}}>{m.v}{m.birim}{" / "}günlük {m.ihtiyac}{m.birim} tavsiye</span>
+                          <span style={{fontWeight:700,color:m.renk}}>{m.v}{m.birim} / günlük {m.ihtiyac}{m.birim} tavsiye</span>
                         </div>
                         <div style={{...PB,height:5,marginTop:0}}><div style={{...PF(pct,m.renk),height:5}}/></div>
                       </div>
@@ -7714,16 +7712,16 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 <div style={{fontWeight:800,color:r.text,marginBottom:6}}>📊 Günlük Özet</div>
                 <div style={{fontSize:13,color:r.sub,lineHeight:1.9}}>
                   🗓 {bugunKey()}<br/>
-                  🔥 Kalori: {topKal} - {HEDEF} kcal<br/>
+                  🔥 Kalori: {topKal} / {HEDEF} kcal<br/>
                   💪 Protein: {Math.round(topPro)}g | Karb: {Math.round(topKarb)}g | Yağ: {Math.round(topYag)}g<br/>
-                  💧 Su: {bugSu}{" / "}{suHed} ml<br/>
+                  💧 Su: {bugSu} / {suHed} ml<br/>
                   🏃 Spor: {topSpor} kcal yakıldı<br/>
                   {bmi&&`📏 BMI: ${bmi} (${bmiD?.etiket})`}
                 </div>
               </div>
               <div style={{display:"flex",gap:8}}>
                 <button style={{...BTN("#16a34a"),flex:1,padding:"11px 0"}} onClick={()=>{
-                  const txt=`Doya Günlük Özet\n🗓 ${bugunKey()}\n🔥 ${topKal}` + "/" + `${HEDEF} kcal\n💧 ${bugSu}` + "/" + `${suHed}ml\n🏃 ${topSpor} kcal spor`;
+                  const txt=`Doya Günlük Özet\n🗓 ${bugunKey()}\n🔥 ${topKal}/${HEDEF} kcal\n💧 ${bugSu}/${suHed}ml\n🏃 ${topSpor} kcal spor`;
                   navigator.clipboard?.writeText(txt);
                   setPsModal(false);
                 }}>📋 Kopyala</button>
@@ -8129,49 +8127,63 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
             <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
               <div style={{fontSize:16,fontWeight:900,color:"#111",marginBottom:14}}>Ortaklık Sözleşmesi</div>
-              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}}>
-                <div style={{background:"#fff7ed",border:"1.5px solid #f59e0b",borderRadius:10,padding:"10px 12px",marginBottom:14,fontSize:11,color:"#92400e",fontWeight:700}}>
+              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}} dangerouslySetInnerHTML={{__html:`
+                <div style="background:#fff7ed;border:1.5px solid #f59e0b;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#92400e;font-weight:700">
                   ⚠️ Bu sözleşmeyi dikkatlice okuyunuz. Onaylamanız hukuki bağlayıcılık taşır.
                 </div>
-                Bu sözleşme, <b>Doya Beslenme Takip Uygulaması</b> ile ortaklık başvurusu onaylanan <b>Influencer veya İşletme Ortağı</b> arasında kurulmaktadır. Başvuruyu onaylayarak bu sözleşmenin tüm maddelerini kabul etmiş olursunuz.<br/><br/>
+                Bu sözleşme ("Sözleşme"), <b>Doya Beslenme Takip Uygulaması</b> ("Doya" veya "Platform") ile ortaklık başvurusu onaylanan <b>Influencer / İşletme Ortağı</b> ("Ortak") arasında kurulmaktadır. Başvuruyu onaylayarak ve referans kodunu kullanmaya başlayarak bu sözleşmenin tüm maddelerini okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.<br/><br/>
+
                 <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
-                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcılardan pay alır.<br/>
-                <b>a&#41; Aktif Kullanıcı Başına Sabit Ödeme:</b> Referans koduyla kayıt olan kullanıcılardan, bir takvim ayında en az <b>500 puan</b> kazananlar "aktif" sayılır. Her aktif kullanıcı için aylık <b>2,5 ₺</b> ödeme yapılır. Premium/ücretsiz ayrımı yapılmaz.<br/>
-                <b>b&#41; Premium Ayrımı Yoktur:</b> Yalnızca aktif kullanıcı sayısı esas alınır.<br/>
-                <b>c&#41; Aktif Kullanıcı Tanımı:</b> 30 takvim günü içinde <b>500 puan</b> veya üzeri kazanmış olması şarttır.<br/>
-                Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
+                Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği kazançtan aşağıdaki şekilde pay alır:<br/>
+                <b>a) Aktif Kullanıcı Başına Sabit Ödeme:</b> Ortak'ın referans kodu ile kayıt olan kullanıcılardan her biri, bir takvim ayı içinde en az <b>500 puan</b> kazanmışsa o kullanıcı "aktif" sayılır. Her aktif kullanıcı başına Ortak'a aylık <b>2,5 ₺ (iki buçuk Türk Lirası)</b> sabit ödeme yapılır. Premium/ücretsiz ayrımı yapılmaz; tüm aktif kullanıcılar eşit değerlidir.<br/>
+                <b>b) Premium / Ücretsiz Ayrımı Yoktur:</b> Ortak'ın getirdiği kullanıcıların premium üyelik alıp almaması ödeme miktarını değiştirmez. Yalnızca aktif kullanıcı sayısı esas alınır.<br/>
+                <b>c) Aktif Kullanıcı Tanımı:</b> Bir kullanıcının aktif sayılabilmesi için 30 takvim günü içinde uygulama içi puan sisteminde <b>500 puan</b> veya üzeri kazanmış olması şarttır. Bu eşiği karşılamayan kullanıcılar o ay için aktif sayılmaz ve ödemelere dahil edilmez.<br/>
+                Kazanç tutarı; aktif kullanıcı sayısına ve platform politikalarına göre değişkenlik gösterebilir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
+
                 <b>2. ÖDEME KOŞULLARI</b><br/>
-                Ödemeler <b>3 ayda bir</b> yapılır. Ortak'ın IBAN hesabına transfer edilir. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar sonraki döneme aktarılır. <b>Birikmiş kazanç, 1 yıl içinde çekim talebi iletilmezse otomatik olarak silinir.</b> Hatalı IBAN bilgisinden doğan kayıplardan Ortak sorumludur.<br/><br/>
+                Ödemeler <b>3 (üç) ayda bir</b> yapılır (Ocak, Nisan, Temmuz ve Ekim aylarının ilk haftasında). Ortak'ın sisteme kaydettiği IBAN hesabına transfer gerçekleştirilir. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. <b>Birikmiş kazanç, son ödeme döneminden itibaren 1 (bir) yıl içinde çekim talebi iletilmezse otomatik olarak silinir ve talep edilemez.</b> Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
+
                 <b>3. REKABET YASAĞI VE ANLIK FESİH HAKKI</b><br/>
-                Ortak; aktif ortaklık süresince rakip beslenme veya diyet uygulamalarını tanıtamaz, reklam yapamaz, sponsorluk anlaşması imzalayamaz. Kullanıcıları rakip platformlara yönlendirecek içerik üretemez.<br/>
-                <b>Bu maddenin ihlali halinde Doya ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş kazançlar minimum tutarı geçiyorsa ödenir; geçmiyorsa ödenmez.<br/><br/>
+                Ortak; aktif ortaklık süresi boyunca aşağıdaki faaliyetlerde bulunamaz:<br/>
+                • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
+                • Kullanıcıları Doya'dan rakip platformlara yönlendirecek içerik üretemez.<br/><br/>
+                <b>Bu maddenin ihlali halinde Doya, ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş kazançlar minimum ödeme tutarını geçiyorsa ödenir; geçmiyorsa ödenmez.<br/><br/>
+
                 <b>4. İÇERİK STANDARTLARI VE MARKA KULLANIMI</b><br/>
-                Ortak, Doya adını ve logosunu yalnızca onaylı biçimde kullanabilir. Yanıltıcı veya bilimsel dayanaktan yoksun içerik üretemez. Sponsorlu içerikler yasal zorunluluklar çerçevesinde "reklam" veya "#reklam" etiketiyle işaretlenmelidir; aksi halde doğacak yaptırımlar tamamen Ortak'a aittir.<br/><br/>
+                Ortak; Doya adını, logosunu ve uygulama görsellerini yalnızca Doya'nın onayladığı biçimde kullanabilir. Sponsorlu içerikler "reklam" veya "#reklam" etiketiyle işaretlenmelidir.<br/><br/>
+
                 <b>5. PERFORMANS VE AKTİFLİK ZORUNLULUĞU</b><br/>
-                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca yeni kullanıcı gelmemesi halinde Doya, ortaklık statüsünü askıya alabilir ya da sonlandırabilir.<br/><br/>
+                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca yeni kullanıcı gelmemesi halinde Doya ortaklığı askıya alabilir.<br/><br/>
+
                 <b>6. DOYA'NIN TEK TARAFLI FESİH HAKKI</b><br/>
-                Şu durumlarda Doya ortaklığı derhal feshedebilir: Rekabet yasağı ihlali, yanıltıcı içerik, sahte hesap veya bot trafik kullanımı, marka itibarını zedeleyen davranışlar, mahkûmiyet kararıyla sonuçlanan suç işlenmesi. Diğer durumlarda <b>15 gün</b> önceden yazılı bildirim yapılır.<br/><br/>
+                Sahte hesap, bot trafik, yanıltıcı içerik veya marka itibarını zedeleyen davranışlar halinde Doya ortaklığı derhal feshedebilir. Diğer durumlarda <b>15 gün</b> önceden bildirim yapılır.<br/><br/>
+
                 <b>7. GİZLİLİK VE TİCARİ SIRRIN KORUNMASI</b><br/>
-                Ortak; kullanıcı verilerini, gelir rakamlarını ve iş modelini üçüncü şahıslarla paylaşamaz. Bu yükümlülük sözleşme sona erdikten sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
+                Ortak; kullanıcı verilerini, gelir rakamlarını ve iş modelini üçüncü şahıslarla paylaşamaz. Bu yükümlülük sözleşmeden sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
+
                 <b>8. MALİ RİSK VE ÖDEME GECİKMESİ</b><br/>
-                Nakit akışı sorunlarında ödemeler gecikmeli yapılabilir; Ortak önceden bilgilendirilir. Doya'nın iflası halinde birikmiş kazançlar iflas masasına dahil edilir. Ortak bu finansal riski kabul eder.<br/><br/>
+                Nakit akışı sorunlarında ödemeler gecikmeli yapılabilir. Doya'nın iflası halinde birikmiş kazançlar iflas masasına dahil edilir. Ortak bu finansal riski kabul eder.<br/><br/>
+
                 <b>9. SINIRLI SORUMLULUK</b><br/>
-                Doya, Ortak'ın içerik üretim faaliyetlerinden doğan üçüncü kişi zararlarından, telif hakkı ihlallerinden veya vergi yükümlülüklerinden sorumlu tutulamaz.<br/><br/>
+                Doya, Ortak'ın faaliyetlerinden doğan üçüncü kişi zararlarından sorumlu tutulamaz.<br/><br/>
+
                 <b>10. VERGİ VE STOPAJ</b><br/>
-                Fatura ibraz edilmezse brüt tutar üzerinden yüzde 20 stopaj kesilir. Tüm vergi yükümlülükleri münhasıran Ortak'a aittir.<br/><br/>
+                Fatura ibraz edilmezse brüt tutar üzerinden yüzde 20 stopaj kesilir. Tüm vergi yükümlülükleri Ortak'a aittir.<br/><br/>
+
                 <b>11. DEĞİŞİKLİK HAKKI</b><br/>
-                Doya, koşulları <b>15 gün</b> önceden e-posta yoluyla bildirerek değiştirebilir. Değişiklik sonrası referans kodunun kullanılmaya devam edilmesi yeni koşulların kabulü anlamına gelir.<br/><br/>
+                Koşullar <b>15 gün</b> önceden e-posta ile bildirilerek değiştirilebilir.<br/><br/>
+
                 <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
-                Uyuşmazlıklarda önce arabuluculuk yoluna başvurulur. Uzlaşı sağlanamazsa <b>Adana mahkemeleri ve icra daireleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
-                <b>13. ORTAKLIK SÜRESİ VE YÜRÜRLÜK</b><br/>
-                <b>a&#41;</b> Sözleşme, başvurunun onaylandığı tarihte yürürlüğe girer. Ortaklık süresi <b>3 ay</b>dır.<br/>
-                <b>b&#41;</b> Her iki taraf 7 gün önceden itiraz bildirmezse sözleşme aylık dönemlerle otomatik uzar.<br/>
-                <b>c&#41;</b> Ortaklık sona erdiğinde referans kodu devre dışı bırakılır; kazanılmış komisyonlar normal takvimde ödenir.<br/>
-                <b>d&#41;</b> İlk 3 ayda <b>10 aktif kullanıcı</b> getirilememesi halinde Doya uzatım teklifinde bulunmayabilir.<br/><br/>
-                <div style={{background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,padding:"8px 12px",fontSize:10.5,color:"#166534"}}>
-                  📌 İletişim: <b>Doyasupport@gmail.com</b> — Ortaklık: <b>Doyasupport@gmail.com</b>
+                Uyuşmazlıklarda <b>Adana mahkemeleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
+
+                <b>13. ORTAKLIK SÜRESİ</b><br/>
+                Sözleşme onay tarihinde yürürlüğe girer, süresi <b>3 ay</b>dır. Her iki taraf itiraz bildirmezse aylık dönemlerle otomatik uzar. İlk 3 ayda <b>10 aktif kullanıcı</b> getirilememesi halinde Doya uzatım teklifi yapmayabilir.<br/><br/>
+
+                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;font-size:10.5px;color:#166534">
+                  📌 <b>Önemli:</b> Bu sözleşme ${new Date().toLocaleDateString("tr-TR")} tarihi itibarıyla geçerlidir.<br/>
+                  İletişim: <b>Doyasupport@gmail.com</b>
                 </div>
-              </div>
+              `}}/>
               <div style={{display:"flex",alignItems:"flex-start",gap:8,margin:"14px 0",background:"#fff7ed",borderRadius:10,padding:10}}>
                 <input type="checkbox" id="soz" checked={sozlesmeOnay} onChange={e=>setSozlesmeOnay(e.target.checked)} style={{marginTop:3,width:18,height:18,cursor:"pointer",accentColor:"#f59e0b"}}/>
                 <label htmlFor="soz" style={{fontSize:12,color:"#374151",cursor:"pointer",lineHeight:1.6}}>Sözleşmenin tüm maddelerini okudum; <b>rekabet yasağı, anlık fesih hakkı, mali risk ve gizlilik</b> koşulları dahil tüm hükümleri kabul ediyorum. Bu onayın hukuki bağlayıcılık taşıdığını biliyor ve kabul ediyorum.</label>
@@ -8209,12 +8221,12 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               </div>
 
               <div style={{background:d?"#1e293b":"#f9fafb",borderRadius:12,padding:12,marginBottom:12,fontSize:12,color:r.sub}}>
-                <b>Şartlar:</b> Min. <b>1.000 takipçi</b> veya aktif işletme. Spam, yanıltıcı içerik yasak.
+                <b>Şartlar:</b> Min. <b>1.000 takipçi</b> veya aktif işletme. Spam / yanıltıcı içerik yasak.
               </div>
 
               <div style={{marginBottom:10}}>
                 <div style={{fontSize:12,color:r.sub,fontWeight:700,marginBottom:5}}>{basTip==="influencer"?"Platform & Kullanıcı Adı":"İşletme Adı & Adresi"}  <span style={{color:"#ef4444"}}>*</span></div>
-                <input style={{...IS}} placeholder={basTip==="influencer"?"@instagram veya youtube.com/kanal":"FitLife Spor Salonu - Kadıköy"} value={basAd} onChange={e=>setBasAd(e.target.value)}/>
+                <input style={{...IS}} placeholder={basTip==="influencer"?"@instagram / youtube.com/kanal":"FitLife Spor Salonu - Kadıköy"} value={basAd} onChange={e=>setBasAd(e.target.value)}/>
               </div>
 
               {basTip==="influencer"&&(
@@ -8394,5 +8406,4 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
     </>
   );
 }
-
 
