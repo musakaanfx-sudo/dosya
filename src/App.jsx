@@ -27,12 +27,103 @@ function uidUret() { return "NTR-" + String(Math.floor(Math.random()*900000)+100
 
 // ─── DİL METİNLERİ ───────────────────────────────────────────
 const LANG = {
+  tr: {
+    dilSec: "Dil Seçin", hosgeldin: "Hoşgeldin!", basla: "Başlayalım →", atla: "Geç", devam: "Devam →",
+    slides: [
+      { baslik:"2.900+ Besin", alt:"Kalori & Makro Takibi", acik:"Dev veritabanından saniyeler içinde ara, ekle. Protein, karbonhidrat, yağ ve vitamin değerlerini günlük olarak takip et.", renk:"#10b981", ic:["Kalori & makro takibi","Öğün bazlı gruplama","Su & kilo takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="2" fill="#34d399" stroke="none" opacity=".6"/></svg>` },
+      { baslik:"Yemek Asistanı", alt:"AI Tarif · Fotoğraftan Analiz", acik:"Malzeme yaz, fotoğraf çek veya ürün içeriğini analiz et. Yapay zeka adım adım tarif hazırlasın, E-kodlarını tespit etsin.", renk:"#f97316", ic:["Yazarak tarif alma","Fotoğraftan malzeme tanıma","İçerik & E-kodu analizi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fb923c" strokeWidth="1" strokeLinecap="round"><path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M12 14v8"/><path d="M9 22h6"/></svg>` },
+      { baslik:"145+ Dünya Tarifi", alt:"23 Ülke Mutfağı · Filtreli", acik:"Türk mutfağından İtalya'ya, Yunanistan'dan Norveç'e 145+ sağlıklı tarif. Sporcu, vejetaryen, glutensiz, düşük kalorili filtrele.", renk:"#8b5cf6", ic:["Sporcu & yüksek protein","Vegan & vejetaryen","Ülkeye özel tarifler"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>` },
+      { baslik:"Puan Kazan & Ödül Al", alt:"Günlük Giriş · Reklam · Davet", acik:"Her gün giriş yap +50 puan, reklam izle +50 puan, arkadaş davet et +100 puan kazan. Puanlarınla ekstra AI hakkı satın al.", renk:"#f59e0b", ic:["Günlük +50 giriş puanı","Reklam izleyerek puan","AI hak satın alma"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>` },
+      { baslik:"Sağlık & Spor Takibi", alt:"Kilo · BMI · Oruç · Adım", acik:"Kilo değişimini grafikle izle, BMI ve TDEE hesapla. Su tüketimini kaydet, aralıklı oruç takip et. Spor aktivitelerini ekle.", renk:"#0891b2", ic:["Kilo grafiği & BMI","Aralıklı oruç takibi","Spor & adım sayacı"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 10h13l-1.8 9H7.3L5.5 10z"/><path d="M9 10V7m6 3V7"/></svg>` },
+    ],
+  },
+  en: {
+    dilSec: "Select Language", hosgeldin: "Welcome!", basla: "Get Started →", atla: "Skip", devam: "Next →",
+    slides: [
+      { ikon:"kalori", baslik:"Eat Healthy with Doya", acik:"Log everything you eat in seconds. Track calories, protein and vitamins with 2,900+ foods.", renk:"#030604", vurgu:"#10b981", detaylar:["2,900+ foods","Macro tracking","Vitamin analysis"] },
+      { ikon:"ai", baslik:"AI Photo Scanner", acik:"Snap a photo of your meal and let AI instantly calculate calories and macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo logging","Instant analysis","AI powered"] },
+      { ikon:"diyetisyen", baslik:"Your Personal AI Dietitian", acik:"Get personalized meal plans tailored to your goal, allergies, and diet style.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 access","Personal plans","Allergy-aware"] },
+      { ikon:"saglik", baslik:"Full Health Tracking", acik:"Track your weight, water intake, and practice intermittent fasting.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Weight charts","Water tracking","Fasting mode"] },
+    ],
+  },
+  de: {
+    dilSec: "Sprache wählen", hosgeldin: "Willkommen!", basla: "Los geht's →", atla: "Überspringen", devam: "Weiter →",
+    slides: [
+      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 2.900 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
+      { ikon:"ai", baslik:"KI-Fotoanalyse", acik:"Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-Logging","Sofortanalyse","KI-gestützt"] },
+      { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsberater", acik:"Persönliche Pläne nach Ziel, Allergien und Ernährungsstil — jederzeit.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
+      { ikon:"saglik", baslik:"Gesundheits-Tracking", acik:"Gewichtsverlauf, Wasserzähler und Intervallfasten — alles an einem Ort.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsdiagramm","Wasserzähler","Fastenmodus"] },
+    ],
+  },
+  it: {
+    dilSec: "Seleziona lingua", hosgeldin: "Benvenuto!", basla: "Iniziamo →", atla: "Salta", devam: "Avanti →",
+    slides: [
+      { ikon:"kalori", baslik:"Mangia sano con Doya", acik:"Registra tutto ciò che mangi in secondi. Calorie, proteine e vitamine con oltre 2.900 alimenti.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimenti","Tracking macro","Analisi vitamine"] },
+      { ikon:"ai", baslik:"Scanner AI per foto", acik:"Scatta una foto del tuo pasto e l'IA calcola subito calorie e macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Analisi istantanea","AI integrata"] },
+      { ikon:"diyetisyen", baslik:"Il Tuo Dietologo AI", acik:"Piani alimentari personalizzati in base al tuo obiettivo e alle allergie.", renk:"#030604", vurgu:"#34d399", detaylar:["Accesso 24/7","Piani personali","Allergie-friendly"] },
+      { ikon:"saglik", baslik:"Monitoraggio Salute", acik:"Peso, acqua e digiuno intermittente — tutto in uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafico peso","Acqua","Digiuno"] },
+    ],
+  },
+  fr: {
+    dilSec: "Choisir la langue", hosgeldin: "Bienvenue !", basla: "Commençons →", atla: "Passer", devam: "Suivant →",
+    slides: [
+      { ikon:"kalori", baslik:"Mangez sainement avec Doya", acik:"Enregistrez tout ce que vous mangez en secondes. Calories, protéines et vitamines avec plus de 2.900 aliments.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ aliments","Suivi macros","Analyse vitamines"] },
+      { ikon:"ai", baslik:"Scanner IA par photo", acik:"Photographiez votre repas et l'IA calcule instantanément les calories et macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo journal","Analyse instantanée","IA intégrée"] },
+      { ikon:"diyetisyen", baslik:"Votre Diététicien IA", acik:"Plans alimentaires personnalisés selon votre objectif, allergies et style alimentaire.", renk:"#030604", vurgu:"#34d399", detaylar:["Accès 24/7","Plans personnels","Adapté aux allergies"] },
+      { ikon:"saglik", baslik:"Suivi Santé Complet", acik:"Poids, eau et jeûne intermittent — tout en un.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graphique poids","Eau","Jeûne"] },
+    ],
+  },
+  es: {
+    dilSec: "Seleccionar idioma", hosgeldin: "¡Bienvenido!", basla: "Empecemos →", atla: "Saltar", devam: "Siguiente →",
+    slides: [
+      { ikon:"kalori", baslik:"Come sano con Doya", acik:"Registra todo lo que comes en segundos. Calorías, proteínas y vitaminas con más de 2.900 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimentos","Seguimiento macros","Análisis vitaminas"] },
+      { ikon:"ai", baslik:"Escáner IA por foto", acik:"Fotografía tu comida y la IA calcula al instante las calorías y macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Análisis instantáneo","IA integrada"] },
+      { ikon:"diyetisyen", baslik:"Tu Dietista IA Personal", acik:"Planes personalizados según tu objetivo, alergias y estilo alimentario.", renk:"#030604", vurgu:"#34d399", detaylar:["Acceso 24/7","Planes personales","Sin alérgenos"] },
+      { ikon:"saglik", baslik:"Seguimiento de Salud", acik:"Peso, agua y ayuno intermitente — todo en uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gráfico peso","Agua","Ayuno"] },
+    ],
+  },
+  nl: {
+    dilSec: "Taal kiezen", hosgeldin: "Welkom!", basla: "Aan de slag →", atla: "Overslaan", devam: "Volgende →",
+    slides: [
+      { ikon:"kalori", baslik:"Eet gezond met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 2.900 producten.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ producten","Macro-tracking","Vitamine-analyse"] },
+      { ikon:"ai", baslik:"AI Fotoscanner", acik:"Maak een foto van je maaltijd en laat AI direct calorieën en macro's berekenen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto loggen","Directe analyse","AI aangedreven"] },
+      { ikon:"diyetisyen", baslik:"Jouw Persoonlijke AI-Diëtist", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
+      { ikon:"saglik", baslik:"Volledige Gezondheidsregistratie", acik:"Gewicht, water en intermitterend vasten — alles op één plek.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsgrafiek","Water bijhouden","Vastenmodus"] },
+    ],
+  },
+  sv: {
+    dilSec: "Välj språk", hosgeldin: "Välkommen!", basla: "Kom igång →", atla: "Hoppa över", devam: "Nästa →",
+    slides: [
+      { ikon:"kalori", baslik:"Ät hälsosamt med Doya", acik:"Logga allt du äter på sekunder. Kalorier, protein och vitaminer med över 2.900 livsmedel.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ livsmedel","Makrospårning","Vitaminanalys"] },
+      { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta en bild av din måltid och låt AI omedelbart beräkna kalorier och makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-loggning","Omedelbar analys","AI-driven"] },
+      { ikon:"diyetisyen", baslik:"Din Personliga AI-Dietist", acik:"Personliga måltidsplaner baserade på ditt mål, allergier och kostvanor.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tillgång","Personliga planer","Allergimedveten"] },
+      { ikon:"saglik", baslik:"Fullständig Hälsospårning", acik:"Vikt, vatten och intermittent fasta — allt på ett ställe.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Viktdiagram","Vattensporning","Fastemodus"] },
+    ],
+  },
+  da: {
+    dilSec: "Vælg sprog", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Spring over", devam: "Næste →",
+    slides: [
+      { ikon:"kalori", baslik:"Spis sundt med Doya", acik:"Log alt hvad du spiser på sekunder. Kalorier, protein og vitaminer med over 2.900 fødevarer.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ fødevarer","Makro-tracking","Vitaminanalyse"] },
+      { ikon:"ai", baslik:"AI-fotoscanner", acik:"Tag et billede af dit måltid og lad AI øjeblikkeligt beregne kalorier og makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logning","Øjeblikkelig analyse","AI-drevet"] },
+      { ikon:"diyetisyen", baslik:"Din Personlige AI-Diætist", acik:"Personlige måltidsplaner baseret på dit mål, allergier og kosttype.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 adgang","Personlige planer","Allergibevidst"] },
+      { ikon:"saglik", baslik:"Fuld Sundhedssporing", acik:"Vægt, vand og intermitterende faste — alt på ét sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vægtkurve","Vandsporing","Fastemodus"] },
+    ],
+  },
+  no: {
+    dilSec: "Velg språk", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Hopp over", devam: "Neste →",
+    slides: [
+      { ikon:"kalori", baslik:"Spis sunt med Doya", acik:"Logg alt du spiser på sekunder. Kalorier, protein og vitaminer med over 2.900 matvarer.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ matvarer","Makro-sporing","Vitaminanalyse"] },
+      { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta et bilde av måltidet ditt og la AI umiddelbart beregne kalorier og makroer.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logging","Umiddelbar analyse","AI-drevet"] },
+      { ikon:"diyetisyen", baslik:"Din Personlige AI-Ernæringsfysiolog", acik:"Personlige måltidsplaner basert på ditt mål, allergier og kosthold.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tilgang","Personlige planer","Allergibevisst"] },
+      { ikon:"saglik", baslik:"Full Helsesporing", acik:"Vekt, vann og intermitterende faste — alt på ett sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vektkurve","Vannsporing","Fastemodus"] },
+    ],
+  },
   at: {
     dilSec: "Sprache wählen", hosgeldin: "Willkommen!", basla: "Los geht's →", atla: "Überspringen", devam: "Weiter →",
     slides: [
       { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 2.900 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
       { ikon:"ai", baslik:"KI-Fotoanalyse", acik:"Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-Logging","Sofortanalyse","KI-gestützt"] },
-      { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsassistent", acik:"Mahlzeitvorschläge nach Ziel, Allergien und Ernährungsstil. Nur zur Information, kein medizinischer Rat.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
+      { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsberater", acik:"Persönliche Pläne nach Ziel, Allergien und Ernährungsstil — jederzeit.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
       { ikon:"saglik", baslik:"Gesundheits-Tracking", acik:"Gewichtsverlauf, Wasserzähler und Intervallfasten — alles auf einen Blick.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsdiagramm","Wasserzähler","Fastenmodus"] },
     ],
   },
@@ -41,71 +132,8 @@ const LANG = {
     slides: [
       { ikon:"kalori", baslik:"Gezond eten met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 2.900 producten.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ producten","Macro-tracking","Vitamine-analyse"] },
       { ikon:"ai", baslik:"AI Fotoscanner", acik:"Maak een foto van je maaltijd en laat AI direct calorieën en macro's berekenen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto loggen","Directe analyse","AI aangedreven"] },
-      { ikon:"diyetisyen", baslik:"Jouw AI-Voedingsassistent", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
+      { ikon:"diyetisyen", baslik:"Jouw Persoonlijke AI-Diëtist", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
       { ikon:"saglik", baslik:"Volledige Gezondheidsregistratie", acik:"Gewicht, water en intermitterend vasten — alles op één plek.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsgrafiek","Water bijhouden","Vastenmodus"] },
-    ],
-  },
-  cs: {
-    dilSec: "Vyberte jazyk", hosgeldin: "Vítejte!", basla: "Začínáme →", atla: "Přeskočit", devam: "Další →",
-    slides: [
-      { ikon:"kalori", baslik:"Jezte zdravě s Doya", acik:"Zaznamenejte vše, co jíte, během vteřin. Sledujte kalorie, bílkoviny a vitamíny s více než 2.900 potravinami.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ potravin","Sledování maker","Analýza vitamínů"] },
-      { ikon:"ai", baslik:"AI fotoskener", acik:"Vyfotografujte jídlo a nechte AI okamžitě vypočítat kalorie a makra.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto záznamy","Okamžitá analýza","Poháněno AI"] },
-      { ikon:"diyetisyen", baslik:"Váš AI asistent výživy", acik:"Personalizované plány jídel přizpůsobené vašemu cíli, alergiím a stravovacímu stylu.", renk:"#030604", vurgu:"#34d399", detaylar:["Přístup 24/7","Osobní plány","Uvědomění o alergiích"] },
-      { ikon:"saglik", baslik:"Kompletní sledování zdraví", acik:"Váha, voda a přerušovaný půst — vše na jednom místě.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graf váhy","Sledování vody","Režim půstu"] },
-    ],
-  },
-  da: {
-    dilSec: "Vælg sprog", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Spring over", devam: "Næste →",
-    slides: [
-      { ikon:"kalori", baslik:"Spis sundt med Doya", acik:"Log alt hvad du spiser på sekunder. Kalorier, protein og vitaminer med over 2.900 fødevarer.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ fødevarer","Makro-tracking","Vitaminanalyse"] },
-      { ikon:"ai", baslik:"AI-fotoscanner", acik:"Tag et billede af dit måltid og lad AI øjeblikkeligt beregne kalorier og makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logning","Øjeblikkelig analyse","AI-drevet"] },
-      { ikon:"diyetisyen", baslik:"Din AI-Ernæringsassistent", acik:"Personlige måltidsplaner baseret på dit mål, allergier og kosttype.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 adgang","Personlige planer","Allergibevidst"] },
-      { ikon:"saglik", baslik:"Fuld Sundhedssporing", acik:"Vægt, vand og intermitterende faste — alt på ét sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vægtkurve","Vandsporing","Fastemodus"] },
-    ],
-  },
-  de: {
-    dilSec: "Sprache wählen", hosgeldin: "Willkommen!", basla: "Los geht's →", atla: "Überspringen", devam: "Weiter →",
-    slides: [
-      { ikon:"kalori", baslik:"Gesund essen mit Doya", acik:"Tracke alles was du isst in Sekunden. Kalorien, Protein und Vitamine mit über 2.900 Lebensmitteln.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ Lebensmittel","Makro-Tracking","Vitaminanalyse"] },
-      { ikon:"ai", baslik:"KI-Fotoanalyse", acik:"Fotografiere dein Essen und lass die KI sofort Kalorien und Nährwerte berechnen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-Logging","Sofortanalyse","KI-gestützt"] },
-      { ikon:"diyetisyen", baslik:"Dein KI-Ernährungsassistent", acik:"Mahlzeitvorschläge nach Ziel, Allergien und Ernährungsstil. Nur zur Information, kein medizinischer Rat.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 Zugang","Persönliche Pläne","Allergiebewusst"] },
-      { ikon:"saglik", baslik:"Gesundheits-Tracking", acik:"Gewichtsverlauf, Wasserzähler und Intervallfasten — alles an einem Ort.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsdiagramm","Wasserzähler","Fastenmodus"] },
-    ],
-  },
-  el: {
-    dilSec: "Επιλογή γλώσσας", hosgeldin: "Καλώς ήρθατε!", basla: "Ξεκινάμε →", atla: "Παράλειψη", devam: "Επόμενο →",
-    slides: [
-      { ikon:"kalori", baslik:"Τρώτε υγιεινά με το Doya", acik:"Καταγράψτε όλα όσα τρώτε σε δευτερόλεπτα. Παρακολουθήστε θερμίδες, πρωτεΐνες και βιταμίνες με πάνω από 2.900 τρόφιμα.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ τρόφιμα","Παρακολούθηση μακρο","Ανάλυση βιταμινών"] },
-      { ikon:"ai", baslik:"Σαρωτής AI με φωτογραφία", acik:"Φωτογραφίστε το γεύμα σας και αφήστε το AI να υπολογίσει άμεσα θερμίδες και μακροθρεπτικά.", renk:"#030604", vurgu:"#818cf8", detaylar:["Καταγραφή με φωτο","Άμεση ανάλυση","Βασισμένο σε AI"] },
-      { ikon:"diyetisyen", baslik:"Ο AI Βοηθός Διατροφής σας", acik:"Εξατομικευμένα πλάνα γευμάτων βάσει στόχου, αλλεργιών και διατροφικού στυλ.", renk:"#030604", vurgu:"#34d399", detaylar:["Πρόσβαση 24/7","Προσωπικά πλάνα","Ευαισθησία σε αλλεργίες"] },
-      { ikon:"saglik", baslik:"Πλήρης Παρακολούθηση Υγείας", acik:"Βάρος, νερό και διαλειμματική νηστεία — όλα σε ένα μέρος.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Γράφημα βάρους","Παρακολούθηση νερού","Λειτουργία νηστείας"] },
-    ],
-  },
-  en: {
-    dilSec: "Select Language", hosgeldin: "Welcome!", basla: "Get Started →", atla: "Skip", devam: "Next →",
-    slides: [
-      { ikon:"kalori", baslik:"Eat Healthy with Doya", acik:"Log everything you eat in seconds. Track calories, protein and vitamins with 2,900+ foods.", renk:"#030604", vurgu:"#10b981", detaylar:["2,900+ foods","Macro tracking","Vitamin analysis"] },
-      { ikon:"ai", baslik:"AI Photo Scanner", acik:"Snap a photo of your meal and let AI instantly calculate calories and macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo logging","Instant analysis","AI powered"] },
-      { ikon:"diyetisyen", baslik:"Your AI Nutrition Assistant", acik:"Get personalized meal suggestions based on your goals and allergies. For informational purposes only.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 access","Meal suggestions","Allergy-aware"] },
-      { ikon:"saglik", baslik:"Full Health Tracking", acik:"Track your weight, water intake, and practice intermittent fasting.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Weight charts","Water tracking","Fasting mode"] },
-    ],
-  },
-  es: {
-    dilSec: "Seleccionar idioma", hosgeldin: "¡Bienvenido!", basla: "Empecemos →", atla: "Saltar", devam: "Siguiente →",
-    slides: [
-      { ikon:"kalori", baslik:"Come sano con Doya", acik:"Registra todo lo que comes en segundos. Calorías, proteínas y vitaminas con más de 2.900 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimentos","Seguimiento macros","Análisis vitaminas"] },
-      { ikon:"ai", baslik:"Escáner IA por foto", acik:"Fotografía tu comida y la IA calcula al instante las calorías y macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Análisis instantáneo","IA integrada"] },
-      { ikon:"diyetisyen", baslik:"Tu Asistente Nutricional IA", acik:"Planes personalizados según tu objetivo, alergias y estilo alimentario.", renk:"#030604", vurgu:"#34d399", detaylar:["Acceso 24/7","Planes personales","Sin alérgenos"] },
-      { ikon:"saglik", baslik:"Seguimiento de Salud", acik:"Peso, agua y ayuno intermitente — todo en uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gráfico peso","Agua","Ayuno"] },
-    ],
-  },
-  et: {
-    dilSec: "Vali keel", hosgeldin: "Tere tulemast!", basla: "Alustame →", atla: "Jäta vahele", devam: "Edasi →",
-    slides: [
-      { ikon:"kalori", baslik:"Söö tervislikult Doyaga", acik:"Salvesta kõik, mida sööd, sekunditega. Jälgi kaloreid, valke ja vitamiine üle 2.900 toiduainega.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ toiduainet","Makro jälgimine","Vitamiinianalüüs"] },
-      { ikon:"ai", baslik:"AI fotoSkänner", acik:"Pildista oma einet ja lase AI-l kohe arvutada kalorid ja makrod.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto logimine","Kohene analüüs","AI-põhine"] },
-      { ikon:"diyetisyen", baslik:"Sinu AI toitumisassistent", acik:"Isikupärastatud toiduplaanid vastavalt sinu eesmärgile, allergiatele ja toitumisstiilile.", renk:"#030604", vurgu:"#34d399", detaylar:["Juurdepääs 24/7","Isiklikud plaanid","Allergiateadlik"] },
-      { ikon:"saglik", baslik:"Täielik tervise jälgimine", acik:"Kaal, vesi ja vahelduv paastumine — kõik ühes kohas.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Kaalugraafik","Vee jälgimine","Paastumisrežiim"] },
     ],
   },
   fi: {
@@ -113,80 +141,8 @@ const LANG = {
     slides: [
       { ikon:"kalori", baslik:"Syö terveellisesti Doyan kanssa", acik:"Kirjaa kaikki syömäsi sekunneissa. Seuraa kaloreita, proteiineja ja vitamiineja yli 2.900 elintarvikkeella.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ ruokaa","Makroseuranta","Vitamiinianalyysi"] },
       { ikon:"ai", baslik:"AI-valokuvaskanneri", acik:"Ota kuva ateriastasi ja anna tekoälyn laskea kalorit ja makrot välittömästi.", renk:"#030604", vurgu:"#818cf8", detaylar:["Kuvakirjaus","Välitön analyysi","Tekoälypohjainen"] },
-      { ikon:"diyetisyen", baslik:"AI-ravitsemusavustajasi", acik:"Henkilökohtaiset ateriasuunnitelmat tavoitteesi, allergioidesi ja ruokavaliosi mukaan.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 saatavilla","Henkilökohtaiset suunnitelmat","Allergiavapaa"] },
+      { ikon:"diyetisyen", baslik:"Henkilökohtainen AI-ravitsemusterapeutti", acik:"Henkilökohtaiset ateriasuunnitelmat tavoitteesi, allergioidesi ja ruokavaliosi mukaan.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 saatavilla","Henkilökohtaiset suunnitelmat","Allergiavapaa"] },
       { ikon:"saglik", baslik:"Täydellinen terveydenseuranta", acik:"Paino, vesi ja paastoaminen — kaikki yhdessä paikassa.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Painokaavio","Vesiseuranta","Paastotila"] },
-    ],
-  },
-  fr: {
-    dilSec: "Choisir la langue", hosgeldin: "Bienvenue !", basla: "Commençons →", atla: "Passer", devam: "Suivant →",
-    slides: [
-      { ikon:"kalori", baslik:"Mangez sainement avec Doya", acik:"Enregistrez tout ce que vous mangez en secondes. Calories, protéines et vitamines avec plus de 2.900 aliments.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ aliments","Suivi macros","Analyse vitamines"] },
-      { ikon:"ai", baslik:"Scanner IA par photo", acik:"Photographiez votre repas et l'IA calcule instantanément les calories et macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Photo journal","Analyse instantanée","IA intégrée"] },
-      { ikon:"diyetisyen", baslik:"Votre Assistant Nutritionnel IA", acik:"Plans alimentaires personnalisés selon votre objectif, allergies et style alimentaire.", renk:"#030604", vurgu:"#34d399", detaylar:["Accès 24/7","Plans personnels","Adapté aux allergies"] },
-      { ikon:"saglik", baslik:"Suivi Santé Complet", acik:"Poids, eau et jeûne intermittent — tout en un.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graphique poids","Eau","Jeûne"] },
-    ],
-  },
-  hr: {
-    dilSec: "Odaberite jezik", hosgeldin: "Dobrodošli!", basla: "Počnimo →", atla: "Preskoči", devam: "Sljedeće →",
-    slides: [
-      { ikon:"kalori", baslik:"Jedite zdravo s Doyom", acik:"Zabilježite sve što jedete u sekundi. Pratite kalorije, proteine i vitamine s više od 2.900 namirnica.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ namirnica","Praćenje makroa","Analiza vitamina"] },
-      { ikon:"ai", baslik:"AI skener fotoaparatom", acik:"Fotografirajte obrok i pustite AI da odmah izračuna kalorije i makronutrijente.", renk:"#030604", vurgu:"#818cf8", detaylar:["Bilježenje fotom","Trenutna analiza","Pokretano AI-om"] },
-      { ikon:"diyetisyen", baslik:"Vaš AI nutricionistički asistent", acik:"Personalizirani planovi obroka prilagođeni vašem cilju, alergijama i stilu prehrane.", renk:"#030604", vurgu:"#34d399", detaylar:["Pristup 24/7","Osobni planovi","Svjesnost alergija"] },
-      { ikon:"saglik", baslik:"Potpuno praćenje zdravlja", acik:"Težina, voda i povremeni post — sve na jednom mjestu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafikon težine","Praćenje vode","Način posta"] },
-    ],
-  },
-  hu: {
-    dilSec: "Válasszon nyelvet", hosgeldin: "Üdvözöljük!", basla: "Kezdjük →", atla: "Kihagyás", devam: "Következő →",
-    slides: [
-      { ikon:"kalori", baslik:"Egészségesen enni a Doyával", acik:"Másodpercek alatt rögzítsen mindent, amit eszik. Kövesse nyomon a kalóriákat, fehérjéket és vitaminokat több mint 2.900 élelmiszerrel.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ élelmiszer","Makró követés","Vitaminelemzés"] },
-      { ikon:"ai", baslik:"AI fotószkenner", acik:"Fényképezze le az ételét, és hagyja, hogy az AI azonnal kiszámítsa a kalóriákat és makrókat.", renk:"#030604", vurgu:"#818cf8", detaylar:["Fotós naplózás","Azonnali elemzés","AI-alapú"] },
-      { ikon:"diyetisyen", baslik:"Az Ön AI táplálkozási asszisztense", acik:"Személyre szabott étkezési tervek céljához, allergiáihoz és étkezési stílusához igazítva.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 hozzáférés","Személyes tervek","Allergia-tudatos"] },
-      { ikon:"saglik", baslik:"Teljes egészségkövetés", acik:"Testsúly, víz és időszakos böjt — minden egy helyen.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Súlygrafikon","Vízkövetés","Böjt mód"] },
-    ],
-  },
-  it: {
-    dilSec: "Seleziona lingua", hosgeldin: "Benvenuto!", basla: "Iniziamo →", atla: "Salta", devam: "Avanti →",
-    slides: [
-      { ikon:"kalori", baslik:"Mangia sano con Doya", acik:"Registra tutto ciò che mangi in secondi. Calorie, proteine e vitamine con oltre 2.900 alimenti.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimenti","Tracking macro","Analisi vitamine"] },
-      { ikon:"ai", baslik:"Scanner AI per foto", acik:"Scatta una foto del tuo pasto e l'IA calcola subito calorie e macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto registro","Analisi istantanea","AI integrata"] },
-      { ikon:"diyetisyen", baslik:"Il Tuo Assistente Nutrizionale AI", acik:"Piani alimentari personalizzati in base al tuo obiettivo e alle allergie.", renk:"#030604", vurgu:"#34d399", detaylar:["Accesso 24/7","Piani personali","Allergie-friendly"] },
-      { ikon:"saglik", baslik:"Monitoraggio Salute", acik:"Peso, acqua e digiuno intermittente — tutto in uno.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafico peso","Acqua","Digiuno"] },
-    ],
-  },
-  lt: {
-    dilSec: "Pasirinkite kalbą", hosgeldin: "Sveiki atvykę!", basla: "Pradėkime →", atla: "Praleisti", devam: "Toliau →",
-    slides: [
-      { ikon:"kalori", baslik:"Valgykite sveikai su Doya", acik:"Užregistruokite viską, ką valgote, per sekundes. Sekite kalorijas, baltymus ir vitaminus su daugiau nei 2.900 maisto produktų.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktų","Makro sekimas","Vitaminų analizė"] },
-      { ikon:"ai", baslik:"AI nuotraukų skaitytuvas", acik:"Nufotografuokite savo patiekalą ir leiskite AI iš karto apskaičiuoti kalorijas ir makrus.", renk:"#030604", vurgu:"#818cf8", detaylar:["Nuotraukų registravimas","Momentinė analizė","AI pagrįstas"] },
-      { ikon:"diyetisyen", baslik:"Jūsų AI mitybos asistentas", acik:"Personalizuoti maitinimosi planai pagal jūsų tikslą, alergijas ir mitybos stilių.", renk:"#030604", vurgu:"#34d399", detaylar:["Prieiga 24/7","Asmeniniai planai","Alergijų sąmoningumas"] },
-      { ikon:"saglik", baslik:"Pilnas sveikatos sekimas", acik:"Svoris, vanduo ir intervalinis badavimas — viskas vienoje vietoje.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svorio grafikas","Vandens sekimas","Badavimo režimas"] },
-    ],
-  },
-  lv: {
-    dilSec: "Izvēlieties valodu", hosgeldin: "Laipni lūdzam!", basla: "Sāksim →", atla: "Izlaist", devam: "Tālāk →",
-    slides: [
-      { ikon:"kalori", baslik:"Ēdiet veselīgi ar Doya", acik:"Reģistrējiet visu, ko ēdat, sekundēs. Izsekojiet kalorijas, olbaltumvielas un vitamīnus ar vairāk nekā 2.900 pārtikas produktu.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktu","Makro izsekošana","Vitamīnu analīze"] },
-      { ikon:"ai", baslik:"AI foto skeneris", acik:"Fotografējiet savu ēdienu un ļaujiet AI nekavējoties aprēķināt kalorijas un makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto reģistrācija","Tūlītēja analīze","Balstīts uz AI"] },
-      { ikon:"diyetisyen", baslik:"Jūsu AI uztura asistents", acik:"Personalizēti ēdienreižu plāni, kas pielāgoti jūsu mērķim, alerģijām un ēšanas stilam.", renk:"#030604", vurgu:"#34d399", detaylar:["Pieeja 24/7","Personīgie plāni","Alerģiju apzināšanās"] },
-      { ikon:"saglik", baslik:"Pilnīga veselības izsekošana", acik:"Svars, ūdens un intermitējošā gavēšana — viss vienuviet.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svara grafiks","Ūdens izsekošana","Gavēšanas režīms"] },
-    ],
-  },
-  nl: {
-    dilSec: "Taal kiezen", hosgeldin: "Welkom!", basla: "Aan de slag →", atla: "Overslaan", devam: "Volgende →",
-    slides: [
-      { ikon:"kalori", baslik:"Eet gezond met Doya", acik:"Log alles wat je eet in seconden. Calorieën, eiwitten en vitamines met meer dan 2.900 producten.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ producten","Macro-tracking","Vitamine-analyse"] },
-      { ikon:"ai", baslik:"AI Fotoscanner", acik:"Maak een foto van je maaltijd en laat AI direct calorieën en macro's berekenen.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto loggen","Directe analyse","AI aangedreven"] },
-      { ikon:"diyetisyen", baslik:"Jouw AI-Voedingsassistent", acik:"Gepersonaliseerde maaltijdplannen op basis van je doel, allergieën en eetstijl.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 toegang","Persoonlijke plannen","Allergie-bewust"] },
-      { ikon:"saglik", baslik:"Volledige Gezondheidsregistratie", acik:"Gewicht, water en intermitterend vasten — alles op één plek.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gewichtsgrafiek","Water bijhouden","Vastenmodus"] },
-    ],
-  },
-  no: {
-    dilSec: "Velg språk", hosgeldin: "Velkommen!", basla: "Kom i gang →", atla: "Hopp over", devam: "Neste →",
-    slides: [
-      { ikon:"kalori", baslik:"Spis sunt med Doya", acik:"Logg alt du spiser på sekunder. Kalorier, protein og vitaminer med over 2.900 matvarer.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ matvarer","Makro-sporing","Vitaminanalyse"] },
-      { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta et bilde av måltidet ditt og la AI umiddelbart beregne kalorier og makroer.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-logging","Umiddelbar analyse","AI-drevet"] },
-      { ikon:"diyetisyen", baslik:"Din AI-Ernæringsassistent", acik:"Personlige måltidsplaner basert på ditt mål, allergier og kosthold.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tilgang","Personlige planer","Allergibevisst"] },
-      { ikon:"saglik", baslik:"Full Helsesporing", acik:"Vekt, vann og intermitterende faste — alt på ett sted.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Vektkurve","Vannsporing","Fastemodus"] },
     ],
   },
   pl: {
@@ -194,8 +150,17 @@ const LANG = {
     slides: [
       { ikon:"kalori", baslik:"Jedz zdrowo z Doya", acik:"Zapisuj wszystko co jesz w sekundach. Śledź kalorie, białka i witaminy z ponad 2.900 produktów.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktów","Śledzenie makro","Analiza witamin"] },
       { ikon:"ai", baslik:"Skaner AI do zdjęć", acik:"Zrób zdjęcie posiłku i pozwól AI natychmiast obliczyć kalorie i makroskładniki.", renk:"#030604", vurgu:"#818cf8", detaylar:["Rejestracja zdjęć","Natychmiastowa analiza","Oparte na AI"] },
-      { ikon:"diyetisyen", baslik:"Twój asystent żywieniowy AI", acik:"Spersonalizowane plany posiłków dopasowane do Twojego celu, alergii i diety.", renk:"#030604", vurgu:"#34d399", detaylar:["Dostęp 24/7","Osobiste plany","Świadomość alergii"] },
+      { ikon:"diyetisyen", baslik:"Twój osobisty dietetyk AI", acik:"Spersonalizowane plany posiłków dopasowane do Twojego celu, alergii i diety.", renk:"#030604", vurgu:"#34d399", detaylar:["Dostęp 24/7","Osobiste plany","Świadomość alergii"] },
       { ikon:"saglik", baslik:"Pełne śledzenie zdrowia", acik:"Waga, woda i post przerywany — wszystko w jednym miejscu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Wykres wagi","Śledzenie wody","Tryb postu"] },
+    ],
+  },
+  cs: {
+    dilSec: "Vyberte jazyk", hosgeldin: "Vítejte!", basla: "Začínáme →", atla: "Přeskočit", devam: "Další →",
+    slides: [
+      { ikon:"kalori", baslik:"Jezte zdravě s Doya", acik:"Zaznamenejte vše, co jíte, během vteřin. Sledujte kalorie, bílkoviny a vitamíny s více než 2.900 potravinami.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ potravin","Sledování maker","Analýza vitamínů"] },
+      { ikon:"ai", baslik:"AI fotoskener", acik:"Vyfotografujte jídlo a nechte AI okamžitě vypočítat kalorie a makra.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto záznamy","Okamžitá analýza","Poháněno AI"] },
+      { ikon:"diyetisyen", baslik:"Váš osobní AI dietolog", acik:"Personalizované plány jídel přizpůsobené vašemu cíli, alergiím a stravovacímu stylu.", renk:"#030604", vurgu:"#34d399", detaylar:["Přístup 24/7","Osobní plány","Uvědomění o alergiích"] },
+      { ikon:"saglik", baslik:"Kompletní sledování zdraví", acik:"Váha, voda a přerušovaný půst — vše na jednom místě.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Graf váhy","Sledování vody","Režim půstu"] },
     ],
   },
   pt: {
@@ -203,8 +168,26 @@ const LANG = {
     slides: [
       { ikon:"kalori", baslik:"Coma saudável com Doya", acik:"Registe tudo o que come em segundos. Acompanhe calorias, proteínas e vitaminas com mais de 2.900 alimentos.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimentos","Rastreamento de macros","Análise de vitaminas"] },
       { ikon:"ai", baslik:"Scanner AI por foto", acik:"Tire uma foto da sua refeição e deixe a IA calcular instantaneamente calorias e macros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Registo por foto","Análise instantânea","Baseado em IA"] },
-      { ikon:"diyetisyen", baslik:"O seu Assistente Nutricional AI", acik:"Planos de refeição personalizados com base no seu objetivo, alergias e estilo alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acesso 24/7","Planos pessoais","Consciente de alergias"] },
+      { ikon:"diyetisyen", baslik:"O seu Nutricionista AI Pessoal", acik:"Planos de refeição personalizados com base no seu objetivo, alergias e estilo alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acesso 24/7","Planos pessoais","Consciente de alergias"] },
       { ikon:"saglik", baslik:"Rastreamento de Saúde Completo", acik:"Peso, água e jejum intermitente — tudo num só lugar.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Gráfico de peso","Rastreamento de água","Modo de jejum"] },
+    ],
+  },
+  el: {
+    dilSec: "Επιλογή γλώσσας", hosgeldin: "Καλώς ήρθατε!", basla: "Ξεκινάμε →", atla: "Παράλειψη", devam: "Επόμενο →",
+    slides: [
+      { ikon:"kalori", baslik:"Τρώτε υγιεινά με το Doya", acik:"Καταγράψτε όλα όσα τρώτε σε δευτερόλεπτα. Παρακολουθήστε θερμίδες, πρωτεΐνες και βιταμίνες με πάνω από 2.900 τρόφιμα.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ τρόφιμα","Παρακολούθηση μακρο","Ανάλυση βιταμινών"] },
+      { ikon:"ai", baslik:"Σαρωτής AI με φωτογραφία", acik:"Φωτογραφίστε το γεύμα σας και αφήστε το AI να υπολογίσει άμεσα θερμίδες και μακροθρεπτικά.", renk:"#030604", vurgu:"#818cf8", detaylar:["Καταγραφή με φωτο","Άμεση ανάλυση","Βασισμένο σε AI"] },
+      { ikon:"diyetisyen", baslik:"Ο Προσωπικός σας AI Διατροφολόγος", acik:"Εξατομικευμένα πλάνα γευμάτων βάσει στόχου, αλλεργιών και διατροφικού στυλ.", renk:"#030604", vurgu:"#34d399", detaylar:["Πρόσβαση 24/7","Προσωπικά πλάνα","Ευαισθησία σε αλλεργίες"] },
+      { ikon:"saglik", baslik:"Πλήρης Παρακολούθηση Υγείας", acik:"Βάρος, νερό και διαλειμματική νηστεία — όλα σε ένα μέρος.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Γράφημα βάρους","Παρακολούθηση νερού","Λειτουργία νηστείας"] },
+    ],
+  },
+  hu: {
+    dilSec: "Válasszon nyelvet", hosgeldin: "Üdvözöljük!", basla: "Kezdjük →", atla: "Kihagyás", devam: "Következő →",
+    slides: [
+      { ikon:"kalori", baslik:"Egészségesen enni a Doyával", acik:"Másodpercek alatt rögzítsen mindent, amit eszik. Kövesse nyomon a kalóriákat, fehérjéket és vitaminokat több mint 2.900 élelmiszerrel.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ élelmiszer","Makró követés","Vitaminelemzés"] },
+      { ikon:"ai", baslik:"AI fotószkenner", acik:"Fényképezze le az ételét, és hagyja, hogy az AI azonnal kiszámítsa a kalóriákat és makrókat.", renk:"#030604", vurgu:"#818cf8", detaylar:["Fotós naplózás","Azonnali elemzés","AI-alapú"] },
+      { ikon:"diyetisyen", baslik:"Az Ön személyes AI dietetikusa", acik:"Személyre szabott étkezési tervek céljához, allergiáihoz és étkezési stílusához igazítva.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 hozzáférés","Személyes tervek","Allergia-tudatos"] },
+      { ikon:"saglik", baslik:"Teljes egészségkövetés", acik:"Testsúly, víz és időszakos böjt — minden egy helyen.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Súlygrafikon","Vízkövetés","Böjt mód"] },
     ],
   },
   ro: {
@@ -212,27 +195,44 @@ const LANG = {
     slides: [
       { ikon:"kalori", baslik:"Mâncați sănătos cu Doya", acik:"Înregistrați tot ce mâncați în câteva secunde. Urmăriți calorii, proteine și vitamine cu peste 2.900 de alimente.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ alimente","Urmărire macro","Analiză vitamine"] },
       { ikon:"ai", baslik:"Scanner AI prin foto", acik:"Fotografiați masa și lăsați AI să calculeze imediat caloriile și macronutrienții.", renk:"#030604", vurgu:"#818cf8", detaylar:["Înregistrare foto","Analiză instantanee","Bazat pe AI"] },
-      { ikon:"diyetisyen", baslik:"Asistentul dvs. nutrițional AI", acik:"Planuri de masă personalizate în funcție de obiectiv, alergii și stilul alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acces 24/7","Planuri personale","Conștient de alergii"] },
+      { ikon:"diyetisyen", baslik:"Nutriționistul dvs. AI Personal", acik:"Planuri de masă personalizate în funcție de obiectiv, alergii și stilul alimentar.", renk:"#030604", vurgu:"#34d399", detaylar:["Acces 24/7","Planuri personale","Conștient de alergii"] },
       { ikon:"saglik", baslik:"Monitorizare completă a sănătății", acik:"Greutate, apă și post intermitent — totul într-un singur loc.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafic greutate","Urmărire apă","Mod post"] },
     ],
   },
-  sv: {
-    dilSec: "Välj språk", hosgeldin: "Välkommen!", basla: "Kom igång →", atla: "Hoppa över", devam: "Nästa →",
+  hr: {
+    dilSec: "Odaberite jezik", hosgeldin: "Dobrodošli!", basla: "Počnimo →", atla: "Preskoči", devam: "Sljedeće →",
     slides: [
-      { ikon:"kalori", baslik:"Ät hälsosamt med Doya", acik:"Logga allt du äter på sekunder. Kalorier, protein och vitaminer med över 2.900 livsmedel.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ livsmedel","Makrospårning","Vitaminanalys"] },
-      { ikon:"ai", baslik:"AI-fotoskanner", acik:"Ta en bild av din måltid och låt AI omedelbart beräkna kalorier och makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto-loggning","Omedelbar analys","AI-driven"] },
-      { ikon:"diyetisyen", baslik:"Din AI-Kostassistent", acik:"Personliga måltidsplaner baserade på ditt mål, allergier och kostvanor.", renk:"#030604", vurgu:"#34d399", detaylar:["24/7 tillgång","Personliga planer","Allergimedveten"] },
-      { ikon:"saglik", baslik:"Fullständig Hälsospårning", acik:"Vikt, vatten och intermittent fasta — allt på ett ställe.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Viktdiagram","Vattensporning","Fastemodus"] },
+      { ikon:"kalori", baslik:"Jedite zdravo s Doyom", acik:"Zabilježite sve što jedete u sekundi. Pratite kalorije, proteine i vitamine s više od 2.900 namirnica.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ namirnica","Praćenje makroa","Analiza vitamina"] },
+      { ikon:"ai", baslik:"AI skener fotoaparatom", acik:"Fotografirajte obrok i pustite AI da odmah izračuna kalorije i makronutrijente.", renk:"#030604", vurgu:"#818cf8", detaylar:["Bilježenje fotom","Trenutna analiza","Pokretano AI-om"] },
+      { ikon:"diyetisyen", baslik:"Vaš osobni AI nutricionist", acik:"Personalizirani planovi obroka prilagođeni vašem cilju, alergijama i stilu prehrane.", renk:"#030604", vurgu:"#34d399", detaylar:["Pristup 24/7","Osobni planovi","Svjesnost alergija"] },
+      { ikon:"saglik", baslik:"Potpuno praćenje zdravlja", acik:"Težina, voda i povremeni post — sve na jednom mjestu.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Grafikon težine","Praćenje vode","Način posta"] },
     ],
   },
-  tr: {
-    dilSec: "Dil Seçin", hosgeldin: "Hoşgeldin!", basla: "Başlayalım →", atla: "Geç", devam: "Devam →",
+  lv: {
+    dilSec: "Izvēlieties valodu", hosgeldin: "Laipni lūdzam!", basla: "Sāksim →", atla: "Izlaist", devam: "Tālāk →",
     slides: [
-      { baslik:"2.900+ Besin", alt:"Kalori & Makro Takibi", acik:"Dev veritabanından saniyeler içinde ara, ekle. Protein, karbonhidrat, yağ ve vitamin değerlerini günlük olarak takip et.", renk:"#10b981", ic:["Kalori & makro takibi","Öğün bazlı gruplama","Su & kilo takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1" strokeLinecap="round"><path d="M3 3h18M3 9h18M3 15h18M3 21h18"/><circle cx="7" cy="12" r="2" fill="#34d399" stroke="none" opacity=".6"/></svg>` },
-      { baslik:"Yemek Asistanı", alt:"AI Tarif · Fotoğraftan Analiz", acik:"Malzeme yaz, fotoğraf çek veya ürün içeriğini analiz et. Yapay zeka adım adım tarif hazırlasın, E-kodlarını tespit etsin.", renk:"#f97316", ic:["Yazarak tarif alma","Fotoğraftan malzeme tanıma","İçerik & E-kodu analizi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fb923c" strokeWidth="1" strokeLinecap="round"><path d="M6 2v6a6 6 0 0 0 12 0V2"/><path d="M12 14v8"/><path d="M9 22h6"/></svg>` },
-      { baslik:"145+ Dünya Tarifi", alt:"23 Ülke Mutfağı · Filtreli", acik:"Türk mutfağından İtalya'ya, Yunanistan'dan Norveç'e 145+ sağlıklı tarif. Sporcu, vejetaryen, glutensiz, düşük kalorili filtrele.", renk:"#8b5cf6", ic:["Sporcu & yüksek protein","Vegan & vejetaryen","Ülkeye özel tarifler"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>` },
-      { baslik:"Puan Kazan & Ödül Al", alt:"Günlük Giriş · Reklam · Davet", acik:"Her gün giriş yap +50 puan, reklam izle +50 puan, arkadaş davet et +100 puan kazan. Puanlarınla ekstra AI hakkı satın al.", renk:"#f59e0b", ic:["Günlük +50 giriş puanı","Reklam izleyerek puan","AI hak satın alma"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1" strokeLinecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>` },
-      { baslik:"Sağlık & Spor Takibi", alt:"Kilo · BMI · Oruç · Spor", acik:"Kilo değişimini grafikle izle, BMI ve TDEE hesapla. Su tüketimini kaydet, aralıklı oruç takip et. Spor aktivitelerini ekle.", renk:"#0891b2", ic:["Kilo grafiği & BMI","Aralıklı oruç takibi","Spor aktivite takibi"], svgIkon:`<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1" strokeLinecap="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 10h13l-1.8 9H7.3L5.5 10z"/><path d="M9 10V7m6 3V7"/></svg>` },
+      { ikon:"kalori", baslik:"Ēdiet veselīgi ar Doya", acik:"Reģistrējiet visu, ko ēdat, sekundēs. Izsekojiet kalorijas, olbaltumvielas un vitamīnus ar vairāk nekā 2.900 pārtikas produktu.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktu","Makro izsekošana","Vitamīnu analīze"] },
+      { ikon:"ai", baslik:"AI foto skeneris", acik:"Fotografējiet savu ēdienu un ļaujiet AI nekavējoties aprēķināt kalorijas un makros.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto reģistrācija","Tūlītēja analīze","Balstīts uz AI"] },
+      { ikon:"diyetisyen", baslik:"Jūsu personīgais AI dietologs", acik:"Personalizēti ēdienreižu plāni, kas pielāgoti jūsu mērķim, alerģijām un ēšanas stilam.", renk:"#030604", vurgu:"#34d399", detaylar:["Pieeja 24/7","Personīgie plāni","Alerģiju apzināšanās"] },
+      { ikon:"saglik", baslik:"Pilnīga veselības izsekošana", acik:"Svars, ūdens un intermitējošā gavēšana — viss vienuviet.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svara grafiks","Ūdens izsekošana","Gavēšanas režīms"] },
+    ],
+  },
+  et: {
+    dilSec: "Vali keel", hosgeldin: "Tere tulemast!", basla: "Alustame →", atla: "Jäta vahele", devam: "Edasi →",
+    slides: [
+      { ikon:"kalori", baslik:"Söö tervislikult Doyaga", acik:"Salvesta kõik, mida sööd, sekunditega. Jälgi kaloreid, valke ja vitamiine üle 2.900 toiduainega.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ toiduainet","Makro jälgimine","Vitamiinianalüüs"] },
+      { ikon:"ai", baslik:"AI fotoSkänner", acik:"Pildista oma einet ja lase AI-l kohe arvutada kalorid ja makrod.", renk:"#030604", vurgu:"#818cf8", detaylar:["Foto logimine","Kohene analüüs","AI-põhine"] },
+      { ikon:"diyetisyen", baslik:"Sinu isiklik AI dietoloog", acik:"Isikupärastatud toiduplaanid vastavalt sinu eesmärgile, allergiatele ja toitumisstiilile.", renk:"#030604", vurgu:"#34d399", detaylar:["Juurdepääs 24/7","Isiklikud plaanid","Allergiateadlik"] },
+      { ikon:"saglik", baslik:"Täielik tervise jälgimine", acik:"Kaal, vesi ja vahelduv paastumine — kõik ühes kohas.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Kaalugraafik","Vee jälgimine","Paastumisrežiim"] },
+    ],
+  },
+  lt: {
+    dilSec: "Pasirinkite kalbą", hosgeldin: "Sveiki atvykę!", basla: "Pradėkime →", atla: "Praleisti", devam: "Toliau →",
+    slides: [
+      { ikon:"kalori", baslik:"Valgykite sveikai su Doya", acik:"Užregistruokite viską, ką valgote, per sekundes. Sekite kalorijas, baltymus ir vitaminus su daugiau nei 2.900 maisto produktų.", renk:"#030604", vurgu:"#10b981", detaylar:["2.900+ produktų","Makro sekimas","Vitaminų analizė"] },
+      { ikon:"ai", baslik:"AI nuotraukų skaitytuvas", acik:"Nufotografuokite savo patiekalą ir leiskite AI iš karto apskaičiuoti kalorijas ir makrus.", renk:"#030604", vurgu:"#818cf8", detaylar:["Nuotraukų registravimas","Momentinė analizė","AI pagrįstas"] },
+      { ikon:"diyetisyen", baslik:"Jūsų asmeninis AI dietologas", acik:"Personalizuoti maitinimosi planai pagal jūsų tikslą, alergijas ir mitybos stilių.", renk:"#030604", vurgu:"#34d399", detaylar:["Prieiga 24/7","Asmeniniai planai","Alergijų sąmoningumas"] },
+      { ikon:"saglik", baslik:"Pilnas sveikatos sekimas", acik:"Svoris, vanduo ir intervalinis badavimas — viskas vienoje vietoje.", renk:"#030604", vurgu:"#60a5fa", detaylar:["Svorio grafikas","Vandens sekimas","Badavimo režimas"] },
     ],
   },
 };
@@ -400,8 +400,6 @@ export default function App(){
   const [kvkkOnay,setKvkkOnay]=useState(false);
   const [gdprOnay,setGdprOnay]=useState(false);
   const [pazarlamaOnay,setPazarlamaOnay]=useState(false);
-  const [yasOnay,setYasOnay]=useState(false);
-  const [saglikOnay,setSaglikOnay]=useState(false);
   const [gdprModal,setGdprModal]=useState(false);
   const [hesapSilOnay,setHesapSilOnay]=useState(false);
   const [hesapSilModal,setHesapSilModal]=useState(false);
@@ -436,7 +434,6 @@ export default function App(){
   // ── APP STATE ──
   const [tab,setTab]=useState("anasayfa");
   const [alisverisListesi,setAlisverisListesi]=useState([]);
-  const [planliAlisveris,setPlanliAlisveris]=useState({}); // {tarih: [{ad,tamamlandi}]}
   const [alisverisModal,setAlisverisModal]=useState(false);
   const [alisverisEkle,setAlisverisEkle]=useState("");
   const [alisverisGun,setAlisverisGun]=useState(null); // takvim
@@ -487,7 +484,12 @@ export default function App(){
 
   const [tarifler, setTarifler] = useState([]);
   const [profFoto,setProfFoto]=useState(null);
+  const [adimSayar,setAdimSayar]=useState(0);
+  const [adimAktif,setAdimAktif]=useState(false);
+  const [adimIzin,setAdimIzin]=useState("bekliyor");
+  const [adimIzinModal,setAdimIzinModal]=useState(false);
   const [eVeriGizle,setEVeriGizle]=useState(false); // "bekliyor"|"verildi"|"reddedildi"|"desteklenmiyor"
+  const adimRef=useRef({son:null,sayac:0,aktif:false});
 
   // ── BESİN ARA ──
   const [secBesin,setSecBesin]=useState(null);
@@ -496,11 +498,6 @@ export default function App(){
   const [yemekAsistaniAcik,setYemekAsistaniAcik]=useState(false);
   const [yemekAsistaniSlayt,setYemekAsistaniSlayt]=useState(0);
   const [yemekEkleSekme,setYemekEkleSekme]=useState("ara"); // ara | foto | hizli
-  const [haftalikPlan,setHaftalikPlan]=useState(null); // AI üretilen haftalık plan
-  const [haftalikPlanYuk,setHaftalikPlanYuk]=useState(false);
-  const [haftalikPlanIstek,setHaftalikPlanIstek]=useState(""); // kullanıcı isteği
-  const [haftalikPlanSecGun,setHaftalikPlanSecGun]=useState(null); // seçilen başlangıç günü
-  const [haftalikPlanEklendi,setHaftalikPlanEklendi]=useState(false); // eklendi mi
   const [yemekEkleOgun,setYemekEkleOgun]=useState("Kahvaltı");
   const [hizliEkleMetin,setHizliEkleMetin]=useState("");
   const [hizliEkleYuk,setHizliEkleYuk]=useState(false);
@@ -616,7 +613,6 @@ export default function App(){
   const [sozlesmeOnay,setSozlesmeOnay]=useState(false);
   const [basTip,setBasTip]=useState("influencer"); const [basAd,setBasAd]=useState("");
   const [basPlatform,setBasPlatform]=useState([]); const [basAcik,setBasAcik]=useState("");
-  const [adminTeklifTutarlar,setAdminTeklifTutarlar]=useState({}); // {uid: tutar}
   const [basGonderildi,setBasGonderildi]=useState(false);
   const [refBasvurular,setRefBasvurular]=useState([]);
 
@@ -640,6 +636,7 @@ export default function App(){
 
   // ── SERİLER ──
   const [yemekSeri,setYemekSeri]=useState(0);
+  const [adimSeri,setAdimSeri]=useState(0);
   const [seriToast,setSeriToast]=useState(null);
   const [seriMsg,setSeriMsg]=useState(null);
   const [dogrulamaGonderildi,setDogrulamaGonderildi]=useState(false);
@@ -787,6 +784,99 @@ export default function App(){
     }
   },[]);
 
+  useEffect(()=>{
+    const bugunKey2=tarihKey(new Date());
+    // Gün değiştiyse sıfırla
+    const kayitliGun=localStorage.getItem("doya_adim_gun");
+    if(kayitliGun&&kayitliGun!==bugunKey2){
+      setAdimSayar(0);
+      adimRef.current.sayac=0;
+      localStorage.setItem("doya_adim_"+bugunKey2,"0");
+    }
+    localStorage.setItem("doya_adim_gun",bugunKey2);
+    
+    // Kaydedilmiş adım sayısını yükle
+    const kayitli=parseInt(localStorage.getItem("doya_adim_"+bugunKey2)||"0");
+    adimRef.current.sayac=kayitli;
+
+    // İzin zaten verilmişse otomatik başlat
+    const kayitliIzin=localStorage.getItem("doya_adim_izin");
+    if(kayitliIzin==="verildi"||kayitliIzin==="android"){
+      setAdimAktif(true);
+    } else if(kayitliIzin==="bekliyor"||!kayitliIzin){
+      // İlk açılışta izin modalı göster
+      setTimeout(()=>setAdimIzinModal(true),1500);
+    }
+  },[]);
+
+  useEffect(()=>{
+    if(!adimAktif) return;
+    let handler=null;
+
+    const baslat=()=>{
+      adimRef.current.sayac=parseInt(localStorage.getItem("doya_adim_"+tarihKey(new Date()))||"0");
+      handler=(event)=>{
+        const acc=event.acceleration||event.accelerationIncludingGravity||{};
+        const {x=0,y=0,z=0}=acc;
+        const mag=Math.sqrt(x*x+y*y+z*z);
+        const ref=adimRef.current;
+        const now=Date.now();
+        if(ref.son!==null){
+          const delta=Math.abs(mag-ref.son);
+          if(delta>2.8&&(now-ref.lastStep)>280){
+            ref.lastStep=now;
+            ref.sayac+=1;
+            setAdimSayar(ref.sayac);
+            // Her 10 adımda localStorage kaydet
+            if(ref.sayac%10===0){
+              const bg=tarihKey(new Date());
+              localStorage.setItem("doya_adim_"+bg, ref.sayac);
+              // Takvime kaydet
+              gunSet(bg,"adim",ref.sayac);
+              gunSet(bg,"adimKal",Math.round(ref.sayac*0.04));
+            }
+            // Her 100 adımda Firebase kaydet (veri tasarrufu)
+            if(ref.sayac%100===0 && firebaseUID){
+              const bg=tarihKey(new Date());
+              gunVeriKaydet(firebaseUID,bg,{...gunV(bg),adim:ref.sayac,adimKal:Math.round(ref.sayac*0.04)}).catch(console.error);
+            }
+          }
+        }
+        ref.son=mag;
+      };
+      window.addEventListener("devicemotion",handler,{passive:true});
+      setAdimIzin("verildi");
+    };
+
+    if(typeof DeviceMotionEvent!=="undefined"&&typeof DeviceMotionEvent.requestPermission==="function"){
+      // iOS
+      DeviceMotionEvent.requestPermission().then(r=>{
+        if(r==="granted"){ localStorage.setItem("doya_adim_izin","verildi"); baslat(); }
+        else { setAdimIzin("reddedildi"); localStorage.setItem("doya_adim_izin","reddedildi"); setAdimAktif(false); }
+      }).catch(()=>{ setAdimIzin("reddedildi"); setAdimAktif(false); });
+    } else if(typeof DeviceMotionEvent!=="undefined"){
+      localStorage.setItem("doya_adim_izin","android");
+      baslat();
+    } else {
+      setAdimIzin("desteklenmiyor");
+      setAdimAktif(false);
+    }
+
+    return ()=>{ if(handler) window.removeEventListener("devicemotion",handler); };
+  },[adimAktif]);
+
+  // Adım sayısı değişince takvime kaydet (debounced)
+  useEffect(()=>{
+    if(adimSayar===0) return;
+    const t=setTimeout(()=>{
+      const bg=tarihKey(new Date());
+      localStorage.setItem("doya_adim_"+bg,adimSayar);
+      gunSet(bg,"adim",adimSayar);
+      gunSet(bg,"adimKal",Math.round(adimSayar*0.04));
+      if(adimSayar>=10000) seriGuncelle("adim");
+    },2000);
+    return ()=>clearTimeout(t);
+  },[adimSayar]);
 
   // ─── TEMA ────────────────────────────────────────────────────
   const r = {
@@ -840,24 +930,6 @@ export default function App(){
   const NB  = (a)=>({ flex:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"10px 4px 8px",cursor:"pointer",color:a?"#10b981":r.muted,fontSize:9,fontWeight:a?800:600,gap:3,background:"none",border:"none",minWidth:44,letterSpacing:.5,position:"relative",transition:"color .2s" });
 
   // ─── FİREBASE: SPONSORLAR YÜKLEME ───────────────────────────
-
-  // ─── PLANLI ALIŞVERİŞ — bugünkü malzemeleri listeye ekle ────
-  useEffect(()=>{
-    try{
-      const kayitli=localStorage.getItem("doya_planli_alis");
-      if(kayitli){
-        const planli=JSON.parse(kayitli);
-        setPlanliAlisveris(planli);
-        const bugun=bugunKey();
-        if(planli[bugun]?.length>0){
-          setAlisverisListesi(p=>{
-            const yeni=planli[bugun].filter(y=>!p.some(x=>x.ad===y.ad));
-            return yeni.length>0?[...p,...yeni]:p;
-          });
-        }
-      }
-    }catch(e){}
-  },[]);
   useEffect(()=>{
     import("firebase/firestore").then(({getDoc,doc:dc})=>{
       getDoc(dc(db,"appConfig","sponsorlar")).then(snap=>{
@@ -1187,7 +1259,7 @@ export default function App(){
     setDiyMesajlar(yeniMesajlar);
     setDiyYazi("");
     setDiyYukleniyor(true);
-    const sistem=`Sen Doya uygulamasının AI beslenme asistanısın. Kullanıcı bilgileri:
+    const sistem=`Sen Doya uygulamasının AI diyetisyenisin. Kullanıcı bilgileri:
 - Kilo: ${profil.kilo||"?"} kg, Boy: ${profil.boy||"?"} cm, Yaş: ${profil.yas||"?"}
 - Cinsiyet: ${profil.cinsiyet==="erkek"?"Erkek":"Kadın"}, Aktivite: ${profil.aktivite}
 - Hedef: ${p.hedef||"belirtilmemiş"} kg, Diyet tipi: ${aktif?.diyetTip||"belirtilmemiş"}
@@ -1217,7 +1289,7 @@ Türkçe, kısa, samimi ve profesyonel cevap ver. Medikal tanı koyma, doktora y
     const alerjiStr=alerjiListesi.length>0?alerjiListesi.join(", "):"Yok";
     const diyetTip=aktif?.diyetTip||"Normal";
     const hedefStr=aktif?.hedefTip==="kilo_ver"?"Kilo vermek":aktif?.hedefTip==="kilo_al"?"Kilo almak":"Sağlıklı beslenmek";
-    const sistem2=`Sen Doya uygulamasının AI beslenme asistanısın. Kullanıcı için GÜNLÜK yemek önerisi oluştur.
+    const sistem2=`Sen Doya uygulamasının diyetisyenisin. Kullanıcı için GÜNLÜK diyet planı oluştur.
 Kullanıcı: ${profil.kilo||70}kg, ${profil.boy||170}cm, ${profil.yas||25} yaş, ${profil.cinsiyet==="erkek"?"Erkek":"Kadın"}
 Kalori hedefi: ${tdee} kcal/gün.
 Alerjiler: ${alerjiStr} — Bu alerjilere sahip besinleri KESİNLİKLE önerme.
@@ -1236,40 +1308,6 @@ SADECE JSON döndür (başka metin yok):
       try{localStorage.setItem(cacheKey,JSON.stringify(plan));}catch(e){}
     }catch(e){setDiyetListesi({hata:"Plan oluşturulamadı, tekrar deneyin."});}
     setDiyetListesiYuk(false);
-  };
-
-  // ─── HAFTALIK DİYET PLANI ─────────────────────────────────────
-  const haftalikPlanUret=async()=>{
-    setHaftalikPlanYuk(true);
-    setHaftalikPlan(null);
-    const alerjiStr=alerjiListesi.length>0?alerjiListesi.join(", "):"Yok";
-    const diyetTip=aktif?.diyetTip||"Normal";
-    const hedefStr=aktif?.hedefTip==="kilo_ver"?"Kilo vermek":aktif?.hedefTip==="kilo_al"?"Kilo almak":"Sağlıklı beslenmek";
-    const istek=haftalikPlanIstek.trim();
-    const sistem=`Sen Doya uygulamasının AI beslenme asistanısın. Kullanıcı için 7 günlük haftalık yemek planı oluştur.
-Kullanıcı profili: ${profil.kilo||70}kg, ${profil.boy||170}cm, ${profil.yas||25} yaş, ${profil.cinsiyet==="erkek"?"Erkek":"Kadın"}
-Kalori hedefi: ${tdee||2000} kcal/gün
-Alerjiler: ${alerjiStr} — Bu alerjileri içeren besinleri KESİNLİKLE kullanma.
-Beslenme tarzı: ${diyetTip}
-Hedef: ${hedefStr}
-${istek?`Kullanıcının özel isteği: ${istek}`:""}
-
-SADECE JSON döndür, başka metin yok:
-{"gunler":[
-  {"gun":"Pazartesi","kahvalti":{"ad":"...","kalori":0,"malzemeler":["..."]},"ogle":{"ad":"...","kalori":0,"malzemeler":["..."]},"aksam":{"ad":"...","kalori":0,"malzemeler":["..."]},"atistirma":"...","toplam_kalori":0},
-  ...7 gün için aynı yapı...
-]}
-Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün farklı olsun.`;
-    try{
-      const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:2000,messages:[{role:"user",content:sistem}]})});
-      const data=await res.json();
-      const txt=(data.content?.[0]?.text||"{}").replace(/```json|```/g,"").trim();
-      const plan=JSON.parse(txt);
-      setHaftalikPlan(plan);
-      setHaftalikPlanEklendi(false);
-    }catch(e){setHaftalikPlan({hata:"Plan oluşturulamadı, tekrar deneyin."});}
-    setHaftalikPlanYuk(false);
   };
 
   // ─── KİLO KAYDET ──────────────────────────────────────────────
@@ -1589,10 +1627,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
     setGunluk(prev=>({...prev,[bg]:yeniGun}));
     if(firebaseUID) await gunVeriKaydet(firebaseUID,bg,yeniGun).catch(console.error);
     setSecBesin(null); setBesinArama(""); setYemekGram("100");
-    // +10 puan her yemek kaydında
-    const yeniP=(puan||0)+10;
-    setPuan(yeniP);
-    if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{puan:yeniP}).catch(console.error);
+    // tab koru
     seriGuncelle("yemek");
   };
 
@@ -1602,11 +1637,12 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
     const dun=tarihKey(new Date(Date.now()-864e5));
     const sonGun=localStorage.getItem("doya_"+tip+"_son");
     let yeniSeri=1;
-    if(sonGun===dun){ yeniSeri=yemekSeri+1; }
+    if(sonGun===dun){ yeniSeri=(tip==="yemek"?yemekSeri:adimSeri)+1; }
     else if(sonGun===bugun){ return; } // bugün zaten sayıldı
     localStorage.setItem("doya_"+tip+"_son",bugun);
     localStorage.setItem("doya_"+tip+"_seri",yeniSeri);
     if(tip==="yemek") setYemekSeri(yeniSeri);
+    else setAdimSeri(yeniSeri);
     if(yeniSeri>1) setSeriMsg({tip, gun:yeniSeri});
     if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{[tip+"Seri"]:yeniSeri}).catch(console.error);
   };
@@ -1684,7 +1720,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
     const h=kullanicilar.find(u=>u.uid===uid);
     if(!h){setAdminMsg("UID bulunamadı!");return;}
     if(h.admin){setAdminMsg("Admin hesabına atanamaz!");return;}
-    const guncellemeler={refTip:tip,refOnay:true,ortaklikBaslangic:new Date().toISOString()};
+    const guncellemeler={refTip:tip,refOnay:true};
     if(ozelRefKod&&ozelRefKod.trim()) guncellemeler.refKod=ozelRefKod.trim().toUpperCase();
     if(isletmeIsmi&&isletmeIsmi.trim()) guncellemeler.isletmeIsmi=isletmeIsmi.trim();
     if(h.firebaseUID) await kullaniciyiGuncelle(h.firebaseUID,guncellemeler).catch(console.error);
@@ -1911,7 +1947,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               </div>
 
               <div className="w3" style={{display:"flex",flexDirection:"column",gap:8,width:"100%",maxWidth:300}}>
-                {[{k:"at",ad:"Österreich",fl:"🇦🇹"},{k:"be",ad:"Belgique",fl:"🇧🇪"},{k:"cs",ad:"Čeština",fl:"🇨🇿"},{k:"da",ad:"Dansk",fl:"🇩🇰"},{k:"de",ad:"Deutsch",fl:"🇩🇪"},{k:"el",ad:"Ελληνικά",fl:"🇬🇷"},{k:"en",ad:"English",fl:"🇬🇧"},{k:"es",ad:"Español",fl:"🇪🇸"},{k:"et",ad:"Eesti",fl:"🇪🇪"},{k:"fi",ad:"Suomi",fl:"🇫🇮"},{k:"fr",ad:"Français",fl:"🇫🇷"},{k:"hr",ad:"Hrvatski",fl:"🇭🇷"},{k:"hu",ad:"Magyar",fl:"🇭🇺"},{k:"it",ad:"Italiano",fl:"🇮🇹"},{k:"lt",ad:"Lietuvių",fl:"🇱🇹"},{k:"lv",ad:"Latviešu",fl:"🇱🇻"},{k:"nl",ad:"Nederlands",fl:"🇳🇱"},{k:"no",ad:"Norsk",fl:"🇳🇴"},{k:"pl",ad:"Polski",fl:"🇵🇱"},{k:"pt",ad:"Português",fl:"🇵🇹"},{k:"ro",ad:"Română",fl:"🇷🇴"},{k:"sv",ad:"Svenska",fl:"🇸🇪"},{k:"tr",ad:"Türkçe",fl:"🇹🇷"}].map(l=>(
+                {[{k:"tr",ad:"Türkçe",fl:"🇹🇷"},{k:"en",ad:"English",fl:"🇬🇧"},{k:"de",ad:"Deutsch",fl:"🇩🇪"},{k:"at",ad:"Österreich",fl:"🇦🇹"},{k:"nl",ad:"Nederlands",fl:"🇳🇱"},{k:"be",ad:"Belgique",fl:"🇧🇪"},{k:"fr",ad:"Français",fl:"🇫🇷"},{k:"es",ad:"Español",fl:"🇪🇸"},{k:"it",ad:"Italiano",fl:"🇮🇹"},{k:"pt",ad:"Português",fl:"🇵🇹"},{k:"el",ad:"Ελληνικά",fl:"🇬🇷"},{k:"sv",ad:"Svenska",fl:"🇸🇪"},{k:"da",ad:"Dansk",fl:"🇩🇰"},{k:"no",ad:"Norsk",fl:"🇳🇴"},{k:"fi",ad:"Suomi",fl:"🇫🇮"},{k:"pl",ad:"Polski",fl:"🇵🇱"},{k:"cs",ad:"Čeština",fl:"🇨🇿"},{k:"hu",ad:"Magyar",fl:"🇭🇺"},{k:"ro",ad:"Română",fl:"🇷🇴"},{k:"hr",ad:"Hrvatski",fl:"🇭🇷"},{k:"lv",ad:"Latviešu",fl:"🇱🇻"},{k:"et",ad:"Eesti",fl:"🇪🇪"},{k:"lt",ad:"Lietuvių",fl:"🇱🇹"}].map(l=>(
                   <button key={l.k} onClick={()=>setDil(l.k)} style={{
                     padding:"13px 18px",
                     borderRadius:14,
@@ -2197,11 +2233,9 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               {[
                 {s:kvkkOnay,set:setKvkkOnay,label:"KVKK & Kullanım Koşulları",link:()=>setKvkkModal(true),zorunlu:true},
                 {s:gdprOnay,set:setGdprOnay,label:"Gizlilik Politikası (GDPR)",link:()=>setGdprModal(true),zorunlu:true},
-                {s:yasOnay,set:setYasOnay,label:"18 yaş veya üzerindeyim",link:null,zorunlu:true},
-                {s:saglikOnay,set:setSaglikOnay,label:"Sağlık verilerimin (kilo, alerji, beslenme) işlenmesine açık rıza veriyorum",link:null,zorunlu:true},
                 {s:pazarlamaOnay,set:setPazarlamaOnay,label:"Güncelleme bildirimleri (isteğe bağlı)",link:null,zorunlu:false},
               ].map((f,i)=>(
-                <label key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:i<4?10:0,cursor:"pointer"}}>
+                <label key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:i<2?10:0,cursor:"pointer"}}>
                   <div onClick={()=>f.set(!f.s)} style={{width:20,height:20,borderRadius:7,border:`1.5px solid ${f.s?"rgba(16,185,129,.6)":"rgba(255,255,255,.12)"}`,background:f.s?"rgba(16,185,129,.15)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}}>
                     {f.s&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
                   </div>
@@ -2216,14 +2250,14 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
             {gHata&&<div style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#fca5a5",padding:"10px 14px",borderRadius:12,fontSize:12,marginBottom:16,textAlign:"center"}}>{gHata}</div>}
 
             {/* Google butonu */}
-            <button style={{width:"100%",padding:"16px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"rgba(16,185,129,.2)":"rgba(255,255,255,.05)"}`,background:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"linear-gradient(145deg,rgba(16,185,129,.1),rgba(16,185,129,.05))":"rgba(255,255,255,.01)",cursor:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"#d1fae5":"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .25s",boxShadow:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"0 8px 24px rgba(16,185,129,.15)":"none"}}
+            <button style={{width:"100%",padding:"16px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay)?"rgba(16,185,129,.2)":"rgba(255,255,255,.05)"}`,background:(kvkkOnay&&gdprOnay)?"linear-gradient(145deg,rgba(16,185,129,.1),rgba(16,185,129,.05))":"rgba(255,255,255,.01)",cursor:(kvkkOnay&&gdprOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay)?"#d1fae5":"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .25s",boxShadow:(kvkkOnay&&gdprOnay)?"0 8px 24px rgba(16,185,129,.15)":"none"}}
               onClick={async()=>{
-                if(!kvkkOnay||!gdprOnay||!yasOnay||!saglikOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
+                if(!kvkkOnay||!gdprOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
                 try{
                   const kul = await fbGoogleGiris();
                   try{
                     const {doc,setDoc}=await import("firebase/firestore");
-                    await setDoc(doc(db,"users",kul.firebaseUID),{kvkkOnay:true,gdprOnay:true,pazarlamaOnay,yasOnay:true,saglikVeriOnay:true,onayTarihi:new Date().toISOString()},{merge:true});
+                    await setDoc(doc(db,"users",kul.firebaseUID),{kvkkOnay:true,gdprOnay:true,pazarlamaOnay,onayTarihi:new Date().toISOString()},{merge:true});
                   }catch(e2){}
                   setAktif(kul); setFirebaseUID(kul.firebaseUID);
                   if(!kul.kilo && !kul.boy){ setOnboard(true); }
@@ -2264,10 +2298,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               • Ad, e-posta adresi (Google hesabından)<br/>
               • Yaş, cinsiyet, kilo, boy bilgileri<br/>
               • Günlük beslenme, su ve aktivite kayıtları<br/>
-              • Alerji ve diyet kısıtlamaları<br/>
               • Uygulama kullanım istatistikleri<br/><br/>
-              <b>2a. Özel Nitelikli Kişisel Veri (Sağlık Verisi)</b><br/>
-              Kilo, alerji ve beslenme alışkanlıklarınız KVKK Madde 6 kapsamında <b>özel nitelikli kişisel veri</b> sayılmaktadır. Bu verilerin işlenmesi için kayıt sırasında açık rızanız alınmaktadır. Açık rızanızı istediğiniz zaman {DESTEK_MAIL} adresine yazarak geri alabilirsiniz; bu durumda kişiselleştirme özellikleri devre dışı kalacaktır.<br/><br/>
               <b>3. İşleme Amaçları ve Hukuki Dayanak</b><br/>
               • Beslenme takip hizmetinin sunulması (sözleşme)<br/>
               • Kişiselleştirilmiş içerik (açık rıza)<br/>
@@ -2282,10 +2313,8 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               • Verilerinizin silinmesini talep etme<br/>
               • Veri işlemeye itiraz etme<br/>
               • Verilerinizi taşınabilir formatta alma<br/><br/>
-              <b>7. Kullanım Koşulları ve Sorumluluk Sınırlaması</b><br/>
-              Uygulama yalnızca kişisel kullanım içindir. Sunulan besin bilgileri, sağlık puanları ve yapay zeka önerileri <b>bilgilendirme amaçlıdır</b>, tıbbi veya diyetetik tavsiye niteliği taşımaz. E-kodu analizleri ve içerik değerlendirmeleri AI yorumuna dayalıdır, resmi kaynaklarla doğrulama önerilir. Sağlıkla ilgili kararlarınız için mutlaka bir doktor veya beslenme uzmanına danışınız. Doya, beslenme verilerinin doğruluğunu, AI çıktılarının eksiksizliğini garanti etmez ve bu bilgilere dayanılarak alınan kararlardan doğabilecek zararlardan sorumlu tutulamaz.<br/><br/>
-              <b>8. Yaş Sınırı</b><br/>
-              Bu uygulama 18 yaş ve üzeri bireyler içindir. 18 yaşından küçük kullanıcıların uygulamaya kaydolması yasaktır.<br/><br/>
+              <b>7. Kullanım Koşulları</b><br/>
+              Uygulama yalnızca kişisel kullanım içindir. Sunulan besin bilgileri ve sağlık puanları <b>bilgilendirme amaçlıdır</b>, tıbbi tavsiye niteliği taşımaz. Sağlıkla ilgili kararlarınız için mutlaka bir doktor veya diyetisyene danışınız. Doya, beslenme verilerinin doğruluğunu garanti etmez.<br/><br/>
               <b>İletişim:</b> {DESTEK_MAIL}
             </div>
             <button style={{...BTN(),width:"100%",marginTop:16,padding:"12px 0"}} onClick={()=>{setKvkkOnay(true);setKvkkModal(false);}}>Okudum ve Kabul Ediyorum</button>
@@ -3218,9 +3247,6 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
             <span style={{fontSize:10,color:"rgba(167,139,250,.5)",fontWeight:700,letterSpacing:1}}>Toplam: {diyetListesi?.toplam_kalori} kcal</span>
           </div>
         )}
-        <div style={{marginTop:8,padding:"6px 10px",background:d?"rgba(107,114,128,.06)":"rgba(107,114,128,.04)",borderRadius:8,fontSize:9,color:r.muted,textAlign:"center",lineHeight:1.5}}>
-          ⓘ AI tarafından oluşturulmuştur — bilgi amaçlıdır, tıbbi tavsiye değildir. Sağlık kararları için uzman görüşü alın.
-        </div>
       </div>
     );
   };
@@ -3490,14 +3516,19 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
     );
   };
 
-  const APP_CSS = String.raw`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap');
+        * { -webkit-tap-highlight-color: transparent; box-sizing:border-box; }
         ::-webkit-scrollbar { width:0; height:0; }
         button { transition: all .18s cubic-bezier(.34,1.2,.64,1); }
         button:active { transform:scale(.95); }
         input:focus { outline:none; }
         input::placeholder { opacity:.4; }
-        /* ── Animasyonlar ── */        @keyframes lux-in   { from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+        /* ── Animasyonlar ── */
+        @keyframes lux-in   { from{opacity:0;transform:translateY(18px) scale(.98)} to{opacity:1;transform:translateY(0) scale(1)} }
         @keyframes lux-fade { from{opacity:0} to{opacity:1} }
         @keyframes lux-up   { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
         @keyframes tab-in   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
@@ -3510,6 +3541,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
         @keyframes float    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
         @keyframes ring-fill { from{stroke-dashoffset:427} }
         @keyframes number-pop { 0%{transform:scale(.8);opacity:0} 100%{transform:scale(1);opacity:1} }
+
         .lux-card { animation: lux-in .5s cubic-bezier(.34,1.1,.64,1) both; }
         .lux-card:nth-child(1){animation-delay:.05s}
         .lux-card:nth-child(2){animation-delay:.1s}
@@ -3522,22 +3554,39 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
         .spin  { animation: spin .8s linear infinite; }
         .pulse { animation: pulse 1.5s ease-in-out infinite; }
         .float { animation: float 3.5s ease-in-out infinite; }
-        /* ── Lüks kart hover ── */        .lux-lift { transition: transform .2s, box-shadow .2s; }
+
+        /* ── Lüks kart hover ── */
+        .lux-lift { transition: transform .2s, box-shadow .2s; }
         .lux-lift:active { transform:scale(.985); }
-        /* ── Input focus ── */        .lux-input:focus {
-          border-color: rgba(16,185,129,.6) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;        }
+
+        /* ── Input focus ── */
+        .lux-input:focus {
+          border-color: rgba(16,185,129,.6) !important;
+          box-shadow: 0 0 0 3px rgba(16,185,129,.1), 0 2px 8px rgba(0,0,0,.3) !important;
+        }
         .ob-inp {
-          background: rgba(255,255,255,.04) !important;          border: 1px solid rgba(255,255,255,.08) !important;          border-radius: 14px !important;          color: #e8f5ec !important;          font-family: 'Nunito', sans-serif !important;          font-size: 14px !important;          transition: border .15s, box-shadow .15s !important;        }
+          background: rgba(255,255,255,.04) !important;
+          border: 1px solid rgba(255,255,255,.08) !important;
+          border-radius: 14px !important;
+          color: #e8f5ec !important;
+          font-family: 'Nunito', sans-serif !important;
+          font-size: 14px !important;
+          transition: border .15s, box-shadow .15s !important;
+        }
         .ob-inp:focus {
-          border-color: rgba(52,211,153,.3) !important;          box-shadow: 0 0 0 3px rgba(16,185,129,.06) !important;          outline: none !important;        }
+          border-color: rgba(52,211,153,.3) !important;
+          box-shadow: 0 0 0 3px rgba(16,185,129,.06) !important;
+          outline: none !important;
+        }
         .ob-inp::placeholder { color: rgba(255,255,255,.2) !important; }
-        /* ── Shimmer efekti ── */        .shimmer-line::after {
-          content:''; position:absolute; inset:0;          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);          animation: shimmer 2.5s ease-in-out infinite;        }
-        
-`;
-  return (
-    <>
-      <style>{APP_CSS}</style>
+
+        /* ── Shimmer efekti ── */
+        .shimmer-line::after {
+          content:''; position:absolute; inset:0;
+          background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+          animation: shimmer 2.5s ease-in-out infinite;
+        }
+      `}</style>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Nunito:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
       <div style={{fontFamily:"'Nunito',sans-serif",background:r.bg,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:92,transition:"background .5s ease",position:"relative"}}>
         {/* Arka plan doku */}
@@ -3675,94 +3724,87 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
 
         {/* ALIŞVERİŞ LİSTESİ MODAL */}
         {alisverisModal&&(
-          <div style={{position:"fixed",inset:0,background:d?"#0a100b":"#fff",zIndex:400,display:"flex",flexDirection:"column",maxWidth:430,margin:"0 auto"}}>
-            {/* Header */}
-            <div style={{padding:"16px 20px 12px",borderBottom:`1px solid ${r.brd}`,background:d?"#0e1a10":"#fff",flexShrink:0}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
-                <div style={{display:"flex",alignItems:"center",gap:8}}>
-                  <span style={{fontSize:20}}>🛒</span>
-                  <div style={{fontSize:17,fontWeight:900,color:r.text}}>Alışveriş Listesi</div>
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.6)",zIndex:400,display:"flex",alignItems:"flex-end"}}>
+            <div style={{background:r.card,borderRadius:"20px 20px 0 0",padding:22,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+                <div>
+                  <div style={{fontSize:16,fontWeight:900,color:r.text}}>🛒 Alışveriş Listesi</div>
+                  <div style={{fontSize:11,color:r.sub}}>{alisverisListesi.filter(x=>!x.tamamlandi).length} ürün kaldı</div>
                 </div>
                 <button onClick={()=>setAlisverisModal(false)}
-                  style={{background:"rgba(0,0,0,.08)",border:"none",borderRadius:10,padding:"8px 14px",cursor:"pointer",fontWeight:800,fontSize:14,color:r.text}}>
+                  style={{background:"rgba(0,0,0,.1)",border:"none",borderRadius:10,padding:"8px 14px",cursor:"pointer",fontWeight:800,fontSize:13,color:r.text}}>
                   ✕
                 </button>
               </div>
-              <div style={{fontSize:11,color:r.muted}}>
-                {alisverisListesi.filter(x=>!x.tamamlandi).length} ürün kaldı · {new Date().toLocaleDateString("tr-TR",{weekday:"long",day:"numeric",month:"long"})}
+              {/* Yeni ürün ekle */}
+              <div style={{display:"flex",gap:8,marginBottom:16}}>
+                <input value={alisverisEkle} onChange={e=>setAlisverisEkle(e.target.value)}
+                  onKeyDown={e=>e.key==="Enter"&&alisverisEkle.trim()&&(setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR")}]),setAlisverisEkle(""))}
+                  placeholder="Ürün ekle..." 
+                  style={{flex:1,padding:"11px 14px",borderRadius:12,border:`1px solid ${r.brd}`,background:r.inp,color:r.text,fontSize:13,fontFamily:"'Nunito',sans-serif",outline:"none"}}/>
+                <button onClick={()=>{if(!alisverisEkle.trim())return;setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR")}]);setAlisverisEkle("");}}
+                  style={{...BTN("#16a34a","11px 16px"),fontWeight:900,fontSize:18,flexShrink:0}}>
+                  +
+                </button>
               </div>
-            </div>
-            {/* Ekle alanı */}
-            <div style={{padding:"12px 16px",borderBottom:`1px solid ${r.brd}`,flexShrink:0,display:"flex",gap:8}}>
-              <input value={alisverisEkle} onChange={e=>setAlisverisEkle(e.target.value)}
-                onKeyDown={e=>e.key==="Enter"&&alisverisEkle.trim()&&(setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR")}]),setAlisverisEkle(""))}
-                placeholder="Ürün ekle..."
-                autoFocus
-                style={{flex:1,padding:"12px 14px",borderRadius:14,border:`1.5px solid ${r.brd}`,background:r.inp,color:r.text,fontSize:14,fontFamily:"'Nunito',sans-serif",outline:"none"}}/>
-              <button onClick={()=>{if(!alisverisEkle.trim())return;setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR")}]);setAlisverisEkle("");}}
-                style={{...BTN("#16a34a","12px 18px"),fontWeight:900,fontSize:20,flexShrink:0,borderRadius:14}}>
-                +
-              </button>
-            </div>
-            {/* Liste */}
-            <div style={{flex:1,overflowY:"auto",padding:"12px 16px"}}>
+              {/* Liste */}
               {alisverisListesi.length===0?(
-                <div style={{textAlign:"center",padding:"48px 0",color:r.muted}}>
-                  <div style={{fontSize:48,marginBottom:12}}>🛒</div>
-                  <div style={{fontSize:14,fontWeight:700,marginBottom:6}}>Liste boş</div>
-                  <div style={{fontSize:12}}>Tarif'ten otomatik ekleyebilirsin</div>
+                <div style={{textAlign:"center",padding:"32px 0",color:r.muted}}>
+                  <div style={{fontSize:36,marginBottom:8}}>🛒</div>
+                  <div style={{fontSize:13}}>Liste boş — tarif'ten otomatik ekleyebilirsin</div>
                 </div>
               ):(
                 <div>
-                  {/* Bekleyenler */}
-                  {alisverisListesi.filter(x=>!x.tamamlandi).length>0&&(
-                    <div style={{fontSize:10,fontWeight:800,color:r.muted,letterSpacing:1.5,textTransform:"uppercase",marginBottom:10}}>
-                      ALINACAKLAR ({alisverisListesi.filter(x=>!x.tamamlandi).length})
-                    </div>
-                  )}
-                  {alisverisListesi.filter(x=>!x.tamamlandi).map(item=>(
-                    <div key={item.id} style={{display:"flex",alignItems:"center",gap:12,padding:"13px 14px",
-                      borderRadius:14,background:r.card,border:`1px solid ${r.brd}`,marginBottom:8}}>
-                      <button onClick={()=>setAlisverisListesi(p=>p.map(x=>x.id===item.id?{...x,tamamlandi:true}:x))}
-                        style={{width:26,height:26,borderRadius:"50%",border:`2px solid ${r.brd}`,
-                          background:"transparent",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                      </button>
-                      <span style={{flex:1,fontSize:14,color:r.text,fontWeight:600}}>{item.ad}</span>
-                      {item.tarif&&<span style={{fontSize:9,color:r.muted,background:d?"rgba(255,255,255,.06)":"rgba(0,0,0,.05)",borderRadius:20,padding:"2px 8px"}}>🍳 {item.tarif}</span>}
-                      <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>x.id!==item.id))}
-                        style={{background:"none",border:"none",cursor:"pointer",color:r.muted,fontSize:18,padding:4}}>✕</button>
-                    </div>
-                  ))}
-                  {/* Alınanlar */}
-                  {alisverisListesi.filter(x=>x.tamamlandi).length>0&&(
-                    <>
-                      <div style={{fontSize:10,fontWeight:800,color:"#16a34a",letterSpacing:1.5,textTransform:"uppercase",margin:"16px 0 10px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                        <span>ALINANLAR ({alisverisListesi.filter(x=>x.tamamlandi).length})</span>
-                        <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>!x.tamamlandi))}
-                          style={{background:"none",border:"none",cursor:"pointer",color:"#16a34a",fontSize:11,fontWeight:800}}>Temizle</button>
+                  {/* Grupla - tarife göre */}
+                  {Object.entries(alisverisListesi.reduce((acc,item)=>{
+                    const key=item.tarif||"Diğer";
+                    if(!acc[key]) acc[key]=[];
+                    acc[key].push(item);
+                    return acc;
+                  },{})).map(([tarif,items])=>(
+                    <div key={tarif} style={{marginBottom:16}}>
+                      <div style={{fontSize:10,fontWeight:800,color:r.sub,letterSpacing:1.5,textTransform:"uppercase",marginBottom:8,display:"flex",alignItems:"center",gap:6}}>
+                        <span>🍳</span> {tarif}
                       </div>
-                      {alisverisListesi.filter(x=>x.tamamlandi).map(item=>(
-                        <div key={item.id} style={{display:"flex",alignItems:"center",gap:12,padding:"11px 14px",
-                          borderRadius:14,background:d?"rgba(16,163,74,.05)":"rgba(16,163,74,.04)",
-                          border:"1px solid rgba(16,163,74,.15)",marginBottom:6,opacity:.6}}>
-                          <button onClick={()=>setAlisverisListesi(p=>p.map(x=>x.id===item.id?{...x,tamamlandi:false}:x))}
-                            style={{width:26,height:26,borderRadius:"50%",border:"2px solid #16a34a",
-                              background:"#16a34a",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>
+                      {items.map(item=>(
+                        <div key={item.id} style={{display:"flex",alignItems:"center",gap:10,padding:"11px 14px",
+                          borderRadius:12,background:item.tamamlandi?d?"rgba(255,255,255,.03)":"rgba(0,0,0,.03)":r.card,
+                          border:`1px solid ${item.tamamlandi?"transparent":r.brd}`,marginBottom:6,
+                          opacity:item.tamamlandi?0.5:1,transition:"all .2s"}}>
+                          <button onClick={()=>setAlisverisListesi(p=>p.map(x=>x.id===item.id?{...x,tamamlandi:!x.tamamlandi}:x))}
+                            style={{width:24,height:24,borderRadius:"50%",border:`2px solid ${item.tamamlandi?"#16a34a":r.brd}`,
+                              background:item.tamamlandi?"#16a34a":"transparent",cursor:"pointer",flexShrink:0,
+                              display:"flex",alignItems:"center",justifyContent:"center"}}>
+                            {item.tamamlandi&&<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>}
                           </button>
-                          <span style={{flex:1,fontSize:14,color:r.muted,textDecoration:"line-through"}}>{item.ad}</span>
+                          <span style={{flex:1,fontSize:13,color:r.text,textDecoration:item.tamamlandi?"line-through":"none",fontWeight:600}}>
+                            {item.ad}
+                          </span>
                           <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>x.id!==item.id))}
-                            style={{background:"none",border:"none",cursor:"pointer",color:r.muted,fontSize:18,padding:4}}>✕</button>
+                            style={{background:"rgba(220,38,38,.1)",border:"none",borderRadius:8,padding:"4px 8px",
+                              cursor:"pointer",color:"#dc2626",fontSize:11,fontWeight:800}}>
+                            ✕
+                          </button>
                         </div>
                       ))}
-                    </>
-                  )}
+                    </div>
+                  ))}
+                  {/* Alt butonlar */}
+                  <div style={{display:"flex",gap:8,marginTop:8,paddingTop:8,borderTop:`1px solid ${r.brd}`}}>
+                    <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>!x.tamamlandi))}
+                      style={{...BTN("transparent","10px 0"),flex:1,fontSize:12,border:`1px solid ${r.brd}`,color:r.sub}}>
+                      🗑 Tamamlananları Sil
+                    </button>
+                    <button onClick={()=>setAlisverisListesi([])}
+                      style={{...BTN("transparent","10px 0"),flex:1,fontSize:12,border:"1px solid rgba(220,38,38,.3)",color:"#dc2626"}}>
+                      🗑 Listeyi Temizle
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
           </div>
         )}
-
 
         {/* EMAIL DOĞRULAMA BANNER */}
         {auth.currentUser&&!auth.currentUser.emailVerified&&!eVeriGizle&&!auth.currentUser.providerData?.some(p=>p.providerId==="google.com")&&(
@@ -3801,7 +3843,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               {/* Logo */}
               <div style={{display:"flex",alignItems:"center",gap:9}}>
                 <div style={{width:34,height:34,background:"linear-gradient(145deg,rgba(16,185,129,.25),rgba(16,185,129,.05))",borderRadius:12,border:"1px solid rgba(52,211,153,.2)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v5a4 4 0 0 0 4 4v11"/><path d="M7 2v5"/><path d="M11 2v5a4 4 0 0 0 4 4v11"/><path d="M15 2v5"/><path d="M19 2v20"/><path d="M17 2v4a2 2 0 0 0 2 2"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 8-3-3-5-5-5-8a5 5 0 0 1 5-5z"/><circle cx="12" cy="7" r="2" fill="#34d399" stroke="none"/></svg>
                 </div>
                 <div>
                   <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,lineHeight:1,letterSpacing:.5,fontWeight:600,color:"#fff"}}>Doya</div>
@@ -3973,7 +4015,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
             {renderKaloriRing()}
 
             {/* ── Seri Kartları ── */}
-            {(yemekSeri>0)&&(
+            {(yemekSeri>0||adimSeri>0)&&(
               <div style={{display:"flex",gap:8,margin:"0 14px 8px"}}>
                 {yemekSeri>0&&(
                   <div className="lux-card" style={{flex:1,background:d?"#080e09":"#fff",border:"1px solid rgba(245,158,11,.1)",borderRadius:18,padding:"18px 16px",position:"relative",overflow:"hidden"}}>
@@ -3984,7 +4026,15 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
                     {yemekSeri>=7&&<div style={{fontSize:8,fontWeight:800,marginTop:10,color:"rgba(245,158,11,.5)",letterSpacing:2,textTransform:"uppercase"}}>{yemekSeri>=30?"EFSANE":yemekSeri>=14?"HARIKA":"DEVAM"} ✦</div>}
                   </div>
                 )}
-                
+                {adimSeri>0&&(
+                  <div className="lux-card" style={{flex:1,background:d?"#080e09":"#fff",border:"1px solid rgba(16,185,129,.1)",borderRadius:18,padding:"18px 16px",position:"relative",overflow:"hidden"}}>
+                    <div style={{position:"absolute",top:-15,right:-15,width:80,height:80,background:"radial-gradient(circle,rgba(16,185,129,.06) 0%,transparent 70%)",borderRadius:"50%"}}/>
+                    <div style={{fontSize:9,fontWeight:700,color:"rgba(16,185,129,.4)",letterSpacing:2.5,textTransform:"uppercase",marginBottom:10}}>Adım Serisi</div>
+                    <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:42,fontWeight:300,color:"#10b981",lineHeight:1,letterSpacing:-2}}>{adimSeri}</div>
+                    <div style={{fontSize:9,color:r.muted,marginTop:5,fontWeight:600,letterSpacing:.5}}>gün</div>
+                    {adimSeri>=7&&<div style={{fontSize:8,fontWeight:800,marginTop:10,color:"rgba(16,185,129,.5)",letterSpacing:2,textTransform:"uppercase"}}>{adimSeri>=30?"EFSANE":adimSeri>=14?"HARIKA":"DEVAM"} ✦</div>}
+                  </div>
+                )}
               </div>
             )}
 
@@ -4048,7 +4098,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               {bugYemekler.length===0&&(
                 <div style={{textAlign:"center",padding:"28px 0 12px"}}>
                   <div style={{width:48,height:48,borderRadius:16,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.03)",border:`1px solid ${d?"rgba(255,255,255,.06)":"rgba(0,0,0,.06)"}`,margin:"0 auto 12px",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={r.muted} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2a1 1 0 0 0-1 1v6h-2V3a1 1 0 0 0-2 0v6h-2V3a1 1 0 0 0-1-1 5 5 0 0 0-5 5v3a3 3 0 0 0 2.83 3L7 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1l-.17-7.17A3 3 0 0 0 16 11V3a1 1 0 0 0-1-1z"/><path d="M20 2v8a2 2 0 0 1-2 2v10a1 1 0 0 1-2 0V12a2 2 0 0 1-2-2V2"/></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={r.muted} strokeWidth="1.2" strokeLinecap="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
                   </div>
                   <div style={{fontSize:13,color:r.text,fontWeight:600,marginBottom:4,letterSpacing:-.2}}>Öğün eklenmedi</div>
                   <div style={{fontSize:10,color:r.muted,letterSpacing:.3}}>Yukarıdaki Ekle tuşuna dokun</div>
@@ -4157,6 +4207,63 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               </div>
             </div>
 
+            {/* ── Adım Sayar ── */}
+            <div className="lux-card" style={{...CS}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+                <div style={{display:"flex",alignItems:"center",gap:10}}>
+                  <div style={{width:36,height:36,borderRadius:12,background:d?"rgba(251,191,36,.05)":"rgba(251,191,36,.05)",border:"1px solid rgba(251,191,36,.1)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round"><path d="M13 4v4l3 3-3 3v4M9 4v4L6 11l3 3v4"/></svg>
+                  </div>
+                  <div style={{fontSize:9,fontWeight:700,color:"rgba(251,191,36,.4)",letterSpacing:2.5,textTransform:"uppercase"}}>Adım Sayar</div>
+                </div>
+                {adimIzin==="verildi"||adimIzin==="android"
+                  ?<span style={{fontSize:8,fontWeight:700,color:"#10b981",background:"rgba(16,185,129,.07)",padding:"3px 10px",borderRadius:99,border:"1px solid rgba(16,185,129,.12)",letterSpacing:1.5,textTransform:"uppercase"}}>Aktif</span>
+                  :adimIzin==="reddedildi"
+                  ?<span style={{fontSize:8,fontWeight:700,color:"#f87171",background:"rgba(248,113,113,.07)",padding:"3px 10px",borderRadius:99,border:"1px solid rgba(248,113,113,.12)",letterSpacing:1.5,textTransform:"uppercase"}}>İzin Yok</span>
+                  :<span style={{fontSize:8,fontWeight:700,color:"#fbbf24",background:"rgba(251,191,36,.07)",padding:"3px 10px",borderRadius:99,border:"1px solid rgba(251,191,36,.12)",letterSpacing:1.5,textTransform:"uppercase"}}>Bekliyor</span>
+                }
+              </div>
+
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:12}}>
+                <div>
+                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:52,fontWeight:300,color:"#fbbf24",lineHeight:1,letterSpacing:-2}}>{adimSayar.toLocaleString("tr-TR")}</div>
+                  <div style={{fontSize:9,color:r.muted,marginTop:5,letterSpacing:.5}}>
+                    ~{Math.round(adimSayar*0.04)} kcal · ~{(adimSayar*0.00076).toFixed(2)} km
+                  </div>
+                </div>
+                <div style={{textAlign:"right",paddingBottom:4}}>
+                  <div style={{fontSize:9,color:r.muted,letterSpacing:1.5,textTransform:"uppercase",marginBottom:4}}>Hedef</div>
+                  <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,fontWeight:300,color:adimSayar>=10000?"#10b981":"rgba(251,191,36,.5)",letterSpacing:-.5}}>{Math.min(100,Math.round((adimSayar/10000)*100))}%</div>
+                </div>
+              </div>
+
+              <div style={{height:2,background:d?"rgba(255,255,255,.04)":"rgba(0,0,0,.04)",borderRadius:99,overflow:"hidden",marginBottom:10}}>
+                <div style={{height:"100%",width:Math.min(100,(adimSayar/10000)*100)+"%",background:adimSayar>=10000?"#10b981":"linear-gradient(90deg,#fbbf24,#f59e0b)",borderRadius:99,transition:"width .8s cubic-bezier(.34,1.2,.64,1)"}}/>
+              </div>
+
+              {adimSayar>=10000&&<div style={{fontSize:9,fontWeight:800,color:"#10b981",letterSpacing:2,textTransform:"uppercase",textAlign:"center",marginBottom:10}}>✦ Günlük hedefe ulaştın</div>}
+
+              {adimIzin==="reddedildi"&&(
+                <div style={{background:d?"rgba(248,113,113,.06)":"rgba(239,68,68,.04)",border:"1px solid rgba(239,68,68,.12)",borderRadius:12,padding:"10px 14px",marginTop:8,fontSize:11,color:d?"rgba(248,113,113,.7)":"rgba(220,38,38,.7)",lineHeight:1.6}}>
+                  Hareket izni reddedildi. Telefon Ayarları → Hareket iznini aç.
+                  <button style={{display:"block",marginTop:8,background:"rgba(248,113,113,.1)",border:"1px solid rgba(248,113,113,.2)",borderRadius:10,padding:"8px 16px",width:"100%",fontSize:11,color:"#f87171",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700}} onClick={()=>{localStorage.removeItem("doya_adim_izin");setAdimIzin("bekliyor");setAdimIzinModal(true);}}>Tekrar Dene</button>
+                </div>
+              )}
+              {adimIzin==="desteklenmiyor"&&(
+                <div style={{background:d?"rgba(251,191,36,.05)":"rgba(245,158,11,.04)",border:"1px solid rgba(251,191,36,.12)",borderRadius:12,padding:"10px 14px",marginTop:8,fontSize:10,color:d?"rgba(251,191,36,.6)":"rgba(180,83,9,.7)",lineHeight:1.6}}>
+                  Bu tarayıcı sensörü desteklemiyor. iPhone'da Safari, Android'de Chrome kullan.
+                </div>
+              )}
+              {(adimIzin==="verildi"||adimIzin==="android")&&(
+                <div style={{display:"flex",gap:8,marginTop:10}}>
+                  <button style={{flex:1,padding:"10px",borderRadius:12,border:`1px solid ${d?"rgba(255,255,255,.07)":"rgba(0,0,0,.07)"}`,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)",color:r.muted,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:11,letterSpacing:.3}} onClick={()=>{setAdimAktif(false);localStorage.setItem("doya_adim_izin","bekliyor");setAdimIzin("bekliyor");}}>Durdur</button>
+                  <button style={{flex:1,padding:"10px",borderRadius:12,border:"1px solid rgba(248,113,113,.15)",background:"rgba(248,113,113,.05)",color:"rgba(248,113,113,.7)",cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:11,letterSpacing:.3}} onClick={()=>{setAdimSayar(0);adimRef.current.sayac=0;localStorage.setItem("doya_adim_"+tarihKey(new Date()),"0");}}>Sıfırla</button>
+                </div>
+              )}
+            </div>
+
+          </div>
+        )}
 
 
         {/* ──── SU ──────────────────────────────────────────────── */}
@@ -4550,7 +4657,6 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   <div style={{...CS,marginTop:16,textAlign:"left"}}>
                     <div style={{fontSize:15,fontWeight:900,color:r.text,marginBottom:4}}>{besinAd(hizliSonuc,dil)}</div>
                     <div style={{fontSize:12,color:r.sub,marginBottom:10}}>{hizliSonuc.acik}</div>
-                    <div style={{fontSize:9,color:r.muted,background:d?"rgba(255,255,255,.04)":"rgba(0,0,0,.03)",borderRadius:8,padding:"5px 8px",marginBottom:10}}>⚠️ AI tahmini — bilgi amaçlıdır, tıbbi tavsiye değildir</div>
                     <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
                       {[{l:"Kalori",v:hizliSonuc.kal,b:"kcal",c:"#16a34a"},{l:"Protein",v:hizliSonuc.pro,b:"g",c:"#3b82f6"},{l:"Karb",v:hizliSonuc.karb,b:"g",c:"#f59e0b"},{l:"Yağ",v:hizliSonuc.yag,b:"g",c:"#ef4444"}].map(m=>(
                         <div key={m.l} style={{flex:"1 1 40%",background:r.inp,borderRadius:10,padding:"8px 10px",textAlign:"center"}}>
@@ -4998,7 +5104,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     </div>
                   </div>
                   <div style={{fontSize:12,color:r.sub,marginBottom:12}}>
-                    {["✅ 2 saatte 20 AI kullanım hakkı","✅ AI fotoğraf analizi","✅ AI ile hızlı yemek ekleme","✅ Tüm reklamlar kalkar","✅ AI beslenme asistanı sohbeti","✅ Günlük diyet planı oluşturma","✅ 145+ ülke tarifi"].map((f,i)=><div key={i} style={{marginBottom:6,fontSize:12,color:r.muted}}>{f}</div>)}
+                    {["✅ 2 saatte 20 AI kullanım hakkı","✅ AI fotoğraf analizi","✅ AI ile hızlı yemek ekleme","✅ Tüm reklamlar kalkar","✅ Kişisel AI diyetisyen sohbeti","✅ Günlük diyet planı oluşturma","✅ 145+ ülke tarifi"].map((f,i)=><div key={i} style={{marginBottom:6,fontSize:12,color:r.muted}}>{f}</div>)}
                   </div>
                   <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.05)",border:"1px solid rgba(16,185,129,.1)",borderRadius:10,padding:"8px 12px",marginBottom:12,fontSize:11,color:"rgba(16,185,129,.6)",textAlign:"center"}}>
                     Ücretsiz: Günlük {AI_GUNLUK_LIMIT} AI hakkı &nbsp;·&nbsp; Premium: 2 saatte {AI_PREMIUM_LIMIT} hak
@@ -5081,8 +5187,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     <div style={{fontSize:10,fontWeight:700,color:"#3b82f6",marginBottom:4}}>💡 Nasıl puan kazanırsın?</div>
                     <div style={{fontSize:10,color:r.sub,lineHeight:1.7}}>
                       📺 Reklam izle → <b>+50 puan</b> (günde max 10 reklam)<br/>
-                      🍽️ Yemek kaydet → <b>+10 puan</b> (günde max 5)<br/>
-                      👟 10.000 adım → <b>+60 puan</b> (günde 1 kez)<br/>
+                      🍽️ Yemek kaydet → <b>+10 puan</b><br/>
                       👥 Arkadaş davet et → <b>+100 puan</b>
                     </div>
                   </div>
@@ -5272,7 +5377,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               )}
             </div>
 
-            {!isOrtak&&!aktif?.refBasvuruDurumu&&(
+            {!isOrtak&&(
               <div style={{...CS,border:"1.5px dashed #f59e0b",background:d?"#1c1a10":"#fffbeb"}}>
                 <div style={{fontSize:13,fontWeight:800,color:"#d97706",marginBottom:6}}>🤝 Ortaklık Programı</div>
                 <div style={{fontSize:12,color:r.sub,lineHeight:1.7,marginBottom:12}}>
@@ -5283,53 +5388,13 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     <div key={i} style={{flex:1,background:d?"#1e293b":"#fff8e1",borderRadius:10,padding:"8px 6px",textAlign:"center",fontSize:10,fontWeight:700,color:"#d97706"}}>{t}</div>
                   ))}
                 </div>
-                <button style={{...BTN("#f59e0b"),width:"100%",padding:"11px 0"}} onClick={()=>setSozlesmeModal(true)}>Sözleşmeyi Oku & Başvur →</button>
-              </div>
-            )}
-
-            {/* Başvuru bekleniyor */}
-            {!isOrtak&&aktif?.refBasvuruDurumu==="bekliyor"&&(
-              <div style={{...CS,border:"1.5px solid #f59e0b",background:d?"#1c1a10":"#fffbeb"}}>
-                <div style={{fontSize:13,fontWeight:800,color:"#d97706",marginBottom:6}}>⏳ Başvurunuz İnceleniyor</div>
-                <div style={{fontSize:12,color:r.sub,lineHeight:1.7}}>
-                  Başvurunuzu aldık. Size uygun kişi başı tutar belirlendikten sonra teklif iletilecektir.
-                </div>
-              </div>
-            )}
-
-            {/* Teklif geldi — kabul/ret */}
-            {!isOrtak&&aktif?.refBasvuruDurumu==="teklif"&&(
-              <div style={{...CS,border:"2px solid #7c3aed",background:d?"rgba(124,58,237,.06)":"rgba(124,58,237,.04)"}}>
-                <div style={{fontSize:13,fontWeight:800,color:"#7c3aed",marginBottom:10}}>🎉 Ortaklık Teklifiniz Hazır!</div>
-                <div style={{background:d?"rgba(124,58,237,.1)":"rgba(124,58,237,.06)",borderRadius:12,padding:"14px",marginBottom:12,textAlign:"center"}}>
-                  <div style={{fontSize:11,color:r.muted,marginBottom:4}}>Aktif kullanıcı başına aylık ödeme</div>
-                  <div style={{fontSize:38,fontWeight:900,color:"#7c3aed"}}>{aktif.teklifParaBirimi==="EUR"?"€":"₺"}{aktif.teklifTutar}</div>
-                  <div style={{fontSize:10,color:r.muted,marginTop:4}}>Her ay 500+ puan kazanan kullanıcı başına</div>
-                </div>
-                <div style={{fontSize:11,color:r.sub,marginBottom:12,lineHeight:1.6}}>
-                  Bu teklifi kabul ederek ortaklık sözleşmesini onaylamış sayılırsınız. İlk ödeme ortaklık başlangıcından 3 ay sonra talep edilebilir.
-                </div>
-                <div style={{display:"flex",gap:8}}>
-                  <button style={{...BTN("#7c3aed"),flex:2,padding:"12px 0",fontSize:13}} onClick={async()=>{
-                    if(!window.confirm("Teklifi kabul ediyor ve sözleşmeyi onaylıyor musunuz?"))return;
-                    const bugun=new Date().toISOString();
-                    const gunc={refBasvuruDurumu:"onaylandi",refTip:aktif.refTipBaşvuru||"influencer",refOnay:true,ortaklikBaslangic:bugun,teklifKabulTarihi:bugun};
-                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,gunc).catch(console.error);
-                    setAktif(p=>({...p,...gunc}));
-                    setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,...gunc}:u));
-                  }}>✅ Kabul Et</button>
-                  <button style={{...BTN("#ef4444"),flex:1,padding:"12px 0",fontSize:13}} onClick={async()=>{
-                    const gunc={refBasvuruDurumu:"reddedildi"};
-                    if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,gunc).catch(console.error);
-                    setAktif(p=>({...p,...gunc}));
-                  }}>Reddet</button>
-                </div>
+                <button style={{...BTN("#f59e0b"),width:"100%",padding:"11px 0"}} onClick={()=>setRefBasvuruModal(true)}>Kazanmak için Başvur →</button>
               </div>
             )}
 
             <div style={CS}>
               <div style={CT}>Puan Kazanma Yolları</div>
-              {[{l:"🌅 Günlük giriş",p:"+50"},{l:"🍽️ Yemek kaydet",p:"+10"},{l:"👟 10.000 adım",p:"+60"},{l:"📺 Reklam izle",p:"+50"},{l:"📋 Besin gönder (onay)",p:"+20"},{l:"👥 Arkadaş davet et (max 5)",p:"+100"},{l:"🎁 Referans kodu gir (normal)",p:"+100"},{l:"🎯 Influencer kodu gir",p:"+300"}].map(x=>(
+              {[{l:"🌅 Günlük giriş",p:"+100"},{l:"📺 Reklam izle",p:"+50"},{l:"📋 Besin gönder (onay)",p:"+20"},{l:"👥 Arkadaş davet et (max 5)",p:"+100"},{l:"🎁 Referans kodu gir (normal)",p:"+100"},{l:"🎯 Influencer kodu gir",p:"+300"}].map(x=>(
                 <div key={x.l} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:`1px solid ${r.rowB}`}}>
                   <div style={{fontSize:13,color:r.text}}>{x.l}</div>
                   <div style={{fontWeight:800,color:"#f59e0b"}}>{x.p}</div>
@@ -5346,111 +5411,51 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             <div style={{background:`linear-gradient(135deg,${aktif.refTip==="influencer"?"#7c3aed,#4f46e5":"#1d4ed8,#2563eb"})`,borderRadius:16,padding:20,color:"#fff",marginBottom:10}}>
               <div style={{fontSize:11,fontWeight:700,opacity:.85}}>{aktif.refTip==="influencer"?"🎯 INFLUENCER":"🏢 İŞLETME"} PARA PANELİ</div>
               <div style={{fontSize:11,opacity:.7,marginBottom:12}}>{aktif.isim} · {aktif.refKod}</div>
-              <div style={{fontSize:11,opacity:.8}}>Birikimli Kazanç (ödenmemiş)</div>
+              <div style={{fontSize:11,opacity:.8}}>Toplam Birikimli Kazanç</div>
               <div style={{fontSize:46,fontWeight:900,lineHeight:1.1,margin:"4px 0"}}>{(aktif.kazanim||0).toFixed(2)}<span style={{fontSize:16}}> ₺</span></div>
               <div style={{background:"rgba(255,255,255,.15)",borderRadius:10,padding:"10px 12px",marginTop:10}}>
-                <div style={{fontSize:11,opacity:.9,marginBottom:4,fontWeight:700}}>ÖDEME SİSTEMİ</div>
-                <div style={{fontSize:12,opacity:.85}}>👥 Aktif kullanıcı başına (500+ puan/ay): <b>₺2.5/kişi/ay</b></div>
-                <div style={{fontSize:10,opacity:.7,marginTop:3}}>3 ayda bir ödeme · 1 yıl içinde çekilmezse silinir</div>
+                <div style={{fontSize:11,opacity:.9,marginBottom:6,fontWeight:700}}>KAZANÇ DAĞILIMI</div>
+                <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+                  <span style={{fontSize:12,opacity:.85}}>📢 Reklam geliri payı</span>
+                  <span style={{fontWeight:800,fontSize:13}}>%25</span>
+                </div>
+                <div style={{display:"flex",justifyContent:"space-between"}}>
+                  <span style={{fontSize:12,opacity:.85}}>💳 Premium satın alım komisyonu</span>
+                  <span style={{fontWeight:800,fontSize:13}}>%25</span>
+                </div>
               </div>
             </div>
 
-            {/* Aktif kullanıcı özeti */}
-            {(()=>{
-              const refUyeler = kullanicilar.filter(u=>u.davetEden===aktif.uid||u.davetEden===aktif.refKod);
-              const aktifler  = refUyeler.filter(u=>(u.puan||0)>=500);
-              const aylikTahmin = aktifler.length * 2.5;
-              const ucAylikTahmin = aylikTahmin * 3;
-              const simdi = new Date();
-              const ay = simdi.getMonth();
-              const sonrakiOdemeCeyrek = ay < 3 ? "Nisan" : ay < 6 ? "Temmuz" : ay < 9 ? "Ekim" : "Ocak";
-
-              // 3 aylık geri sayım
-              const baslangic = aktif.ortaklikBaslangic ? new Date(aktif.ortaklikBaslangic) : new Date();
-              const ucAyMs = 90 * 24 * 60 * 60 * 1000;
-              const ilkOdemeT = new Date(baslangic.getTime() + ucAyMs);
-              const kalanMs = ilkOdemeT - simdi;
-              const talepAcik = kalanMs <= 0;
-              const kalanGun = talepAcik ? 0 : Math.ceil(kalanMs / (24*60*60*1000));
-              const kalanHaf = Math.floor(kalanGun / 7);
-              const kalanGunKalan = kalanGun % 7;
-              return(
-              <div style={{...CS,border:"1px solid rgba(124,58,237,.2)",background:d?"rgba(124,58,237,.05)":"rgba(124,58,237,.04)",marginBottom:10}}>
-                <div style={{fontSize:10,fontWeight:800,color:"#7c3aed",letterSpacing:1.5,textTransform:"uppercase",marginBottom:12}}>Performans Özeti</div>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
-                  {[
-                    {l:"Toplam Davet",    v:refUyeler.length,              c:"#6b7280", suf:"kişi"},
-                    {l:"Aktif (500+ p)",  v:aktifler.length,               c:"#16a34a", suf:"kişi/ay"},
-                    {l:"Bu Ay Tahmini",   v:"₺"+aylikTahmin.toFixed(1),   c:"#7c3aed", suf:""},
-                    {l:"3 Aylık Tahmini", v:"₺"+ucAylikTahmin.toFixed(1), c:"#f59e0b", suf:""},
-                  ].map(x=>(
-                    <div key={x.l} style={{background:d?"#1e293b":"#f9fafb",borderRadius:12,padding:"10px 8px",textAlign:"center"}}>
-                      <div style={{fontSize:20,fontWeight:900,color:x.c}}>{x.v}</div>
-                      <div style={{fontSize:9,color:r.muted,marginTop:2,letterSpacing:.3}}>{x.l}</div>
-                      {x.suf&&<div style={{fontSize:9,color:x.c,fontWeight:700}}>{x.suf}</div>}
-                    </div>
-                  ))}
-                </div>
-                <div style={{background:d?"rgba(124,58,237,.1)":"rgba(124,58,237,.06)",border:"1px solid rgba(124,58,237,.2)",borderRadius:12,padding:"10px 14px",marginBottom:10}}>
-                  {talepAcik ? (
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                      <div>
-                        <div style={{fontSize:10,color:"#16a34a",fontWeight:800,marginBottom:2}}>✅ ÖDEME TALEBİ AÇIKe</div>
-                        <div style={{fontSize:10,color:r.muted}}>IBAN'ınızla talep oluşturabilirsiniz</div>
-                      </div>
-                      <div style={{fontSize:22,fontWeight:900,color:"#16a34a"}}>₺{(aktif.kazanim||0).toFixed(2)}</div>
-                    </div>
-                  ) : (
-                    <div>
-                      <div style={{fontSize:10,color:"#7c3aed",fontWeight:800,marginBottom:6}}>⏳ İLK ÖDEME TALEBİNE KALAN SÜRE</div>
-                      <div style={{display:"flex",gap:8,justifyContent:"center"}}>
-                        {[{v:kalanHaf,l:"HAFTA"},{v:kalanGunKalan,l:"GÜN"}].map(x=>(
-                          <div key={x.l} style={{background:d?"#1e293b":"#fff",borderRadius:10,padding:"8px 16px",textAlign:"center",minWidth:60}}>
-                            <div style={{fontSize:26,fontWeight:900,color:"#7c3aed"}}>{x.v}</div>
-                            <div style={{fontSize:8,color:r.muted,letterSpacing:1}}>{x.l}</div>
-                          </div>
-                        ))}
-                      </div>
-                      <div style={{fontSize:9,color:r.muted,textAlign:"center",marginTop:6}}>
-                        Ortaklık başlangıcından 3 ay sonra talep açılır
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div style={{background:d?"rgba(239,68,68,.06)":"rgba(239,68,68,.04)",border:"1px solid rgba(239,68,68,.15)",borderRadius:10,padding:"8px 12px",marginBottom:10,fontSize:10,color:"#ef4444"}}>
-                  ⚠️ Biriken kazanç 1 yıl içinde çekim talebi edilmezse otomatik silinir.
-                </div>
-                {refUyeler.length===0?(
-                  <div style={{textAlign:"center",color:r.muted,fontSize:12,padding:"8px 0"}}>Henüz referans kodunla kayıt olan kullanıcı yok.</div>
-                ):(
-                  <details>
-                    <summary style={{cursor:"pointer",fontSize:12,fontWeight:700,color:"#7c3aed",userSelect:"none"}}>
-                      Davet ettiğim kullanıcılar ({refUyeler.length})
-                    </summary>
-                    <div style={{marginTop:8,maxHeight:220,overflowY:"auto"}}>
-                      {refUyeler.map(u=>(
-                        <div key={u.uid} style={{display:"flex",alignItems:"center",gap:8,padding:"6px 8px",borderRadius:10,marginBottom:3,background:d?"rgba(255,255,255,.03)":"rgba(0,0,0,.02)"}}>
-                          <div style={{width:26,height:26,borderRadius:"50%",background:(u.puan||0)>=500?"#16a34a":"#94a3b8",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:10,fontWeight:800,flexShrink:0}}>
-                            {(u.isim||"?")[0]}
-                          </div>
-                          <div style={{flex:1,minWidth:0}}>
-                            <div style={{fontSize:11,fontWeight:700,color:r.text,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{u.isim||"İsimsiz"}</div>
-                            <div style={{fontSize:9,color:r.muted}}>{u.puan||0} puan</div>
-                          </div>
-                          {(u.puan||0)>=500
-                            ? <span style={{fontSize:9,background:"rgba(22,163,74,.1)",color:"#16a34a",borderRadius:20,padding:"2px 7px",fontWeight:800}}>✅ ₺2.5/ay</span>
-                            : <span style={{fontSize:9,background:d?"rgba(255,255,255,.06)":"rgba(0,0,0,.05)",color:r.muted,borderRadius:20,padding:"2px 7px",fontWeight:700}}>⏳ {500-(u.puan||0)} puan kaldı</span>
-                          }
-                        </div>
-                      ))}
-                    </div>
-                  </details>
-                )}
+            {/* Davetler */}
+            <div style={CS}>
+              <div style={CT}>Davetlerimin Durumu</div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:12}}>
+                {[
+                  {l:"Toplam Davet",  v:aktif.davet||0,                       c:"#16a34a", suf:"kişi"},
+                  {l:"Toplam Kazanç",v:(aktif.kazanim||0).toFixed(2),         c:"#f59e0b", suf:"₺"},
+                  {l:"Reklam Payı",  v:((aktif.kazanim||0)*0.7).toFixed(2),  c:"#7c3aed", suf:"₺"},
+                  {l:"Premium Payı", v:((aktif.kazanim||0)*0.3).toFixed(2),  c:"#2563eb", suf:"₺"},
+                ].map(x=>(
+                  <div key={x.l} style={{background:d?"#1e293b":"#f9fafb",borderRadius:12,padding:12,textAlign:"center"}}>
+                    <div style={{fontSize:22,fontWeight:900,color:x.c}}>{x.v}</div>
+                    <div style={{fontSize:9,color:r.muted,marginTop:2}}>{x.l}</div>
+                    <div style={{fontSize:10,color:x.c,fontWeight:700}}>{x.suf}</div>
+                  </div>
+                ))}
               </div>
-              );
-            })()}
+              <div style={{background:d?"#0f172a":"#f0fdf4",border:`1px solid #bbf7d0`,borderRadius:10,padding:12}}>
+                <div style={{fontSize:11,fontWeight:700,color:"#16a34a",marginBottom:6}}>💡 Nasıl daha fazla kazan?</div>
+                {[
+                  "Aktif kullanıcı davet et — ayda 1.000 puan yapan her kişi = +1₺ sabit gelir",
+                  "Premium kullanıcı getir — platform komisyonu sonrası net tutarın %50si sana",
+                  "Sosyal medyanda referans kodunu paylaş",
+                ].map((t,i)=>(
+                  <div key={i} style={{fontSize:11,color:r.sub,marginBottom:4}}>• {t}</div>
+                ))}
+              </div>
+            </div>
 
-            {/* Ödeme ve paylaşım */}
+            {/* Referans kodu */}
             <div style={{...CS,background:d?"#0f172a":"#f0fdf4",border:"1.5px solid #86efac"}}>
               <div style={CT}>Referans Kodunu Paylaş</div>
               <div style={{fontSize:24,fontWeight:900,color:r.text,letterSpacing:3,marginBottom:6}}>{aktif.refKod}</div>
@@ -5464,8 +5469,11 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             <div style={CS}>
               <div style={CT}>IBAN Bilgisi</div>
               <div style={{background:d?"#0f172a":"#eff6ff",borderRadius:10,padding:10,marginBottom:12,fontSize:12,color:"#1d4ed8",lineHeight:1.6}}>
-                📅 3 ayda bir ödeme (Ocak / Nisan / Temmuz / Ekim) · Min. ₺50<br/>
-                <span style={{fontSize:10,opacity:.8}}>Ödeme bilgileriniz şifreli olarak saklanmaktadır.</span>
+                📅 Her ayın 1'inde ödeme yapılır · Min. 50₺<br/>
+                <span style={{fontSize:10,opacity:.8}}>
+                  {/* Firebase: users/{uid}/private/paymentInfo belgesi olarak saklanır */}
+                  Ödeme bilgileriniz şifreli olarak saklanmaktadır.
+                </span>
               </div>
               {[{l:"IBAN",ph:"TR00 0000 0000 0000 0000 0000 00",k:"iban"},{l:"Hesap Sahibi",ph:"Ad Soyad",k:"ibanAd"}].map(f=>(
                 <div key={f.k} style={{marginBottom:10}}>
@@ -5690,22 +5698,10 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     ))}
                   </div>
                   <button style={{...BTN(),width:"100%",padding:"12px 0"}} onClick={async()=>{
-                    // Kilo değiştiyse grafiğe de ekle
-                    const yeniKilo = +profil.kilo;
-                    let yeniKayitlar = kiloKayitlar;
-                    if(yeniKilo && !isNaN(yeniKilo)){
-                      const bugun = bugunKey();
-                      const sonKayit = kiloKayitlar[kiloKayitlar.length-1];
-                      // Bugün kayıt yoksa veya farklıysa ekle
-                      if(!sonKayit || sonKayit.tarih!==bugun || sonKayit.kilo!==yeniKilo){
-                        yeniKayitlar = [...kiloKayitlar.filter(k=>k.tarih!==bugun),{tarih:bugun,kilo:yeniKilo}].slice(-90);
-                        setKiloKayitlar(yeniKayitlar);
-                      }
-                    }
                     if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{
                       kilo:profil.kilo, boy:profil.boy, yas:profil.yas,
                       cinsiyet:profil.cinsiyet, aktivite:profil.aktivite, hedef:profil.hedef,
-                      alerji:alerjiListesi, kiloKayitlar:yeniKayitlar
+                      alerji:alerjiListesi
                     }).catch(console.error);
                     setTab("anasayfa");
                   }}>Kaydet</button>
@@ -6092,44 +6088,36 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
             {/* ORTAK KAZANÇ YÖNETİMİ */}
             {kullanicilar.filter(u=>u.refOnay&&!u.admin).length>0&&(
               <div style={CS}>
-                <div style={CT}>💰 Ortak Ödemeleri (3 ayda bir)</div>
+                <div style={CT}>💰 Ortak Ödemeleri</div>
                 <div style={{background:d?"#0f2a1a":"#f0fdf4",border:"1px solid #86efac",borderRadius:10,padding:"9px 12px",marginBottom:10,fontSize:11,color:"#16a34a"}}>
-                  Ödeme yaptıktan sonra "Ödendi" işaretle. Kazanç 1 yıl içinde çekilmezse silinir.
+                  ✅ Ödemeyi yaptıktan sonra ilgili ortağın kazancını sıfırla.
                 </div>
-                {kullanicilar.filter(u=>u.refOnay&&!u.admin).map(u=>{
-                  const refUyeler2=kullanicilar.filter(x=>x.davetEden===u.uid||x.davetEden===u.refKod);
-                  const aktifler2=refUyeler2.filter(x=>(x.puan||0)>=500);
-                  return(
-                  <div key={u.uid} style={{padding:"12px 0",borderBottom:`1px solid ${r.rowB}`}}>
-                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                {kullanicilar.filter(u=>u.refOnay&&!u.admin).map(u=>(
+                  <div key={u.uid} style={{padding:"10px 0",borderBottom:`1px solid ${r.rowB}`}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                       <div>
                         <div style={{fontSize:13,fontWeight:700,color:r.text}}>{u.isim}</div>
-                        <div style={{fontSize:10,color:r.muted}}>{u.uid?.slice(0,10)} · {u.refTip==="influencer"?"🎯 Influencer":"🏢 İşletme"}</div>
-                        <div style={{fontSize:10,color:"#16a34a",fontWeight:700,marginTop:2}}>👥 {aktifler2.length} aktif × ₺2.5 = ₺{(aktifler2.length*2.5).toFixed(1)}/ay</div>
+                        <div style={{fontSize:10,color:r.muted}}>{u.uid} · {u.refTip==="influencer"?"🎯 Influencer":"🏢 İşletme"}</div>
                         {u.iban&&<div style={{fontSize:10,color:"#2563eb",fontWeight:700,marginTop:2}}>IBAN: {u.iban}</div>}
                         {u.ibanAd&&<div style={{fontSize:10,color:r.muted}}>Hesap: {u.ibanAd}</div>}
-                        {u.sonOdeme&&<div style={{fontSize:9,color:r.muted,marginTop:2}}>Son ödeme: {u.sonOdeme}</div>}
                       </div>
                       <div style={{textAlign:"right"}}>
-                        <div style={{fontSize:22,fontWeight:900,color:"#f59e0b"}}>{(u.kazanim||0).toFixed(2)}₺</div>
-                        <div style={{fontSize:9,color:r.muted,marginBottom:4}}>birikmiş</div>
+                        <div style={{fontSize:20,fontWeight:900,color:"#f59e0b"}}>{(u.kazanim||0).toFixed(2)}₺</div>
                         <button
-                          style={{...BTN((u.kazanim||0)>=50?"#16a34a":"#d1d5db","5px 10px"),fontSize:10}}
+                          style={{...BTN((u.kazanim||0)>=50?"#16a34a":"#d1d5db","5px 10px"),fontSize:10,marginTop:4}}
                           onClick={async()=>{
-                            if((u.kazanim||0)<50){alert("Minimum ödeme ₺50 — yeterli bakiye yok.");return;}
-                            if(!window.confirm(`${u.isim} için ${(u.kazanim||0).toFixed(2)}₺ ödendi olarak işaretlensin?`))return;
-                            const bugun=new Date().toLocaleDateString("tr-TR");
-                            if(u.firebaseUID) await kullaniciyiGuncelle(u.firebaseUID,{kazanim:0,sonOdeme:bugun}).catch(console.error);
-                            setKullanicilar(p=>p.map(x=>x.uid===u.uid?{...x,kazanim:0,sonOdeme:bugun}:x));
+                            if((u.kazanim||0)<50){alert("Minimum ödeme tutarı 50₺ — henüz yeterli bakiye yok.");return;}
+                            if(!window.confirm(`${u.isim} için ${(u.kazanim||0).toFixed(2)}₺ ödendi ve sıfırlanacak. Onaylıyor musunuz?`))return;
+                            if(u.firebaseUID) await kullaniciyiGuncelle(u.firebaseUID,{kazanim:0}).catch(console.error);
+                            setKullanicilar(p=>p.map(x=>x.uid===u.uid?{...x,kazanim:0}:x));
                           }}
                         >
-                          {(u.kazanim||0)>=50?"✓ Ödendi İşaretle":"Min. ₺50 değil"}
+                          {(u.kazanim||0)>=50?"✓ Ödendi & Sıfırla":"Min. 50₺ değil"}
                         </button>
                       </div>
                     </div>
                   </div>
-                  );
-                })}
+                ))}
               </div>
             )}
 
@@ -6210,51 +6198,12 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               <div style={{...CS,border:"2px solid #7c3aed"}}>
                 <div style={CT}>Referans Başvuruları</div>
                 {refBasvurular.filter(b=>b.onay==="bekliyor").map(b=>(
-                  <div key={b.id} style={{padding:"12px 0",borderBottom:`1px solid ${r.rowB}`}}>
+                  <div key={b.id} style={{padding:"10px 0",borderBottom:`1px solid ${r.rowB}`}}>
                     <div style={{fontWeight:800,color:r.text}}>{b.isim} <span style={BAD("#7c3aed")}>{b.tip}</span></div>
                     <div style={{fontSize:11,color:r.muted,marginTop:2}}>{b.platform} · {b.acik}</div>
-                    {/* Teklif tutarı girişi */}
-                    <div style={{marginTop:10,background:d?"rgba(124,58,237,.06)":"rgba(124,58,237,.04)",borderRadius:12,padding:"10px 12px"}}>
-                      <div style={{fontSize:11,fontWeight:800,color:"#7c3aed",marginBottom:8}}>Kişi başı aylık ödeme teklifini belirle:</div>
-                      <div style={{display:"flex",gap:6,marginBottom:8,flexWrap:"wrap"}}>
-                        {[{v:"₺2.5",l:"TR",para:"TRY"},{v:"€0.10",l:"Doğu Avr.",para:"EUR"},{v:"€0.15",l:"Güney Avr.",para:"EUR"},{v:"€0.20",l:"Batı Avr.",para:"EUR"},{v:"€0.25",l:"Kuzey Avr.",para:"EUR"}].map(o=>(
-                          <button key={o.v} onClick={()=>setAdminTeklifTutarlar(p=>({...p,[b.uid]:o.v+" / "+o.l}))}
-                            style={{padding:"5px 10px",borderRadius:20,border:`1.5px solid ${adminTeklifTutarlar[b.uid]===o.v+" / "+o.l?"#7c3aed":r.inpB}`,
-                              background:adminTeklifTutarlar[b.uid]===o.v+" / "+o.l?"#7c3aed":"transparent",
-                              color:adminTeklifTutarlar[b.uid]===o.v+" / "+o.l?"#fff":r.sub,
-                              fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>
-                            {o.v} <span style={{opacity:.7}}>({o.l})</span>
-                          </button>
-                        ))}
-                      </div>
-                      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:8}}>
-                        <input style={{...IS,flex:1,fontSize:12}} placeholder="Özel tutar: ₺3 veya €0.12"
-                          onChange={e=>setAdminTeklifTutarlar(p=>({...p,[b.uid]:e.target.value}))}
-                          value={adminTeklifTutarlar[b.uid]||""}/>
-                      </div>
-                    </div>
-                    <div style={{display:"flex",gap:6,marginTop:8}}>
-                      <button style={{...BTN("#7c3aed","7px 9px"),flex:2,fontSize:11}}
-                        onClick={async()=>{
-                          const tutar = adminTeklifTutarlar[b.uid];
-                          if(!tutar){alert("Önce teklif tutarını belirle!");return;}
-                          // Para birimi ve tutarı ayır
-                          const isEUR = tutar.includes("€");
-                          const sayisal = parseFloat(tutar.replace(/[^0-9.,]/g,"").replace(",","."));
-                          const gunc={refBasvuruDurumu:"teklif",teklifTutar:sayisal,teklifParaBirimi:isEUR?"EUR":"TRY"};
-                          if(b.firebaseUID) await kullaniciyiGuncelle(b.firebaseUID,gunc).catch(console.error);
-                          setKullanicilar(p=>p.map(u=>u.uid===b.uid?{...u,...gunc}:u));
-                          setRefBasvurular(p=>p.map(x=>x.id===b.id?{...x,onay:"teklif_gonderildi"}:x));
-                          setAdminTeklifTutarlar(p=>({...p,[b.uid]:""}));
-                        }}>
-                        📨 Teklif Gönder
-                      </button>
-                      <button style={{...BTN("#ef4444","7px 9px"),flex:1,fontSize:11}}
-                        onClick={async()=>{
-                          const gunc={refBasvuruDurumu:"reddedildi"};
-                          if(b.firebaseUID) await kullaniciyiGuncelle(b.firebaseUID,gunc).catch(console.error);
-                          setRefBasvurular(p=>p.map(x=>x.id===b.id?{...x,onay:"reddedildi"}:x));
-                        }}>Reddet</button>
+                    <div style={{display:"flex",gap:6,marginTop:6}}>
+                      <button style={{...BTN("#7c3aed","5px 9px"),flex:1,fontSize:11}} onClick={()=>{setRefBasvurular(p=>p.map(x=>x.id===b.id?{...x,onay:"onaylandi"}:x));adminOrtak(b.uid,b.tip);}}>Onayla</button>
+                      <button style={{...BTN("#ef4444","5px 9px"),flex:1,fontSize:11}} onClick={()=>setRefBasvurular(p=>p.map(x=>x.id===b.id?{...x,onay:"reddedildi"}:x))}>Reddet</button>
                     </div>
                   </div>
                 ))}
@@ -6626,8 +6575,8 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     ozellikler:["Malzeme tanıma","Tarif önerisi","Adım adım yapılış","Kalori hesabı"],
                   },{
                     emoji:"🧪",baslik:"İçerik Analizi",renk:"#dc2626",
-                    acik:"Ürün arkasındaki içerik listesini yapıştır. AI katkı maddelerini değerlendirir. Sonuçlar bilgi amaçlıdır, resmi kaynaklar esas alınmalıdır.",
-                    ozellikler:["Katkı maddesi tespiti","Tehlike seviyesi","E kodu açıklaması","⚠️ AI yorumu — kesin bilgi değildir"],
+                    acik:"Ürün arkasındaki içerik listesini yapıştır. Tehlikeli katkı maddeleri kırmızıyla işaretlenir.",
+                    ozellikler:["Katkı maddesi tespiti","Tehlike seviyesi","E kodu açıklaması","Sağlık değerlendirmesi"],
                   }];
                   const s=slaytlar[yemekAsistaniSlayt]||slaytlar[0];
                   return(
@@ -6667,7 +6616,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   </div>
                   {/* Sekmeler */}
                   <div style={{display:"flex",gap:8,marginTop:16,overflowX:"auto",paddingBottom:2}}>
-                    {[{k:"oneri",l:"🍽️ Yemek Öner"},{k:"tarif",l:"👨‍🍳 Tarif Yap"},{k:"foto_tarif",l:"📷 Fotoğraftan Tarif"},{k:"fb_tarifler",l:"📚 Tarifler"},{k:"haftalik_plan",l:"📅 Haftalık Plan"}].map(s=>(
+                    {[{k:"oneri",l:"🍽️ Yemek Öner"},{k:"tarif",l:"👨‍🍳 Tarif Yap"},{k:"foto_tarif",l:"📷 Fotoğraftan Tarif"},{k:"fb_tarifler",l:"📚 Tarifler"}].map(s=>(
                       <button key={s.k} onClick={()=>setYemekEkleSekme(s.k)}
                         style={{whiteSpace:"nowrap",padding:"7px 14px",borderRadius:20,border:"none",
                           background:yemekEkleSekme===s.k?"rgba(255,255,255,.25)":"rgba(255,255,255,.1)",
@@ -7026,150 +6975,6 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                             )}
                           </>);
                         })()}
-                      </div>
-                    )}
-
-                    {/* ── HAFTALIK PLAN ── */}
-                    {yemekEkleSekme==="haftalik_plan"&&(
-                      <div style={{padding:"0 4px"}}>
-                        {/* Alerji uyarısı */}
-                        {alerjiListesi.length>0&&(
-                          <div style={{background:d?"rgba(239,68,68,.06)":"rgba(239,68,68,.04)",border:"1px solid rgba(239,68,68,.2)",borderRadius:12,padding:"8px 12px",marginBottom:10,fontSize:11,color:"#ef4444"}}>
-                            ⚠️ Alerjilerin dikkate alınacak: <b>{alerjiListesi.join(", ")}</b>
-                          </div>
-                        )}
-
-                        {!haftalikPlan&&!haftalikPlanYuk&&(
-                          <div>
-                            <div style={{fontSize:12,color:r.sub,marginBottom:10,lineHeight:1.6}}>
-                              AI, profiline ve alerjilerine göre 7 günlük kişisel yemek planı oluşturacak. Her güne öğünlerin ve malzemeleri alışveriş listesine ekleyebilirsin.
-                            </div>
-                            <div style={{marginBottom:10}}>
-                              <div style={{fontSize:11,fontWeight:700,color:r.muted,marginBottom:6}}>Özel istek veya tercih (opsiyonel)</div>
-                              <textarea
-                                value={haftalikPlanIstek}
-                                onChange={e=>setHaftalikPlanIstek(e.target.value)}
-                                placeholder="örn: Sabah kahvaltısı hafif olsun, öğlenleri protein ağırlıklı, akşamları sebze yemeği..."
-                                style={{...IS,resize:"none",height:80,fontSize:12,lineHeight:1.5}}
-                              />
-                            </div>
-                            <button onClick={haftalikPlanUret}
-                              style={{...BTN("linear-gradient(135deg,#7c3aed,#6d28d9)"),width:"100%",padding:"13px 0",fontSize:13,fontWeight:800,boxShadow:"0 4px 14px rgba(124,58,237,.35)"}}>
-                              🤖 Haftalık Plan Oluştur (1 AI hakkı)
-                            </button>
-                          </div>
-                        )}
-
-                        {haftalikPlanYuk&&(
-                          <div style={{textAlign:"center",padding:"40px 0"}}>
-                            <div style={{width:40,height:40,border:"3px solid rgba(124,58,237,.2)",borderTop:"3px solid #7c3aed",borderRadius:"50%",margin:"0 auto 16px",animation:"spin .8s linear infinite"}}/>
-                            <div style={{fontSize:13,color:r.sub,fontWeight:700}}>7 günlük plan hazırlanıyor...</div>
-                            <div style={{fontSize:11,color:r.muted,marginTop:4}}>Alerjilerin ve tercihlerine göre kişiselleştirildi</div>
-                          </div>
-                        )}
-
-                        {haftalikPlan&&!haftalikPlan.hata&&(
-                          <div>
-                            {/* Plan başlığı */}
-                            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                              <div style={{fontSize:13,fontWeight:800,color:"#7c3aed"}}>📅 7 Günlük Planın</div>
-                              <button onClick={()=>{setHaftalikPlan(null);setHaftalikPlanEklendi(false);setHaftalikPlanIstek("");}}
-                                style={{background:"none",border:"none",cursor:"pointer",color:r.muted,fontSize:11,fontWeight:700}}>↺ Yeniden Oluştur</button>
-                            </div>
-
-                            {/* Başlangıç günü seçimi */}
-                            {!haftalikPlanEklendi&&(
-                              <div style={{background:d?"rgba(124,58,237,.06)":"rgba(124,58,237,.04)",border:"1px solid rgba(124,58,237,.15)",borderRadius:12,padding:"12px",marginBottom:12}}>
-                                <div style={{fontSize:11,fontWeight:800,color:"#7c3aed",marginBottom:8}}>Hangi günden başlasın?</div>
-                                <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:10}}>
-                                  {Array.from({length:7},(_,i)=>{
-                                    const t=new Date(); t.setDate(t.getDate()+i);
-                                    const key=tarihKey(t);
-                                    const label=i===0?"Bugün":i===1?"Yarın":t.toLocaleDateString("tr-TR",{weekday:"short",day:"numeric",month:"short"});
-                                    return(
-                                      <button key={i} onClick={()=>setHaftalikPlanSecGun(key)}
-                                        style={{padding:"6px 12px",borderRadius:20,fontSize:11,fontWeight:700,cursor:"pointer",
-                                          border:`1.5px solid ${haftalikPlanSecGun===key?"#7c3aed":"rgba(124,58,237,.2)"}`,
-                                          background:haftalikPlanSecGun===key?"#7c3aed":"transparent",
-                                          color:haftalikPlanSecGun===key?"#fff":r.sub,
-                                          fontFamily:"'Nunito',sans-serif"}}>
-                                        {label}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                                <button
-                                  disabled={!haftalikPlanSecGun}
-                                  onClick={()=>{
-                                    if(!haftalikPlanSecGun)return;
-                                    const gunler=haftalikPlan.gunler||[];
-                                    const yeniPlanli={...planliAlisveris};
-                                    gunler.forEach((gun,i)=>{
-                                      const t=new Date(haftalikPlanSecGun.replace(/-/g,"/"));
-                                      t.setDate(t.getDate()+i);
-                                      const key=tarihKey(t);
-                                      const malzemeler=[];
-                                      ["kahvalti","ogle","aksam"].forEach(ogun=>{
-                                        (gun[ogun]?.malzemeler||[]).forEach(m=>malzemeler.push({id:Date.now()+Math.random(),ad:m,tamamlandi:false,tarif:`${gun.gun} ${ogun}`}));
-                                      });
-                                      if(malzemeler.length>0){
-                                        yeniPlanli[key]=[...(yeniPlanli[key]||[]),...malzemeler];
-                                      }
-                                    });
-                                    setPlanliAlisveris(yeniPlanli);
-                                    // Bugünkü listeyi güncelle
-                                    const bugun=bugunKey();
-                                    if(yeniPlanli[bugun]){
-                                      setAlisverisListesi(p=>[...p,...yeniPlanli[bugun].filter(y=>!p.some(x=>x.ad===y.ad))]);
-                                    }
-                                    setHaftalikPlanEklendi(true);
-                                    // localStorage'a kaydet
-                                    try{localStorage.setItem("doya_planli_alis",JSON.stringify(yeniPlanli));}catch(e){}
-                                  }}
-                                  style={{...BTN(haftalikPlanSecGun?"#7c3aed":"#d1d5db"),width:"100%",padding:"11px 0",fontSize:13,fontWeight:800,opacity:haftalikPlanSecGun?1:.5}}>
-                                  🛒 Malzemeleri Alışveriş Listesine Ekle
-                                </button>
-                              </div>
-                            )}
-
-                            {haftalikPlanEklendi&&(
-                              <div style={{background:d?"rgba(22,163,74,.06)":"rgba(22,163,74,.04)",border:"1px solid rgba(22,163,74,.2)",borderRadius:12,padding:"10px 14px",marginBottom:12,display:"flex",alignItems:"center",gap:8}}>
-                                <span style={{fontSize:18}}>✅</span>
-                                <div>
-                                  <div style={{fontSize:12,fontWeight:800,color:"#16a34a"}}>Alışveriş listelerine eklendi!</div>
-                                  <div style={{fontSize:10,color:r.muted}}>Her gün o günün malzemeleri alışveriş listende görünecek</div>
-                                </div>
-                              </div>
-                            )}
-
-                            {/* 7 günlük plan kartları */}
-                            {(haftalikPlan.gunler||[]).map((gun,i)=>(
-                              <div key={i} style={{...CS,marginBottom:8,padding:"12px 14px"}}>
-                                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
-                                  <div style={{fontSize:12,fontWeight:800,color:"#7c3aed"}}>{gun.gun}</div>
-                                  <div style={{fontSize:10,background:d?"rgba(124,58,237,.1)":"rgba(124,58,237,.06)",color:"#7c3aed",borderRadius:20,padding:"2px 8px",fontWeight:700}}>
-                                    🔥 {gun.toplam_kalori} kcal
-                                  </div>
-                                </div>
-                                {[["☀️ Kahvaltı","kahvalti"],["🌤 Öğle","ogle"],["🌙 Akşam","aksam"]].map(([etiket,k])=>(
-                                  gun[k]&&<div key={k} style={{marginBottom:6}}>
-                                    <div style={{fontSize:10,fontWeight:700,color:r.muted,marginBottom:2}}>{etiket} · {gun[k].kalori} kcal</div>
-                                    <div style={{fontSize:12,color:r.text,fontWeight:600}}>{gun[k].ad}</div>
-                                    <div style={{fontSize:10,color:r.muted}}>{(gun[k].malzemeler||[]).join(", ")}</div>
-                                  </div>
-                                ))}
-                                {gun.atistirma&&<div style={{fontSize:10,color:r.muted,marginTop:4}}>🍎 Atıştırmalık: {gun.atistirma}</div>}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {haftalikPlan?.hata&&(
-                          <div style={{textAlign:"center",padding:"24px 0",color:"#ef4444",fontSize:13}}>
-                            ❌ {haftalikPlan.hata}
-                            <br/><button onClick={haftalikPlanUret} style={{...BTN("#ef4444"),padding:"8px 20px",fontSize:12,marginTop:10}}>Tekrar Dene</button>
-                          </div>
-                        )}
                       </div>
                     )}
                   </div>
@@ -8114,82 +7919,117 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 {seriMsg.gun} günlük seri! 🔥
               </div>
               <div style={{fontSize:11,color:"#6b7280"}}>
-                {seriMsg.tip==="yemek"?"Her gün yemek kaydettirdin!":"Harika bir gün geçirdin, tebrikler!"}
+                {seriMsg.tip==="yemek"?"Her gün yemek kaydettirdin!":"10.000 adımı geçtin, tebrikler!"}
               </div>
             </div>
           </div>
         )}
 
         {/* ADIM SAYAR İZİN MODAL */}
+        {adimIzinModal&&(
+          <div style={{position:"fixed",inset:0,background:"#000a",zIndex:500,display:"flex",alignItems:"flex-end",justifyContent:"center",padding:16}}>
+            <div style={{background:d?"#080e09":"#fff",border:`1px solid ${d?"rgba(255,255,255,.07)":"rgba(0,0,0,.06)"}`,borderRadius:22,padding:24,width:"100%",maxWidth:400}}>
+              <div style={{fontSize:40,textAlign:"center",marginBottom:12}}>👟</div>
+              <div style={{fontSize:17,fontWeight:900,color:r.text,textAlign:"center",marginBottom:8}}>Adım Sayar</div>
+              <div style={{fontSize:13,color:r.sub,textAlign:"center",marginBottom:20,lineHeight:1.6}}>
+                Doya adımlarını otomatik saymak için telefonunun <b>hareket sensörüne</b> erişmek istiyor.<br/>
+                İzin verirsen her gün otomatik olarak çalışır, tekrar sorulmaz.
+              </div>
+              <button style={{...BTN("#f59e0b","13px 0"),width:"100%",marginBottom:10,fontSize:14}} onClick={()=>{
+                setAdimIzinModal(false);
+                setAdimAktif(true);
+              }}>📱 İzin Ver ve Başlat</button>
+              <button style={{background:"none",border:"none",width:"100%",padding:"10px 0",cursor:"pointer",fontSize:13,color:r.muted,fontFamily:"'Nunito',sans-serif"}} onClick={()=>{
+                setAdimIzinModal(false);
+                localStorage.setItem("doya_adim_izin","reddedildi");
+              }}>Şimdi Değil</button>
+            </div>
+          </div>
+        )}
 
         {/* INFLUENCER SÖZLEŞMESİ MODAL */}
         {sozlesmeModal&&(
           <div style={{position:"fixed",inset:0,background:"#000a",zIndex:400,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
             <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
               <div style={{fontSize:16,fontWeight:900,color:"#111",marginBottom:14}}>Ortaklık Sözleşmesi</div>
-              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}} dangerouslySetInnerHTML={{__html:`
-                <div style="background:#fff7ed;border:1.5px solid #f59e0b;border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:11px;color:#92400e;font-weight:700">
+              <div style={{fontSize:11.5,color:"#374151",lineHeight:2}}>
+                <div style={{background:"#fff7ed",border:"1.5px solid #f59e0b",borderRadius:10,padding:"10px 12px",marginBottom:14,fontSize:11,color:"#92400e",fontWeight:700}}>
                   ⚠️ Bu sözleşmeyi dikkatlice okuyunuz. Onaylamanız hukuki bağlayıcılık taşır.
                 </div>
+
                 Bu sözleşme ("Sözleşme"), <b>Doya Beslenme Takip Uygulaması</b> ("Doya" veya "Platform") ile ortaklık başvurusu onaylanan <b>Influencer / İşletme Ortağı</b> ("Ortak") arasında kurulmaktadır. Başvuruyu onaylayarak ve referans kodunu kullanmaya başlayarak bu sözleşmenin tüm maddelerini okuduğunuzu, anladığınızı ve kabul ettiğinizi beyan etmiş olursunuz.<br/><br/>
 
                 <b>1. KAZANÇ MODELİ VE KOMİSYON</b><br/>
                 Ortak, referans kodu aracılığıyla Doya'ya davet ettiği kullanıcıların ürettiği kazançtan aşağıdaki şekilde pay alır:<br/>
-                <b>a) Aktif Kullanıcı Başına Sabit Ödeme:</b> Ortak'ın referans kodu ile kayıt olan kullanıcılardan her biri, bir takvim ayı içinde en az <b>500 puan</b> kazanmışsa o kullanıcı "aktif" sayılır. Her aktif kullanıcı başına Ortak'a aylık <b>2,5 ₺ (iki buçuk Türk Lirası)</b> sabit ödeme yapılır. Premium/ücretsiz ayrımı yapılmaz; tüm aktif kullanıcılar eşit değerlidir.<br/>
-                <b>b) Premium / Ücretsiz Ayrımı Yoktur:</b> Ortak'ın getirdiği kullanıcıların premium üyelik alıp almaması ödeme miktarını değiştirmez. Yalnızca aktif kullanıcı sayısı esas alınır.<br/>
-                <b>c) Aktif Kullanıcı Tanımı:</b> Bir kullanıcının aktif sayılabilmesi için 30 takvim günü içinde uygulama içi puan sisteminde <b>500 puan</b> veya üzeri kazanmış olması şarttır. Bu eşiği karşılamayan kullanıcılar o ay için aktif sayılmaz ve ödemelere dahil edilmez.<br/>
-                Kazanç tutarı; aktif kullanıcı sayısına ve platform politikalarına göre değişkenlik gösterebilir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
+                <b>a) Aktif Kullanıcı Başına Sabit Ödeme:</b> Ortak'ın davet ettiği kullanıcılardan her biri, bir takvim ayı içinde en az <b>1.000 puan</b> kazanmışsa o kullanıcı "aktif" sayılır. Her aktif kullanıcı başına Ortak'a aylık <b>1 ₺ (bir Türk Lirası)</b> sabit ödeme yapılır.<br/>
+                <b>b) Satın Alım Komisyonu:</b> Ortak'ın davet ettiği kullanıcıların gerçekleştirdiği premium satın alımlarından; Google Play ve Apple App Store komisyonları (%15–30) düşüldükten sonra kalan net tutarın <b>%50'si</b> Ortak'a ödenir.<br/>
+                <b>c) Aktif Kullanıcı Tanımı:</b> Bir kullanıcının aktif sayılabilmesi için 30 takvim günü içinde uygulama içi puan sisteminde <b>1.000 puan</b> veya üzeri kazanmış olması şarttır. Bu eşiği karşılamayan kullanıcılar o ay için aktif sayılmaz ve komisyona dahil edilmez.<br/>
+                Kazanç tutarı; aktif kullanıcı sayısına, satın alım hacmine ve platform komisyon politikalarına göre değişkenlik gösterir. Doya, herhangi bir asgari kazanç tutarı taahhüt etmez.<br/><br/>
 
                 <b>2. ÖDEME KOŞULLARI</b><br/>
-                Ödemeler <b>3 (üç) ayda bir</b> yapılır (Ocak, Nisan, Temmuz ve Ekim aylarının ilk haftasında). Ortak'ın sisteme kaydettiği IBAN hesabına transfer gerçekleştirilir. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. <b>Birikmiş kazanç, son ödeme döneminden itibaren 1 (bir) yıl içinde çekim talebi iletilmezse otomatik olarak silinir ve talep edilemez.</b> Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
+                Ödemeler her takvim ayının 1'inde, Ortak'ın sisteme kaydettiği IBAN hesabına yapılır. Minimum ödeme tutarı <b>50 ₺</b>'dir; bu tutara ulaşılmayan kazançlar bir sonraki ödeme dönemine aktarılır. Banka transfer süreçlerinden kaynaklanan gecikmelerden Doya sorumlu tutulamaz. Hatalı IBAN bilgisi nedeniyle gerçekleşmeyen ödemelerden Ortak sorumludur.<br/><br/>
 
-                <b>3. REKABET YASAĞI VE ANLIK FESİH HAKKI</b><br/>
+                <b>3. REKABET YASAĞI VE ANLИК FESİH HAKKI</b><br/>
                 Ortak; aktif ortaklık süresi boyunca aşağıdaki faaliyetlerde bulunamaz:<br/>
-                • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
+                • Doya ile doğrudan rekabet eden beslenme takibi, kalori sayacı, diyet uygulamaları veya benzeri dijital sağlık ürünlerini sosyal medya hesaplarında, YouTube kanallarında, blog veya podcast gibi kanallarında tanıtamaz, reklam yapamaz, ortaklık/sponsorluk anlaşması imzalayamaz.<br/>
                 • Kullanıcıları Doya'dan rakip platformlara yönlendirecek içerik üretemez.<br/><br/>
-                <b>Bu maddenin ihlali halinde Doya, ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş kazançlar minimum ödeme tutarını geçiyorsa ödenir; geçmiyorsa ödenmez.<br/><br/>
+                <b>Bu maddenin ihlali halinde Doya, herhangi bir ihbar süresi, ön bildirim veya gerekçe gösterme yükümlülüğü olmaksızın ortaklığı ANINDA feshedebilir.</b> Fesih tarihine kadar birikmiş ve henüz ödenmemiş kazançlar minimum ödeme tutarını geçiyorsa bir sonraki dönemde ödenir; geçmiyorsa ödenmez.<br/><br/>
 
                 <b>4. İÇERİK STANDARTLARI VE MARKA KULLANIMI</b><br/>
-                Ortak; Doya adını, logosunu ve uygulama görsellerini yalnızca Doya'nın onayladığı biçimde kullanabilir. Sponsorlu içerikler "reklam" veya "#reklam" etiketiyle işaretlenmelidir.<br/><br/>
+                Ortak; Doya adını, logosunu ve uygulama görsellerini yalnızca Doya'nın onayladığı biçimde kullanabilir. Ortak, Doya hakkında yanıltıcı, abartılı, bilimsel dayanaktan yoksun veya sağlık vaadinde bulunan hiçbir içerik üretemez. Ortak, sponsorlu içeriklerini yasal zorunluluklar çerçevesinde "reklam", "sponsorlu" veya "#reklam" etiketiyle açıkça işaretlemekle yükümlüdür; aksi hâlde doğacak idari ve hukuki yaptırımların sorumluluğu tamamen Ortak'a aittir.<br/><br/>
 
                 <b>5. PERFORMANS VE AKTİFLİK ZORUNLULUĞU</b><br/>
-                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca yeni kullanıcı gelmemesi halinde Doya ortaklığı askıya alabilir.<br/><br/>
+                Ortak, onaylanmasının ardından ilk <b>30 gün</b> içinde en az <b>1 aktif kullanıcı</b> davet etmekle yükümlüdür. Ardışık <b>3 ay</b> boyunca hiç yeni kullanıcı davet edilmemesi halinde Doya, herhangi bir bildirim yapmaksızın ortaklık statüsünü askıya alabilir ya da tamamen sonlandırabilir.<br/><br/>
 
                 <b>6. DOYA'NIN TEK TARAFLI FESİH HAKKI</b><br/>
-                Sahte hesap, bot trafik, yanıltıcı içerik veya marka itibarını zedeleyen davranışlar halinde Doya ortaklığı derhal feshedebilir. Diğer durumlarda <b>15 gün</b> önceden bildirim yapılır.<br/><br/>
+                Doya, aşağıdaki durumlarda ortaklığı önceden bildirim yapmaksızın derhal feshedebilir:<br/>
+                • Rekabet yasağının ihlali (Madde 3)<br/>
+                • Yanıltıcı, hakaret içerikli veya Doya'nın itibarını zedeleyen içerik paylaşımı<br/>
+                • Sahte hesap, bot trafik veya hile yoluyla referans kodu kullanımı<br/>
+                • Kullanıcıları manipüle edecek biçimde maddi vaat içeren paylaşımlar<br/>
+                • Ortağın mahkûmiyet kararıyla sonuçlanan suç işlemesi<br/>
+                • Doya'nın marka bütünlüğünü, güvenilirliğini veya ticari itibarını zedeleyecek herhangi bir kamuoyu açıklaması<br/><br/>
+                Bunların dışında Doya, gerekçe göstermeksizin ortaklığı <b>15 gün</b> öncesinde yazılı bildirimle sonlandırabilir.<br/><br/>
 
-                <b>7. GİZLİLİK VE TİCARİ SIRRIN KORUNMASI</b><br/>
-                Ortak; kullanıcı verilerini, gelir rakamlarını ve iş modelini üçüncü şahıslarla paylaşamaz. Bu yükümlülük sözleşmeden sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
+                <b>7. GİZLİLİK VE TİCARİ SIRRN KORUNMASI</b><br/>
+                Ortak; ortaklık kapsamında öğrendiği kullanıcı verilerini, gelir rakamlarını, komisyon oranlarını, sistem altyapı bilgilerini ve iş modelini üçüncü şahıslarla paylaşamaz, kendi çıkarı için kullanamaz. Bu yükümlülük sözleşmenin sona ermesinden sonra <b>2 yıl</b> daha geçerlidir.<br/><br/>
 
-                <b>8. MALİ RİSK VE ÖDEME GECİKMESİ</b><br/>
-                Nakit akışı sorunlarında ödemeler gecikmeli yapılabilir. Doya'nın iflası halinde birikmiş kazançlar iflas masasına dahil edilir. Ortak bu finansal riski kabul eder.<br/><br/>
+                <b>8. MALİ RİSK, ÖDEME GECİKMESİ VE İFLAS</b><br/>
+                Doya'nın nakit akışı sorunları, beklenmedik gider artışları veya piyasa koşullarının kötüleşmesi durumunda ödemeler gecikmeli yapılabilir; bu durum Ortak'a önceden bildirilir. Doya'nın mahkeme kararıyla iflası hâlinde birikmiş kazançlar iflas masasına dahil edilir ve yasal süreç kapsamında ödeme yapılır ya da yapılamayabilir. Ortak bu finansal riski peşinen kabul etmiş sayılır.<br/><br/>
 
                 <b>9. SINIRLI SORUMLULUK</b><br/>
-                Doya, Ortak'ın faaliyetlerinden doğan üçüncü kişi zararlarından sorumlu tutulamaz.<br/><br/>
+                Doya, Ortak'ın içerik üretim faaliyetleri sırasında üçüncü kişilere verdiği zararlardan, telif hakkı ihlallerinden veya vergi yükümlülüklerinden hiçbir şekilde sorumlu tutulamaz. Ortak, kendi ürettiği içeriklerden doğan tüm hukuki ve mali sorumluluğu bizzat üstlenir.<br/><br/>
 
-                <b>10. VERGİ VE STOPAJ</b><br/>
-                Fatura ibraz edilmezse brüt tutar üzerinden yüzde 20 stopaj kesilir. Tüm vergi yükümlülükleri Ortak'a aittir.<br/><br/>
+                <b>10. VERGİ, STOPAJ VE FATURA ZORUNLULUĞU</b><br/>
+                <u>a) Fatura/Makbuz İbrazı:</u> Ortak, her ödeme dönemine ilişkin hizmet bedelini belgelemek amacıyla Doya'ya fatura veya serbest meslek makbuzu ibraz etmekle yükümlüdür. Fatura/makbuz ibraz edilmemesi durumunda Doya, brüt ödeme tutarı üzerinden yürürlükteki vergi mevzuatı kapsamında gerekli <b>stopaj kesintilerini</b> yaparak ilgili vergi dairelerine beyan eder ve yatırır; Ortak'a kalan net tutar ödenir. Bu kesinti bir ceza olmayıp yasal bir zorunluluktur.<br/><br/>
+                <u>b) Stopaj Oranı:</u> Geçerli mevzuat çerçevesinde serbest meslek ödemelerinde uygulanan stopaj oranı (hâlihazırda brüt tutarın <b>%20'si</b>) esas alınır. Yasal oranın değişmesi hâlinde güncel oran otomatik olarak uygulanır; Ortak bu değişikliği ayrıca kabul etmiş sayılır.<br/><br/>
+                <u>c) Vergi Mükellefiyeti:</u> Ortaklık kapsamında elde edilen gelirler üzerindeki tüm vergi ve yasal yükümlülükler (gelir vergisi, KDV vb.) münhasıran Ortak'a aittir. Doya'nın stopaj kesip yatırması, Ortak'ın kendi vergi beyan ve ödeme yükümlülüklerini ortadan kaldırmaz.<br/><br/>
+                <u>d) Sorumluluk Reddi:</u> Ortak'ın hatalı veya eksik vergi beyanından, fatura kesmemesinden ya da muhasebe ihmâlinden doğacak her türlü idari para cezası, vergi ziyaı ve gecikme faizi münhasıran Ortak'a aittir; Doya bu konuda hiçbir sorumluluk kabul etmez.<br/><br/>
 
                 <b>11. DEĞİŞİKLİK HAKKI</b><br/>
-                Koşullar <b>15 gün</b> önceden e-posta ile bildirilerek değiştirilebilir.<br/><br/>
+                Doya, sözleşme koşullarını, komisyon oranlarını ve ödeme politikalarını <b>15 gün</b> öncesinde Ortak'a e-posta yoluyla bildirerek değiştirebilir. Değişikliğin yürürlük tarihinden sonra referans kodu kullanılmaya devam edilmesi, yeni koşulların kabul edildiği anlamına gelir.<br/><br/>
 
                 <b>12. UYUŞMAZLIK ÇÖZÜMÜ</b><br/>
-                Uyuşmazlıklarda <b>Adana mahkemeleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
+                Bu sözleşmeden doğan uyuşmazlıklarda öncelikle taraflar arabuluculuk yoluna başvurur. Arabuluculukta uzlaşı sağlanamaması halinde <b>Adana mahkemeleri ve icra daireleri</b> yetkilidir; Türkiye Cumhuriyeti hukuku uygulanır.<br/><br/>
 
-                <b>13. ORTAKLIK SÜRESİ</b><br/>
-                Sözleşme onay tarihinde yürürlüğe girer, süresi <b>3 ay</b>dır. Her iki taraf itiraz bildirmezse aylık dönemlerle otomatik uzar. İlk 3 ayda <b>10 aktif kullanıcı</b> getirilememesi halinde Doya uzatım teklifi yapmayabilir.<br/><br/>
+                <b>13. ORTAKLIK SÜRESİ VE YÜRÜRLÜK</b><br/>
+                <u>a) Başlangıç ve Süre:</u> Bu sözleşme, Ortak'ın başvurusunun Doya tarafından onaylandığı tarihte yürürlüğe girer. Ortaklık süresi başlangıç tarihinden itibaren <b>3 (üç) ay</b>dır.<br/><br/>
+                <u>b) Süre Uzatımı:</u> Ortaklık süresi sona ermeden en geç <b>7 gün</b> önce her iki taraf da itirazını yazılı olarak bildirmezse, sözleşme aynı koşullarla otomatik olarak <b>birer aylık dönemler</b> halinde uzar. Uzatım sınırsız kez tekrarlanabilir.<br/><br/>
+                <u>c) Karşılıklı Uzatma:</u> Her iki tarafın da yazılı onay vermesi halinde sözleşme, belirlenen yeni koşullar ve/veya süreyle uzatılabilir. Uzatım teklifi Doya tarafından e-posta ile iletilir; Ortak'ın <b>5 iş günü</b> içinde yanıt vermemesi, teklifi reddettiği anlamına gelir.<br/><br/>
+                <u>d) Süre Sonu:</u> Ortaklık süresi sona erdiğinde referans kodu otomatik olarak devre dışı bırakılır. Süre sonuna kadar kazanılmış ve henüz ödenmemiş komisyon tutarları, normal ödeme takviminde Ortak'a eksiksiz aktarılır.<br/><br/>
+                <u>e) Performans Değerlendirmesi:</u> Doya, 3 aylık dönem sonunda ortağın performansını değerlendirme hakkını saklı tutar. İlk 3 ayda <b>en az 10 aktif kullanıcı</b> getirilememesi halinde Doya, uzatım teklifinde bulunmama hakkına sahiptir; bu durum hukuki bir yükümlülük doğurmaz.<br/><br/>
 
-                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px;font-size:10.5px;color:#166534">
-                  📌 <b>Önemli:</b> Bu sözleşme ${new Date().toLocaleDateString("tr-TR")} tarihi itibarıyla geçerlidir.<br/>
-                  İletişim: <b>Doyasupport@gmail.com</b>
+                <div style={{background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,padding:"8px 12px",fontSize:10.5,color:"#166534"}}>
+                  📌 <b>Önemli:</b> Bu sözleşme {new Date().toLocaleDateString("tr-TR")} tarihi itibarıyla geçerlidir.<br/>
+                  İletişim: <b>{DESTEK_MAIL}</b> | Ortaklık: <b>{ORTAKLIK_MAIL}</b>
                 </div>
-              `}}/>
+              </div>
               <div style={{display:"flex",alignItems:"flex-start",gap:8,margin:"14px 0",background:"#fff7ed",borderRadius:10,padding:10}}>
                 <input type="checkbox" id="soz" checked={sozlesmeOnay} onChange={e=>setSozlesmeOnay(e.target.checked)} style={{marginTop:3,width:18,height:18,cursor:"pointer",accentColor:"#f59e0b"}}/>
                 <label htmlFor="soz" style={{fontSize:12,color:"#374151",cursor:"pointer",lineHeight:1.6}}>Sözleşmenin tüm maddelerini okudum; <b>rekabet yasağı, anlık fesih hakkı, mali risk ve gizlilik</b> koşulları dahil tüm hükümleri kabul ediyorum. Bu onayın hukuki bağlayıcılık taşıdığını biliyor ve kabul ediyorum.</label>
               </div>
               <div style={{display:"flex",gap:8}}>
-                <button style={{...BTN(sozlesmeOnay?"#f59e0b":"#d1d5db"),flex:2,padding:"11px 0"}} onClick={()=>{if(!sozlesmeOnay)return;setSozlesmeModal(false);setRefBasvuruModal(true);}}>Kabul Et & Başvuruya Geç →</button>
+                <button style={{...BTN(sozlesmeOnay?"#f59e0b":"#d1d5db"),flex:2,padding:"11px 0"}} onClick={()=>{if(!sozlesmeOnay)return;setSozlesmeModal(false);}}>Kabul Et ve Devam</button>
                 <button style={{...BTN("#6b7280"),flex:1,padding:"11px 0"}} onClick={()=>{setSozlesmeModal(false);setSozlesmeOnay(false);}}>İptal</button>
               </div>
             </div>
@@ -8262,16 +8102,13 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   if(!sozlesmeOnay||!basAd)return;
                   const basvuru={id:Date.now(),uid:aktif?.uid,isim:aktif.isim,tip:basTip,platform:basPlatform.join(", "),acik:basAd+" | "+basAcik,onay:"bekliyor",firebaseUID};
                   setRefBasvurular(p=>[...p,basvuru]);
-                  // Kullanıcıya "bekliyor" durumu kaydet
-                  const kulGunc={refTip:basTip,refOnay:false,refBasvuruDurumu:"bekliyor",refTipBasvuru:basTip};
-                  setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,...kulGunc}:u));
-                  setAktif(p=>({...p,...kulGunc}));
+                  setKullanicilar(p=>p.map(u=>u.uid===aktif?.uid?{...u,refTip:basTip,refOnay:false}:u));
+                  // Firebase'e kaydet
                   try {
                     const fbMod = await import("firebase/firestore");
-                    await Promise.all([
-                      fbMod.addDoc(fbMod.collection(db,"refBasvurular"),{...basvuru, createdAt: fbMod.serverTimestamp()}),
-                      kullaniciyiGuncelle(firebaseUID, kulGunc),
-                    ]);
+                    await fbMod.addDoc(fbMod.collection(db,"refBasvurular"),{
+                      ...basvuru, createdAt: fbMod.serverTimestamp()
+                    });
                   } catch(e){ console.error("Başvuru kaydedilemedi:",e); }
                   setBasGonderildi(true);
                   setTimeout(()=>{setRefBasvuruModal(false);setBasGonderildi(false);setBasAd("");setBasAcik("");setBasPlatform([]);setSozlesmeOnay(false);},2500);
