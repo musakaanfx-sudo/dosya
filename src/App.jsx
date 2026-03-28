@@ -4541,8 +4541,8 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                   {!premium&&!premiumPlus&&(
                     <div style={{fontSize:10,color:r.muted,textAlign:"center",marginBottom:10}}>
                       {(premium||premiumPlus)
-                        ? `${Math.max(0,AI_PREMIUM_LIMIT-(Date.now()-aiPremiumPencere.baslangic<7200000?aiPremiumPencere.sayi:0))} / ${AI_PREMIUM_LIMIT} (2 saatlik hak)`
-                        : `${Math.max(0,AI_GUNLUK_LIMIT+ekstraAiHak-aiGunlukKullanim)} / ${AI_GUNLUK_LIMIT+ekstraAiHak} günlük hak kaldı`
+                        ? `${Math.max(0,AI_PREMIUM_LIMIT-(Date.now()-aiPremiumPencere.baslangic<7200000?aiPremiumPencere.sayi:0))}` + " / " + `${AI_PREMIUM_LIMIT} (2 saatlik hak)`
+                        : `${Math.max(0,AI_GUNLUK_LIMIT+ekstraAiHak-aiGunlukKullanim)}` + " / " + `${AI_GUNLUK_LIMIT+ekstraAiHak} günlük hak kaldı`
                       }
                     </div>
                   )}
@@ -7723,7 +7723,7 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
               </div>
               <div style={{display:"flex",gap:8}}>
                 <button style={{...BTN("#16a34a"),flex:1,padding:"11px 0"}} onClick={()=>{
-                  const txt=`Doya Günlük Özet\n🗓 ${bugunKey()}\n🔥 ${topKal}/${HEDEF} kcal\n💧 ${bugSu}/${suHed}ml\n🏃 ${topSpor} kcal spor`;
+                  const txt=`Doya Günlük Özet\n🗓 ${bugunKey()}\n🔥 ${topKal}` + "/" + `${HEDEF} kcal\n💧 ${bugSu}` + "/" + `${suHed}ml\n🏃 ${topSpor} kcal spor`;
                   navigator.clipboard?.writeText(txt);
                   setPsModal(false);
                 }}>📋 Kopyala</button>
