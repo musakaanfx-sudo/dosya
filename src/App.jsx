@@ -3844,7 +3844,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               {/* Logo */}
               <div style={{display:"flex",alignItems:"center",gap:9}}>
                 <div style={{width:34,height:34,background:"linear-gradient(145deg,rgba(16,185,129,.25),rgba(16,185,129,.05))",borderRadius:12,border:"1px solid rgba(52,211,153,.2)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2a5 5 0 0 1 5 5c0 3-2 5-5 8-3-3-5-5-5-8a5 5 0 0 1 5-5z"/><circle cx="12" cy="7" r="2" fill="#34d399" stroke="none"/></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round"><path d="M3 2v5a4 4 0 0 0 4 4v11"/><path d="M7 2v5"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/></svg>
                 </div>
                 <div>
                   <div style={{fontFamily:"'Cormorant Garamond',serif",fontSize:22,lineHeight:1,letterSpacing:.5,fontWeight:600,color:"#fff"}}>Doya</div>
