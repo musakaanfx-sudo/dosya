@@ -436,6 +436,12 @@ export default function App(){
   // ── APP STATE ──
   const [tab,setTab]=useState("anasayfa");
   const [alisverisListesi,setAlisverisListesi]=useState([]);
+  const [kisiselYemekler,setKisiselYemekler]=useState(()=>{try{return JSON.parse(localStorage.getItem("doya_kisiyemek")||"[]")}catch{return[]}});
+  const [kisiselYemekModal,setKisiselYemekModal]=useState(false); // yeni tarif oluşturma
+  const [kyAd,setKyAd]=useState("");
+  const [kyMalzemeler,setKyMalzemeler]=useState([]); // [{ad,gram,kal,protein,karb,yag}]
+  const [kyArama,setKyArama]=useState("");
+  const [kyDuzenleme,setKyDuzenleme]=useState(null); // düzenlenen yemeğin id
   const [haftalikPlan,setHaftalikPlan]=useState(null);
   const [haftalikPlanEklendi,setHaftalikPlanEklendi]=useState(false);
   const [haftalikPlanIstek,setHaftalikPlanIstek]=useState("");
@@ -1231,6 +1237,20 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
     setHaftalikPlanYuk(false);
   };
 
+
+  // ─── KİŞİSEL YEMEK ─────────────────────────────────────────
+  const kisiselYemekKaydet=(yemek)=>{
+    const yeni=[...kisiselYemekler.filter(y=>y.id!==yemek.id),yemek];
+    setKisiselYemekler(yeni);
+    localStorage.setItem("doya_kisiyemek",JSON.stringify(yeni));
+    if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{kisiselYemekler:yeni}).catch(()=>{});
+  };
+  const kisiselYemekSil=(id)=>{
+    const yeni=kisiselYemekler.filter(y=>y.id!==id);
+    setKisiselYemekler(yeni);
+    localStorage.setItem("doya_kisiyemek",JSON.stringify(yeni));
+    if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{kisiselYemekler:yeni}).catch(()=>{});
+  };
 
   // ─── KİLO KAYDET ──────────────────────────────────────────────
   const kiloKaydet=async()=>{
@@ -2157,32 +2177,75 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               <div style={{fontSize:11,color:"rgba(255,255,255,.3)",lineHeight:1.6,letterSpacing:.3}}>Google hesabınızla saniyeler içinde başlayın</div>
             </div>
 
-            {/* KVKK onaylar */}
+            {/* ONAYLAR */}
             <div style={{background:"rgba(16,185,129,.04)",border:"1px solid rgba(16,185,129,.1)",borderRadius:16,padding:"14px 16px",marginBottom:20}}>
               <div style={{fontSize:9,fontWeight:700,color:"rgba(52,211,153,.4)",marginBottom:12,letterSpacing:2,textTransform:"uppercase"}}>Onay Gerekiyor</div>
-              {[
-                {s:kvkkOnay,set:setKvkkOnay,label:"KVKK & Kullanım Koşulları",link:()=>setKvkkModal(true),zorunlu:true},
-                {s:gdprOnay,set:setGdprOnay,label:"Gizlilik Politikası (GDPR)",link:()=>setGdprModal(true),zorunlu:true},
-                {s:pazarlamaOnay,set:setPazarlamaOnay,label:"Güncelleme bildirimleri (isteğe bağlı)",link:null,zorunlu:false},
-              ].map((f,i)=>(
-                <label key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:i<2?10:0,cursor:"pointer"}}>
-                  <div onClick={()=>f.set(!f.s)} style={{width:20,height:20,borderRadius:7,border:`1.5px solid ${f.s?"rgba(16,185,129,.6)":"rgba(255,255,255,.12)"}`,background:f.s?"rgba(16,185,129,.15)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}}>
-                    {f.s&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
-                  </div>
-                  <span style={{fontSize:11,color:"rgba(187,247,208,.7)",lineHeight:1.5,flex:1}}>
-                    {f.link?<button onClick={e=>{e.preventDefault();f.link();}} style={{background:"none",border:"none",padding:0,color:"#4ade80",fontWeight:700,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif"}}>{f.label}</button>:f.label}
-                    {f.zorunlu&&<span style={{color:"#f87171",marginLeft:2}}>*</span>}
-                  </span>
-                </label>
-              ))}
+
+              {/* 1. Kullanım Koşulları */}
+              <label style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:10,cursor:"pointer"}}>
+                <div onClick={()=>setKvkkOnay(!kvkkOnay)}
+                  style={{width:20,height:20,borderRadius:7,flexShrink:0,marginTop:1,
+                    border:`1.5px solid ${kvkkOnay?"rgba(16,185,129,.6)":"rgba(255,255,255,.12)"}`,
+                    background:kvkkOnay?"rgba(16,185,129,.15)":"transparent",
+                    display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
+                  {kvkkOnay&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
+                </div>
+                <span style={{fontSize:11,color:"rgba(187,247,208,.7)",lineHeight:1.6,flex:1}}>
+                  <button onClick={e=>{e.preventDefault();setKvkkModal(true);}} style={{background:"none",border:"none",padding:0,color:"#4ade80",fontWeight:700,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif",textDecoration:"underline"}}>Kullanım Koşulları & KVKK</button>
+                  {" "}metnini okudum ve kabul ediyorum.<span style={{color:"#f87171",marginLeft:2}}>*</span>
+                </span>
+              </label>
+
+              {/* 2. Gizlilik Politikası */}
+              <label style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:10,cursor:"pointer"}}>
+                <div onClick={()=>setGdprOnay(!gdprOnay)}
+                  style={{width:20,height:20,borderRadius:7,flexShrink:0,marginTop:1,
+                    border:`1.5px solid ${gdprOnay?"rgba(16,185,129,.6)":"rgba(255,255,255,.12)"}`,
+                    background:gdprOnay?"rgba(16,185,129,.15)":"transparent",
+                    display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
+                  {gdprOnay&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
+                </div>
+                <span style={{fontSize:11,color:"rgba(187,247,208,.7)",lineHeight:1.6,flex:1}}>
+                  <button onClick={e=>{e.preventDefault();setGdprModal(true);}} style={{background:"none",border:"none",padding:0,color:"#4ade80",fontWeight:700,fontSize:11,cursor:"pointer",fontFamily:"'Nunito',sans-serif",textDecoration:"underline"}}>Gizlilik Politikası</button>
+                  {" "}kapsamında kişisel verilerimin işlenmesini kabul ediyorum.<span style={{color:"#f87171",marginLeft:2}}>*</span>
+                </span>
+              </label>
+
+              {/* 3. Sağlık verisi — GDPR Md.9 gereği mutlaka ayrı */}
+              <label style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:10,cursor:"pointer"}}>
+                <div onClick={()=>setSaglikOnay(!saglikOnay)}
+                  style={{width:20,height:20,borderRadius:7,flexShrink:0,marginTop:1,
+                    border:`1.5px solid ${saglikOnay?"rgba(16,185,129,.6)":"rgba(255,255,255,.12)"}`,
+                    background:saglikOnay?"rgba(16,185,129,.15)":"transparent",
+                    display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
+                  {saglikOnay&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
+                </div>
+                <span style={{fontSize:11,color:"rgba(187,247,208,.7)",lineHeight:1.6,flex:1}}>
+                  Kilo, alerji ve beslenme gibi <b style={{color:"rgba(187,247,208,.9)"}}>sağlık verilerimin</b> işlenmesine açık rıza veriyorum.<span style={{color:"#f87171",marginLeft:2}}>*</span>
+                </span>
+              </label>
+
+              {/* 4. Yaş beyanı */}
+              <label style={{display:"flex",alignItems:"flex-start",gap:10,cursor:"pointer"}}>
+                <div onClick={()=>setYasOnay(!yasOnay)}
+                  style={{width:20,height:20,borderRadius:7,flexShrink:0,marginTop:1,
+                    border:`1.5px solid ${yasOnay?"rgba(16,185,129,.6)":"rgba(255,255,255,.12)"}`,
+                    background:yasOnay?"rgba(16,185,129,.15)":"transparent",
+                    display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s"}}>
+                  {yasOnay&&<svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>}
+                </div>
+                <span style={{fontSize:11,color:"rgba(187,247,208,.7)",lineHeight:1.6,flex:1}}>
+                  18 yaşında veya üzerindeyim.<span style={{color:"#f87171",marginLeft:2}}>*</span>
+                </span>
+              </label>
             </div>
 
             {gHata&&<div style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#fca5a5",padding:"10px 14px",borderRadius:12,fontSize:12,marginBottom:16,textAlign:"center"}}>{gHata}</div>}
 
             {/* Google butonu */}
-            <button style={{width:"100%",padding:"16px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"rgba(16,185,129,.2)":"rgba(255,255,255,.05)"}`,background:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"linear-gradient(145deg,rgba(16,185,129,.1),rgba(16,185,129,.05))":"rgba(255,255,255,.01)",cursor:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"#d1fae5":"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .25s",boxShadow:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"0 8px 24px rgba(16,185,129,.15)":"none"}}
+            <button style={{width:"100%",padding:"16px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay&&saglikOnay&&yasOnay)?"rgba(16,185,129,.2)":"rgba(255,255,255,.05)"}`,background:(kvkkOnay&&gdprOnay&&saglikOnay&&yasOnay)?"linear-gradient(145deg,rgba(16,185,129,.1),rgba(16,185,129,.05))":"rgba(255,255,255,.01)",cursor:(kvkkOnay&&gdprOnay&&saglikOnay&&yasOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay&&saglikOnay&&yasOnay)?"#d1fae5":"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .25s",boxShadow:(kvkkOnay&&gdprOnay&&saglikOnay&&yasOnay)?"0 8px 24px rgba(16,185,129,.15)":"none"}}
               onClick={async()=>{
-                if(!kvkkOnay||!gdprOnay||!yasOnay||!saglikOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
+                if(!kvkkOnay||!gdprOnay||!saglikOnay||!yasOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
                 try{
                   const kul = await fbGoogleGiris();
                   try{
@@ -4346,6 +4409,57 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
                   <span style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",fontSize:16,pointerEvents:"none"}}>🔍</span>
                   {besinArama&&<button onClick={()=>setBesinArama("")} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:18,color:r.muted}}>×</button>}
                 </div>
+
+                {/* KİŞİSEL YEMEKLER */}
+                {!besinArama&&!aramaOdak&&kisiselYemekler.length>0&&(
+                  <div style={{marginBottom:12}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                      <div style={{fontSize:11,fontWeight:800,color:"#7c3aed",letterSpacing:1.2,textTransform:"uppercase"}}>⭐ Kişisel Yemeklerim</div>
+                      <button onClick={()=>{setKyAd("");setKyMalzemeler([]);setKyDuzenleme(null);setKisiselYemekModal(true);}}
+                        style={{...BTN("#7c3aed","4px 10px"),fontSize:11,fontWeight:800}}>+ Yeni</button>
+                    </div>
+                    {kisiselYemekler.map(ky=>{
+                      const kal=ky.malzemeler.reduce((s,m)=>s+(m.kal||0),0);
+                      const pro=ky.malzemeler.reduce((s,m)=>s+(m.protein||0),0);
+                      const karb=ky.malzemeler.reduce((s,m)=>s+(m.karb||0),0);
+                      const yag=ky.malzemeler.reduce((s,m)=>s+(m.yag||0),0);
+                      return(
+                        <div key={ky.id} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",borderRadius:14,
+                          border:"1.5px solid rgba(124,58,237,.2)",marginBottom:8,background:d?"rgba(124,58,237,.04)":"rgba(124,58,237,.03)"}}>
+                          <div style={{flex:1,cursor:"pointer"}} onClick={()=>{
+                            const besin={id:"ky_"+ky.id,ad:ky.ad,kal,pro:parseFloat(pro.toFixed(1)),karb:parseFloat(karb.toFixed(1)),yag:parseFloat(yag.toFixed(1)),por:1,birim:"porsiyon",kat:"Kişisel",kisisel:true};
+                            setSecBesin(besin);setYemekGram("1");
+                          }}>
+                            <div style={{fontWeight:800,fontSize:13,color:r.text}}>{ky.ad}</div>
+                            <div style={{fontSize:11,color:r.muted,marginTop:2}}>{Math.round(kal)} kcal · P:{pro.toFixed(1)}g K:{karb.toFixed(1)}g Y:{yag.toFixed(1)}g</div>
+                            <div style={{fontSize:10,color:"rgba(124,58,237,.6)",marginTop:2}}>{ky.malzemeler.length} malzeme</div>
+                          </div>
+                          <div style={{display:"flex",gap:6,flexShrink:0}}>
+                            <button onClick={()=>{setKyAd(ky.ad);setKyMalzemeler([...ky.malzemeler]);setKyDuzenleme(ky.id);setKisiselYemekModal(true);}}
+                              style={{background:"rgba(124,58,237,.1)",border:"1px solid rgba(124,58,237,.2)",borderRadius:8,padding:"5px 8px",cursor:"pointer",fontSize:12,color:"#7c3aed"}}>✏️</button>
+                            <button onClick={()=>konfirm(`"${ky.ad}" silinsin mi?`,()=>kisiselYemekSil(ky.id))}
+                              style={{background:"rgba(239,68,68,.08)",border:"1px solid rgba(239,68,68,.15)",borderRadius:8,padding:"5px 8px",cursor:"pointer",fontSize:12,color:"#ef4444"}}>✕</button>
+                            <button onClick={()=>{
+                              const besin={id:"ky_"+ky.id,ad:ky.ad,kal,pro:parseFloat(pro.toFixed(1)),karb:parseFloat(karb.toFixed(1)),yag:parseFloat(yag.toFixed(1)),por:1,birim:"porsiyon",kat:"Kişisel",kisisel:true};
+                              setSecBesin(besin);setYemekGram("1");
+                            }} style={{background:"#16a34a",border:"none",borderRadius:10,width:30,height:30,color:"#fff",fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {!besinArama&&!aramaOdak&&kisiselYemekler.length===0&&(
+                  <button onClick={()=>{setKyAd("");setKyMalzemeler([]);setKyDuzenleme(null);setKisiselYemekModal(true);}}
+                    style={{display:"flex",alignItems:"center",gap:8,padding:"10px 14px",borderRadius:14,border:"1.5px dashed rgba(124,58,237,.3)",
+                      background:"transparent",cursor:"pointer",marginBottom:12,width:"100%"}}>
+                    <span style={{fontSize:16}}>⭐</span>
+                    <div style={{textAlign:"left"}}>
+                      <div style={{fontSize:12,fontWeight:800,color:"#7c3aed"}}>Kişisel Yemek Ekle</div>
+                      <div style={{fontSize:10,color:r.muted}}>Kendi tariflerini kaydet, tekrar aramadan ekle</div>
+                    </div>
+                  </button>
+                )}
 
                 {/* Önceki aramalar */}
                 {!besinArama&&aramaOdak&&oncekiAramalar.length>0&&(
@@ -7029,6 +7143,110 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                 style={{width:"100%",padding:"12px",borderRadius:14,border:`1px solid ${r.brd}`,background:"transparent",color:r.muted,cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:13}}>
                 Kapat
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* KİŞİSEL YEMEK OLUŞTURMA MODAL */}
+        {kisiselYemekModal&&(
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.7)",zIndex:600,display:"flex",alignItems:"flex-end",backdropFilter:"blur(4px)"}}>
+            <div style={{background:d?"#080e09":"#fff",borderRadius:"20px 20px 0 0",width:"100%",maxHeight:"90vh",display:"flex",flexDirection:"column"}}>
+              {/* Header */}
+              <div style={{padding:"16px 20px 12px",borderBottom:`1px solid ${r.brd}`,flexShrink:0}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <div style={{fontSize:16,fontWeight:900,color:r.text}}>{kyDuzenleme?"✏️ Tarifi Düzenle":"⭐ Yeni Kişisel Yemek"}</div>
+                  <button onClick={()=>setKisiselYemekModal(false)} style={{background:"rgba(0,0,0,.08)",border:"none",borderRadius:10,padding:"6px 12px",cursor:"pointer",color:r.text,fontWeight:800}}>✕</button>
+                </div>
+              </div>
+              <div style={{flex:1,overflowY:"auto",padding:"16px 16px 0"}}>
+                {/* Yemek Adı */}
+                <div style={{marginBottom:14}}>
+                  <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:6,letterSpacing:.5}}>YEMEK ADI</div>
+                  <input value={kyAd} onChange={e=>setKyAd(e.target.value)} placeholder="ör. Kahvaltı Tabağım, Protein Smoothie..."
+                    style={{width:"100%",padding:"12px 14px",borderRadius:12,border:`1.5px solid ${r.brd}`,background:r.inp,color:r.text,fontSize:14,fontFamily:"'Nunito',sans-serif",outline:"none"}}/>
+                </div>
+
+                {/* Malzeme Ekle */}
+                <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:8,letterSpacing:.5}}>MALZEMELER ({kyMalzemeler.length})</div>
+                {kyMalzemeler.map((m,i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:8,padding:"10px 12px",borderRadius:12,
+                    background:d?"rgba(255,255,255,.04)":"#f9fafb",border:`1px solid ${r.brd}`,marginBottom:6}}>
+                    <div style={{flex:1}}>
+                      <div style={{fontSize:13,fontWeight:700,color:r.text}}>{m.ad} — {m.gram}g</div>
+                      <div style={{fontSize:10,color:r.muted}}>{Math.round(m.kal)} kcal · P:{m.protein?.toFixed(1)}g K:{m.karb?.toFixed(1)}g Y:{m.yag?.toFixed(1)}g</div>
+                    </div>
+                    <button onClick={()=>setKyMalzemeler(p=>p.filter((_,j)=>j!==i))}
+                      style={{background:"rgba(239,68,68,.08)",border:"none",borderRadius:8,padding:"4px 8px",cursor:"pointer",color:"#ef4444",fontSize:14}}>✕</button>
+                  </div>
+                ))}
+
+                {/* Malzeme Arama */}
+                <div style={{background:d?"rgba(124,58,237,.05)":"rgba(124,58,237,.03)",border:"1.5px dashed rgba(124,58,237,.25)",borderRadius:14,padding:"12px 14px",marginBottom:12}}>
+                  <div style={{fontSize:11,fontWeight:800,color:"#7c3aed",marginBottom:8}}>+ Malzeme Ekle</div>
+                  <input value={kyArama} onChange={e=>setKyArama(e.target.value)} placeholder="Besin ara..."
+                    style={{width:"100%",padding:"10px 12px",borderRadius:10,border:`1.5px solid ${r.brd}`,background:r.inp,color:r.text,fontSize:13,fontFamily:"'Nunito',sans-serif",outline:"none",marginBottom:8}}/>
+                  {kyArama.length>1&&(()=>{
+                    const q=kyArama.toLowerCase();
+                    const sonuclar=besinler.filter(b=>(b.ad||"").toLowerCase().includes(q)).slice(0,5);
+                    return sonuclar.length>0?(
+                      <div>
+                        {sonuclar.map(b=>(
+                          <div key={b.id} onClick={()=>{
+                            const gram=b.por||100;
+                            const kat=gram/100;
+                            setKyMalzemeler(p=>[...p,{
+                              ad:b.ad,gram,
+                              kal:parseFloat(((b.kal||0)*kat).toFixed(1)),
+                              protein:parseFloat(((b.pro||0)*kat).toFixed(1)),
+                              karb:parseFloat(((b.karb||0)*kat).toFixed(1)),
+                              yag:parseFloat(((b.yag||0)*kat).toFixed(1))
+                            }]);
+                            setKyArama("");
+                          }} style={{display:"flex",justifyContent:"space-between",alignItems:"center",
+                            padding:"8px 10px",borderRadius:10,cursor:"pointer",marginBottom:4,
+                            background:d?"rgba(255,255,255,.04)":"#f9fafb",border:`1px solid ${r.brd}`}}>
+                            <div>
+                              <div style={{fontSize:12,fontWeight:700,color:r.text}}>{b.ad}</div>
+                              <div style={{fontSize:10,color:r.muted}}>{b.kal} kcal/100g</div>
+                            </div>
+                            <span style={{color:"#7c3aed",fontWeight:900,fontSize:18}}>+</span>
+                          </div>
+                        ))}
+                      </div>
+                    ):(<div style={{fontSize:12,color:r.muted,textAlign:"center",padding:"6px 0"}}>Bulunamadı</div>);
+                  })()}
+                </div>
+
+                {/* Toplam Özet */}
+                {kyMalzemeler.length>0&&(()=>{
+                  const totKal=kyMalzemeler.reduce((s,m)=>s+(m.kal||0),0);
+                  const totPro=kyMalzemeler.reduce((s,m)=>s+(m.protein||0),0);
+                  const totKarb=kyMalzemeler.reduce((s,m)=>s+(m.karb||0),0);
+                  const totYag=kyMalzemeler.reduce((s,m)=>s+(m.yag||0),0);
+                  return(
+                    <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.05)",border:"1px solid rgba(16,185,129,.15)",
+                      borderRadius:12,padding:"10px 14px",marginBottom:14}}>
+                      <div style={{fontSize:11,fontWeight:800,color:"#10b981",marginBottom:4}}>TOPLAM</div>
+                      <div style={{fontSize:22,fontWeight:900,color:"#10b981"}}>{Math.round(totKal)} kcal</div>
+                      <div style={{fontSize:11,color:r.muted,marginTop:2}}>P:{totPro.toFixed(1)}g · K:{totKarb.toFixed(1)}g · Y:{totYag.toFixed(1)}g</div>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Kaydet */}
+              <div style={{padding:"12px 16px 24px",flexShrink:0,borderTop:`1px solid ${r.brd}`}}>
+                <button onClick={()=>{
+                  if(!kyAd.trim()){toast("Yemek adı gir","hata");return;}
+                  if(kyMalzemeler.length===0){toast("En az 1 malzeme ekle","hata");return;}
+                  const yemek={id:kyDuzenleme||Date.now(),ad:kyAd.trim(),malzemeler:kyMalzemeler,olusturma:new Date().toLocaleDateString("tr-TR")};
+                  kisiselYemekKaydet(yemek);
+                  setKisiselYemekModal(false);
+                  toast(`"${kyAd.trim()}" kaydedildi`,"basari");
+                }} style={{...BTN("#7c3aed","14px 0"),width:"100%",fontSize:14,fontWeight:900}}>
+                  ⭐ {kyDuzenleme?"Güncelle":"Kaydet"}
+                </button>
+              </div>
             </div>
           </div>
         )}
