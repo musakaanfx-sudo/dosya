@@ -15,7 +15,6 @@
     h1{font-size:26px;font-weight:700;color:#111827;margin-bottom:8px}
     .meta{font-size:13px;color:#6b7280;margin-bottom:40px}
     h2{font-size:17px;font-weight:700;color:#111827;margin:36px 0 12px;padding-top:8px;border-top:1px solid #e5e7eb}
-    h2:first-of-type{border-top:none}
     h3{font-size:15px;font-weight:600;color:#374151;margin:16px 0 8px}
     p{color:#374151;margin-bottom:12px}
     ul{padding-left:20px;margin-bottom:12px}
@@ -37,128 +36,97 @@
 </head>
 <body>
 <div class="container">
-
   <div class="logo">
     <div class="logo-icon">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 2v5a4 4 0 0 0 4 4v11"/>
-        <path d="M7 2v5"/>
-        <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/>
+        <path d="M3 2v5a4 4 0 0 0 4 4v11"/><path d="M7 2v5"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3z"/>
       </svg>
     </div>
     <div class="logo-text">Do<span>ya</span></div>
   </div>
-
-  <h1>Gizlilik Politikası & KVKK Aydınlatma Metni</h1>
+  <h1>Gizlilik Politikası &amp; KVKK Aydınlatma Metni</h1>
   <p class="meta">Son güncelleme: Mart 2026 &nbsp;·&nbsp; Geçerlilik: Küresel (KVKK + GDPR uyumlu)</p>
+  <div class="highlight"><p>📋 Bu belge; Doya Beslenme Takip Uygulaması'nın kişisel verilerinizi nasıl topladığını, işlediğini ve koruduğunu açıklar. Uygulamayı kullanarak bu politikayı kabul etmiş sayılırsınız.</p></div>
 
-  <div class="highlight">
-    <p>📋 Bu belge; Doya Beslenme Takip Uygulaması'nın kişisel verilerinizi nasıl topladığını, işlediğini ve koruduğunu açıklar. Uygulamayı kullanarak bu politikayı kabul etmiş sayılırsınız.</p>
-  </div>
-
-  <!-- 1 -->
   <h2>1. Veri Sorumlusu</h2>
-  <p>Doya uygulaması, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Avrupa Genel Veri Koruma Tüzüğü (GDPR) kapsamında veri sorumlusu sıfatıyla hareket etmektedir.</p>
+  <p>Doya uygulaması, 6698 sayılı KVKK ve GDPR kapsamında veri sorumlusu sıfatıyla hareket etmektedir.</p>
   <p><strong>İletişim:</strong> <a href="mailto:Doyasupport@gmail.com">Doyasupport@gmail.com</a></p>
 
-  <!-- 2 -->
   <h2>2. Toplanan Kişisel Veriler</h2>
   <table>
     <tr><th>Veri Türü</th><th>Açıklama</th><th>Kaynak</th></tr>
-    <tr><td>Hesap bilgileri</td><td>Ad, e-posta adresi</td><td>Google OAuth ile giriş</td></tr>
-    <tr><td>Profil bilgileri</td><td>Yaş, cinsiyet, kilo, boy, hedef kilo</td><td>Kullanıcının girişi</td></tr>
-    <tr><td>Beslenme verileri</td><td>Günlük yemek, kalori, makro kayıtları</td><td>Kullanıcının girişi</td></tr>
-    <tr><td>Sağlık verileri <span class="badge">Özel Nitelikli</span></td><td>Alerji bilgileri, diyet kısıtlamaları</td><td>Kullanıcının girişi</td></tr>
-    <tr><td>Aktivite verileri</td><td>Su tüketimi, spor kayıtları, oruç süreleri</td><td>Kullanıcının girişi</td></tr>
+    <tr><td>Hesap bilgileri</td><td>Ad, e-posta adresi</td><td>Google OAuth</td></tr>
+    <tr><td>Profil bilgileri</td><td>Yaş, cinsiyet, kilo, boy, hedef kilo</td><td>Kullanıcı girişi</td></tr>
+    <tr><td>Beslenme verileri</td><td>Günlük yemek, kalori, makro kayıtları</td><td>Kullanıcı girişi</td></tr>
+    <tr><td>Sağlık verileri <span class="badge">Özel Nitelikli</span></td><td>Alerji bilgileri, diyet kısıtlamaları</td><td>Kullanıcı girişi</td></tr>
+    <tr><td>Aktivite verileri</td><td>Su tüketimi, spor, oruç süreleri</td><td>Kullanıcı girişi</td></tr>
     <tr><td>Teknik veriler</td><td>Uygulama kullanım istatistikleri</td><td>Otomatik</td></tr>
   </table>
+  <div class="warning"><p>⚠️ Kilo, alerji ve beslenme verileri KVKK Madde 6 kapsamında <strong>özel nitelikli kişisel veri</strong> sayılmaktadır. Kayıt sırasında ayrıca açık rızanız alınmaktadır.</p></div>
 
-  <div class="warning">
-    <p>⚠️ Kilo, alerji ve beslenme alışkanlıklarınız KVKK Madde 6 kapsamında <strong>özel nitelikli kişisel veri</strong> (sağlık verisi) sayılmaktadır. Bu verilerin işlenmesi için kayıt sırasında ayrıca açık rızanız alınmaktadır.</p>
-  </div>
-
-  <!-- 3 -->
-  <h2>3. Verilerin İşlenme Amaçları ve Hukuki Dayanağı</h2>
+  <h2>3. İşlenme Amaçları ve Hukuki Dayanak</h2>
   <table>
-    <tr><th>Amaç</th><th>KVKK Dayanağı</th><th>GDPR Dayanağı</th></tr>
+    <tr><th>Amaç</th><th>KVKK</th><th>GDPR</th></tr>
     <tr><td>Beslenme takip hizmetinin sunulması</td><td>Sözleşme ifası</td><td>Art. 6(1)(b)</td></tr>
     <tr><td>Kişiselleştirilmiş AI önerileri</td><td>Açık rıza</td><td>Art. 6(1)(a)</td></tr>
     <tr><td>Sağlık verisi işleme</td><td>Açık rıza</td><td>Art. 9(2)(a)</td></tr>
     <tr><td>Güvenlik ve kötüye kullanım önleme</td><td>Meşru menfaat</td><td>Art. 6(1)(f)</td></tr>
-    <tr><td>Yasal yükümlülüklerin yerine getirilmesi</td><td>Kanuni zorunluluk</td><td>Art. 6(1)(c)</td></tr>
+    <tr><td>Yasal yükümlülükler</td><td>Kanuni zorunluluk</td><td>Art. 6(1)(c)</td></tr>
   </table>
 
-  <!-- 4 -->
   <h2>4. Veri İşleyenler ve Aktarım</h2>
-  <p>Verileriniz aşağıdaki güvenilir üçüncü taraf hizmet sağlayıcılarla paylaşılmaktadır:</p>
   <ul>
-    <li><strong>Google Firebase</strong> (EU-West3, Frankfurt, Almanya) — Veritabanı ve kimlik doğrulama. Google ile GDPR uyumlu Veri İşleme Sözleşmesi (DPA) imzalanmıştır.</li>
-    <li><strong>Netlify</strong> (ABD) — Web barındırma. Aktarım Standart Sözleşme Maddeleri (SCCs) kapsamında gerçekleştirilmektedir.</li>
-    <li><strong>Google Gemini API</strong> — Yalnızca AI analiz özellikleri kullanıldığında, görüntü ve metin işleme için.</li>
+    <li><strong>Google Firebase</strong> (EU-West3, Frankfurt) — Veritabanı ve kimlik doğrulama. GDPR DPA kapsamında.</li>
+    <li><strong>Netlify</strong> (ABD) — Web barındırma. Aktarım SCCs kapsamında gerçekleştirilmektedir.</li>
+    <li><strong>Google Gemini API</strong> — Yalnızca AI analiz özelliği kullanıldığında görüntü/metin işleme için.</li>
   </ul>
   <p>Verileriniz üçüncü taraflarla <strong>pazarlama amacıyla kesinlikle paylaşılmaz.</strong></p>
 
-  <!-- 5 -->
   <h2>5. Veri Saklama Süresi</h2>
   <ul>
-    <li>Hesabınız aktif olduğu sürece verileriniz saklanır.</li>
-    <li>Hesap silme talebinden itibaren <strong>30 gün</strong> içinde tüm veriler kalıcı olarak silinir.</li>
-    <li>Yasal zorunluluk halinde bu süre uzayabilir.</li>
-    <li>Açık rızanızı geri aldığınızda sağlık verileriniz derhal işlenmez, kişiselleştirme özellikleri devre dışı kalır.</li>
+    <li>Hesabınız aktif olduğu sürece saklanır.</li>
+    <li>Hesap silme talebinden itibaren <strong>30 gün</strong> içinde kalıcı olarak silinir.</li>
+    <li>Açık rızanızı geri aldığınızda sağlık verileriniz işlenmez.</li>
   </ul>
 
-  <!-- 6 -->
   <h2>6. Veri Güvenliği</h2>
   <ul>
-    <li>Verileriniz Firebase üzerinde <strong>şifreli (TLS/SSL)</strong> olarak aktarılır ve depolanır.</li>
-    <li>Google Authentication ile güvenli kimlik doğrulama sağlanır.</li>
-    <li>Üçüncü taraf hizmet sağlayıcılarımız ISO 27001 ve SOC 2 sertifikalarına sahiptir.</li>
+    <li>TLS/SSL şifreli aktarım ve depolama.</li>
+    <li>Google Authentication ile güvenli kimlik doğrulama.</li>
+    <li>Hizmet sağlayıcılarımız ISO 27001 ve SOC 2 sertifikalarına sahiptir.</li>
   </ul>
 
-  <!-- 7 -->
   <h2>7. Haklarınız</h2>
-  <h3>KVKK kapsamında haklarınız (Madde 11):</h3>
+  <h3>KVKK (Madde 11):</h3>
   <ul>
-    <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+    <li>Verilerinizin işlenip işlenmediğini öğrenme</li>
     <li>Verilerinize erişim ve kopyasını isteme</li>
-    <li>Yanlış veya eksik verilerin düzeltilmesini talep etme</li>
-    <li>Verilerinizin silinmesini veya yok edilmesini talep etme</li>
-    <li>Veri işlemeye itiraz etme</li>
-    <li>Veri işlemenin kısıtlanmasını isteme</li>
+    <li>Yanlış verilerin düzeltilmesini talep etme</li>
+    <li>Verilerinizin silinmesini talep etme</li>
+    <li>Veri işlemeye itiraz etme ve kısıtlanmasını isteme</li>
     <li>Verilerinizi taşınabilir formatta alma</li>
-    <li>Açık rızanızı geri alma (geri alma, önceki işlemlerin hukuka aykırı sayılmasına yol açmaz)</li>
+    <li>Açık rızanızı geri alma</li>
   </ul>
-  <h3>GDPR kapsamında ek haklarınız:</h3>
+  <h3>GDPR ek haklar:</h3>
   <ul>
-    <li><strong>Erişim hakkı</strong> (Art. 15) — Uygulamadan "Verilerimi İndir" ile JSON formatında alabilirsiniz.</li>
-    <li><strong>Silme hakkı</strong> (Art. 17) — Uygulamadan "Hesabımı Sil" butonu.</li>
-    <li><strong>Denetim kurumuna şikayet:</strong> Türkiye için KVK Kurumu (kvkk.gov.tr), Almanya için BfDI, Fransa için CNIL.</li>
+    <li><strong>Erişim</strong> (Art. 15) — Profil → "Verilerimi İndir" (JSON)</li>
+    <li><strong>Silme</strong> (Art. 17) — Profil → "Hesabımı Sil"</li>
+    <li><strong>Şikayet:</strong> Türkiye → KVK Kurumu (kvkk.gov.tr) · Almanya → BfDI · Fransa → CNIL</li>
   </ul>
+  <div class="highlight"><p>✅ Profil → Ayarlar bölümünden verilerinizi indirebilir veya hesabınızı silebilirsiniz.</p></div>
 
-  <div class="highlight">
-    <p>✅ Uygulama içinden: Profil → Ayarlar bölümünden verilerinizi indirebilir veya hesabınızı silebilirsiniz.</p>
-  </div>
+  <h2>8. Çerezler</h2>
+  <p>Yalnızca teknik zorunlu oturum çerezleri kullanılmaktadır. Analitik, izleme veya pazarlama çerezi bulunmamaktadır.</p>
 
-  <!-- 8 -->
-  <h2>8. Çerezler (Cookies)</h2>
-  <p>Doya yalnızca teknik olarak zorunlu oturum çerezleri kullanmaktadır. Analitik, izleme veya pazarlama amaçlı çerez kullanılmamaktadır. Reklam takip çerezi bulunmamaktadır.</p>
-
-  <!-- 9 -->
   <h2>9. Yaş Sınırı</h2>
-  <p>Doya yalnızca <strong>18 yaş ve üzeri</strong> bireyler tarafından kullanılabilir. 18 yaşından küçük kullanıcıların kaydolması yasaktır. Bu yaş grubuna ait verilerin sistemimizde olduğunu fark edersek derhal sileriz.</p>
+  <p>Doya yalnızca <strong>18 yaş ve üzeri</strong> bireyler tarafından kullanılabilir. Bu yaş grubuna ait veriler tespit edilirse derhal silinir.</p>
 
-  <!-- 10 -->
   <h2>10. Tıbbi Sorumluluk Reddi</h2>
-  <div class="warning">
-    <p>⚠️ Doya'nın sunduğu besin bilgileri, kalori hesaplamaları, AI önerileri, E-kodu analizleri ve aralıklı oruç takip özellikleri yalnızca <strong>bilgilendirme amaçlıdır</strong>. Bu bilgiler tıbbi, diyetetik veya beslenme uzmanı tavsiyesi niteliği taşımaz. Sağlıkla ilgili kararlarınız için mutlaka bir doktor veya beslenme uzmanına danışınız. Doya, bu bilgilere dayanılarak alınan kararlardan doğabilecek zararlardan sorumlu tutulamaz.</p>
-  </div>
-  <p>Aralıklı oruç özelliği; hamile veya emziren bireyler, diyabet hastaları, yeme bozukluğu geçmişi olanlar ve kronik hastalığı bulunan kişiler tarafından doktor onayı olmaksızın kullanılmamalıdır.</p>
+  <div class="warning"><p>⚠️ Besin bilgileri, kalori hesaplamaları, AI önerileri ve oruç takibi <strong>yalnızca bilgilendirme amaçlıdır</strong>; tıbbi tavsiye niteliği taşımaz. Sağlık kararlarınız için doktor veya beslenme uzmanına danışınız. Hamile, diyabet hastası veya kronik hastalığı bulunan kişiler oruç özelliğini doktor onayı olmaksızın kullanmamalıdır.</p></div>
 
-  <!-- 11 -->
   <h2>11. Politika Değişiklikleri</h2>
-  <p>Bu gizlilik politikasında yapılacak önemli değişiklikler uygulamada bildirim yoluyla duyurulacaktır. Değişiklikler yayınlandığı tarihte yürürlüğe girer. Uygulamayı kullanmaya devam etmeniz yeni politikayı kabul ettiğiniz anlamına gelir.</p>
+  <p>Önemli değişiklikler uygulama içi bildirimle duyurulur. Uygulamayı kullanmaya devam etmeniz yeni politikayı kabul ettiğiniz anlamına gelir.</p>
 
-  <!-- İletişim -->
   <div class="contact-box">
     <p>Gizlilik haklarınızla ilgili her türlü soru ve talep için</p>
     <a href="mailto:Doyasupport@gmail.com">Doyasupport@gmail.com</a>
@@ -167,9 +135,8 @@
 
   <div class="footer">
     <p>© 2026 Doya Beslenme Takip Uygulaması · Tüm hakları saklıdır</p>
-    <p style="margin-top:6px">Bu sayfa: <strong>radiant-pony-fa840f.netlify.app/gizlilik</strong></p>
+    <p style="margin-top:6px">radiant-pony-fa840f.netlify.app/gizlilik</p>
   </div>
-
 </div>
 </body>
 </html>
