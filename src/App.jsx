@@ -2249,8 +2249,13 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
                 try{
                   const kul = await fbGoogleGiris();
                   try{
-                    const {doc,setDoc}=await import("firebase/firestore");
+                    const {doc,setDoc,getDoc}=await import("firebase/firestore");
                     await setDoc(doc(db,"users",kul.firebaseUID),{kvkkOnay:true,gdprOnay:true,pazarlamaOnay,onayTarihi:new Date().toISOString()},{merge:true});
+                    // Admin kontrolü — Google girişinde de yap
+                    const adminSnap = await getDoc(doc(db,"adminConfig","settings"));
+                    const adminEmails = adminSnap.exists() ? (adminSnap.data().adminEmails||[]) : [];
+                    const isAdminUser = adminEmails.includes(kul.email);
+                    kul.admin = isAdminUser;
                   }catch(e2){}
                   setAktif(kul); setFirebaseUID(kul.firebaseUID);
                   if(!kul.kilo && !kul.boy){ setOnboard(true); }
@@ -3617,55 +3622,6 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
         {/* ══ SPOR UYGULAMASI MODAL ══════════════════════════════════ */}
 
 
-        {/* ═══ ALIŞVERİŞ LİSTESİ MODAL ═══ */}
-        {alisverisModal&&(
-          <div style={{position:"fixed",inset:0,background:"#000a",zIndex:300,display:"flex",alignItems:"flex-end"}} onClick={()=>setAlisverisModal(false)}>
-            <div style={{background:r.card,borderRadius:"18px 18px 0 0",padding:22,width:"100%",maxHeight:"75vh",overflow:"auto"}} onClick={e=>e.stopPropagation()}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-                <div style={{fontSize:17,fontWeight:900,color:r.text}}>🛒 Alışveriş Listesi</div>
-                <button onClick={()=>setAlisverisModal(false)} style={{background:"transparent",border:"none",fontSize:20,cursor:"pointer",color:r.muted}}>✕</button>
-              </div>
-              {/* Ekle */}
-              <div style={{display:"flex",gap:8,marginBottom:16}}>
-                <input value={alisverisEkle} onChange={e=>setAlisverisEkle(e.target.value)}
-                  onKeyDown={e=>{if(e.key==="Enter"&&alisverisEkle.trim()){setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamam:false}]);setAlisverisEkle("");}}}
-                  placeholder="Ürün ekle..."
-                  style={{...IS,flex:1,fontSize:14}}/>
-                <button onClick={()=>{if(alisverisEkle.trim()){setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamam:false}]);setAlisverisEkle("");}}}
-                  style={{...BTN("#16a34a","11px 16px"),fontSize:14,fontWeight:900}}>+</button>
-              </div>
-              {/* Liste */}
-              {alisverisListesi.length===0?(
-                <div style={{textAlign:"center",padding:"24px 0",color:r.muted,fontSize:13}}>
-                  <div style={{fontSize:32,marginBottom:8}}>🛒</div>
-                  Henüz ürün yok
-                </div>
-              ):alisverisListesi.map(item=>(
-                <div key={item.id} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",
-                  borderRadius:12,marginBottom:6,
-                  background:item.tamam?d?"rgba(16,163,74,.06)":"rgba(16,163,74,.04)":r.bg2,
-                  border:`1px solid ${item.tamam?"rgba(16,163,74,.2)":r.brd}`}}>
-                  <button onClick={()=>setAlisverisListesi(p=>p.map(x=>x.id===item.id?{...x,tamam:!x.tamam}:x))}
-                    style={{width:24,height:24,borderRadius:"50%",border:`2px solid ${item.tamam?"#16a34a":r.brd}`,
-                      background:item.tamam?"#16a34a":"transparent",cursor:"pointer",flexShrink:0,
-                      display:"flex",alignItems:"center",justifyContent:"center"}}>
-                    {item.tamam&&<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>}
-                  </button>
-                  <span style={{flex:1,fontSize:13,color:r.text,textDecoration:item.tamam?"line-through":"none",opacity:item.tamam?.5:1}}>{item.ad}</span>
-                  <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>x.id!==item.id))}
-                    style={{background:"transparent",border:"none",cursor:"pointer",color:r.muted,fontSize:16}}>✕</button>
-                </div>
-              ))}
-              {alisverisListesi.some(x=>x.tamam)&&(
-                <button onClick={()=>setAlisverisListesi(p=>p.filter(x=>!x.tamam))}
-                  style={{...BTN("transparent","8px 0"),width:"100%",fontSize:12,color:r.muted,marginTop:8}}>
-                  ✓ Alınanları temizle
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
 
 
         {/* TARİF TAKVİM MODAL */}
@@ -3725,20 +3681,16 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
 
         {/* ALIŞVERİŞ LİSTESİ MODAL */}
         {alisverisModal&&(
-          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.6)",zIndex:400,display:"flex",alignItems:"flex-end"}}>
-            <div style={{background:r.card,borderRadius:"20px 20px 0 0",padding:22,width:"100%",maxHeight:"85vh",overflowY:"auto"}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-                <div>
-                  <div style={{fontSize:16,fontWeight:900,color:r.text}}>🛒 Alışveriş Listesi</div>
-                  <div style={{fontSize:11,color:r.sub}}>{alisverisListesi.filter(x=>!x.tamamlandi).length} ürün kaldı</div>
+          <div style={{position:"fixed",inset:0,background:d?"#040907":"#f5f9f5",zIndex:400,display:"flex",flexDirection:"column",maxWidth:430,margin:"0 auto"}}>
+              <div style={{padding:"16px 20px 12px",borderBottom:`1px solid ${r.brd}`,flexShrink:0}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                  <div style={{fontSize:17,fontWeight:900,color:r.text}}>🛒 Alışveriş Listesi</div>
+                  <button onClick={()=>setAlisverisModal(false)}
+                    style={{background:"rgba(0,0,0,.08)",border:"none",borderRadius:10,padding:"8px 14px",cursor:"pointer",fontWeight:800,fontSize:13,color:r.text}}>✕</button>
                 </div>
-                <button onClick={()=>setAlisverisModal(false)}
-                  style={{background:"rgba(0,0,0,.1)",border:"none",borderRadius:10,padding:"8px 14px",cursor:"pointer",fontWeight:800,fontSize:13,color:r.text}}>
-                  ✕
-                </button>
+                <div style={{fontSize:11,color:r.muted,marginTop:3}}>{alisverisListesi.filter(x=>!x.tamamlandi).length} ürün kaldı · {new Date().toLocaleDateString("tr-TR",{weekday:"long",day:"numeric",month:"long"})}</div>
               </div>
-              {/* Yeni ürün ekle */}
-              <div style={{display:"flex",gap:8,marginBottom:16}}>
+              <div style={{padding:"12px 16px",borderBottom:`1px solid ${r.brd}`,flexShrink:0,display:"flex",gap:8}}>
                 <input value={alisverisEkle} onChange={e=>setAlisverisEkle(e.target.value)}
                   onKeyDown={e=>e.key==="Enter"&&alisverisEkle.trim()&&(setAlisverisListesi(p=>[...p,{id:Date.now(),ad:alisverisEkle.trim(),tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR")}]),setAlisverisEkle(""))}
                   placeholder="Ürün ekle..." 
@@ -3748,8 +3700,8 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
                   +
                 </button>
               </div>
-              {/* Liste */}
-              {alisverisListesi.length===0?(
+              <div style={{flex:1,overflowY:"auto",padding:"12px 16px"}}>
+                {alisverisListesi.length===0?(
                 <div style={{textAlign:"center",padding:"32px 0",color:r.muted}}>
                   <div style={{fontSize:36,marginBottom:8}}>🛒</div>
                   <div style={{fontSize:13}}>Liste boş — tarif'ten otomatik ekleyebilirsin</div>
@@ -4364,6 +4316,48 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
         {/* ──── GÖZAT ─────────────────────────────────────────────── */}
         {tab==="gozat"&&(
           <div style={{padding:"8px 0 16px"}}>
+            {/* Kişisel Yemekler */}
+            <div style={{marginBottom:12}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"0 2px",marginBottom:8}}>
+                <div style={{fontSize:12,fontWeight:800,color:"#7c3aed",letterSpacing:.5}}>⭐ Kişisel Yemeklerim</div>
+                <button onClick={()=>{setKyAd("");setKyMalzemeler([]);setKyDuzenleme(null);setKisiselYemekModal(true);}}
+                  style={{...BTN("#7c3aed","4px 10px"),fontSize:11,fontWeight:800}}>+ Yeni</button>
+              </div>
+              {kisiselYemekler.length===0?(
+                <button onClick={()=>{setKyAd("");setKyMalzemeler([]);setKyDuzenleme(null);setKisiselYemekModal(true);}}
+                  style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",borderRadius:12,
+                    border:"1.5px dashed rgba(124,58,237,.3)",background:"transparent",cursor:"pointer",width:"100%"}}>
+                  <span style={{fontSize:18}}>⭐</span>
+                  <div style={{textAlign:"left"}}>
+                    <div style={{fontSize:12,fontWeight:800,color:"#7c3aed"}}>Tarif kaydet</div>
+                    <div style={{fontSize:10,color:r.muted}}>Kendi karışımlarını ekle, tekrar aramadan kullan</div>
+                  </div>
+                </button>
+              ):(
+                <div style={{display:"flex",gap:8,overflowX:"auto",paddingBottom:4}}>
+                  {kisiselYemekler.map(ky=>{
+                    const kal=Math.round(ky.malzemeler.reduce((s,m)=>s+(m.kal||0),0));
+                    return(
+                      <div key={ky.id} onClick={()=>{
+                        const pro=parseFloat(ky.malzemeler.reduce((s,m)=>s+(m.protein||0),0).toFixed(1));
+                        const karb=parseFloat(ky.malzemeler.reduce((s,m)=>s+(m.karb||0),0).toFixed(1));
+                        const yag=parseFloat(ky.malzemeler.reduce((s,m)=>s+(m.yag||0),0).toFixed(1));
+                        setSecBesin({id:"ky_"+ky.id,ad:ky.ad,kal,pro,karb,yag,por:1,birim:"porsiyon",kat:"Kişisel"});
+                        setYemekGram("1");
+                        setYemekEkleModal(true);
+                        setYemekEkleSekme("ara");
+                      }} style={{flexShrink:0,background:d?"rgba(124,58,237,.08)":"rgba(124,58,237,.05)",
+                        border:"1.5px solid rgba(124,58,237,.2)",borderRadius:14,padding:"10px 14px",cursor:"pointer",minWidth:120}}>
+                        <div style={{fontSize:12,fontWeight:800,color:r.text,marginBottom:2}}>{ky.ad}</div>
+                        <div style={{fontSize:10,color:"#7c3aed",fontWeight:700}}>{kal} kcal</div>
+                        <div style={{fontSize:9,color:r.muted}}>{ky.malzemeler.length} malzeme</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
             {/* Alışveriş listesi butonu */}
             <button onClick={()=>setAlisverisModal(true)}
               style={{display:"flex",alignItems:"center",gap:8,padding:"10px 14px",borderRadius:12,
@@ -4374,7 +4368,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               <span>Alışveriş Listesi</span>
               <span style={{marginLeft:"auto",background:"#16a34a",color:"#fff",borderRadius:20,
                 padding:"2px 8px",fontSize:10,fontWeight:900}}>
-                {alisverisListesi.filter(x=>!x.tamam).length} ürün
+                {alisverisListesi.filter(x=>!x.tamamlandi).length} ürün
               </span>
             </button>
 
@@ -5137,6 +5131,35 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                     Biriktirdiğin puanları harcayarak ekstra AI analiz hakkı satın alabilirsin.
                     <br/><span style={{color:"#f59e0b",fontWeight:700}}>1 reklam izle = 50 puan</span> · <span style={{color:"#7c3aed",fontWeight:700}}>1 AI hakkı = 60 puan</span>
                   </div>
+
+                  {/* Premium Puan ile Al */}
+                  {!premium&&(
+                    <div style={{background:d?"rgba(16,185,129,.06)":"rgba(16,185,129,.04)",border:"1.5px solid rgba(16,185,129,.25)",borderRadius:14,padding:"12px 14px",marginBottom:14}}>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                        <div style={{display:"flex",alignItems:"center",gap:10}}>
+                          <div style={{fontSize:26}}>⭐</div>
+                          <div>
+                            <div style={{fontWeight:800,fontSize:13,color:r.text}}>1 Aylık Premium</div>
+                            <div style={{fontSize:10,color:r.muted}}>Tüm özellikler · Reklamsız · 20 AI hak/2h</div>
+                          </div>
+                        </div>
+                        <button
+                          disabled={puan<1500}
+                          onClick={async()=>{
+                            if(puan<1500) return;
+                            const yeniPuan=puan-1500;
+                            const bitis=new Date(); bitis.setMonth(bitis.getMonth()+1);
+                            setPuan(yeniPuan);
+                            setPremium(true);
+                            if(firebaseUID) await kullaniciyiGuncelle(firebaseUID,{puan:yeniPuan,premium:true,premiumBitis:bitis.toISOString()}).catch(console.error);
+                            toast("🎉 Premium aktif! 1 ay boyunca tüm özellikler senin.","basari",5000);
+                          }}
+                          style={{...BTN(puan>=1500?"#10b981":"#6b7280","8px 14px"),fontSize:12,fontWeight:900,flexShrink:0,opacity:puan<1500?.5:1}}>
+                          {puan>=1500?"1500 ⭐":"1500 ⭐ gerek"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   {/* AI Hak paketleri */}
                   {[
