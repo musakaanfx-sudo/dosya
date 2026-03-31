@@ -2180,7 +2180,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
             {gHata&&<div style={{background:"rgba(239,68,68,.1)",border:"1px solid rgba(239,68,68,.2)",color:"#fca5a5",padding:"10px 14px",borderRadius:12,fontSize:12,marginBottom:16,textAlign:"center"}}>{gHata}</div>}
 
             {/* Google butonu */}
-            <button style={{width:"100%",padding:"16px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay)?"rgba(16,185,129,.2)":"rgba(255,255,255,.05)"}`,background:(kvkkOnay&&gdprOnay)?"linear-gradient(145deg,rgba(16,185,129,.1),rgba(16,185,129,.05))":"rgba(255,255,255,.01)",cursor:(kvkkOnay&&gdprOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay)?"#d1fae5":"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .25s",boxShadow:(kvkkOnay&&gdprOnay)?"0 8px 24px rgba(16,185,129,.15)":"none"}}
+            <button style={{width:"100%",padding:"16px 0",borderRadius:16,border:`1px solid ${(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"rgba(16,185,129,.2)":"rgba(255,255,255,.05)"}`,background:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"linear-gradient(145deg,rgba(16,185,129,.1),rgba(16,185,129,.05))":"rgba(255,255,255,.01)",cursor:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"pointer":"not-allowed",fontFamily:"'Nunito',sans-serif",fontWeight:800,fontSize:15,color:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"#d1fae5":"rgba(255,255,255,.2)",display:"flex",alignItems:"center",justifyContent:"center",gap:12,transition:"all .25s",boxShadow:(kvkkOnay&&gdprOnay&&yasOnay&&saglikOnay)?"0 8px 24px rgba(16,185,129,.15)":"none"}}
               onClick={async()=>{
                 if(!kvkkOnay||!gdprOnay||!yasOnay||!saglikOnay){setGHata("Devam edebilmek için zorunlu onayları işaretleyin.");return;}
                 try{
@@ -2249,6 +2249,10 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
             </div>
             <button style={{...BTN(),width:"100%",marginTop:16,padding:"12px 0"}} onClick={()=>{setKvkkOnay(true);setKvkkModal(false);}}>Okudum ve Kabul Ediyorum</button>
             <button style={{...BTN("#6b7280"),width:"100%",marginTop:8,padding:"12px 0"}} onClick={()=>setKvkkModal(false)}>Kapat</button>
+            <a href="https://radiant-pony-fa840f.netlify.app/gizlilik" target="_blank" rel="noreferrer"
+              style={{display:"block",textAlign:"center",fontSize:11,color:"#6b7280",marginTop:10,textDecoration:"underline"}}>
+              Tam metni tarayıcıda görüntüle ↗
+            </a>
           </div>
         </div>
       )}
@@ -2259,7 +2263,7 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
           <div style={{background:"#fff",borderRadius:18,padding:24,maxWidth:400,width:"100%",maxHeight:"82vh",overflowY:"auto"}}>
             <div style={{fontWeight:900,fontSize:17,marginBottom:14,color:"#111"}}>🔒 Gizlilik Politikası (GDPR/DSGVO)</div>
             <div style={{fontSize:12,color:"#374151",lineHeight:1.9}}>
-              <b>Geçerlilik Tarihi:</b> {new Date().toLocaleDateString("tr-TR")}<br/><br/>
+              <b>Geçerlilik Tarihi:</b> 31.03.2026<br/><br/>
               <b>1. Veri Sorumlusu (Controller)</b><br/>
               Doya Uygulaması — {DESTEK_MAIL}<br/><br/>
               <b>2. Hangi Verileri Topluyoruz?</b><br/>
@@ -2273,10 +2277,10 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
               • Meşru menfaat — güvenlik ve kötüye kullanım önleme (Art. 6(1)(f))<br/><br/>
               <b>4. Veri İşleyenler (Processors)</b><br/>
               • <b>Google Firebase</b> (EU-West3, Frankfurt) — veritabanı ve kimlik doğrulama. Google ile GDPR DPA imzalanmıştır.<br/>
-              • <b>Netlify</b> (CDN, ABD) — web hosting. Netlify ile DPA imzalanmıştır.<br/>
-              • <b>Anthropic Claude API</b> — yalnızca AI fotoğraf analizi özelliği kullanıldığında, görüntü işleme için.<br/><br/>
+              • <b>Netlify</b> (CDN, ABD) — web hosting. Netlify'in platform DPA'sı kapsamında hizmet alınmaktadır.<br/>
+              • <b>Google Gemini API</b> — yalnızca AI fotoğraf analizi özelliği kullanıldığında, görüntü işleme için. Google ile GDPR DPA imzalanmıştır.<br/><br/>
               <b>5. Veri Aktarımı (AB Dışı)</b><br/>
-              Netlify ve Anthropic ABD merkezlidir; aktarımlar Standart Sözleşme Maddeleri (SCCs) kapsamında gerçekleştirilmektedir.<br/><br/>
+              Netlify ABD merkezlidir; aktarımlar Standart Sözleşme Maddeleri (SCCs) kapsamında gerçekleştirilmektedir.<br/><br/>
               <b>6. GDPR Haklarınız</b><br/>
               • <b>Erişim hakkı</b> (Art. 15) — Verilerinizi indirin<br/>
               • <b>Düzeltme hakkı</b> (Art. 16) — Profil bölümünden güncelleyin<br/>
@@ -2292,6 +2296,10 @@ Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün f
             </div>
             <button style={{...BTN(),width:"100%",marginTop:16,padding:"12px 0"}} onClick={()=>{setGdprOnay(true);setGdprModal(false);}}>Okudum ve Kabul Ediyorum</button>
             <button style={{...BTN("#6b7280"),width:"100%",marginTop:8,padding:"12px 0"}} onClick={()=>setGdprModal(false)}>Kapat</button>
+            <a href="https://radiant-pony-fa840f.netlify.app/gizlilik" target="_blank" rel="noreferrer"
+              style={{display:"block",textAlign:"center",fontSize:11,color:"#6b7280",marginTop:10,textDecoration:"underline"}}>
+              Tam metni tarayıcıda görüntüle ↗
+            </a>
           </div>
         </div>
       )}
