@@ -1211,7 +1211,8 @@ SADECE JSON döndür (başka metin yok):
     const diyetTip=aktif?.diyetTip||"Normal";
     const hedefStr=aktif?.hedefTip==="kilo_ver"?"Kilo vermek":aktif?.hedefTip==="kilo_al"?"Kilo almak":"Sağlıklı beslenmek";
     const istek=haftalikPlanIstek.trim();
-    const sistem=`Sen Doya uygulamasının AI beslenme asistanısın. Kullanıcı için 7 günlük haftalık yemek planı oluştur.
+    const seciliGunAd=haftalikPlanSecGun||new Date().toLocaleDateString("tr-TR",{weekday:"long"});
+    const sistem=`Sen Doya uygulamasının AI beslenme asistanısın. Kullanıcı için ${seciliGunAd} günü için 1 günlük yemek planı oluştur.
 Kullanıcı profili: ${profil.kilo||70}kg, ${profil.boy||170}cm, ${profil.yas||25} yaş, ${profil.cinsiyet==="erkek"?"Erkek":"Kadın"}
 Kalori hedefi: ${tdee||2000} kcal/gün
 Alerjiler: ${alerjiStr} — Bu alerjileri içeren besinleri KESİNLİKLE kullanma.
@@ -1220,11 +1221,8 @@ Hedef: ${hedefStr}
 ${istek?`Kullanıcının özel isteği: ${istek}`:""}
 
 SADECE JSON döndür, başka metin yok:
-{"gunler":[
-  {"gun":"Pazartesi","kahvalti":{"ad":"...","kalori":0,"malzemeler":["..."]},"ogle":{"ad":"...","kalori":0,"malzemeler":["..."]},"aksam":{"ad":"...","kalori":0,"malzemeler":["..."]},"atistirma":"...","toplam_kalori":0},
-  ...7 gün için aynı yapı...
-]}
-Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt"). Her öğün farklı olsun.`;
+{"gun":"${seciliGunAd}","kahvalti":{"ad":"...","kalori":0,"malzemeler":["..."]},"ogle":{"ad":"...","kalori":0,"malzemeler":["..."]},"aksam":{"ad":"...","kalori":0,"malzemeler":["..."]},"atistirma":{"ad":"...","malzemeler":["..."]},"toplam_kalori":0,"ipucu":"..."}
+Malzemeler kısa ve net olsun (örn. "2 yumurta", "100g yoğurt").`;
     try{
       const res=await fetch("/.netlify/functions/ai-proxy",{method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:2000,messages:[{role:"user",content:sistem}]})});
@@ -6773,6 +6771,117 @@ Bu yemeği tanı ve kullanıcı profiline göre porsiyon kalorisini tahmin et. S
                         )}
                       </div>
                     )}
+                    {yemekEkleSekme==="haftalik_plan"&&(
+                      <div style={{padding:"0 4px"}}>
+                        {/* Gün seçici */}
+                        <div style={{marginBottom:12}}>
+                          <div style={{fontSize:11,fontWeight:800,color:r.sub,marginBottom:8,letterSpacing:.5}}>HANGİ GÜN?</div>
+                          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{
+                            ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"].map(gun=>(
+                              <button key={gun} onClick={()=>setHaftalikPlanSecGun(gun)}
+                                style={{padding:"6px 12px",borderRadius:20,border:`1.5px solid ${haftalikPlanSecGun===gun?"#7c3aed":r.brd}`,
+                                  background:haftalikPlanSecGun===gun?"#7c3aed":"transparent",
+                                  color:haftalikPlanSecGun===gun?"#fff":r.sub,
+                                  cursor:"pointer",fontFamily:"'Nunito',sans-serif",fontWeight:700,fontSize:11}}>
+                                {gun}
+                              </button>
+                            ))
+                          }</div>
+                        </div>
+
+                        {/* Özel istek */}
+                        <input value={haftalikPlanIstek} onChange={e=>setHaftalikPlanIstek(e.target.value)}
+                          placeholder="Özel istek: az karbonhidrat, yüksek protein..."
+                          style={{width:"100%",padding:"10px 12px",borderRadius:12,border:`1px solid ${r.brd}`,
+                            background:r.inp,color:r.text,fontSize:13,fontFamily:"'Nunito',sans-serif",outline:"none",marginBottom:12}}/>
+
+                        {/* Üret butonu */}
+                        <button onClick={haftalikPlanUret} disabled={haftalikPlanYuk}
+                          style={{...BTN("#7c3aed","12px 0"),width:"100%",fontSize:13,fontWeight:900,marginBottom:12,
+                            opacity:haftalikPlanYuk?.7:1}}>
+                          {haftalikPlanYuk?"⏳ Plan oluşturuluyor...":"✨ "+ (haftalikPlanSecGun||"Bugün") +" İçin Plan Oluştur"}
+                        </button>
+
+                        {/* REKLAM — ücretsiz kullanıcılar için */}
+                        {!premium&&!premiumPlus&&(
+                          <div style={{background:d?"rgba(251,191,36,.05)":"rgba(251,191,36,.04)",
+                            border:"1px solid rgba(251,191,36,.2)",borderRadius:12,padding:"10px 12px",
+                            marginBottom:12,display:"flex",alignItems:"center",gap:10}}>
+                            <div style={{fontSize:20}}>📺</div>
+                            <div style={{flex:1}}>
+                              <div style={{fontSize:11,fontWeight:800,color:"#d97706"}}>Ücretsiz Plan</div>
+                              <div style={{fontSize:10,color:r.muted}}>Premium ile reklamsız, sınırsız plan üret</div>
+                            </div>
+                            <button onClick={()=>setPremiumModal(true)}
+                              style={{...BTN("#f59e0b","5px 10px"),fontSize:10,fontWeight:800,flexShrink:0}}>
+                              Premium
+                            </button>
+                          </div>
+                        )}
+
+                        {/* Plan sonucu */}
+                        {haftalikPlan&&!haftalikPlan.hata&&(()=>{
+                          const p=haftalikPlan;
+                          const ogunler=[
+                            {k:"kahvalti",l:"☀️ Kahvaltı",v:p.kahvalti},
+                            {k:"ogle",l:"🌤 Öğle",v:p.ogle},
+                            {k:"aksam",l:"🌙 Akşam",v:p.aksam},
+                            {k:"atistirma",l:"🍎 Atıştırmalık",v:p.atistirma},
+                          ];
+                          const tumMalzemeler=[...new Set(
+                            ogunler.flatMap(o=>Array.isArray(o.v?.malzemeler)?o.v.malzemeler:[])
+                          )];
+                          return(
+                            <div>
+                              <div style={{fontSize:12,fontWeight:800,color:"#7c3aed",marginBottom:10}}>
+                                📅 {p.gun||haftalikPlanSecGun} Planı
+                                {p.toplam_kalori&&<span style={{fontSize:10,color:r.muted,fontWeight:400,marginLeft:8}}>{p.toplam_kalori} kcal</span>}
+                              </div>
+                              {ogunler.map(({k,l,v})=>v&&(
+                                <div key={k} style={{background:r.card,border:`1px solid ${r.brd}`,borderRadius:12,padding:"10px 12px",marginBottom:8}}>
+                                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4}}>
+                                    <div style={{fontSize:12,fontWeight:800,color:r.text}}>{l} {v.ad||""}</div>
+                                    {v.kalori&&<span style={{fontSize:10,color:"#7c3aed",fontWeight:700}}>{v.kalori} kcal</span>}
+                                  </div>
+                                  {v.malzemeler&&v.malzemeler.length>0&&(
+                                    <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+                                      {v.malzemeler.map((m,i)=>(
+                                        <span key={i} style={{background:d?"rgba(124,58,237,.1)":"rgba(124,58,237,.06)",
+                                          border:"1px solid rgba(124,58,237,.15)",borderRadius:20,padding:"2px 8px",
+                                          fontSize:10,color:"#7c3aed",fontWeight:600}}>{m}</span>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                              {p.ipucu&&(
+                                <div style={{background:d?"rgba(16,185,129,.05)":"rgba(16,185,129,.04)",border:"1px solid rgba(16,185,129,.15)",borderRadius:10,padding:"8px 12px",marginBottom:10,fontSize:11,color:"#10b981"}}>
+                                  💡 {p.ipucu}
+                                </div>
+                              )}
+                              {/* Alışveriş listesine ekle */}
+                              {tumMalzemeler.length>0&&(
+                                <button onClick={()=>{
+                                  const yeniEkle=tumMalzemeler.filter(m=>!alisverisListesi.some(x=>x.ad===m));
+                                  if(yeniEkle.length===0){toast("Tüm malzemeler zaten listede","bilgi");return;}
+                                  const yeniL=[...alisverisListesi,...yeniEkle.map(m=>({id:Date.now()+Math.random(),ad:m,tamamlandi:false,tarih:new Date().toLocaleDateString("tr-TR"),tarif:p.gun||"Diyet Planı"}))];
+                                  setAlisverisListesi(yeniL);
+                                  try{localStorage.setItem("doya_alisveris",JSON.stringify(yeniL));}catch(e){}
+                                  if(firebaseUID) kullaniciyiGuncelle(firebaseUID,{alisverisListesi:yeniL}).catch(()=>{});
+                                  toast(`${yeniEkle.length} malzeme alışveriş listesine eklendi 🛒`,"basari");
+                                }}
+                                  style={{...BTN("#16a34a","12px 0"),width:"100%",fontSize:13,fontWeight:900}}>
+                                  🛒 Malzemeleri Alışveriş Listesine Ekle ({tumMalzemeler.length})
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })()}
+                        {haftalikPlan?.hata&&<div style={{color:"#ef4444",fontSize:12,textAlign:"center",padding:"12px 0"}}>{haftalikPlan.hata}</div>}
+                      </div>
+                    )}
+
+
                     {yemekEkleSekme==="fb_tarifler"&&(
                       <div style={{padding:"0 4px"}}>
                         {/* Ülke filtreleri */}
